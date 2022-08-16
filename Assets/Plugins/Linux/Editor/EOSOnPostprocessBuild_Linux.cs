@@ -29,14 +29,13 @@ using PlayEveryWare.EpicOnlineServices;
 using System.Collections.Generic;
 using System;
 
-public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
+public class EOSOnPostprocessBuild_Linux:  IPostprocessBuildWithReport
 {
     public int callbackOrder { get { return 0; } }
     private string[] postBuildFiles = {
-        "EACLauncher.exe",
+        "eac_launcher",
         //optional override config file for EAC CDN
         "[ExeName].eac",
-        "EasyAntiCheat/EasyAntiCheat_EOS_Setup.exe",
         "EasyAntiCheat/Settings.json",
         "EasyAntiCheat/SplashScreen.png"
     };
@@ -82,10 +81,10 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     }
 
     //-------------------------------------------------------------------------
-    private static string GetPathToPlatformSepecificAssetsForWindows()
+    private static string GetPathToPlatformSepecificAssetsForLinux()
     {
-        string packagePathname = Path.GetFullPath("Packages/" + GetPackageName() + "/PlatformSpecificAssets~/EOS/Windows/");
-        string platformSpecificPathname = Path.Combine(Application.dataPath, "../PlatformSpecificAssets/EOS/Windows/");
+        string packagePathname = Path.GetFullPath("Packages/" + GetPackageName() + "/PlatformSpecificAssets~/EOS/Linux/");
+        string platformSpecificPathname = Path.Combine(Application.dataPath, "../PlatformSpecificAssets/EOS/Linux/");
         string pathToInstallFrom = "";
         // If the Plugin is installed with StreamAssets, install them
         if (Directory.Exists(packagePathname))
@@ -99,49 +98,6 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
         }
 
         return pathToInstallFrom;
-    }
-
-    //-------------------------------------------------------------------------
-    private static void InstallBootStrapper(BuildReport report, string pathToEOSBootStrapperTool, string pathToEOSBootStrapper)
-    {
-        string appFilenameExe = Path.GetFileName(report.summary.outputPath);
-        string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
-        string installPathForEOSBootStrapper = Path.Combine(installDirectory, "EOSBootStrapper.exe");
-        string workingDirectory = Path.Combine(Application.dataPath, "../bin/");
-        string bootStrapperArgs = ""
-           + " --output-path " + "\"" + installPathForEOSBootStrapper + "\""
-           + " --app-path "  + "\"" + appFilenameExe + "\""
-        ;
-
-        var procInfo = new System.Diagnostics.ProcessStartInfo();
-        procInfo.FileName = pathToEOSBootStrapperTool;
-        procInfo.Arguments = bootStrapperArgs;
-        procInfo.UseShellExecute = false;
-        procInfo.WorkingDirectory = workingDirectory;
-        procInfo.RedirectStandardOutput = true;
-        procInfo.RedirectStandardError = true;
-
-        var process = new System.Diagnostics.Process { StartInfo = procInfo };
-        process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
-            if(!EmptyPredicates.IsEmptyOrNull(e.Data))
-            {
-                Debug.Log(e.Data);
-            }
-        });
-
-        process.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) =>{
-            if(!EmptyPredicates.IsEmptyOrNull(e.Data))
-            {
-                Debug.LogError(e.Data);
-            }
-        });
-
-        bool didStart = process.Start();
-        process.BeginOutputReadLine();
-        process.BeginErrorReadLine();
-        process.WaitForExit();
-        process.Close();
-
     }
 
     //use anticheat_integritytool to hash protected files and generate certificate for EAC
@@ -197,7 +153,7 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     private void InstallFiles(BuildReport report)
     {
         string destDir = Path.GetDirectoryName(report.summary.outputPath);
-        string pathToInstallFrom = GetPathToPlatformSepecificAssetsForWindows();
+        string pathToInstallFrom = GetPathToPlatformSepecificAssetsForLinux();
 
         List<string> filestoInstall = new List<string>(postBuildFiles);
 
@@ -298,16 +254,13 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     public void OnPostprocessBuild(BuildReport report)
     {
         // Get the output path, and install the launcher if on a target that supports it
-        if (report.summary.platform == BuildTarget.StandaloneWindows || report.summary.platform == BuildTarget.StandaloneWindows64)
+        if (report.summary.platform == BuildTarget.StandaloneLinux64)
         {
             buildExeName = Path.GetFileName(report.summary.outputPath);
 
             InstallFiles(report);
             
-            string pathToEOSBootStrapperTool = GetPathToEOSBin() + "/EOSBootstrapperTool.exe";
-            string pathToEOSBootStrapper = GetPathToEOSBin() + "/EOSBootStrapper.exe";
             string pathToEACIntegrityTool = GetPathToEOSBin() + "/EAC/anticheat_integritytool.exe";
-            InstallBootStrapper(report, pathToEOSBootStrapperTool, pathToEOSBootStrapper);
             GenerateIntegrityCert(report, pathToEACIntegrityTool, GetEOSConfig().productID, "base_private.key", "base_public.cer");
         }
     }
