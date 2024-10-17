@@ -334,16 +334,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             PlayerDataStorageService.Instance.OnFileListUpdated -= UpdateFileListUI;
         }
 
-        SampleInteractableNewState NeedSelectedFileHandler()
+        InteractableState NeedSelectedFileHandler()
         {
             const string NeedToSelectAFileFirst = "Need to select a file first";
 
             if (string.IsNullOrEmpty(currentSelectedFile))
             {
-                return new SampleInteractableNewState(false, NeedToSelectAFileFirst);
+                return new InteractableState(false, NeedToSelectAFileFirst);
             }
 
-            return new SampleInteractableNewState(true);
+            return new InteractableState(true);
         }
     }
 }
