@@ -67,28 +67,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private HashSet<string> fileNames = new();
         private List<UIFileNameEntry> fileNameUIEntries = new();
 
-        [Header("Selectable State Handlers")]
-        [SerializeReference]
-        private SelectableStateHandler addItemButton;
-        [SerializeReference]
-        private SelectableStateHandler uploadButton;
-        [SerializeReference]
-        private SelectableStateHandler downloadButton;
-        [SerializeReference]
-        private SelectableStateHandler duplicateButton;
-        [SerializeReference]
-        private SelectableStateHandler deleteButton;
-
         protected override void Awake()
         {
             base.Awake();
             fileNameUIEntries.AddRange(FilesContentParent.GetComponentsInChildren<UIFileNameEntry>(true));
-
-            addItemButton.SetInteractableAction(NeedSelectedFileHandler);
-            uploadButton.SetInteractableAction(NeedSelectedFileHandler);
-            downloadButton.SetInteractableAction(NeedSelectedFileHandler);
-            duplicateButton.SetInteractableAction(NeedSelectedFileHandler);
-            deleteButton.SetInteractableAction(NeedSelectedFileHandler);
         }
 
         private void Start()
@@ -334,16 +316,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             PlayerDataStorageService.Instance.OnFileListUpdated -= UpdateFileListUI;
         }
 
-        InteractableState NeedSelectedFileHandler()
+        public void NeedSelectedFileHandler(SelectableStateHandler toUpdate)
         {
             const string NeedToSelectAFileFirst = "Need to select a file first";
 
             if (string.IsNullOrEmpty(currentSelectedFile))
             {
-                return new InteractableState(false, NeedToSelectAFileFirst);
+                toUpdate.State = new InteractableState(false, NeedToSelectAFileFirst);
             }
-
-            return new InteractableState(true);
+            else
+            {
+                toUpdate.State = new InteractableState(true);
+            }
         }
     }
 }
