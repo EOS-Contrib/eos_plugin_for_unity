@@ -491,8 +491,13 @@ namespace PlayEveryWare.EpicOnlineServices
             // Mark that the values have been imported
             _configValuesMigrated = true;
 
+            // This compile conditional is here because the writing of config
+            // values to disk is only something that should happen in the editor
+            // context.
+#if UNITY_EDITOR
             // Write the imported values
             Write();
+#endif
         }
 
         #endregion
