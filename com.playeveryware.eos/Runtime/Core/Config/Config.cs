@@ -218,10 +218,14 @@ namespace PlayEveryWare.EpicOnlineServices
             // Use the factory method to create the config.
             T instance = (T)factory();
 
+            // This compile conditional is here because write should only happen
+            // within the unity editor context.
+#if UNITY_EDITOR
             if (!await FileSystemUtility.FileExistsAsync(instance.FilePath) && instance._allowDefaultIfFileNotFound)
             {
                 await instance.WriteAsync();
             }
+#endif
 
             // Asynchronously read config values from the corresponding file.
             await instance.ReadAsync();
@@ -263,10 +267,14 @@ namespace PlayEveryWare.EpicOnlineServices
             // Use the factory method to create the config.
             T instance = (T)factory();
 
+// This compile conditional is here because write should only happen
+// within the unity editor context.
+#if UNITY_EDITOR
             if (!FileSystemUtility.FileExists(instance.FilePath) && instance._allowDefaultIfFileNotFound)
             {
                 instance.Write();
             }
+#endif
 
             // Synchronously read config values from the corresponding file.
             instance.Read();
