@@ -178,7 +178,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // This compile time conditional is here because writing a config
             // can only take place in the Unity Editor.
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
             Write();
 #endif
         }
