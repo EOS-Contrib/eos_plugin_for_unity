@@ -154,8 +154,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Network Timeout Seconds",
             ConfigFieldType.Double,
-            "Indicates the maximum number of seconds that EOS SDK " +
-            "will allow network calls to run before failing with EOS_TimedOut.",
+            "Indicates the maximum number of seconds that (before " +
+            "first coming online) the EOS SDK will allow network calls to " +
+            "run before failing with EOS_TimedOut. This value does not apply " +
+            "after the EOS SDK has been initialized.",
             2)]
         public double taskNetworkTimeoutSeconds;
 
