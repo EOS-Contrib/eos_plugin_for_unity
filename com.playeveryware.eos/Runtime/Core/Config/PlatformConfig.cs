@@ -29,13 +29,11 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.Auth;
     using Epic.OnlineServices.Platform;
     using Epic.OnlineServices.UI;
-    using UnityEditor.VersionControl;
 #endif
     using Common;
     using Newtonsoft.Json;
     using System;
     using UnityEngine;
-    using UnityEngine.Serialization;
     using Utility;
 
     /// <summary>

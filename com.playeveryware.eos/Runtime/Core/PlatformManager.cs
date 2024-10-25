@@ -53,7 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices
             Switch = 0x200,
             Steam = 0x400,
             Console = PS4 | PS5 | XboxOne | XboxSeriesX | Switch,
-            All = Unknown | Windows | Android | XboxOne | XboxSeriesX | iOS | Linux | macOS | PS4 | PS5 | Switch | Steam
+            Any = Unknown | Windows | Android | XboxOne | XboxSeriesX | iOS | Linux | macOS | PS4 | PS5 | Switch | Steam
         }
 
         private struct PlatformInfo
