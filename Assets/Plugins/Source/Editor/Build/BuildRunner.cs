@@ -64,6 +64,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// <param name="report">The pre-process build report.</param>
         public void OnPreprocessBuild(BuildReport report)
         {
+            if (ScriptingDefineUtility.IsEOSDisabled(report))
+            {
+                return;
+            }
+
             // Set the current platform that is being built against
             if (PlatformManager.TryGetPlatform(report.summary.platform, out PlatformManager.Platform platform))
             {
@@ -101,6 +106,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// <param name="report">The report from the post-process build.</param>
         public void OnPostprocessBuild(BuildReport report)
         {
+            if (ScriptingDefineUtility.IsEOSDisabled(report))
+            {
+                return;
+            }
+
             // Run the static builder's postbuild
             s_builder?.PostBuild(report);
         }
