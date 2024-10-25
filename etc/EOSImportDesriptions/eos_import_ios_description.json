@@ -4,6 +4,8 @@
         {"src":"SDK/Source/Generated/iOS/Auth/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/iOS/Auth/"},
 
         {"src": "SDK/Bin/IOS/EOSSDK.framework/EOSSDK", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
-        {"src": "SDK/Bin/IOS/EOSSDK.framework/Info.plist", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"}
+        {"src": "SDK/Bin/IOS/EOSSDK.framework/Info.plist", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
+
+        {"src": "SDK/Include/IOS/*.h", "dest": "lib/NativeCode/third_party/eos_sdk/include/IOS/"}
     ]
 }
