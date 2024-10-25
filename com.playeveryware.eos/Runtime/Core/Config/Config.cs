@@ -130,7 +130,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// work on a Config after it has been retrieved and before it is
         /// returned by the Get or GetAsync functions.
         /// </summary>
-        protected virtual void PrepareConfig()
+        protected virtual void MigrateConfig()
         {
             // Default implementation is to do nothing.
         }
@@ -218,10 +218,14 @@ namespace PlayEveryWare.EpicOnlineServices
             // Use the factory method to create the config.
             T instance = (T)factory();
 
+            // This compile conditional is here because write should only happen
+            // within the unity editor context.
+#if UNITY_EDITOR
             if (!await FileSystemUtility.FileExistsAsync(instance.FilePath) && instance._allowDefaultIfFileNotFound)
             {
                 await instance.WriteAsync();
             }
+#endif
 
             // Asynchronously read config values from the corresponding file.
             await instance.ReadAsync();
@@ -232,7 +236,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
 
             // Call prepare function.
-            instance.PrepareConfig();
+            instance.MigrateConfig();
 
             // Return the config being retrieved.
             return instance;
@@ -263,10 +267,14 @@ namespace PlayEveryWare.EpicOnlineServices
             // Use the factory method to create the config.
             T instance = (T)factory();
 
+// This compile conditional is here because write should only happen
+// within the unity editor context.
+#if UNITY_EDITOR
             if (!FileSystemUtility.FileExists(instance.FilePath) && instance._allowDefaultIfFileNotFound)
             {
                 instance.Write();
             }
+#endif
 
             // Synchronously read config values from the corresponding file.
             instance.Read();
@@ -276,7 +284,7 @@ namespace PlayEveryWare.EpicOnlineServices
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
             // Call prepare function.
-            instance.PrepareConfig();
+            instance.MigrateConfig();
 
             // Return the config being retrieved.
             return instance;
@@ -364,13 +372,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="prettyPrint">
         /// Whether to output "pretty" JSON to the file.
         /// </param>
-        /// <param name="updateAssetDatabase">
-        /// Indicates whether to update the asset database after writing.
-        /// </param>
         /// <returns>Task</returns>
-        public virtual async Task WriteAsync(
-            bool prettyPrint = true, 
-            bool updateAssetDatabase = true)
+        public virtual async Task WriteAsync(bool prettyPrint = true)
         {
             var json = JsonUtility.ToJson(this, prettyPrint);
 
@@ -388,12 +391,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="prettyPrint">
         /// Whether to output "pretty" JSON to the file.
         /// </param>
-        /// <param name="updateAssetDatabase">
-        /// Indicates whether to update the asset database after writing.
-        /// </param>
-        public virtual void Write(
-            bool prettyPrint = true, 
-            bool updateAssetDatabase = true)
+        public virtual void Write(bool prettyPrint = true)
         {
             var json = JsonUtility.ToJson(this, prettyPrint);
 
@@ -403,15 +401,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 return;
 
             FileSystemUtility.WriteFile(FilePath, json);
-
-            if (updateAssetDatabase)
-            {
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            }
         }
-
-
 
         /// <summary>
         /// Determines whether the values in the Config have their
