@@ -61,6 +61,11 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                     return null;
                 }
 
+                if (logLevelConfig.LogCategoryLevelPairs == null) 
+                {
+                    return null;
+                }
+
                 List<LogLevel> logLevels = new List<LogLevel>();
                 for (int i = 0; i < LogCategoryStringArray.Length - 1; i++)
                 {
