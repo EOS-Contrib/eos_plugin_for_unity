@@ -6,7 +6,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Google ID Login Support:** Added the ability to log in using Google ID via the Connect interface. This enhances user authentication options. [Commit: 85d2229e]
-
 - **SDK Integration Update to 1.16.4:**
   - Integrated SDK version 1.16.4, updating both managed and native code.
   - Included new Windows x86 and macOS native binaries for broader platform support.
@@ -28,20 +27,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **SandboxId Null Handling:** Resolved an issue where SandboxId could not be set to null, improving configuration flexibility. [Commit: e056cf16]
 - **Compile Conditionals:** Corrected compile conditionals for config value writing, ensuring proper behavior across different builds. [Commit: eb857c90]
 - **Refresh Token Login:** Fixed the refresh token login process to function as expected. [Commit: 31e912db]
-
 - **Event Unsubscription:**
   - Ensured file list updates are unsubscribed after scene changes to prevent memory leaks. [Commit: 3e3c7c28]
   - Unsubscribed listeners properly upon leaving scenes in samples. [Commit: 5fa65c34]
-
 - **`EOS_DISABLE`` Support:** Adjusted scripts and build processes to respect the EOS_DISABLE define, preventing unnecessary executions when the plugin is disabled. [Commit: b7069409]
 - **Native Code Parsing Consistency:** Aligned native code parsing with managed code to maintain consistency and backward compatibility. [Commit: bcb17407]
 - **Configuration Field Fixes:**
   - Corrected default values and types for various configuration fields.
   - Fixed issues with enum value conversions in configuration fields.
 - **iOSBuilder Correction:** Fixed IOSBuilder to use the correct FileSystemUtility class, ensuring proper file operations on iOS. [Commit: 2dbcf873]
-
 - **Android IO Operations:** Resolved input/output issues on Android devices, ensuring configurations are read and written correctly. [Commit: 1e5c3595]
-
 - **Version Update in Package Info:** Updated the version number in EOSPackageInfo to reflect the new release. [Commit: f899cfb1]
 
 ### Improvements
