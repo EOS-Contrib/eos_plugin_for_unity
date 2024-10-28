@@ -375,6 +375,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d58ade29043cc44ba216a367173ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EventToUpdateState:
+    m_PersistentCalls:
+      m_Calls: []
   attachedTooltip: {fileID: 8606479818307076775}
   attachedSelectable: {fileID: 92279655384530348}
 --- !u!114 &8606479818307076775
@@ -1630,7 +1633,6 @@ MonoBehaviour:
   UIFileNameEntryPrefab: {fileID: 6120802170991890570, guid: 247c8c4e781b2e247a6d96b68687778f,
     type: 3}
   FileContent: {fileID: 92279655291901358}
-  findFileWithTagsButton: {fileID: 501241579917481000}
 --- !u!1 &92279656459055222
 GameObject:
   m_ObjectHideFlags: 0
@@ -2236,6 +2238,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d58ade29043cc44ba216a367173ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EventToUpdateState:
+    m_PersistentCalls:
+      m_Calls: []
   attachedTooltip: {fileID: 5690088790579671396}
   attachedSelectable: {fileID: 92279656849646648}
 --- !u!1 &92279656888045456
@@ -3274,6 +3279,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d58ade29043cc44ba216a367173ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EventToUpdateState:
+    m_PersistentCalls:
+      m_Calls: []
   attachedTooltip: {fileID: 6719133488062996990}
   attachedSelectable: {fileID: 92279657238414868}
 --- !u!1 &478417506383690879
@@ -4002,7 +4010,7 @@ PrefabInstance:
     - target: {fileID: 8911648707042544541, guid: 938b5e90c4f62df45a48e6b0b954e9f2,
         type: 3}
       propertyPath: CannotBeEmptyMessage
-      value: Empty file name cannot be downloaded. Please enter a filename to veiw
+      value: Empty file name cannot be downloaded. Please enter a filename to view
         the contents of.
       objectReference: {fileID: 0}
     - target: {fileID: 8911648707042544541, guid: 938b5e90c4f62df45a48e6b0b954e9f2,

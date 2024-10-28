@@ -29,6 +29,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using System;
     using UnityEngine.Events;
 
+    /// <summary>
+    /// Manages <see cref="Selectable"/> components.
+    /// 
+    /// Using the event assigned in <see cref="EventToUpdateState"/>, when this
+    /// object's <see cref="State"/> is changed it will update the Selectable
+    /// identified in <see cref="attachedSelectable"/>'s interactable boolean.
+    /// This can also point to a <see cref="UITooltip"/> to set the text of
+    /// the tooltip when updating state.
+    /// </summary>
     public class SelectableStateHandler : MonoBehaviour
     {
         /// <summary>
