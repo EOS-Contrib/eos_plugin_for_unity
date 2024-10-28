@@ -8,6 +8,8 @@
         {"src": "SDK/Bin/EOSSDK-Win64-Shipping.dll", "dest": "Assets/Plugins/Windows/x64/"},
         {"src": "SDK/Bin/x64/", "pattern": "*.dll", "dest": "Assets/Plugins/Windows/x64/"},
 
+        {"src": "SDK/Include/Windows/*.h", "dest": "lib/NativeCode/third_party/eos_sdk/include/Windows/"},
+
         {"src": "SDK/Tools/EOSBootstrapper.exe", "dest": "tools/bin/"},
         {"src": "SDK/Tools/EOSBootstrapperTool.exe", "dest": "tools/bin/"}
     ]
