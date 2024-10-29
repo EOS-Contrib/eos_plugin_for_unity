@@ -256,46 +256,6 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            /// <summary>
-            /// Get the ProductID configured from Unity Editor that was used during startup of the EOS SDK.
-            /// </summary>
-            /// <returns></returns>
-            public string GetProductId()
-            {
-                return Config.Get<EOSConfig>().productID;
-            }
-
-            //-------------------------------------------------------------------------
-            /// <summary>
-            /// Get the SandboxID configured from Unity Editor that was used during startup of the EOS SDK.
-            /// </summary>
-            /// <returns></returns>
-            public string GetSandboxId()
-            {
-                return Config.Get<EOSConfig>().sandboxID;
-            }
-
-            //-------------------------------------------------------------------------
-            /// <summary>
-            /// Get the DeploymentID configured from Unity Editor that was used during startup of the EOS SDK.
-            /// </summary>
-            /// <returns></returns>
-            public string GetDeploymentID()
-            {
-                return Config.Get<EOSConfig>().deploymentID;
-            }
-
-            //-------------------------------------------------------------------------
-            /// <summary>
-            /// Check if encryption key is EOS config is a valid 32-byte hex string.
-            /// </summary>
-            /// <returns></returns>
-            public bool IsEncryptionKeyValid()
-            {
-                return Config.Get<EOSConfig>().IsEncryptionKeyValid();
-            }
-
-            //-------------------------------------------------------------------------
             private bool HasShutdown()
             {
                 return s_state == EOSState.Shutdown;
@@ -309,14 +269,6 @@ namespace PlayEveryWare.EpicOnlineServices
             public bool HasLoggedInWithConnect()
             {
                 return s_localProductUserId != null;
-            }
-
-            //-------------------------------------------------------------------------
-            public bool ShouldOverlayReceiveInput()
-            {
-                return (s_isOverlayVisible && s_DoesOverlayHaveExcusiveInput)
-                       || Config.Get<EOSConfig>().alwaysSendInputToOverlay
-                    ;
             }
 
             public bool IsOverlayOpenWithExclusiveInput()
@@ -465,7 +417,13 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private PlatformInterface CreatePlatformInterface()
             {
-                EOSConfig configData = Config.Get<EOSConfig>();
+                if (PlatformManager.TryGetPlatformConfig(out PlatformConfig configData))
+                {
+                    // TODO-URGENT: Have a better error message here that's more useful.
+                    Debug.LogError("Could not get platform config.");
+                    return null;
+                }
+
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 EOSCreateOptions platformOptions = new EOSCreateOptions();
@@ -473,15 +431,17 @@ namespace PlayEveryWare.EpicOnlineServices
                 
                 platformOptions.options.CacheDirectory = platformSpecifics.GetTempDir();
                 platformOptions.options.IsServer = configData.isServer;
-                platformOptions.options.Flags =
+                platformOptions.options.Flags = configData.platformOptionsFlags.Unwrap();
+
+                // This compile conditional is here because if running in an editor context the 
+                // "LoadingInEditor" value should be added to the platform flags.
 #if UNITY_EDITOR
-                    PlatformFlags.LoadingInEditor;
-#else
-                    configData.platformOptionsFlags.Unwrap();
+                platformOptions.options.Flags |= PlatformFlags.LoadingInEditor;
 #endif
-                if (configData.IsEncryptionKeyValid())
+
+                if (configData.clientCredentials.IsEncryptionKeyValid())
                 {
-                    platformOptions.options.EncryptionKey = configData.encryptionKey;
+                    platformOptions.options.EncryptionKey = configData.clientCredentials.EncryptionKey;
                 }
                 else
                 {
@@ -492,9 +452,12 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 platformOptions.options.OverrideCountryCode = null;
                 platformOptions.options.OverrideLocaleCode = null;
-                platformOptions.options.ProductId = configData.productID;
-                platformOptions.options.SandboxId = configData.sandboxID;
-                platformOptions.options.DeploymentId = configData.deploymentID;
+                platformOptions.options.ProductId = Config.Get<ProductConfig>().ProductId.Value.ToStrippedString();
+
+                // TODO-URGENT: Determine if dashes are acceptable to include in these values when
+                //              passing them to the EOS SDK.
+                platformOptions.options.SandboxId = configData.deployment.SandboxId.Value.Replace("-", "").ToLower();
+                platformOptions.options.DeploymentId = configData.deployment.DeploymentId.ToStrippedString();
 
                 platformOptions.options.TickBudgetInMilliseconds = configData.tickBudgetInMilliseconds;
 
@@ -504,8 +467,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 var clientCredentials = new ClientCredentials
                 {
-                    ClientId = configData.clientID,
-                    ClientSecret = configData.clientSecret
+                    ClientId = configData.clientCredentials.ClientId,
+                    ClientSecret = configData.clientCredentials.ClientSecret
                 };
                 platformOptions.options.ClientCredentials = clientCredentials;
 

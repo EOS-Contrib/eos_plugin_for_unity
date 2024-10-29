@@ -33,6 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Common;
     using Newtonsoft.Json;
     using System;
+    using System.Text.RegularExpressions;
     using UnityEngine;
     using Utility;
 
@@ -319,6 +320,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private void MigrateButtonDelays(EOSConfig overrideValuesFromFieldMember, OverrideableConfigValues mainOverrideableConfig)
         {
+#pragma warning disable CS0612 // Type or member is obsolete
             // Import the values for initial button delay and repeat button
             // delay
             initialButtonDelayForOverlay = SelectValue(
@@ -328,10 +330,12 @@ namespace PlayEveryWare.EpicOnlineServices
             repeatButtonDelayForOverlay = SelectValue(
                 overrideValuesFromFieldMember.repeatButtonDelayForOverlay ?? 0,
                 mainOverrideableConfig.repeatButtonDelayForOverlay ?? 0);
+#pragma warning restore CS0612 // Type or member is obsolete
         }
 
         private void MigrateThreadAffinity(EOSConfig overrideValuesFromFieldMember, OverrideableConfigValues mainOverrideableConfig)
         {
+#pragma warning disable CS0612 // Type or member is obsolete
             // Import the values for thread initialization
             threadAffinity.NetworkWork = SelectValue(
                 overrideValuesFromFieldMember.ThreadAffinity_networkWork,
@@ -356,13 +360,16 @@ namespace PlayEveryWare.EpicOnlineServices
             threadAffinity.RTCIo = SelectValue(
                 overrideValuesFromFieldMember.ThreadAffinity_RTCIO,
                 mainOverrideableConfig.ThreadAffinity_RTCIO) ?? 0;
+#pragma warning restore CS0612 // Type or member is obsolete
         }
 
         private void MigrateOverrideableConfigValues(EOSConfig overrideValuesFromFieldMember,
             OverrideableConfigValues mainOverrideableConfig)
         {
+#pragma warning disable CS0612 // Type or member is obsolete
             // Import the values for platform option flags.
             platformOptionsFlags |= overrideValuesFromFieldMember.platformOptionsFlags;
+#pragma warning restore CS0612 // Type or member is obsolete
 
             MigrateButtonDelays(overrideValuesFromFieldMember, mainOverrideableConfig);
             MigrateThreadAffinity(overrideValuesFromFieldMember, mainOverrideableConfig);
@@ -410,9 +417,10 @@ namespace PlayEveryWare.EpicOnlineServices
             // incompatible with the platform for this Config. THIS is the 
             // primary reason it is necessary to warn the user and ask them to 
             // double check the values after migration.
+#pragma warning disable CS0612 // Type or member is obsolete
             WrappedPlatformFlags combinedPlatformFlags =
                 overrideValuesFromFieldMember.platformOptionsFlags | mainNonOverrideableConfig.platformOptionsFlags;
-
+#pragma warning restore CS0612 // Type or member is obsolete
             WrappedPlatformFlags migratedPlatformFlags = WrappedPlatformFlags.None;
             foreach (WrappedPlatformFlags flag in EnumUtility<WrappedPlatformFlags>.GetEnumerator(combinedPlatformFlags))
             {

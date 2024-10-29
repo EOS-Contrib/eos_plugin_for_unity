@@ -26,6 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
 
 #if UNITY_EDITOR
+    using System.Reflection;
     using UnityEditor;
 #endif
 
@@ -202,6 +203,21 @@ namespace PlayEveryWare.EpicOnlineServices
         public static Type GetConfigType()
         {
             return GetConfigType(PlatformManager.CurrentPlatform);
+        }
+
+        public static bool TryGetPlatformConfig(out PlatformConfig config)
+        {
+            MethodInfo methodInfo = typeof(Config).GetMethod("Get");
+            MethodInfo genericMethod = methodInfo?.MakeGenericMethod(GetConfigType());
+
+            if (genericMethod != null)
+            {
+                config = (PlatformConfig)genericMethod.Invoke(null, null);
+                return true;
+            }
+
+            config = null;
+            return false;
         }
 
         /// <summary>

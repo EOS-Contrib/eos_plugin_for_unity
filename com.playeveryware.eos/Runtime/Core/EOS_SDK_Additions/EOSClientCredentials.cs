@@ -28,12 +28,20 @@ namespace PlayEveryWare.EpicOnlineServices
     using Newtonsoft.Json;
     using System;
     using System.Security.Cryptography;
+    using System.Text.RegularExpressions;
 
     public class EOSClientCredentials : IEquatable<EOSClientCredentials>
     {
         public string ClientId;
         public string ClientSecret;
         public readonly string EncryptionKey;
+
+        private static readonly Regex s_invalidEncryptionKeyRegex;
+
+        static EOSClientCredentials()
+        {
+            s_invalidEncryptionKeyRegex = new Regex("[^0-9a-fA-F]");
+        }
 
         public EOSClientCredentials()
         {
@@ -55,6 +63,17 @@ namespace PlayEveryWare.EpicOnlineServices
             ClientId = clientId;
             ClientSecret = clientSecret;
             EncryptionKey = encryptionKey;
+        }
+
+        public bool IsEncryptionKeyValid()
+        {
+            return
+                //key not null
+                EncryptionKey != null &&
+                //key is 64 characters
+                EncryptionKey.Length == 64 &&
+                //key is all hex characters
+                !s_invalidEncryptionKeyRegex.Match(EncryptionKey).Success;
         }
 
         public bool Equals(EOSClientCredentials other)
