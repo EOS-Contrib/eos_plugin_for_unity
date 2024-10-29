@@ -1,36 +1,22 @@
 {
     "source_to_dest": [
 
-        {"src": "com.playeveryware.eos/*.md",         "dest": ""  },
-        {"src": "com.playeveryware.eos/package.json", "dest": ""  },
-        {"src": "com.playeveryware.eos/Editor.meta",  "dest": ""  },
-        {"src": "com.playeveryware.eos/Runtime.meta", "dest": ""  },
+        {"src": "etc/PlatformSpecificAssets/EOS/*",                   "dest": "PlatformSpecificAssets~/EOS/", "recursive": true },
+        {"src": "tools/bin/*",                                        "dest": "bin~/",                        "recursive": true },
 
-        {"src": "etc/PlatformSpecificAssets/EOS/*", "dest": "PlatformSpecificAssets~/EOS/", "recursive": true },
-        {"src": "com.playeveryware.eos/Documentation~/*", "dest": "Documentation~/",              "recursive": true },
-        {"src": "tools/bin/*",                      "dest": "bin~/",                        "recursive": true },
-
-        {"src": "Assets/EOS.meta",  "dest": "Runtime/"     },
-        {"src": "Assets/EOS/*.png", "dest": "Runtime/EOS/" },
+        {"src": "Assets/EOS.meta",                                    "dest": "Runtime/"     },
+        {"src": "Assets/EOS/*.png",                                   "dest": "Runtime/EOS/" },
                              
-        {"src": "Assets/Plugins/*",                                                  "dest": "Runtime/"                                   },
-        {"src": "com.playeveryware.eos/Runtime/*",                                   "dest": "Runtime/"                                   },
-        {"src": "com.playeveryware.eos/Runtime/Core/*",                              "dest": "Runtime/Core/"                              },
-        {"src": "com.playeveryware.eos/Runtime/Core/EOS_SDK_Additions/*",            "dest": "Runtime/Core/EOS_SDK_Additions/"            },
-        {"src": "com.playeveryware.eos/Runtime/Core/EOS_SDK_Additions/Extensions/*", "dest": "Runtime/Core/EOS_SDK_Additions/Extensions/" },
-        {"src": "com.playeveryware.eos/Runtime/Core/Utility/*",                      "dest": "Runtime/Core/Utility/"                      },
-
-        {"src": "com.playeveryware.eos/Runtime/Core/Extensions/*",        "dest": "Runtime/Core/Extensions/"        },
-        {"src": "com.playeveryware.eos/Runtime/Core/Config/*",            "dest": "Runtime/Core/Config/"            },
-        {"src": "com.playeveryware.eos/Runtime/Core/Config/Attributes/*", "dest": "Runtime/Core/Config/Attributes/" },
+        {"src": "Assets/Plugins/*",                                   "dest": "Runtime/"       },
+        {"src": "com.playeveryware.eos/*",                            "dest": "", "recursive": true },
         
-        {"src": "Assets/Plugins/Source/Editor/*",                  "dest": "Editor/"                },
-        {"src": "Assets/Plugins/Source/Editor/Build/*",            "dest": "Editor/Build/"          },
-        {"src": "Assets/Plugins/Source/Editor/ConfigEditors/*",    "dest": "Editor/ConfigEditors/"  },
-        {"src": "Assets/Plugins/Source/Editor/Configs/*",          "dest": "Editor/Configs/"        },
-        {"src": "Assets/Plugins/Source/Editor/EditorWindows/*",    "dest": "Editor/EditorWindows/"  },
-
-        {"src": "Assets/Plugins/Source/Editor/Utility/*",          "dest": "Editor/Utility/",  "recursive": true  },
+        {"src": "Assets/Plugins/Source/Editor/*",                     "dest": "Editor/"                },
+        {"src": "Assets/Plugins/Source/Editor/Build/*",               "dest": "Editor/Build/"          },
+        {"src": "Assets/Plugins/Source/Editor/ConfigEditors/*",       "dest": "Editor/ConfigEditors/"  },
+        {"src": "Assets/Plugins/Source/Editor/Configs/*",             "dest": "Editor/Configs/"        },
+        {"src": "Assets/Plugins/Source/Editor/EditorWindows/*",       "dest": "Editor/EditorWindows/"  },
+   
+        {"src": "Assets/Plugins/Source/Editor/Utility/*",             "dest": "Editor/Utility/",  "recursive": true  },
 
         {"src": "Assets/Plugins/Source/Editor/Platforms/*",           "dest": "Editor/Platforms/"            },
         {"src": "Assets/Plugins/Source/Editor/Platforms/Android/",    "dest": "Editor/Platforms/Android/"    },
@@ -45,85 +31,34 @@
         {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api\\.dll"   },                 
         {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api64\\.dll" },  
 
-        {"src": "Assets/Plugins/Linux/*",                          "dest": "Runtime/Linux/",    "recursive": true },
-        {"src": "Assets/Plugins/macOS/*",                          "dest": "Runtime/macOS/",    "recursive": true },
-        {"src": "Assets/Plugins/Android/*",                        "dest": "Runtime/Android/",  "recursive": true },
-        {"src": "Assets/Plugins/iOS/*",                            "dest": "Runtime/iOS/",      "recursive": true },
+        {"src": "Assets/Plugins/Linux/*",                             "dest": "Runtime/Linux/",    "recursive": true },
+        {"src": "Assets/Plugins/macOS/*",                             "dest": "Runtime/macOS/",    "recursive": true },
+        {"src": "Assets/Plugins/Android/*",                           "dest": "Runtime/Android/",  "recursive": true },
+        {"src": "Assets/Plugins/iOS/*",                               "dest": "Runtime/iOS/",      "recursive": true },
 
-        {"src": "Assets/link.xml",                                               "dest": "Editor/"},
-
-        {"src": "Assets/Plugins/Source/EOS_SDK.meta",                            "dest": "Runtime/"                   },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/*",                               "dest": "Runtime/EOS_SDK/"           },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Overrides/*",                     "dest": "Runtime/EOS_SDK/Overrides/" },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Core/*",                          "dest": "Runtime/EOS_SDK/Core/"      },
-
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/*",                     "dest": "Runtime/EOS_SDK/Generated/"              },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Achievements/*",        "dest": "Runtime/EOS_SDK/Generated/Achievements/" },
-
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Android/*",             "dest": "Runtime/EOS_SDK/Generated/Android/"          },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Android/Platform/*",    "dest": "Runtime/EOS_SDK/Generated/Android/Platform/" },
-
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/AntiCheatClient/*",     "dest": "Runtime/EOS_SDK/Generated/AntiCheatClient/"    },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/AntiCheatCommon/*",     "dest": "Runtime/EOS_SDK/Generated/AntiCheatCommon/"    },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/AntiCheatServer/*",     "dest": "Runtime/EOS_SDK/Generated/AntiCheatServer/"    },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Auth/*",                "dest": "Runtime/EOS_SDK/Generated/Auth/"               },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Connect/*",             "dest": "Runtime/EOS_SDK/Generated/Connect/"            },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/CustomInvites/*",       "dest": "Runtime/EOS_SDK/Generated/CustomInvites/"      },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Ecom/*",                "dest": "Runtime/EOS_SDK/Generated/Ecom/"               },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Friends/*",             "dest": "Runtime/EOS_SDK/Generated/Friends/"            },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/IntegratedPlatform/*",  "dest": "Runtime/EOS_SDK/Generated/IntegratedPlatform/" },
-
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/IOS/*",                 "dest": "Runtime/EOS_SDK/Generated/IOS/"      },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/IOS/Auth/*",            "dest": "Runtime/EOS_SDK/Generated/IOS/Auth/" },
-
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/KWS/*",                 "dest": "Runtime/EOS_SDK/Generated/KWS/"                 },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Leaderboards/*",        "dest": "Runtime/EOS_SDK/Generated/Leaderboards/"        },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Lobby/*",               "dest": "Runtime/EOS_SDK/Generated/Lobby/"               },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Logging/*",             "dest": "Runtime/EOS_SDK/Generated/Logging/"             },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Metrics/*",             "dest": "Runtime/EOS_SDK/Generated/Metrics/"             },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Mods/*",                "dest": "Runtime/EOS_SDK/Generated/Mods/"                },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/P2P/*",                 "dest": "Runtime/EOS_SDK/Generated/P2P/"                 },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Platform/*",            "dest": "Runtime/EOS_SDK/Generated/Platform/"            },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/PlayerDataStorage/*",   "dest": "Runtime/EOS_SDK/Generated/PlayerDataStorage/"   },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Presence/*",            "dest": "Runtime/EOS_SDK/Generated/Presence/"            },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/ProgressionSnapshot/*", "dest": "Runtime/EOS_SDK/Generated/ProgressionSnapshot/" },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Reports/*",             "dest": "Runtime/EOS_SDK/Generated/Reports/"             },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/RTC/*",                 "dest": "Runtime/EOS_SDK/Generated/RTC/"                 },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/RTCAdmin/*",            "dest": "Runtime/EOS_SDK/Generated/RTCAdmin/"            },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/RTCAudio/*",            "dest": "Runtime/EOS_SDK/Generated/RTCAudio/"            },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/RTCData/*",             "dest": "Runtime/EOS_SDK/Generated/RTCData/"             },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Sanctions/*",           "dest": "Runtime/EOS_SDK/Generated/Sanctions/"           },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Sessions/*",            "dest": "Runtime/EOS_SDK/Generated/Sessions/"            },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Stats/*",               "dest": "Runtime/EOS_SDK/Generated/Stats/"               },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/TitleStorage/*",        "dest": "Runtime/EOS_SDK/Generated/TitleStorage/"        },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Types/*",               "dest": "Runtime/EOS_SDK/Generated/Types/"               },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/UI/*",                  "dest": "Runtime/EOS_SDK/Generated/UI/"                  },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/UserInfo/*",            "dest": "Runtime/EOS_SDK/Generated/UserInfo/"            },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Version/*",             "dest": "Runtime/EOS_SDK/Generated/Version/"             },
-
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Windows/*",             "dest": "Runtime/EOS_SDK/Generated/Windows/"          },
-        {"src": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Windows/Platform/*",    "dest": "Runtime/EOS_SDK/Generated/Windows/Platform/" },
-
-        {"src": "Assets/Resources/SourceCodePro.ttf",                "dest": "Samples~/Samples/StandardSamples/Materials/" },
-        {"src": "Assets/Prefab/*.prefab",                            "dest": "Samples~/Samples/StandardSamples/Prefab/"    },
-        {"src": "Assets/Scripts/*",                                  "dest": "Samples~/Samples/StandardSamples/Scripts/"   },    
-
-        {"src": "Assets/Scripts/StandardSamples/",                   "dest": "Samples~/Samples/StandardSamples/Scripts/", "recursive": true},
-
-        {"src": "Assets/Scenes/StandardSamples/*.unity",             "dest": "Samples~/Samples/StandardSamples/Scenes/"    },
-        {"src": "Assets/Scenes/SampleScenes.asset",                  "dest": "Samples~/Samples/StandardSamples/Scenes/"    },
-        {"src": "Assets/Materials/StandardSamplesMaterials/*",       "dest": "Samples~/Samples/StandardSamples/Materials/" },
-
-        {"src": "Assets/Scenes/P2PNetcodeSample/*.unity",            "dest": "Samples~/Samples/P2PNetcodeSample/Scenes/"                     },
-        {"src": "Assets/Materials/NetcodeMaterials/*",               "dest": "Samples~/Samples/P2PNetcodeSample/Materials/"                  },
-        {"src": "Assets/Scripts/P2PNetcodeSample/*",                 "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/", "recursive": true },
-
-        {"src": "Assets/Scenes/PerformanceStressTestSample/*.unity", "dest": "Samples~/Samples/PerformanceStressTestSample/Scenes/"                     },
-        {"src": "Assets/Materials/PerformanceStressTestMaterials/*", "dest": "Samples~/Samples/PerformanceStressTestSample/Materials/"                  },
-        {"src": "Assets/Scripts/PerformanceStressTestSample/*",      "dest": "Samples~/Samples/PerformanceStressTestSample/Scripts/", "recursive": true },
-        {"src": "Assets/Resources/PerformanceStressTest_Profiles/*", "dest": "Samples~/Samples/PerformanceStressTestSample/Profiles/"                   },
-
-        {"src": "Assets/Readme/*.txt",                               "dest": "Samples~/Samples/StandardSamples/Readme/" }
+        {"src": "Assets/link.xml",                                    "dest": "Editor/"},
+        {"src": "Assets/Plugins/Source/EOS_SDK.meta",                 "dest": "Runtime/"                   },
+        
+        {"src": "Assets/Resources/SourceCodePro.ttf",                 "dest": "Samples~/Samples/StandardSamples/Materials/" },
+        {"src": "Assets/Prefab/*.prefab",                             "dest": "Samples~/Samples/StandardSamples/Prefab/"    },
+        {"src": "Assets/Scripts/*",                                   "dest": "Samples~/Samples/StandardSamples/Scripts/"   },    
+ 
+        {"src": "Assets/Scripts/StandardSamples/",                    "dest": "Samples~/Samples/StandardSamples/Scripts/", "recursive": true},
+ 
+        {"src": "Assets/Scenes/StandardSamples/*.unity",              "dest": "Samples~/Samples/StandardSamples/Scenes/"    },
+        {"src": "Assets/Scenes/SampleScenes.asset",                   "dest": "Samples~/Samples/StandardSamples/Scenes/"    },
+        {"src": "Assets/Materials/StandardSamplesMaterials/*",        "dest": "Samples~/Samples/StandardSamples/Materials/" },
+ 
+        {"src": "Assets/Scenes/P2PNetcodeSample/*.unity",             "dest": "Samples~/Samples/P2PNetcodeSample/Scenes/"                     },
+        {"src": "Assets/Materials/NetcodeMaterials/*",                "dest": "Samples~/Samples/P2PNetcodeSample/Materials/"                  },
+        {"src": "Assets/Scripts/P2PNetcodeSample/*",                  "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/", "recursive": true },
+ 
+        {"src": "Assets/Scenes/PerformanceStressTestSample/*.unity",  "dest": "Samples~/Samples/PerformanceStressTestSample/Scenes/"                     },
+        {"src": "Assets/Materials/PerformanceStressTestMaterials/*",  "dest": "Samples~/Samples/PerformanceStressTestSample/Materials/"                  },
+        {"src": "Assets/Scripts/PerformanceStressTestSample/*",       "dest": "Samples~/Samples/PerformanceStressTestSample/Scripts/", "recursive": true },
+        {"src": "Assets/Resources/PerformanceStressTest_Profiles/*",  "dest": "Samples~/Samples/PerformanceStressTestSample/Profiles/"                   },
+ 
+        {"src": "Assets/Readme/*.txt",                                "dest": "Samples~/Samples/StandardSamples/Readme/" }
     ],
     "blacklist": [
         "*.png"
