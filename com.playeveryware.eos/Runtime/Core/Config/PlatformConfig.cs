@@ -261,7 +261,11 @@ namespace PlayEveryWare.EpicOnlineServices
             public string clientID;
             public uint tickBudgetInMilliseconds;
             public double taskNetworkTimeoutSeconds;
+
+            [JsonConverter(typeof(ListOfStringsToPlatformFlags))]
             public WrappedPlatformFlags platformOptionsFlags;
+
+            [JsonConverter(typeof(ListOfStringsToAuthScopeFlags))]
             public AuthScopeFlags authScopeOptionsFlags;
             public bool alwaysSendInputToOverlay;
 
