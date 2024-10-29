@@ -1,67 +1,65 @@
 {
-    "source_to_dest": [
-      
-        {"src": "etc/PlatformSpecificAssets/EOS/*", "dest": "PlatformSpecificAssets~/EOS/", "recursive": true },
-        {"src": "tools/bin/*",                      "dest": "bin~/",                        "recursive": true },
+  "source_to_dest": [
 
-        {"src": "Assets/EOS.meta",  "dest": "Runtime/"     },
-        {"src": "Assets/EOS/*.png", "dest": "Runtime/EOS/" },
-                             
-        {"src": "Assets/Plugins/*",                                                  "dest": "Runtime/"                                   },
-        {"src": "com.playeveryware.eos/*", "dest": "", "recursive": true },
+      {"src": "etc/PlatformSpecificAssets/EOS/*",                   "dest": "PlatformSpecificAssets~/EOS/", "recursive": true },
+      {"src": "tools/bin/*",                                        "dest": "bin~/",                        "recursive": true },
+                         
+      {"src": "Assets/EOS.meta",                                    "dest": "Runtime/"     },
+      {"src": "Assets/EOS/*.png",                                   "dest": "Runtime/EOS/" },
+                                                                                
+      {"src": "Assets/Plugins/*",                                   "dest": "Runtime/"            },
+      {"src": "com.playeveryware.eos/*",                            "dest": "", "recursive": true },
+                                                        
+      {"src": "Assets/Plugins/Source/Editor/*",                     "dest": "Editor/"               },
+      {"src": "Assets/Plugins/Source/Editor/Build/*",               "dest": "Editor/Build/"         },
+      {"src": "Assets/Plugins/Source/Editor/ConfigEditors/*",       "dest": "Editor/ConfigEditors/" },
+      {"src": "Assets/Plugins/Source/Editor/Configs/*",             "dest": "Editor/Configs/"       },
+      {"src": "Assets/Plugins/Source/Editor/EditorWindows/*",       "dest": "Editor/EditorWindows/" },
+                                     
+      {"src": "Assets/Plugins/Source/Editor/Utility/*",             "dest": "Editor/Utility/",  "recursive": true },
+                                    
+      {"src": "Assets/Plugins/Source/Editor/Platforms/*",           "dest": "Editor/Platforms/"            },
+      {"src": "Assets/Plugins/Source/Editor/Platforms/Android/",    "dest": "Editor/Platforms/Android/"    },
+      {"src": "Assets/Plugins/Source/Editor/Platforms/iOS/",        "dest": "Editor/Platforms/iOS/"        },
+      {"src": "Assets/Plugins/Source/Editor/Platforms/Linux/",      "dest": "Editor/Platforms/Linux/"      },
+      {"src": "Assets/Plugins/Source/Editor/Platforms/macOS/",      "dest": "Editor/Platforms/macOS/"      },
+      {"src": "Assets/Plugins/Source/Editor/Platforms/Standalone/", "dest": "Editor/Platforms/Standalone/" },
+      {"src": "Assets/Plugins/Source/Editor/Platforms/Windows/",    "dest": "Editor/Platforms/Windows/"    },
+                                    
+      {"src": "Assets/Plugins/Windows/*",                           "dest": "Runtime/Windows/", "recursive": true },
+      {"src": "Assets/Plugins/Linux/*",                             "dest": "Runtime/Linux/",   "recursive": true },
+      {"src": "Assets/Plugins/macOS/*",                             "dest": "Runtime/macOS/",   "recursive": true },
+      {"src": "Assets/Plugins/Android/*",                           "dest": "Runtime/Android/", "recursive": true },
+      {"src": "Assets/Plugins/iOS/*",                               "dest": "Runtime/iOS/",     "recursive": true },
+                         
+      {"src": "Assets/link.xml",                                    "dest": "Editor/"  },
+      {"src": "Assets/Plugins/Source/EOS_SDK.meta",                 "dest": "Runtime/" },
+                               
+      {"src": "Assets/Resources/SourceCodePro.ttf",                 "dest": "Samples~/Samples/StandardSamples/Materials/" },
+      {"src": "Assets/Prefab/*.prefab",                             "dest": "Samples~/Samples/StandardSamples/Prefab/"    },
+      {"src": "Assets/Scripts/*",                                   "dest": "Samples~/Samples/StandardSamples/Scripts/"   },    
 
-        {"src": "Assets/Plugins/Source/Editor/*",                  "dest": "Editor/"                },
-        {"src": "Assets/Plugins/Source/Editor/Build/*",            "dest": "Editor/Build/"          },
-        {"src": "Assets/Plugins/Source/Editor/ConfigEditors/*",    "dest": "Editor/ConfigEditors/"  },
-        {"src": "Assets/Plugins/Source/Editor/Configs/*",          "dest": "Editor/Configs/"        },
-        {"src": "Assets/Plugins/Source/Editor/EditorWindows/*",    "dest": "Editor/EditorWindows/"  },
+      {"src": "Assets/Scripts/StandardSamples/",                    "dest": "Samples~/Samples/StandardSamples/Scripts/", "recursive": true },
+            
+      {"src": "Assets/Scenes/StandardSamples/*.unity",              "dest": "Samples~/Samples/StandardSamples/Scenes/"    },
+      {"src": "Assets/Scenes/SampleScenes.asset",                   "dest": "Samples~/Samples/StandardSamples/Scenes/"    },
+      {"src": "Assets/Materials/StandardSamplesMaterials/*",        "dest": "Samples~/Samples/StandardSamples/Materials/" },
+           
+      {"src": "Assets/Scenes/P2PNetcodeSample/*.unity",             "dest": "Samples~/Samples/P2PNetcodeSample/Scenes/"                     },
+      {"src": "Assets/Materials/NetcodeMaterials/*",                "dest": "Samples~/Samples/P2PNetcodeSample/Materials/"                  },
+      {"src": "Assets/Scripts/P2PNetcodeSample/*",                  "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/", "recursive": true },
 
-        {"src": "Assets/Plugins/Source/Editor/Utility/*",          "dest": "Editor/Utility/",  "recursive": true  },
+      {"src": "Assets/Scenes/PerformanceStressTestSample/*.unity",  "dest": "Samples~/Samples/PerformanceStressTestSample/Scenes/"                     },
+      {"src": "Assets/Materials/PerformanceStressTestMaterials/*",  "dest": "Samples~/Samples/PerformanceStressTestSample/Materials/"                  },
+      {"src": "Assets/Scripts/PerformanceStressTestSample/*",       "dest": "Samples~/Samples/PerformanceStressTestSample/Scripts/", "recursive": true },
+      {"src": "Assets/Resources/PerformanceStressTest_Profiles/*",  "dest": "Samples~/Samples/PerformanceStressTestSample/Profiles/"                   },
 
-        {"src": "Assets/Plugins/Source/Editor/Platforms/*",           "dest": "Editor/Platforms/"            },
-        {"src": "Assets/Plugins/Source/Editor/Platforms/Android/",    "dest": "Editor/Platforms/Android/"    },
-        {"src": "Assets/Plugins/Source/Editor/Platforms/iOS/",        "dest": "Editor/Platforms/iOS/"        },
-        {"src": "Assets/Plugins/Source/Editor/Platforms/Linux/",      "dest": "Editor/Platforms/Linux/"      },
-        {"src": "Assets/Plugins/Source/Editor/Platforms/macOS/",      "dest": "Editor/Platforms/macOS/"      },
-        {"src": "Assets/Plugins/Source/Editor/Platforms/Standalone/", "dest": "Editor/Platforms/Standalone/" },
-        {"src": "Assets/Plugins/Source/Editor/Platforms/Windows/",    "dest": "Editor/Platforms/Windows/"    },
+      {"src": "Assets/Readme/*.txt",                                "dest": "Samples~/Samples/StandardSamples/Readme/" },
 
-        {"src": "Assets/Plugins/Windows/*",                           "dest": "Runtime/Windows/", "recursive": true  },
-
-        {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api\\.dll"   },                 
-        {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api64\\.dll" },  
-
-        {"src": "Assets/Plugins/Linux/*",                          "dest": "Runtime/Linux/",    "recursive": true },
-        {"src": "Assets/Plugins/macOS/*",                          "dest": "Runtime/macOS/",    "recursive": true },
-        {"src": "Assets/Plugins/Android/*",                        "dest": "Runtime/Android/",  "recursive": true },
-        {"src": "Assets/Plugins/iOS/*",                            "dest": "Runtime/iOS/",      "recursive": true },
-
-        {"src": "Assets/link.xml",                                               "dest": "Editor/"},
-
-        {"src": "Assets/Plugins/Source/EOS_SDK.meta",                            "dest": "Runtime/"                   },
-
-        {"src": "Assets/Resources/SourceCodePro.ttf",                "dest": "Samples~/Samples/StandardSamples/Materials/" },
-        {"src": "Assets/Prefab/*.prefab",                            "dest": "Samples~/Samples/StandardSamples/Prefab/"    },
-        {"src": "Assets/Scripts/*",                                  "dest": "Samples~/Samples/StandardSamples/Scripts/"   },    
-
-        {"src": "Assets/Scripts/StandardSamples/",                   "dest": "Samples~/Samples/StandardSamples/Scripts/", "recursive": true},
-
-        {"src": "Assets/Scenes/StandardSamples/*.unity",             "dest": "Samples~/Samples/StandardSamples/Scenes/"    },
-        {"src": "Assets/Scenes/SampleScenes.asset",                  "dest": "Samples~/Samples/StandardSamples/Scenes/"    },
-        {"src": "Assets/Materials/StandardSamplesMaterials/*",       "dest": "Samples~/Samples/StandardSamples/Materials/" },
-
-        {"src": "Assets/Scenes/P2PNetcodeSample/*.unity",            "dest": "Samples~/Samples/P2PNetcodeSample/Scenes/"                     },
-        {"src": "Assets/Materials/NetcodeMaterials/*",               "dest": "Samples~/Samples/P2PNetcodeSample/Materials/"                  },
-        {"src": "Assets/Scripts/P2PNetcodeSample/*",                 "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/", "recursive": true },
-
-        {"src": "Assets/Scenes/PerformanceStressTestSample/*.unity", "dest": "Samples~/Samples/PerformanceStressTestSample/Scenes/"                     },
-        {"src": "Assets/Materials/PerformanceStressTestMaterials/*", "dest": "Samples~/Samples/PerformanceStressTestSample/Materials/"                  },
-        {"src": "Assets/Scripts/PerformanceStressTestSample/*",      "dest": "Samples~/Samples/PerformanceStressTestSample/Scripts/", "recursive": true },
-        {"src": "Assets/Resources/PerformanceStressTest_Profiles/*", "dest": "Samples~/Samples/PerformanceStressTestSample/Profiles/"                   },
-
-        {"src": "Assets/Readme/*.txt",                               "dest": "Samples~/Samples/StandardSamples/Readme/" }
-    ],
-    "blacklist": [
-        "*.png"
-    ]
+      {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api\\.dll"   },                 
+      {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api64\\.dll" }
+  ],
+  "blacklist": [
+      "*.png"
+  ]
 }
