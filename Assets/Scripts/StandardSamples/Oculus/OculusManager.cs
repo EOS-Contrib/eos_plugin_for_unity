@@ -24,9 +24,12 @@
 #define DISABLEOCULUS
 #endif
 
+#if !DISABLEOCULUS
+    using OculusWrapper = Oculus; // Don't forget to import Oculus.unitypackage from Legacy Oculus SDK
+#endif
+
 namespace PlayEveryWare.EpicOnlineServices.Samples.Oculus
 {
-
     using System.Collections.Generic;
     using UnityEngine;
     using System;
@@ -34,10 +37,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Oculus
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
-
-#if !DISABLEOCULUS
-    using OculusWrapper = Oculus; //if erroring Dont forget to import Oculus' .unitypackage
-#endif
 
     [DisallowMultipleComponent]
     public class OculusManager : MonoBehaviour
