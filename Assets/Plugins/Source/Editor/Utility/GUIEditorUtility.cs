@@ -75,14 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 return false;
             }
 
-            // This simulates the foldout being indented
-            //GUILayout.BeginVertical();
-            //GUILayout.BeginHorizontal();
-            //GUILayout.Space(20f);
             renderContents();
-            //GUILayout.EndHorizontal();
-            //GUILayout.Space(10f);
-            //GUILayout.EndVertical();
             return true;
         }
 
@@ -274,6 +267,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             { typeof(double), (attr, val, width) => RenderInput(attr, (double)val, width) },
             { typeof(WrappedInitializeThreadAffinity), (attr, val, width) => RenderInput(attr, (WrappedInitializeThreadAffinity)val, width) },
             { typeof(bool), (attr, val, width) => RenderInput(attr, (bool)val, width) },
+            { typeof(Version), (attr, val, width) => RenderInput(attr, (Version)val, width) },
             // Add other specific types as needed
         };
 
@@ -857,17 +851,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         private static Version VersionField(GUIContent label, Version value, params GUILayoutOption[] options)
         {
+            value ??= new();
             string tempStringVersion = EditorGUILayout.TextField(label, value.ToString(), options);
             return Version.TryParse(tempStringVersion, out Version newValue) ? newValue : value;
         }
 
         private static Version VersionField(Version value, params GUILayoutOption[] options)
         {
+            value ??= new();
             string tempStringVersion = EditorGUILayout.TextField(value.ToString(), options);
             return Version.TryParse(tempStringVersion, out Version newValue) ? newValue : value;
         }
 
-        public static EOSClientCredentials RenderInput(ConfigFieldAttribute configFieldAttribute,
+        private static EOSClientCredentials RenderInput(ConfigFieldAttribute configFieldAttribute,
             EOSClientCredentials value,
             float labelWidth)
         {
@@ -898,7 +894,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             });
         }
 
-        public static Deployment RenderInput(ConfigFieldAttribute configFieldAttribute, Deployment value, float labelWidth)
+        private static Deployment RenderInput(ConfigFieldAttribute configFieldAttribute, Deployment value, float labelWidth)
         {
             return InputRendererWithAlignedLabel(labelWidth, () =>
             {
@@ -936,13 +932,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return (TEnum)EditorGUILayout.EnumFlagsField(label, value, options);
         }
 
-        public static Version RenderInput(ConfigFieldAttribute configFieldAttribute, Version value, float labelWidth)
+        private static Version RenderInput(ConfigFieldAttribute configFieldAttribute, Version value, float labelWidth)
         {
             return InputRendererWrapper(configFieldAttribute.Label, configFieldAttribute.ToolTip, labelWidth, value,
                 VersionField);
         }
 
-        public static SetOfNamed<EOSClientCredentials> RenderInput(ConfigFieldAttribute configFieldAttribute,
+        private static SetOfNamed<EOSClientCredentials> RenderInput(ConfigFieldAttribute configFieldAttribute,
             SetOfNamed<EOSClientCredentials> value, float labelWidth)
         {
             EditorGUILayout.Space();

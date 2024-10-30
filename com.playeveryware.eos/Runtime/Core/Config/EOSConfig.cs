@@ -35,9 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Collections.Generic;
     using UnityEngine;
     using System.Text.RegularExpressions;
-    using Extensions;
     using Newtonsoft.Json;
-    using PlayEveryWare.EpicOnlineServices.Utility;
 
     /// <summary>
     /// Represents the default deployment ID to use when a given sandbox ID is

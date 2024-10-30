@@ -24,10 +24,18 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices.Platform;
 
-    public struct WrappedInitializeThreadAffinity
+    public abstract class Wrapped<T> where T : struct
     {
-        private InitializeThreadAffinity _value;
+        protected T _value;
 
+        public T Unwrap()
+        {
+            return _value;
+        }
+    }
+
+    public class WrappedInitializeThreadAffinity : Wrapped<InitializeThreadAffinity>
+    {
         /// <summary>
         /// Any thread related to network management that is not IO.
         /// </summary>
@@ -76,7 +84,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-        /// <summary>   
+        /// <summary>
         /// Any thread that will generate IO related to P2P traffic and management.
         /// </summary>
         [ConfigField("P2P IO", ConfigFieldType.Ulong, "Any thread that will generate IO related to P2P traffic and management.")]

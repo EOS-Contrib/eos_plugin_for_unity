@@ -380,28 +380,25 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private Result InitializePlatformInterface()
             {
-                EOSConfig configData = Config.Get<EOSConfig>();
+                PlatformConfig platformConfig = Config.Get<PlatformConfig>();
+                ProductConfig productConfig = Config.Get<ProductConfig>();
+                EOSConfig oldConfig = Config.Get<EOSConfig>();
+
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 print("InitializePlatformInterface: platformSpecifics.GetType() = " + platformSpecifics.GetType());
 
-                EOSInitializeOptions initOptions = new EOSInitializeOptions();
+                EOSInitializeOptions initOptions = new();
 
                 print("InitializePlatformInterface: initOptions.GetType() = " + initOptions.GetType());
 
-                initOptions.options.ProductName = configData.productName;
-                initOptions.options.ProductVersion = configData.productVersion;
-                initOptions.options.OverrideThreadAffinity = new InitializeThreadAffinity();
+                initOptions.options.ProductName = productConfig.ProductId.Name;
+                initOptions.options.ProductVersion = oldConfig.productVersion;
+                initOptions.options.OverrideThreadAffinity = platformConfig.threadAffinity.Unwrap();
 
                 initOptions.options.AllocateMemoryFunction = IntPtr.Zero;
                 initOptions.options.ReallocateMemoryFunction = IntPtr.Zero;
                 initOptions.options.ReleaseMemoryFunction = IntPtr.Zero;
-
-                var overrideThreadAffinity = new InitializeThreadAffinity();
-
-                configData.ConfigureOverrideThreadAffinity(ref overrideThreadAffinity);
-
-                initOptions.options.OverrideThreadAffinity = overrideThreadAffinity;
 
                 platformSpecifics.ConfigureSystemInitOptions(ref initOptions);
 
@@ -498,20 +495,24 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private void InitializeOverlay(IEOSCoroutineOwner coroutineOwner)
             {
-                EOSConfig configData = Config.Get<EOSConfig>();
+                if (!PlatformManager.TryGetPlatformConfig(out PlatformConfig config))
+                {
+                    // TODO-URGENT: Better error log.
+                    Debug.LogError("Cannot initialize overlay, platform config could not be retrieved.");
+                    return;
+                }
 
                 // Sets the button for the bringing up the overlay
                 var friendToggle = new SetToggleFriendsButtonOptions
                 {
-                    ButtonCombination = configData.toggleFriendsButtonCombination
+                    ButtonCombination = config.toggleFriendsButtonCombination
                 };
                 UIInterface uiInterface = Instance.GetEOSPlatformInterface().GetUIInterface();
                 uiInterface.SetToggleFriendsButton(ref friendToggle);
 
                 EOSManagerPlatformSpecificsSingleton.Instance.InitializeOverlay(coroutineOwner);
 
-                AddNotifyDisplaySettingsUpdatedOptions addNotificationData =
-                    new AddNotifyDisplaySettingsUpdatedOptions();
+                AddNotifyDisplaySettingsUpdatedOptions addNotificationData = new();
 
                 GetEOSUIInterface().AddNotifyDisplaySettingsUpdated(ref addNotificationData, null,
                     (ref OnDisplaySettingsUpdatedCallbackInfo data) =>
@@ -795,6 +796,13 @@ namespace PlayEveryWare.EpicOnlineServices
             static private LoginOptions MakeLoginOptions(LoginCredentialType loginType,
                 ExternalCredentialType externalCredentialType, string id, string token)
             {
+                if (!PlatformManager.TryGetPlatformConfig(out PlatformConfig config))
+                {
+                    // TODO-URGENT: Better error log
+                    Debug.LogError("Could not retrieve platform config.");
+                    return default;
+                }
+
                 var loginCredentials = new Credentials
                 {
                     Type = loginType,
@@ -803,19 +811,20 @@ namespace PlayEveryWare.EpicOnlineServices
                     Token = token
                 };
 
-                AuthScopeFlags scopeFlags = (AuthScopeFlags.BasicProfile |
-                                             AuthScopeFlags.FriendsList |
-                                             AuthScopeFlags.Presence);
+                // TODO-URGENT: We should not be setting these as defaults, right?
+                //AuthScopeFlags scopeFlags = (AuthScopeFlags.BasicProfile |
+                //                             AuthScopeFlags.FriendsList |
+                //                             AuthScopeFlags.Presence);
                 
-                if (Config.Get<EOSConfig>().authScopeOptionsFlags != AuthScopeFlags.NoFlags)
-                {
-                    scopeFlags = Config.Get<EOSConfig>().authScopeOptionsFlags;
-                }
+                //if (Config.Get<EOSConfig>().authScopeOptionsFlags != AuthScopeFlags.NoFlags)
+                //{
+                    //scopeFlags = Config.Get<EOSConfig>().authScopeOptionsFlags;
+                //}
                 
                 return new LoginOptions
                 {
                     Credentials = loginCredentials,
-                    ScopeFlags = scopeFlags
+                    ScopeFlags = config.authScopeOptionsFlags
                 };
             }
 

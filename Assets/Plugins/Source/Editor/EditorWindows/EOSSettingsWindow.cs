@@ -21,7 +21,8 @@
 */
 
 //#define ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE
-
+// TODO-URGENT: Remove
+#pragma warning disable CS0612 // Type or member is obsolete
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
 #if !EOS_DISABLE
@@ -458,3 +459,4 @@ _WIN32 || _WIN64
         }
     }
 }
+#pragma warning restore CS0612 // Type or member is obsolete
