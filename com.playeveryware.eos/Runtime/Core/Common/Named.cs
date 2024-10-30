@@ -95,7 +95,7 @@ namespace PlayEveryWare.Common
 
         public override bool Equals(object obj)
         {
-            return obj is Named<T> other && Equals(other);
+            return obj is Named<T> other && (Equals(other) || other.Value.Equals(Value));
         }
 
         public bool Equals(Named<T> other)

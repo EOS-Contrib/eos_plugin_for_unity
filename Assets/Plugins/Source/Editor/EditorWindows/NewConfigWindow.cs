@@ -44,6 +44,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// circumstances).
         /// </summary>
         private ConfigEditor<ProductConfig> _productConfigEditor = new();
+        //private ProductConfigEditor _productConfigEditor = new();
 
         /// <summary>
         /// Stores the config editors for each of the platforms.
@@ -102,6 +103,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             // Render the generic product configuration stuff.
             _ = _productConfigEditor.RenderAsync();
 
+            GUILayout.Space(10);
             if (_platformTabs != null && _platformConfigEditors.Count != 0)
             {
                 _selectedTab = GUILayout.Toolbar(_selectedTab, _platformTabs);
