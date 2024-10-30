@@ -44,7 +44,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// circumstances).
         /// </summary>
         private ConfigEditor<ProductConfig> _productConfigEditor = new();
-        //private ProductConfigEditor _productConfigEditor = new();
 
         /// <summary>
         /// Stores the config editors for each of the platforms.

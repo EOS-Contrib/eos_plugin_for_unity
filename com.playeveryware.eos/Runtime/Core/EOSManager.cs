@@ -256,9 +256,62 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
+            /// <summary>
+            /// Get the ProductID configured from Unity Editor that was used during startup of the EOS SDK.
+            /// </summary>
+            /// <returns></returns>
+            [Obsolete]
+            public string GetProductId()
+            {
+                return Config.Get<EOSConfig>().productID;
+            }
+
+            //-------------------------------------------------------------------------
+            /// <summary>
+            /// Get the SandboxID configured from Unity Editor that was used during startup of the EOS SDK.
+            /// </summary>
+            /// <returns></returns>
+            [Obsolete]
+            public string GetSandboxId()
+            {
+                return Config.Get<EOSConfig>().sandboxID;
+            }
+
+            //-------------------------------------------------------------------------
+            /// <summary>
+            /// Get the DeploymentID configured from Unity Editor that was used during startup of the EOS SDK.
+            /// </summary>
+            /// <returns></returns>
+            [Obsolete]
+            public string GetDeploymentID()
+            {
+                return Config.Get<EOSConfig>().deploymentID;
+            }
+
+            //-------------------------------------------------------------------------
+            /// <summary>
+            /// Check if encryption key is EOS config is a valid 32-byte hex string.
+            /// </summary>
+            /// <returns></returns>
+            
+            public bool IsEncryptionKeyValid()
+            {
+                return Config.Get<EOSConfig>().IsEncryptionKeyValid();
+            }
+
+            //-------------------------------------------------------------------------
             private bool HasShutdown()
             {
                 return s_state == EOSState.Shutdown;
+            }
+
+            //-------------------------------------------------------------------------
+            [Obsolete]
+            public bool ShouldOverlayReceiveInput()
+            {
+                return (s_isOverlayVisible && s_DoesOverlayHaveExcusiveInput)
+                       || Config.Get<EOSConfig>().alwaysSendInputToOverlay
+                    ;
             }
 
             //-------------------------------------------------------------------------
@@ -811,16 +864,24 @@ namespace PlayEveryWare.EpicOnlineServices
                     Token = token
                 };
 
-                // TODO-URGENT: We should not be setting these as defaults, right?
-                //AuthScopeFlags scopeFlags = (AuthScopeFlags.BasicProfile |
-                //                             AuthScopeFlags.FriendsList |
-                //                             AuthScopeFlags.Presence);
+                /*
+
+                TODO-URGENT: We should not be setting these as defaults, right?
+
+                These are required to set for the sample scenes, but they should
+                not be just _in general_ set to be on - people may not make use
+                of each of these auth scopes.
+
+                AuthScopeFlags scopeFlags = (AuthScopeFlags.BasicProfile |
+                                             AuthScopeFlags.FriendsList |
+                                             AuthScopeFlags.Presence);
                 
-                //if (Config.Get<EOSConfig>().authScopeOptionsFlags != AuthScopeFlags.NoFlags)
-                //{
-                    //scopeFlags = Config.Get<EOSConfig>().authScopeOptionsFlags;
-                //}
-                
+                if (Config.Get<EOSConfig>().authScopeOptionsFlags != AuthScopeFlags.NoFlags)
+                {
+                    scopeFlags = Config.Get<EOSConfig>().authScopeOptionsFlags;
+                }
+                */
+
                 return new LoginOptions
                 {
                     Credentials = loginCredentials,

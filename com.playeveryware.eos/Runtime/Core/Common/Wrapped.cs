@@ -20,23 +20,15 @@
  * SOFTWARE.
  */
 
-// Comment or uncomment the following definition to turn on or off debug statements
-// #define ENABLE_FILEINFO_EXTENSIONS_DEBUG
-
 namespace PlayEveryWare.EpicOnlineServices.Extensions
 {
-    using System;
-
-    public static class VersionExtensions
+    public abstract class Wrapped<T> where T : struct
     {
-        public static void ZeroUnset(this Version version)
+        protected T _value;
+
+        public T Unwrap()
         {
-            int build = version.Build;
-            int major = version.Major;
-            int minor = version.Minor;
-            int majorRevision = version.MajorRevision;
-            int minorRevision = version.MinorRevision;
-            int revision = version.Revision;
+            return _value;
         }
     }
 }
