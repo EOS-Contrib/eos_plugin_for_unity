@@ -25,6 +25,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("com.playeveryware.eos-Editor")]
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
+    using Common.Extensions;
     using Extensions;
     using System;
     using System.Collections.Generic;

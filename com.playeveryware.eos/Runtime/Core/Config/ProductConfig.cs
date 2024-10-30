@@ -26,6 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
     using System.Collections.Generic;
     using Newtonsoft.Json;
+    using PlayEveryWare.Common;
     using UnityEngine;
 
     /// <summary>
