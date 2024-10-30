@@ -54,6 +54,7 @@ namespace PlayEveryWare.EpicOnlineServices
         protected static IDictionary<Type, Config> s_cachedConfigs = 
             new Dictionary<Type, Config>();
 #endif
+        private static readonly Version SCHEMA_VERSION = new Version(1, 0);
 
         /// <summary>
         /// Contains a registration that maps config type to the constructor, to
@@ -83,6 +84,14 @@ namespace PlayEveryWare.EpicOnlineServices
         /// default values.
         /// </summary>
         private readonly bool _allowDefaultIfFileNotFound;
+
+        /// <summary>
+        /// Stores the version for the schema used to write the JSON file that
+        /// this config is backed by. If null, then the file is from before
+        /// the schemas were being versioned.
+        /// </summary>
+        [JsonProperty]
+        private Version schemaVersion;
 
         /// <summary>
         /// Instantiate a new config based on the file at the given filename -
@@ -229,13 +238,13 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // Asynchronously read config values from the corresponding file.
             await instance.ReadAsync();
-            
+
 #if !UNITY_EDITOR
             // Cache the newly created config with its values having been read.
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
 
-            // Call prepare function.
+            // Call migration function.
             instance.MigrateConfig();
 
             // Return the config being retrieved.
@@ -283,7 +292,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // Cache the newly created config with its values having been read.
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
-            // Call prepare function.
+            // Call migration function.
             instance.MigrateConfig();
 
             // Return the config being retrieved.
@@ -375,6 +384,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task</returns>
         public virtual async Task WriteAsync(bool prettyPrint = true)
         {
+            // Explicitly set the schema version to be the latest
+            schemaVersion = SCHEMA_VERSION;
+
             var json = JsonUtility.ToJson(this, prettyPrint);
 
             // If the json hasn't changed since it was last read, then
@@ -393,6 +405,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public virtual void Write(bool prettyPrint = true)
         {
+            // Explicitly set the schema version to be the latest
+            schemaVersion = SCHEMA_VERSION;
+
             var json = JsonUtility.ToJson(this, prettyPrint);
 
             // If the json hasn't changed since it was last read, then

@@ -32,29 +32,9 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Contains information about the product entered by the user from the Epic
     /// Developer Portal.
     /// </summary>
-    [ConfigGroup("Product Information", true)]
+    [ConfigGroup("Product Information", false)]
     public class ProductConfig : Config
     {
-        internal class PreviousEOSConfig : Config
-        {
-            public string productName;
-            public string productVersion;
-            public string productID;
-            public List<SandboxDeploymentOverride> sandboxDeploymentOverrides;
-            public string sandboxID;
-            public string deploymentID;
-            public string clientSecret;
-            public string clientID;
-            public string encryptionKey;
-
-            static PreviousEOSConfig()
-            {
-                RegisterFactory(() => new PreviousEOSConfig());
-            }
-
-            protected PreviousEOSConfig() : base("EpicOnlineServicesConfig.json") { }
-        }
-
         /// <summary>
         /// The product ID is a unique GUID labeled "Product ID" in the Epic
         /// Developer Portal. The name for this value can be set to anything -
@@ -66,6 +46,11 @@ namespace PlayEveryWare.EpicOnlineServices
             "Enter the name of your product as it appears in the Epic " +
             "Dev Portal, as well as the Product Id defined there.")]
         public Named<Guid> ProductId;
+
+        [ConfigField("Version",
+            ConfigFieldType.Version,
+            "Use this to indicate to the EOS SDK your game version.")]
+        public Version Version;
 
         /// <summary>
         /// The set of Clients as defined within the Epic Developer Portal. For
@@ -91,11 +76,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "exist within the Epic Dev Portal.")]
         public ProductionEnvironments Environments;
 
-        [ConfigField("Version",
-            ConfigFieldType.Version,
-            "Use this to indicate to the EOS SDK your game version.")]
-        public Version Version;
-
         [JsonProperty]
         private bool _oldConfigImported;
 
@@ -105,6 +85,28 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         protected ProductConfig() : base("eos_product_config.json") { }
+
+        #region Functionality to migrate from old configuration to new
+
+        internal class PreviousEOSConfig : Config
+        {
+            public string productName;
+            public string productVersion;
+            public string productID;
+            public List<SandboxDeploymentOverride> sandboxDeploymentOverrides;
+            public string sandboxID;
+            public string deploymentID;
+            public string clientSecret;
+            public string clientID;
+            public string encryptionKey;
+
+            static PreviousEOSConfig()
+            {
+                RegisterFactory(() => new PreviousEOSConfig());
+            }
+
+            protected PreviousEOSConfig() : base("EpicOnlineServicesConfig.json") { }
+        }
 
         private void MigrateProductNameVersionAndId(PreviousEOSConfig config)
         {
@@ -195,5 +197,8 @@ namespace PlayEveryWare.EpicOnlineServices
             Write();
 #endif
         }
+
+        #endregion
+
     }
 }
