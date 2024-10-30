@@ -32,7 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Contains information about the product entered by the user from the Epic
     /// Developer Portal.
     /// </summary>
-    [ConfigGroup("Product Information", false)]
+    [ConfigGroup("Product Configuration", new []{ "Product Information", "Deployment Configuration"}, false)]
     public class ProductConfig : Config
     {
         /// <summary>
@@ -41,22 +41,17 @@ namespace PlayEveryWare.EpicOnlineServices
         /// it is used as a label for user interface purposes - and is allowed
         /// to differ from the label given to it on the Developer Portal.
         /// </summary>
-        //[ConfigField("Product Information",
-            //ConfigFieldType.NamedGuid,
-            //"Enter the name of your product as it appears in the Epic " +
-            //"Dev Portal, as well as the Product Id defined there.")]
-        //public Named<Guid> ProductId;
-
         [ConfigField("Product Name",
-            ConfigFieldType.Text, "" +
-                                  "Enter your product name as it appears in " +
-                                  "the EOS Dev Portal here.",
+            ConfigFieldType.Text,
+            "Enter your product name as it appears in the EOS Dev " +
+            "Portal here.",
             0)]
         public string ProductName;
 
         [ConfigField("Product Id",
-            ConfigFieldType.Guid, "Enter your Product Id as it " +
-                                  "appears in the EOS Dev Portal here.",
+            ConfigFieldType.Guid,
+            "Enter your Product Id as it appears in the EOS Dev " +
+            "Portal here.",
             0)]
         public Guid ProductId;
 

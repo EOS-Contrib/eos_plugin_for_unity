@@ -30,10 +30,10 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Security.Cryptography;
     using System.Text.RegularExpressions;
 
-    public class EOSClientCredentials : IEquatable<EOSClientCredentials>, IComparable<EOSClientCredentials>
+    public class EOSClientCredentials : IEquatable<EOSClientCredentials>
     {
-        public string ClientId = "";
-        public string ClientSecret = "";
+        public string ClientId;
+        public string ClientSecret;
         public readonly string EncryptionKey;
 
         private static readonly Regex s_invalidEncryptionKeyRegex;
@@ -87,11 +87,6 @@ namespace PlayEveryWare.EpicOnlineServices
                    ClientSecret == other.ClientSecret;
         }
 
-        public int CompareTo(EOSClientCredentials other)
-        {
-            return GetHashCode().CompareTo(other.GetHashCode());
-        }
-
         public override bool Equals(object other)
         {
             return other is EOSClientCredentials otherCreds && Equals(otherCreds);
@@ -99,8 +94,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public override int GetHashCode()
         {
-            int hashCode = HashCode.Combine(ClientId, ClientSecret);
-            return hashCode;
+            return HashCode.Combine(ClientId, ClientSecret);
         }
     }
 }

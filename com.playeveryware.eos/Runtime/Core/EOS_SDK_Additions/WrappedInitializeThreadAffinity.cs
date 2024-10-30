@@ -23,16 +23,7 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices.Platform;
-
-    public abstract class Wrapped<T> where T : struct
-    {
-        protected T _value;
-
-        public T Unwrap()
-        {
-            return _value;
-        }
-    }
+    using Extensions;
 
     public class WrappedInitializeThreadAffinity : Wrapped<InitializeThreadAffinity>
     {

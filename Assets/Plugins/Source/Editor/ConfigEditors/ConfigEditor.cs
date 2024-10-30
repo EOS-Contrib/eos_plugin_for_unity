@@ -80,12 +80,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         protected T config;
 
         /// <summary>
-        /// Used to store explicitly set header style. If null, will render
-        /// bold.
-        /// </summary>
-        private GUIStyle _headerStyle;
-
-        /// <summary>
         /// Create a new config editor.
         /// </summary>
         /// <param name="repaintFn">
@@ -125,16 +119,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             {
                 _animExpanded?.valueChanged.AddListener(repaintFn);
             }
-        }
-
-        /// <summary>
-        /// Use this function to override the default style of the header for
-        /// the config when it is being rendered.
-        /// </summary>
-        /// <param name="headerStyle"></param>
-        public void SetHeaderStyle(GUIStyle headerStyle)
-        {
-            _headerStyle = headerStyle;
         }
 
         /// <summary>
@@ -206,15 +190,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             }
             else
             {
-                if (null != _headerStyle)
-                {
-                    EditorGUILayout.LabelField(GetLabelText(), _headerStyle);
-                }
-                else
-                {
-                    GUILayout.Label(GetLabelText(), EditorStyles.boldLabel);
-                }
-                
+                GUILayout.Label(GetLabelText(), EditorStyles.boldLabel);
                 GUIEditorUtility.RenderInputs(ref config);
             }
         }
