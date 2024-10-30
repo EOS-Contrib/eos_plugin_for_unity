@@ -81,6 +81,11 @@ namespace PlayEveryWare.EpicOnlineServices
         NamedGuid,
 
         /// <summary>
+        /// A Guid field.
+        /// </summary>
+        Guid,
+
+        /// <summary>
         /// The set of Sandbox and Deployment definitions for the project.
         /// </summary>
         ProductionEnvironments,

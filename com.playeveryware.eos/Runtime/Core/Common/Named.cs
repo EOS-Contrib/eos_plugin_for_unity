@@ -40,6 +40,12 @@ namespace PlayEveryWare.Common
         /// </summary>
         public T Value;
 
+        public Named(string name, T value)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Value = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
         /// <summary>
         /// Creates a Named object from the given value and with a given name.
         /// </summary>
@@ -54,7 +60,7 @@ namespace PlayEveryWare.Common
         /// </returns>
         public static Named<T> FromValue(T value, string name)
         {
-            return new Named<T>() { Name = name, Value = value };
+            return new Named<T>(name, value);
         }
 
         /// <summary>
@@ -95,7 +101,7 @@ namespace PlayEveryWare.Common
 
         public override bool Equals(object obj)
         {
-            return obj is Named<T> other && (Equals(other) || other.Value.Equals(Value));
+            return obj is Named<T> other && Equals(other);
         }
 
         public bool Equals(Named<T> other)
@@ -105,17 +111,12 @@ namespace PlayEveryWare.Common
                 return false;
             }
 
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            return EqualityComparer<T>.Default.Equals(Value, other.Value);
+            return Name == other.Name && EqualityComparer<T>.Default.Equals(Value, other.Value);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Value);
+            return HashCode.Combine(Name, Value);
         }
 
         public override string ToString()

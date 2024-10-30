@@ -392,7 +392,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 print("InitializePlatformInterface: initOptions.GetType() = " + initOptions.GetType());
 
-                initOptions.options.ProductName = productConfig.ProductId.Name;
+                initOptions.options.ProductName = productConfig.ProductName;
                 initOptions.options.ProductVersion = oldConfig.productVersion;
                 initOptions.options.OverrideThreadAffinity = platformConfig.threadAffinity.Unwrap();
 
@@ -449,7 +449,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 platformOptions.options.OverrideCountryCode = null;
                 platformOptions.options.OverrideLocaleCode = null;
-                platformOptions.options.ProductId = Config.Get<ProductConfig>().ProductId.Value.ToStrippedString();
+                platformOptions.options.ProductId = Config.Get<ProductConfig>().ProductId.ToStrippedString();
 
                 // TODO-URGENT: Determine if dashes are acceptable to include in these values when
                 //              passing them to the EOS SDK.

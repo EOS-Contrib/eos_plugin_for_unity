@@ -41,15 +41,29 @@ namespace PlayEveryWare.EpicOnlineServices
         /// it is used as a label for user interface purposes - and is allowed
         /// to differ from the label given to it on the Developer Portal.
         /// </summary>
-        [ConfigField("Product Information",
-            ConfigFieldType.NamedGuid,
-            "Enter the name of your product as it appears in the Epic " +
-            "Dev Portal, as well as the Product Id defined there.")]
-        public Named<Guid> ProductId;
+        //[ConfigField("Product Information",
+            //ConfigFieldType.NamedGuid,
+            //"Enter the name of your product as it appears in the Epic " +
+            //"Dev Portal, as well as the Product Id defined there.")]
+        //public Named<Guid> ProductId;
+
+        [ConfigField("Product Name",
+            ConfigFieldType.Text, "" +
+                                  "Enter your product name as it appears in " +
+                                  "the EOS Dev Portal here.",
+            0)]
+        public string ProductName;
+
+        [ConfigField("Product Id",
+            ConfigFieldType.Guid, "Enter your Product Id as it " +
+                                  "appears in the EOS Dev Portal here.",
+            0)]
+        public Guid ProductId;
 
         [ConfigField("Version",
             ConfigFieldType.Version,
-            "Use this to indicate to the EOS SDK your game version.")]
+            "Use this to indicate to the EOS SDK your game version.",
+            0)]
         public Version Version;
 
         /// <summary>
@@ -62,7 +76,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Client Credentials",
             ConfigFieldType.SetOfClientCredentials,
             "Enter the client credentials you have defined in the " +
-            "Epic Dev Portal.")]
+            "Epic Dev Portal.", 1)]
         public SetOfNamed<EOSClientCredentials> Clients = new("Client");
 
         /// <summary>
@@ -73,7 +87,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Production Environments",
             ConfigFieldType.ProductionEnvironments,
             "Enter the details of your deployment and sandboxes as they " +
-            "exist within the Epic Dev Portal.")]
+            "exist within the Epic Dev Portal.", 1)]
         public ProductionEnvironments Environments;
 
         [JsonProperty]
@@ -110,8 +124,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private void MigrateProductNameVersionAndId(PreviousEOSConfig config)
         {
-            ProductId ??= new Named<Guid>();
-            ProductId.Name = config.productName;
+            ProductName = config.productName;
 
             if (!Version.TryParse(config.productVersion, out Version))
             {
@@ -120,7 +133,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     "Please be sure to set it in the config window.");
             }
 
-            if (!Guid.TryParse(config.productID, out ProductId.Value))
+            if (!Guid.TryParse(config.productID, out ProductId))
             {
                 Debug.LogWarning("Could not parse product ID.");
             }
