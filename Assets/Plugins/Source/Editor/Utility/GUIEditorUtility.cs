@@ -269,6 +269,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             { typeof(bool), (attr, val, width) => RenderInput(attr, (bool)val, width) },
             { typeof(Version), (attr, val, width) => RenderInput(attr, (Version)val, width) },
             { typeof(Named<Guid>), (attr, val, width) => RenderInput(attr, (Named<Guid>)val, width) },
+            { typeof(Guid), (attr, val, width) => RenderInput(attr, (Guid)val, width)},
             // Add other specific types as needed
         };
 
@@ -291,6 +292,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             { ConfigFieldType.Version, HandleField<Version> },
             { ConfigFieldType.Deployment, HandleField<Deployment> },
             { ConfigFieldType.ClientCredentials, HandleField<EOSClientCredentials> },
+            { ConfigFieldType.Guid, HandleField<Guid> },
             { ConfigFieldType.WrappedInitializeThreadAffinity, HandleField<WrappedInitializeThreadAffinity> },
             { ConfigFieldType.Button, HandleButtonField },
             { ConfigFieldType.Enum, HandleEnumField },
@@ -361,7 +363,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             setValue(target, newValue);
         }
 
-
         static void HandleButtonField(
             object target,
             ConfigFieldAttribute fieldDetails,
@@ -389,8 +390,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             var newValue = genericMethod.Invoke(null, new object[] { fieldDetails, enumValue, labelWidth });
             setValue(target, newValue);
         }
-
-
 
         delegate void FieldHandler(
             object target,
@@ -486,7 +485,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         }
 
         public static float MeasureLabelWidth(string label)
-        { 
+        {
             return new GUIStyle(GUI.skin.label).CalcSize(new GUIContent(label)).x;
         }
 
@@ -696,7 +695,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             Action<Rect, Named<T>, bool> renderItemFn,
             Action addNewItemFn,
             Action<Named<T>> removeItemFn,
-            ReorderableList.ElementHeightCallbackDelegate elementHeightCallback = null) where T : IEquatable<T>
+            ReorderableList.ElementHeightCallbackDelegate elementHeightCallback = null) where T : IEquatable<T>, new()
         {
             List<Named<T>> items = value.ToList();
 
@@ -995,6 +994,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return clientCredentialsCopy;
         }
 
+        private static Guid RenderInput(ConfigFieldAttribute configFieldDetails, Guid value, float labelWidth)
+        {
+            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value,
+                GuidField);
+        }
 
         private static Guid GuidField(Guid value, params GUILayoutOption[] options)
         {
@@ -1006,6 +1010,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         private static Guid GuidField(Rect rect, Guid value)
         {
             string tempStringName = EditorGUI.TextField(rect, value.ToString());
+            return Guid.TryParse(tempStringName, out Guid newValue) ? newValue : value;
+        }
+
+        private static Guid GuidField(GUIContent label, Guid value, params GUILayoutOption[] options)
+        {
+            string tempStringName = EditorGUILayout.TextField(label, value.ToString(), options);
             return Guid.TryParse(tempStringName, out Guid newValue) ? newValue : value;
         }
 
@@ -1143,7 +1153,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         public static Named<Guid> RenderInput(Named<Guid> value, string nameHint, float labelWidth)
         {
-            value ??= new Named<Guid>();
+            value ??= new Named<Guid>("", Guid.Empty);
 
             GUILayout.BeginHorizontal();
 

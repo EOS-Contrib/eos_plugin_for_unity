@@ -47,7 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
             GUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Name", GUILayout.Width(labelWidth));
-            config.ProductId = GUIEditorUtility.RenderInput(config.ProductId, "Product Name", labelWidth);
+            //config.ProductId = GUIEditorUtility.RenderInput(config.ProductId, "Product Name", labelWidth);
             GUILayout.EndHorizontal();
             config.Version = GUIEditorUtility.RenderInput(config.Version, "Product Version", "", labelWidth);
 

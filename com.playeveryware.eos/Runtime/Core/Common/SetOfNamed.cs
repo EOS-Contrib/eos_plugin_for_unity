@@ -33,7 +33,7 @@ namespace PlayEveryWare.Common
     /// different values).
     /// </summary>
     /// <typeparam name="T">The type being wrapped with a name.</typeparam>
-    public class SetOfNamed<T> : HashSet<Named<T>> where T : IEquatable<T>
+    public class SetOfNamed<T> : HashSet<Named<T>> where T : IEquatable<T>, new()
     {
         /// <summary>
         /// When items without a name are added to the SortedSet, this is the
@@ -66,6 +66,7 @@ namespace PlayEveryWare.Common
         /// </returns>
         public bool Add(T value)
         {
+            value ??= typeof(T).IsValueType ? default(T) : new T();
             // Determines the 
             string newItemName = GetNewItemName();
 
