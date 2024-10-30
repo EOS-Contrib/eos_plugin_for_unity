@@ -25,6 +25,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
     using Common;
     using Epic.OnlineServices.Platform;
     using EpicOnlineServices.Utility;
+    using PlayEveryWare.Common;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -268,7 +269,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             { typeof(WrappedInitializeThreadAffinity), (attr, val, width) => RenderInput(attr, (WrappedInitializeThreadAffinity)val, width) },
             { typeof(bool), (attr, val, width) => RenderInput(attr, (bool)val, width) },
             { typeof(Version), (attr, val, width) => RenderInput(attr, (Version)val, width) },
-            { typeof(Named<Guid>), (attr, val, width) => RenderInput(attr, (Named<Guid>)val, width) },
             { typeof(Guid), (attr, val, width) => RenderInput(attr, (Guid)val, width)},
             // Add other specific types as needed
         };
@@ -288,7 +288,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             { ConfigFieldType.Float, HandleField<float> },
             { ConfigFieldType.ProductionEnvironments, HandleField<ProductionEnvironments> },
             { ConfigFieldType.SetOfClientCredentials, HandleField<SetOfNamed<EOSClientCredentials>> },
-            { ConfigFieldType.NamedGuid, HandleField<Named<Guid>> },
             { ConfigFieldType.Version, HandleField<Version> },
             { ConfigFieldType.Deployment, HandleField<Deployment> },
             { ConfigFieldType.ClientCredentials, HandleField<EOSClientCredentials> },
@@ -1141,28 +1140,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             // Ensure that the GUI is always enabled before leaving scope
             GUI.enabled = true;
-
-            return value;
-        }
-
-        public static Named<Guid> RenderInput(ConfigFieldAttribute configFieldDetails, Named<Guid> value,
-            float labelWidth)
-        {
-            return RenderInput(value, configFieldDetails.Label, labelWidth);
-        }
-
-        public static Named<Guid> RenderInput(Named<Guid> value, string nameHint, float labelWidth)
-        {
-            value ??= new Named<Guid>("", Guid.Empty);
-
-            GUILayout.BeginHorizontal();
-
-            value.Name = RenderFieldWithHint(EditorGUILayout.TextField, string.IsNullOrEmpty, value.Name,
-                nameHint);
-
-            value.Value = RenderFieldWithHint(GuidField, guid => guid.Equals(Guid.Empty), value.Value, "Guid Value");
-
-            GUILayout.EndHorizontal();
 
             return value;
         }

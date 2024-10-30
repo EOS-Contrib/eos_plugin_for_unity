@@ -20,20 +20,15 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Extensions
+namespace PlayEveryWare.Common.Extensions
 {
-    public static class StringExtensions
+    using System;
+
+    public static class GuidExtensions
     {
-        public static ulong ToUlong(this string value, ulong defaultValue = 0L)
+        public static string ToStrippedString(this Guid guid)
         {
-            ulong returnValue = defaultValue;
-
-            if (ulong.TryParse(value, out ulong result))
-            {
-                returnValue = result;
-            }
-
-            return returnValue;
+            return guid.ToString().Replace("-", "").ToLower();
         }
     }
 }
