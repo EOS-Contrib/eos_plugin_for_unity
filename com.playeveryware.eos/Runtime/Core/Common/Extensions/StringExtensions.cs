@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Extensions
+namespace PlayEveryWare.Common.Extensions
 {
     public static class StringExtensions
     {

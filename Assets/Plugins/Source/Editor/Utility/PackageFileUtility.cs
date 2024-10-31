@@ -28,8 +28,8 @@ using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
+    using Common.Extensions;
     using Editor.Build;
-    using Extensions;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;

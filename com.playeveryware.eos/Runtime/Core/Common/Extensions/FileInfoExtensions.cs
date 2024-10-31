@@ -23,7 +23,7 @@
 // Comment or uncomment the following definition to turn on or off debug statements
 // #define ENABLE_FILEINFO_EXTENSIONS_DEBUG
 
-namespace PlayEveryWare.EpicOnlineServices.Extensions
+namespace PlayEveryWare.Common.Extensions
 {
     using System;
     using System.Diagnostics;
