@@ -24,14 +24,14 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     // Flags specifically for Android. Note that labels for the baser
     // PlatformConfig need to be specified here.
-    [ConfigGroup("Android Config", new []
+    [ConfigGroup("Android Config", new[]
     {
-        "Android-Specific Options",
-        "Deployment",
-        "Flags",
-        "Tick Budgets",
-        "Overlay Options"
-    }, false)]
+     "Android-Specific Options",
+     "Deployment",
+     "Flags",
+     "Tick Budgets",
+     "Overlay Options"
+     }, false)]
     public class AndroidConfig : PlatformConfig
     {
         [ConfigField("Google Login Client ID",

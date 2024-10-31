@@ -24,9 +24,9 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
 
-    [Serializable]
     // Flags specifically for iOS. Note that labels for the baser
     // PlatformConfig need to be specified here.
+    [Serializable]
     [ConfigGroup("EOS Config", new[]
     {
         "iOS-Specific Options",
