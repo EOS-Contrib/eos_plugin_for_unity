@@ -108,9 +108,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 Debug.Log($"Assigning thread affinity override values for platform \"{Platform}\".");
                 var overrideThreadAffinity = initializeOptions.options.OverrideThreadAffinity.Value;
 
-                Config.Get<EOSConfig>().ConfigureOverrideThreadAffinity(ref overrideThreadAffinity);
+                if (!PlatformManager.TryGetPlatformConfig(out PlatformConfig config))
+                {
+                    Debug.LogError("Could not read platform specific configuration values.");
+                    return;
+                }
 
-                initializeOptions.options.OverrideThreadAffinity = overrideThreadAffinity;
+                initializeOptions.options.OverrideThreadAffinity = config.threadAffinity.Unwrap();
             }
         }
 

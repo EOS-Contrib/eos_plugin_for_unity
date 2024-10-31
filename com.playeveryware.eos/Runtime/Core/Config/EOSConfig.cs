@@ -53,6 +53,15 @@ namespace PlayEveryWare.EpicOnlineServices
     /// <summary>
     /// Represents the EOS Configuration used for initializing EOS SDK.
     /// </summary>
+    [Obsolete(
+        "This class has been deprecated in favor of targetted " +
+        "platform specific configuration files. It remains here to provide " +
+        "backwards compatibility but will be removed in an upcoming release." +
+        "Instead, you should utilize the PlatformConfig returned by " +
+        "PlatformManager.TryGetPlatformConfig for values that are unique to " +
+        "a given platform, and you should access ProductConfig via " +
+        "Config.Get<ProductConfig>() for all other values that are common " +
+        "to all platforms.")]
     [Serializable]
     [ConfigGroup("EOS Config", new[]
     {
@@ -83,7 +92,6 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Product Name", ConfigFieldType.Text,
             "Product name defined in the Development Portal.", 0)]
         [NonEmptyStringFieldValidator]
-        [Obsolete]
         public string productName;
 
         /// <summary>
@@ -101,7 +109,6 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Product Id", ConfigFieldType.Text,
             "Product Id defined in the Development Portal.", 0)]
         [GUIDFieldValidator]
-        [Obsolete]
         public string productID;
 
         #endregion
@@ -115,7 +122,6 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Sandbox Id", ConfigFieldType.Text,
             "Sandbox Id to use.", 1)]
         [SandboxIDFieldValidator]
-        [Obsolete]
         public string sandboxID;
 
         /// <summary>
@@ -125,7 +131,6 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Deployment Id", ConfigFieldType.Text,
             "Deployment Id to use.", 1)]
         [GUIDFieldValidator]
-        [Obsolete]
         public string deploymentID;
 
         /// <summary>
@@ -136,7 +141,6 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType.TextList,
             "Deployment Id to use.", 1)]
         [ExpandField]
-        [Obsolete]
         public List<SandboxDeploymentOverride> sandboxDeploymentOverrides;
 
         /// <summary>
@@ -147,7 +151,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "Indicates whether the application is a dedicated game " +
             "server.",
             1)]
-        [Obsolete]
         public bool isServer;
 
         #endregion
@@ -161,7 +164,6 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Client Secret", ConfigFieldType.Text,
             "Client Secret defined in the Development Portal.",
             2)]
-        [Obsolete]
         public string clientSecret;
 
         /// <summary>
@@ -171,7 +173,6 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Client Id", ConfigFieldType.Text,
             "Client Id defined in the Development Portal.",
             2)]
-        [Obsolete]
         public string clientID;
 
         /// <summary>
@@ -206,7 +207,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "Platform option flags",
             3)]
         [JsonConverter(typeof(ListOfStringsToPlatformFlags))]
-        [Obsolete]
         public WrappedPlatformFlags platformOptionsFlags;
 
         /// <summary>
@@ -217,7 +217,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "Platform option flags",
             3)]
         [JsonConverter(typeof(ListOfStringsToAuthScopeFlags))]
-        [Obsolete]
         public AuthScopeFlags authScopeOptionsFlags;
 #endif
 
@@ -234,7 +233,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "Used to define the maximum amount of execution time the " +
             "EOS SDK can use each frame.",
             3)]
-        [Obsolete]
         public uint tickBudgetInMilliseconds;
 
         /// <summary>
@@ -253,7 +251,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "Indicates the maximum number of seconds that EOS SDK " +
             "will allow network calls to run before failing with EOS_TimedOut.",
             3)]
-        [Obsolete]
         public double taskNetworkTimeoutSeconds;
 
         /// <summary>
@@ -265,7 +262,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "that are not IO related.",
             3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
-        [Obsolete]
         public ulong? ThreadAffinity_networkWork;
 
         /// <summary>
@@ -276,7 +272,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "Specifies affinity for threads that generate storage IO.",
             3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
-        [Obsolete]
         public ulong? ThreadAffinity_storageIO;
 
         /// <summary>
@@ -287,7 +282,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "Specifies affinity for threads that generate web socket " +
             "IO.", 3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
-        [Obsolete]
         public ulong? ThreadAffinity_webSocketIO;
 
         /// <summary>
@@ -299,7 +293,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "related to P2P traffic and management.",
             3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
-        [Obsolete]
         public ulong? ThreadAffinity_P2PIO;
 
         /// <summary>
@@ -311,7 +304,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "HTTP request IO.",
             3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
-        [Obsolete]
         public ulong? ThreadAffinity_HTTPRequestIO;
 
         /// <summary>
@@ -323,7 +315,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "IO related to RTC traffic and management.",
             3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
-        [Obsolete]
         public ulong? ThreadAffinity_RTCIO;
 
         #endregion
@@ -342,7 +333,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "overlay from the C# side to native, and handle showing the " +
             "overlay. This doesn't always mean input makes it to the EOS SDK.",
             4)]
-        [Obsolete]
         public bool alwaysSendInputToOverlay;
 
         /// <summary>
@@ -352,7 +342,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "Initial Button Delay (if not set, whatever the default " +
             "is will be used).", 4)]
         [JsonConverter(typeof(StringToTypeConverter<float>))]
-        [Obsolete]
         public float? initialButtonDelayForOverlay;
 
         /// <summary>
@@ -362,7 +351,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "Repeat button delay for the overlay. If not set, " +
             "whatever the default is will be used.", 4)]
         [JsonConverter(typeof(StringToTypeConverter<float>))]
-        [Obsolete]
         public float? repeatButtonDelayForOverlay;
 
         // This compile conditional is here so that when EOS is disabled, in the
@@ -376,7 +364,6 @@ namespace PlayEveryWare.EpicOnlineServices
         /// only <see cref="InputStateButtonFlags.None"/>.
         /// </summary>
         [JsonConverter(typeof(ListOfStringsToInputStateButtonFlags))]
-        [Obsolete]
         public InputStateButtonFlags toggleFriendsButtonCombination = InputStateButtonFlags.SpecialLeft;
 #endif
 
@@ -403,7 +390,6 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="launcherSandboxId">The sandbox id to use.</param>
         public void SetDeployment(string launcherSandboxId)
         {
-#pragma warning disable CS0612 // Type or member is obsolete
             // Confirm that the sandboxId is stored in the list of overrides
             if (TryGetDeployment(sandboxDeploymentOverrides, launcherSandboxId,
                     out SandboxDeploymentOverride overridePair))
@@ -423,7 +409,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
             }
             // TODO: This will trigger a need to re-validate the config values
-#pragma warning restore CS0612 // Type or member is obsolete
         }
 
         /// <summary>
@@ -474,7 +459,6 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void ConfigureOverrideThreadAffinity(ref InitializeThreadAffinity affinity)
         {
-#pragma warning disable CS0612 // Type or member is obsolete
             if (ThreadAffinity_HTTPRequestIO.HasValue)
             {
                 affinity.HttpRequestIo = ThreadAffinity_HTTPRequestIO.Value;
@@ -504,7 +488,6 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 affinity.WebSocketIo = ThreadAffinity_webSocketIO.Value;
             }
-#pragma warning restore CS0612 // Type or member is obsolete
         }
 #endif
 
@@ -516,9 +499,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </returns>
         public bool IsEncryptionKeyValid()
         {
-#pragma warning disable CS0612 // Type or member is obsolete
             return IsEncryptionKeyValid(encryptionKey);
-#pragma warning restore CS0612 // Type or member is obsolete
         }
     }
 }

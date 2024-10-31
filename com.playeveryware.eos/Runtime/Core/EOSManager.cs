@@ -57,6 +57,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
     using System.Collections.Generic;
     using System.Collections;
+    using System.Linq;
 
 #if !EOS_DISABLE
     using Epic.OnlineServices.Platform;
@@ -294,7 +295,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// Check if encryption key is EOS config is a valid 32-byte hex string.
             /// </summary>
             /// <returns></returns>
-            
+            [Obsolete]
             public bool IsEncryptionKeyValid()
             {
                 return Config.Get<EOSConfig>().IsEncryptionKeyValid();
@@ -436,7 +437,6 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 PlatformConfig platformConfig = Config.Get<PlatformConfig>();
                 ProductConfig productConfig = Config.Get<ProductConfig>();
-                EOSConfig oldConfig = Config.Get<EOSConfig>();
 
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
@@ -447,7 +447,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 print("InitializePlatformInterface: initOptions.GetType() = " + initOptions.GetType());
 
                 initOptions.options.ProductName = productConfig.ProductName;
-                initOptions.options.ProductVersion = oldConfig.productVersion;
+                initOptions.options.ProductVersion = productConfig.Version.ToString();
                 initOptions.options.OverrideThreadAffinity = platformConfig.threadAffinity.Unwrap();
 
                 initOptions.options.AllocateMemoryFunction = IntPtr.Zero;
@@ -620,11 +620,18 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (!string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
                 {
-                    Config.Get<EOSConfig>().SetDeployment(epicArgs.epicSandboxID);
+                    if (!PlatformManager.TryGetPlatformConfig(out PlatformConfig config))
+                    {
+                        Debug.LogError("Could not get platform specific configuration values.");
+                    }
+
+                    config.deployment = Config.Get<ProductConfig>().Environments.Deployments.First(
+                        named => string.Equals(named.Value.SandboxId.Value.Replace("-", "").ToLower(),
+                        epicArgs.epicSandboxID,
+                        StringComparison.OrdinalIgnoreCase)).Value;
                 }
 
                 Result initResult = InitializePlatformInterface();
-
 
                 if (initResult != Result.Success)
                 {

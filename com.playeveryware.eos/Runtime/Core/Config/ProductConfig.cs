@@ -26,14 +26,13 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
     using System.Collections.Generic;
     using Newtonsoft.Json;
-    using PlayEveryWare.Common;
     using UnityEngine;
 
     /// <summary>
     /// Contains information about the product entered by the user from the Epic
     /// Developer Portal.
     /// </summary>
-    [ConfigGroup("Product Configuration", new []{ "Product Information", "Deployment Configuration"}, false)]
+    [ConfigGroup("Product Configuration", new []{"", "Deployment Configuration"}, false)]
     public class ProductConfig : Config
     {
         /// <summary>
