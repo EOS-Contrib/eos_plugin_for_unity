@@ -24,8 +24,17 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
 
-    // Flags specifically for Linux
+    // Flags specifically for Linux. Note that labels for the baser
+    // PlatformConfig need to be specified here.
     [Serializable]
+    [ConfigGroup("Linux Config", new[]
+    {
+        "Linux-Specific Options",
+        "Deployment",
+        "Flags",
+        "Tick Budgets",
+        "Overlay Options"
+    }, false)]
     public class LinuxConfig : PlatformConfig
     {
         static LinuxConfig()
