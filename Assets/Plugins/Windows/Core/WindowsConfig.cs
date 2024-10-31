@@ -24,6 +24,7 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
 
+    // Flags specifically for Windows
     [Serializable]
     [ConfigGroup("Windows Config", new[]
     {

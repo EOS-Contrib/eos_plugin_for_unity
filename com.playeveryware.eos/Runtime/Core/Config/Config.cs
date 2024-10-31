@@ -54,7 +54,17 @@ namespace PlayEveryWare.EpicOnlineServices
         protected static IDictionary<Type, Config> s_cachedConfigs = 
             new Dictionary<Type, Config>();
 #endif
-        private static readonly Version SCHEMA_VERSION = new Version(1, 0);
+
+        /// <summary>
+        /// This is the _most recent_, and _current_ version of the JSON schema
+        /// that is utilized. In this context, "schema" does not mean an actual
+        /// JSON schema as defined by RFC 8927, but is used to mean, "the
+        /// version and structure of JSON that this plugin currently writes
+        /// configuration values in. If anything related to Config changes the
+        /// format or way it writes JSON, code should be added to migrate the
+        /// functionality, and this version should be incremented.
+        /// </summary>
+        private static readonly Version SCHEMA_VERSION = new(1, 0);
 
         /// <summary>
         /// Contains a registration that maps config type to the constructor, to
@@ -142,6 +152,27 @@ namespace PlayEveryWare.EpicOnlineServices
         protected virtual void MigrateConfig()
         {
             // Default implementation is to do nothing.
+        }
+
+        /// <summary>
+        /// This function checks to see if the JSON needs to be migrated.
+        /// </summary>
+        /// <returns>
+        /// True if the config needs to be migrated, false otherwise.
+        /// </returns>
+        private bool NeedsMigration()
+        {
+            if (schemaVersion != SCHEMA_VERSION)
+            {
+                Debug.LogWarning(
+                    $"Config file with schemaVersion " +
+                    $"\"{SCHEMA_VERSION}\" has been read into memory, and " +
+                    $"needs to be migrated to schemaVersion " +
+                    $"\"{SCHEMA_VERSION}\".");
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -245,7 +276,10 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
 
             // Call migration function.
-            instance.MigrateConfig();
+            if (instance.NeedsMigration())
+            {
+                instance.MigrateConfig();
+            }
 
             // Return the config being retrieved.
             return instance;
@@ -293,7 +327,10 @@ namespace PlayEveryWare.EpicOnlineServices
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
             // Call migration function.
-            instance.MigrateConfig();
+            if (instance.NeedsMigration())
+            {
+                instance.MigrateConfig();
+            }
 
             // Return the config being retrieved.
             return instance;
