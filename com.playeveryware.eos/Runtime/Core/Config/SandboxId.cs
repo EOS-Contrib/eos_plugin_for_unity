@@ -66,7 +66,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return _value == other._value;
         }
 
-        public override bool Equals(object obj)
+        public override readonly bool Equals(object obj)
         {
             return obj is SandboxId sandboxId && Equals(sandboxId);
         }
@@ -74,6 +74,11 @@ namespace PlayEveryWare.EpicOnlineServices
         public override readonly int GetHashCode()
         {
             return (_value?.GetHashCode()) ?? 0;
+        }
+
+        public override readonly string ToString()
+        {
+            return _value.Replace("-", "").ToLower();
         }
     }
 }

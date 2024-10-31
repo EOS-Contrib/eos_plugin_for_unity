@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
+    using Common.Extensions;
     using UnityEditor.Build.Reporting;
     using UnityEditor;
     using UnityEngine;
@@ -365,17 +366,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             string fileContents = reader.ReadToEnd();
             reader.Close();
 
-            EOSConfig eosConfig = Config.Get<EOSConfig>();
+            PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
+            ProductConfig productConfig = Config.Get<ProductConfig>();
 
             var sb = new System.Text.StringBuilder(fileContents);
 
             sb.Replace("<UnityProductName>", Application.productName);
             sb.Replace("<ExeName>", buildExeName);
             sb.Replace("<ExeNameNoExt>", Path.GetFileNameWithoutExtension(buildExeName));
-            sb.Replace("<ProductName>", eosConfig.productName);
-            sb.Replace("<ProductID>", eosConfig.productID);
-            sb.Replace("<SandboxID>", eosConfig.sandboxID);
-            sb.Replace("<DeploymentID>", eosConfig.deploymentID);
+            sb.Replace("<ProductName>", productConfig.ProductName);
+            sb.Replace("<ProductID>", productConfig.ProductId.ToStrippedString());
+            sb.Replace("<SandboxID>", platformConfig.deployment.SandboxId.Value.Replace("-", "").ToLower());
+            sb.Replace("<DeploymentID>", platformConfig.deployment.DeploymentId.ToStrippedString());
 
             fileContents = sb.ToString();
 
@@ -420,8 +422,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
                 if (!string.IsNullOrWhiteSpace(toolPath))
                 {
-                    var productId = (Config.Get<EOSConfig>()).productID;
-                    GenerateIntegrityCert(report, toolPath, productId,
+                    GenerateIntegrityCert(report, toolPath, Config.Get<ProductConfig>().ProductId.ToStrippedString(),
                         toolsConfig.pathToEACPrivateKey, toolsConfig.pathToEACCertificate, cfgPath);
                 }
             }

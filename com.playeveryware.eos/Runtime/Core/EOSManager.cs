@@ -435,7 +435,7 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private Result InitializePlatformInterface()
             {
-                PlatformConfig platformConfig = Config.Get<PlatformConfig>();
+                PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
                 ProductConfig productConfig = Config.Get<ProductConfig>();
 
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
@@ -468,12 +468,7 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private PlatformInterface CreatePlatformInterface()
             {
-                if (PlatformManager.TryGetPlatformConfig(out PlatformConfig configData))
-                {
-                    // TODO-URGENT: Have a better error message here that's more useful.
-                    Debug.LogError("Could not get platform config.");
-                    return null;
-                }
+                PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
 
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
@@ -481,8 +476,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 
                 platformOptions.options.CacheDirectory = platformSpecifics.GetTempDir();
-                platformOptions.options.IsServer = configData.isServer;
-                platformOptions.options.Flags = configData.platformOptionsFlags.Unwrap();
+                platformOptions.options.IsServer = platformConfig.isServer;
+                platformOptions.options.Flags = platformConfig.platformOptionsFlags.Unwrap();
 
                 // This compile conditional is here because if running in an editor context the 
                 // "LoadingInEditor" value should be added to the platform flags.
@@ -490,9 +485,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 platformOptions.options.Flags |= PlatformFlags.LoadingInEditor;
 #endif
 
-                if (configData.clientCredentials.IsEncryptionKeyValid())
+                if (platformConfig.clientCredentials.IsEncryptionKeyValid())
                 {
-                    platformOptions.options.EncryptionKey = configData.clientCredentials.EncryptionKey;
+                    platformOptions.options.EncryptionKey = platformConfig.clientCredentials.EncryptionKey;
                 }
                 else
                 {
@@ -507,19 +502,19 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 // TODO-URGENT: Determine if dashes are acceptable to include in these values when
                 //              passing them to the EOS SDK.
-                platformOptions.options.SandboxId = configData.deployment.SandboxId.Value.Replace("-", "").ToLower();
-                platformOptions.options.DeploymentId = configData.deployment.DeploymentId.ToStrippedString();
+                platformOptions.options.SandboxId = platformConfig.deployment.SandboxId.Value.Replace("-", "").ToLower();
+                platformOptions.options.DeploymentId = platformConfig.deployment.DeploymentId.ToStrippedString();
 
-                platformOptions.options.TickBudgetInMilliseconds = configData.tickBudgetInMilliseconds;
+                platformOptions.options.TickBudgetInMilliseconds = platformConfig.tickBudgetInMilliseconds;
 
                 // configData has to serialize to JSON, so it doesn't represent null
                 // If the value is <= 0, then set it to null, which the EOS SDK will handle by using default of 30 seconds.
-                platformOptions.options.TaskNetworkTimeoutSeconds = configData.taskNetworkTimeoutSeconds > 0 ? configData.taskNetworkTimeoutSeconds : null;
+                platformOptions.options.TaskNetworkTimeoutSeconds = platformConfig.taskNetworkTimeoutSeconds > 0 ? platformConfig.taskNetworkTimeoutSeconds : null;
 
                 var clientCredentials = new ClientCredentials
                 {
-                    ClientId = configData.clientCredentials.ClientId,
-                    ClientSecret = configData.clientCredentials.ClientSecret
+                    ClientId = platformConfig.clientCredentials.ClientId,
+                    ClientSecret = platformConfig.clientCredentials.ClientSecret
                 };
                 platformOptions.options.ClientCredentials = clientCredentials;
 
@@ -549,17 +544,12 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private void InitializeOverlay(IEOSCoroutineOwner coroutineOwner)
             {
-                if (!PlatformManager.TryGetPlatformConfig(out PlatformConfig config))
-                {
-                    // TODO-URGENT: Better error log.
-                    Debug.LogError("Cannot initialize overlay, platform config could not be retrieved.");
-                    return;
-                }
+                PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
 
                 // Sets the button for the bringing up the overlay
                 var friendToggle = new SetToggleFriendsButtonOptions
                 {
-                    ButtonCombination = config.toggleFriendsButtonCombination
+                    ButtonCombination = platformConfig.toggleFriendsButtonCombination
                 };
                 UIInterface uiInterface = Instance.GetEOSPlatformInterface().GetUIInterface();
                 uiInterface.SetToggleFriendsButton(ref friendToggle);
@@ -620,12 +610,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (!string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
                 {
-                    if (!PlatformManager.TryGetPlatformConfig(out PlatformConfig config))
-                    {
-                        Debug.LogError("Could not get platform specific configuration values.");
-                    }
+                    PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
 
-                    config.deployment = Config.Get<ProductConfig>().Environments.Deployments.First(
+                    platformConfig.deployment = Config.Get<ProductConfig>().Environments.Deployments.First(
                         named => string.Equals(named.Value.SandboxId.Value.Replace("-", "").ToLower(),
                         epicArgs.epicSandboxID,
                         StringComparison.OrdinalIgnoreCase)).Value;
@@ -857,13 +844,8 @@ namespace PlayEveryWare.EpicOnlineServices
             static private LoginOptions MakeLoginOptions(LoginCredentialType loginType,
                 ExternalCredentialType externalCredentialType, string id, string token)
             {
-                if (!PlatformManager.TryGetPlatformConfig(out PlatformConfig config))
-                {
-                    // TODO-URGENT: Better error log
-                    Debug.LogError("Could not retrieve platform config.");
-                    return default;
-                }
-
+                PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
+                
                 var loginCredentials = new Credentials
                 {
                     Type = loginType,
@@ -888,12 +870,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     scopeFlags = Config.Get<EOSConfig>().authScopeOptionsFlags;
                 }
+
                 */
 
                 return new LoginOptions
                 {
                     Credentials = loginCredentials,
-                    ScopeFlags = config.authScopeOptionsFlags
+                    ScopeFlags = platformConfig.authScopeOptionsFlags
                 };
             }
 
