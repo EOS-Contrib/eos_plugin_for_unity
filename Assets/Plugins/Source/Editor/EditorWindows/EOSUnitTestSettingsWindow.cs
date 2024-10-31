@@ -62,5 +62,4 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Editor
         }
     }
 }
-
 #endif
