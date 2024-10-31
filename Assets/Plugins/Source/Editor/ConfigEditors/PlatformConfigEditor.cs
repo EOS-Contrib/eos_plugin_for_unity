@@ -19,10 +19,12 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
+
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
     using System.Linq;
-    using UnityEditor;
     using UnityEngine;
     using Utility;
 
@@ -58,3 +60,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         }
     }
 }
+
+#endif
