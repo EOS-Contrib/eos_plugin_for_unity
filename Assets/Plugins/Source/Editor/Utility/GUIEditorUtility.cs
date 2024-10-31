@@ -253,24 +253,29 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         delegate object RenderInputDelegate(ConfigFieldAttribute attribute, object value, float labelWidth);
 
+#if !EOS_DISABLE
         static readonly Dictionary<Type, RenderInputDelegate> RenderInputMethods = new()
         {
             { typeof(Deployment), (attr, val, width) => RenderInput(attr, (Deployment)val, width) },
-            { typeof(EOSClientCredentials), (attr, val, width) => RenderInput(attr, (EOSClientCredentials)val, width) },
-            { typeof(SetOfNamed<EOSClientCredentials>), (attr, val, width) => RenderInput(attr, (SetOfNamed<EOSClientCredentials>)val, width) },
             { typeof(string), (attr, val, width) => RenderInput(attr, (string)val, width) },
             { typeof(ulong), (attr, val, width) => RenderInput(attr, (ulong)val, width) },
             { typeof(uint), (attr, val, width) => RenderInput(attr, (uint)val, width) },
             { typeof(ProductionEnvironments), (attr, val, width) => RenderInput(attr, (ProductionEnvironments)val, width) },
             { typeof(float), (attr, val, width) => RenderInput(attr, (float)val, width) },
             { typeof(double), (attr, val, width) => RenderInput(attr, (double)val, width) },
-            { typeof(WrappedInitializeThreadAffinity), (attr, val, width) => RenderInput(attr, (WrappedInitializeThreadAffinity)val, width) },
             { typeof(bool), (attr, val, width) => RenderInput(attr, (bool)val, width) },
             { typeof(Version), (attr, val, width) => RenderInput(attr, (Version)val, width) },
             { typeof(Guid), (attr, val, width) => RenderInput(attr, (Guid)val, width)},
-            // Add other specific types as needed
-        };
 
+            { typeof(EOSClientCredentials), (attr, val, width) => RenderInput(attr, (EOSClientCredentials)val, width) },
+            { typeof(SetOfNamed<EOSClientCredentials>), (attr, val, width) => RenderInput(attr, (SetOfNamed<EOSClientCredentials>)val, width) },
+            { typeof(WrappedInitializeThreadAffinity), (attr, val, width) => RenderInput(attr, (WrappedInitializeThreadAffinity)val, width) },
+
+        // Add other specific types as needed
+        };
+#endif
+
+#if !EOS_DISABLE
         static readonly Dictionary<ConfigFieldType, FieldHandler> FieldHandlers = new()
         {
             { ConfigFieldType.Text, HandleField<string> },
@@ -285,14 +290,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             { ConfigFieldType.Uint, HandleField<uint> },
             { ConfigFieldType.Float, HandleField<float> },
             { ConfigFieldType.ProductionEnvironments, HandleField<ProductionEnvironments> },
-            { ConfigFieldType.SetOfClientCredentials, HandleField<SetOfNamed<EOSClientCredentials>> },
             { ConfigFieldType.Version, HandleField<Version> },
             { ConfigFieldType.Deployment, HandleField<Deployment> },
-            { ConfigFieldType.ClientCredentials, HandleField<EOSClientCredentials> },
             { ConfigFieldType.Guid, HandleField<Guid> },
-            { ConfigFieldType.WrappedInitializeThreadAffinity, HandleField<WrappedInitializeThreadAffinity> },
             { ConfigFieldType.Button, HandleButtonField },
             { ConfigFieldType.Enum, HandleEnumField },
+
+            { ConfigFieldType.ClientCredentials, HandleField<EOSClientCredentials> },
+            { ConfigFieldType.WrappedInitializeThreadAffinity, HandleField<WrappedInitializeThreadAffinity> },
+            { ConfigFieldType.SetOfClientCredentials, HandleField<SetOfNamed<EOSClientCredentials>> },
+
             // Add other field types as needed
         };
 
@@ -300,39 +307,41 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         private static T RenderInput<T>(ConfigFieldAttribute attribute, T value, float labelWidth)
         {
-            if (typeof(T) == typeof(WrappedInitializeThreadAffinity))
+            if (typeof(T) != typeof(WrappedInitializeThreadAffinity))
             {
-                // Create a foldout label with a tooltip
-                GUIContent foldoutContent = new(attribute.Label, attribute.ToolTip);
+                return value;
+            }
 
-                if (!_foldoutStates.ContainsKey(attribute.GetHashCode()))
-                {
-                    _foldoutStates.Add(attribute.GetHashCode(), false);
-                }
+            // Create a foldout label with a tooltip
+            GUIContent foldoutContent = new(attribute.Label, attribute.ToolTip);
 
-                GUIStyle boldFoldoutStyle = new(EditorStyles.foldout)
-                {
-                    fontStyle = FontStyle.Bold
-                };
+            if (!_foldoutStates.ContainsKey(attribute.GetHashCode()))
+            {
+                _foldoutStates.Add(attribute.GetHashCode(), false);
+            }
 
-                if (!string.IsNullOrEmpty(attribute.HelpURL))
-                {
-                    EditorGUILayout.BeginHorizontal();
-                }
+            GUIStyle boldFoldoutStyle = new(EditorStyles.foldout)
+            {
+                fontStyle = FontStyle.Bold
+            };
 
-                _foldoutStates[attribute.GetHashCode()] = EditorGUILayout.Foldout(_foldoutStates[attribute.GetHashCode()], foldoutContent, true, boldFoldoutStyle);
+            if (!string.IsNullOrEmpty(attribute.HelpURL))
+            {
+                EditorGUILayout.BeginHorizontal();
+            }
 
-                if (!string.IsNullOrEmpty(attribute.HelpURL))
-                {
-                    GUILayout.FlexibleSpace();
-                    RenderHelpIcon(attribute.HelpURL);
-                    EditorGUILayout.EndHorizontal();
-                }
+            _foldoutStates[attribute.GetHashCode()] = EditorGUILayout.Foldout(_foldoutStates[attribute.GetHashCode()], foldoutContent, true, boldFoldoutStyle);
 
-                if (_foldoutStates[attribute.GetHashCode()])
-                {
-                    RenderInputs(ref value);
-                }
+            if (!string.IsNullOrEmpty(attribute.HelpURL))
+            {
+                GUILayout.FlexibleSpace();
+                RenderHelpIcon(attribute.HelpURL);
+                EditorGUILayout.EndHorizontal();
+            }
+
+            if (_foldoutStates[attribute.GetHashCode()])
+            {
+                RenderInputs(ref value);
             }
             return value;
         }
@@ -359,6 +368,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             setValue(target, newValue);
         }
+#endif
 
         static void HandleButtonField(
             object target,
@@ -406,6 +416,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUI.DrawRect(rect, Color.gray);  
         }
 
+#if !EOS_DISABLE
         /// <summary>
         /// Render the config fields for the config that has been set to edit.
         /// </summary>
@@ -505,6 +516,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 groupSpecified = false;
             }
         }
+#endif
 
         public static float MeasureLongestLabelWidth(List<string> labels)
         {
@@ -961,6 +973,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             );
         }
 
+#if !EOS_DISABLE
+
         private static SetOfNamed<EOSClientCredentials> RenderInput(ConfigFieldAttribute configFieldAttribute,
             SetOfNamed<EOSClientCredentials> value, float labelWidth)
         {
@@ -1029,6 +1043,45 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return clientCredentialsCopy;
         }
 
+        private static EOSClientCredentials RenderInput(ConfigFieldAttribute configFieldAttribute,
+            EOSClientCredentials value,
+            float labelWidth)
+        {
+            return InputRendererWithAlignedLabel(labelWidth, () =>
+            {
+                List<Named<EOSClientCredentials>> credentials = Config.Get<ProductConfig>().Clients.ToList();
+                List<string> credentialsLabels = new();
+                int selectedIndex = -1;
+                int currentIndex = 0;
+                foreach (Named<EOSClientCredentials> cred in credentials)
+                {
+                    if (cred.Value.Equals(value))
+                    {
+                        selectedIndex = currentIndex;
+                    }
+
+                    credentialsLabels.Add($"{cred.Name} : {cred.Value.ClientId}");
+
+                    currentIndex++;
+                }
+
+                int newIndex = EditorGUILayout.Popup(
+                    CreateGUIContent(configFieldAttribute.Label, configFieldAttribute.ToolTip),
+                    selectedIndex,
+                    credentialsLabels.ToArray());
+
+                return (newIndex >= 0 && newIndex < credentials.Count) ? credentials[newIndex].Value : value;
+            });
+        }
+        
+        public static WrappedInitializeThreadAffinity RenderInput(ConfigFieldAttribute attribute, WrappedInitializeThreadAffinity value)
+        {
+            EditorGUILayout.LabelField(CreateGUIContent(attribute.Label, attribute.ToolTip), new GUIStyle() { fontStyle = FontStyle.Bold });
+            RenderInputs(ref value);
+            return value;
+        }
+#endif
+
         private static Guid RenderInput(ConfigFieldAttribute configFieldDetails, Guid value, float labelWidth)
         {
             return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value,
@@ -1066,37 +1119,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             value ??= new();
             string tempStringVersion = EditorGUILayout.TextField(value.ToString(), options);
             return Version.TryParse(tempStringVersion, out Version newValue) ? newValue : value;
-        }
-
-        private static EOSClientCredentials RenderInput(ConfigFieldAttribute configFieldAttribute,
-            EOSClientCredentials value,
-            float labelWidth)
-        {
-            return InputRendererWithAlignedLabel(labelWidth, () =>
-            {
-                List<Named<EOSClientCredentials>> credentials = Config.Get<ProductConfig>().Clients.ToList();
-                List<string> credentialsLabels = new();
-                int selectedIndex = -1;
-                int currentIndex = 0;
-                foreach (Named<EOSClientCredentials> cred in credentials)
-                {
-                    if (cred.Value.Equals(value))
-                    {
-                        selectedIndex = currentIndex;
-                    }
-
-                    credentialsLabels.Add($"{cred.Name} : {cred.Value.ClientId}");
-
-                    currentIndex++;
-                }
-
-                int newIndex = EditorGUILayout.Popup(
-                    CreateGUIContent(configFieldAttribute.Label, configFieldAttribute.ToolTip),
-                    selectedIndex,
-                    credentialsLabels.ToArray());
-
-                return (newIndex >= 0 && newIndex < credentials.Count) ? credentials[newIndex].Value : value;
-            });
         }
 
         private static Deployment RenderInput(ConfigFieldAttribute configFieldAttribute, Deployment value, float labelWidth)
@@ -1145,13 +1167,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         public static Version RenderInput(Version value, string label, string tooltip, float labelWidth)
         {
             return InputRendererWrapper(label, tooltip, labelWidth, value, VersionField);
-        }
-
-        public static WrappedInitializeThreadAffinity RenderInput(ConfigFieldAttribute attribute, WrappedInitializeThreadAffinity value)
-        {
-            EditorGUILayout.LabelField(CreateGUIContent(attribute.Label, attribute.ToolTip), new GUIStyle() {fontStyle = FontStyle.Bold});
-            RenderInputs(ref value);
-            return value;
         }
 
         public static ProductionEnvironments RenderInput(ConfigFieldAttribute configFieldAttribute,
@@ -1358,6 +1373,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             });
         }
 
-        #endregion
+#endregion
     }
 }

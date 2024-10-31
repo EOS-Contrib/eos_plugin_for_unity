@@ -21,9 +21,9 @@
  */
 
 // Uncomment the following line to see the experimental new config window
-#define ENABLE_NEW_CONFIG_WINDOW
 
-#if ENABLE_NEW_CONFIG_WINDOW
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     using System;
@@ -139,4 +139,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         }
     }
 }
+
 #endif
