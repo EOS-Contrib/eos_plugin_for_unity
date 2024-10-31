@@ -53,6 +53,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         private GUIContent[] _platformTabs;
         private int _selectedTab = 0;
 
+        private static GUIStyle _platformTabsStyle;
+
+        private static GUIStyle TAB_STYLE => _platformTabsStyle ??= new(GUI.skin.button)
+        {
+            fontSize = 14,
+            padding = new RectOffset(10, 10, 10, 10),
+            alignment = TextAnchor.MiddleCenter,
+            fixedHeight = 40
+        };
+
         public NewConfigWindow() : base("EOS Configuration") { }
 
         [MenuItem("EOS Plugin/[Experimental] New Config")]
@@ -99,19 +109,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override void RenderWindow()
         {
-
-            GUIStyle tabStyle = new(GUI.skin.button)
-            {
-                fontSize = 14, padding = new RectOffset(10, 10, 10, 10), alignment = TextAnchor.MiddleCenter,
-                fixedHeight = 40
-            };
-
             // Render the generic product configuration stuff.
             _ = _productConfigEditor.RenderAsync();
 
             if (_platformTabs != null && _platformConfigEditors.Count != 0)
             {
-                _selectedTab = GUILayout.Toolbar(_selectedTab, _platformTabs, tabStyle);
+                _selectedTab = GUILayout.Toolbar(_selectedTab, _platformTabs, TAB_STYLE);
                 GUILayout.Space(30);
 
                 _ = _platformConfigEditors[_selectedTab].RenderAsync();
