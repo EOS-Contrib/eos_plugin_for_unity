@@ -24,8 +24,8 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Common;
     using Epic.OnlineServices.Platform;
-    using Extensions;
 
     public class WrappedInitializeThreadAffinity : Wrapped<InitializeThreadAffinity>
     {

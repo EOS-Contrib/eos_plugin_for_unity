@@ -40,7 +40,6 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Represents a set of configuration data for use by the EOS Plugin for
     /// Unity
     /// </summary>
-    [Serializable]
     public abstract class Config
 #if UNITY_EDITOR
         : ICloneable

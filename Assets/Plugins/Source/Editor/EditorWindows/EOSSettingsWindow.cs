@@ -50,11 +50,25 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// </summary>
         private readonly IList<IConfigEditor> _platformConfigEditors = new List<IConfigEditor>();
 
+        /// <summary>
+        /// Contains the GUIContent that represents the set of tabs that contain
+        /// platform icons and platform text (this is not the tab _content_).
+        /// </summary>
         private GUIContent[] _platformTabs;
-        private int _selectedTab = 0;
 
+        /// <summary>
+        /// The tab that is currently selected.
+        /// </summary>
+        private int _selectedTab = -1;
+
+        /// <summary>
+        /// The style to apply to the platform tabs.
+        /// </summary>
         private static GUIStyle _platformTabsStyle;
 
+        /// <summary>
+        /// The style to apply to the platform tabs, uses lazy initialization.
+        /// </summary>
         private static GUIStyle TAB_STYLE => _platformTabsStyle ??= new(GUI.skin.button)
         {
             fontSize = 14,
@@ -77,8 +91,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             await _productConfigEditor.LoadAsync();
 
             List<GUIContent> tabContents = new();
+            int tabIndex = 0;
             foreach (PlatformManager.Platform platform in Enum.GetValues(typeof(PlatformManager.Platform)))
             {
+                // This makes sure that the currently selected tab (upon first loading the window) is always the current platform.
+                if (_selectedTab != -1 || platform == PlatformManager.CurrentPlatform)
+                {
+                    _selectedTab = tabIndex;
+                }
+
                 if (!PlatformManager.TryGetConfigType(platform, out Type configType) || null == configType)
                 {
                     continue;
@@ -102,6 +123,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 _platformConfigEditors.Add(editor);
 
                 tabContents.Add(new GUIContent($" {editor.GetLabelText()}", editor.GetPlatformIconTexture()));
+                tabIndex++;
+            }
+
+            // If (for some reason) a default platform was not selected, then
+            // default to the first tab being selected
+            if (_selectedTab == -1)
+            {
+                _selectedTab = 0;
             }
 
             _platformTabs = tabContents.ToArray();
@@ -130,8 +159,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         private async void Save()
         {
+            // Save the product config editor
             await _productConfigEditor.Save();
 
+            // Save each of the platform config editors.
             foreach (IConfigEditor editor in _platformConfigEditors)
             {
                 await editor.Save();

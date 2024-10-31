@@ -25,7 +25,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
 
     // Flags specifically for macOS
-    [Serializable]
     [ConfigGroup("MacOS Config", new[]
     {
         "MacOS-Specific Options",
