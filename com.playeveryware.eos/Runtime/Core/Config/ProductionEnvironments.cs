@@ -23,7 +23,6 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Common;
-    using PlayEveryWare.Common;
 
     /// <summary>
     /// This class contains information about the set of deployments and

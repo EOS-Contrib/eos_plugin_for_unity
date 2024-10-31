@@ -397,6 +397,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             Action<object, object> setValue,
             float labelWidth);
 
+        public static void RenderSectionHeader(string label)
+        {
+            GUILayout.Label(label.ToUpper(), EditorStyles.boldLabel);
+            GUIStyle thinSeparator = new GUIStyle(GUI.skin.horizontalSlider);
+            thinSeparator.fixedHeight = 1;  // Set the line thickness
+            thinSeparator.margin = new RectOffset(0, 0, 2, 2);  // Set minimal spacing above/below the line
+
+            Rect rect = EditorGUILayout.GetControlRect(false, 1);  // Set the height to 1 pixel
+            EditorGUI.DrawRect(rect, Color.gray);  
+        }
+
         /// <summary>
         /// Render the config fields for the config that has been set to edit.
         /// </summary>
@@ -411,15 +422,38 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             string[] groupLabels = typeof(T).GetCustomAttribute<ConfigGroupAttribute>()?.GroupLabels;
 
+            bool groupSpecified = false;
             foreach (var fieldGroup in GetMembersByGroup<T>().ToList())
             {
                 List<string> labelsInGroup = fieldGroup.Select(field => field.FieldDetails.Label).ToList();
                 float labelWidth = MeasureLongestLabelWidth(labelsInGroup);
 
-                // If there is a label for the field group, then display it.
-                if (0 <= fieldGroup.Key && groupLabels?.Length > fieldGroup.Key)
+                // Check to see if there is at least a single value within the 
+                // field group that should be enabled, if so then skip checking
+                // the others and continue.
+                bool sectionEnabled = false;
+                foreach (var member in fieldGroup)
                 {
-                    GUILayout.Label(groupLabels[fieldGroup.Key], EditorStyles.boldLabel);
+                    if (value is not PlatformConfig platformConfig ||
+                        (member.FieldDetails.PlatformsEnabledOn & platformConfig.Platform) != 0)
+                    {
+                        sectionEnabled = true;
+                        break;
+                    }
+                }
+
+                GUI.enabled = sectionEnabled;
+
+                // If there is a label for the field group, then display it.
+                if (0 <= fieldGroup.Key && groupLabels?.Length > fieldGroup.Key && !string.IsNullOrEmpty(groupLabels[fieldGroup.Key]))
+                {
+                    RenderSectionHeader(groupLabels[fieldGroup.Key]);
+                    groupSpecified = true;
+                }
+
+                if (groupSpecified)
+                {
+                    EditorGUILayout.BeginVertical("box");
                 }
 
                 foreach (var member in fieldGroup)
@@ -464,6 +498,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
                     GUI.enabled = true;
                 }
+
+                if (groupSpecified)
+                {
+                    EditorGUILayout.EndVertical();
+                }
+                EditorGUILayout.Space(5);
+                groupSpecified = false;
             }
         }
 
@@ -927,8 +968,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             SetOfNamed<EOSClientCredentials> clientCredentialsCopy = value;
 
-            EditorGUILayout.Space();
-
             RenderSetOfNamed(
                 "Clients",
                 "Enter your client information here as it appears in the Epic Dev Portal.",
@@ -938,7 +977,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 {
                     float remainingWidth = rect.width;
                     float firstFieldWidth = (rect.width - 5f) * 0.18f;
-                    float middleFieldWidth = (rect.width - 5f) * 0.34f;
 
                     if (nameAsLabel)
                     {
@@ -1122,8 +1160,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             ProductionEnvironments value, float labelWidth)
         {
             value ??= new();
-
-            EditorGUILayout.Space();
 
             // Render the list of sandboxes
             RenderSandboxInputs(ref value);

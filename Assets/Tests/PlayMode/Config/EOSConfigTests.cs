@@ -28,10 +28,9 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using static PlayEveryWare.EpicOnlineServices.EOSConfig;
     using Config = EpicOnlineServices.Config;
     // TODO-URGENT: Remove
-#pragma warning disable CS0612 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
     public class EOSConfigTests
     {
         [Test]
@@ -347,5 +346,5 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             return false;
         }
     }
-#pragma warning restore CS0612 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
 }
