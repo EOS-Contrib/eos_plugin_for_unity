@@ -77,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Client Credentials",
             ConfigFieldType.SetOfClientCredentials,
             "Enter the client credentials you have defined in the " +
-            "Epic Dev Portal.")]
+            "Epic Dev Portal.", 1)]
         public SetOfNamed<EOSClientCredentials> Clients = new("Client");
 
         /// <summary>
@@ -86,9 +86,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// match the deployment indicated by the platform config.
         /// </summary>
         [ConfigField("Production Environments",
-            ConfigFieldType.ProductionEnvironments, 
+            ConfigFieldType.ProductionEnvironments,
             "Enter the details of your deployment and sandboxes as they " +
-            "exist within the Epic Dev Portal.")]
+            "exist within the Epic Dev Portal.", 1)]
         public ProductionEnvironments Environments;
 
         [JsonProperty]

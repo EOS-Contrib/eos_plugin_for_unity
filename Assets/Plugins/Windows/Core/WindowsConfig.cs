@@ -26,6 +26,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
     // Flags specifically for Windows
     [Serializable]
+    [ConfigGroup("Windows Config", new[]
+    {
+        "Windows-Specific Options",
+        "Deployment",
+        "Flags",
+        "Tick Budgets",
+        "Overlay Options"
+    }, false)]
     public class WindowsConfig : PlatformConfig
     {
         static WindowsConfig()
