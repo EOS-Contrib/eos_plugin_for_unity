@@ -182,7 +182,6 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Encryption Key", ConfigFieldType.Text,
             "Encryption key to use for client authentication.",
             2)]
-        [Obsolete]
         public string encryptionKey;
 
         /// <summary>
