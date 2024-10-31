@@ -24,16 +24,16 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
-    using System.Collections.Generic;
-    using UnityEngine;
-    using System.IO;
-    using System;
-    using System.Text.RegularExpressions;
     using Common.Extensions;
     using Editor.Build;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
+    using UnityEngine;
 
     internal class PackageFileUtility
     {
