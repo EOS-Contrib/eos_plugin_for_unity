@@ -20,20 +20,18 @@
 * SOFTWARE.
 */
 
-using System;
-using System.IO;
-using UnityEditor;
-using UnityEngine;
-using System.Collections.Generic;
+#if !EOS_DISABLE
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using System;
+    using System.IO;
+    using UnityEditor;
+    using UnityEngine;
+    using System.Collections.Generic;
     using Config;
     using System.Linq;
     using System.Threading.Tasks;
-    using UnityEditor.AnimatedValues;
-    using Utility;
-    using Config = EpicOnlineServices.Config;
 
     /// <summary>
     /// Creates the view for showing the eos plugin editor config values.
@@ -165,3 +163,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         }
     }
 }
+
+#endif
