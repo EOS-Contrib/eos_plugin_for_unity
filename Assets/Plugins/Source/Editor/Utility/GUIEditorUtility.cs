@@ -23,9 +23,7 @@
 namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
     using Common;
-    using Epic.OnlineServices.Platform;
     using EpicOnlineServices.Utility;
-    using PlayEveryWare.Common;
     using System;
     using System.Collections.Generic;
     using System.Globalization;

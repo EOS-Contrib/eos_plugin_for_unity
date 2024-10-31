@@ -32,6 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
     using UnityEngine;
     using Utility;
+    using UnityEditor.Experimental.GraphView;
 
     public static class PlatformManager
     {
@@ -84,7 +85,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public static Platform CurrentPlatform
         {
-            get { return s_CurrentPlatform; }
+            get
+            {
+                return s_CurrentPlatform;
+            }
             set
             {
                 // This is to ensure that the platform is only ever determined once
@@ -118,6 +122,12 @@ namespace PlayEveryWare.EpicOnlineServices
             //// AddPlatformInfo(Platform.Windows,     "Windows",         "eos_windows_config.json", typeof(EOSWindowsConfig), ".dll");
             //// For the time being, this is the entry for the Windows platform
             AddPlatformInfo(Platform.Windows,     "Windows", "eos_windows_config.json", typeof(WindowsConfig), "Standalone");
+
+            // Set the current platform that is being built against
+            if (TryGetPlatform(EditorUserBuildSettings.activeBuildTarget, out Platform platform))
+            {
+                CurrentPlatform = platform;
+            }
         }
 
         public static void SetPlatformDetails(Platform platform, Type configType, string dynamicLibraryExtension)
@@ -205,19 +215,25 @@ namespace PlayEveryWare.EpicOnlineServices
             return GetConfigType(PlatformManager.CurrentPlatform);
         }
 
-        public static bool TryGetPlatformConfig(out PlatformConfig config)
+        public static PlatformConfig GetPlatformConfig()
         {
+            PlatformConfig config = null;
+
             MethodInfo methodInfo = typeof(Config).GetMethod("Get");
             MethodInfo genericMethod = methodInfo?.MakeGenericMethod(GetConfigType());
 
             if (genericMethod != null)
             {
                 config = (PlatformConfig)genericMethod.Invoke(null, null);
-                return true;
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    $"Could not retrieve platform-specific " +
+                    $"configuration values for platform \"{PlatformManager.CurrentPlatform}\".");
             }
 
-            config = null;
-            return false;
+            return config;
         }
 
         /// <summary>

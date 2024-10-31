@@ -69,12 +69,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 return;
             }
 
-            // Set the current platform that is being built against
-            if (PlatformManager.TryGetPlatform(report.summary.platform, out PlatformManager.Platform platform))
-            {
-                PlatformManager.CurrentPlatform = platform;
-            }
-
             // Run the static builder's prebuild.
             s_builder?.PreBuild(report);
 
