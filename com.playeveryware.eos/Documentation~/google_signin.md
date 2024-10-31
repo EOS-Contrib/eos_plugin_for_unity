@@ -5,16 +5,18 @@
 
 ## Overview
 
-This document describes how to enable Google ID authentication in conjunction with Epic Online Services Plugin for Unity.  
-We followed [Authenticate users with Sign in with Google](https://developer.android.com/identity/sign-in/credential-manager-siwg) and implemented a plugin for the users to easily achieve the feature.
+This document describes how to enable Connect Login with GoogleID in conjunction with Epic Online Services Plugin for Unity.  
+We followed [Authenticate users with Sign in with Google](https://developer.android.com/identity/sign-in/credential-manager-siwg) and implemented some scripts for the users to easily achieve the feature.
 
 ## Setup
 
 ### Plugins
+
 The feature is included in our samples, so no external plugin is needed.
 
 ### Build Settings
-To allow the feature, follow the build configuration step below. 
+
+To enable the feature, follow the build configuration step below. 
 Add the following in the dependencies of the project's main gradle file. (The default is `mainTemplate.gradle`) 
 ```
         implementation 'androidx.credentials:credentials-play-services-auth:1.3.0'
@@ -23,9 +25,12 @@ Add the following in the dependencies of the project's main gradle file. (The de
 ```
 
 ### Configurations
-Configurate `GoogleLoginClientID` and optionally`GoogleLoginNonce` in `AndroidConfig`.   
+
+Configure `GoogleLoginClientID` and optionally `GoogleLoginNonce` in `AndroidConfig`.   
+
 The `GoogleLoginClientID` could be found from `https://console.cloud.google.com/apis/`.  
 Follow [Set up your Google APIs console project](https://developer.android.com/identity/sign-in/credential-manager-siwg#set-google) to set up your project.  
+
 > [!IMPORTANT]
 > Make sure `GoogleLoginClientID` uses the ClientID of the Web Application type.
 
@@ -33,7 +38,7 @@ Follow [Set up your Google APIs console project](https://developer.android.com/i
 
 ### Sample Sign In Scripts
 
-Here are some sample scripts tested in EOS-Unity-Plugin
+Here are some sample scripts tested in PlayEveryWare EOS Unity Plugin
 
 Starting with the java calls of google APIs
 
@@ -139,6 +144,7 @@ public class login extends Activity
 ```
 
 Next we create the C# wrappers that calls the java code, and use `AndroidJavaProxy` to implement the login callbacks in C# instead of java
+
 ```cs
 using UnityEngine;
 
@@ -224,6 +230,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 ```
 
 Finally the method that triggers the login process.
+Example from PlayEveryWare EOS Unity Plugin's `UILoginMenu.cs`
+
 ```cs
         private void ConnectGoogleId()
         {
