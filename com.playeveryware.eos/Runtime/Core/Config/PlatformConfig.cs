@@ -75,13 +75,15 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Deployment", ConfigFieldType.Deployment, "Select the deployment to use.", 1)]
         public Deployment deployment;
 
+#if !EOS_DISABLE
         [ConfigField("Client Credentials", ConfigFieldType.ClientCredentials, "Select client credentials to use.", 1)]
         public EOSClientCredentials clientCredentials;
+#endif
 
         [ConfigField("Is Server", ConfigFieldType.Flag, "Check this if your game is a dedicated game server.", 1)]
         public bool isServer;
 
-        #endregion
+#endregion
 
         #region Flags
 
@@ -165,7 +167,7 @@ namespace PlayEveryWare.EpicOnlineServices
             3, "https://dev.epicgames.com/docs/api-ref/structs/eos-initialize-thread-affinity")]
         public WrappedInitializeThreadAffinity threadAffinity;
 #endif
-        #endregion
+#endregion
 
         #region Overlay Options
 
@@ -232,13 +234,6 @@ namespace PlayEveryWare.EpicOnlineServices
         #endregion
 
         /// <summary>
-        /// Used to keep track of whether values have been moved from the
-        /// deprecated overrideValues field member.
-        /// </summary>
-        [JsonProperty]
-        private bool _configValuesMigrated = false;
-
-        /// <summary>
         /// Create a PlatformConfig by defining the platform it pertains to.
         /// </summary>
         /// <param name="platform">
@@ -250,7 +245,15 @@ namespace PlayEveryWare.EpicOnlineServices
             Platform = platform;
         }
 
+#if !EOS_DISABLE
         #region Logic for Migrating Override Values from Previous Structure
+
+        /// <summary>
+        /// Used to keep track of whether values have been moved from the
+        /// deprecated overrideValues field member.
+        /// </summary>
+        [JsonProperty]
+        private bool _configValuesMigrated = false;
 
         // This warning is disabled because it is necessary to reference
         // obsolete values for the sake of backwards compatibility.
@@ -512,5 +515,7 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 #pragma warning restore CS0612 // Type or member is obsolete
         #endregion
+
+#endif
     }
 }

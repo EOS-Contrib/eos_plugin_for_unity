@@ -20,14 +20,15 @@
 * SOFTWARE.
 */
 
-using System;
-using System.IO;
-using UnityEditor;
-using UnityEngine;
-using System.Collections.Generic;
+#if !EOS_DISABLE
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using System;
+    using System.IO;
+    using UnityEditor;
+    using UnityEngine;
+    using System.Collections.Generic;
     using Config;
     using System.Linq;
     using System.Threading.Tasks;
@@ -165,3 +166,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         }
     }
 }
+
+#endif

@@ -61,6 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices
             0)]
         public Version Version;
 
+#if !EOS_DISABLE
         /// <summary>
         /// The set of Clients as defined within the Epic Developer Portal. For
         /// EOS to function, at least one of these must be set, and the
@@ -73,6 +74,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "Enter the client credentials you have defined in the " +
             "Epic Dev Portal.", 1)]
         public SetOfNamed<EOSClientCredentials> Clients = new("Client");
+#endif
 
         /// <summary>
         /// The set of Sandboxes as defined within the Epic Developer Portal.
@@ -136,9 +138,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private void MigrateClientCredentials(PreviousEOSConfig config)
         {
+#if !EOS_DISABLE
             // Import the old config client stuff
             Clients.Add(new EOSClientCredentials(config.clientID, config.clientSecret,
                 config.encryptionKey));
+#endif
         }
 
         private void MigrateSandboxAndDeployment(PreviousEOSConfig config)
@@ -206,7 +210,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         }
 
-        #endregion
+#endregion
 
     }
 }

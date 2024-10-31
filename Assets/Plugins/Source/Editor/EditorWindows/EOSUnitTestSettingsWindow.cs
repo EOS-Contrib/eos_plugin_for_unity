@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Tests.Editor
 {
     using EpicOnlineServices.Editor;
@@ -60,3 +62,5 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Editor
         }
     }
 }
+
+#endif
