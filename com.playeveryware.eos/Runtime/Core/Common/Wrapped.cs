@@ -8,8 +8,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,12 +20,26 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Extensions
+namespace PlayEveryWare.Common
 {
+
+    /// <summary>
+    /// Provides functionality for a class that can wrap a struct value type.
+    /// </summary>
+    /// <typeparam name="T">
+    /// A struct type to wrap in a reference type.
+    /// </typeparam>
     public abstract class Wrapped<T> where T : struct
     {
+        /// <summary>
+        /// The underlying value that is being wrapped.
+        /// </summary>
         protected T _value;
 
+        /// <summary>
+        /// Return the wrapped value.
+        /// </summary>
+        /// <returns>The value that is wrapped by this reference.</returns>
         public T Unwrap()
         {
             return _value;
