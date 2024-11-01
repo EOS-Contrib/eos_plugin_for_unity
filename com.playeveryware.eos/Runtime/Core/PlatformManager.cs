@@ -32,7 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
     using UnityEngine;
     using Utility;
-    using UnityEditor.Experimental.GraphView;
+    using System.Reflection;
 
     public static class PlatformManager
     {
@@ -124,7 +124,11 @@ namespace PlayEveryWare.EpicOnlineServices
             AddPlatformInfo(Platform.Windows,     "Windows", "eos_windows_config.json", typeof(WindowsConfig), "Standalone");
 
             // Set the current platform that is being built against
+#if UNITY_EDITOR
             if (TryGetPlatform(EditorUserBuildSettings.activeBuildTarget, out Platform platform))
+#else
+            if(TryGetPlatform(Application.platform, out Platform platform))
+#endif
             {
                 CurrentPlatform = platform;
             }
@@ -147,10 +151,118 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     FullName = fullName,
                     ConfigFileName = configFileName,
-                    PlatformIconLabel = iconLabel, 
+                    PlatformIconLabel = iconLabel,
                     ConfigType = configType,
                 }));
         }
+
+        public static PlatformConfig GetPlatformConfig()
+        {
+            PlatformConfig config = null;
+
+            MethodInfo methodInfo = typeof(Config).GetMethod("Get");
+            MethodInfo genericMethod = methodInfo?.MakeGenericMethod(GetConfigType());
+
+            if (genericMethod != null)
+            {
+                config = (PlatformConfig)genericMethod.Invoke(null, null);
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    $"Could not retrieve platform-specific " +
+                    $"configuration values for platform \"{PlatformManager.CurrentPlatform}\".");
+            }
+
+            return config;
+        }
+
+        /// <summary>
+        /// Get the config type for the current platform.
+        /// </summary>
+        /// <returns>The config type for the current platform.</returns>
+        public static Type GetConfigType()
+        {
+            return GetConfigType(PlatformManager.CurrentPlatform);
+        }
+
+        /// <summary>
+        /// Returns the type of the PlatformConfig that holds configuration values for the indicated Platform.
+        /// </summary>
+        /// <param name="platform">The Platform to get the specific PlatformConfig type of.</param>
+        /// <returns>Type of the specific PlatformConfig that represents the indicated Platform.</returns>
+        public static Type GetConfigType(Platform platform)
+        {
+            return PlatformInformation[platform].ConfigType;
+        }
+
+        public static bool TryGetConfigType(Platform platform, out Type configType)
+        {
+            configType = null;
+
+            bool typeFound = PlatformInformation.TryGetValue(platform, out PlatformInfo value);
+
+            if (typeFound)
+            {
+                configType = value.ConfigType;
+            }
+
+            
+            return typeFound;
+        }
+
+        public static bool TryGetPlatform(RuntimePlatform runtime, out Platform platform)
+        {
+            switch (runtime)
+            {
+                case RuntimePlatform.Android:
+                    platform = Platform.Android;
+                    break;
+                case RuntimePlatform.IPhonePlayer:
+                    platform = Platform.iOS;
+                    break;
+                case RuntimePlatform.PS4:
+                    platform = Platform.PS4;
+                    break;
+                case RuntimePlatform.GameCoreXboxOne:
+                case RuntimePlatform.XboxOne:
+                    platform = Platform.XboxOne;
+                    break;
+                case RuntimePlatform.Switch:
+                    platform = Platform.Switch;
+                    break;
+                case RuntimePlatform.GameCoreXboxSeries:
+                    platform = Platform.XboxSeriesX;
+                    break;
+                case RuntimePlatform.PS5:
+                    platform = Platform.PS5;
+                    break;
+                case RuntimePlatform.LinuxPlayer:
+                case RuntimePlatform.LinuxEditor:
+                case RuntimePlatform.EmbeddedLinuxX64:
+                case RuntimePlatform.EmbeddedLinuxX86:
+                case RuntimePlatform.LinuxServer:
+                    platform = Platform.Linux;
+                    break;
+                case RuntimePlatform.WindowsServer:
+                case RuntimePlatform.WindowsPlayer:
+                case RuntimePlatform.WindowsEditor:
+                    platform = Platform.Windows;
+                    break;
+                case RuntimePlatform.OSXEditor:
+                case RuntimePlatform.OSXPlayer:
+                case RuntimePlatform.OSXServer:
+                    platform = Platform.macOS;
+                    break;
+                default:
+                    platform = Platform.Unknown;
+                    break;
+            }
+
+            return platform == Platform.Unknown;
+
+        }
+
 
 #if UNITY_EDITOR
         /// <summary>
@@ -204,60 +316,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public static bool TryGetPlatform(BuildTarget target, out Platform platform)
         {
             return TargetToPlatformsMap.TryGetValue(target, out platform);
-        }
-
-        /// <summary>
-        /// Get the config type for the current platform.
-        /// </summary>
-        /// <returns>The config type for the current platform.</returns>
-        public static Type GetConfigType()
-        {
-            return GetConfigType(PlatformManager.CurrentPlatform);
-        }
-
-        public static PlatformConfig GetPlatformConfig()
-        {
-            PlatformConfig config = null;
-
-            MethodInfo methodInfo = typeof(Config).GetMethod("Get");
-            MethodInfo genericMethod = methodInfo?.MakeGenericMethod(GetConfigType());
-
-            if (genericMethod != null)
-            {
-                config = (PlatformConfig)genericMethod.Invoke(null, null);
-            }
-            else
-            {
-                throw new InvalidOperationException(
-                    $"Could not retrieve platform-specific " +
-                    $"configuration values for platform \"{PlatformManager.CurrentPlatform}\".");
-            }
-
-            return config;
-        }
-
-        /// <summary>
-        /// Returns the type of the PlatformConfig that holds configuration values for the indicated Platform.
-        /// </summary>
-        /// <param name="platform">The Platform to get the specific PlatformConfig type of.</param>
-        /// <returns>Type of the specific PlatformConfig that represents the indicated Platform.</returns>
-        public static Type GetConfigType(Platform platform)
-        {
-            return PlatformInformation[platform].ConfigType;
-        }
-
-        public static bool TryGetConfigType(Platform platform, out Type configType)
-        {
-            configType = null;
-
-            bool typeFound = PlatformInformation.TryGetValue(platform, out PlatformInfo value);
-
-            if (typeFound)
-            {
-                configType = value.ConfigType;
-            }
-
-            return typeFound;
         }
 
         /// <summary>

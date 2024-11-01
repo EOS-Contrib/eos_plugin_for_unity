@@ -117,13 +117,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 // Do not add the platform if it is not currently available.
                 if (!editor.IsPlatformAvailable())
                 {
+                    // We only increment the tab index if the editor has been
+                    // added to the tabs.
+                    tabIndex++;
                     continue;
                 }
 
                 _platformConfigEditors.Add(editor);
 
                 tabContents.Add(new GUIContent($" {editor.GetLabelText()}", editor.GetPlatformIconTexture()));
-                tabIndex++;
+                
             }
 
             // If (for some reason) a default platform was not selected, then
@@ -138,6 +141,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override void RenderWindow()
         {
+            if (_selectedTab < 0)
+            {
+                _selectedTab = 0;
+            }
+
             // Render the generic product configuration stuff.
             _ = _productConfigEditor.RenderAsync();
 
