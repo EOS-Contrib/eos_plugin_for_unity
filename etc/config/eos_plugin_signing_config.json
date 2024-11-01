@@ -1,7 +1,8 @@
 {
-    "pathToSignTool": "",
-    "pathToPFX": "",
-    "pfxPassword": "",
-    "timestampURL": "",
-    "dllPaths": []
+  "pathToSignTool": "",
+  "pathToPFX": "",
+  "pfxPassword": "",
+  "timestampURL": "",
+  "dllPaths": [],
+  "schemaVersion": "1.0"
 }

@@ -1,5 +1,6 @@
 {
-    "msbuildPath": "",
-    "makePath": "",
-    "msbuildDebug": false
+  "msbuildPath": "",
+  "makePath": "",
+  "msbuildDebug": false,
+  "schemaVersion": "1.0"
 }
