@@ -25,6 +25,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
     using System.Collections.Generic;
     using Editor.Utility;
+    using Epic.OnlineServices.IntegratedPlatform;
     using Newtonsoft.Json;
     using Utility;
 
@@ -33,8 +34,16 @@ namespace PlayEveryWare.EpicOnlineServices
     //       to properly reference the correct file where appropriate.
     public class SteamConfig : EpicOnlineServices.Config
     {
-        [ConfigField("Steam Flags", ConfigFieldType.TextList)]
-        public List<string> flags;
+        /// <summary>
+        /// Used to store integrated platform management flags.
+        /// </summary>
+        [ConfigField("Integrated Platform Management Flags",
+            ConfigFieldType.Enum, "Integrated Platform Management " +
+                                  "Flags for platform specific options.",
+            2, "https://dev.epicgames.com/docs/api-ref/enums/eos-e-integrated-platform-management-flags")]
+        [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
+        [JsonProperty("flags")] // Allow deserialization from old field member.
+        public IntegratedPlatformManagementFlags integratedPlatformManagementFlags;
 
         #region These fields are referenced by the native code 
 
@@ -76,8 +85,5 @@ namespace PlayEveryWare.EpicOnlineServices
                 steamApiInterfaceVersionsArray = SteamworksUtility.GetSteamInterfaceVersions();
             };
         }
-
-
     }
 }
-
