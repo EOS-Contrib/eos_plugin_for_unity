@@ -1,6 +1,8 @@
 {
-    "flags": [],
-    "overrideLibraryPath": "",
-    "steamSDKMajorVersion": 0,
-    "steamSDKMinorVersion": 0
+  "flags": [],
+  "overrideLibraryPath": "",
+  "steamSDKMajorVersion": 0,
+  "steamSDKMinorVersion": 0,
+  "steamApiInterfaceVersionsArray": [],
+  "schemaVersion": "1.0"
 }

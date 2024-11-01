@@ -52,7 +52,7 @@
 
 #include "eos_sdk.h"
 #include "eos_logging.h"
-
+#include "config.h"
 #include "json.h"
 
 // This define exists because UWP
@@ -83,7 +83,8 @@
 #define SDK_DLL_NAME "EOSSDK" DLL_PLATFORM DLL_SUFFIX
 #define XAUDIO2_DLL_NAME "xaudio2_9redist.dll"
 
-#define EOS_SERVICE_CONFIG_FILENAME "EpicOnlineServicesConfig.json"
+#define EOS_PRODUCT_CONFIG "eos_product_config.json"
+#define EOS_SERVICE_CONFIG_FILENAME "eos_windows_config.json"
 #define EOS_STEAM_CONFIG_FILENAME "eos_steam_config.json"
 #define EOS_LOGLEVEL_CONFIG_FILENAME "log_level_config.json"
 
@@ -243,46 +244,6 @@ static const std::map<std::string, EOS_EIntegratedPlatformManagementFlags> INTEG
 
     {"EOS_IPMF_ApplicationManagedIdentityLogin", EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin },
     {"ApplicationManagedIdentityLogin",          EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin}
-};
-
-struct SandboxDeploymentOverride
-{
-    std::string sandboxID;
-    std::string deploymentID;
-};
-
-struct EOSConfig
-{
-    std::string productName;
-    std::string productVersion;
-
-    std::string productID;
-    std::string sandboxID;
-    std::string deploymentID;
-    std::vector<SandboxDeploymentOverride> sandboxDeploymentOverrides;
-
-    std::string clientSecret;
-    std::string clientID;
-    std::string encryptionKey;
-
-    std::string overrideCountryCode;
-    std::string overrideLocaleCode;
-
-    // this is called platformOptionsFlags in C#
-    uint64_t flags = 0;
-
-    uint32_t tickBudgetInMilliseconds = 0;
-    double taskNetworkTimeoutSeconds = 0.0;
-
-    uint64_t ThreadAffinity_networkWork = 0;
-    uint64_t ThreadAffinity_storageIO = 0;
-    uint64_t ThreadAffinity_webSocketIO = 0;
-    uint64_t ThreadAffinity_P2PIO = 0;
-    uint64_t ThreadAffinity_HTTPRequestIO = 0;
-    uint64_t ThreadAffinity_RTCIO = 0;
-
-    bool isServer = false;
-
 };
 
 struct LogLevelConfig 
@@ -810,7 +771,7 @@ void unload_library(void* library_handle)
 }
 
 //-------------------------------------------------------------------------
-void eos_init(const EOSConfig& eos_config)
+void eos_init(const PlatformConfig& eos_config, ProductConfig& eos_product_config)
 {
     static int reserved[2] = {1, 1};
     EOS_InitializeOptions SDKOptions = { 0 };
@@ -818,24 +779,13 @@ void eos_init(const EOSConfig& eos_config)
     SDKOptions.AllocateMemoryFunction = nullptr;
     SDKOptions.ReallocateMemoryFunction = nullptr;
     SDKOptions.ReleaseMemoryFunction = nullptr;
-    SDKOptions.ProductName = eos_config.productName.c_str();
-    SDKOptions.ProductVersion = eos_config.productVersion.c_str();
+    SDKOptions.ProductName = eos_product_config.ProductName.c_str();
+    SDKOptions.ProductVersion = eos_product_config.ProductVersion.c_str();
     SDKOptions.Reserved = reserved;
     SDKOptions.SystemInitializeOptions = nullptr;
 
-    EOS_Initialize_ThreadAffinity overrideThreadAffinity = {0};
-
-    overrideThreadAffinity.ApiVersion = EOS_INITIALIZE_THREADAFFINITY_API_LATEST;
-
-    overrideThreadAffinity.HttpRequestIo = eos_config.ThreadAffinity_HTTPRequestIO;
-    overrideThreadAffinity.NetworkWork = eos_config.ThreadAffinity_networkWork;
-    overrideThreadAffinity.P2PIo = eos_config.ThreadAffinity_P2PIO;
-    overrideThreadAffinity.RTCIo = eos_config.ThreadAffinity_RTCIO;
-    overrideThreadAffinity.StorageIo = eos_config.ThreadAffinity_storageIO;
-    overrideThreadAffinity.WebSocketIo = eos_config.ThreadAffinity_webSocketIO;
-
-
-    SDKOptions.OverrideThreadAffinity = &overrideThreadAffinity;
+    auto ta = eos_config.thread_affinity;
+    SDKOptions.OverrideThreadAffinity = &ta;
 
     log_inform("call EOS_Initialize");
     EOS_EResult InitResult = EOS_Initialize_ptr(&SDKOptions);
@@ -930,37 +880,82 @@ static json_value_s* read_config_json_from_dll()
     return config_json;
 }
 
+
+std::string sanatize_guid(const std::string& input) {
+    std::string result;
+
+    // Reserve space to optimize memory allocation, since we'll only remove characters
+    result.reserve(input.size());
+
+    // Use a locale-aware approach to transform the characters
+    std::locale loc;
+    for (char ch : input) {
+        if (ch != '-') {
+            result += std::tolower(ch, loc);
+        }
+    }
+
+    return result;
+}
+
+static ProductConfig product_config_from_json_value(json_value_s* config_json)
+{
+    json_object_s* config_json_object = json_value_as_object(config_json);
+    json_object_element_s* iter = config_json_object->start;
+
+    ProductConfig eos_product_config;
+
+    while(iter != nullptr)
+    {
+        auto current_name = iter->name->string;
+
+        if (!strcmp("ProductName", current_name))
+        {
+            eos_product_config.ProductName = json_value_as_string(iter->value)->string;
+        }
+        else if (!strcmp("ProductVersion", current_name))
+        {
+            eos_product_config.ProductVersion = json_value_as_string(iter->value)->string;
+        }
+        else if (!strcmp("ProductId", current_name))
+        {
+            const auto product_id = json_value_as_string(iter->value)->string;
+
+            // Clean the guid so that it doesn't have dashes, and is all lower case
+            eos_product_config.ProductVersion = sanatize_guid(product_id);
+        }
+        else if (!strcmp("Environments", current_name))
+        {
+            // We need to get to Environments.Deployments[].Value.SandboxId
+            // and               Environments.Deployments[].Value.DeploymentId
+
+            // create the vector
+            eos_product_config.environments = std::vector<ProductionEnvironment>();
+        }
+
+        iter = iter->next;
+    }
+
+    return eos_product_config;
+}
+
 //-------------------------------------------------------------------------
-static EOSConfig eos_config_from_json_value(json_value_s* config_json)
+static PlatformConfig eos_config_from_json_value(json_value_s* config_json)
 {
     // Create platform instance
     struct json_object_s* config_json_object = json_value_as_object(config_json);
     struct json_object_element_s* iter = config_json_object->start;
-    EOSConfig eos_config;
+    PlatformConfig eos_config;
 
     while (iter != nullptr)
     {
-        if (!strcmp("productName", iter->name->string))
+        if (!strcmp("deployment", iter->name->string))
         {
-            eos_config.productName = json_value_as_string(iter->value)->string;
+            // TODO: Parse and set the sandbox and deployment IDs
+            //eos_config.sandboxID = json_value_as_string(iter->value)->string;
+            //eos_config.deploymentID = json_value_as_string(iter->value)->string;
         }
-        else if (!strcmp("productVersion", iter->name->string))
-        {
-            eos_config.productVersion = json_value_as_string(iter->value)->string;
-        }
-        else if (!strcmp("productID", iter->name->string))
-        {
-            eos_config.productID = json_value_as_string(iter->value)->string;
-        }
-        else if (!strcmp("sandboxID", iter->name->string))
-        {
-            eos_config.sandboxID = json_value_as_string(iter->value)->string;
-        }
-        else if (!strcmp("deploymentID", iter->name->string))
-        {
-            eos_config.deploymentID = json_value_as_string(iter->value)->string;
-        }
-        else if (!strcmp("sandboxDeploymentOverrides", iter->name->string))
+        /*else if (!strcmp("sandboxDeploymentOverrides", iter->name->string))
         {
             json_array_s* overrides = json_value_as_array(iter->value);
             eos_config.sandboxDeploymentOverrides = std::vector<SandboxDeploymentOverride>();
@@ -983,18 +978,31 @@ static EOSConfig eos_config_from_json_value(json_value_s* config_json)
                 }
                 eos_config.sandboxDeploymentOverrides.push_back(override_item);
             }
-        }
-        else if (!strcmp("clientID", iter->name->string))
+        }*/
+        else if (!strcmp("clientCredentials", iter->name->string))
         {
-            eos_config.clientID = json_value_as_string(iter->value)->string;
-        }
-        else if (!strcmp("clientSecret", iter->name->string))
-        {
-            eos_config.clientSecret = json_value_as_string(iter->value)->string;
-        }
-        if (!strcmp("encryptionKey", iter->name->string))
-        {
-            eos_config.encryptionKey = json_value_as_string(iter->value)->string;
+            eos_config.clientCredentials = EOSClientCredentials();
+            auto element_iterator = json_value_as_object(iter->value)->start;
+
+            while(nullptr != element_iterator)
+            {
+                const auto fieldName = element_iterator->name->string;
+
+                if (!strcmp(fieldName, "ClientId"))
+                {
+                    eos_config.clientCredentials.ClientId = json_value_as_string(element_iterator->value)->string;
+                }
+                else if (!strcmp(fieldName, "ClientSecret"))
+                {
+                    eos_config.clientCredentials.ClientSecret = json_value_as_string(element_iterator->value)->string;
+                }
+                else if (!strcmp(fieldName, "EncryptionKey"))
+                {
+                    eos_config.clientCredentials.EncryptionKey = json_value_as_string(element_iterator->value)->string;
+                }
+
+                element_iterator = element_iterator->next;
+            }
         }
         else if (!strcmp("overrideCountryCode ", iter->name->string))
         {
@@ -1016,29 +1024,9 @@ static EOSConfig eos_config_from_json_value(json_value_s* config_json)
         {
             eos_config.taskNetworkTimeoutSeconds = json_value_as_double(iter->value);
         }
-        else if (!strcmp("ThreadAffinity_networkWork", iter->name->string))
+        else if (!strcmp("threadAffinity", iter->name->string))
         {
-            eos_config.ThreadAffinity_networkWork = json_value_as_uint64(iter->value);
-        }
-        else if (!strcmp("ThreadAffinity_storageIO", iter->name->string))
-        {
-            eos_config.ThreadAffinity_storageIO = json_value_as_uint64(iter->value);
-        }
-        else if (!strcmp("ThreadAffinity_webSocketIO", iter->name->string))
-        {
-            eos_config.ThreadAffinity_webSocketIO = json_value_as_uint64(iter->value);
-        }
-        else if (!strcmp("ThreadAffinity_P2PIO", iter->name->string))
-        {
-            eos_config.ThreadAffinity_P2PIO = json_value_as_uint64(iter->value);
-        }
-        else if (!strcmp("ThreadAffinity_HTTPRequestIO", iter->name->string))
-        {
-            eos_config.ThreadAffinity_HTTPRequestIO = json_value_as_uint64(iter->value);
-        }
-        else if (!strcmp("ThreadAffinity_RTCIO", iter->name->string))
-        {
-            eos_config.ThreadAffinity_RTCIO = json_value_as_uint64(iter->value);
+            // TODO: Parse the ThreadAffinity here
         }
         else if (!strcmp("isServer", iter->name->string))
         {
@@ -1383,28 +1371,30 @@ void eos_set_loglevel_via_config()
 }
 
 //-------------------------------------------------------------------------
-void eos_create(EOSConfig& eosConfig)
+void eos_create(PlatformConfig& platform_config, ProductConfig& eos_product_config)
 {
     EOS_Platform_Options platform_options = {0};
     platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
-    platform_options.bIsServer = eosConfig.isServer;
-    platform_options.Flags = eosConfig.flags;
+    platform_options.bIsServer = platform_config.isServer;
+    platform_options.Flags = platform_config.flags;
     platform_options.CacheDirectory = GetCacheDirectory();
 
-    platform_options.EncryptionKey = eosConfig.encryptionKey.length() > 0 ? eosConfig.encryptionKey.c_str() : nullptr;
-    platform_options.OverrideCountryCode = eosConfig.overrideCountryCode.length() > 0 ? eosConfig.overrideCountryCode.c_str() : nullptr;
-    platform_options.OverrideLocaleCode = eosConfig.overrideLocaleCode.length() > 0 ? eosConfig.overrideLocaleCode.c_str() : nullptr;
-    platform_options.ProductId = eosConfig.productID.c_str();
-    platform_options.SandboxId = eosConfig.sandboxID.c_str();
-    platform_options.DeploymentId = eosConfig.deploymentID.c_str();
-    platform_options.ClientCredentials.ClientId = eosConfig.clientID.c_str();
-    platform_options.ClientCredentials.ClientSecret = eosConfig.clientSecret.c_str();
+    platform_options.OverrideCountryCode = platform_config.overrideCountryCode.length() > 0 ? platform_config.overrideCountryCode.c_str() : nullptr;
+    platform_options.OverrideLocaleCode = platform_config.overrideLocaleCode.length() > 0 ? platform_config.overrideLocaleCode.c_str() : nullptr;
+    platform_options.ProductId = eos_product_config.ProductId.c_str();
+    platform_options.SandboxId = platform_config.deployment.SandboxId.c_str();
+    platform_options.DeploymentId = platform_config.deployment.DeploymentId.c_str();
 
-    platform_options.TickBudgetInMilliseconds = eosConfig.tickBudgetInMilliseconds;
+    EOSClientCredentials credentials = platform_config.clientCredentials;
+    platform_options.EncryptionKey = credentials.EncryptionKey.length() > 0 ? credentials.EncryptionKey.c_str() : nullptr;
+    platform_options.ClientCredentials.ClientId = credentials.ClientId.c_str();
+    platform_options.ClientCredentials.ClientSecret = credentials.ClientSecret.c_str();
 
-    if (eosConfig.taskNetworkTimeoutSeconds > 0)
+    platform_options.TickBudgetInMilliseconds = platform_config.tickBudgetInMilliseconds;
+
+    if (platform_config.taskNetworkTimeoutSeconds > 0)
     {
-        platform_options.TaskNetworkTimeoutSeconds = &eosConfig.taskNetworkTimeoutSeconds;
+        platform_options.TaskNetworkTimeoutSeconds = &platform_config.taskNetworkTimeoutSeconds;
     }
 
     EOS_Platform_RTCOptions rtc_options = { 0 };
@@ -1636,9 +1626,15 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 #endif
 
     auto path_to_config_json = get_path_for_eos_service_config(EOS_SERVICE_CONFIG_FILENAME);
+
+    auto path_to_product_config_json = get_path_for_eos_service_config(EOS_PRODUCT_CONFIG);
+
     json_value_s* eos_config_as_json = nullptr;
+    json_value_s* eos_product_config_as_json = read_config_json_as_json_from_path(path_to_product_config_json);
 
     eos_config_as_json = read_config_json_from_dll();
+    // TODO: Investigate json_from_dll meaning
+
 
     if (!eos_config_as_json && std::filesystem::exists(path_to_config_json))
     {
@@ -1651,7 +1647,8 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
         return;
     }
 
-    EOSConfig eos_config = eos_config_from_json_value(eos_config_as_json);
+    PlatformConfig eos_config = eos_config_from_json_value(eos_config_as_json);
+    ProductConfig eos_product_config = product_config_from_json_value(eos_product_config_as_json);
     free(eos_config_as_json);
 
 #if PLATFORM_WINDOWS
@@ -1679,21 +1676,21 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
             if (!sandboxArg.empty())
             {
                 log_inform(("Sandbox ID override specified: " + sandboxArg).c_str());
-                eos_config.sandboxID = sandboxArg;
+                eos_config.deployment.SandboxId = sandboxArg;
             }
         }
     }
 #endif
 
     //check if a deployment id override exists for sandbox id
-    for (unsigned i = 0; i < eos_config.sandboxDeploymentOverrides.size(); ++i)
-    {
-        if (eos_config.sandboxID == eos_config.sandboxDeploymentOverrides[i].sandboxID)
-        {
-            log_inform(("Sandbox Deployment ID override specified: " + eos_config.sandboxDeploymentOverrides[i].deploymentID).c_str());
-            eos_config.deploymentID = eos_config.sandboxDeploymentOverrides[i].deploymentID;
-        }
-    }
+    //for (unsigned i = 0; i < eos_config.sandboxDeploymentOverrides.size(); ++i)
+    //{
+    //    if (eos_config.sandboxID == eos_config.sandboxDeploymentOverrides[i].sandboxID)
+    //    {
+    //        log_inform(("Sandbox Deployment ID override specified: " + eos_config.sandboxDeploymentOverrides[i].deploymentID).c_str());
+    //        eos_config.deploymentID = eos_config.sandboxDeploymentOverrides[i].deploymentID;
+    //    }
+    //}
 
 #if PLATFORM_WINDOWS
     std::string deploymentArgName = "-eosdeploymentid=";
@@ -1715,7 +1712,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
             if (!deploymentArg.empty())
             {
                 log_inform(("Deployment ID override specified: " + deploymentArg).c_str());
-                eos_config.deploymentID = deploymentArg;
+                eos_config.deployment.DeploymentId = deploymentArg;
             }
         }
     }
@@ -1751,13 +1748,16 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 
         if (EOS_Initialize_ptr)
         {
+            ProductConfig eos_product_config;
+
             log_inform("start eos init");
 
-            eos_init(eos_config);
+            eos_init(eos_config, eos_product_config);
 
             eos_set_loglevel_via_config();
+            
             //log_warn("start eos create");
-            eos_create(eos_config);
+            eos_create(eos_config, eos_product_config);
 
             // This code is commented out because the handle is now handed off to the C# code
             //EOS_Platform_Release(eos_platform_handle);

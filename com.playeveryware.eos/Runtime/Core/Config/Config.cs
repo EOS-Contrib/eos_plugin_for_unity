@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Common;
     using Newtonsoft.Json;
     using System;
     using System.Linq;
@@ -151,6 +152,7 @@ namespace PlayEveryWare.EpicOnlineServices
         protected virtual void MigrateConfig()
         {
             // Default implementation is to do nothing.
+            schemaVersion = SCHEMA_VERSION;
         }
 
         /// <summary>
@@ -161,17 +163,22 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </returns>
         private bool NeedsMigration()
         {
-            if (schemaVersion != SCHEMA_VERSION)
+            if (schemaVersion == null)
             {
-                Debug.LogWarning(
-                    $"Config file with schemaVersion " +
-                    $"\"{SCHEMA_VERSION}\" has been read into memory, and " +
-                    $"needs to be migrated to schemaVersion " +
-                    $"\"{SCHEMA_VERSION}\".");
                 return true;
             }
 
-            return false;
+            if (VersionUtility.AreVersionsEqual(schemaVersion, SCHEMA_VERSION))
+            {
+                return false;
+            }
+
+            Debug.LogWarning(
+                $"Config file with schemaVersion \"{SCHEMA_VERSION}\"" +
+                " has been read into memory, and needs to be migrated to " +
+                $"schemaVersion \"{SCHEMA_VERSION}\".");
+
+            return true;
         }
 
         /// <summary>
@@ -275,10 +282,15 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
 
             // Call migration function.
-            if (instance.NeedsMigration())
+            if (!instance.NeedsMigration())
             {
-                instance.MigrateConfig();
+                return instance;
             }
+
+            instance.MigrateConfig();
+#if UNITY_EDITOR
+            await instance.WriteAsync();
+#endif
 
             // Return the config being retrieved.
             return instance;
@@ -326,10 +338,15 @@ namespace PlayEveryWare.EpicOnlineServices
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
             // Call migration function.
-            if (instance.NeedsMigration())
+            if (!instance.NeedsMigration())
             {
-                instance.MigrateConfig();
+                return instance;
             }
+
+            instance.MigrateConfig();
+#if UNITY_EDITOR
+            instance.Write();
+#endif
 
             // Return the config being retrieved.
             return instance;
