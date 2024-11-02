@@ -74,7 +74,7 @@ namespace pew::eos::string_helpers
             return false;
         }
 
-        time_t raw_time = time(NULL);
+        time_t raw_time = time(nullptr);
         tm time_info = { 0 };
 
         timespec time_spec = { 0 };
@@ -88,7 +88,6 @@ namespace pew::eos::string_helpers
         return true;
     }
 
-    //-------------------------------------------------------------------------
     size_t utf8_str_bytes_required_for_wide_str(const wchar_t* wide_str, int wide_str_len)
     {
         int bytes_required = WideCharToMultiByte(CP_UTF8, 0, wide_str, wide_str_len, NULL, 0, NULL, NULL);
@@ -101,7 +100,6 @@ namespace pew::eos::string_helpers
         return bytes_required;
     }
 
-    //-------------------------------------------------------------------------
     // wide_str must be null terminated if wide_str_len is passed
     bool copy_to_utf8_str_from_wide_str(char* RESTRICT utf8_str, size_t utf8_str_len, const wchar_t* RESTRICT wide_str, int wide_str_len)
     {
@@ -115,7 +113,6 @@ namespace pew::eos::string_helpers
         return true;
     }
 
-    //-------------------------------------------------------------------------
     char* create_utf8_str_from_wide_str(const wchar_t* wide_str)
     {
         const int wide_str_len = (int)wcslen(wide_str) + 1;
@@ -131,7 +128,6 @@ namespace pew::eos::string_helpers
         return to_return;
     }
 
-    //-------------------------------------------------------------------------
     wchar_t* create_wide_str_from_utf8_str(const char* utf8_str)
     {
         int chars_required = MultiByteToWideChar(CP_UTF8, 0, utf8_str, -1, NULL, 0);
@@ -143,25 +139,14 @@ namespace pew::eos::string_helpers
         return to_return;
     }
 
-    //-------------------------------------------------------------------------
-    // Using the std::wstring_convert method for this currently. It might be the
-    // case that in the future this method won't work. If that happens,
-    // one could convert this function to use the create_utf8_str_from_wide_str
-    // function to emulate it. Doing this might come with a cost, as data will
-    // need to be copied multiple times.
     std::string to_utf8_str(const std::wstring& wide_str)
     {
         std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
         std::string utf8_str = converter.to_bytes(wide_str);
 
         return utf8_str;
-
     }
 
-    //-------------------------------------------------------------------------
-    // Using fs::path:string().c_str() seems to cause an issue when paths have
-    // kanji in them. Using this function and then std::string:c_str() works around that
-    // issue
     std::string to_utf8_str(const std::filesystem::path& path)
     {
         return to_utf8_str(path.native());

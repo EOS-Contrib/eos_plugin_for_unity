@@ -29,9 +29,12 @@
 #include "json.h"
 #include "string_helpers.h"
 
-namespace std::filesystem
+namespace std
 {
-    class path;
+    namespace filesystem
+    {
+        class path;
+    }
 }
 
 namespace pew::eos::json_helpers
@@ -99,15 +102,15 @@ namespace pew::eos::json_helpers
     }
 
     /**
- * @brief Parses a JSON value as a `double`, with a specified default.
- *
- * Attempts to interpret the provided JSON value as a `double`. If the value cannot be parsed as a number,
- * it is treated as a string and parsed. If both attempts fail, the function returns the specified default.
- *
- * @param value The JSON value to interpret.
- * @param default_value The value to return if parsing fails.
- * @return The parsed `double` value, or `default_value` if parsing fails.
- */
+     * @brief Parses a JSON value as a `double`, with a specified default.
+     *
+     * Attempts to interpret the provided JSON value as a `double`. If the value cannot be parsed as a number,
+     * it is treated as a string and parsed. If both attempts fail, the function returns the specified default.
+     *
+     * @param value The JSON value to interpret.
+     * @param default_value The value to return if parsing fails.
+     * @return The parsed `double` value, or `default_value` if parsing fails.
+     */
     double json_value_as_double(json_value_s* value, double default_value = 0.0);
 
     /**
@@ -149,6 +152,5 @@ namespace pew::eos::json_helpers
      * @note The caller is responsible for handling and freeing the parsed JSON structure as needed.
      */
     json_value_s* read_config_json_as_json_from_path(std::filesystem::path path_to_config_json);
-
 }
 #endif

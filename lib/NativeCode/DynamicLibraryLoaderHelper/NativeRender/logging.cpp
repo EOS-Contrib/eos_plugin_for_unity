@@ -1,5 +1,3 @@
-#include <pch.h>
-
 /*
  * Copyright (c) 2021 PlayEveryWare
  *
@@ -22,6 +20,7 @@
  * SOFTWARE.
  */
 
+#include <pch.h>
 #include "logging.h"
 #include <eos_logging.h>
 #include "string_helpers.h"

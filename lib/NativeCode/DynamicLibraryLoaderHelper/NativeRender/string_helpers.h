@@ -56,16 +56,16 @@ namespace pew::eos::string_helpers
     std::vector<std::string> split_and_trim(const std::string& input, char delimiter = ',');
 
     /**
- * @brief Creates an ISO 8601 formatted timestamp string with millisecond precision.
- *
- * This function generates a timestamp in the format "YYYY-MM-DDTHH:MM:SS.sss" and stores it
- * in the provided buffer. If the buffer is not large enough to hold the timestamp,
- * the function returns `false`.
- *
- * @param[out] final_timestamp A buffer to store the resulting timestamp string.
- * @param[in] final_timestamp_len The length of the buffer provided.
- * @return `true` if the timestamp was successfully created, `false` if the buffer was too small.
- */
+     * @brief Creates an ISO 8601 formatted timestamp string with millisecond precision.
+     *
+     * This function generates a timestamp in the format "YYYY-MM-DDTHH:MM:SS.sss" and stores it
+     * in the provided buffer. If the buffer is not large enough to hold the timestamp,
+     * the function returns `false`.
+     *
+     * @param[out] final_timestamp A buffer to store the resulting timestamp string.
+     * @param[in] final_timestamp_len The length of the buffer provided.
+     * @return `true` if the timestamp was successfully created, `false` if the buffer was too small.
+     */
     bool create_timestamp_str(char* final_timestamp, size_t final_timestamp_len);
 
     /**
@@ -125,8 +125,15 @@ namespace pew::eos::string_helpers
     /**
      * @brief Converts a wide string to a UTF-8 encoded `std::string`.
      *
-     * Uses `std::wstring_convert` for the conversion. If `std::wstring_convert` becomes unsupported in the future,
-     * this function could be rewritten using `create_utf8_str_from_wide_str`.
+     * Uses `std::wstring_convert` for the conversion. If `std::wstring_convert`
+     * becomes unsupported in the future, this function could be rewritten using
+     * `create_utf8_str_from_wide_str`.
+     *
+     * Using the std::wstring_convert method for this currently. It might be the
+     * case that in the future this method won't work. If that happens, one
+     * could convert this function to use the create_utf8_str_from_wide_str
+     * function to emulate it. Doing this might come with a cost, as data will
+     * need to be copied multiple times.
      *
      * @param[in] wide_str The wide string to convert.
      * @return A UTF-8 encoded `std::string` representation of the wide string.
@@ -143,7 +150,5 @@ namespace pew::eos::string_helpers
      * @return A UTF-8 encoded `std::string` representation of the path.
      */
     std::string to_utf8_str(const std::filesystem::path& path);
-
 }
-
 #endif
