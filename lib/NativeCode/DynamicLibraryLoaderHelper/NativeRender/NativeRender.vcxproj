@@ -183,7 +183,6 @@
     <ClInclude Include="config.h" />
     <ClInclude Include="eos_helpers.h" />
     <ClInclude Include="eos_minimum_includes.h" />
-    <ClInclude Include="framework.h" />
     <ClInclude Include="io_helpers.h" />
     <ClInclude Include="json.h" />
     <ClInclude Include="json_helpers.h" />
