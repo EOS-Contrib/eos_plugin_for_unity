@@ -25,7 +25,6 @@
 
 namespace playeveryware::eos::json_helpers
 {
-
     /**
      * \brief
      * Collects flag values from either a JSON array of strings, or a
@@ -89,7 +88,7 @@ namespace playeveryware::eos::json_helpers
     }
 
     //-------------------------------------------------------------------------
-    inline static double json_value_as_double(json_value_s* value, double default_value = 0.0)
+    double json_value_as_double(json_value_s* value, double default_value = 0.0)
     {
         double val = 0.0;
         json_number_s* n = json_value_as_number(value);
@@ -119,7 +118,7 @@ namespace playeveryware::eos::json_helpers
     }
 
     //-------------------------------------------------------------------------
-    inline static uint64_t json_value_as_uint64(json_value_s* value, uint64_t default_value = 0)
+    uint64_t json_value_as_uint64(json_value_s* value, uint64_t default_value = 0)
     {
         uint64_t val = 0;
         json_number_s* n = json_value_as_number(value);
@@ -149,7 +148,7 @@ namespace playeveryware::eos::json_helpers
 
 
     //-------------------------------------------------------------------------
-    inline static uint32_t json_value_as_uint32(json_value_s* value, uint32_t default_value = 0)
+    uint32_t json_value_as_uint32(json_value_s* value, uint32_t default_value = 0)
     {
         uint32_t val = 0;
         json_number_s* n = json_value_as_number(value);
@@ -179,7 +178,7 @@ namespace playeveryware::eos::json_helpers
     }
 
     //-------------------------------------------------------------------------
-    inline static json_value_s* read_config_json_as_json_from_path(std::filesystem::path path_to_config_json)
+    json_value_s* read_config_json_as_json_from_path(std::filesystem::path path_to_config_json)
     {
         logging::log_inform(("json path" + string_helpers::to_utf8_str(path_to_config_json)).c_str());
         uintmax_t config_file_size = std::filesystem::file_size(path_to_config_json);

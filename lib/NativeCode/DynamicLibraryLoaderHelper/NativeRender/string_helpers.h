@@ -1,3 +1,5 @@
+#ifndef STRING_HELPERS_H
+#define STRING_HELPERS_H
 /*
  * Copyright (c) 2021 PlayEveryWare
  *
@@ -31,20 +33,7 @@ namespace playeveryware::eos::string_helpers
        *
        * \return A string with no whitespace at the beginning or end.
        */
-    inline static std::string trim(const std::string& str)
-    {
-        const auto start = std::find_if_not(str.begin(), str.end(), ::isspace);
-        const auto end = std::find_if_not(str.rbegin(), str.rend(), ::isspace).base();
-
-        if (start < end)
-        {
-            return std::basic_string<char>(start, end);
-        }
-        else
-        {
-            return "";
-        }
-    }
+    std::string trim(const std::string& str);
 
     /**
        * \brief
@@ -57,125 +46,97 @@ namespace playeveryware::eos::string_helpers
        *
        * \return A list of string values.
        */
-    inline static std::vector<std::string> split_and_trim(const std::string& input, char delimiter = ',')
-    {
-        std::vector<std::string> result;
-        std::stringstream ss(input);
-        std::string item;
+    std::vector<std::string> split_and_trim(const std::string& input, char delimiter = ',');
 
-        while (std::getline(ss, item, delimiter))
-        {
-            std::string trimmedItem = trim(item);
-            if (!trimmedItem.empty())
-            {
-                result.push_back(trimmedItem);
-            }
-        }
+    /**
+ * @brief Creates an ISO 8601 formatted timestamp string with millisecond precision.
+ *
+ * This function generates a timestamp in the format "YYYY-MM-DDTHH:MM:SS.sss" and stores it
+ * in the provided buffer. If the buffer is not large enough to hold the timestamp,
+ * the function returns `false`.
+ *
+ * @param[out] final_timestamp A buffer to store the resulting timestamp string.
+ * @param[in] final_timestamp_len The length of the buffer provided.
+ * @return `true` if the timestamp was successfully created, `false` if the buffer was too small.
+ */
+    bool create_timestamp_str(char* final_timestamp, size_t final_timestamp_len);
 
-        return result;
-    }
+    /**
+     * @brief Calculates the number of bytes required to store a UTF-8 encoded version of a wide string.
+     *
+     * This function uses `WideCharToMultiByte` to determine the number of bytes necessary to represent
+     * a given wide string in UTF-8 encoding.
+     *
+     * @param[in] wide_str The wide string to evaluate.
+     * @param[in] wide_str_len The length of the wide string.
+     * @return The number of bytes required for UTF-8 encoding, or `0` if an error occurs.
+     */
+    size_t utf8_str_bytes_required_for_wide_str(const wchar_t* wide_str, int wide_str_len);
 
-    //-------------------------------------------------------------------------
-    inline static bool create_timestamp_str(char* final_timestamp, size_t final_timestamp_len)
-    {
-        constexpr size_t buffer_len = 32;
-        char buffer[buffer_len];
+    /**
+     * @brief Converts a wide string to a UTF-8 encoded string and copies it to a provided buffer.
+     *
+     * This function converts a wide character string to UTF-8 and stores the result in `utf8_str`.
+     * The buffer size should not exceed `INT_MAX` to avoid overflow.
+     *
+     * @param[out] utf8_str A buffer to store the UTF-8 encoded string.
+     * @param[in] utf8_str_len The length of the UTF-8 buffer.
+     * @param[in] wide_str The wide character string to convert.
+     * @param[in] wide_str_len The length of the wide string. If `wide_str` is null-terminated, set to -1.
+     * @return `true` if the conversion was successful, `false` otherwise.
+     *
+     * @note `wide_str` must be null-terminated if `wide_str_len` is set to -1.
+     */
+    bool copy_to_utf8_str_from_wide_str(char* RESTRICT utf8_str, size_t utf8_str_len, const wchar_t* RESTRICT wide_str, int wide_str_len);
 
-        if (buffer_len > final_timestamp_len)
-        {
-            return false;
-        }
+    /**
+     * @brief Creates a UTF-8 encoded string from a wide character string.
+     *
+     * This function allocates a UTF-8 encoded version of the provided wide character string.
+     * The caller is responsible for freeing the returned string.
+     *
+     * @param[in] wide_str The wide character string to convert.
+     * @return A dynamically allocated UTF-8 encoded string, or `nullptr` if conversion fails.
+     *
+     * @note The caller must free the returned string to avoid memory leaks.
+     */
+    char* create_utf8_str_from_wide_str(const wchar_t* wide_str);
 
-        time_t raw_time = time(NULL);
-        tm time_info = { 0 };
+    /**
+     * @brief Creates a wide character string from a UTF-8 encoded string.
+     *
+     * Converts a UTF-8 string to a dynamically allocated wide character string.
+     * The caller is responsible for freeing the returned string.
+     *
+     * @param[in] utf8_str The UTF-8 encoded string to convert.
+     * @return A dynamically allocated wide string, or `nullptr` if conversion fails.
+     *
+     * @note The caller must free the returned string to avoid memory leaks.
+     */
+    wchar_t* create_wide_str_from_utf8_str(const char* utf8_str);
 
-        timespec time_spec = { 0 };
-        timespec_get(&time_spec, TIME_UTC);
-        localtime_s(&time_info, &raw_time);
+    /**
+     * @brief Converts a wide string to a UTF-8 encoded `std::string`.
+     *
+     * Uses `std::wstring_convert` for the conversion. If `std::wstring_convert` becomes unsupported in the future,
+     * this function could be rewritten using `create_utf8_str_from_wide_str`.
+     *
+     * @param[in] wide_str The wide string to convert.
+     * @return A UTF-8 encoded `std::string` representation of the wide string.
+     */
+    std::string to_utf8_str(const std::wstring& wide_str);
 
-        strftime(buffer, buffer_len, "%Y-%m-%dT%H:%M:%S", &time_info);
-        long milliseconds = (long)round(time_spec.tv_nsec / 1.0e6);
-        snprintf(final_timestamp, final_timestamp_len, "%s.%03ld", buffer, milliseconds);
+    /**
+     * @brief Converts a filesystem path to a UTF-8 encoded `std::string`.
+     *
+     * This function provides a workaround for converting filesystem paths that contain kanji characters.
+     * Using this method ensures compatibility across different character sets.
+     *
+     * @param[in] path The filesystem path to convert.
+     * @return A UTF-8 encoded `std::string` representation of the path.
+     */
+    std::string to_utf8_str(const std::filesystem::path& path);
 
-        return true;
-    }
-
-    //-------------------------------------------------------------------------
-    inline static size_t utf8_str_bytes_required_for_wide_str(const wchar_t* wide_str, int wide_str_len = -1)
-    {
-        int bytes_required = WideCharToMultiByte(CP_UTF8, 0, wide_str, wide_str_len, NULL, 0, NULL, NULL);
-
-        if (bytes_required < 0)
-        {
-            return 0;
-        }
-
-        return bytes_required;
-    }
-
-    //-------------------------------------------------------------------------
-    // wide_str must be null terminated if wide_str_len is passed
-    inline static bool copy_to_utf8_str_from_wide_str(char* RESTRICT utf8_str, size_t utf8_str_len, const wchar_t* RESTRICT wide_str, int wide_str_len = -1)
-    {
-        if (utf8_str_len > INT_MAX)
-        {
-            return false;
-        }
-
-        WideCharToMultiByte(CP_UTF8, 0, wide_str, wide_str_len, utf8_str, (int)utf8_str_len, NULL, NULL);
-
-        return true;
-    }
-
-    //-------------------------------------------------------------------------
-    inline static char* create_utf8_str_from_wide_str(const wchar_t* wide_str)
-    {
-        const int wide_str_len = (int)wcslen(wide_str) + 1;
-        int bytes_required = (int)utf8_str_bytes_required_for_wide_str(wide_str, wide_str_len);
-        char* to_return = (char*)malloc(bytes_required);
-
-        if (!copy_to_utf8_str_from_wide_str(to_return, bytes_required, wide_str, wide_str_len))
-        {
-            free(to_return);
-            to_return = NULL;
-        }
-
-        return to_return;
-    }
-
-    //-------------------------------------------------------------------------
-    inline static wchar_t* create_wide_str_from_utf8_str(const char* utf8_str)
-    {
-        int chars_required = MultiByteToWideChar(CP_UTF8, 0, utf8_str, -1, NULL, 0);
-        wchar_t* to_return = (wchar_t*)malloc(chars_required * sizeof(wchar_t));
-        int utf8_str_len = (int)strlen(utf8_str);
-
-        MultiByteToWideChar(CP_UTF8, 0, utf8_str, utf8_str_len, to_return, chars_required);
-
-        return to_return;
-    }
-
-    //-------------------------------------------------------------------------
-    // Using the std::wstring_convert method for this currently. It might be the
-    // case that in the future this method won't work. If that happens,
-    // one could convert this function to use the create_utf8_str_from_wide_str
-    // function to emulate it. Doing this might come with a cost, as data will
-    // need to be copied multiple times.
-    inline static std::string to_utf8_str(const std::wstring& wide_str)
-    {
-        std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-        std::string utf8_str = converter.to_bytes(wide_str);
-
-        return utf8_str;
-
-    }
-
-    //-------------------------------------------------------------------------
-    // Using fs::path:string().c_str() seems to cause an issue when paths have
-    // kanji in them. Using this function and then std::string:c_str() works around that
-    // issue
-    inline static std::string to_utf8_str(const std::filesystem::path& path)
-    {
-        return to_utf8_str(path.native());
-    }
 }
+
+#endif

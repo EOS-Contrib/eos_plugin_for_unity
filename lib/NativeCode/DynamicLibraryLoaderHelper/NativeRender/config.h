@@ -176,7 +176,7 @@ namespace playeveryware::eos::config
 
     };
 
-    inline static LogLevelConfig log_config_from_json_value(json_value_s* config_json)
+    LogLevelConfig log_config_from_json_value(json_value_s* config_json)
     {
         struct json_object_s* config_json_object = json_value_as_object(config_json);
         struct json_object_element_s* iter = config_json_object->start;
@@ -230,7 +230,7 @@ namespace playeveryware::eos::config
     }
 
     //-------------------------------------------------------------------------
-    inline static json_value_s* read_config_json_from_dll()
+    json_value_s* read_config_json_from_dll()
     {
         struct json_value_s* config_json = nullptr;
 
@@ -265,7 +265,7 @@ namespace playeveryware::eos::config
     }
 
     //-------------------------------------------------------------------------
-    inline static EOSConfig eos_config_from_json_value(json_value_s* config_json)
+    EOSConfig eos_config_from_json_value(json_value_s* config_json)
     {
         // Create platform instance
         struct json_object_s* config_json_object = json_value_as_object(config_json);
