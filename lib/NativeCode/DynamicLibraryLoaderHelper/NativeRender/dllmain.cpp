@@ -25,11 +25,18 @@
 // This is apparently needed so that the Overlay can render properly
 #include "pch.h"
 
+#include <iterator>
+
 #include "config.h"
 #include "logging.h"
+#include <json_helpers.h>
+#include <sstream>
+
+#include "eos_library_helpers.h"
 #include <eos_helpers.h>
-#include <filesystem>
-#include <iterator>
+
+#include "io_helpers.h"
+
 
 typedef HKEY__* HKEY;
 

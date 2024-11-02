@@ -1,3 +1,5 @@
+#ifndef JSON_HELPERS_H
+#define JSON_HELPERS_H
 /*
  * Copyright (c) 2021 PlayEveryWare
  *
@@ -22,8 +24,15 @@
 
 #pragma once
 #include <map>
+#include <vector>
 
 #include "json.h"
+#include "string_helpers.h"
+
+namespace std::filesystem
+{
+    class path;
+}
 
 namespace playeveryware::eos::json_helpers
 {
@@ -89,115 +98,57 @@ namespace playeveryware::eos::json_helpers
         return flag_set ? flags_to_return : default_value;
     }
 
-    //-------------------------------------------------------------------------
-    double json_value_as_double(json_value_s* value, double default_value = 0.0)
-    {
-        double val = 0.0;
-        json_number_s* n = json_value_as_number(value);
+    /**
+ * @brief Parses a JSON value as a `double`, with a specified default.
+ *
+ * Attempts to interpret the provided JSON value as a `double`. If the value cannot be parsed as a number,
+ * it is treated as a string and parsed. If both attempts fail, the function returns the specified default.
+ *
+ * @param value The JSON value to interpret.
+ * @param default_value The value to return if parsing fails.
+ * @return The parsed `double` value, or `default_value` if parsing fails.
+ */
+    double json_value_as_double(json_value_s* value, double default_value = 0.0);
 
-        if (n != nullptr)
-        {
-            char* end = nullptr;
-            val = strtod(n->number, &end);
-        }
-        else
-        {
-            // try to treat it as a string, then parse as long
-            char* end = nullptr;
-            json_string_s* val_as_str = json_value_as_string(value);
+    /**
+     * @brief Parses a JSON value as an unsigned 64-bit integer (`uint64_t`), with a specified default.
+     *
+     * Attempts to interpret the provided JSON value as a `uint64_t`. If the value cannot be parsed as a number,
+     * it is treated as a string and parsed. If both attempts fail, the function returns the specified default.
+     *
+     * @param value The JSON value to interpret.
+     * @param default_value The value to return if parsing fails.
+     * @return The parsed `uint64_t` value, or `default_value` if parsing fails.
+     */
+    uint64_t json_value_as_uint64(json_value_s* value, uint64_t default_value = 0);
 
-            if (val_as_str == nullptr || strlen(val_as_str->string) == 0)
-            {
-                val = default_value;
-            }
-            else
-            {
-                val = strtod(val_as_str->string, &end);
-            }
-        }
+    /**
+     * @brief Parses a JSON value as an unsigned 32-bit integer (`uint32_t`), with a specified default.
+     *
+     * Attempts to interpret the provided JSON value as a `uint32_t`. If the value cannot be parsed as a number,
+     * it is treated as a string and parsed. If both attempts fail, the function returns the specified default.
+     *
+     * @param value The JSON value to interpret.
+     * @param default_value The value to return if parsing fails.
+     * @return The parsed `uint32_t` value, or `default_value` if parsing fails.
+     */
+    uint32_t json_value_as_uint32(json_value_s* value, uint32_t default_value = 0);
 
-        return val;
-    }
+    /**
+     * @brief Reads a JSON configuration file from a specified path and parses it.
+     *
+     * Opens and reads the specified configuration file, loads its contents into a buffer,
+     * parses the buffer as JSON, and returns the parsed JSON object. If the file is too large or
+     * cannot be opened, an exception is thrown.
+     *
+     * @param path_to_config_json The path to the JSON configuration file.
+     * @return A pointer to a `json_value_s` representing the parsed JSON structure, or `nullptr` on failure.
+     *
+     * @throws std::filesystem::filesystem_error If the file is too large to be processed.
+     *
+     * @note The caller is responsible for handling and freeing the parsed JSON structure as needed.
+     */
+    json_value_s* read_config_json_as_json_from_path(std::filesystem::path path_to_config_json);
 
-    //-------------------------------------------------------------------------
-    uint64_t json_value_as_uint64(json_value_s* value, uint64_t default_value = 0)
-    {
-        uint64_t val = 0;
-        json_number_s* n = json_value_as_number(value);
-
-        if (n != nullptr)
-        {
-            char* end = nullptr;
-            val = strtoull(n->number, &end, 10);
-        }
-        else
-        {
-            // try to treat it as a string, then parse as long
-            char* end = nullptr;
-            json_string_s* val_as_str = json_value_as_string(value);
-            if (val_as_str == nullptr || strlen(val_as_str->string) == 0)
-            {
-                val = default_value;
-            }
-            else
-            {
-                val = strtoull(val_as_str->string, &end, 10);
-            }
-        }
-
-        return val;
-    }
-
-
-    //-------------------------------------------------------------------------
-    uint32_t json_value_as_uint32(json_value_s* value, uint32_t default_value = 0)
-    {
-        uint32_t val = 0;
-        json_number_s* n = json_value_as_number(value);
-
-        if (n != nullptr)
-        {
-            char* end = nullptr;
-            val = strtoul(n->number, &end, 10);
-        }
-        else
-        {
-            // try to treat it as a string, then parse as long
-            char* end = nullptr;
-            json_string_s* val_as_str = json_value_as_string(value);
-
-            if (val_as_str == nullptr || strlen(val_as_str->string) == 0)
-            {
-                val = default_value;
-            }
-            else
-            {
-                val = strtoul(val_as_str->string, &end, 10);
-            }
-        }
-
-        return val;
-    }
-
-    //-------------------------------------------------------------------------
-    json_value_s* read_config_json_as_json_from_path(std::filesystem::path path_to_config_json)
-    {
-        logging::log_inform(("json path" + string_helpers::to_utf8_str(path_to_config_json)).c_str());
-        uintmax_t config_file_size = std::filesystem::file_size(path_to_config_json);
-        if (config_file_size > SIZE_MAX)
-        {
-            throw std::filesystem::filesystem_error("File is too large", std::make_error_code(std::errc::file_too_large));
-        }
-
-        FILE* file = nullptr;
-        errno_t config_file_error = _wfopen_s(&file, path_to_config_json.wstring().c_str(), L"r");
-        char* buffer = (char*)calloc(1, static_cast<size_t>(config_file_size));
-
-        size_t bytes_read = fread(buffer, 1, static_cast<size_t>(config_file_size), file);
-        fclose(file);
-        struct json_value_s* config_json = json_parse(buffer, bytes_read);
-        free(buffer);
-
-        return config_json;
-    }
 }
+#endif

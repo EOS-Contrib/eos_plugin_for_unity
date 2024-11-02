@@ -36,7 +36,7 @@
 #endif
 
 #include "eos_sdk.h"
-//#include "eos_logging.h"
+#include "Windows/eos_Windows.h"
 
 // This define exists because UWP
 // Originally, this would load the library with the name as shipped by the .zip file

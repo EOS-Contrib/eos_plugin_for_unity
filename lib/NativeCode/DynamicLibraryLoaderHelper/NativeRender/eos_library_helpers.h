@@ -24,134 +24,119 @@
 
 #pragma once
 
-
-#include "logging.h"
+#include <eos_logging.h>
 #include <filesystem>
 
+enum class EOS_ELogLevel;
+enum class EOS_ELogCategory;
 
 namespace playeveryware::eos::eos_library_helpers
 {
     typedef EOS_EResult(EOS_CALL* EOS_Initialize_t)(const EOS_InitializeOptions* Options);
     typedef EOS_EResult(EOS_CALL* EOS_Shutdown_t)();
     typedef EOS_HPlatform(EOS_CALL* EOS_Platform_Create_t)(const EOS_Platform_Options* Options);
-    typedef void (EOS_CALL* EOS_Platform_Release_t)(EOS_HPlatform Handle);
-    typedef EOS_EResult(EOS_CALL* EOS_Logging_SetLogLevel_t)(EOS_ELogCategory LogCategory, EOS_ELogLevel LogLevel);
     typedef EOS_EResult(EOS_CALL* EOS_Logging_SetCallback_t)(EOS_LogMessageFunc Callback);
-
+    typedef EOS_EResult(EOS_CALL* EOS_Logging_SetLogLevel_t)(EOS_ELogCategory LogCategory, EOS_ELogLevel LogLevel);
     typedef EOS_EResult(*EOS_IntegratedPlatformOptionsContainer_Add_t)(EOS_HIntegratedPlatformOptionsContainer Handle, const EOS_IntegratedPlatformOptionsContainer_AddOptions* InOptions);
     typedef EOS_EResult(*EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t)(const EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions* Options, EOS_HIntegratedPlatformOptionsContainer* OutIntegratedPlatformOptionsContainerHandle);
     typedef void (*EOS_IntegratedPlatformOptionsContainer_Release_t)(EOS_HIntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle);
 
-    static EOS_Initialize_t EOS_Initialize_ptr;
-    static EOS_Shutdown_t EOS_Shutdown_ptr;
-    static EOS_Platform_Create_t EOS_Platform_Create_ptr;
-    static EOS_Platform_Release_t EOS_Platform_Release_ptr;
-    static EOS_Logging_SetLogLevel_t EOS_Logging_SetLogLevel_ptr;
-    static EOS_Logging_SetCallback_t EOS_Logging_SetCallback_ptr;
+    inline EOS_Initialize_t EOS_Initialize_ptr;
+    inline EOS_Shutdown_t EOS_Shutdown_ptr;
+    inline EOS_Platform_Create_t EOS_Platform_Create_ptr;
+    inline EOS_Logging_SetCallback_t EOS_Logging_SetCallback_ptr;
+    inline EOS_Logging_SetLogLevel_t EOS_Logging_SetLogLevel_ptr;
+    inline EOS_IntegratedPlatformOptionsContainer_Add_t EOS_IntegratedPlatformOptionsContainer_Add_ptr;
+    inline EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr;
+    inline EOS_IntegratedPlatformOptionsContainer_Release_t EOS_IntegratedPlatformOptionsContainer_Release_ptr;
 
-    static EOS_IntegratedPlatformOptionsContainer_Add_t EOS_IntegratedPlatformOptionsContainer_Add_ptr;
-    static EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr;
-    static EOS_IntegratedPlatformOptionsContainer_Release_t EOS_IntegratedPlatformOptionsContainer_Release_ptr;
+    inline void* s_eos_sdk_lib_handle;
+    inline void* s_eos_sdk_overlay_lib_handle;
 
-    static void* s_eos_sdk_overlay_lib_handle;
-    static void* s_eos_sdk_lib_handle;
-    static EOS_HPlatform eos_platform_handle;
+    inline EOS_HPlatform eos_platform_handle;
 
-    //-------------------------------------------------------------------------
-    void* load_library_at_path(const std::filesystem::path& library_path)
-    {
-        void* to_return = nullptr;
+    /**
+     * @brief Loads a dynamic library from the specified file path.
+     *
+     * Attempts to load the library at the specified path and returns a handle to it.
+     * On Windows, it uses `LoadLibrary` to perform the loading.
+     *
+     * @param library_path The file path to the library to load.
+     * @return A handle to the loaded library, or `nullptr` if loading fails.
+     */
+    void* load_library_at_path(const std::filesystem::path& library_path);
 
-#if PLATFORM_WINDOWS
-        logging::log_inform(("Loading path at " + string_helpers::to_utf8_str(library_path)).c_str());
-        HMODULE handle = LoadLibrary(library_path.c_str());
-        to_return = (void*)handle;
-#endif
+    /**
+     * @brief Retrieves a function pointer by name from a loaded library.
+     *
+     * Uses the provided library handle to obtain the address of a specified function.
+     * On Windows, it uses `GetProcAddress` to retrieve the function pointer.
+     *
+     * @param library_handle A handle to the loaded library.
+     * @param function The name of the function to retrieve.
+     * @return A pointer to the specified function, or `nullptr` if not found.
+     */
+    void* load_function_with_name(void* library_handle, const char* function);
 
-        return to_return;
-    }
 
-    //-------------------------------------------------------------------------
-    void* load_function_with_name(void* library_handle, const char* function)
-    {
-        void* to_return = nullptr;
-#if PLATFORM_WINDOWS
-        HMODULE handle = (HMODULE)library_handle;
-        to_return = (void*)GetProcAddress(handle, function);
-#endif
-        return to_return;
-    }
-
-    //-------------------------------------------------------------------------
+    /**
+     * @brief Retrieves a function pointer of a specified type from a loaded library.
+     *
+     * This templated function casts the retrieved function pointer to the specified type.
+     *
+     * @tparam T The type of the function pointer.
+     * @param library_handle A handle to the loaded library.
+     * @param function The name of the function to retrieve.
+     * @return A pointer to the specified function cast to the specified type.
+     */
     template<typename T>
     T load_function_with_name(void* library_handle, const char* function)
     {
         return reinterpret_cast<T>(load_function_with_name(library_handle, function));
     }
 
-    const char* pick_if_32bit_else(const char* choice_if_32bit, const char* choice_if_else)
-    {
-#if PLATFORM_32BITS
-        return choice_if_32bit;
-#else
-        return choice_if_else;
-#endif
-    }
+    /**
+     * @brief Chooses a string based on the platform's bitness.
+     *
+     * Returns `choice_if_32bit` if the platform is 32-bit; otherwise, returns `choice_if_else`.
+     *
+     * @param choice_if_32bit The string to return if the platform is 32-bit.
+     * @param choice_if_else The string to return otherwise.
+     * @return The appropriate string based on the platform bitness.
+     */
+    const char* pick_if_32bit_else(const char* choice_if_32bit, const char* choice_if_else);
 
-    //-------------------------------------------------------------------------
-    void FetchEOSFunctionPointers()
-    {
-        // The '@' in the function names is apart of how names are mangled on windows. The value after the '@' is the size of the params on the stack
-        EOS_Initialize_ptr = load_function_with_name<EOS_Initialize_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Initialize@4", "EOS_Initialize"));
-        EOS_Shutdown_ptr = load_function_with_name<EOS_Shutdown_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Shutdown@0", "EOS_Shutdown"));
-        EOS_Platform_Create_ptr = load_function_with_name<EOS_Platform_Create_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Create@4", "EOS_Platform_Create"));
-        EOS_Platform_Release_ptr = load_function_with_name<EOS_Platform_Release_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Release@4", "EOS_Platform_Release"));
-        EOS_Logging_SetLogLevel_ptr = load_function_with_name<EOS_Logging_SetLogLevel_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Logging_SetLogLevel@8", "EOS_Logging_SetLogLevel"));
-        EOS_Logging_SetCallback_ptr = load_function_with_name<EOS_Logging_SetCallback_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("EOS_Logging_SetCallback@4", "EOS_Logging_SetCallback"));
+    /**
+     * @brief Loads EOS SDK function pointers from the loaded EOS SDK library.
+     *
+     * Maps specific function names from the loaded EOS SDK library to internal pointers, allowing
+     * the library to call various EOS SDK functions.
+     */
+    void FetchEOSFunctionPointers();
 
-        EOS_IntegratedPlatformOptionsContainer_Add_ptr = load_function_with_name<EOS_IntegratedPlatformOptionsContainer_Add_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_IntegratedPlatformOptionsContainer_Add@8", "EOS_IntegratedPlatformOptionsContainer_Add"));
-        EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr = load_function_with_name<EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer@8", "EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer"));
-        EOS_IntegratedPlatformOptionsContainer_Release_ptr = load_function_with_name<EOS_IntegratedPlatformOptionsContainer_Release_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_IntegratedPlatformOptionsContainer_Release@4", "EOS_IntegratedPlatformOptionsContainer_Release"));
-    }
+    /**
+     * @brief Queries a registry key for a specific value on Windows.
+     *
+     * Attempts to read a value from the specified registry key and subkey. It supports both
+     * 32-bit and 64-bit registry views.
+     *
+     * @param InKey The registry key handle.
+     * @param InSubKey The name of the subkey to query.
+     * @param InValueName The name of the value to retrieve.
+     * @param OutData The output parameter to store the retrieved data.
+     * @return `true` if the value was successfully retrieved, `false` otherwise.
+     */
+    bool QueryRegKey(const HKEY InKey, const TCHAR* InSubKey, const TCHAR* InValueName, std::wstring& OutData);
 
-    //-------------------------------------------------------------------------
-    bool QueryRegKey(const HKEY InKey, const TCHAR* InSubKey, const TCHAR* InValueName, std::wstring& OutData)
-    {
-        bool bSuccess = false;
-#if PLATFORM_WINDOWS
-        // Redirect key depending on system
-        for (uint32_t RegistryIndex = 0; RegistryIndex < 2 && !bSuccess; ++RegistryIndex)
-        {
-            HKEY Key = 0;
-            const uint32_t RegFlags = (RegistryIndex == 0) ? KEY_WOW64_32KEY : KEY_WOW64_64KEY;
-            if (RegOpenKeyEx(InKey, InSubKey, 0, KEY_READ | RegFlags, &Key) == ERROR_SUCCESS)
-            {
-                ::DWORD Size = 0;
-                // First, we'll call RegQueryValueEx to find out how large of a buffer we need
-                if ((RegQueryValueEx(Key, InValueName, NULL, NULL, NULL, &Size) == ERROR_SUCCESS) && Size)
-                {
-                    // Allocate a buffer to hold the value and call the function again to get the data
-                    char* Buffer = new char[Size];
-                    if (RegQueryValueEx(Key, InValueName, NULL, NULL, (LPBYTE)Buffer, &Size) == ERROR_SUCCESS)
-                    {
-                        const uint32_t Length = (Size / sizeof(TCHAR)) - 1;
-                        OutData = (TCHAR*)Buffer;
-                        bSuccess = true;
-                    }
-                    delete[] Buffer;
-                }
-                RegCloseKey(Key);
-            }
-        }
-#endif
-        return bSuccess;
-    }
-
-    //-------------------------------------------------------------------------
-    void unload_library(void* library_handle)
-    {
-        FreeLibrary((HMODULE)library_handle);
-    }
+    /**
+     * @brief Unloads a previously loaded dynamic library.
+     *
+     * Frees the handle to a loaded library, releasing associated resources.
+     * On Windows, it uses `FreeLibrary` to unload the library.
+     *
+     * @param library_handle The handle to the library to unload.
+     */
+    void unload_library(void* library_handle);
 
 }
 #endif

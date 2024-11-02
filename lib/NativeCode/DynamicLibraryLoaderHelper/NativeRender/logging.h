@@ -31,39 +31,8 @@ namespace playeveryware::eos::logging
 {
     static FILE* log_file_s = nullptr;
     static std::vector<std::string> buffered_output;
-
-    //-------------------------------------------------------------------------
-    static const char* eos_loglevel_to_print_str(EOS_ELogLevel level)
-    {
-        switch (level)
-        {
-        case EOS_ELogLevel::EOS_LOG_Off:
-            return "Off";
-            break;
-        case EOS_ELogLevel::EOS_LOG_Fatal:
-            return "Fatal";
-            break;
-        case EOS_ELogLevel::EOS_LOG_Error:
-            return "Error";
-            break;
-        case EOS_ELogLevel::EOS_LOG_Warning:
-            return "Warning";
-            break;
-        case EOS_ELogLevel::EOS_LOG_Info:
-            return "Info";
-            break;
-        case EOS_ELogLevel::EOS_LOG_Verbose:
-            return "Verbose";
-            break;
-        case EOS_ELogLevel::EOS_LOG_VeryVerbose:
-            return "VeryVerbose";
-            break;
-        default:
-            return nullptr;
-        }
-    }
-
-    static const std::unordered_map<std::string, EOS_ELogLevel> loglevel_str_map =
+    typedef void (*log_flush_function_t)(const char* str);
+    const std::unordered_map<std::string, EOS_ELogLevel> LOGLEVEL_STR_MAP =
     {
         {"Off",EOS_ELogLevel::EOS_LOG_Off},
         {"Fatal",EOS_ELogLevel::EOS_LOG_Fatal},
@@ -74,145 +43,123 @@ namespace playeveryware::eos::logging
         {"VeryVerbose",EOS_ELogLevel::EOS_LOG_VeryVerbose},
     };
 
-    typedef void (*log_flush_function_t)(const char* str);
-    DLL_EXPORT(void) global_log_flush_with_function(log_flush_function_t log_flush_function)
-    {
-        if (buffered_output.size() > 0)
-        {
-            for (const std::string& str : buffered_output)
-            {
-                log_flush_function(str.c_str());
-            }
-            buffered_output.clear();
-        }
-    }
+    /**
+ * @brief Converts an EOS log level to its corresponding string representation.
+ *
+ * Maps an EOS log level enumeration to a string (e.g., "Fatal", "Error").
+ * Returns `nullptr` if the log level is unrecognized.
+ *
+ * @param level The EOS log level to convert.
+ * @return The corresponding string representation, or `nullptr` if not found.
+ */
+    const char* eos_loglevel_to_print_str(EOS_ELogLevel level);
 
-    inline static EOS_ELogLevel eos_loglevel_str_to_enum(const std::string& str)
-    {
-        auto it = loglevel_str_map.find(str);
-        if (it != loglevel_str_map.end())
-        {
-            return it->second;
-        }
-        else
-        {
-            return EOS_ELogLevel::EOS_LOG_Verbose;
-        }
-    }
+    /**
+     * @brief Flushes buffered log messages using a custom flush function.
+     *
+     * Iterates over any buffered log messages and passes each one to the specified flush function.
+     * After flushing, the buffer is cleared.
+     *
+     * @param log_flush_function The function to call for each log message in the buffer.
+     */
+    DLL_EXPORT(void) global_log_flush_with_function(log_flush_function_t log_flush_function);
 
-    inline static void show_log_as_dialog(const char* log_string)
-    {
-#if PLATFORM_WINDOWS
-        MessageBoxA(NULL, log_string, "Warning", MB_ICONWARNING);
-#endif
-    }
+    /**
+     * @brief Converts a log level string to its corresponding EOS log level enumeration.
+     *
+     * Maps a string to an EOS log level enum value (e.g., "Error" to `EOS_LOG_Error`).
+     * Returns `EOS_LOG_Verbose` if the string is not found in the map.
+     *
+     * @param str The log level as a string.
+     * @return The corresponding EOS log level enum value, or `EOS_LOG_Verbose` if not found.
+     */
+    EOS_ELogLevel eos_loglevel_str_to_enum(const std::string& str);
 
-    inline static void global_log_close()
-    {
-        if (log_file_s)
-        {
-            fclose(log_file_s);
-            log_file_s = nullptr;
-            buffered_output.clear();
-        }
-    }
+    /**
+     * @brief Displays a log message in a dialog box (Windows only).
+     *
+     * Opens a Windows message box displaying the provided log message as a warning.
+     *
+     * @param log_string The message to display in the dialog box.
+     */
+    void show_log_as_dialog(const char* log_string);
 
-    inline static void global_logf(const char* format, ...)
-    {
-        if (log_file_s != nullptr)
-        {
-            va_list arg_list;
-            va_start(arg_list, format);
-            vfprintf(log_file_s, format, arg_list);
-            va_end(arg_list);
+    /**
+     * @brief Closes the global log file and clears the buffer.
+     *
+     * Closes the currently open log file (if any) and clears any buffered log messages.
+     */
+    void global_log_close();
 
-            fprintf(log_file_s, "\n");
-            fflush(log_file_s);
-        }
-        else
-        {
-            va_list arg_list;
-            va_start(arg_list, format);
-            va_list arg_list_copy;
-            va_copy(arg_list_copy, arg_list);
-            const size_t printed_length = vsnprintf(nullptr, 0, format, arg_list) + 1;
-            va_end(arg_list);
+    /**
+     * @brief Writes a formatted log message to the log file or buffer.
+     *
+     * Logs a formatted message to the open log file, if available, or to a buffer for deferred logging.
+     * Supports standard `printf` formatting.
+     *
+     * @param format The format string for the log message.
+     * @param ... Arguments for the format string.
+     */
+    void global_logf(const char* format, ...);
 
-            std::vector<char> buffer(printed_length);
-            vsnprintf(buffer.data(), printed_length, format, arg_list_copy);
-            va_end(arg_list_copy);
-            buffered_output.emplace_back(std::string(buffer.data(), printed_length));
-        }
-    }
+    /**
+     * @brief EOS SDK log callback function.
+     *
+     * Receives log messages from the EOS SDK and logs them with a timestamp, category,
+     * and log level.
+     *
+     * @param message The log message provided by the EOS SDK.
+     */
+    EXTERN_C void EOS_CALL eos_log_callback(const EOS_LogMessage* message);
 
-    EXTERN_C void EOS_CALL eos_log_callback(const EOS_LogMessage* message)
-    {
-        constexpr size_t final_timestamp_len = 32;
-        char final_timestamp[final_timestamp_len] = { 0 };
+    /**
+     * @brief Opens a log file for writing.
+     *
+     * Opens a specified log file and writes any buffered log messages to it. If a log
+     * file is already open, it is closed before opening the new file.
+     *
+     * @param filename The name of the file to open for logging.
+     */
+    void global_log_open(const char* filename);
 
-        if (string_helpers::create_timestamp_str(final_timestamp, final_timestamp_len))
-        {
-            global_logf("%s %s (%s): %s", final_timestamp, message->Category, eos_loglevel_to_print_str(message->Level), message->Message);
-        }
-        else
-        {
-            global_logf("%s (%s): %s", message->Category, eos_loglevel_to_print_str(message->Level), message->Message);
-        }
+    /**
+     * @brief Logs a message with a timestamp and header.
+     *
+     * Logs a message with the specified header (e.g., "WARNING", "ERROR"),
+     * and includes a timestamp if available.
+     *
+     * @param header The log header (e.g., "WARNING", "ERROR").
+     * @param message The log message to record.
+     */
+    void log_base(const char* header, const char* message);
 
-    }
+    /**
+     * @brief Logs a warning message.
+     *
+     * Records a warning message with a "WARNING" header and, if enabled,
+     * displays it in a dialog box.
+     *
+     * @param log_string The warning message to log.
+     */
+    void log_warn(const char* log_string);
 
-    inline static void global_log_open(const char* filename)
-    {
-        if (log_file_s != nullptr)
-        {
-            fclose(log_file_s);
-            log_file_s = nullptr;
-        }
-        fopen_s(&log_file_s, filename, "w");
+    /**
+     * @brief Logs an informational message.
+     *
+     * Records an informational message with an "INFORM" header.
+     *
+     * @param log_string The informational message to log.
+     */
+    void log_inform(const char* log_string);
 
-        if (buffered_output.size() > 0)
-        {
-            for (const std::string& str : buffered_output)
-            {
-                global_logf(str.c_str());
-            }
-            buffered_output.clear();
-        }
-    }
-
-    inline static void log_base(const char* header, const char* message)
-    {
-        constexpr size_t final_timestamp_len = 32;
-        char final_timestamp[final_timestamp_len] = { };
-        if (string_helpers::create_timestamp_str(final_timestamp, final_timestamp_len))
-        {
-            global_logf("%s NativePlugin (%s): %s", final_timestamp, header, message);
-        }
-        else
-        {
-            global_logf("NativePlugin (%s): %s", header, message);
-        }
-    }
-
-    //-------------------------------------------------------------------------
-    // TODO: If possible, hook this up into a proper logging channel.s
-    inline static void log_warn(const char* log_string)
-    {
-#if SHOW_DIALOG_BOX_ON_WARN
-        show_log_as_dialog(log_string);
-#endif
-        log_base("WARNING", log_string);
-    }
-
-    inline static void log_inform(const char* log_string)
-    {
-        log_base("INFORM", log_string);
-    }
-
-    inline static void log_error(const char* log_string)
-    {
-        log_base("ERROR", log_string);
-    }
+    /**
+     * @brief Logs an error message.
+     *
+     * Records an error message with an "ERROR" header.
+     *
+     * @param log_string The error message to log.
+     */
+    void log_error(const char* log_string);
 
 }
 #endif
