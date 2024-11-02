@@ -23,44 +23,52 @@
  */
 
 #include "logging.h"
+#include <eos_logging.h>
 #include "string_helpers.h"
+#include <unordered_map>
 
-namespace playeveryware::eos::logging
+namespace pew::eos::logging
 {
-    //-------------------------------------------------------------------------
-    const char* eos_loglevel_to_print_str(EOS_ELogLevel level)
+    FILE* s_log_file = nullptr;
+    std::vector<std::string> buffered_output;
+
+    const std::unordered_map<std::string, EOS_ELogLevel> LOGLEVEL_STR_MAP =
+    {
+        {"Off",EOS_ELogLevel::EOS_LOG_Off},
+        {"Fatal",EOS_ELogLevel::EOS_LOG_Fatal},
+        {"Error",EOS_ELogLevel::EOS_LOG_Error},
+        {"Warning",EOS_ELogLevel::EOS_LOG_Warning},
+        {"Info",EOS_ELogLevel::EOS_LOG_Info},
+        {"Verbose",EOS_ELogLevel::EOS_LOG_Verbose},
+        {"VeryVerbose",EOS_ELogLevel::EOS_LOG_VeryVerbose},
+    };
+
+    const char* eos_loglevel_to_print_str(const EOS_ELogLevel level)
     {
         switch (level)
         {
         case EOS_ELogLevel::EOS_LOG_Off:
             return "Off";
-            break;
         case EOS_ELogLevel::EOS_LOG_Fatal:
             return "Fatal";
-            break;
         case EOS_ELogLevel::EOS_LOG_Error:
             return "Error";
-            break;
         case EOS_ELogLevel::EOS_LOG_Warning:
             return "Warning";
-            break;
         case EOS_ELogLevel::EOS_LOG_Info:
             return "Info";
-            break;
         case EOS_ELogLevel::EOS_LOG_Verbose:
             return "Verbose";
-            break;
         case EOS_ELogLevel::EOS_LOG_VeryVerbose:
             return "VeryVerbose";
-            break;
         default:
             return nullptr;
         }
     }
 
-    DLL_EXPORT(void) global_log_flush_with_function(log_flush_function_t log_flush_function)
+    DLL_EXPORT(void) global_log_flush_with_function(const log_flush_function_t log_flush_function)
     {
-        if (buffered_output.size() > 0)
+        if (!buffered_output.empty())
         {
             for (const std::string& str : buffered_output)
             {
@@ -77,40 +85,37 @@ namespace playeveryware::eos::logging
         {
             return it->second;
         }
-        else
-        {
-            return EOS_ELogLevel::EOS_LOG_Verbose;
-        }
+        return EOS_ELogLevel::EOS_LOG_Verbose;
     }
 
     void show_log_as_dialog(const char* log_string)
     {
 #if PLATFORM_WINDOWS
-        MessageBoxA(NULL, log_string, "Warning", MB_ICONWARNING);
+        MessageBoxA(nullptr, log_string, "Warning", MB_ICONWARNING);
 #endif
     }
 
     void global_log_close()
     {
-        if (log_file_s)
+        if (s_log_file)
         {
-            fclose(log_file_s);
-            log_file_s = nullptr;
+            fclose(s_log_file);
+            s_log_file = nullptr;
             buffered_output.clear();
         }
     }
 
     void global_logf(const char* format, ...)
     {
-        if (log_file_s != nullptr)
+        if (s_log_file != nullptr)
         {
             va_list arg_list;
             va_start(arg_list, format);
-            vfprintf(log_file_s, format, arg_list);
+            vfprintf(s_log_file, format, arg_list);
             va_end(arg_list);
 
-            fprintf(log_file_s, "\n");
-            fflush(log_file_s);
+            fprintf(s_log_file, "\n");
+            fflush(s_log_file);
         }
         else
         {
@@ -141,17 +146,16 @@ namespace playeveryware::eos::logging
         {
             global_logf("%s (%s): %s", message->Category, eos_loglevel_to_print_str(message->Level), message->Message);
         }
-
     }
 
     void global_log_open(const char* filename)
     {
-        if (log_file_s != nullptr)
+        if (s_log_file != nullptr)
         {
-            fclose(log_file_s);
-            log_file_s = nullptr;
+            fclose(s_log_file);
+            s_log_file = nullptr;
         }
-        fopen_s(&log_file_s, filename, "w");
+        fopen_s(&s_log_file, filename, "w");
 
         if (buffered_output.size() > 0)
         {

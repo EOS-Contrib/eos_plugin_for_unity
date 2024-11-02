@@ -27,7 +27,7 @@
 #include "json_helpers.h"
 #include "logging.h"
 
-namespace playeveryware::eos::config
+namespace pew::eos::config
 {
     /**
      * \brief Function that gets the config as a JSON string.

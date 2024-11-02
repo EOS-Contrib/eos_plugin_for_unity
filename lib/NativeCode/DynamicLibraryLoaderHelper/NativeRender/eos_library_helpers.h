@@ -27,10 +27,13 @@
 #include <eos_logging.h>
 #include <filesystem>
 
+/**
+ * \brief Forward declarations
+ */
 enum class EOS_ELogLevel;
 enum class EOS_ELogCategory;
 
-namespace playeveryware::eos::eos_library_helpers
+namespace pew::eos::eos_library_helpers
 {
     typedef EOS_EResult(EOS_CALL* EOS_Initialize_t)(const EOS_InitializeOptions* Options);
     typedef EOS_EResult(EOS_CALL* EOS_Shutdown_t)();
@@ -41,19 +44,19 @@ namespace playeveryware::eos::eos_library_helpers
     typedef EOS_EResult(*EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t)(const EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions* Options, EOS_HIntegratedPlatformOptionsContainer* OutIntegratedPlatformOptionsContainerHandle);
     typedef void (*EOS_IntegratedPlatformOptionsContainer_Release_t)(EOS_HIntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle);
 
-    inline EOS_Initialize_t EOS_Initialize_ptr;
-    inline EOS_Shutdown_t EOS_Shutdown_ptr;
-    inline EOS_Platform_Create_t EOS_Platform_Create_ptr;
-    inline EOS_Logging_SetCallback_t EOS_Logging_SetCallback_ptr;
-    inline EOS_Logging_SetLogLevel_t EOS_Logging_SetLogLevel_ptr;
-    inline EOS_IntegratedPlatformOptionsContainer_Add_t EOS_IntegratedPlatformOptionsContainer_Add_ptr;
-    inline EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr;
-    inline EOS_IntegratedPlatformOptionsContainer_Release_t EOS_IntegratedPlatformOptionsContainer_Release_ptr;
+    extern EOS_Initialize_t EOS_Initialize_ptr;
+    extern EOS_Shutdown_t EOS_Shutdown_ptr;
+    extern EOS_Platform_Create_t EOS_Platform_Create_ptr;
+    extern EOS_Logging_SetCallback_t EOS_Logging_SetCallback_ptr;
+    extern EOS_Logging_SetLogLevel_t EOS_Logging_SetLogLevel_ptr;
+    extern EOS_IntegratedPlatformOptionsContainer_Add_t EOS_IntegratedPlatformOptionsContainer_Add_ptr;
+    extern EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr;
+    extern EOS_IntegratedPlatformOptionsContainer_Release_t EOS_IntegratedPlatformOptionsContainer_Release_ptr;
 
-    inline void* s_eos_sdk_lib_handle;
-    inline void* s_eos_sdk_overlay_lib_handle;
+    extern void* s_eos_sdk_lib_handle;
+    extern void* s_eos_sdk_overlay_lib_handle;
 
-    inline EOS_HPlatform eos_platform_handle;
+    extern EOS_HPlatform eos_platform_handle;
 
     /**
      * @brief Loads a dynamic library from the specified file path.
@@ -95,17 +98,6 @@ namespace playeveryware::eos::eos_library_helpers
     }
 
     /**
-     * @brief Chooses a string based on the platform's bitness.
-     *
-     * Returns `choice_if_32bit` if the platform is 32-bit; otherwise, returns `choice_if_else`.
-     *
-     * @param choice_if_32bit The string to return if the platform is 32-bit.
-     * @param choice_if_else The string to return otherwise.
-     * @return The appropriate string based on the platform bitness.
-     */
-    const char* pick_if_32bit_else(const char* choice_if_32bit, const char* choice_if_else);
-
-    /**
      * @brief Loads EOS SDK function pointers from the loaded EOS SDK library.
      *
      * Maps specific function names from the loaded EOS SDK library to internal pointers, allowing
@@ -137,5 +129,14 @@ namespace playeveryware::eos::eos_library_helpers
      */
     void unload_library(void* library_handle);
 
+    /**
+     * @brief Retrieves the path to the overlay DLL.
+     *
+     * Attempts to retrieve the overlay DLL path from the system registry on Windows.
+     *
+     * @param[out] OutDllPath The output parameter where the overlay DLL path is stored.
+     * @return `true` if the DLL path was found and exists; otherwise, `false`.
+     */
+    static bool get_overlay_dll_path(std::filesystem::path* OutDllPath);
 }
 #endif

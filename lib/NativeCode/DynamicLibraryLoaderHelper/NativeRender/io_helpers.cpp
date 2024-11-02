@@ -22,7 +22,7 @@
  */
 
 
-namespace playeveryware::eos::io_helpers {
+namespace pew::eos::io_helpers {
 
     //------------------------------------------------------------------------
     
@@ -32,4 +32,4 @@ namespace playeveryware::eos::io_helpers {
     
 
     
-} // namespace playeveryware::eos::io_helpers
+} // namespace pew::eos::io_helpers

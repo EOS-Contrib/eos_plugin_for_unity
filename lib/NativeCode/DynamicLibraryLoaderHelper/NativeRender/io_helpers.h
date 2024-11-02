@@ -32,7 +32,7 @@
   * obtaining the path to the current module and resolving relative paths.
   */
 
-namespace playeveryware::eos::io_helpers
+namespace pew::eos::io_helpers
 {
     static TCHAR* get_path_to_module(HMODULE module)
     {
@@ -117,5 +117,5 @@ namespace playeveryware::eos::io_helpers
 
         return filename;
     }
-} // namespace playeveryware::eos::io_helpers
+} // namespace pew::eos::io_helpers
 #endif

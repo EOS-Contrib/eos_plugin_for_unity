@@ -31,7 +31,7 @@ namespace std::filesystem
     class path;
 }
 
-namespace playeveryware::eos::string_helpers
+namespace pew::eos::string_helpers
 {
     /**
        * \brief Trims the whitespace from the beginning and end of a string.

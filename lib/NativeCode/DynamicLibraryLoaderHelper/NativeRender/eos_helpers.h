@@ -30,7 +30,7 @@ namespace std::filesystem
     class path;
 }
 
-namespace playeveryware::eos
+namespace pew::eos
 {
     namespace config
     {
@@ -117,15 +117,5 @@ namespace playeveryware::eos
      * @param eosConfig The configuration object containing EOS platform settings.
      */
     void eos_create(config::EOSConfig& eosConfig);
-
-    /**
-     * @brief Retrieves the path to the overlay DLL.
-     *
-     * Attempts to retrieve the overlay DLL path from the system registry on Windows.
-     *
-     * @param[out] OutDllPath The output parameter where the overlay DLL path is stored.
-     * @return `true` if the DLL path was found and exists; otherwise, `false`.
-     */
-    static bool get_overlay_dll_path(std::filesystem::path* OutDllPath);
 }
 #endif

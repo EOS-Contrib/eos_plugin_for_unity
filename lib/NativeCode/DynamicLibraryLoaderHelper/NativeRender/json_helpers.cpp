@@ -6,7 +6,7 @@
 
 #include "logging.h"
 
-namespace playeveryware::eos::json_helpers
+namespace pew::eos::json_helpers
 {
     //-------------------------------------------------------------------------
     double json_value_as_double(json_value_s* value, double default_value)

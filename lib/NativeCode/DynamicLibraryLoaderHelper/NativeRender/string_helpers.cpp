@@ -29,7 +29,7 @@
 #include <sstream>
 #include <filesystem>
 
-namespace playeveryware::eos::string_helpers
+namespace pew::eos::string_helpers
 {
     std::string trim(const std::string& str)
     {

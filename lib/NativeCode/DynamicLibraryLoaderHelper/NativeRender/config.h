@@ -34,7 +34,7 @@
 
 struct json_value_s;
 
-namespace playeveryware::eos::config
+namespace pew::eos::config
 {
     /**
      * \brief

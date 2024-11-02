@@ -57,26 +57,26 @@ extern "C"
 DLL_EXPORT(void) UnityPluginLoad(void*)
 {
 #if _DEBUG
-    playeveryware::eos::logging::show_log_as_dialog("You may attach a debugger to the DLL");
+    pew::eos::logging::show_log_as_dialog("You may attach a debugger to the DLL");
 #endif
 
-    auto path_to_config_json = playeveryware::eos::config::get_path_for_eos_service_config(EOS_SERVICE_CONFIG_FILENAME);
+    auto path_to_config_json = pew::eos::config::get_path_for_eos_service_config(EOS_SERVICE_CONFIG_FILENAME);
     json_value_s* eos_config_as_json = nullptr;
 
-    eos_config_as_json = playeveryware::eos::config::read_config_json_from_dll();
+    eos_config_as_json = pew::eos::config::read_config_json_from_dll();
 
     if (!eos_config_as_json && std::filesystem::exists(path_to_config_json))
     {
-        eos_config_as_json = playeveryware::eos::json_helpers::read_config_json_as_json_from_path(path_to_config_json);
+        eos_config_as_json = pew::eos::json_helpers::read_config_json_as_json_from_path(path_to_config_json);
     }
 
     if (!eos_config_as_json)
     {
-        playeveryware::eos::logging::log_warn("Failed to load a valid json config for EOS");
+        pew::eos::logging::log_warn("Failed to load a valid json config for EOS");
         return;
     }
 
-    playeveryware::eos::config::EOSConfig eos_config = playeveryware::eos::config::eos_config_from_json_value(eos_config_as_json);
+    pew::eos::config::EOSConfig eos_config = pew::eos::config::eos_config_from_json_value(eos_config_as_json);
     free(eos_config_as_json);
 
 #if PLATFORM_WINDOWS
@@ -103,7 +103,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
             std::string sandboxArg = argStrings[i].substr(match->length());
             if (!sandboxArg.empty())
             {
-                playeveryware::eos::logging::log_inform(("Sandbox ID override specified: " + sandboxArg).c_str());
+                pew::eos::logging::log_inform(("Sandbox ID override specified: " + sandboxArg).c_str());
                 eos_config.sandboxID = sandboxArg;
             }
         }
@@ -115,7 +115,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     {
         if (eos_config.sandboxID == eos_config.sandboxDeploymentOverrides[i].sandboxID)
         {
-            playeveryware::eos::logging::log_inform(("Sandbox Deployment ID override specified: " + eos_config.sandboxDeploymentOverrides[i].deploymentID).c_str());
+            pew::eos::logging::log_inform(("Sandbox Deployment ID override specified: " + eos_config.sandboxDeploymentOverrides[i].deploymentID).c_str());
             eos_config.deploymentID = eos_config.sandboxDeploymentOverrides[i].deploymentID;
         }
     }
@@ -139,7 +139,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
             std::string deploymentArg = argStrings[i].substr(match->length());
             if (!deploymentArg.empty())
             {
-                playeveryware::eos::logging::log_inform(("Deployment ID override specified: " + deploymentArg).c_str());
+                pew::eos::logging::log_inform(("Deployment ID override specified: " + deploymentArg).c_str());
                 eos_config.deploymentID = deploymentArg;
             }
         }
@@ -147,17 +147,17 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 #endif
 
 #if _DEBUG
-    playeveryware::eos::logging::global_log_open("gfx_log.txt");
+    pew::eos::logging::global_log_open("gfx_log.txt");
 #endif
 
     std::filesystem::path DllPath;
-    playeveryware::eos::logging::log_inform("On UnityPluginLoad");
+    pew::eos::logging::log_inform("On UnityPluginLoad");
     //if (!get_overlay_dll_path(&DllPath))
     //{
     //    show_log_as_dialog("Missing Overlay DLL!\n Overlay functionality will not work!");
     //}
 
-    playeveryware::eos::eos_library_helpers::s_eos_sdk_lib_handle = playeveryware::eos::eos_library_helpers::load_library_at_path(playeveryware::eos::io_helpers::get_path_relative_to_current_module(SDK_DLL_NAME));
+    pew::eos::eos_library_helpers::s_eos_sdk_lib_handle = pew::eos::eos_library_helpers::load_library_at_path(pew::eos::io_helpers::get_path_relative_to_current_module(SDK_DLL_NAME));
 
     //eos_sdk_overlay_lib_handle = load_library_at_path(DllPath);
     //if (eos_sdk_overlay_lib_handle)
@@ -170,19 +170,19 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     //    }
     //}
 
-    if (playeveryware::eos::eos_library_helpers::s_eos_sdk_lib_handle)
+    if (pew::eos::eos_library_helpers::s_eos_sdk_lib_handle)
     {
-        playeveryware::eos::eos_library_helpers::FetchEOSFunctionPointers();
+        pew::eos::eos_library_helpers::FetchEOSFunctionPointers();
 
-        if (playeveryware::eos::eos_library_helpers::EOS_Initialize_ptr)
+        if (pew::eos::eos_library_helpers::EOS_Initialize_ptr)
         {
-            playeveryware::eos::logging::log_inform("start eos init");
+            pew::eos::logging::log_inform("start eos init");
 
-            playeveryware::eos::eos_init(eos_config);
+            pew::eos::eos_init(eos_config);
 
-            playeveryware::eos::eos_set_loglevel_via_config();
+            pew::eos::eos_set_loglevel_via_config();
             //log_warn("start eos create");
-            playeveryware::eos::eos_create(eos_config);
+            pew::eos::eos_create(eos_config);
 
             // This code is commented out because the handle is now handed off to the C# code
             //EOS_Platform_Release(eos_platform_handle);
@@ -192,20 +192,20 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
             //log_warn("unload eos sdk");
             //unload_library(s_eos_sdk_lib_handle);
 
-            playeveryware::eos::eos_library_helpers::s_eos_sdk_lib_handle = NULL;
-            playeveryware::eos::eos_library_helpers::EOS_Initialize_ptr = NULL;
-            playeveryware::eos::eos_library_helpers::EOS_Shutdown_ptr = NULL;
-            playeveryware::eos::eos_library_helpers::EOS_Platform_Create_ptr = NULL;
+            pew::eos::eos_library_helpers::s_eos_sdk_lib_handle = NULL;
+            pew::eos::eos_library_helpers::EOS_Initialize_ptr = NULL;
+            pew::eos::eos_library_helpers::EOS_Shutdown_ptr = NULL;
+            pew::eos::eos_library_helpers::EOS_Platform_Create_ptr = NULL;
         }
         else
         {
-            playeveryware::eos::logging::log_warn("unable to find EOS_Initialize");
+            pew::eos::logging::log_warn("unable to find EOS_Initialize");
         }
 
     }
     else
     {
-        playeveryware::eos::logging::log_warn("Couldn't find dll "  SDK_DLL_NAME);
+        pew::eos::logging::log_warn("Couldn't find dll "  SDK_DLL_NAME);
     }
 
 }
@@ -220,8 +220,8 @@ DLL_EXPORT(void) UnityPluginUnload()
     {
         FuncApplicationWillShutdown();
     }
-    playeveryware::eos::eos_library_helpers::unload_library(playeveryware::eos::eos_library_helpers::s_eos_sdk_overlay_lib_handle);
-    playeveryware::eos::eos_library_helpers::s_eos_sdk_overlay_lib_handle = nullptr;
+    pew::eos::eos_library_helpers::unload_library(pew::eos::eos_library_helpers::s_eos_sdk_overlay_lib_handle);
+    pew::eos::eos_library_helpers::s_eos_sdk_overlay_lib_handle = nullptr;
 
-    playeveryware::eos::logging::global_log_close();
+    pew::eos::logging::global_log_close();
 }

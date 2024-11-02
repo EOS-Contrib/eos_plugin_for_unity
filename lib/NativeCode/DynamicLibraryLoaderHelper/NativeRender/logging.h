@@ -23,35 +23,28 @@
  */
 
 #pragma once
-#include <unordered_map>
-#include "eos_logging.h"
-#include "string_helpers.h"
 
-namespace playeveryware::eos::logging
+#include <string>
+#include <eos_logging.h>
+
+ /**
+  * \brief Forward declarations
+  */
+enum class EOS_ELogLevel;
+
+namespace pew::eos::logging
 {
-    static FILE* log_file_s = nullptr;
-    static std::vector<std::string> buffered_output;
     typedef void (*log_flush_function_t)(const char* str);
-    const std::unordered_map<std::string, EOS_ELogLevel> LOGLEVEL_STR_MAP =
-    {
-        {"Off",EOS_ELogLevel::EOS_LOG_Off},
-        {"Fatal",EOS_ELogLevel::EOS_LOG_Fatal},
-        {"Error",EOS_ELogLevel::EOS_LOG_Error},
-        {"Warning",EOS_ELogLevel::EOS_LOG_Warning},
-        {"Info",EOS_ELogLevel::EOS_LOG_Info},
-        {"Verbose",EOS_ELogLevel::EOS_LOG_Verbose},
-        {"VeryVerbose",EOS_ELogLevel::EOS_LOG_VeryVerbose},
-    };
 
     /**
- * @brief Converts an EOS log level to its corresponding string representation.
- *
- * Maps an EOS log level enumeration to a string (e.g., "Fatal", "Error").
- * Returns `nullptr` if the log level is unrecognized.
- *
- * @param level The EOS log level to convert.
- * @return The corresponding string representation, or `nullptr` if not found.
- */
+     * @brief Converts an EOS log level to its corresponding string representation.
+     *
+     * Maps an EOS log level enumeration to a string (e.g., "Fatal", "Error").
+     * Returns `nullptr` if the log level is unrecognized.
+     *
+     * @param level The EOS log level to convert.
+     * @return The corresponding string representation, or `nullptr` if not found.
+     */
     const char* eos_loglevel_to_print_str(EOS_ELogLevel level);
 
     /**
@@ -160,6 +153,5 @@ namespace playeveryware::eos::logging
      * @param log_string The error message to log.
      */
     void log_error(const char* log_string);
-
 }
 #endif

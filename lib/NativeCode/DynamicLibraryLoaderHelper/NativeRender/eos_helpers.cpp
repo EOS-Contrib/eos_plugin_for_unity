@@ -31,7 +31,7 @@
 #include "json_helpers.h"
 #include "logging.h"
 
-namespace playeveryware::eos
+namespace pew::eos
 {
     DLL_EXPORT(void*) EOS_GetPlatformInterface()
     {
@@ -183,7 +183,7 @@ namespace playeveryware::eos
         if (steam_dll_handle != nullptr)
         {
             typedef bool(__cdecl* SteamAPI_Init_t)();
-            SteamAPI_Init_t SteamAPI_Init = playeveryware::eos::eos_library_helpers::load_function_with_name<SteamAPI_Init_t>(steam_dll_handle, "SteamAPI_Init");
+            SteamAPI_Init_t SteamAPI_Init = pew::eos::eos_library_helpers::load_function_with_name<SteamAPI_Init_t>(steam_dll_handle, "SteamAPI_Init");
 
             if (SteamAPI_Init())
             {
@@ -377,26 +377,5 @@ namespace playeveryware::eos
         }
     }
 
-    static bool get_overlay_dll_path(std::filesystem::path* OutDllPath)
-    {
-#if PLATFORM_WINDOWS
-        const TCHAR* RegKey = TEXT(R"(SOFTWARE\Epic Games\EOS)");
-        const TCHAR* RegValue = TEXT("OverlayPath");
-        std::wstring OverlayDllDirectory;
-
-        if (!eos_library_helpers::QueryRegKey(HKEY_CURRENT_USER, RegKey, RegValue, OverlayDllDirectory))
-        {
-            if (!eos_library_helpers::QueryRegKey(HKEY_LOCAL_MACHINE, RegKey, RegValue, OverlayDllDirectory))
-            {
-                return false;
-            }
-        }
-
-        *OutDllPath = std::filesystem::path(OverlayDllDirectory) / OVERLAY_DLL_NAME;
-        return std::filesystem::exists(*OutDllPath) && std::filesystem::is_regular_file(*OutDllPath);
-#else
-        log_inform("Trying to get a DLL path on a platform without DLL paths searching");
-        return false;
-#endif
-    }
+    
 }

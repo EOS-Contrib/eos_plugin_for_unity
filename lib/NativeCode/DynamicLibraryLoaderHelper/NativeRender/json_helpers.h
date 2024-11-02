@@ -34,7 +34,7 @@ namespace std::filesystem
     class path;
 }
 
-namespace playeveryware::eos::json_helpers
+namespace pew::eos::json_helpers
 {
     /**
      * \brief
