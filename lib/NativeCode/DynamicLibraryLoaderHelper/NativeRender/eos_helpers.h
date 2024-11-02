@@ -25,9 +25,12 @@
 #pragma once
 #include <string>
 
-namespace std::filesystem
+namespace std
 {
-    class path;
+    namespace filesystem
+    {
+        class path;
+    }
 }
 
 namespace pew::eos
