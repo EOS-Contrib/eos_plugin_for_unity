@@ -1,3 +1,6 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
 /*
  * Copyright (c) 2021 PlayEveryWare
  *
@@ -21,12 +24,13 @@
  */
 
 #pragma once
+
 #include <filesystem>
 #include <map>
 #include <vector>
+#include <optional>
 
 #include "json.h"
-#include <optional>
 
 struct json_value_s;
 
@@ -105,15 +109,34 @@ namespace playeveryware::eos::config
         {"ApplicationManagedIdentityLogin",          EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin}
     };
 
+    /**
+     * @brief Typedef for a function pointer that retrieves the configuration as a JSON string.
+     *
+     * This function pointer type represents a function that, when called, returns the configuration
+     * data as a JSON-formatted string.
+     */
     typedef const char* (*GetConfigAsJSONString_t)();
-    static GetConfigAsJSONString_t GetConfigAsJSONString;
 
+    /**
+     * @brief Represents a sandbox deployment override configuration.
+     *
+     * Contains the sandbox ID and the corresponding deployment ID to override the default sandbox
+     * deployment configuration.
+     */
     struct SandboxDeploymentOverride
     {
         std::string sandboxID;
         std::string deploymentID;
     };
 
+
+    /**
+     * @brief Holds EOS platform configuration settings.
+     *
+     * This structure defines various configuration parameters for the EOS platform, including
+     * product details, sandbox information, client credentials, thread affinities, and platform
+     * options.
+     */
     struct EOSConfig
     {
         std::string productName;
@@ -148,34 +171,44 @@ namespace playeveryware::eos::config
 
     };
 
+    /**
+     * @brief Holds configuration for log levels and categories.
+     *
+     * This structure defines log level settings for specific log categories.
+     */
     struct LogLevelConfig
     {
         std::vector<std::string> category;
         std::vector<std::string> level;
     };
 
+    /**
+     * @brief Configuration settings specific to the EOS Steam platform integration.
+     *
+     * This structure defines settings for integrating with the Steam platform, including SDK versions,
+     * platform flags, and API versions.
+     */
     struct EOSSteamConfig
     {
-        EOS_EIntegratedPlatformManagementFlags flags;
-        uint32_t steamSDKMajorVersion;
-        uint32_t steamSDKMinorVersion;
+        EOS_EIntegratedPlatformManagementFlags flags = static_cast<EOS_EIntegratedPlatformManagementFlags>(0);
+        uint32_t steamSDKMajorVersion = 0;
+        uint32_t steamSDKMinorVersion = 0;
         std::optional<std::string> OverrideLibraryPath;
         std::vector<std::string> steamApiInterfaceVersionsArray;
 
-        EOSSteamConfig()
-        {
-            flags = static_cast<EOS_EIntegratedPlatformManagementFlags>(0);
-        }
+        /**
+         * @brief Checks if the library is managed by the application.
+         *
+         * @return `true` if the library is managed by the application, `false` otherwise.
+         */
+        bool is_managed_by_application() const;
 
-        bool isManagedByApplication()
-        {
-            return std::underlying_type<EOS_EIntegratedPlatformManagementFlags>::type(flags & EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication);
-        }
-        bool isManagedBySDK()
-        {
-            return std::underlying_type<EOS_EIntegratedPlatformManagementFlags>::type(flags & EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK);
-        }
-
+        /**
+         * @brief Checks if the library is managed by the EOS SDK.
+         *
+         * @return `true` if the library is managed by the SDK, `false` otherwise.
+         */
+        bool is_managed_by_sdk() const;
     };
 
     /**
@@ -228,7 +261,7 @@ namespace playeveryware::eos::config
      * @param iter The JSON object element representing the flags.
      * @return The combined `EOS_EIntegratedPlatformManagementFlags` value.
      */
-    EOS_EIntegratedPlatformManagementFlags eos_collect_integrated_platform_managment_flags(json_object_element_s* iter);
+    EOS_EIntegratedPlatformManagementFlags eos_collect_integrated_platform_management_flags(json_object_element_s* iter);
 
     /**
      * @brief Parses an EOS Steam configuration from a JSON structure.
@@ -252,3 +285,4 @@ namespace playeveryware::eos::config
     json_value_s* read_eos_config_as_json_value_from_file(std::string config_filename);
 
 }
+#endif

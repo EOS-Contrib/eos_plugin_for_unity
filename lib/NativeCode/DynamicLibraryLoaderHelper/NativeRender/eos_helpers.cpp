@@ -312,7 +312,7 @@ namespace playeveryware::eos
                 }
             }
 
-            if (eos_steam_config.isManagedByApplication())
+            if (eos_steam_config.is_managed_by_application())
             {
                 eos_call_steam_init(eos_steam_config.OverrideLibraryPath.value());
                 eos_steam_config.OverrideLibraryPath.reset();

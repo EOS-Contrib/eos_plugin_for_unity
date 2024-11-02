@@ -1,3 +1,24 @@
+/*
+ * Copyright (c) 2021 PlayEveryWare
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 #include <pch.h>
 #include "config.h"
@@ -8,10 +29,27 @@
 
 namespace playeveryware::eos::config
 {
+    /**
+     * \brief Function that gets the config as a JSON string.
+     */
+    static GetConfigAsJSONString_t GetConfigAsJSONString;
+
+    bool EOSSteamConfig::is_managed_by_application() const
+    {
+        return static_cast<std::underlying_type_t<EOS_EIntegratedPlatformManagementFlags>>(flags &
+            EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication);
+    }
+
+    bool EOSSteamConfig::is_managed_by_sdk() const
+    {
+        return static_cast<std::underlying_type_t<EOS_EIntegratedPlatformManagementFlags>>(flags &
+            EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK);
+    }
+
     LogLevelConfig log_config_from_json_value(json_value_s* config_json)
     {
-        struct json_object_s* config_json_object = json_value_as_object(config_json);
-        struct json_object_element_s* iter = config_json_object->start;
+        json_object_s* config_json_object = json_value_as_object(config_json);
+        json_object_element_s* iter = config_json_object->start;
         LogLevelConfig log_config;
 
         while (iter != nullptr)
@@ -21,8 +59,8 @@ namespace playeveryware::eos::config
                 json_array_s* pairs = json_value_as_array(iter->value);
                 for (auto e = pairs->start; e != nullptr; e = e->next)
                 {
-                    struct json_object_s* pairs_json_object = json_value_as_object(e->value);
-                    struct json_object_element_s* pairs_iter = pairs_json_object->start;
+                    json_object_s* pairs_json_object = json_value_as_object(e->value);
+                    json_object_element_s* pairs_iter = pairs_json_object->start;
                     while (pairs_iter != nullptr)
                     {
                         if (!strcmp("Category", pairs_iter->name->string))
@@ -43,10 +81,8 @@ namespace playeveryware::eos::config
         return log_config;
     }
 
-    //-------------------------------------------------------------------------
     std::filesystem::path get_path_for_eos_service_config(std::string config_filename)
     {
-        //return get_path_relative_to_current_module(std::filesystem::path("../..") / "StreamingAssets" / "EOS" / "EpicOnlineServicesConfig.json");
         auto twoDirsUp = std::filesystem::path("../..");
         std::filesystem::path packaged_data_path = io_helpers::get_path_relative_to_current_module(twoDirsUp);
         std::error_code error_code;
@@ -61,10 +97,9 @@ namespace playeveryware::eos::config
         return packaged_data_path / "StreamingAssets" / "EOS" / config_filename;
     }
 
-    //-------------------------------------------------------------------------
     json_value_s* read_config_json_from_dll()
     {
-        struct json_value_s* config_json = nullptr;
+        json_value_s* config_json = nullptr;
 
 #if ENABLE_DLL_BASED_EOS_CONFIG
         logging::log_inform("Trying to load eos config via dll");
@@ -100,8 +135,8 @@ namespace playeveryware::eos::config
     EOSConfig eos_config_from_json_value(json_value_s* config_json)
     {
         // Create platform instance
-        struct json_object_s* config_json_object = json_value_as_object(config_json);
-        struct json_object_element_s* iter = config_json_object->start;
+        json_object_s* config_json_object = json_value_as_object(config_json);
+        json_object_element_s* iter = config_json_object->start;
         EOSConfig eos_config;
 
         while (iter != nullptr)
@@ -132,9 +167,9 @@ namespace playeveryware::eos::config
                 eos_config.sandboxDeploymentOverrides = std::vector<SandboxDeploymentOverride>();
                 for (auto e = overrides->start; e != nullptr; e = e->next)
                 {
-                    struct json_object_s* override_json_object = json_value_as_object(e->value);
-                    struct json_object_element_s* ov_iter = override_json_object->start;
-                    struct SandboxDeploymentOverride override_item = SandboxDeploymentOverride();
+                    json_object_s* override_json_object = json_value_as_object(e->value);
+                    json_object_element_s* ov_iter = override_json_object->start;
+                    SandboxDeploymentOverride override_item = SandboxDeploymentOverride();
                     while (ov_iter != nullptr)
                     {
                         if (!strcmp("sandboxID", ov_iter->name->string))
@@ -225,30 +260,25 @@ namespace playeveryware::eos::config
         return eos_config;
     }
 
-
-    //-------------------------------------------------------------------------
-    EOS_EIntegratedPlatformManagementFlags eos_collect_integrated_platform_managment_flags(json_object_element_s* iter)
+    EOS_EIntegratedPlatformManagementFlags eos_collect_integrated_platform_management_flags(json_object_element_s* iter)
     {
-
         return json_helpers::collect_flags<EOS_EIntegratedPlatformManagementFlags>(
             &(INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_STRINGS_TO_ENUM),
             EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled,
             iter);
     }
 
-    //-------------------------------------------------------------------------
     EOSSteamConfig eos_steam_config_from_json_value(json_value_s* config_json)
     {
-        struct json_object_s* config_json_object = json_value_as_object(config_json);
-        struct json_object_element_s* iter = config_json_object->start;
+        json_object_s* config_json_object = json_value_as_object(config_json);
+        json_object_element_s* iter = config_json_object->start;
         EOSSteamConfig eos_config;
-        eos_config.flags;
 
         while (iter != nullptr)
         {
             if (!strcmp("flags", iter->name->string))
             {
-                eos_config.flags = eos_collect_integrated_platform_managment_flags(iter);
+                eos_config.flags = eos_collect_integrated_platform_management_flags(iter);
 
             }
             else if (!strcmp("overrideLibraryPath", iter->name->string))
@@ -287,7 +317,6 @@ namespace playeveryware::eos::config
         return eos_config;
     }
 
-    //-------------------------------------------------------------------------
     json_value_s* read_eos_config_as_json_value_from_file(std::string config_filename)
     {
         std::filesystem::path path_to_config_json = get_path_for_eos_service_config(config_filename);

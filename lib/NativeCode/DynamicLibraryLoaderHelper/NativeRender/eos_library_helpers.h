@@ -78,7 +78,6 @@ namespace playeveryware::eos::eos_library_helpers
      */
     void* load_function_with_name(void* library_handle, const char* function);
 
-
     /**
      * @brief Retrieves a function pointer of a specified type from a loaded library.
      *
