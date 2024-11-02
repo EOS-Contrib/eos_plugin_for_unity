@@ -24,72 +24,17 @@
 // This file does some *magick* to load the EOS Overlay DLL.
 // This is apparently needed so that the Overlay can render properly
 #include "pch.h"
-
-#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
-
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <string>
-#include <sstream>
-#include <functional>
-#include <utility>
-#include <filesystem>
-#include <optional>
-#include <codecvt>
-#include <vector>
-#include <iostream>
-
-
-//#include "eos_minimum_includes.h"
-#if PLATFORM_WINDOWS
-#include "Windows/eos_Windows_base.h"
-#include "Windows/eos_Windows.h"
-#include "processenv.h"
-#include <iterator>
-#endif
-#include <map>
-
-#include "eos_sdk.h"
-#include "eos_logging.h"
+#include <config.h>
+#include <string_helpers.h>
+#include <logging.h>
+#include <json_helpers.h>
 
 #include "json.h"
 
-// This define exists because UWP
-// Originally, this would load the library with the name as shipped by the .zip file
-#define USE_PLATFORM_WITHOUT_BITS 0
-
-#if USE_PLATFORM_WITHOUT_BITS
-#define DLL_PLATFORM "-Win"
-#else
-#if PLATFORM_64BITS
-#define DLL_PLATFORM "-Win64"
-#else
-#define DLL_PLATFORM "-Win32"
-#endif
-#endif
-
-#if PLATFORM_64BITS
-#define STEAM_DLL_NAME "steam_api64.dll"
-#else
-#define STEAM_DLL_NAME "steam_api.dll"
-#endif
-
-#define DLL_SUFFIX "-Shipping.dll"
-
-#define SHOW_DIALOG_BOX_ON_WARN 0
-#define ENABLE_DLL_BASED_EOS_CONFIG 1
-#define OVERLAY_DLL_NAME "EOSOVH" DLL_PLATFORM DLL_SUFFIX
-#define SDK_DLL_NAME "EOSSDK" DLL_PLATFORM DLL_SUFFIX
-#define XAUDIO2_DLL_NAME "xaudio2_9redist.dll"
-
-#define EOS_SERVICE_CONFIG_FILENAME "EpicOnlineServicesConfig.json"
-#define EOS_STEAM_CONFIG_FILENAME "eos_steam_config.json"
-#define EOS_LOGLEVEL_CONFIG_FILENAME "log_level_config.json"
-
-#define RESTRICT __restrict
-
-#define DLL_EXPORT(return_value) extern "C" __declspec(dllexport) return_value  __stdcall
+using namespace playeveryware::eos::string_helpers;
+using namespace playeveryware::eos::logging;
+using namespace playeveryware::eos::config;
+using namespace playeveryware::eos::json_helpers;
 
 namespace fs = std::filesystem;
 typedef HKEY__* HKEY;
@@ -112,27 +57,6 @@ typedef EOS_EResult (*EOS_IntegratedPlatformOptionsContainer_Add_t)(EOS_HIntegra
 typedef EOS_EResult (*EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t)(const EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions* Options, EOS_HIntegratedPlatformOptionsContainer* OutIntegratedPlatformOptionsContainerHandle);
 typedef void (*EOS_IntegratedPlatformOptionsContainer_Release_t)(EOS_HIntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle);
 
-/**
- * \brief Trims the whitespace from the beginning and end of a string.
- *
- * \param str The string to trim.
- *
- * \return A string with no whitespace at the beginning or end.
- */
-static std::string trim(const std::string& str);
-
-/**
- * \brief
- * Takes a string, splits it by the indicated delimiter, trims the results of
- * the split, and returns a collection of any non-empty values.
- *
- * \param input The string to split and trim.
- *
- * \param delimiter The character at which to split the string.
- *
- * \return A list of string values.
- */
-static std::vector<std::string> split_and_trim(const std::string& input, char delimiter = ',');
 
 /**
  * \brief
@@ -172,274 +96,69 @@ static void *s_eos_sdk_lib_handle;
 static EOS_HPlatform eos_platform_handle;
 static GetConfigAsJSONString_t GetConfigAsJSONString;
 
-/**
- * \brief
- * Maps string values to values defined by the EOS SDK regarding platform
- * creation.
- */
-static const std::map<std::string, int> PLATFORM_CREATION_FLAGS_STRINGS_TO_ENUM = {
-    {"EOS_PF_LOADING_IN_EDITOR",                          EOS_PF_LOADING_IN_EDITOR},
-    {"LoadingInEditor",                                   EOS_PF_LOADING_IN_EDITOR},
-
-    {"EOS_PF_DISABLE_OVERLAY",                            EOS_PF_DISABLE_OVERLAY},
-    {"DisableOverlay",                                    EOS_PF_DISABLE_OVERLAY},
-
-    {"EOS_PF_DISABLE_SOCIAL_OVERLAY",                     EOS_PF_DISABLE_SOCIAL_OVERLAY},
-    {"DisableSocialOverlay",                              EOS_PF_DISABLE_SOCIAL_OVERLAY},
-
-    {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9",                EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9},
-    {"WindowsEnableOverlayD3D9",                          EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9},
-
-    {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10",               EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10},
-    {"WindowsEnableOverlayD3D10",                         EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10},
-
-    {"EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL",              EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL},
-    {"WindowsEnableOverlayOpengl",                        EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL},
-
-    {"EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING", EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING},
-    {"ConsoleEnableOverlayAutomaticUnloading",            EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING},
-
-    {"EOS_PF_RESERVED1",                                  EOS_PF_RESERVED1},
-    {"Reserved1",                                         EOS_PF_RESERVED1}
-};
-
-/**
- * \brief Maps string values to values within the
- * EOS_EIntegratedPlatformManagementFlags enum.
- */
-static const std::map<std::string, EOS_EIntegratedPlatformManagementFlags> INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_STRINGS_TO_ENUM = {
-    {"EOS_IPMF_Disabled",                        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled },
-    {"Disabled",                                 EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled },
-
-    {"EOS_IPMF_LibraryManagedByApplication",     EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication },
-    {"EOS_IPMF_ManagedByApplication",            EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication},
-    {"ManagedByApplication",                     EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication},
-    {"LibraryManagedByApplication",              EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication},
-
-    {"ManagedBySDK",                             EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK },
-    {"EOS_IPMF_ManagedBySDK",                    EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK },
-    {"EOS_IPMF_LibraryManagedBySDK",             EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK },
-    {"LibraryManagedBySDK",                      EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK },
-
-    {"DisableSharedPresence",                    EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring },
-    {"EOS_IPMF_DisableSharedPresence",           EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring },
-    {"EOS_IPMF_DisablePresenceMirroring",        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring },
-    {"DisablePresenceMirroring",                 EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring},
-
-    {"DisableSessions",                          EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions },
-    {"EOS_IPMF_DisableSessions",                 EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions },
-    {"EOS_IPMF_DisableSDKManagedSessions",       EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions },
-    {"DisableSDKManagedSessions",                EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions },
-
-    {"PreferEOS",                                EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity },
-    {"EOS_IPMF_PreferEOS",                       EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity },
-    {"EOS_IPMF_PreferEOSIdentity",               EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity },
-    {"PreferEOSIdentity",                        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity},
-
-    {"PreferIntegrated",                         EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity },
-    {"EOS_IPMF_PreferIntegrated",                EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity },
-    {"EOS_IPMF_PreferIntegratedIdentity",        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity },
-    {"PreferIntegratedIdentity",                 EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity},
-
-    {"EOS_IPMF_ApplicationManagedIdentityLogin", EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin },
-    {"ApplicationManagedIdentityLogin",          EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin}
-};
-
-struct SandboxDeploymentOverride
-{
-    std::string sandboxID;
-    std::string deploymentID;
-};
-
-struct EOSConfig
-{
-    std::string productName;
-    std::string productVersion;
-
-    std::string productID;
-    std::string sandboxID;
-    std::string deploymentID;
-    std::vector<SandboxDeploymentOverride> sandboxDeploymentOverrides;
-
-    std::string clientSecret;
-    std::string clientID;
-    std::string encryptionKey;
-
-    std::string overrideCountryCode;
-    std::string overrideLocaleCode;
-
-    // this is called platformOptionsFlags in C#
-    uint64_t flags = 0;
-
-    uint32_t tickBudgetInMilliseconds = 0;
-    double taskNetworkTimeoutSeconds = 0.0;
-
-    uint64_t ThreadAffinity_networkWork = 0;
-    uint64_t ThreadAffinity_storageIO = 0;
-    uint64_t ThreadAffinity_webSocketIO = 0;
-    uint64_t ThreadAffinity_P2PIO = 0;
-    uint64_t ThreadAffinity_HTTPRequestIO = 0;
-    uint64_t ThreadAffinity_RTCIO = 0;
-
-    bool isServer = false;
-
-};
-
-struct LogLevelConfig 
-{
-    std::vector<std::string> category;
-    std::vector<std::string> level;
-};
-
-struct EOSSteamConfig
-{
-    EOS_EIntegratedPlatformManagementFlags flags;
-    uint32_t steamSDKMajorVersion;
-    uint32_t steamSDKMinorVersion;
-    std::optional<std::string> OverrideLibraryPath;
-    std::vector<std::string> steamApiInterfaceVersionsArray;
-
-    EOSSteamConfig()
-    {
-        flags = static_cast<EOS_EIntegratedPlatformManagementFlags>(0);
-    }
-
-    bool isManagedByApplication()
-    {
-        return std::underlying_type<EOS_EIntegratedPlatformManagementFlags>::type(flags & EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication);
-    }
-    bool isManagedBySDK()
-    {
-        return std::underlying_type<EOS_EIntegratedPlatformManagementFlags>::type(flags & EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK);
-    }
-
-};
-
 extern "C"
 {
     void __declspec(dllexport) __stdcall UnityPluginLoad(void* unityInterfaces);
     void __declspec(dllexport) __stdcall UnityPluginUnload();
 }
 
-//-------------------------------------------------------------------------
-static bool create_timestamp_str(char *final_timestamp, size_t final_timestamp_len)
-{
-    constexpr size_t buffer_len = 32;
-    char buffer[buffer_len];
 
-    if (buffer_len > final_timestamp_len)
+
+static const char* pick_if_32bit_else(const char* choice_if_32bit, const char* choice_if_else)
+{
+#if PLATFORM_32BITS
+    return choice_if_32bit;
+#else
+    return choice_if_else;
+#endif
+}
+
+
+typedef void (*log_flush_function_t)(const char* str);
+DLL_EXPORT(void) global_log_flush_with_function(log_flush_function_t log_flush_function)
+{
+    if (buffered_output.size() > 0)
     {
-        return false;
+        for (const std::string& str : buffered_output)
+        {
+            log_flush_function(str.c_str());
+        }
+        buffered_output.clear();
+    }
+}
+
+//-------------------------------------------------------------------------
+EXTERN_C void EOS_CALL eos_log_callback(const EOS_LogMessage* message)
+{
+    constexpr size_t final_timestamp_len = 32;
+    char final_timestamp[final_timestamp_len] = {0};
+
+    if (create_timestamp_str(final_timestamp, final_timestamp_len))
+    {
+        global_logf("%s %s (%s): %s", final_timestamp, message->Category, eos_loglevel_to_print_str(message->Level), message->Message);
+    }
+    else
+    {
+        global_logf("%s (%s): %s", message->Category, eos_loglevel_to_print_str(message->Level), message->Message);
     }
 
-    time_t raw_time = time(NULL);
-    tm time_info = { 0 };
-
-    timespec time_spec = { 0 };
-    timespec_get(&time_spec, TIME_UTC);
-    localtime_s(&time_info, &raw_time);
-
-    strftime(buffer, buffer_len, "%Y-%m-%dT%H:%M:%S", &time_info);
-    long milliseconds = (long)round(time_spec.tv_nsec / 1.0e6);
-    snprintf(final_timestamp, final_timestamp_len, "%s.%03ld", buffer, milliseconds);
-
-    return true;
 }
 
 //-------------------------------------------------------------------------
-size_t utf8_str_bytes_required_for_wide_str(const wchar_t* wide_str, int wide_str_len = -1)
-{
-    int bytes_required = WideCharToMultiByte(CP_UTF8, 0, wide_str, wide_str_len, NULL, 0, NULL, NULL);
-
-    if (bytes_required < 0)
-    {
-        return 0;
-    }
-
-    return bytes_required;
-}
-
-//-------------------------------------------------------------------------
-// wide_str must be null terminated if wide_str_len is passed
-static bool copy_to_utf8_str_from_wide_str(char* RESTRICT utf8_str, size_t utf8_str_len, const wchar_t* RESTRICT wide_str, int wide_str_len = -1)
-{
-    if (utf8_str_len > INT_MAX)
-    {
-        return false;
-    }
-
-    WideCharToMultiByte(CP_UTF8, 0, wide_str, wide_str_len, utf8_str, (int)utf8_str_len, NULL, NULL);
-
-    return true;
-}
-
-//-------------------------------------------------------------------------
-static char* create_utf8_str_from_wide_str(const wchar_t *wide_str)
-{
-    const int wide_str_len = (int)wcslen(wide_str) + 1;
-    int bytes_required = (int)utf8_str_bytes_required_for_wide_str(wide_str, wide_str_len);
-    char *to_return = (char*)malloc(bytes_required);
-
-    if (!copy_to_utf8_str_from_wide_str(to_return, bytes_required, wide_str, wide_str_len))
-    {
-        free(to_return);
-        to_return = NULL;
-    }
-
-    return to_return;
-}
-
-//-------------------------------------------------------------------------
-static wchar_t* create_wide_str_from_utf8_str(const char* utf8_str)
-{
-    int chars_required = MultiByteToWideChar(CP_UTF8, 0, utf8_str, -1, NULL, 0);
-    wchar_t *to_return = (wchar_t*)malloc(chars_required * sizeof(wchar_t));
-    int utf8_str_len = (int)strlen(utf8_str);
-
-    MultiByteToWideChar(CP_UTF8, 0, utf8_str, utf8_str_len, to_return, chars_required);
-
-    return to_return;
-}
-
-//-------------------------------------------------------------------------
-// Using the std::wstring_convert method for this currently. It might be the
-// case that in the future this method won't work. If that happens,
-// one could convert this function to use the create_utf8_str_from_wide_str
-// function to emulate it. Doing this might come with a cost, as data will
-// need to be copied multiple times.
-static std::string to_utf8_str(const std::wstring& wide_str)
-{
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-    std::string utf8_str = converter.to_bytes(wide_str);
-
-    return utf8_str;
-
-}
-
-//-------------------------------------------------------------------------
-// Using fs::path:string().c_str() seems to cause an issue when paths have
-// kanji in them. Using this function and then std::string:c_str() works around that
-// issue
-static std::string to_utf8_str(const fs::path& path)
-{
-    return to_utf8_str(path.native());
-}
-
-//-------------------------------------------------------------------------
-static uint64_t json_value_as_uint64(json_value_s *value, uint64_t default_value = 0)
+inline static uint64_t json_value_as_uint64(json_value_s* value, uint64_t default_value = 0)
 {
     uint64_t val = 0;
-    json_number_s *n = json_value_as_number(value);
+    json_number_s* n = json_value_as_number(value);
 
     if (n != nullptr)
     {
-        char *end = nullptr;
+        char* end = nullptr;
         val = strtoull(n->number, &end, 10);
     }
     else
     {
         // try to treat it as a string, then parse as long
-        char *end = nullptr;
+        char* end = nullptr;
         json_string_s* val_as_str = json_value_as_string(value);
         if (val_as_str == nullptr || strlen(val_as_str->string) == 0)
         {
@@ -454,8 +173,9 @@ static uint64_t json_value_as_uint64(json_value_s *value, uint64_t default_value
     return val;
 }
 
+
 //-------------------------------------------------------------------------
-static uint32_t json_value_as_uint32(json_value_s* value, uint32_t default_value = 0)
+inline static uint32_t json_value_as_uint32(json_value_s* value, uint32_t default_value = 0)
 {
     uint32_t val = 0;
     json_number_s* n = json_value_as_number(value);
@@ -485,7 +205,7 @@ static uint32_t json_value_as_uint32(json_value_s* value, uint32_t default_value
 }
 
 //-------------------------------------------------------------------------
-static double json_value_as_double(json_value_s* value, double default_value = 0.0)
+inline static double json_value_as_double(json_value_s* value, double default_value = 0.0)
 {
     double val = 0.0;
     json_number_s* n = json_value_as_number(value);
@@ -512,213 +232,6 @@ static double json_value_as_double(json_value_s* value, double default_value = 0
     }
 
     return val;
-}
-
-static const char* pick_if_32bit_else(const char* choice_if_32bit, const char* choice_if_else)
-{
-#if PLATFORM_32BITS
-    return choice_if_32bit;
-#else
-    return choice_if_else;
-#endif
-}
-
-//-------------------------------------------------------------------------
-static const char* eos_loglevel_to_print_str(EOS_ELogLevel level)
-{
-    switch (level)
-    {
-    case EOS_ELogLevel::EOS_LOG_Off:
-        return "Off";
-        break;
-    case EOS_ELogLevel::EOS_LOG_Fatal:
-        return "Fatal";
-        break;
-    case EOS_ELogLevel::EOS_LOG_Error:
-        return "Error";
-        break;
-    case EOS_ELogLevel::EOS_LOG_Warning:
-        return "Warning";
-        break;
-    case EOS_ELogLevel::EOS_LOG_Info:
-        return "Info";
-        break;
-    case EOS_ELogLevel::EOS_LOG_Verbose:
-        return "Verbose";
-        break;
-    case EOS_ELogLevel::EOS_LOG_VeryVerbose:
-        return "VeryVerbose";
-        break;
-    default:
-        return nullptr;
-    }
-}
-
-std::unordered_map<std::string, EOS_ELogLevel> const loglevel_str_map =
-{
-    {"Off",EOS_ELogLevel::EOS_LOG_Off},
-    {"Fatal",EOS_ELogLevel::EOS_LOG_Fatal},
-    {"Error",EOS_ELogLevel::EOS_LOG_Error},
-    {"Warning",EOS_ELogLevel::EOS_LOG_Warning},
-    {"Info",EOS_ELogLevel::EOS_LOG_Info},
-    {"Verbose",EOS_ELogLevel::EOS_LOG_Verbose},
-    {"VeryVerbose",EOS_ELogLevel::EOS_LOG_VeryVerbose},
-};
-
-EOS_ELogLevel eos_loglevel_str_to_enum(const std::string& str)
-{
-    auto it = loglevel_str_map.find(str);
-    if (it != loglevel_str_map.end())
-    {
-        return it->second;
-    }
-    else
-    {
-        return EOS_ELogLevel::EOS_LOG_Verbose;
-    }
-}
-
-//-------------------------------------------------------------------------
-static void show_log_as_dialog(const char* log_string)
-{
-#if PLATFORM_WINDOWS
-    MessageBoxA(NULL, log_string, "Warning", MB_ICONWARNING);
-#endif
-}
-
-//-------------------------------------------------------------------------
-static FILE* log_file_s = nullptr;
-static std::vector<std::string> buffered_output;
-void global_log_close()
-{
-    if (log_file_s)
-    {
-        fclose(log_file_s);
-        log_file_s = nullptr;
-        buffered_output.clear();
-    }
-}
-
-//-------------------------------------------------------------------------
-void global_logf(const char* format, ...)
-{
-    if (log_file_s != nullptr)
-    {
-        va_list arg_list;
-        va_start(arg_list, format);
-        vfprintf(log_file_s, format, arg_list);
-        va_end(arg_list);
-
-        fprintf(log_file_s, "\n");
-        fflush(log_file_s);
-    }
-    else
-    {
-        va_list arg_list;
-        va_start(arg_list, format);
-        va_list arg_list_copy;
-        va_copy(arg_list_copy, arg_list);
-        const size_t printed_length = vsnprintf(nullptr, 0, format, arg_list) + 1;
-        va_end(arg_list);
-
-        std::vector<char> buffer(printed_length);
-        vsnprintf(buffer.data(), printed_length, format, arg_list_copy);
-        va_end(arg_list_copy);
-        buffered_output.emplace_back(std::string(buffer.data(), printed_length));
-    }
-}
-
-//-------------------------------------------------------------------------
-void global_log_open(const char* filename)
-{
-    if (log_file_s != nullptr)
-    {
-        fclose(log_file_s);
-        log_file_s = nullptr;
-    }
-    fopen_s(&log_file_s, filename, "w");
-
-    if (buffered_output.size() > 0)
-    {
-        for (const std::string& str : buffered_output)
-        {
-            global_logf(str.c_str());
-        }
-        buffered_output.clear();
-    }
-}
-
-typedef void (*log_flush_function_t)(const char* str);
-DLL_EXPORT(void) global_log_flush_with_function(log_flush_function_t log_flush_function)
-{
-    if (buffered_output.size() > 0)
-    {
-        for (const std::string& str : buffered_output)
-        {
-            log_flush_function(str.c_str());
-        }
-        buffered_output.clear();
-    }
-}
-
-//-------------------------------------------------------------------------
-void log_base(const char* header, const char* message)
-{
-    constexpr size_t final_timestamp_len = 32;
-    char final_timestamp[final_timestamp_len] = { };
-    if (create_timestamp_str(final_timestamp, final_timestamp_len))
-    {
-        global_logf("%s NativePlugin (%s): %s", final_timestamp, header, message);
-    }
-    else
-    {
-        global_logf("NativePlugin (%s): %s", header, message);
-    }
-}
-
-//-------------------------------------------------------------------------
-// TODO: If possible, hook this up into a proper logging channel.s
-void log_warn(const char* log_string)
-{
-#if SHOW_DIALOG_BOX_ON_WARN
-    show_log_as_dialog(log_string);
-#endif
-    log_base("WARNING", log_string);
-}
-
-//-------------------------------------------------------------------------
-void log_inform(const char* log_string)
-{
-    log_base("INFORM", log_string);
-}
-
-//-------------------------------------------------------------------------
-void log_error(const char* log_string)
-{
-    log_base("ERROR", log_string);
-}
-
-//-------------------------------------------------------------------------
-EXTERN_C void EOS_CALL eos_log_callback(const EOS_LogMessage* message)
-{
-    constexpr size_t final_timestamp_len = 32;
-    char final_timestamp[final_timestamp_len] = {0};
-
-    if (create_timestamp_str(final_timestamp, final_timestamp_len))
-    {
-        global_logf("%s %s (%s): %s", final_timestamp, message->Category, eos_loglevel_to_print_str(message->Level), message->Message);
-    }
-    else
-    {
-        global_logf("%s (%s): %s", message->Category, eos_loglevel_to_print_str(message->Level), message->Message);
-    }
-
-}
-
-//-------------------------------------------------------------------------
-static const char* null_if_empty(const std::string& str)
-{
-    return str.empty() ? nullptr : str.c_str();
 }
 
 //-------------------------------------------------------------------------
@@ -1092,39 +605,6 @@ static LogLevelConfig log_config_from_json_value(json_value_s* config_json)
     }
     
     return log_config;
-}
-
-static std::string trim(const std::string& str)
-{
-    const auto start = std::find_if_not(str.begin(), str.end(), ::isspace);
-    const auto end = std::find_if_not(str.rbegin(), str.rend(), ::isspace).base();
-
-    if (start < end)
-    {
-        return std::basic_string<char>(start, end);
-    }
-    else
-    {
-        return "";
-    }
-}
-
-static std::vector<std::string> split_and_trim(const std::string& input, char delimiter)
-{
-    std::vector<std::string> result;
-    std::stringstream ss(input);
-    std::string item;
-
-    while (std::getline(ss, item, delimiter))
-    {
-        std::string trimmedItem = trim(item);
-        if (!trimmedItem.empty())
-        {
-            result.push_back(trimmedItem);
-        }
-    }
-
-    return result;
 }
 
 template<typename T>
