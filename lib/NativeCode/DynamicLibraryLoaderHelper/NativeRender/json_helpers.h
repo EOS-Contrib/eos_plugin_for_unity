@@ -1,10 +1,74 @@
 #pragma once
+#include "config.h"
 #include "json.h"
 #include "logging.h"
 #include "string_helpers.h"
 
 namespace playeveryware::eos::json_helpers
 {
+
+    /**
+     * \brief
+     * Collects flag values from either a JSON array of strings, or a
+     * comma-delimited list of values (like how Newtonsoft outputs things).
+     *
+     * \tparam T The type parameter (the enum type).
+     *
+     * \param
+     * strings_to_enum_values A collection that maps string values to enum values.
+     *
+     * \param
+     * default_value The default value to assign the flags if no matching string is
+     * found.
+     *
+     * \param
+     * iter The iterator into the json object element.
+     *
+     * \return A single flag value.
+     */
+    template<typename T>
+    static T collect_flags(const std::map<std::string, T>* strings_to_enum_values, T default_value, json_object_element_s* iter)
+    {
+        T flags_to_return = static_cast<T>(0);
+        bool flag_set = false;
+
+        // Stores the string values that are within the JSON
+        std::vector<std::string> string_values;
+
+        // If the string values are stored as a JSON array of strings
+        if (iter->value->type == json_type_array)
+        {
+            // Do things if the type is an array
+            json_array_s* flags = json_value_as_array(iter->value);
+            for (auto e = flags->start; e != nullptr; e = e->next)
+            {
+                string_values.emplace_back(json_value_as_string(e->value)->string);
+            }
+        }
+        // If the string values are comma delimited
+        else if (iter->value->type == json_type_string)
+        {
+            const std::string flags = json_value_as_string(iter->value)->string;
+            string_values = string_helpers::split_and_trim(flags);
+        }
+
+        // Iterate through the string values
+        for (const auto str : string_values)
+        {
+            // Skip if the string is not in the map
+            if (strings_to_enum_values->find(str.c_str()) == strings_to_enum_values->end())
+            {
+                continue;
+            }
+
+            // Otherwise, append the enum value
+            flags_to_return |= strings_to_enum_values->at(str.c_str());
+            flag_set = true;
+        }
+
+        return flag_set ? flags_to_return : default_value;
+    }
+
     //-------------------------------------------------------------------------
     inline static double json_value_as_double(json_value_s* value, double default_value = 0.0)
     {

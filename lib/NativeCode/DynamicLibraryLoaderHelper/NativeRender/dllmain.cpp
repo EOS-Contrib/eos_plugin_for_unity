@@ -29,6 +29,8 @@
 #include <logging.h>
 #include <json_helpers.h>
 
+#include "temp.h"
+
 using namespace playeveryware::eos::string_helpers;
 using namespace playeveryware::eos::logging;
 using namespace playeveryware::eos::config;
@@ -40,73 +42,18 @@ typedef HKEY__* HKEY;
 using FSig_ApplicationWillShutdown = void (__stdcall *)(void);
 FSig_ApplicationWillShutdown FuncApplicationWillShutdown = nullptr;
 
-typedef const char* (*GetConfigAsJSONString_t)();
+
 
 //-------------------------------------------------------------------------
 // Fetched out of DLLs
-typedef EOS_EResult(EOS_CALL* EOS_Initialize_t)(const EOS_InitializeOptions* Options);
-typedef EOS_EResult(EOS_CALL* EOS_Shutdown_t)();
-typedef EOS_HPlatform(EOS_CALL* EOS_Platform_Create_t)(const EOS_Platform_Options* Options);
-typedef void (EOS_CALL* EOS_Platform_Release_t)(EOS_HPlatform Handle);
-typedef EOS_EResult (EOS_CALL *EOS_Logging_SetLogLevel_t)(EOS_ELogCategory LogCategory, EOS_ELogLevel LogLevel);
-typedef EOS_EResult (EOS_CALL *EOS_Logging_SetCallback_t)(EOS_LogMessageFunc Callback);
-
-typedef EOS_EResult (*EOS_IntegratedPlatformOptionsContainer_Add_t)(EOS_HIntegratedPlatformOptionsContainer Handle, const EOS_IntegratedPlatformOptionsContainer_AddOptions* InOptions);
-typedef EOS_EResult (*EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t)(const EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions* Options, EOS_HIntegratedPlatformOptionsContainer* OutIntegratedPlatformOptionsContainerHandle);
-typedef void (*EOS_IntegratedPlatformOptionsContainer_Release_t)(EOS_HIntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle);
 
 
-/**
- * \brief
- * Collects flag values from either a JSON array of strings, or a
- * comma-delimited list of values (like how Newtonsoft outputs things).
- *
- * \tparam T The type parameter (the enum type).
- *
- * \param
- * strings_to_enum_values A collection that maps string values to enum values.
- *
- * \param
- * default_value The default value to assign the flags if no matching string is
- * found.
- *
- * \param
- * iter The iterator into the json object element.
- *
- * \return A single flag value.
- */
-template<typename T>
-static T collect_flags(const std::map<std::string, T>* strings_to_enum_values, T default_value, json_object_element_s* iter);
 
-static EOS_Initialize_t EOS_Initialize_ptr;
-static EOS_Shutdown_t EOS_Shutdown_ptr;
-static EOS_Platform_Create_t EOS_Platform_Create_ptr;
-static EOS_Platform_Release_t EOS_Platform_Release_ptr;
-static EOS_Logging_SetLogLevel_t EOS_Logging_SetLogLevel_ptr;
-static EOS_Logging_SetCallback_t EOS_Logging_SetCallback_ptr;
-
-static EOS_IntegratedPlatformOptionsContainer_Add_t EOS_IntegratedPlatformOptionsContainer_Add_ptr;
-static EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr;
-static EOS_IntegratedPlatformOptionsContainer_Release_t EOS_IntegratedPlatformOptionsContainer_Release_ptr;
-
-static void *s_eos_sdk_overlay_lib_handle;
-static void *s_eos_sdk_lib_handle;
-static EOS_HPlatform eos_platform_handle;
-static GetConfigAsJSONString_t GetConfigAsJSONString;
 
 extern "C"
 {
     void __declspec(dllexport) __stdcall UnityPluginLoad(void* unityInterfaces);
     void __declspec(dllexport) __stdcall UnityPluginUnload();
-}
-
-static const char* pick_if_32bit_else(const char* choice_if_32bit, const char* choice_if_else)
-{
-#if PLATFORM_32BITS
-    return choice_if_32bit;
-#else
-    return choice_if_else;
-#endif
 }
 
 typedef void (*log_flush_function_t)(const char* str);
@@ -139,87 +86,6 @@ EXTERN_C void EOS_CALL eos_log_callback(const EOS_LogMessage* message)
 
 }
 
-//-------------------------------------------------------------------------
-static TCHAR* get_path_to_module(HMODULE module)
-{
-    DWORD module_path_length = 128;
-    TCHAR* module_path = (TCHAR*)malloc(module_path_length * sizeof(TCHAR));
-
-    DWORD buffer_length = 0;
-    DWORD GetModuleFileName_last_error = 0;
-
-    do {
-        buffer_length = GetModuleFileName(module, module_path, module_path_length);
-        GetModuleFileName_last_error = GetLastError();
-        SetLastError(NOERROR);
-
-        if (GetModuleFileName_last_error == ERROR_INSUFFICIENT_BUFFER)
-        {
-            buffer_length = 0;
-            module_path_length += 20;
-            module_path = (TCHAR*)realloc(module_path, module_path_length * sizeof(TCHAR));
-        }
-    } while (buffer_length == 0);
-
-    return module_path;
-}
-
-//-------------------------------------------------------------------------
-static std::wstring get_path_to_module_as_string(HMODULE module)
-{
-    wchar_t* module_path = get_path_to_module(module);
-
-    std::wstring module_file_path_string(module_path);
-    free(module_path);
-    return module_file_path_string;
-}
-
-//-------------------------------------------------------------------------
-static fs::path get_path_relative_to_current_module(const fs::path& relative_path)
-{
-    HMODULE this_module = nullptr;
-    if (!GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCWSTR)&get_path_relative_to_current_module, &this_module) || !this_module)
-    {
-        return {};
-    }
-
-    std::wstring module_file_path_string = get_path_to_module_as_string(this_module);
-
-    return fs::path(module_file_path_string).remove_filename() / relative_path;
-}
-
-
-//-------------------------------------------------------------------------
-static void* load_library_at_path(const std::filesystem::path& library_path)
-{
-    void* to_return = nullptr;
-
-#if PLATFORM_WINDOWS
-    log_inform(("Loading path at " + to_utf8_str(library_path)).c_str());
-    HMODULE handle = LoadLibrary(library_path.c_str());
-    to_return = (void*)handle;
-#endif
-
-    return to_return;
-}
-
-//-------------------------------------------------------------------------
-static void* load_function_with_name(void* library_handle, const char* function)
-{
-    void* to_return = nullptr;
-#if PLATFORM_WINDOWS
-    HMODULE handle = (HMODULE)library_handle;
-    to_return = (void*)GetProcAddress(handle, function);
-#endif
-    return to_return;
-}
-
-//-------------------------------------------------------------------------
-template<typename T>
-T load_function_with_name(void* library_handle, const char* function)
-{
-    return reinterpret_cast<T>(load_function_with_name(library_handle, function));
-}
 
 //-------------------------------------------------------------------------
 void unload_library(void* library_handle)
@@ -256,19 +122,19 @@ void eos_init(const EOSConfig& eos_config)
     SDKOptions.OverrideThreadAffinity = &overrideThreadAffinity;
 
     log_inform("call EOS_Initialize");
-    EOS_EResult InitResult = EOS_Initialize_ptr(&SDKOptions);
+    EOS_EResult InitResult = playeveryware::eos::temp::EOS_Initialize_ptr(&SDKOptions);
     if (InitResult != EOS_EResult::EOS_Success)
     {
         log_error("Unable to do eos init");
     }
-    if (EOS_Logging_SetLogLevel_ptr != nullptr)
+    if (playeveryware::eos::temp::EOS_Logging_SetLogLevel_ptr != nullptr)
     {
-        EOS_Logging_SetLogLevel_ptr(EOS_ELogCategory::EOS_LC_ALL_CATEGORIES, EOS_ELogLevel::EOS_LOG_VeryVerbose);
+        playeveryware::eos::temp::EOS_Logging_SetLogLevel_ptr(EOS_ELogCategory::EOS_LC_ALL_CATEGORIES, EOS_ELogLevel::EOS_LOG_VeryVerbose);
     }
 
-    if (EOS_Logging_SetCallback_ptr != nullptr)
+    if (playeveryware::eos::temp::EOS_Logging_SetCallback_ptr != nullptr)
     {
-        EOS_Logging_SetCallback_ptr(&eos_log_callback);
+        playeveryware::eos::temp::EOS_Logging_SetCallback_ptr(&eos_log_callback);
     }
 }
 
@@ -291,223 +157,6 @@ static char* GetCacheDirectory()
     return s_tempPathBuffer;
 }
 
-//-------------------------------------------------------------------------
-static json_value_s* read_config_json_from_dll()
-{
-    struct json_value_s* config_json = nullptr;
-
-#if ENABLE_DLL_BASED_EOS_CONFIG
-	log_inform("Trying to load eos config via dll");
-    static void *eos_generated_library_handle = load_library_at_path(get_path_relative_to_current_module("EOSGenerated.dll"));
-
-	if (!eos_generated_library_handle)
-	{
-		log_warn("No Generated DLL found (Might not be an error)");
-		return NULL;
-	}
-
-    GetConfigAsJSONString = load_function_with_name<GetConfigAsJSONString_t>(eos_generated_library_handle, "GetConfigAsJSONString");
-    
-    if(GetConfigAsJSONString)
-    {
-        const char* config_as_json_string = GetConfigAsJSONString();
-        if (config_as_json_string != nullptr)
-        {
-            size_t config_as_json_string_length = strlen(config_as_json_string);
-            config_json = json_parse(config_as_json_string, config_as_json_string_length);
-        }
-    }
-	else
-	{
-		log_warn("No function found");
-	}
-#endif
-
-    return config_json;
-}
-
-//-------------------------------------------------------------------------
-static EOSConfig eos_config_from_json_value(json_value_s* config_json)
-{
-    // Create platform instance
-    struct json_object_s* config_json_object = json_value_as_object(config_json);
-    struct json_object_element_s* iter = config_json_object->start;
-    EOSConfig eos_config;
-
-    while (iter != nullptr)
-    {
-        if (!strcmp("productName", iter->name->string))
-        {
-            eos_config.productName = json_value_as_string(iter->value)->string;
-        }
-        else if (!strcmp("productVersion", iter->name->string))
-        {
-            eos_config.productVersion = json_value_as_string(iter->value)->string;
-        }
-        else if (!strcmp("productID", iter->name->string))
-        {
-            eos_config.productID = json_value_as_string(iter->value)->string;
-        }
-        else if (!strcmp("sandboxID", iter->name->string))
-        {
-            eos_config.sandboxID = json_value_as_string(iter->value)->string;
-        }
-        else if (!strcmp("deploymentID", iter->name->string))
-        {
-            eos_config.deploymentID = json_value_as_string(iter->value)->string;
-        }
-        else if (!strcmp("sandboxDeploymentOverrides", iter->name->string))
-        {
-            json_array_s* overrides = json_value_as_array(iter->value);
-            eos_config.sandboxDeploymentOverrides = std::vector<SandboxDeploymentOverride>();
-            for (auto e = overrides->start; e != nullptr; e = e->next)
-            {
-                struct json_object_s* override_json_object = json_value_as_object(e->value);
-                struct json_object_element_s* ov_iter = override_json_object->start;
-                struct SandboxDeploymentOverride override_item = SandboxDeploymentOverride();
-                while (ov_iter != nullptr)
-                {
-                    if (!strcmp("sandboxID", ov_iter->name->string))
-                    {
-                        override_item.sandboxID = json_value_as_string(ov_iter->value)->string;
-                    }
-                    else if (!strcmp("deploymentID", ov_iter->name->string))
-                    {
-                        override_item.deploymentID = json_value_as_string(ov_iter->value)->string;
-                    }
-                    ov_iter = ov_iter->next;
-                }
-                eos_config.sandboxDeploymentOverrides.push_back(override_item);
-            }
-        }
-        else if (!strcmp("clientID", iter->name->string))
-        {
-            eos_config.clientID = json_value_as_string(iter->value)->string;
-        }
-        else if (!strcmp("clientSecret", iter->name->string))
-        {
-            eos_config.clientSecret = json_value_as_string(iter->value)->string;
-        }
-        if (!strcmp("encryptionKey", iter->name->string))
-        {
-            eos_config.encryptionKey = json_value_as_string(iter->value)->string;
-        }
-        else if (!strcmp("overrideCountryCode ", iter->name->string))
-        {
-            eos_config.overrideCountryCode = json_value_as_string(iter->value)->string;
-        }
-        else if (!strcmp("overrideLocaleCode", iter->name->string))
-        {
-            eos_config.overrideLocaleCode = json_value_as_string(iter->value)->string;
-        }
-        else if (!strcmp("platformOptionsFlags", iter->name->string))
-        {
-            eos_config.flags = static_cast<uint64_t>(collect_flags(&PLATFORM_CREATION_FLAGS_STRINGS_TO_ENUM, 0, iter));
-        }
-        else if (!strcmp("tickBudgetInMilliseconds", iter->name->string))
-        {
-            eos_config.tickBudgetInMilliseconds = json_value_as_uint32(iter->value);
-        }
-        else if (!strcmp("taskNetworkTimeoutSeconds", iter->name->string))
-        {
-            eos_config.taskNetworkTimeoutSeconds = json_value_as_double(iter->value);
-        }
-        else if (!strcmp("ThreadAffinity_networkWork", iter->name->string))
-        {
-            eos_config.ThreadAffinity_networkWork = json_value_as_uint64(iter->value);
-        }
-        else if (!strcmp("ThreadAffinity_storageIO", iter->name->string))
-        {
-            eos_config.ThreadAffinity_storageIO = json_value_as_uint64(iter->value);
-        }
-        else if (!strcmp("ThreadAffinity_webSocketIO", iter->name->string))
-        {
-            eos_config.ThreadAffinity_webSocketIO = json_value_as_uint64(iter->value);
-        }
-        else if (!strcmp("ThreadAffinity_P2PIO", iter->name->string))
-        {
-            eos_config.ThreadAffinity_P2PIO = json_value_as_uint64(iter->value);
-        }
-        else if (!strcmp("ThreadAffinity_HTTPRequestIO", iter->name->string))
-        {
-            eos_config.ThreadAffinity_HTTPRequestIO = json_value_as_uint64(iter->value);
-        }
-        else if (!strcmp("ThreadAffinity_RTCIO", iter->name->string))
-        {
-            eos_config.ThreadAffinity_RTCIO = json_value_as_uint64(iter->value);
-        }
-        else if (!strcmp("isServer", iter->name->string))
-        {
-            // In this JSON library, true and false are _technically_ different types. 
-            if (json_value_is_true(iter->value))
-            {
-                eos_config.isServer = true;
-            }
-            else if (json_value_is_false(iter->value))
-            {
-                eos_config.isServer = false;
-            }
-        }
-
-        iter = iter->next;
-    }
-    
-    return eos_config;
-}
-
-
-
-template<typename T>
-static T collect_flags(const std::map<std::string, T>* strings_to_enum_values, T default_value, json_object_element_s* iter)
-{
-    T flags_to_return = static_cast<T>(0);
-    bool flag_set = false;
-
-    // Stores the string values that are within the JSON
-    std::vector<std::string> string_values;
-
-    // If the string values are stored as a JSON array of strings
-    if (iter->value->type == json_type_array)
-    {
-        // Do things if the type is an array
-        json_array_s* flags = json_value_as_array(iter->value);
-        for (auto e = flags->start; e != nullptr; e = e->next)
-        {
-            string_values.emplace_back(json_value_as_string(e->value)->string);
-        }
-    }
-    // If the string values are comma delimited
-    else if (iter->value->type == json_type_string)
-    {
-        const std::string flags = json_value_as_string(iter->value)->string;
-        string_values = split_and_trim(flags);
-    }
-
-    // Iterate through the string values
-    for(const auto str : string_values)
-    {
-        // Skip if the string is not in the map
-        if (strings_to_enum_values->find(str.c_str()) == strings_to_enum_values->end())
-        {
-            continue;
-        }
-
-        // Otherwise, append the enum value
-        flags_to_return |= strings_to_enum_values->at(str.c_str());
-        flag_set = true;
-    }
-
-    return flag_set ? flags_to_return : default_value;
-}
-
-//-------------------------------------------------------------------------
-static EOS_EIntegratedPlatformManagementFlags eos_collect_integrated_platform_managment_flags(json_object_element_s* iter)
-{
-    return collect_flags<EOS_EIntegratedPlatformManagementFlags>(
-        &INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_STRINGS_TO_ENUM,
-        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled, 
-        iter);
-}
 
 //-------------------------------------------------------------------------
 static EOSSteamConfig eos_steam_config_from_json_value(json_value_s *config_json)
@@ -560,23 +209,6 @@ static EOSSteamConfig eos_steam_config_from_json_value(json_value_s *config_json
     return eos_config;
 }
 
-//-------------------------------------------------------------------------
-static std::filesystem::path get_path_for_eos_service_config(std::string config_filename)
-{
-    //return get_path_relative_to_current_module(std::filesystem::path("../..") / "StreamingAssets" / "EOS" / "EpicOnlineServicesConfig.json");
-	auto twoDirsUp = std::filesystem::path("../..");
-	std::filesystem::path packaged_data_path = get_path_relative_to_current_module(twoDirsUp);
-	std::error_code error_code;
-
-	log_inform("about to look with exists");
-	if (!std::filesystem::exists(packaged_data_path, error_code))
-	{
-		log_warn("Didn't find the path twoDirsUp");
-		packaged_data_path = get_path_relative_to_current_module(std::filesystem::path("./Data/"));
-	}
-	
-	return packaged_data_path / "StreamingAssets" / "EOS" / config_filename;
-}
 
 //-------------------------------------------------------------------------
 json_value_s* read_eos_config_as_json_value_from_file(std::string config_filename)
@@ -654,13 +286,13 @@ static void eos_call_steam_init(const std::string& steam_dll_path)
     // in the case that it's not loaded, try to load it from the user provided path
     if (!steam_dll_handle)
     {
-        steam_dll_handle = load_library_at_path(steam_dll_path);
+        steam_dll_handle = playeveryware::eos::temp::load_library_at_path(steam_dll_path);
     }
 
     if (steam_dll_handle != nullptr)
     {
         typedef bool(__cdecl* SteamAPI_Init_t)();
-        SteamAPI_Init_t SteamAPI_Init = load_function_with_name<SteamAPI_Init_t>(steam_dll_handle, "SteamAPI_Init");
+        SteamAPI_Init_t SteamAPI_Init = playeveryware::eos::temp::load_function_with_name<SteamAPI_Init_t>(steam_dll_handle, "SteamAPI_Init");
 
         if (SteamAPI_Init())
         {
@@ -672,7 +304,7 @@ static void eos_call_steam_init(const std::string& steam_dll_path)
 //-------------------------------------------------------------------------
 void eos_set_loglevel_via_config()
 {
-    if (EOS_Logging_SetLogLevel_ptr == nullptr)
+    if (playeveryware::eos::temp::EOS_Logging_SetLogLevel_ptr == nullptr)
     {
         return;
     }
@@ -706,7 +338,7 @@ void eos_set_loglevel_via_config()
 
     for (size_t i = 0; i < individual_category_size; i++)
     {
-        EOS_Logging_SetLogLevel_ptr((EOS_ELogCategory)i, eos_loglevel_str_to_enum(log_config.level[i]));
+        playeveryware::eos::temp::EOS_Logging_SetLogLevel_ptr((EOS_ELogCategory)i, eos_loglevel_str_to_enum(log_config.level[i]));
     }
 
     log_inform("Log levels set according to config");
@@ -742,7 +374,7 @@ void eos_create(EOSConfig& eosConfig)
     rtc_options.ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
 #if PLATFORM_WINDOWS
     log_inform("setting up rtc");
-    fs::path xaudio2_dll_path = get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
+    fs::path xaudio2_dll_path = playeveryware::eos::io_helpers::get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
     std::string xaudio2_dll_path_as_string = to_utf8_str(xaudio2_dll_path);
     EOS_Windows_RTCOptions windows_rtc_options = { 0 };
     windows_rtc_options.ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
@@ -779,13 +411,13 @@ void eos_create(EOSConfig& eosConfig)
             if (!std::filesystem::exists(eos_steam_config.OverrideLibraryPath.value()))
             {
                 auto override_lib_path_as_str = basename(eos_steam_config.OverrideLibraryPath.value());
-                auto found_steam_path = get_path_relative_to_current_module(override_lib_path_as_str);
+                auto found_steam_path = playeveryware::eos::io_helpers::get_path_relative_to_current_module(override_lib_path_as_str);
 
                 // Fall back and use the steam dll name based on the
                 // type of binary the GfxPluginNativeRender
                 if (!std::filesystem::exists(found_steam_path) || eos_steam_config.OverrideLibraryPath.value().empty())
                 {
-                    found_steam_path = get_path_relative_to_current_module(STEAM_DLL_NAME);
+                    found_steam_path = playeveryware::eos::io_helpers::get_path_relative_to_current_module(STEAM_DLL_NAME);
                 }
 
                 if (std::filesystem::exists(found_steam_path))
@@ -796,7 +428,7 @@ void eos_create(EOSConfig& eosConfig)
         }
         else
         {
-            auto found_steam_path = get_path_relative_to_current_module(STEAM_DLL_NAME);
+            auto found_steam_path = playeveryware::eos::io_helpers::get_path_relative_to_current_module(STEAM_DLL_NAME);
             if (std::filesystem::exists(found_steam_path))
             {
                 eos_steam_config.OverrideLibraryPath = converter.to_bytes(found_steam_path.wstring());
@@ -857,24 +489,24 @@ void eos_create(EOSConfig& eosConfig)
         steam_platform.ApiVersion = EOS_INTEGRATEDPLATFORM_STEAM_OPTIONS_API_LATEST;
 
         EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions options = { EOS_INTEGRATEDPLATFORM_CREATEINTEGRATEDPLATFORMOPTIONSCONTAINER_API_LATEST };
-        EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr(&options, &integrated_platform_options_container);
+        playeveryware::eos::temp::EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr(&options, &integrated_platform_options_container);
         platform_options.IntegratedPlatformOptionsContainerHandle = integrated_platform_options_container;
 
         EOS_IntegratedPlatformOptionsContainer_AddOptions addOptions = { EOS_INTEGRATEDPLATFORMOPTIONSCONTAINER_ADD_API_LATEST };
         addOptions.Options = &steam_integrated_platform_option;
-        EOS_IntegratedPlatformOptionsContainer_Add_ptr(integrated_platform_options_container, &addOptions);
+        playeveryware::eos::temp::EOS_IntegratedPlatformOptionsContainer_Add_ptr(integrated_platform_options_container, &addOptions);
     }
 #endif
 
     //EOS_Platform_Options_debug_log(platform_options);
     log_inform("run EOS_Platform_Create");
-    eos_platform_handle = EOS_Platform_Create_ptr(&platform_options);
+    playeveryware::eos::temp::eos_platform_handle = playeveryware::eos::temp::EOS_Platform_Create_ptr(&platform_options);
     if (integrated_platform_options_container)
     {
-        EOS_IntegratedPlatformOptionsContainer_Release_ptr(integrated_platform_options_container);
+        playeveryware::eos::temp::EOS_IntegratedPlatformOptionsContainer_Release_ptr(integrated_platform_options_container);
     }
 
-    if (!eos_platform_handle)
+    if (!playeveryware::eos::temp::eos_platform_handle)
     {
         log_error("failed to create the platform");
     }
@@ -938,21 +570,7 @@ static bool get_overlay_dll_path(fs::path* OutDllPath)
 #endif
 }
 
-//-------------------------------------------------------------------------
-static void FetchEOSFunctionPointers()
-{
-    // The '@' in the function names is apart of how names are mangled on windows. The value after the '@' is the size of the params on the stack
-    EOS_Initialize_ptr = load_function_with_name<EOS_Initialize_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Initialize@4", "EOS_Initialize"));
-    EOS_Shutdown_ptr = load_function_with_name<EOS_Shutdown_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Shutdown@0", "EOS_Shutdown"));
-    EOS_Platform_Create_ptr = load_function_with_name<EOS_Platform_Create_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Create@4", "EOS_Platform_Create"));
-    EOS_Platform_Release_ptr = load_function_with_name<EOS_Platform_Release_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Release@4", "EOS_Platform_Release"));
-    EOS_Logging_SetLogLevel_ptr = load_function_with_name<EOS_Logging_SetLogLevel_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Logging_SetLogLevel@8", "EOS_Logging_SetLogLevel"));
-    EOS_Logging_SetCallback_ptr = load_function_with_name<EOS_Logging_SetCallback_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("EOS_Logging_SetCallback@4", "EOS_Logging_SetCallback"));
 
-    EOS_IntegratedPlatformOptionsContainer_Add_ptr = load_function_with_name<EOS_IntegratedPlatformOptionsContainer_Add_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_IntegratedPlatformOptionsContainer_Add@8", "EOS_IntegratedPlatformOptionsContainer_Add"));
-    EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr = load_function_with_name<EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer@8", "EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer"));
-    EOS_IntegratedPlatformOptionsContainer_Release_ptr = load_function_with_name<EOS_IntegratedPlatformOptionsContainer_Release_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_IntegratedPlatformOptionsContainer_Release@4", "EOS_IntegratedPlatformOptionsContainer_Release"));
-}
 
 //-------------------------------------------------------------------------
 // Called by unity on load. It kicks off the work to load the DLL for Overlay
@@ -1062,7 +680,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     //    show_log_as_dialog("Missing Overlay DLL!\n Overlay functionality will not work!");
     //}
 
-    s_eos_sdk_lib_handle = load_library_at_path(get_path_relative_to_current_module(SDK_DLL_NAME));
+    playeveryware::eos::temp::s_eos_sdk_lib_handle = playeveryware::eos::temp::load_library_at_path(playeveryware::eos::io_helpers::get_path_relative_to_current_module(SDK_DLL_NAME));
 
     //eos_sdk_overlay_lib_handle = load_library_at_path(DllPath);
     //if (eos_sdk_overlay_lib_handle)
@@ -1075,11 +693,11 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     //    }
     //}
 
-    if (s_eos_sdk_lib_handle)
+    if (playeveryware::eos::temp::s_eos_sdk_lib_handle)
     {
-        FetchEOSFunctionPointers();
+        playeveryware::eos::temp::FetchEOSFunctionPointers();
 
-        if (EOS_Initialize_ptr)
+        if (playeveryware::eos::temp::EOS_Initialize_ptr)
         {
             log_inform("start eos init");
 
@@ -1097,10 +715,10 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
             //log_warn("unload eos sdk");
             //unload_library(s_eos_sdk_lib_handle);
 
-            s_eos_sdk_lib_handle = NULL;
-            EOS_Initialize_ptr = NULL;
-            EOS_Shutdown_ptr = NULL;
-            EOS_Platform_Create_ptr = NULL;
+            playeveryware::eos::temp::s_eos_sdk_lib_handle = NULL;
+            playeveryware::eos::temp::EOS_Initialize_ptr = NULL;
+            playeveryware::eos::temp::EOS_Shutdown_ptr = NULL;
+            playeveryware::eos::temp::EOS_Platform_Create_ptr = NULL;
         }
         else
         {
@@ -1125,8 +743,8 @@ DLL_EXPORT(void) UnityPluginUnload()
     {
         FuncApplicationWillShutdown();
     }
-    unload_library(s_eos_sdk_overlay_lib_handle);
-    s_eos_sdk_overlay_lib_handle = nullptr;
+    unload_library(playeveryware::eos::temp::s_eos_sdk_overlay_lib_handle);
+    playeveryware::eos::temp::s_eos_sdk_overlay_lib_handle = nullptr;
 
     global_log_close();
 }
@@ -1134,5 +752,5 @@ DLL_EXPORT(void) UnityPluginUnload()
 //-------------------------------------------------------------------------
 DLL_EXPORT(void *) EOS_GetPlatformInterface()
 {
-    return eos_platform_handle;
+    return playeveryware::eos::temp::eos_platform_handle;
 }

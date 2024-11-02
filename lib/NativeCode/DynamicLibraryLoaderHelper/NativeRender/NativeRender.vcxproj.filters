@@ -39,6 +39,12 @@
     <ClInclude Include="json_helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="temp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io_helpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
