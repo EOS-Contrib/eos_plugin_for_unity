@@ -63,7 +63,7 @@ namespace playeveryware::eos
      *
      * @param platform_options The EOS platform options structure to log.
      */
-    static void EOS_Platform_Options_debug_log(const EOS_Platform_Options& platform_options);
+    void EOS_Platform_Options_debug_log(const EOS_Platform_Options& platform_options);
 
     /**
      * @brief Initializes the EOS SDK with the provided configuration.
@@ -81,9 +81,12 @@ namespace playeveryware::eos
      * Loads the Steam API DLL and initializes it if necessary. Attempts to load the DLL from
      * the specified path, or defaults to `steam_api.dll` if no path is specified.
      *
+     * This function assumes that if the caller has already loaded the steam
+     * DLL, that SteamAPI_Init doesn't need to be called
+     *
      * @param steam_dll_path The path to the Steam API DLL.
      */
-    static void eos_call_steam_init(const std::filesystem::path& steam_dll_path);
+    void eos_call_steam_init(const std::filesystem::path& steam_dll_path);
 
     /**
      * @brief Loads and initializes the Steam API DLL using a string path.
@@ -93,7 +96,7 @@ namespace playeveryware::eos
      *
      * @param steam_dll_path The string path to the Steam API DLL.
      */
-    static void eos_call_steam_init(const std::string& steam_dll_path);
+    void eos_call_steam_init(const std::string& steam_dll_path);
 
     /**
      * @brief Retrieves the system cache directory.

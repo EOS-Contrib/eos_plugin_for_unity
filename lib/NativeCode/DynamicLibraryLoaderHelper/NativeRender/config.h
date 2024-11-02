@@ -112,8 +112,8 @@ namespace playeveryware::eos::config
     /**
      * @brief Typedef for a function pointer that retrieves the configuration as a JSON string.
      *
-     * This function pointer type represents a function that, when called, returns the configuration
-     * data as a JSON-formatted string.
+     * This function pointer type represents a function that, when called,
+     * returns the configuration data as a JSON-formatted string.
      */
     typedef const char* (*GetConfigAsJSONString_t)();
 

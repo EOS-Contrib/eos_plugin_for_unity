@@ -33,13 +33,11 @@
 
 namespace playeveryware::eos
 {
-    //-------------------------------------------------------------------------
     DLL_EXPORT(void*) EOS_GetPlatformInterface()
     {
         return eos_library_helpers::eos_platform_handle;
     }
 
-    //-------------------------------------------------------------------------
     void eos_set_loglevel_via_config()
     {
         if (eos_library_helpers::EOS_Logging_SetLogLevel_ptr == nullptr)
@@ -82,9 +80,7 @@ namespace playeveryware::eos
         logging::log_inform("Log levels set according to config");
     }
 
-
-    //-------------------------------------------------------------------------
-    static void EOS_Platform_Options_debug_log(const EOS_Platform_Options& platform_options)
+    void EOS_Platform_Options_debug_log(const EOS_Platform_Options& platform_options)
     {
         std::stringstream output;
         output << platform_options.ApiVersion << "\n";
@@ -117,7 +113,6 @@ namespace playeveryware::eos
         logging::log_inform(output.str().c_str());
     }
 
-    //-------------------------------------------------------------------------
     void eos_init(const config::EOSConfig& eos_config)
     {
         static int reserved[2] = { 1, 1 };
@@ -162,17 +157,12 @@ namespace playeveryware::eos
         }
     }
 
-
-    //-------------------------------------------------------------------------
     static void eos_call_steam_init(const std::filesystem::path& steam_dll_path)
     {
         std::string steam_dll_path_as_string = steam_dll_path.string();
         eos_call_steam_init(steam_dll_path_as_string);
     }
-
-    //-------------------------------------------------------------------------
-    // This function assumes that if the caller has already loaded the steam DLL,
-    // that SteamAPI_Init doesn't need to be called
+    
     static void eos_call_steam_init(const std::string& steam_dll_path)
     {
         auto steam_dll_path_string = io_helpers::get_basename(steam_dll_path);
@@ -202,7 +192,6 @@ namespace playeveryware::eos
         }
     }
 
-    //-------------------------------------------------------------------------
     char* GetCacheDirectory()
     {
         static char* s_tempPathBuffer = NULL;
@@ -221,7 +210,6 @@ namespace playeveryware::eos
         return s_tempPathBuffer;
     }
 
-    //-------------------------------------------------------------------------
     void eos_create(config::EOSConfig& eosConfig)
     {
         EOS_Platform_Options platform_options = { 0 };
@@ -389,8 +377,6 @@ namespace playeveryware::eos
         }
     }
 
-    //-------------------------------------------------------------------------
-    // Currently this only works on windows
     static bool get_overlay_dll_path(std::filesystem::path* OutDllPath)
     {
 #if PLATFORM_WINDOWS
