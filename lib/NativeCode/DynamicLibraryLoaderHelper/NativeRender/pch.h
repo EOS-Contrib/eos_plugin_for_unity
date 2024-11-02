@@ -53,7 +53,9 @@
 
 #include "eos_sdk.h"
 #include "eos_logging.h"
-
+#include "io_helpers.h"
+#include <filesystem>
+namespace fs = std::filesystem;
 
 // This define exists because UWP
 // Originally, this would load the library with the name as shipped by the .zip file

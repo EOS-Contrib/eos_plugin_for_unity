@@ -1,10 +1,32 @@
-#pragma once
-#include "io_helpers.h"
-#include "json.h"
-#include "json_helpers.h"
-#include "logging.h"
-#include "temp.h"
+/*
+ * Copyright (c) 2021 PlayEveryWare
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
+#pragma once
+#include "eos_library_helpers.h"
+#include "io_helpers.h"
+#include "logging.h"
+#include "json_helpers.h"
+
+struct json_value_s;
 
 namespace playeveryware::eos::config
 {
@@ -214,7 +236,7 @@ namespace playeveryware::eos::config
 
 #if ENABLE_DLL_BASED_EOS_CONFIG
         logging::log_inform("Trying to load eos config via dll");
-        static void* eos_generated_library_handle = temp::load_library_at_path(io_helpers::get_path_relative_to_current_module("EOSGenerated.dll"));
+        static void* eos_generated_library_handle = eos_library_helpers::load_library_at_path(io_helpers::get_path_relative_to_current_module("EOSGenerated.dll"));
 
         if (!eos_generated_library_handle)
         {
@@ -222,7 +244,7 @@ namespace playeveryware::eos::config
             return NULL;
         }
 
-        GetConfigAsJSONString = temp::load_function_with_name<GetConfigAsJSONString_t>(eos_generated_library_handle, "GetConfigAsJSONString");
+        GetConfigAsJSONString = eos_library_helpers::load_function_with_name<GetConfigAsJSONString_t>(eos_generated_library_handle, "GetConfigAsJSONString");
 
         if (GetConfigAsJSONString)
         {
@@ -380,6 +402,65 @@ namespace playeveryware::eos::config
             &(INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_STRINGS_TO_ENUM),
             EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled,
             iter);
+    }
+
+    //-------------------------------------------------------------------------
+    static EOSSteamConfig eos_steam_config_from_json_value(json_value_s* config_json)
+    {
+        struct json_object_s* config_json_object = json_value_as_object(config_json);
+        struct json_object_element_s* iter = config_json_object->start;
+        EOSSteamConfig eos_config;
+        eos_config.flags;
+
+        while (iter != nullptr)
+        {
+            if (!strcmp("flags", iter->name->string))
+            {
+                eos_config.flags = eos_collect_integrated_platform_managment_flags(iter);
+
+            }
+            else if (!strcmp("overrideLibraryPath", iter->name->string))
+            {
+                const char* override_library_path = json_value_as_string(iter->value)->string;
+
+                if (strcmp("NULL", override_library_path)
+                    && strcmp("null", override_library_path)
+                    )
+                {
+                    eos_config.OverrideLibraryPath = override_library_path;
+                }
+
+            }
+            else if (!strcmp("steamSDKMajorVersion", iter->name->string))
+            {
+                eos_config.steamSDKMajorVersion = json_helpers::json_value_as_uint32(iter->value);
+            }
+            else if (!strcmp("steamSDKMinorVersion", iter->name->string))
+            {
+                eos_config.steamSDKMinorVersion = json_helpers::json_value_as_uint32(iter->value);
+            }
+            else if (!strcmp("steamApiInterfaceVersionsArray", iter->name->string))
+            {
+                json_array_s* apiVersions = json_value_as_array(iter->value);
+
+                for (auto e = apiVersions->start; e != nullptr; e = e->next)
+                {
+                    eos_config.steamApiInterfaceVersionsArray.push_back(json_value_as_string(e->value)->string);
+                }
+            }
+
+            iter = iter->next;
+        }
+
+        return eos_config;
+    }
+
+    //-------------------------------------------------------------------------
+    json_value_s* read_eos_config_as_json_value_from_file(std::string config_filename)
+    {
+        std::filesystem::path path_to_config_json = get_path_for_eos_service_config(config_filename);
+
+        return json_helpers::read_config_json_as_json_from_path(path_to_config_json);
     }
 
 }

@@ -1,6 +1,29 @@
+#ifndef LOGGING_H
+#define LOGGING_H
+/*
+ * Copyright (c) 2021 PlayEveryWare
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #pragma once
-#include <config.h>
-#include <filesystem>
+#include "string_helpers.h"
 
 namespace playeveryware::eos::logging
 {
@@ -49,6 +72,19 @@ namespace playeveryware::eos::logging
         {"VeryVerbose",EOS_ELogLevel::EOS_LOG_VeryVerbose},
     };
 
+    typedef void (*log_flush_function_t)(const char* str);
+    DLL_EXPORT(void) global_log_flush_with_function(log_flush_function_t log_flush_function)
+    {
+        if (buffered_output.size() > 0)
+        {
+            for (const std::string& str : buffered_output)
+            {
+                log_flush_function(str.c_str());
+            }
+            buffered_output.clear();
+        }
+    }
+
     inline static EOS_ELogLevel eos_loglevel_str_to_enum(const std::string& str)
     {
         auto it = loglevel_str_map.find(str);
@@ -62,14 +98,12 @@ namespace playeveryware::eos::logging
         }
     }
 
-    //-------------------------------------------------------------------------
     inline static void show_log_as_dialog(const char* log_string)
     {
 #if PLATFORM_WINDOWS
         MessageBoxA(NULL, log_string, "Warning", MB_ICONWARNING);
 #endif
     }
-
 
     inline static void global_log_close()
     {
@@ -81,8 +115,6 @@ namespace playeveryware::eos::logging
         }
     }
 
-
-    //-------------------------------------------------------------------------
     inline static void global_logf(const char* format, ...)
     {
         if (log_file_s != nullptr)
@@ -111,8 +143,22 @@ namespace playeveryware::eos::logging
         }
     }
 
+    EXTERN_C void EOS_CALL eos_log_callback(const EOS_LogMessage* message)
+    {
+        constexpr size_t final_timestamp_len = 32;
+        char final_timestamp[final_timestamp_len] = { 0 };
 
-    //-------------------------------------------------------------------------
+        if (string_helpers::create_timestamp_str(final_timestamp, final_timestamp_len))
+        {
+            global_logf("%s %s (%s): %s", final_timestamp, message->Category, eos_loglevel_to_print_str(message->Level), message->Message);
+        }
+        else
+        {
+            global_logf("%s (%s): %s", message->Category, eos_loglevel_to_print_str(message->Level), message->Message);
+        }
+
+    }
+
     inline static void global_log_open(const char* filename)
     {
         if (log_file_s != nullptr)
@@ -132,37 +178,11 @@ namespace playeveryware::eos::logging
         }
     }
 
-    //-------------------------------------------------------------------------
-    inline static bool create_timestamp_str(char* final_timestamp, size_t final_timestamp_len)
-    {
-        constexpr size_t buffer_len = 32;
-        char buffer[buffer_len];
-
-        if (buffer_len > final_timestamp_len)
-        {
-            return false;
-        }
-
-        time_t raw_time = time(NULL);
-        tm time_info = { 0 };
-
-        timespec time_spec = { 0 };
-        timespec_get(&time_spec, TIME_UTC);
-        localtime_s(&time_info, &raw_time);
-
-        strftime(buffer, buffer_len, "%Y-%m-%dT%H:%M:%S", &time_info);
-        long milliseconds = (long)round(time_spec.tv_nsec / 1.0e6);
-        snprintf(final_timestamp, final_timestamp_len, "%s.%03ld", buffer, milliseconds);
-
-        return true;
-    }
-
-    //-------------------------------------------------------------------------
     inline static void log_base(const char* header, const char* message)
     {
         constexpr size_t final_timestamp_len = 32;
         char final_timestamp[final_timestamp_len] = { };
-        if (create_timestamp_str(final_timestamp, final_timestamp_len))
+        if (string_helpers::create_timestamp_str(final_timestamp, final_timestamp_len))
         {
             global_logf("%s NativePlugin (%s): %s", final_timestamp, header, message);
         }
@@ -182,16 +202,15 @@ namespace playeveryware::eos::logging
         log_base("WARNING", log_string);
     }
 
-    //-------------------------------------------------------------------------
     inline static void log_inform(const char* log_string)
     {
         log_base("INFORM", log_string);
     }
 
-    //-------------------------------------------------------------------------
     inline static void log_error(const char* log_string)
     {
         log_base("ERROR", log_string);
     }
 
 }
+#endif

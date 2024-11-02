@@ -107,6 +107,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -180,6 +181,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
+    <ClInclude Include="eos_helpers.h" />
     <ClInclude Include="eos_minimum_includes.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="io_helpers.h" />
@@ -188,10 +190,11 @@
     <ClInclude Include="logging.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="string_helpers.h" />
-    <ClInclude Include="temp.h" />
+    <ClInclude Include="eos_library_helpers.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="io_helpers.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
