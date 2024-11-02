@@ -23,6 +23,8 @@
  */
 
 #pragma once
+#include <unordered_map>
+#include "eos_logging.h"
 #include "string_helpers.h"
 
 namespace playeveryware::eos::logging

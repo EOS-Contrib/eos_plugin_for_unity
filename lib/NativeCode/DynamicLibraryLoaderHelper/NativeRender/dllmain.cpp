@@ -28,8 +28,9 @@
 #include "config.h"
 #include "logging.h"
 #include <eos_helpers.h>
+#include <filesystem>
+#include <iterator>
 
-namespace fs = std::filesystem;
 typedef HKEY__* HKEY;
 
 using FSig_ApplicationWillShutdown = void (__stdcall *)(void);
@@ -142,7 +143,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     playeveryware::eos::logging::global_log_open("gfx_log.txt");
 #endif
 
-    fs::path DllPath;
+    std::filesystem::path DllPath;
     playeveryware::eos::logging::log_inform("On UnityPluginLoad");
     //if (!get_overlay_dll_path(&DllPath))
     //{

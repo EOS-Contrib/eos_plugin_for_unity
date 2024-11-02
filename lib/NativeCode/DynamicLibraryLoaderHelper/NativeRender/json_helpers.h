@@ -21,6 +21,8 @@
  */
 
 #pragma once
+#include <map>
+
 #include "json.h"
 
 namespace playeveryware::eos::json_helpers

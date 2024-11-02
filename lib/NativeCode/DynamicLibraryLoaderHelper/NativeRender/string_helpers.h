@@ -23,6 +23,13 @@
  */
 
 #pragma once
+#include <string>
+#include <vector>
+
+namespace std::filesystem
+{
+    class path;
+}
 
 namespace playeveryware::eos::string_helpers
 {

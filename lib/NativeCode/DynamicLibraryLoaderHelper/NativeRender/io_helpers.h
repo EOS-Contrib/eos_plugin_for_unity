@@ -22,6 +22,7 @@
  * SOFTWARE.
  */
 #pragma once
+#include <filesystem>
 
  /**
   * @file io_helpers.h

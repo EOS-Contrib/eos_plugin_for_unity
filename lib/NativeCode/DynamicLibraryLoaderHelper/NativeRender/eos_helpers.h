@@ -22,8 +22,11 @@
 
 #pragma once
 
+#include <sstream>
+
 #include "eos_library_helpers.h"
 #include "io_helpers.h"
+#include "Windows/eos_Windows.h"
 
 namespace playeveryware::eos
 {
@@ -248,7 +251,7 @@ namespace playeveryware::eos
         rtc_options.ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
 #if PLATFORM_WINDOWS
         logging::log_inform("setting up rtc");
-        fs::path xaudio2_dll_path = io_helpers::get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
+        std::filesystem::path xaudio2_dll_path = io_helpers::get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
         std::string xaudio2_dll_path_as_string = string_helpers::to_utf8_str(xaudio2_dll_path);
         EOS_Windows_RTCOptions windows_rtc_options = { 0 };
         windows_rtc_options.ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
@@ -289,12 +292,12 @@ namespace playeveryware::eos
 
                     // Fall back and use the steam dll name based on the
                     // type of binary the GfxPluginNativeRender
-                    if (!exists(found_steam_path) || eos_steam_config.OverrideLibraryPath.value().empty())
+                    if (!std::filesystem::exists(found_steam_path) || eos_steam_config.OverrideLibraryPath.value().empty())
                     {
                         found_steam_path = io_helpers::get_path_relative_to_current_module(STEAM_DLL_NAME);
                     }
 
-                    if (exists(found_steam_path))
+                    if (std::filesystem::exists(found_steam_path))
                     {
                         eos_steam_config.OverrideLibraryPath = converter.to_bytes(found_steam_path.wstring());
                     }
@@ -388,7 +391,7 @@ namespace playeveryware::eos
 
     //-------------------------------------------------------------------------
     // Currently this only works on windows
-    static bool get_overlay_dll_path(fs::path* OutDllPath)
+    static bool get_overlay_dll_path(std::filesystem::path* OutDllPath)
     {
 #if PLATFORM_WINDOWS
         const TCHAR* RegKey = TEXT(R"(SOFTWARE\Epic Games\EOS)");
@@ -403,8 +406,8 @@ namespace playeveryware::eos
             }
         }
 
-        *OutDllPath = fs::path(OverlayDllDirectory) / OVERLAY_DLL_NAME;
-        return std::filesystem::exists(*OutDllPath) && is_regular_file(*OutDllPath);
+        *OutDllPath = std::filesystem::path(OverlayDllDirectory) / OVERLAY_DLL_NAME;
+        return std::filesystem::exists(*OutDllPath) && std::filesystem::is_regular_file(*OutDllPath);
 #else
         log_inform("Trying to get a DLL path on a platform without DLL paths searching");
         return false;

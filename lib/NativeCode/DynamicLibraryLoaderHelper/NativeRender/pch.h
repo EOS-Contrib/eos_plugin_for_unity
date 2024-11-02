@@ -28,34 +28,13 @@
 
 #define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
 
-#include <stdio.h>
-#include <stdlib.h>
 
-#include <string>
-#include <sstream>
-#include <functional>
-#include <utility>
-#include <filesystem>
-#include <optional>
-#include <codecvt>
-#include <vector>
-#include <iostream>
-
-
-//#include "eos_minimum_includes.h"
 #if PLATFORM_WINDOWS
-#include "Windows/eos_Windows_base.h"
-#include "Windows/eos_Windows.h"
 #include "processenv.h"
-#include <iterator>
 #endif
-#include <map>
 
 #include "eos_sdk.h"
-#include "eos_logging.h"
-#include "io_helpers.h"
-#include <filesystem>
-namespace fs = std::filesystem;
+//#include "eos_logging.h"
 
 // This define exists because UWP
 // Originally, this would load the library with the name as shipped by the .zip file

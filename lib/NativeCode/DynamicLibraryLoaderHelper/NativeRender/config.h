@@ -21,11 +21,14 @@
  */
 
 #pragma once
+#include <optional>
+
 #include "eos_library_helpers.h"
 #include "io_helpers.h"
 #include "logging.h"
 #include "json_helpers.h"
-
+#include "Windows/eos_Windows_base.h"
+#include "eos_sdk.h"
 struct json_value_s;
 
 namespace playeveryware::eos::config

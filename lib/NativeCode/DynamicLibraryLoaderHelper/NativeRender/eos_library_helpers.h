@@ -1,3 +1,5 @@
+#ifndef EOS_LIBRARY_HELPERS_H
+#define EOS_LIBRARY_HELPERS_H
 /*
  * Copyright (c) 2021 PlayEveryWare
  *
@@ -21,7 +23,11 @@
  */
 
 #pragma once
+
+
 #include "logging.h"
+#include <filesystem>
+
 
 namespace playeveryware::eos::eos_library_helpers
 {
@@ -148,3 +154,4 @@ namespace playeveryware::eos::eos_library_helpers
     }
 
 }
+#endif
