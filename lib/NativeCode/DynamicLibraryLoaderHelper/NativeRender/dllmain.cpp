@@ -26,19 +26,14 @@
 #include "pch.h"
 
 #include <iterator>
-
-#include "config.h"
-#include "logging.h"
-#include <json_helpers.h>
 #include <sstream>
 
-#include "eos_library_helpers.h"
+#include "config.h"
+#include "json_helpers.h"
+#include "logging.h"
+#include <eos_library_helpers.h>
 #include <eos_helpers.h>
-
 #include "io_helpers.h"
-
-
-typedef HKEY__* HKEY;
 
 using FSig_ApplicationWillShutdown = void (__stdcall *)(void);
 FSig_ApplicationWillShutdown FuncApplicationWillShutdown = nullptr;
@@ -49,7 +44,6 @@ extern "C"
     void __declspec(dllexport) __stdcall UnityPluginUnload();
 }
 
-//-------------------------------------------------------------------------
 // Called by unity on load. It kicks off the work to load the DLL for Overlay
 #if PLATFORM_32BITS
 #pragma comment(linker, "/export:UnityPluginLoad=_UnityPluginLoad@4")
@@ -192,22 +186,20 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
             //log_warn("unload eos sdk");
             //unload_library(s_eos_sdk_lib_handle);
 
-            pew::eos::eos_library_helpers::s_eos_sdk_lib_handle = NULL;
-            pew::eos::eos_library_helpers::EOS_Initialize_ptr = NULL;
-            pew::eos::eos_library_helpers::EOS_Shutdown_ptr = NULL;
-            pew::eos::eos_library_helpers::EOS_Platform_Create_ptr = NULL;
+            pew::eos::eos_library_helpers::s_eos_sdk_lib_handle = nullptr;
+            pew::eos::eos_library_helpers::EOS_Initialize_ptr = nullptr;
+            pew::eos::eos_library_helpers::EOS_Shutdown_ptr = nullptr;
+            pew::eos::eos_library_helpers::EOS_Platform_Create_ptr = nullptr;
         }
         else
         {
             pew::eos::logging::log_warn("unable to find EOS_Initialize");
         }
-
     }
     else
     {
         pew::eos::logging::log_warn("Couldn't find dll "  SDK_DLL_NAME);
     }
-
 }
 
 //-------------------------------------------------------------------------
