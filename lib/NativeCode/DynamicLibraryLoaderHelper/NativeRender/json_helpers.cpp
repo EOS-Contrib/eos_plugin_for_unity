@@ -116,7 +116,7 @@ namespace pew::eos::json_helpers
     json_value_s* read_config_json_as_json_from_path(std::filesystem::path path_to_config_json)
     {
         logging::log_inform(("json path" + string_helpers::to_utf8_str(path_to_config_json)).c_str());
-        const uintmax_t config_file_size = std::filesystem::file_size(path_to_config_json);
+        const size_t config_file_size = static_cast<size_t>(file_size(path_to_config_json));
         if (config_file_size > SIZE_MAX)
         {
             throw std::filesystem::filesystem_error("File is too large", std::make_error_code(std::errc::file_too_large));
