@@ -31,6 +31,11 @@ namespace PlayEveryWare.Common.Extensions
     using System.Security.Cryptography;
     using System.Text;
 
+#if EXTERNAL_TO_UNITY
+    using Debug = PlayEveryWare.EpicOnlineServices.Debug;
+#else
+    using Debug = UnityEngine.Debug;
+#endif
     public static class FileInfoExtensions
     {
         /// <summary>
@@ -69,7 +74,7 @@ namespace PlayEveryWare.Common.Extensions
             sb.AppendLine($"File #1: \"{one.FullName}\"");
             sb.AppendLine($"File #2: \"{two.FullName}\"");
 
-            UnityEngine.Debug.Log(sb.ToString());
+            Debug.Log(sb.ToString());
         }
 
         /// <summary>

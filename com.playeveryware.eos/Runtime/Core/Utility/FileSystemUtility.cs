@@ -32,7 +32,10 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
 
     // This compile conditional exists to ensure that the UnityEngine.Networking
     // namespace is included when not in editor and when the platform is 
@@ -506,7 +509,11 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         {
             try
             {
+#if NET_STANDARD_2_0
                 return await File.ReadAllTextAsync(path);
+#else
+                return await Task.Run(() => File.ReadAllText(path));
+#endif
             }
             catch (Exception e)
             {
@@ -516,12 +523,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 #endif
 
-        /// <summary>
-        /// Reads all text from the indicated file.
-        /// </summary>
-        /// <param name="path">Filepath to the file to read from.</param>
-        /// <returns>The contents of the file at the indicated path as a string.</returns>
-        public static string ReadAllText(string path)
+                /// <summary>
+                /// Reads all text from the indicated file.
+                /// </summary>
+                /// <param name="path">Filepath to the file to read from.</param>
+                /// <returns>The contents of the file at the indicated path as a string.</returns>
+                public static string ReadAllText(string path)
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return AndroidFileIOHelper.ReadAllText(path);
@@ -655,7 +662,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 CreateDirectory(file.Directory);
             }
 
+#if !EXTERNAL_TO_UNITY
             await using StreamWriter writer = new(filePath);
+#else
+            using StreamWriter writer = new(filePath);
+#endif
+
             await writer.WriteAsync(content);
         }
 
@@ -679,7 +691,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
         }
 
-        #endregion
+#endregion
 
         #region Directory and File Exists functionality
 

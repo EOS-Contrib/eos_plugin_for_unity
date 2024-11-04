@@ -33,7 +33,9 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
     using System;
     using System.Collections.Generic;
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
     using System.Text.RegularExpressions;
     using Extensions;
     using Newtonsoft.Json;

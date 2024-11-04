@@ -26,7 +26,10 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
     using System.Collections.Generic;
     using Newtonsoft.Json;
+
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
 
     /// <summary>
     /// Contains information about the product entered by the user from the Epic

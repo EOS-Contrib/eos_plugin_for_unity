@@ -26,6 +26,7 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Newtonsoft.Json;
+    using PlayEveryWare.EpicOnlineServices.Utility;
     using System;
     using System.Security.Cryptography;
 
@@ -75,7 +76,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(ClientId, ClientSecret);
+            return HashUtility.Combine(ClientId, ClientSecret);
         }
     }
 }
