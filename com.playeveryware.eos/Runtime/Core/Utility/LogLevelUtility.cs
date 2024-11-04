@@ -26,7 +26,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using System;
     using System.Collections.Generic;
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
     using Epic.OnlineServices.Logging;
 
     public static class LogLevelUtility
