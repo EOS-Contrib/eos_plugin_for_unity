@@ -35,8 +35,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             foreach (object field in fields)
             {
-                int fieldHash = field != null ? field.GetHashCode() : 0;
-                hash = hash * 31 + fieldHash;
+                int fieldHash = field?.GetHashCode() ?? 0;
+                hash = (hash * 31) + fieldHash;
             }
 
             return hash;
