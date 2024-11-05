@@ -129,6 +129,7 @@ namespace PlayEveryWare.EpicOnlineServices
             AddPlatformInfo(Platform.Windows,     "Windows", "eos_windows_config.json", typeof(WindowsConfig), "Standalone");
 
             // Set the current platform that is being built against
+#if !EXTERNAL_TO_UNITY
 #if UNITY_EDITOR
             if (TryGetPlatform(EditorUserBuildSettings.activeBuildTarget, out Platform platform))
 #else
@@ -137,6 +138,9 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 CurrentPlatform = platform;
             }
+#else
+            CurrentPlatform = Platform.Windows;
+#endif
         }
 
         public static void SetPlatformDetails(Platform platform, Type configType, string dynamicLibraryExtension)
@@ -216,6 +220,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return typeFound;
         }
 
+#if !EXTERNAL_TO_UNITY
         public static bool TryGetPlatform(RuntimePlatform runtime, out Platform platform)
         {
             switch (runtime)
@@ -267,7 +272,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return platform == Platform.Unknown;
 
         }
-
+#endif
 
 #if UNITY_EDITOR
         /// <summary>

@@ -56,7 +56,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>.\</OutputPath>
+    <OutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutputPath>
     <DefineConstants>TRACE;DEBUG;EXTERNAL_TO_UNITY;PLATFORM_64</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -237,7 +237,6 @@
       <Link>com.playeveryware.eos\Runtime\Core\Utility\SafeTranslatorUtility.cs</Link>
     </Compile>
     <Compile Include="com.playeveryware.eos\Runtime\Core\Application.cs" />
-    <Compile Include="com.playeveryware.eos\Runtime\Core\Common\Wrapped.cs" />
     <Compile Include="com.playeveryware.eos\Runtime\Core\Debug.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\EOS_SDK\**\*.cs">
