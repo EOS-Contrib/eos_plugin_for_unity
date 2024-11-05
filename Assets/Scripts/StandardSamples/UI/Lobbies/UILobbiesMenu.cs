@@ -764,12 +764,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        protected override void OnShow()
+        protected override void ShowInternal()
         {
             EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>().OnLoggedIn();
         }
 
-        protected override void OnHide()
+        protected override void HideInternal()
         {
             LobbyManager?.OnLoggedOut();
         }

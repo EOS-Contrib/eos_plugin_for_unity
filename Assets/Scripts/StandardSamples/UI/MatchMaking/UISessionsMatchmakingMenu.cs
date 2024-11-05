@@ -369,7 +369,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             GetEOSSessionsManager.DeclineLobbyInvite();
         }
 
-        protected override void OnShow()
+        protected override void ShowInternal()
         {
             GetEOSSessionsManager.OnLoggedIn();
             GetEOSSessionsManager.OnPresenceChange.AddListener(SetDirtyFlagAction);
@@ -378,7 +378,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.SetLogLevel(Epic.OnlineServices.Logging.LogCategory.Sessions, Epic.OnlineServices.Logging.LogLevel.Verbose);
         }
 
-        protected override void OnHide()
+        protected override void HideInternal()
         {
             if (GetEOSSessionsManager.IsUserLoggedIn)//check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
             {

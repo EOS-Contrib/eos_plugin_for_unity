@@ -62,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.RemoveManager<EOSCustomInvitesManager>();
         }
 
-        protected override void OnHide()
+        protected override void HideInternal()
         {
             if (EOSManager.Instance.GetProductUserId()?.IsValid() == true)
             {
@@ -70,7 +70,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        protected override void OnShow()
+        protected override void ShowInternal()
         {
             PayloadInputField.InputField.text = string.Empty;
             CustomInvitesManager.ClearPayload();

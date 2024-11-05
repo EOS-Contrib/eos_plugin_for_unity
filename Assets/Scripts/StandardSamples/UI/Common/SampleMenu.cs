@@ -219,7 +219,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Shows the SampleMenu.
         /// If this menu was not hidden, nothing happens.
-        /// If the menu was hidden, this calls <see cref="OnShow"/>.
+        /// If the menu was hidden, this calls <see cref="ShowInternal"/>.
         /// </summary>
         public void Show()
         {
@@ -256,7 +256,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Flag as showing.
             Hidden = false;
 
-            OnShow();
+            ShowInternal();
 
             Log($"Show() completed");
         }
@@ -264,7 +264,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Hides the SampleMenu.
         /// If this menu was already hidden, nothing happens.
-        /// If the menu was not already hidden, this calls <see cref="OnShow"/>.
+        /// If the menu was not already hidden, this calls <see cref="ShowInternal"/>.
         /// </summary>
         public void Hide()
         {
@@ -289,7 +289,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Flag as hidden.
             Hidden = true;
 
-            OnHide();
+            HideInternal();
 
             Log($"Hide() completed");
         }
@@ -299,7 +299,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// this method is run so that implementing child classes can respond
         /// to becoming available.
         /// </summary>
-        protected virtual void OnShow()
+        protected virtual void ShowInternal()
         {
 
         }
@@ -309,7 +309,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// this method is run so that implementing child classes can respond
         /// to becoming unavailable.
         /// </summary>
-        protected virtual void OnHide()
+        protected virtual void HideInternal()
         {
 
         }

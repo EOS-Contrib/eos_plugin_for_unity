@@ -166,12 +166,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UpdateButtons();
         }
 
-        protected override void OnHide()
+        protected override void HideInternal()
         {
             UpdateButtons();
         }
 
-        protected override void OnShow()
+        protected override void ShowInternal()
         {
             Initialize();
 

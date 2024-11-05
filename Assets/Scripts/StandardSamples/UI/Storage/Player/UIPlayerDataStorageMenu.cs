@@ -294,13 +294,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LocalViewText.text = JsonUtility.ToJson(currentInventory, true);
         }
 
-        protected override void OnShow()
+        protected override void ShowInternal()
         {
             UpdateFileListUI();
             PlayerDataStorageService.Instance.OnFileListUpdated += UpdateFileListUI;
         }
 
-        protected override void OnHide()
+        protected override void HideInternal()
         {
             currentSelectedFile = string.Empty;
             currentInventory = null;
