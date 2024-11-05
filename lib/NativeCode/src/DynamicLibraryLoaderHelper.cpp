@@ -28,7 +28,7 @@
 #include "DLLHContext.h"
 
 #if PLATFORM_WINDOWS
-#include "DynamicLibraryLoaderHelper_x86.h"
+#include "DynamicLibraryLoaderHelper_Win32.h"
 #endif
 
 // Create heap data for storing random things, if need be on a given platform

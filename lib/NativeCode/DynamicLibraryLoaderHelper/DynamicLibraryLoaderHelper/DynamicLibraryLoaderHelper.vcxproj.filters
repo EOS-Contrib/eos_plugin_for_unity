@@ -44,7 +44,7 @@
     <ClCompile Include="..\..\src\DynamicLibraryLoaderHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\windows\DynamicLibraryLoaderHelper_x86.cpp">
+    <ClCompile Include="..\..\src\windows\DynamicLibraryLoaderHelper_Win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
