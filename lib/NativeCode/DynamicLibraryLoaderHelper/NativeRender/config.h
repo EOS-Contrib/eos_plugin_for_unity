@@ -1,173 +1,288 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+/*
+ * Copyright (c) 2021 PlayEveryWare
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #pragma once
-#include <json.hpp>
 
-static std::filesystem::path get_path_for_eos_service_config(std::string config_filename);
-std::string sanatize_guid(const std::string& input);
+#include <filesystem>
+#include <map>
+#include <vector>
+#include <optional>
 
-namespace PlayEveryWare::EpicOnlineServices::Config
+#include "json.h"
+
+struct json_value_s;
+
+namespace pew::eos::config
 {
-    struct EOSClientCredentials
+    /**
+     * \brief
+     * Maps string values to values defined by the EOS SDK regarding platform
+     * creation.
+     */
+    static const std::map<std::string, int> PLATFORM_CREATION_FLAGS_STRINGS_TO_ENUM = {
+        {"EOS_PF_LOADING_IN_EDITOR",                          EOS_PF_LOADING_IN_EDITOR},
+        {"LoadingInEditor",                                   EOS_PF_LOADING_IN_EDITOR},
+
+        {"EOS_PF_DISABLE_OVERLAY",                            EOS_PF_DISABLE_OVERLAY},
+        {"DisableOverlay",                                    EOS_PF_DISABLE_OVERLAY},
+
+        {"EOS_PF_DISABLE_SOCIAL_OVERLAY",                     EOS_PF_DISABLE_SOCIAL_OVERLAY},
+        {"DisableSocialOverlay",                              EOS_PF_DISABLE_SOCIAL_OVERLAY},
+
+        {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9",                EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9},
+        {"WindowsEnableOverlayD3D9",                          EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9},
+
+        {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10",               EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10},
+        {"WindowsEnableOverlayD3D10",                         EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10},
+
+        {"EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL",              EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL},
+        {"WindowsEnableOverlayOpengl",                        EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL},
+
+        {"EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING", EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING},
+        {"ConsoleEnableOverlayAutomaticUnloading",            EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING},
+
+        {"EOS_PF_RESERVED1",                                  EOS_PF_RESERVED1},
+        {"Reserved1",                                         EOS_PF_RESERVED1}
+    };
+
+    /**
+     * \brief Maps string values to values within the
+     * EOS_EIntegratedPlatformManagementFlags enum.
+     */
+    static const std::map<std::string, EOS_EIntegratedPlatformManagementFlags> INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_STRINGS_TO_ENUM = {
+        {"EOS_IPMF_Disabled",                        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled },
+        {"Disabled",                                 EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled },
+
+        {"EOS_IPMF_LibraryManagedByApplication",     EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication },
+        {"EOS_IPMF_ManagedByApplication",            EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication},
+        {"ManagedByApplication",                     EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication},
+        {"LibraryManagedByApplication",              EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication},
+
+        {"ManagedBySDK",                             EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK },
+        {"EOS_IPMF_ManagedBySDK",                    EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK },
+        {"EOS_IPMF_LibraryManagedBySDK",             EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK },
+        {"LibraryManagedBySDK",                      EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK },
+
+        {"DisableSharedPresence",                    EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring },
+        {"EOS_IPMF_DisableSharedPresence",           EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring },
+        {"EOS_IPMF_DisablePresenceMirroring",        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring },
+        {"DisablePresenceMirroring",                 EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring},
+
+        {"DisableSessions",                          EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions },
+        {"EOS_IPMF_DisableSessions",                 EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions },
+        {"EOS_IPMF_DisableSDKManagedSessions",       EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions },
+        {"DisableSDKManagedSessions",                EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions },
+
+        {"PreferEOS",                                EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity },
+        {"EOS_IPMF_PreferEOS",                       EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity },
+        {"EOS_IPMF_PreferEOSIdentity",               EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity },
+        {"PreferEOSIdentity",                        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity},
+
+        {"PreferIntegrated",                         EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity },
+        {"EOS_IPMF_PreferIntegrated",                EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity },
+        {"EOS_IPMF_PreferIntegratedIdentity",        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity },
+        {"PreferIntegratedIdentity",                 EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity},
+
+        {"EOS_IPMF_ApplicationManagedIdentityLogin", EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin },
+        {"ApplicationManagedIdentityLogin",          EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin}
+    };
+
+    /**
+     * @brief Typedef for a function pointer that retrieves the configuration as a JSON string.
+     *
+     * This function pointer type represents a function that, when called,
+     * returns the configuration data as a JSON-formatted string.
+     */
+    typedef const char* (*GetConfigAsJSONString_t)();
+
+    /**
+     * @brief Represents a sandbox deployment override configuration.
+     *
+     * Contains the sandbox ID and the corresponding deployment ID to override the default sandbox
+     * deployment configuration.
+     */
+    struct SandboxDeploymentOverride
     {
-        std::string ClientId;
-        std::string ClientSecret;
-        std::string EncryptionKey;
-    };
-}
-
-namespace nlohmann {
-    template<>
-    struct adl_serializer<EOS_Initialize_ThreadAffinity> {
-        static void from_json(const json& j, EOS_Initialize_ThreadAffinity& ta) {
-            ta.NetworkWork = j.value("NetworkWork", 0ULL);
-            ta.StorageIo = j.value("StorageIo", 0ULL);
-            ta.WebSocketIo = j.value("WebSocketIo", 0ULL);
-            ta.P2PIo = j.value("P2PIo", 0ULL);
-            ta.HttpRequestIo = j.value("HttpRequestIo", 0ULL);
-            ta.RTCIo = j.value("RTCIo", 0ULL);
-            ta.EmbeddedOverlayMainThread = j.value("EmbeddedOverlayMainThread", 0ULL);
-            ta.EmbeddedOverlayWorkerThreads = j.value("EmbeddedOverlayWorkerThreads", 0ULL);
-        }
+        std::string sandboxID;
+        std::string deploymentID;
     };
 
-    template <>
-    struct adl_serializer<PlayEveryWare::EpicOnlineServices::Config::EOSClientCredentials> {
-        static void from_json(const json& j, PlayEveryWare::EpicOnlineServices::Config::EOSClientCredentials& creds) {
-            creds.ClientId = j.at("ClientId").get<std::string>();
-            creds.ClientSecret = j.at("ClientSecret").get<std::string>();
-            creds.EncryptionKey = j.at("EncryptionKey").get<std::string>();
-        }
-    };
-}
 
-namespace PlayEveryWare::EpicOnlineServices::Config
-{
-    struct ProductionEnvironment
+    /**
+     * @brief Holds EOS platform configuration settings.
+     *
+     * This structure defines various configuration parameters for the EOS platform, including
+     * product details, sandbox information, client credentials, thread affinities, and platform
+     * options.
+     */
+    struct EOSConfig
     {
-        std::string DeploymentId;
-        std::string SandboxId;
-    };
+        std::string productName;
+        std::string productVersion;
 
-    struct ProductConfig
-    {
-        std::string ProductName;
-        std::string ProductId;
-        std::string ProductVersion;
+        std::string productID;
+        std::string sandboxID;
+        std::string deploymentID;
+        std::vector<SandboxDeploymentOverride> sandboxDeploymentOverrides;
 
-        std::vector<ProductionEnvironment> environments;
-    };
+        std::string clientSecret;
+        std::string clientID;
+        std::string encryptionKey;
 
-    struct PlatformConfig {
-        ProductionEnvironment deployment;
-        EOSClientCredentials clientCredentials;
         std::string overrideCountryCode;
         std::string overrideLocaleCode;
-        bool isServer = false;
-        std::string platformOptionsFlags;
-        std::string authScopeOptionsFlags;
+
+        // this is called platformOptionsFlags in C#
         uint64_t flags = 0;
+
         uint32_t tickBudgetInMilliseconds = 0;
         double taskNetworkTimeoutSeconds = 0.0;
-        bool alwaysSendInputToOverlay = false;
-        double initialButtonDelayForOverlay = 0.0;
-        double repeatButtonDelayForOverlay = 0.0;
-        EOS_Initialize_ThreadAffinity thread_affinity;
-        std::string toggleFriendsButtonCombination;
-        bool _configValuesMigrated = false;
-        std::string schemaVersion;
+
+        uint64_t ThreadAffinity_networkWork = 0;
+        uint64_t ThreadAffinity_storageIO = 0;
+        uint64_t ThreadAffinity_webSocketIO = 0;
+        uint64_t ThreadAffinity_P2PIO = 0;
+        uint64_t ThreadAffinity_HTTPRequestIO = 0;
+        uint64_t ThreadAffinity_RTCIO = 0;
+
+        bool isServer = false;
+
     };
 
-    template <typename T>
-    T get_value_or_default(const nlohmann::json& j, const std::string& key, const T& default_value) {
-        if (j.contains(key) && !j.at(key).is_null()) {
-            try {
-                return j.at(key).get<T>();
-            }
-            catch (const nlohmann::json::exception& e) {
-                // Handle type conversion errors if necessary
-                std::cerr << "Error parsing key '" << key << "': " << e.what() << std::endl;
-                return default_value;
-            }
-        }
-        else {
-            // Key does not exist or is null
-            return default_value;
-        }
-
-    }
-
-    struct DeploymentItem {
-        std::string Name;
-        ProductionEnvironment Value;
-    };
-
-    inline void from_json(const nlohmann::json& j, ProductionEnvironment& env) {
-        env.DeploymentId = sanatize_guid(get_value_or_default<std::string>(j, "DeploymentId", ""));
-        env.SandboxId = get_value_or_default<std::string>(j.at("SandboxId"), "Value", "");
-    }
-
-
-    inline void from_json(const nlohmann::json& j, DeploymentItem& item) {
-        item.Name = get_value_or_default<std::string>(j, "Name", "");
-        item.Value = j.at("Value").get<ProductionEnvironment>();
-    }
-
-    // Define from_json functions
-    inline void from_json(const nlohmann::json& j, ProductConfig& config) {
-        config.ProductName = get_value_or_default<std::string>(j, "ProductName", "");
-        config.ProductId = sanatize_guid(get_value_or_default<std::string>(j, "ProductId", ""));
-        config.ProductVersion = get_value_or_default<std::string>(j, "Version", "");
-
-        const auto& environments = j.at("Environments");
-        const auto& deployments = environments.at("Deployments");
-
-        for (const auto& deploymentItemJson : deployments) {
-            DeploymentItem deploymentItem = deploymentItemJson.get<DeploymentItem>();
-            config.environments.push_back(deploymentItem.Value);
-        }
-    }
-
-    inline void from_json(const nlohmann::json& j, EOS_Initialize_ThreadAffinity& ta)
+    /**
+     * @brief Holds configuration for log levels and categories.
+     *
+     * This structure defines log level settings for specific log categories.
+     */
+    struct LogLevelConfig
     {
-        ta.ApiVersion = EOS_INITIALIZE_THREADAFFINITY_API_LATEST;
+        std::vector<std::string> category;
+        std::vector<std::string> level;
+    };
 
-        ta.StorageIo = get_value_or_default<uint64_t>(j, "StorageIo", 0ULL);
-        ta.WebSocketIo = get_value_or_default<uint64_t>(j, "WebSocketIo", 0ULL);
-        ta.P2PIo = get_value_or_default<uint64_t>(j, "P2PIo", 0ULL);
-        ta.HttpRequestIo = get_value_or_default<uint64_t>(j, "HttpRequestIo", 0ULL);
-        ta.RTCIo = get_value_or_default<uint64_t>(j, "RTCIo", 0ULL);
-        ta.EmbeddedOverlayMainThread = get_value_or_default<uint64_t>(j, "EmbeddedOverlayMainThread", 0ULL);
-        ta.EmbeddedOverlayWorkerThreads = get_value_or_default<uint64_t>(j, "EmbeddedOverlayWorkerThreads", 0ULL);
-    }
+    /**
+     * @brief Configuration settings specific to the EOS Steam platform integration.
+     *
+     * This structure defines settings for integrating with the Steam platform, including SDK versions,
+     * platform flags, and API versions.
+     */
+    struct EOSSteamConfig
+    {
+        EOS_EIntegratedPlatformManagementFlags flags = static_cast<EOS_EIntegratedPlatformManagementFlags>(0);
+        uint32_t steamSDKMajorVersion = 0;
+        uint32_t steamSDKMinorVersion = 0;
+        std::optional<std::string> OverrideLibraryPath;
+        std::vector<std::string> steamApiInterfaceVersionsArray;
 
-    inline void from_json(const nlohmann::json& j, PlatformConfig& config) {
-        // Using get_value_or_default for primitive types
-        config.isServer = get_value_or_default<bool>(j, "isServer", false);
-        config.platformOptionsFlags = get_value_or_default<std::string>(j, "platformOptionsFlags", "");
-        config.authScopeOptionsFlags = get_value_or_default<std::string>(j, "authScopeOptionsFlags", "");
-        config.flags = get_value_or_default<uint64_t>(j, "flags", 0);
-        config.tickBudgetInMilliseconds = get_value_or_default<uint32_t>(j, "tickBudgetInMilliseconds", 0);
-        config.taskNetworkTimeoutSeconds = get_value_or_default<double>(j, "taskNetworkTimeoutSeconds", 0.0);
-        config.alwaysSendInputToOverlay = get_value_or_default<bool>(j, "alwaysSendInputToOverlay", false);
-        config.initialButtonDelayForOverlay = get_value_or_default<double>(j, "initialButtonDelayForOverlay", 0.0);
-        config.repeatButtonDelayForOverlay = get_value_or_default<double>(j, "repeatButtonDelayForOverlay", 0.0);
-        config.toggleFriendsButtonCombination = get_value_or_default<std::string>(j, "toggleFriendsButtonCombination", "");
-        config._configValuesMigrated = get_value_or_default<bool>(j, "_configValuesMigrated", false);
-        config.schemaVersion = get_value_or_default<std::string>(j, "schemaVersion", "");
+        /**
+         * @brief Checks if the library is managed by the application.
+         *
+         * @return `true` if the library is managed by the application, `false` otherwise.
+         */
+        bool is_managed_by_application() const;
 
-        // For nested objects, check existence before parsing
-        if (auto it = j.find("deployment"); it != j.end() && !it->is_null()) {
-            config.deployment = it->get<ProductionEnvironment>();
-        }
+        /**
+         * @brief Checks if the library is managed by the EOS SDK.
+         *
+         * @return `true` if the library is managed by the SDK, `false` otherwise.
+         */
+        bool is_managed_by_sdk() const;
+    };
 
-        if (auto it = j.find("clientCredentials"); it != j.end() && !it->is_null()) {
-            config.clientCredentials = it->get<EOSClientCredentials>();
-        }
+    /**
+     * @brief Parses a JSON configuration object to create a log level configuration.
+     *
+     * Extracts log category and level pairs from a JSON structure, storing them in a `LogLevelConfig` object.
+     *
+     * @param config_json The JSON value representing the configuration.
+     * @return A `LogLevelConfig` object populated with log categories and their levels.
+     */
+    LogLevelConfig log_config_from_json_value(json_value_s* config_json);
 
-        if (auto it = j.find("threadAffinity"); it != j.end() && !it->is_null()) {
-            config.thread_affinity = it->get<EOS_Initialize_ThreadAffinity>();
-        }
-    }
+    /**
+     * @brief Retrieves the path to the EOS service configuration file.
+     *
+     * Attempts to locate the configuration file by navigating up directories.
+     * If the path is not found, it defaults to a predefined directory.
+     *
+     * @param config_filename The name of the configuration file.
+     * @return The path to the EOS service configuration file.
+     */
+    std::filesystem::path get_path_for_eos_service_config(std::string config_filename);
+
+    /**
+     * @brief Reads a JSON configuration from a DLL.
+     *
+     * Attempts to load configuration data from a DLL. The function retrieves the
+     * JSON configuration string from the DLL, parses it, and returns the parsed JSON object.
+     *
+     * @return A pointer to a `json_value_s` representing the configuration data, or `nullptr` if loading fails.
+     */
+    json_value_s* read_config_json_from_dll();
+
+    /**
+     * @brief Parses an EOS configuration object from a JSON structure.
+     *
+     * Reads EOS-related configuration details such as product name, version, IDs, client credentials,
+     * and thread affinities from the given JSON structure, populating an `EOSConfig` object.
+     *
+     * @param config_json The JSON value representing the configuration.
+     * @return An `EOSConfig` object populated with settings from the JSON structure.
+     */
+    EOSConfig eos_config_from_json_value(json_value_s* config_json);
+
+    /**
+     * @brief Collects integrated platform management flags from a JSON element.
+     *
+     * Parses platform management flags from a JSON element and combines them into a single flag value.
+     *
+     * @param iter The JSON object element representing the flags.
+     * @return The combined `EOS_EIntegratedPlatformManagementFlags` value.
+     */
+    EOS_EIntegratedPlatformManagementFlags eos_collect_integrated_platform_management_flags(json_object_element_s* iter);
+
+    /**
+     * @brief Parses an EOS Steam configuration from a JSON structure.
+     *
+     * Reads Steam-specific settings, such as flags, library path, SDK versions, and API versions,
+     * from the provided JSON configuration, and stores them in an `EOSSteamConfig` object.
+     *
+     * @param config_json The JSON value representing the Steam configuration.
+     * @return An `EOSSteamConfig` object populated with settings from the JSON structure.
+     */
+    EOSSteamConfig eos_steam_config_from_json_value(json_value_s* config_json);
+
+    /**
+     * @brief Reads an EOS configuration file as a JSON value.
+     *
+     * Retrieves the specified configuration file, loads its contents, and parses it into a JSON structure.
+     *
+     * @param config_filename The name of the configuration file.
+     * @return A pointer to a `json_value_s` representing the configuration data, or `nullptr` if parsing fails.
+     */
+    json_value_s* read_eos_config_as_json_value_from_file(std::string config_filename);
+
 }
-
-
-
+#endif
