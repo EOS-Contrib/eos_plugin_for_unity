@@ -29,6 +29,7 @@
 #include "io_helpers.h"
 #include "json_helpers.h"
 #include "logging.h"
+#include <codecvt>
 
 namespace pew::eos
 {
