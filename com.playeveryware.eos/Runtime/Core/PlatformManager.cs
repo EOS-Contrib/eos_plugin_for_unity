@@ -34,7 +34,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using UnityEngine;
 #endif
     using Utility;
-    using System.Reflection;
 
     public static class PlatformManager
     {
