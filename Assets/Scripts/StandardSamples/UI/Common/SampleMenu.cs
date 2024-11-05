@@ -24,6 +24,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using Epic.OnlineServices;
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using UnityEngine;
@@ -224,6 +225,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void Show()
         {
             Log($"Show() started");
+
+            if (RequiresAuthentication)
+            {
+                ProductUserId user = EOSManager.Instance.GetProductUserId();
+                if (user == null || !user.IsValid())
+                {
+                    Log($"This SampleMenu requires authentication, and the user " +
+                        "has not set a ProductUserId yet. Will not set this " +
+                        "sample to visible until OnAuthenticationChanged.");
+                    return;
+                }
+            }
 
             // Don't do anything if already showing.
             if (!Hidden) return;
