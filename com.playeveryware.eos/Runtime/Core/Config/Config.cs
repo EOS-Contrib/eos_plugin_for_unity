@@ -27,11 +27,16 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+#if UNITY_EDITOR
     using UnityEditor;
+#endif
+
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
     using System.Collections.Generic;
     using System.IO;
-    using System.Reflection;   
+    using System.Reflection;
     using System.Text;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
     using System.Runtime.CompilerServices;
@@ -142,6 +147,11 @@ namespace PlayEveryWare.EpicOnlineServices
             Filename = filename;
             Directory = directory;
             _allowDefaultIfFileNotFound = allowDefault;
+        }
+
+        public static WindowsConfig GetWindowsConfig()
+        {
+            return Get<WindowsConfig>();
         }
 
         /// <summary>

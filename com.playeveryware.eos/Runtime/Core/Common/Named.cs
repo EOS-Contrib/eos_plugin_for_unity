@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.Common
 {
+    using PlayEveryWare.EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
 
@@ -116,7 +117,7 @@ namespace PlayEveryWare.Common
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Name, Value);
+            return HashUtility.Combine(Value);
         }
 
         public override string ToString()

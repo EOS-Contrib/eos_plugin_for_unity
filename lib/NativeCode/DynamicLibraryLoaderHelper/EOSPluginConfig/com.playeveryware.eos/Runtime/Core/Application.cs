@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2024 PlayEveryWare
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,29 +22,8 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using PlayEveryWare.EpicOnlineServices.Utility;
-    using System;
-
-    public struct Deployment : IEquatable<Deployment>
+    internal class Application
     {
-        public SandboxId SandboxId;
-
-        public Guid DeploymentId;
-
-        public bool Equals(Deployment other)
-        {
-            return SandboxId.Equals(other.SandboxId) && DeploymentId.Equals(other.DeploymentId);
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is Deployment deployment && Equals(deployment);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashUtility.Combine(SandboxId, DeploymentId);
-        }
+        public const string streamingAssetsPath = "C:/Users/PaulPEW/dev/repos/eos_plugin_for_unity/Assets/StreamingAssets/";
     }
-
 }

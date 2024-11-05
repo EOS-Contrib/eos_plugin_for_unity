@@ -22,7 +22,9 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
     using System;
