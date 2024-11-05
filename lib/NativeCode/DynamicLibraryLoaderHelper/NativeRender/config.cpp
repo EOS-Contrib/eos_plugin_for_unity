@@ -27,6 +27,18 @@
 #include "json_helpers.h"
 #include "logging.h"
 
+
+ /**
+  * @brief Reads an EOS configuration file as a JSON value.
+  *
+  * Retrieves the specified configuration file, loads its contents, and parses it into a JSON structure.
+  *
+  * @param config_filename The name of the configuration file.
+  * @return A pointer to a `json_value_s` representing the configuration data, or `nullptr` if parsing fails.
+  */
+json_value_s* read_eos_config_as_json_value_from_file(std::string config_filename);
+
+
 namespace pew::eos::config
 {
     /**
