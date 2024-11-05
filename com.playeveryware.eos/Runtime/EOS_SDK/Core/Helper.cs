@@ -630,6 +630,11 @@ namespace Epic.OnlineServices
 			return AddPinnedBuffer(str.Bytes, 0);
 		}
 
+        internal static IntPtr AddPinnedBuffer(byte[] array)
+        {
+            return AddPinnedBuffer(new ArraySegment<byte>(array));
+        }
+
 		internal static IntPtr AddPinnedBuffer(ArraySegment<byte> array)
 		{
 			if (array == null)

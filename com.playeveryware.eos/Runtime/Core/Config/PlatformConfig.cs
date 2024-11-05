@@ -33,8 +33,11 @@ namespace PlayEveryWare.EpicOnlineServices
     using Common;
     using Newtonsoft.Json;
     using System;
-    using System.Text.RegularExpressions;
+
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
+
     using Utility;
 
     /// <summary>

@@ -62,6 +62,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         protected override void Awake()
         {
+            // Hide the Achievement Locked / Unlocked icons at the start,
+            // only making them active after we've fetched images for them.
+            // Otherwise, there will appear to be white squares in the sample.
+            achievementLockedIcon.gameObject.SetActive(false);
+            achievementUnlockedIcon.gameObject.SetActive(false);
+
             base.Awake();
             AchievementsService.Instance.Updated += OnAchievementDataUpdated;
         }
@@ -212,6 +218,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             var achievementData = achievementDataList[i];
             var definition = achievementData.Definition;
+
+            // Set both icons to be hidden
+            achievementLockedIcon.gameObject.SetActive(false);
+            achievementUnlockedIcon.gameObject.SetActive(false);
+
+            // Asynchronously retrieve the icons and set the textures
+            // DisplayPlayerAchievement then will set the appropriate icon to be visible
             achievementUnlockedIcon.texture = await AchievementsService.Instance.GetAchievementUnlockedIconTexture(definition.AchievementId);
             achievementLockedIcon.texture = await AchievementsService.Instance.GetAchievementLockedIconTexture(definition.AchievementId);
 

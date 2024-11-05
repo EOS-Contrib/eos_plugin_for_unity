@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2024 PlayEveryWare
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,29 +22,27 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using PlayEveryWare.EpicOnlineServices.Utility;
     using System;
 
-    public struct Deployment : IEquatable<Deployment>
+    internal class Debug
     {
-        public SandboxId SandboxId;
-
-        public Guid DeploymentId;
-
-        public bool Equals(Deployment other)
+        public static void LogError(string message)
         {
-            return SandboxId.Equals(other.SandboxId) && DeploymentId.Equals(other.DeploymentId);
+            Log($"ERROR: {message}");
+        }
+        public static void LogWarning(string message)
+        {
+            Log($"WARNING: {message}");
         }
 
-        public override bool Equals(object obj)
+        public static void Log(string message)
         {
-            return obj is Deployment deployment && Equals(deployment);
+            Console.WriteLine(message);
         }
 
-        public override int GetHashCode()
+        public static void LogException(Exception e)
         {
-            return HashUtility.Combine(SandboxId, DeploymentId);
+            Console.WriteLine($"An exception was logged. Exception message: \"{e.Message}\".");
         }
     }
-
 }
