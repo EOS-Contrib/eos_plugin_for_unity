@@ -358,9 +358,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsAfterStatIngestedToRefresh));
         }
 
-        public override void Show()
+        protected override void OnShow()
         {
-            base.Show();
             Invoke(nameof(InitFriends), 0);
         }
 

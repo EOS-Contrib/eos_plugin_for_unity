@@ -217,10 +217,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>
-        /// Shows the SampleMenu. If overriding, make sure to call this base
-        /// implementation first.
+        /// Shows the SampleMenu.
+        /// If this menu was not hidden, nothing happens.
+        /// If the menu was hidden, this calls <see cref="OnShow"/>.
         /// </summary>
-        public virtual void Show()
+        public void Show()
         {
             Log($"Show() started");
 
@@ -255,14 +256,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Flag as showing.
             Hidden = false;
 
+            OnShow();
+
             Log($"Show() completed");
         }
 
         /// <summary>
-        /// Hides the SampleMenu. If overriding, make sure to call this base
-        /// implementation first.
+        /// Hides the SampleMenu.
+        /// If this menu was already hidden, nothing happens.
+        /// If the menu was not already hidden, this calls <see cref="OnShow"/>.
         /// </summary>
-        public virtual void Hide()
+        public void Hide()
         {
             Log($"Hide() started");
 
@@ -285,7 +289,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Flag as hidden.
             Hidden = true;
 
+            OnHide();
+
             Log($"Hide() completed");
+        }
+
+        /// <summary>
+        /// If this menu is shown through <see cref="Show"/> successfully, then
+        /// this method is run so that implementing child classes can respond
+        /// to becoming available.
+        /// </summary>
+        protected virtual void OnShow()
+        {
+
+        }
+
+        /// <summary>
+        /// If this menu is hidden through <see cref="Hide"/> successfully, then
+        /// this method is run so that implementing child classes can respond
+        /// to becoming unavailable.
+        /// </summary>
+        protected virtual void OnHide()
+        {
+
         }
 
         /// <summary>
