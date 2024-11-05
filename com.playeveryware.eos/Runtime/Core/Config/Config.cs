@@ -130,6 +130,11 @@ namespace PlayEveryWare.EpicOnlineServices
             _allowDefaultIfFileNotFound = allowDefault;
         }
 
+        public static WindowsConfig GetWindowsConfig()
+        {
+            return Get<WindowsConfig>();
+        }
+
         /// <summary>
         /// Implement this function in deriving classes to do any additional
         /// work on a Config after it has been retrieved and before it is
