@@ -26,7 +26,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
 
 #if UNITY_EDITOR
-    using System.Reflection;
     using UnityEditor;
 #endif
 
@@ -34,7 +33,8 @@ namespace PlayEveryWare.EpicOnlineServices
     using UnityEngine;
 #endif
     using Utility;
-
+    using System.Reflection;
+    
     public static class PlatformManager
     {
         /// <summary>
