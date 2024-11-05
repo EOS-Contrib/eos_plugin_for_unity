@@ -74,24 +74,24 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)Build\Temp\$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
-    <TargetName>$(ProjectName)-$(Platform)$(TargetExt)</TargetName>
+    <TargetName>$(ProjectName)-$(Platform)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)Build\Temp\$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
-    <TargetName>$(ProjectName)-$(Platform)$(TargetExt)</TargetName>
+    <TargetName>$(ProjectName)-$(Platform)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutDir>
-    <TargetName>$(ProjectName)-$(Platform)$(TargetExt)</TargetName>
+    <TargetName>$(ProjectName)-$(Platform)</TargetName>
     <IntDir>$(SolutionDir)Build\Temp\$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutDir>
-    <TargetName>$(ProjectName)-$(Platform)$(TargetExt)</TargetName>
+    <TargetName>$(ProjectName)-$(Platform)</TargetName>
     <IntDir>$(SolutionDir)Build\Temp\$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
@@ -215,6 +215,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x86'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\src\windows\DynamicLibraryLoaderHelper_x86.cpp" />
     <ClCompile Include="..\..\src\windows\Memory_WinCRT.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

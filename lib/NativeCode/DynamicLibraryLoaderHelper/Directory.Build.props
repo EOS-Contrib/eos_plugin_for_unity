@@ -1,5 +1,5 @@
 <Project>
   <PropertyGroup>
-    <OutputUnityAssetsDirectory>C:\</OutputUnityAssetsDirectory>
+    <OutputUnityAssetsDirectory>$(SolutionDir)..\..\..\Assets\Plugins\Windows\$(Platform)\</OutputUnityAssetsDirectory>
   </PropertyGroup>
 </Project>
