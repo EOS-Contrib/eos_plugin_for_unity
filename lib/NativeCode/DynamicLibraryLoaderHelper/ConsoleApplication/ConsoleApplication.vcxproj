@@ -106,7 +106,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <AdditionalUsingDirectories>$(SolutionDir)Build\$(Configuration)\$(Platform)</AdditionalUsingDirectories>
+      <AdditionalUsingDirectories>$(SolutionDir)Build\$(Configuration)\$(Platform)\</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,7 +127,7 @@
       <CompileAsManaged>true</CompileAsManaged>
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <AdditionalUsingDirectories>$(SolutionDir)Build\$(Configuration)\$(Platform)</AdditionalUsingDirectories>
+      <AdditionalUsingDirectories>$(SolutionDir)Build\$(Configuration)\$(Platform)\</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,7 +149,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <AdditionalUsingDirectories>$(SolutionDir)Build\$(Configuration)\$(Platform)</AdditionalUsingDirectories>
+      <AdditionalUsingDirectories>$(SolutionDir)Build\$(Configuration)\$(Platform)\</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -170,7 +170,7 @@
       <CompileAsManaged>true</CompileAsManaged>
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <AdditionalUsingDirectories>$(SolutionDir)Build\$(Configuration)\$(Platform)</AdditionalUsingDirectories>
+      <AdditionalUsingDirectories>$(SolutionDir)Build\$(Configuration)\$(Platform)\</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
