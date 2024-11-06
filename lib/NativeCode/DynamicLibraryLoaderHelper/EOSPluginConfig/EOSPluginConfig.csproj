@@ -16,41 +16,24 @@
   <PropertyGroup Condition="'$(Platform)' == 'x64'">
     <AssemblyName>EOSPluginConfig-x64</AssemblyName>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Platform)' == 'x86'">
-    <AssemblyName>EOSPluginConfig-x86</AssemblyName>
+  <PropertyGroup Condition="'$(Platform)' == 'Win32'">
+    <AssemblyName>EOSPluginConfig-Win32</AssemblyName>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;EXTERNAL_TO_UNITY</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutputPath>
-    <DefineConstants>TRACE;EXTERNAL_TO_UNITY</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutputPath>
     <DefineConstants>TRACE;DEBUG;EXTERNAL_TO_UNITY;PLATFORM_32</DefineConstants>
     <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>Win32</PlatformTarget>
     <LangVersion>9.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">
     <OutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutputPath>
     <DefineConstants>TRACE;EXTERNAL_TO_UNITY;PLATFORM_32</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>Win32</PlatformTarget>
     <LangVersion>9.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>

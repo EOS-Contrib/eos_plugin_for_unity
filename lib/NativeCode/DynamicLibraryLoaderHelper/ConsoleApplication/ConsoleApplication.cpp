@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <config.h>
+#include <ManagedCodeProxy.h>
 
 int main()
 {
@@ -34,6 +35,9 @@ int main()
     {
         std::cout << "Could not load EOSConfig.";
     }
+
+    auto windows_config = ManagedCodeProxy::ConfigWrapper::GetWindowsConfig();
+    std::cout << "Hello world!" << std::endl;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
