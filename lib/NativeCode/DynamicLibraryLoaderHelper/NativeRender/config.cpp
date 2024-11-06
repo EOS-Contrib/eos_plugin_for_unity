@@ -175,7 +175,7 @@ namespace pew::eos::config
      */
     static GetConfigAsJSONString_t GetConfigAsJSONString;
 
-    bool try_get_eos_config(EOSConfig& config)
+    CONFIG_API bool try_get_eos_config(EOSConfig& config)
     {
         auto path_to_config_json = get_path_for_eos_service_config(EOS_SERVICE_CONFIG_FILENAME);
         json_value_s* eos_config_as_json = nullptr;

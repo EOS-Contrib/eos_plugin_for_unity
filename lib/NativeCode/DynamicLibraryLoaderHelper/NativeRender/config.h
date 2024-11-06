@@ -35,6 +35,8 @@
 
 struct json_value_s;
 
+#define CONFIG_EXPORTS
+
 #ifdef CONFIG_EXPORTS
 #define CONFIG_API __declspec(dllexport)
 #else
