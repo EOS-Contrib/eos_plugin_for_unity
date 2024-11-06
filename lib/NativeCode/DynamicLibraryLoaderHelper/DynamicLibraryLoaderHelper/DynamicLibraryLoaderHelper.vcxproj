@@ -44,9 +44,9 @@
   </PropertyGroup>
   <!-- Common Output Directories -->
   <PropertyGroup>
-    <OutDir>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)Build\Temp\$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
-    <TargetName>$(ProjectName)-$(Platform)</TargetName>
+    <OutDir>$(SolutionDir)Build\$(Configuration)\$(PlatformTarget)\</OutDir>
+    <IntDir>$(SolutionDir)Build\Temp\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <TargetName>$(ProjectName)-$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
