@@ -18,7 +18,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{251D4477-4C90-4FE1-94A2-52377327D3B2}</ProjectGuid>
@@ -27,9 +26,7 @@
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>GfxPluginNativeRender</ProjectName>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-
   <!-- Consolidated Configuration Groups -->
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32' Or '$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -38,7 +35,6 @@
     <CharacterSet>Unicode</CharacterSet>
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32' Or '$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -47,27 +43,20 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
-
   <!-- Common Output Directories -->
   <PropertyGroup>
-    <OutDir>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutDir>
-    <TargetName>$(ProjectName)-$(Platform)</TargetName>
-    <IntDir>$(SolutionDir)Build\Temp\$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Configuration)\$(PlatformTarget)\</OutDir>
+    <TargetName>$(ProjectName)-$(PlatformTarget)</TargetName>
+    <IntDir>$(SolutionDir)Build\Temp\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
-
   <!-- Consolidated Property Sheets -->
   <ImportGroup Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"
-            Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')"
-            Label="LocalAppDataPlatform" />
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-
   <PropertyGroup Label="UserMacros" />
-
   <!-- Consolidated ClCompile Settings -->
   <ItemDefinitionGroup>
     <ClCompile>
@@ -85,7 +74,6 @@
       <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
-
   <!-- Condition-Specific Definitions for Debug and Release -->
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
@@ -93,7 +81,6 @@
       <PreprocessorDefinitions>OVERLAY_DLL_NAME="$(OverlayDllName)";STEAM_API_DLL="$(SteamApiDll)";SDK_DLL_NAME="$(SdkDllName)";CONFIG_DIRECTORY="$(ConfigDirectory)";_DEBUG;NATIVERENDER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
-
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
@@ -111,7 +98,6 @@
       <Command>xcopy "$(TargetDir)*" "$(OutputUnityAssetsDirectory)" /E /I /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-
   <!-- Source Files -->
   <ItemGroup>
     <ClInclude Include="config.h" />
@@ -125,7 +111,6 @@
     <ClInclude Include="string_helpers.h" />
     <ClInclude Include="eos_library_helpers.h" />
   </ItemGroup>
-
   <ItemGroup>
     <ClCompile Include="config.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -139,7 +124,6 @@
     </ClCompile>
     <ClCompile Include="string_helpers.cpp" />
   </ItemGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="ConfigPaths.props" />
   <ImportGroup Label="ExtensionTargets" />
