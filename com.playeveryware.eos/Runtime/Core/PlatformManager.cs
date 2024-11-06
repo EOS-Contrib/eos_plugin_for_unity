@@ -29,7 +29,9 @@ namespace PlayEveryWare.EpicOnlineServices
     using UnityEditor;
 #endif
 
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
     using Utility;
 
     public static class PlatformManager
@@ -102,6 +104,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
         static PlatformManager()
         {
+            // This compile conditional is here because if we are external to
+            // the Unity Engine, then we only need to use WindowsConfig.
+#if !EXTERNAL_TO_UNITY
             AddPlatformInfo(Platform.Android,     "Android",       "eos_android_config.json", typeof(AndroidConfig), "Android");
             AddPlatformInfo(Platform.iOS,         "iOS",           "eos_ios_config.json",     typeof(IOSConfig),     "iPhone");
             AddPlatformInfo(Platform.Linux,       "Linux",         "eos_linux_config.json",   typeof(LinuxConfig),   "Standalone");
@@ -116,6 +121,7 @@ namespace PlayEveryWare.EpicOnlineServices
             //// relies on EpicOnlineServicesConfig.json, so for now this entry is different. What is commented below is what it *should* be to be consistent.
             //// AddPlatformInfo(Platform.Windows,     "Windows",         "eos_windows_config.json", typeof(EOSWindowsConfig), ".dll");
             //// For the time being, this is the entry for the Windows platform
+#endif
             AddPlatformInfo(Platform.Windows,     "Windows", "eos_windows_config.json", typeof(WindowsConfig), "Standalone");
         }
 

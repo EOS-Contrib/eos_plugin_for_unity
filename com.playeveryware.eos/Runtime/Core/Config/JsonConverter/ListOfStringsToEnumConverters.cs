@@ -104,8 +104,11 @@ namespace PlayEveryWare.EpicOnlineServices
         protected override WrappedPlatformFlags FromStringArray(JArray array)
         {
             Dictionary<string, WrappedPlatformFlags> wrappedCustomMapping = new();
-            foreach ((string key, PlatformFlags value) in PlatformFlagsExtensions.CustomMappings)
+            
+            foreach (var customMapping in PlatformFlagsExtensions.CustomMappings)
             {
+                string key = customMapping.Key;
+                PlatformFlags value = customMapping.Value;
                 wrappedCustomMapping[key] = value.Wrap();
             }
 
