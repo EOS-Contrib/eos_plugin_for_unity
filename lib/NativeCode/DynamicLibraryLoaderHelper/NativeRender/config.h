@@ -31,8 +31,15 @@
 #include <optional>
 
 #include "json.h"
+#include "eos_sdk.h"
 
 struct json_value_s;
+
+#ifdef CONFIG_EXPORTS
+#define CONFIG_API __declspec(dllexport)
+#else
+#define CONFIG_API __declspec(dllimport)
+#endif
 
 namespace pew::eos::config
 {
@@ -243,15 +250,10 @@ namespace pew::eos::config
     json_value_s* read_config_json_from_dll();
 
     /**
-     * @brief Parses an EOS configuration object from a JSON structure.
-     *
-     * Reads EOS-related configuration details such as product name, version, IDs, client credentials,
-     * and thread affinities from the given JSON structure, populating an `EOSConfig` object.
-     *
-     * @param config_json The JSON value representing the configuration.
-     * @return An `EOSConfig` object populated with settings from the JSON structure.
+     * \brief Parses an EOS configuration object from a JSON structure.
+     * \return An `EOSConfig` object populated with settings from the JSON structure.
      */
-    EOSConfig eos_config_from_json_value(json_value_s* config_json);
+    CONFIG_API bool try_get_eos_config(EOSConfig& config);
 
     /**
      * @brief Collects integrated platform management flags from a JSON element.

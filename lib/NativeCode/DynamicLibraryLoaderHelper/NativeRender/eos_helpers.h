@@ -75,7 +75,7 @@ namespace pew::eos
      *
      * @param eos_config The EOS configuration settings.
      */
-    void eos_init(const config::EOSConfig& eos_config);
+    void eos_init(const config::EOSConfig eos_config);
 
     /**
      * @brief Creates an EOS platform using the specified configuration.
@@ -83,8 +83,8 @@ namespace pew::eos
      * Configures and creates an EOS platform instance. This includes setting up RTC options,
      * integrated platform options, and other settings defined in the configuration.
      *
-     * @param eosConfig The configuration object containing EOS platform settings.
+     * @param eos_config The configuration object containing EOS platform settings.
      */
-    void eos_create(config::EOSConfig& eosConfig);
+    void eos_create(config::EOSConfig eos_config);
 }
 #endif

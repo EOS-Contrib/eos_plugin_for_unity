@@ -27,6 +27,8 @@
 #include "json_helpers.h"
 #include "logging.h"
 
+using namespace pew::eos::config;
+using namespace pew::eos::json_helpers;
 
  /**
   * @brief Reads an EOS configuration file as a JSON value.
@@ -38,6 +40,133 @@
   */
 json_value_s* read_eos_config_as_json_value_from_file(std::string config_filename);
 
+EOSConfig eos_config_from_json_value(json_value_s* config_json)
+{
+    // Create platform instance
+    json_object_s* config_json_object = json_value_as_object(config_json);
+    json_object_element_s* iter = config_json_object->start;
+    EOSConfig eos_config;
+
+    while (iter != nullptr)
+    {
+        if (!strcmp("productName", iter->name->string))
+        {
+            eos_config.productName = json_value_as_string(iter->value)->string;
+        }
+        else if (!strcmp("productVersion", iter->name->string))
+        {
+            eos_config.productVersion = json_value_as_string(iter->value)->string;
+        }
+        else if (!strcmp("productID", iter->name->string))
+        {
+            eos_config.productID = json_value_as_string(iter->value)->string;
+        }
+        else if (!strcmp("sandboxID", iter->name->string))
+        {
+            eos_config.sandboxID = json_value_as_string(iter->value)->string;
+        }
+        else if (!strcmp("deploymentID", iter->name->string))
+        {
+            eos_config.deploymentID = json_value_as_string(iter->value)->string;
+        }
+        else if (!strcmp("sandboxDeploymentOverrides", iter->name->string))
+        {
+            json_array_s* overrides = json_value_as_array(iter->value);
+            eos_config.sandboxDeploymentOverrides = std::vector<SandboxDeploymentOverride>();
+            for (auto e = overrides->start; e != nullptr; e = e->next)
+            {
+                json_object_s* override_json_object = json_value_as_object(e->value);
+                json_object_element_s* ov_iter = override_json_object->start;
+                SandboxDeploymentOverride override_item = SandboxDeploymentOverride();
+                while (ov_iter != nullptr)
+                {
+                    if (!strcmp("sandboxID", ov_iter->name->string))
+                    {
+                        override_item.sandboxID = json_value_as_string(ov_iter->value)->string;
+                    }
+                    else if (!strcmp("deploymentID", ov_iter->name->string))
+                    {
+                        override_item.deploymentID = json_value_as_string(ov_iter->value)->string;
+                    }
+                    ov_iter = ov_iter->next;
+                }
+                eos_config.sandboxDeploymentOverrides.push_back(override_item);
+            }
+        }
+        else if (!strcmp("clientID", iter->name->string))
+        {
+            eos_config.clientID = json_value_as_string(iter->value)->string;
+        }
+        else if (!strcmp("clientSecret", iter->name->string))
+        {
+            eos_config.clientSecret = json_value_as_string(iter->value)->string;
+        }
+        if (!strcmp("encryptionKey", iter->name->string))
+        {
+            eos_config.encryptionKey = json_value_as_string(iter->value)->string;
+        }
+        else if (!strcmp("overrideCountryCode ", iter->name->string))
+        {
+            eos_config.overrideCountryCode = json_value_as_string(iter->value)->string;
+        }
+        else if (!strcmp("overrideLocaleCode", iter->name->string))
+        {
+            eos_config.overrideLocaleCode = json_value_as_string(iter->value)->string;
+        }
+        else if (!strcmp("platformOptionsFlags", iter->name->string))
+        {
+            eos_config.flags = static_cast<uint64_t>(collect_flags(&PLATFORM_CREATION_FLAGS_STRINGS_TO_ENUM, 0, iter));
+        }
+        else if (!strcmp("tickBudgetInMilliseconds", iter->name->string))
+        {
+            eos_config.tickBudgetInMilliseconds = json_value_as_uint32(iter->value);
+        }
+        else if (!strcmp("taskNetworkTimeoutSeconds", iter->name->string))
+        {
+            eos_config.taskNetworkTimeoutSeconds = json_value_as_double(iter->value);
+        }
+        else if (!strcmp("ThreadAffinity_networkWork", iter->name->string))
+        {
+            eos_config.ThreadAffinity_networkWork = json_value_as_uint64(iter->value);
+        }
+        else if (!strcmp("ThreadAffinity_storageIO", iter->name->string))
+        {
+            eos_config.ThreadAffinity_storageIO = json_value_as_uint64(iter->value);
+        }
+        else if (!strcmp("ThreadAffinity_webSocketIO", iter->name->string))
+        {
+            eos_config.ThreadAffinity_webSocketIO = json_value_as_uint64(iter->value);
+        }
+        else if (!strcmp("ThreadAffinity_P2PIO", iter->name->string))
+        {
+            eos_config.ThreadAffinity_P2PIO = json_value_as_uint64(iter->value);
+        }
+        else if (!strcmp("ThreadAffinity_HTTPRequestIO", iter->name->string))
+        {
+            eos_config.ThreadAffinity_HTTPRequestIO = json_value_as_uint64(iter->value);
+        }
+        else if (!strcmp("ThreadAffinity_RTCIO", iter->name->string))
+        {
+            eos_config.ThreadAffinity_RTCIO = json_value_as_uint64(iter->value);
+        }
+        else if (!strcmp("isServer", iter->name->string))
+        {
+            // In this JSON library, true and false are _technically_ different types. 
+            if (json_value_is_true(iter->value))
+            {
+                eos_config.isServer = true;
+            }
+            else if (json_value_is_false(iter->value))
+            {
+                eos_config.isServer = false;
+            }
+        }
+
+        iter = iter->next;
+    }
+
+    return eos_config;
+}
 
 namespace pew::eos::config
 {
@@ -45,6 +174,29 @@ namespace pew::eos::config
      * \brief Function that gets the config as a JSON string.
      */
     static GetConfigAsJSONString_t GetConfigAsJSONString;
+
+    bool try_get_eos_config(EOSConfig& config)
+    {
+        auto path_to_config_json = get_path_for_eos_service_config(EOS_SERVICE_CONFIG_FILENAME);
+        json_value_s* eos_config_as_json = nullptr;
+
+        eos_config_as_json = read_config_json_from_dll();
+
+        if (!eos_config_as_json && exists(path_to_config_json))
+        {
+            eos_config_as_json = read_config_json_as_json_from_path(path_to_config_json);
+        }
+
+        if (!eos_config_as_json)
+        {
+            logging::log_warn("Failed to load a valid json config for EOS");
+            return false;
+        }
+
+        config = eos_config_from_json_value(eos_config_as_json);
+        return true;
+    }
+
 
     bool EOSSteamConfig::is_managed_by_application() const
     {
@@ -95,18 +247,7 @@ namespace pew::eos::config
 
     std::filesystem::path get_path_for_eos_service_config(std::string config_filename)
     {
-        auto twoDirsUp = std::filesystem::path("../..");
-        std::filesystem::path packaged_data_path = io_helpers::get_path_relative_to_current_module(twoDirsUp);
-        std::error_code error_code;
-
-        logging::log_inform("about to look with exists");
-        if (!std::filesystem::exists(packaged_data_path, error_code))
-        {
-            logging::log_warn("Didn't find the path twoDirsUp");
-            packaged_data_path = io_helpers::get_path_relative_to_current_module(std::filesystem::path("./Data/"));
-        }
-
-        return packaged_data_path / "StreamingAssets" / "EOS" / config_filename;
+        return std::filesystem::path(CONFIG_DIRECTORY) / config_filename;
     }
 
     json_value_s* read_config_json_from_dll()
@@ -141,135 +282,6 @@ namespace pew::eos::config
 #endif
 
         return config_json;
-    }
-
-    //-------------------------------------------------------------------------
-    EOSConfig eos_config_from_json_value(json_value_s* config_json)
-    {
-        // Create platform instance
-        json_object_s* config_json_object = json_value_as_object(config_json);
-        json_object_element_s* iter = config_json_object->start;
-        EOSConfig eos_config;
-
-        while (iter != nullptr)
-        {
-            if (!strcmp("productName", iter->name->string))
-            {
-                eos_config.productName = json_value_as_string(iter->value)->string;
-            }
-            else if (!strcmp("productVersion", iter->name->string))
-            {
-                eos_config.productVersion = json_value_as_string(iter->value)->string;
-            }
-            else if (!strcmp("productID", iter->name->string))
-            {
-                eos_config.productID = json_value_as_string(iter->value)->string;
-            }
-            else if (!strcmp("sandboxID", iter->name->string))
-            {
-                eos_config.sandboxID = json_value_as_string(iter->value)->string;
-            }
-            else if (!strcmp("deploymentID", iter->name->string))
-            {
-                eos_config.deploymentID = json_value_as_string(iter->value)->string;
-            }
-            else if (!strcmp("sandboxDeploymentOverrides", iter->name->string))
-            {
-                json_array_s* overrides = json_value_as_array(iter->value);
-                eos_config.sandboxDeploymentOverrides = std::vector<SandboxDeploymentOverride>();
-                for (auto e = overrides->start; e != nullptr; e = e->next)
-                {
-                    json_object_s* override_json_object = json_value_as_object(e->value);
-                    json_object_element_s* ov_iter = override_json_object->start;
-                    SandboxDeploymentOverride override_item = SandboxDeploymentOverride();
-                    while (ov_iter != nullptr)
-                    {
-                        if (!strcmp("sandboxID", ov_iter->name->string))
-                        {
-                            override_item.sandboxID = json_value_as_string(ov_iter->value)->string;
-                        }
-                        else if (!strcmp("deploymentID", ov_iter->name->string))
-                        {
-                            override_item.deploymentID = json_value_as_string(ov_iter->value)->string;
-                        }
-                        ov_iter = ov_iter->next;
-                    }
-                    eos_config.sandboxDeploymentOverrides.push_back(override_item);
-                }
-            }
-            else if (!strcmp("clientID", iter->name->string))
-            {
-                eos_config.clientID = json_value_as_string(iter->value)->string;
-            }
-            else if (!strcmp("clientSecret", iter->name->string))
-            {
-                eos_config.clientSecret = json_value_as_string(iter->value)->string;
-            }
-            if (!strcmp("encryptionKey", iter->name->string))
-            {
-                eos_config.encryptionKey = json_value_as_string(iter->value)->string;
-            }
-            else if (!strcmp("overrideCountryCode ", iter->name->string))
-            {
-                eos_config.overrideCountryCode = json_value_as_string(iter->value)->string;
-            }
-            else if (!strcmp("overrideLocaleCode", iter->name->string))
-            {
-                eos_config.overrideLocaleCode = json_value_as_string(iter->value)->string;
-            }
-            else if (!strcmp("platformOptionsFlags", iter->name->string))
-            {
-                eos_config.flags = static_cast<uint64_t>(json_helpers::collect_flags(&PLATFORM_CREATION_FLAGS_STRINGS_TO_ENUM, 0, iter));
-            }
-            else if (!strcmp("tickBudgetInMilliseconds", iter->name->string))
-            {
-                eos_config.tickBudgetInMilliseconds = json_helpers::json_value_as_uint32(iter->value);
-            }
-            else if (!strcmp("taskNetworkTimeoutSeconds", iter->name->string))
-            {
-                eos_config.taskNetworkTimeoutSeconds = json_helpers::json_value_as_double(iter->value);
-            }
-            else if (!strcmp("ThreadAffinity_networkWork", iter->name->string))
-            {
-                eos_config.ThreadAffinity_networkWork = json_helpers::json_value_as_uint64(iter->value);
-            }
-            else if (!strcmp("ThreadAffinity_storageIO", iter->name->string))
-            {
-                eos_config.ThreadAffinity_storageIO = json_helpers::json_value_as_uint64(iter->value);
-            }
-            else if (!strcmp("ThreadAffinity_webSocketIO", iter->name->string))
-            {
-                eos_config.ThreadAffinity_webSocketIO = json_helpers::json_value_as_uint64(iter->value);
-            }
-            else if (!strcmp("ThreadAffinity_P2PIO", iter->name->string))
-            {
-                eos_config.ThreadAffinity_P2PIO = json_helpers::json_value_as_uint64(iter->value);
-            }
-            else if (!strcmp("ThreadAffinity_HTTPRequestIO", iter->name->string))
-            {
-                eos_config.ThreadAffinity_HTTPRequestIO = json_helpers::json_value_as_uint64(iter->value);
-            }
-            else if (!strcmp("ThreadAffinity_RTCIO", iter->name->string))
-            {
-                eos_config.ThreadAffinity_RTCIO = json_helpers::json_value_as_uint64(iter->value);
-            }
-            else if (!strcmp("isServer", iter->name->string))
-            {
-                // In this JSON library, true and false are _technically_ different types. 
-                if (json_value_is_true(iter->value))
-                {
-                    eos_config.isServer = true;
-                }
-                else if (json_value_is_false(iter->value))
-                {
-                    eos_config.isServer = false;
-                }
-            }
-
-            iter = iter->next;
-        }
-
-        return eos_config;
     }
 
     EOS_EIntegratedPlatformManagementFlags eos_collect_integrated_platform_management_flags(json_object_element_s* iter)
@@ -307,11 +319,11 @@ namespace pew::eos::config
             }
             else if (!strcmp("steamSDKMajorVersion", iter->name->string))
             {
-                eos_config.steamSDKMajorVersion = json_helpers::json_value_as_uint32(iter->value);
+                eos_config.steamSDKMajorVersion = json_value_as_uint32(iter->value);
             }
             else if (!strcmp("steamSDKMinorVersion", iter->name->string))
             {
-                eos_config.steamSDKMinorVersion = json_helpers::json_value_as_uint32(iter->value);
+                eos_config.steamSDKMinorVersion = json_value_as_uint32(iter->value);
             }
             else if (!strcmp("steamApiInterfaceVersionsArray", iter->name->string))
             {
@@ -333,6 +345,6 @@ namespace pew::eos::config
     {
         std::filesystem::path path_to_config_json = get_path_for_eos_service_config(config_filename);
 
-        return json_helpers::read_config_json_as_json_from_path(path_to_config_json);
+        return read_config_json_as_json_from_path(path_to_config_json);
     }
 }
