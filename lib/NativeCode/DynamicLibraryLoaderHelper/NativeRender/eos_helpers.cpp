@@ -29,6 +29,40 @@
 #include "io_helpers.h"
 #include "json_helpers.h"
 #include "logging.h"
+#include <codecvt>
+
+ /**
+  * @brief Retrieves the system cache directory.
+  *
+  * Retrieves the system's temporary directory and converts it to a UTF-8 encoded string.
+  *
+  * @return A pointer to a UTF-8 encoded string containing the system cache directory.
+  *         This pointer is statically allocated, so it should not be freed by the caller.
+  */
+char* GetCacheDirectory();
+
+/**
+ * @brief Loads and initializes the Steam API DLL using a string path.
+ *
+ * Attempts to load the Steam API DLL from the specified path. If the DLL is not already
+ * loaded, this function tries to load it and then calls `SteamAPI_Init`.
+ *
+ * @param steam_dll_path The string path to the Steam API DLL.
+ */
+void eos_call_steam_init(const std::string& steam_dll_path);
+
+/**
+ * @brief Loads the Steam API DLL from a specified path.
+ *
+ * Loads the Steam API DLL and initializes it if necessary. Attempts to load the DLL from
+ * the specified path, or defaults to `steam_api.dll` if no path is specified.
+ *
+ * This function assumes that if the caller has already loaded the steam
+ * DLL, that SteamAPI_Init doesn't need to be called
+ *
+ * @param steam_dll_path The path to the Steam API DLL.
+ */
+void eos_call_steam_init(const std::filesystem::path& steam_dll_path);
 
 namespace pew::eos
 {
@@ -112,7 +146,7 @@ namespace pew::eos
         logging::log_inform(output.str().c_str());
     }
 
-    void eos_init(const config::EOSConfig& eos_config)
+    void eos_init(const config::EOSConfig eos_config)
     {
         static int reserved[2] = { 1, 1 };
         EOS_InitializeOptions SDKOptions = { 0 };
@@ -209,28 +243,28 @@ namespace pew::eos
         return s_tempPathBuffer;
     }
 
-    void eos_create(config::EOSConfig& eosConfig)
+    void eos_create(config::EOSConfig eos_config)
     {
         EOS_Platform_Options platform_options = { 0 };
         platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
-        platform_options.bIsServer = eosConfig.isServer;
-        platform_options.Flags = eosConfig.flags;
+        platform_options.bIsServer = eos_config.isServer;
+        platform_options.Flags = eos_config.flags;
         platform_options.CacheDirectory = GetCacheDirectory();
 
-        platform_options.EncryptionKey = eosConfig.encryptionKey.length() > 0 ? eosConfig.encryptionKey.c_str() : nullptr;
-        platform_options.OverrideCountryCode = eosConfig.overrideCountryCode.length() > 0 ? eosConfig.overrideCountryCode.c_str() : nullptr;
-        platform_options.OverrideLocaleCode = eosConfig.overrideLocaleCode.length() > 0 ? eosConfig.overrideLocaleCode.c_str() : nullptr;
-        platform_options.ProductId = eosConfig.productID.c_str();
-        platform_options.SandboxId = eosConfig.sandboxID.c_str();
-        platform_options.DeploymentId = eosConfig.deploymentID.c_str();
-        platform_options.ClientCredentials.ClientId = eosConfig.clientID.c_str();
-        platform_options.ClientCredentials.ClientSecret = eosConfig.clientSecret.c_str();
+        platform_options.EncryptionKey = eos_config.encryptionKey.length() > 0 ? eos_config.encryptionKey.c_str() : nullptr;
+        platform_options.OverrideCountryCode = eos_config.overrideCountryCode.length() > 0 ? eos_config.overrideCountryCode.c_str() : nullptr;
+        platform_options.OverrideLocaleCode = eos_config.overrideLocaleCode.length() > 0 ? eos_config.overrideLocaleCode.c_str() : nullptr;
+        platform_options.ProductId = eos_config.productID.c_str();
+        platform_options.SandboxId = eos_config.sandboxID.c_str();
+        platform_options.DeploymentId = eos_config.deploymentID.c_str();
+        platform_options.ClientCredentials.ClientId = eos_config.clientID.c_str();
+        platform_options.ClientCredentials.ClientSecret = eos_config.clientSecret.c_str();
 
-        platform_options.TickBudgetInMilliseconds = eosConfig.tickBudgetInMilliseconds;
+        platform_options.TickBudgetInMilliseconds = eos_config.tickBudgetInMilliseconds;
 
-        if (eosConfig.taskNetworkTimeoutSeconds > 0)
+        if (eos_config.taskNetworkTimeoutSeconds > 0)
         {
-            platform_options.TaskNetworkTimeoutSeconds = &eosConfig.taskNetworkTimeoutSeconds;
+            platform_options.TaskNetworkTimeoutSeconds = &eos_config.taskNetworkTimeoutSeconds;
         }
 
         EOS_Platform_RTCOptions rtc_options = { 0 };
@@ -281,7 +315,7 @@ namespace pew::eos
                     // type of binary the GfxPluginNativeRender
                     if (!std::filesystem::exists(found_steam_path) || eos_steam_config.OverrideLibraryPath.value().empty())
                     {
-                        found_steam_path = io_helpers::get_path_relative_to_current_module(STEAM_DLL_NAME);
+                        found_steam_path = io_helpers::get_path_relative_to_current_module(STEAM_API_DLL);
                     }
 
                     if (std::filesystem::exists(found_steam_path))
@@ -292,7 +326,7 @@ namespace pew::eos
             }
             else
             {
-                auto found_steam_path = io_helpers::get_path_relative_to_current_module(STEAM_DLL_NAME);
+                auto found_steam_path = io_helpers::get_path_relative_to_current_module(STEAM_API_DLL);
                 if (exists(found_steam_path))
                 {
                     eos_steam_config.OverrideLibraryPath = converter.to_bytes(found_steam_path.wstring());
@@ -375,6 +409,4 @@ namespace pew::eos
             logging::log_error("failed to create the platform");
         }
     }
-
-    
 }

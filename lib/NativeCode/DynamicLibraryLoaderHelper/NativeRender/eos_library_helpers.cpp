@@ -111,7 +111,7 @@ namespace pew::eos::eos_library_helpers
             const uint32_t RegFlags = (RegistryIndex == 0) ? KEY_WOW64_32KEY : KEY_WOW64_64KEY;
             if (RegOpenKeyEx(InKey, InSubKey, 0, KEY_READ | RegFlags, &Key) == ERROR_SUCCESS)
             {
-                ::DWORD Size = 0;
+                DWORD Size = 0;
                 // First, we'll call RegQueryValueEx to find out how large of a buffer we need
                 if ((RegQueryValueEx(Key, InValueName, NULL, NULL, NULL, &Size) == ERROR_SUCCESS) && Size)
                 {
@@ -144,16 +144,16 @@ namespace pew::eos::eos_library_helpers
         const TCHAR* RegValue = TEXT("OverlayPath");
         std::wstring OverlayDllDirectory;
 
-        if (!eos_library_helpers::QueryRegKey(HKEY_CURRENT_USER, RegKey, RegValue, OverlayDllDirectory))
+        if (!QueryRegKey(HKEY_CURRENT_USER, RegKey, RegValue, OverlayDllDirectory))
         {
-            if (!eos_library_helpers::QueryRegKey(HKEY_LOCAL_MACHINE, RegKey, RegValue, OverlayDllDirectory))
+            if (!QueryRegKey(HKEY_LOCAL_MACHINE, RegKey, RegValue, OverlayDllDirectory))
             {
                 return false;
             }
         }
 
         *OutDllPath = std::filesystem::path(OverlayDllDirectory) / OVERLAY_DLL_NAME;
-        return std::filesystem::exists(*OutDllPath) && std::filesystem::is_regular_file(*OutDllPath);
+        return exists(*OutDllPath) && is_regular_file(*OutDllPath);
 #else
         log_inform("Trying to get a DLL path on a platform without DLL paths searching");
         return false;
