@@ -25,15 +25,18 @@
 // This is apparently needed so that the Overlay can render properly
 #include "pch.h"
 
+#include <array>
 #include <iterator>
 #include <sstream>
 
 #include "config.h"
-#include "json_helpers.h"
 #include "logging.h"
 #include <eos_library_helpers.h>
 #include <eos_helpers.h>
 #include "io_helpers.h"
+
+using namespace pew::eos;
+using namespace pew::eos::eos_library_helpers;
 
 using FSig_ApplicationWillShutdown = void (__stdcall *)(void);
 FSig_ApplicationWillShutdown FuncApplicationWillShutdown = nullptr;
@@ -44,6 +47,72 @@ extern "C"
     void __declspec(dllexport) __stdcall UnityPluginUnload();
 }
 
+void get_cli_arguments(config::EOSConfig eos_config)
+{
+    //support sandbox and deployment id override via command line arguments
+    std::stringstream argument_stream = std::stringstream(GetCommandLineA());
+    std::istream_iterator<std::string> argument_stream_begin(argument_stream);
+    std::istream_iterator<std::string> argument_stream_end;
+    std::vector<std::string> argument_strings(argument_stream_begin, argument_stream_end);
+    std::string egsArgName = "-epicsandboxid=";
+    std::string sandboxArgName = "-eossandboxid=";
+    for (unsigned i = 0; i < argument_strings.size(); ++i)
+    {
+        std::string* match = nullptr;
+        if (argument_strings[i]._Starts_with(sandboxArgName))
+        {
+            match = &sandboxArgName;
+        }
+        else if (argument_strings[i]._Starts_with(egsArgName))
+        {
+            match = &egsArgName;
+        }
+        if (match != nullptr)
+        {
+            std::string sandboxArg = argument_strings[i].substr(match->length());
+            if (!sandboxArg.empty())
+            {
+                logging::log_inform(("Sandbox ID override specified: " + sandboxArg).c_str());
+                eos_config.sandboxID = sandboxArg;
+            }
+        }
+    }
+
+    //check if a deployment id override exists for sandbox id
+    for (unsigned i = 0; i < eos_config.sandboxDeploymentOverrides.size(); ++i)
+    {
+        if (eos_config.sandboxID == eos_config.sandboxDeploymentOverrides[i].sandboxID)
+        {
+            logging::log_inform(("Sandbox Deployment ID override specified: " + eos_config.sandboxDeploymentOverrides[i].deploymentID).c_str());
+            eos_config.deploymentID = eos_config.sandboxDeploymentOverrides[i].deploymentID;
+        }
+    }
+
+    std::string deploymentArgName = "-eosdeploymentid=";
+    std::string egsDeploymentArgName = "-epicdeploymentid=";
+    for (unsigned i = 0; i < argument_strings.size(); ++i)
+    {
+        std::string* match = nullptr;
+        if (argument_strings[i]._Starts_with(deploymentArgName))
+        {
+            match = &deploymentArgName;
+        }
+        else if (argument_strings[i]._Starts_with(egsDeploymentArgName))
+        {
+            match = &egsDeploymentArgName;
+        }
+        if (match != nullptr)
+        {
+            std::string deploymentArg = argument_strings[i].substr(match->length());
+            if (!deploymentArg.empty())
+            {
+                logging::log_inform(("Deployment ID override specified: " + deploymentArg).c_str());
+                eos_config.deploymentID = deploymentArg;
+            }
+        }
+    }
+}
+
 // Called by unity on load. It kicks off the work to load the DLL for Overlay
 #if PLATFORM_32BITS
 #pragma comment(linker, "/export:UnityPluginLoad=_UnityPluginLoad@4")
@@ -51,154 +120,53 @@ extern "C"
 DLL_EXPORT(void) UnityPluginLoad(void*)
 {
 #if _DEBUG
-    pew::eos::logging::show_log_as_dialog("You may attach a debugger to the DLL");
+    logging::show_log_as_dialog("You may attach a debugger to the DLL");
 #endif
 
-    auto path_to_config_json = pew::eos::config::get_path_for_eos_service_config(EOS_SERVICE_CONFIG_FILENAME);
-    json_value_s* eos_config_as_json = nullptr;
-
-    eos_config_as_json = pew::eos::config::read_config_json_from_dll();
-
-    if (!eos_config_as_json && std::filesystem::exists(path_to_config_json))
+    config::EOSConfig eos_config;
+    if (!config::try_get_eos_config(eos_config))
     {
-        eos_config_as_json = pew::eos::json_helpers::read_config_json_as_json_from_path(path_to_config_json);
-    }
-
-    if (!eos_config_as_json)
-    {
-        pew::eos::logging::log_warn("Failed to load a valid json config for EOS");
         return;
     }
 
-    pew::eos::config::EOSConfig eos_config = pew::eos::config::eos_config_from_json_value(eos_config_as_json);
-    free(eos_config_as_json);
-
-#if PLATFORM_WINDOWS
-    //support sandbox and deployment id override via command line arguments
-    std::stringstream argStream = std::stringstream(GetCommandLineA());
-    std::istream_iterator<std::string> argsBegin(argStream);
-    std::istream_iterator<std::string> argsEnd;
-    std::vector<std::string> argStrings(argsBegin, argsEnd);
-    std::string egsArgName = "-epicsandboxid=";
-    std::string sandboxArgName = "-eossandboxid=";
-    for (unsigned i = 0; i < argStrings.size(); ++i)
-    {
-        std::string* match = nullptr;
-        if (argStrings[i]._Starts_with(sandboxArgName))
-        {
-            match = &sandboxArgName;
-        }
-        else if(argStrings[i]._Starts_with(egsArgName))
-        {
-            match = &egsArgName;
-        }
-        if (match != nullptr)
-        {
-            std::string sandboxArg = argStrings[i].substr(match->length());
-            if (!sandboxArg.empty())
-            {
-                pew::eos::logging::log_inform(("Sandbox ID override specified: " + sandboxArg).c_str());
-                eos_config.sandboxID = sandboxArg;
-            }
-        }
-    }
-#endif
-
-    //check if a deployment id override exists for sandbox id
-    for (unsigned i = 0; i < eos_config.sandboxDeploymentOverrides.size(); ++i)
-    {
-        if (eos_config.sandboxID == eos_config.sandboxDeploymentOverrides[i].sandboxID)
-        {
-            pew::eos::logging::log_inform(("Sandbox Deployment ID override specified: " + eos_config.sandboxDeploymentOverrides[i].deploymentID).c_str());
-            eos_config.deploymentID = eos_config.sandboxDeploymentOverrides[i].deploymentID;
-        }
-    }
-
-#if PLATFORM_WINDOWS
-    std::string deploymentArgName = "-eosdeploymentid=";
-    std::string egsDeploymentArgName = "-epicdeploymentid=";
-    for (unsigned i = 0; i < argStrings.size(); ++i)
-    {
-        std::string* match = nullptr;
-        if (argStrings[i]._Starts_with(deploymentArgName))
-        {
-            match = &deploymentArgName;
-        }
-        else if (argStrings[i]._Starts_with(egsDeploymentArgName))
-        {
-            match = &egsDeploymentArgName;
-        }
-        if (match != nullptr)
-        {
-            std::string deploymentArg = argStrings[i].substr(match->length());
-            if (!deploymentArg.empty())
-            {
-                pew::eos::logging::log_inform(("Deployment ID override specified: " + deploymentArg).c_str());
-                eos_config.deploymentID = deploymentArg;
-            }
-        }
-    }
-#endif
+    get_cli_arguments(eos_config);
 
 #if _DEBUG
-    pew::eos::logging::global_log_open("gfx_log.txt");
+    logging::global_log_open("gfx_log.txt");
 #endif
 
     std::filesystem::path DllPath;
-    pew::eos::logging::log_inform("On UnityPluginLoad");
-    //if (!get_overlay_dll_path(&DllPath))
-    //{
-    //    show_log_as_dialog("Missing Overlay DLL!\n Overlay functionality will not work!");
-    //}
+    logging::log_inform("On UnityPluginLoad");
 
-    pew::eos::eos_library_helpers::s_eos_sdk_lib_handle = pew::eos::eos_library_helpers::load_library_at_path(pew::eos::io_helpers::get_path_relative_to_current_module(SDK_DLL_NAME));
+    s_eos_sdk_lib_handle = load_library_at_path(io_helpers::get_path_relative_to_current_module(SDK_DLL_NAME));
 
-    //eos_sdk_overlay_lib_handle = load_library_at_path(DllPath);
-    //if (eos_sdk_overlay_lib_handle)
-    //{
-    //    log_warn("loaded eos overlay sdk");
-    //    FuncApplicationWillShutdown = load_function_with_name<FSig_ApplicationWillShutdown>(eos_sdk_overlay_lib_handle, "EOS_Overlay_Initilize");
-    //    if(FuncApplicationWillShutdown == nullptr)
-    //    {
-    //        log_warn("Unable to find overlay function");
-    //    }
-    //}
-
-    if (pew::eos::eos_library_helpers::s_eos_sdk_lib_handle)
+    if (s_eos_sdk_lib_handle)
     {
-        pew::eos::eos_library_helpers::FetchEOSFunctionPointers();
+        FetchEOSFunctionPointers();
 
-        if (pew::eos::eos_library_helpers::EOS_Initialize_ptr)
+        if (EOS_Initialize_ptr)
         {
-            pew::eos::logging::log_inform("start eos init");
+            logging::log_inform("start eos init");
 
-            pew::eos::eos_init(eos_config);
+            eos_init(eos_config);
 
-            pew::eos::eos_set_loglevel_via_config();
-            //log_warn("start eos create");
-            pew::eos::eos_create(eos_config);
+            eos_set_loglevel_via_config();
 
-            // This code is commented out because the handle is now handed off to the C# code
-            //EOS_Platform_Release(eos_platform_handle);
-            //eos_platform_handle = NULL;
-            //log_warn("start eos shutdown");
-            //EOS_Shutdown();
-            //log_warn("unload eos sdk");
-            //unload_library(s_eos_sdk_lib_handle);
+            eos_create(eos_config);
 
-            pew::eos::eos_library_helpers::s_eos_sdk_lib_handle = nullptr;
-            pew::eos::eos_library_helpers::EOS_Initialize_ptr = nullptr;
-            pew::eos::eos_library_helpers::EOS_Shutdown_ptr = nullptr;
-            pew::eos::eos_library_helpers::EOS_Platform_Create_ptr = nullptr;
+            s_eos_sdk_lib_handle = nullptr;
+            EOS_Initialize_ptr = nullptr;
+            EOS_Shutdown_ptr = nullptr;
+            EOS_Platform_Create_ptr = nullptr;
         }
         else
         {
-            pew::eos::logging::log_warn("unable to find EOS_Initialize");
+            logging::log_warn("unable to find EOS_Initialize");
         }
     }
     else
     {
-        pew::eos::logging::log_warn("Couldn't find dll "  SDK_DLL_NAME);
+        logging::log_warn("Couldn't find dll "  SDK_DLL_NAME);
     }
 }
 
@@ -212,8 +180,8 @@ DLL_EXPORT(void) UnityPluginUnload()
     {
         FuncApplicationWillShutdown();
     }
-    pew::eos::eos_library_helpers::unload_library(pew::eos::eos_library_helpers::s_eos_sdk_overlay_lib_handle);
-    pew::eos::eos_library_helpers::s_eos_sdk_overlay_lib_handle = nullptr;
+    unload_library(s_eos_sdk_overlay_lib_handle);
+    s_eos_sdk_overlay_lib_handle = nullptr;
 
-    pew::eos::logging::global_log_close();
+    logging::global_log_close();
 }
