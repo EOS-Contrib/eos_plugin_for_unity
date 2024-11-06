@@ -1,7 +1,0 @@
-﻿  pch.cpp
-  AssemblyInfo.cpp
-  ManagedCodeProxy.cpp
-C:\Users\PaulPEW\dev\repos\eos_plugin_for_unity\lib\NativeCode\DynamicLibraryLoaderHelper\ManagedCodeProxy\ManagedCodeProxy.h(6,8): error C1107: could not find assembly 'EOSPluginConfig-x64.dll': please specify the assembly search path using /AI or by setting the LIBPATH environment variable
-  (compiling source file '/ManagedCodeProxy.cpp')
-  
-  Generating Code...

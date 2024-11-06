@@ -1,3 +1,0 @@
-﻿  pch.cpp
-C:\Users\PaulPEW\dev\repos\eos_plugin_for_unity\lib\NativeCode\DynamicLibraryLoaderHelper\ManagedCodeProxy\pch.cpp : error C1192: #using failed on 'C:\Users\PaulPEW\dev\repos\eos_plugin_for_unity\lib\NativeCode\DynamicLibraryLoaderHelper\Build\Debug\x86\EOSPluginConfig-x86.dll'
-C:\Users\PaulPEW\dev\repos\eos_plugin_for_unity\lib\NativeCode\DynamicLibraryLoaderHelper\ManagedCodeProxy\pch.cpp : error C1192:         'The system cannot find the file specified.'
