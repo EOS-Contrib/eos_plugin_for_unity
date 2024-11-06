@@ -523,12 +523,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 #endif
 
-                /// <summary>
-                /// Reads all text from the indicated file.
-                /// </summary>
-                /// <param name="path">Filepath to the file to read from.</param>
-                /// <returns>The contents of the file at the indicated path as a string.</returns>
-                public static string ReadAllText(string path)
+        /// <summary>
+        /// Reads all text from the indicated file.
+        /// </summary>
+        /// <param name="path">Filepath to the file to read from.</param>
+        /// <returns>The contents of the file at the indicated path as a string.</returns>
+        public static string ReadAllText(string path)
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return AndroidFileIOHelper.ReadAllText(path);
