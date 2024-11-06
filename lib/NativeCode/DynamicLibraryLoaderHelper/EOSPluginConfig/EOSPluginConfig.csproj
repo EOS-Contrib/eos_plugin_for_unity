@@ -19,24 +19,6 @@
   <PropertyGroup Condition="'$(Platform)' == 'Win32'">
     <AssemblyName>EOSPluginConfig-Win32</AssemblyName>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;EXTERNAL_TO_UNITY;PLATFORM_32</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>Win32</PlatformTarget>
-    <LangVersion>9.0</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">
-    <OutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutputPath>
-    <DefineConstants>TRACE;EXTERNAL_TO_UNITY;PLATFORM_32</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>Win32</PlatformTarget>
-    <LangVersion>9.0</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutputPath>
