@@ -27,7 +27,10 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using System;
     using System.Collections.Generic;
+
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
 
     /// <summary>
     /// Provides support for alternate string parsing of enum values.

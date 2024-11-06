@@ -20,31 +20,27 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Utility
 {
-    using PlayEveryWare.EpicOnlineServices.Utility;
     using System;
 
-    public struct Deployment : IEquatable<Deployment>
+    public static class HashUtility
     {
-        public SandboxId SandboxId;
-
-        public Guid DeploymentId;
-
-        public bool Equals(Deployment other)
+        public static int Combine(params object[] fields)
         {
-            return SandboxId.Equals(other.SandboxId) && DeploymentId.Equals(other.DeploymentId);
-        }
+#if NET_STANDARD_2_0
+            return HashCode.Combine(fields);
+#else
+            int hash = 17;
 
-        public override bool Equals(object obj)
-        {
-            return obj is Deployment deployment && Equals(deployment);
-        }
+            foreach (object field in fields)
+            {
+                int fieldHash = field != null ? field.GetHashCode() : 0;
+                hash = hash * 31 + fieldHash;
+            }
 
-        public override int GetHashCode()
-        {
-            return HashUtility.Combine(SandboxId, DeploymentId);
+            return hash;
+#endif
         }
     }
-
 }
