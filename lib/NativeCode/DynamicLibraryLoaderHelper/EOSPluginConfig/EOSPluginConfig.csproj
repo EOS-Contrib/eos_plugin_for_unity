@@ -23,7 +23,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutputPath>
     <IntermediateOutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)\</IntermediateOutputPath>
-    <DefineConstants>TRACE;DEBUG;EXTERNAL_TO_UNITY;PLATFORM_64;UNITY_STREAMING_ASSETS_DIRECTORY=$(UnityStreamingAssetsDirectory)</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;EXTERNAL_TO_UNITY;PLATFORM_64;</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <LangVersion>9.0</LangVersion>
