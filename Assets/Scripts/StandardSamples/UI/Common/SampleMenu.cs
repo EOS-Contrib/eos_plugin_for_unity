@@ -314,7 +314,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         protected virtual void ShowInternal()
         {
-
+            // The default implementation of this function is blank;
+            // children can override it to run operations that are suitable
+            // for Show
         }
 
         /// <summary>
@@ -324,7 +326,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         protected virtual void HideInternal()
         {
-
+            // The default implementation of this function is blank;
+            // children can override it to run operations that are suitable
+            // for Hide
         }
 
         /// <summary>
