@@ -8,8 +8,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,20 +20,27 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Extensions
+namespace PlayEveryWare.EpicOnlineServices.Utility
 {
-    public static class StringExtensions
-    {
-        public static ulong ToUlong(this string value, ulong defaultValue = 0L)
-        {
-            ulong returnValue = defaultValue;
+    using System;
 
-            if (ulong.TryParse(value, out ulong result))
+    public static class HashUtility
+    {
+        public static int Combine(params object[] fields)
+        {
+#if NET_STANDARD_2_0
+            return HashCode.Combine(fields);
+#else
+            int hash = 17;
+
+            foreach (object field in fields)
             {
-                returnValue = result;
+                int fieldHash = field != null ? field.GetHashCode() : 0;
+                hash = hash * 31 + fieldHash;
             }
 
-            return returnValue;
+            return hash;
+#endif
         }
     }
 }

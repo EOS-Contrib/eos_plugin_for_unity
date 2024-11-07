@@ -25,14 +25,17 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("com.playeveryware.eos-Editor")]
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
-    using Extensions;
+    using Common.Extensions;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
 
     // This compile conditional exists to ensure that the UnityEngine.Networking
     // namespace is included when not in editor and when the platform is 
@@ -506,7 +509,11 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         {
             try
             {
+#if NET_STANDARD_2_0
                 return await File.ReadAllTextAsync(path);
+#else
+                return await Task.Run(() => File.ReadAllText(path));
+#endif
             }
             catch (Exception e)
             {
@@ -655,7 +662,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 CreateDirectory(file.Directory);
             }
 
+#if !EXTERNAL_TO_UNITY
             await using StreamWriter writer = new(filePath);
+#else
+            using StreamWriter writer = new(filePath);
+#endif
+
             await writer.WriteAsync(content);
         }
 
@@ -679,7 +691,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
         }
 
-        #endregion
+#endregion
 
         #region Directory and File Exists functionality
 

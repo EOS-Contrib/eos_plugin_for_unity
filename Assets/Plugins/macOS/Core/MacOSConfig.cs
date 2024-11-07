@@ -26,6 +26,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
     // Flags specifically for macOS
     [Serializable]
+    [ConfigGroup("MacOS Config", new[]
+    {
+        "MacOS-Specific Options",
+        "Deployment",
+        "Flags",
+        "Tick Budgets",
+        "Overlay Options"
+    }, false)]
     public class MacOSConfig : PlatformConfig
     {
         static MacOSConfig()

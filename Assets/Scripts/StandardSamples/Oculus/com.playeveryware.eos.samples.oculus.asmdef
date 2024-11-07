@@ -2,7 +2,7 @@
     "name": "com.playeveryware.eos.samples.oculus",
     "rootNamespace": "",
     "references": [
-        "GUID:8be792bc795f6734c9b03442335cf985"
+        "GUID:e183dfe6fccb38f40bc810cdf9e63215"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

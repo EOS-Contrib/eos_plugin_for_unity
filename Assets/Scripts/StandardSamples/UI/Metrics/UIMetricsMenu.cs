@@ -45,8 +45,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSMetricsManager MetricsManager;
         private EOSUserInfoManager UserInfoManager;
 
+        private bool Initialized { get; set; } = false;
+
         private void Start()
         {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            if (Initialized)
+            {
+                return;
+            }
+
             MetricsManager = EOSManager.Instance.GetOrCreateManager<EOSMetricsManager>();
             UserInfoManager = EOSManager.Instance.GetOrCreateManager<EOSUserInfoManager>();
 
@@ -60,6 +72,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             ErrorMessageTxt.gameObject.SetActive(false);
             UpdateButtons();
+
+            Initialized = true;
         }
 
         protected override void OnDestroy()
@@ -103,6 +117,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void UpdateButtons()
         {
+            // If this update was requested before the menu is set up, exit early
+            if (MetricsManager == null)
+            {
+                return;
+            }
+
             bool sessionActive = MetricsManager.IsSessionActive();
             BeginBtn.interactable = !sessionActive;
             EndBtn.interactable = sessionActive;
@@ -146,15 +166,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UpdateButtons();
         }
 
-        public override void Hide()
+        protected override void HideInternal()
         {
-            base.Hide();
             UpdateButtons();
         }
 
-        public override void Show()
+        protected override void ShowInternal()
         {
-            base.Show();
+            Initialize();
+
             var localUserInfo = UserInfoManager.GetLocalUserInfo();
             if (localUserInfo.UserId?.IsValid() == true)
             {
