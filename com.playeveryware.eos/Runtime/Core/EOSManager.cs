@@ -86,6 +86,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using LogoutCallbackInfo = Epic.OnlineServices.Auth.LogoutCallbackInfo;
     using LogoutOptions = Epic.OnlineServices.Auth.LogoutOptions;
     using OnLogoutCallback = Epic.OnlineServices.Auth.OnLogoutCallback;
+    using System.Threading.Tasks;
 #endif
     /// <summary>
     /// One of the responsibilities of this class is to manage the lifetime of
@@ -106,9 +107,19 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public delegate void OnConnectLoginCallback(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);
 
+        public delegate Task<UserLoginInfo> GetUserLoginInfoDelegate();
+
         private static event OnAuthLoginCallback OnAuthLogin;
         private static event OnAuthLogoutCallback OnAuthLogout;
         private static event OnConnectLoginCallback OnConnectLogin;
+
+        /// <summary>
+        /// Some platforms require additional user information while performing 
+        /// a connect login. This delegate can be provided to saturate a
+        /// UserLoginInfo during <see cref="StartConnectLoginWithEpicAccount"/>.
+        /// If this is not provided, no UserLoginInfo will be set.
+        /// </summary>
+        public static GetUserLoginInfoDelegate GetUserLoginInfo = null;
 
         public delegate void OnCreateConnectUserCallback(CreateUserCallbackInfo createUserCallbackInfo);
 
@@ -1040,11 +1051,21 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             /// <summary>
-            /// 
+            /// Starts a Connect Login using a provided EpicAccountId.
+            /// If <see cref="GetUserLoginInfoDelegate"/> is set, this will
+            /// use that delegate to determine the 
+            /// <see cref="Epic.OnlineServices.Connect.LoginOptions.UserLoginInfo"/>.
             /// </summary>
-            /// <param name="epicAccountId"></param>
-            /// <param name="onConnectLoginCallback"></param>
-            public void StartConnectLoginWithEpicAccount(EpicAccountId epicAccountId,
+            /// <param name="epicAccountId">
+            /// The Epic Account to login as.
+            /// This is provided by logging in through the Auth interface.
+            /// </param>
+            /// <param name="onConnectLoginCallback">
+            /// Callback to run with information about the results of the login.
+            /// Also contains the information needed to set ProductUserId.
+            /// <see cref="s_localProductUserId"/>
+            /// </param>
+            public async void StartConnectLoginWithEpicAccount(EpicAccountId epicAccountId,
                 OnConnectLoginCallback onConnectLoginCallback)
             {
                 var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
@@ -1077,6 +1098,13 @@ namespace PlayEveryWare.EpicOnlineServices
                     onConnectLoginCallback(dummyLoginCallbackInfo);
 
                     return;
+                }
+
+                // If the GetUserLoginInfo delegate is set, the UserLoginInfo can
+                // be provided here for platforms that require it in this scenario.
+                if (EOSManager.GetUserLoginInfo != null)
+                {
+                    connectLoginOptions.UserLoginInfo = await EOSManager.GetUserLoginInfo();
                 }
 
                 // If the authToken returned a value, and there is a RefreshToken, then try to login using that
