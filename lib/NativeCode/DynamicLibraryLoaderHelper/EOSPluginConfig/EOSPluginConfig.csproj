@@ -17,12 +17,13 @@
     <AssemblyName>EOSPluginConfig-x64</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)' == 'Win32'">
-    <AssemblyName>EOSPluginConfig-Win32</AssemblyName>
+    <AssemblyName>EOSPluginConfig-x86</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;EXTERNAL_TO_UNITY;PLATFORM_64</DefineConstants>
+    <IntermediateOutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)\</IntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;EXTERNAL_TO_UNITY;PLATFORM_64;</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <LangVersion>9.0</LangVersion>
@@ -30,10 +31,31 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutputPath>
-    <DefineConstants>TRACE;EXTERNAL_TO_UNITY;PLATFORM_64</DefineConstants>
+    <IntermediateOutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)\</IntermediateOutputPath>
+    <DefineConstants>TRACE;EXTERNAL_TO_UNITY;PLATFORM_64;</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>9.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>$(SolutionDir)Build\$(Configuration)\x86\</OutputPath>
+    <IntermediateOutputPath>$(SolutionDir)Build\$(Configuration)\x86\</IntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;EXTERNAL_TO_UNITY;PLATFORM_32;</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>9.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">
+    <OutputPath>$(SolutionDir)Build\$(Configuration)\x86\</OutputPath>
+    <IntermediateOutputPath>$(SolutionDir)Build\$(Configuration)\x86\</IntermediateOutputPath>
+    <DefineConstants>TRACE;EXTERNAL_TO_UNITY;PLATFORM_32;</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
     <LangVersion>9.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
@@ -74,6 +96,9 @@
     </Compile>
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\VersionUtility.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Common\VersionUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\SetOfNamed.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Common\SetOfNamed.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\ButtonFieldAttribute.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\ButtonFieldAttribute.cs</Link>
@@ -207,10 +232,19 @@
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\EOS_SDK\**\*.cs">
       <Link>com.playeveryware.eos\Runtime\EOS_SDK\%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
+    <Compile Include="ResourceUtility.cs" />
+    <EmbeddedResource Include="config.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="ModifyJsonFile" BeforeTargets="BeforeBuild">
+    <!-- Example: Modify the JSON file using a PowerShell script or inline MSBuild task -->
+    <WriteLinesToFile File="config.json" Overwrite="true"
+        Lines="{ streamingAssetsPath: &quot;$(UnityStreamingAssetsDirectory)&quot; }" />
+</Target>
 </Project>

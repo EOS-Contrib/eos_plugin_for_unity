@@ -22,8 +22,8 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    internal class Application
+    public static class Application
     {
-        public const string streamingAssetsPath = "C:/Users/PaulPEW/dev/repos/eos_plugin_for_unity/Assets/StreamingAssets/";
+        public static readonly string streamingAssetsPath = ResourceUtility.GetStreamingAssetsPath();
     }
 }
