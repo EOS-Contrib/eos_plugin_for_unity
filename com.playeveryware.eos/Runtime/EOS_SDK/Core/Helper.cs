@@ -630,6 +630,16 @@ namespace Epic.OnlineServices
 			return AddPinnedBuffer(str.Bytes, 0);
 		}
 
+        // PEW: Start Modify
+        // This function is added because this file is included in a class
+        // library with a lower supported version of C# that does not allow a
+        // byte array to be automatically converted into an ArraySegment
+        internal static IntPtr AddPinnedBuffer(byte[] array)
+        {
+            return array == null ? IntPtr.Zero : AddPinnedBuffer(new ArraySegment<byte>(array));
+        }
+        // PEW: End Modify
+
 		internal static IntPtr AddPinnedBuffer(ArraySegment<byte> array)
 		{
 			if (array == null)
