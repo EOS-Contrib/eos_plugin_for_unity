@@ -20,15 +20,31 @@
  * SOFTWARE.
  */
 
+using System.IO;
+using System.Reflection;
+
 namespace PlayEveryWare.EpicOnlineServices
 {
-    internal static class Application
+    public static class ResourceUtility
     {
-        public static readonly string streamingAssetsPath;
-
-        static Application()
+        public static string ReadEmbeddedJsonFile(string resourceName)
         {
+            var assembly = Assembly.GetExecutingAssembly();
 
+            // Adjust the resource name based on your namespace and file location
+            // Format: "{Namespace}.{Folder}.{FileName}"
+            string fullResourceName = $"{assembly.GetName().Name}.{resourceName}";
+
+            using (Stream stream = assembly.GetManifestResourceStream(fullResourceName))
+            {
+                if (stream == null)
+                    throw new FileNotFoundException("Resource not found: " + fullResourceName);
+
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
         }
     }
 }
