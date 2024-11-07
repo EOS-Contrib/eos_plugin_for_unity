@@ -1,0 +1,8 @@
+Debug/*
+Release/*
+x64/*
+x32/*
+bin/
+obj/
+Newtonsoft.Json.dll
+Newtonsoft.Json.xml
