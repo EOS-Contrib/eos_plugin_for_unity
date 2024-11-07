@@ -8,6 +8,7 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GfxPluginNativeRender", "NativeRender\NativeRender.vcxproj", "{251D4477-4C90-4FE1-94A2-52377327D3B2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EOSPluginConfig", "EOSPluginConfig\EOSPluginConfig.csproj", "{7C3CF875-0B42-493F-958B-9D068C8EF018}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleApplication", "ConsoleApplication\ConsoleApplication.vcxproj", "{D7462EAF-0024-4EA5-9D89-DBBBC7766333}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +42,12 @@ Global
 		{7C3CF875-0B42-493F-958B-9D068C8EF018}.Release|x64.Build.0 = Release|x64
 		{7C3CF875-0B42-493F-958B-9D068C8EF018}.Release|x86.ActiveCfg = Release|Win32
 		{7C3CF875-0B42-493F-958B-9D068C8EF018}.Release|x86.Build.0 = Release|Win32
+		{D7462EAF-0024-4EA5-9D89-DBBBC7766333}.Debug|x64.ActiveCfg = Debug|x64
+		{D7462EAF-0024-4EA5-9D89-DBBBC7766333}.Debug|x64.Build.0 = Debug|x64
+		{D7462EAF-0024-4EA5-9D89-DBBBC7766333}.Debug|x86.ActiveCfg = Debug|Win32
+		{D7462EAF-0024-4EA5-9D89-DBBBC7766333}.Debug|x86.Build.0 = Debug|Win32
+		{D7462EAF-0024-4EA5-9D89-DBBBC7766333}.Release|x64.ActiveCfg = Release|x64
+		{D7462EAF-0024-4EA5-9D89-DBBBC7766333}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
