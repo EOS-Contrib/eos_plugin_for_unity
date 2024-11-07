@@ -22,13 +22,8 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    internal static class Application
+    public static class Application
     {
-        public static readonly string streamingAssetsPath;
-
-        static Application()
-        {
-
-        }
+        public static readonly string streamingAssetsPath = ResourceUtility.GetStreamingAssetsPath();
     }
 }

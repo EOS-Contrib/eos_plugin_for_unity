@@ -224,10 +224,18 @@
       <Link>com.playeveryware.eos\Runtime\EOS_SDK\%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
     <Compile Include="ResourceUtility.cs" />
+    <EmbeddedResource Include="config.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="ModifyJsonFile" BeforeTargets="BeforeBuild">
+    <!-- Example: Modify the JSON file using a PowerShell script or inline MSBuild task -->
+    <WriteLinesToFile File="config.json" Overwrite="true"
+        Lines="{ streamingAssetsPath: &quot;$(UnityStreamingAssetsDirectory)&quot; }" />
+</Target>
 </Project>

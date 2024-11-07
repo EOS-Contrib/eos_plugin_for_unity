@@ -25,26 +25,50 @@ using System.Reflection;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Newtonsoft.Json;
+
     public static class ResourceUtility
     {
-        public static string ReadEmbeddedJsonFile(string resourceName)
+        private static readonly EmbeddedResourceValues s_values;
+
+        internal class EmbeddedResourceValues
+        {
+            public string StreamingAssetsPath { get; set; }
+        }
+
+        static ResourceUtility()
+        {
+            s_values = GetEmbeddedResourceValues();
+        }
+
+        private static string ReadEmbeddedJsonFile(string resourceFileName)
         {
             var assembly = Assembly.GetExecutingAssembly();
 
-            // Adjust the resource name based on your namespace and file location
-            // Format: "{Namespace}.{Folder}.{FileName}"
-            string fullResourceName = $"{assembly.GetName().Name}.{resourceName}";
+            // Automatically prepend the assembly name to the resource path
+            string fullResourceName = $"EOSPluginConfig.{resourceFileName}";
 
             using (Stream stream = assembly.GetManifestResourceStream(fullResourceName))
             {
                 if (stream == null)
-                    throw new FileNotFoundException("Resource not found: " + fullResourceName);
+                    throw new FileNotFoundException($"Resource not found: {fullResourceName}");
 
                 using (StreamReader reader = new StreamReader(stream))
                 {
                     return reader.ReadToEnd();
                 }
             }
+        }
+
+        private static EmbeddedResourceValues GetEmbeddedResourceValues()
+        {
+            string jsonContent = ReadEmbeddedJsonFile("config.json");
+            return JsonConvert.DeserializeObject<EmbeddedResourceValues>(jsonContent);
+        }
+
+        public static string GetStreamingAssetsPath()
+        {
+            return s_values.StreamingAssetsPath;
         }
     }
 }
