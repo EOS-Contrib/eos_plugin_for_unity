@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <UnityStreamingAssetsDirectory>$(SolutionDir)..\..\..\Assets\StreamingAssets\</UnityStreamingAssetsDirectory>
+    <OutputUnityAssetsDirectory>$(SolutionDir)..\..\..\Assets\Plugins\Windows\$(Platform)\</OutputUnityAssetsDirectory>
+  </PropertyGroup>
+</Project>
