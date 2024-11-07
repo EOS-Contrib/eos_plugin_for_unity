@@ -434,10 +434,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
         }
 
-        public override void Hide()
+        protected override void HideInternal()
         {
-            base.Hide();
-
             if (isClient || isHost)
             {
                 DisconnectOnClick();
@@ -454,10 +452,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             RemoveJoinListener();
         }
 
-        public override void Show()
+        protected override void ShowInternal()
         {
-            base.Show();
-
             Background.enabled = false;
 
             SetSessionUIActive(false);

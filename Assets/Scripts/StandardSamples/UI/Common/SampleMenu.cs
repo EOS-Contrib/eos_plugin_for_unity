@@ -24,6 +24,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using Epic.OnlineServices;
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using UnityEngine;
@@ -217,12 +218,25 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>
-        /// Shows the SampleMenu. If overriding, make sure to call this base
-        /// implementation first.
+        /// Shows the SampleMenu.
+        /// If this menu was not hidden, nothing happens.
+        /// If the menu was hidden, this calls <see cref="ShowInternal"/>.
         /// </summary>
-        public virtual void Show()
+        public void Show()
         {
             Log($"Show() started");
+
+            if (RequiresAuthentication)
+            {
+                ProductUserId user = EOSManager.Instance.GetProductUserId();
+                if (user == null || !user.IsValid())
+                {
+                    Log($"This SampleMenu requires authentication, and the user " +
+                        "has not set a ProductUserId yet. Will not set this " +
+                        "sample to visible until OnAuthenticationChanged.");
+                    return;
+                }
+            }
 
             // Don't do anything if already showing.
             if (!Hidden) return;
@@ -255,14 +269,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Flag as showing.
             Hidden = false;
 
+            ShowInternal();
+
             Log($"Show() completed");
         }
 
         /// <summary>
-        /// Hides the SampleMenu. If overriding, make sure to call this base
-        /// implementation first.
+        /// Hides the SampleMenu.
+        /// If this menu was already hidden, nothing happens.
+        /// If the menu was not already hidden, this calls <see cref="ShowInternal"/>.
         /// </summary>
-        public virtual void Hide()
+        public void Hide()
         {
             Log($"Hide() started");
 
@@ -285,7 +302,33 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Flag as hidden.
             Hidden = true;
 
+            HideInternal();
+
             Log($"Hide() completed");
+        }
+
+        /// <summary>
+        /// If this menu is shown through <see cref="Show"/> successfully, then
+        /// this method is run so that implementing child classes can respond
+        /// to becoming available.
+        /// </summary>
+        protected virtual void ShowInternal()
+        {
+            // The default implementation of this function is blank;
+            // children can override it to run operations that are suitable
+            // for Show
+        }
+
+        /// <summary>
+        /// If this menu is hidden through <see cref="Hide"/> successfully, then
+        /// this method is run so that implementing child classes can respond
+        /// to becoming unavailable.
+        /// </summary>
+        protected virtual void HideInternal()
+        {
+            // The default implementation of this function is blank;
+            // children can override it to run operations that are suitable
+            // for Hide
         }
 
         /// <summary>

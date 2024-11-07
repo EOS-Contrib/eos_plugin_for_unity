@@ -301,15 +301,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             FriendsManager.QueryFriends(null);
         }
 
-        public override void Show()
+        protected override void ShowInternal()
         {
-            base.Show();
             EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().OnLoggedIn();
         }
 
-        public override void Hide()
+        protected override void HideInternal()
         {
-            base.Hide();
             FriendsManager?.OnLoggedOut();
         }
     }
