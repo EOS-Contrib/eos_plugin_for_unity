@@ -51,8 +51,8 @@ namespace PlayEveryWare.Common
         /// </exception>
         public Named(string name, T value)
         {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            Value = value ?? throw new ArgumentNullException(nameof(value));
+            Name = name;
+            Value = value;
         }
 
         /// <summary>
