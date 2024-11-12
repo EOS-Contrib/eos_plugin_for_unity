@@ -258,7 +258,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                     return;
                 }
 
-                productConfig.Version = newVersion;
+                productConfig.ProductVersion = newVersion;
             }
 
             await productConfig.WriteAsync();

@@ -62,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType.Version,
             "Use this to indicate to the EOS SDK your game version.",
             0)]
-        public Version Version;
+        public Version ProductVersion;
 
 #if !EOS_DISABLE
         /// <summary>
@@ -126,7 +126,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             ProductName = config.productName;
 
-            if (!Version.TryParse(config.productVersion, out Version))
+            if (!Version.TryParse(config.productVersion, out ProductVersion))
             {
                 Debug.LogError(
                     "Could not parse Version number. " +

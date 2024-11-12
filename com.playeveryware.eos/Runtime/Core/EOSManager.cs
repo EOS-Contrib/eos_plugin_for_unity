@@ -109,8 +109,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public delegate void OnConnectLoginCallback(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);
 
-        public delegate Task<UserLoginInfo> GetUserLoginInfoDelegate();
-
         private static event OnAuthLoginCallback OnAuthLogin;
         private static event OnAuthLogoutCallback OnAuthLogout;
         private static event OnConnectLoginCallback OnConnectLogin;
@@ -121,7 +119,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// UserLoginInfo during <see cref="StartConnectLoginWithEpicAccount"/>.
         /// If this is not provided, no UserLoginInfo will be set.
         /// </summary>
-        public static GetUserLoginInfoDelegate GetUserLoginInfo = null;
+        public static Func<Task<UserLoginInfo>> GetUserLoginInfo = null;
 
         public delegate void OnCreateConnectUserCallback(CreateUserCallbackInfo createUserCallbackInfo);
 
@@ -458,7 +456,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 print("InitializePlatformInterface: initOptions.GetType() = " + initOptions.GetType());
 
                 initOptions.options.ProductName = productConfig.ProductName;
-                initOptions.options.ProductVersion = productConfig.Version.ToString();
+                initOptions.options.ProductVersion = productConfig.ProductVersion.ToString();
                 initOptions.options.OverrideThreadAffinity = platformConfig.threadAffinity.Unwrap();
 
                 initOptions.options.AllocateMemoryFunction = IntPtr.Zero;
