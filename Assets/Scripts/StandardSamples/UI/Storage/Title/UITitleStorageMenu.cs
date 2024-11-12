@@ -49,23 +49,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text FileContent;
         private List<string> CurrentTags = new List<string>();
 
-        protected override void Awake()
-        {
-            base.Awake();
-            if (Config.Get<EOSConfig>().IsEncryptionKeyValid())
-            {
-                FileContent.text = string.Empty;
-            }
-            else
-            {
-                FileContent.text = "Valid encryption key not set. Use the EOS Config Editor to add one.";
-            }
-        }
-
-        private void Start()
-        {
-        }
-
         public void AddTagOnClick()
         {
             if (AddTag(AddTagTextBox.InputField.text))

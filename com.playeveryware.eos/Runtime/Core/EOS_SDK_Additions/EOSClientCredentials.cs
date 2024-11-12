@@ -29,12 +29,20 @@ namespace PlayEveryWare.EpicOnlineServices
     using PlayEveryWare.EpicOnlineServices.Utility;
     using System;
     using System.Security.Cryptography;
+    using System.Text.RegularExpressions;
 
     public class EOSClientCredentials : IEquatable<EOSClientCredentials>
     {
         public string ClientId;
         public string ClientSecret;
         public readonly string EncryptionKey;
+
+        private static readonly Regex s_invalidEncryptionKeyRegex;
+
+        static EOSClientCredentials()
+        {
+            s_invalidEncryptionKeyRegex = new Regex("[^0-9a-fA-F]");
+        }
 
         public EOSClientCredentials()
         {
@@ -56,6 +64,34 @@ namespace PlayEveryWare.EpicOnlineServices
             ClientId = clientId;
             ClientSecret = clientSecret;
             EncryptionKey = encryptionKey;
+        }
+
+        /// <summary>
+        /// Determines whether an encryption key string is valid.
+        /// </summary>
+        /// <returns>
+        /// True if the encryption key is valid, false otherwise.
+        /// </returns>
+        public static bool IsEncryptionKeyValid(string encryptionKey)
+        {
+            return
+                //key not null
+                encryptionKey != null &&
+                //key is 64 characters
+                encryptionKey.Length == 64 &&
+                //key is all hex characters
+                !s_invalidEncryptionKeyRegex.Match(encryptionKey).Success;
+        }
+
+        /// <summary>
+        /// Determines whether the encryption key for the credentials is valid.
+        /// </summary>
+        /// <returns>
+        /// True if the encryption key is valid, false otherwise.
+        /// </returns>
+        public bool IsEncryptionKeyValid()
+        {
+            return IsEncryptionKeyValid(EncryptionKey);
         }
 
         public bool Equals(EOSClientCredentials other)

@@ -73,7 +73,6 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         static EOSConfig()
         {
-            InvalidEncryptionKeyRegex = new Regex("[^0-9a-fA-F]");
             RegisterFactory(() => new EOSConfig());
         }
 
@@ -365,19 +364,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #endregion
 
-        public static Regex InvalidEncryptionKeyRegex;
-
-        private static bool IsEncryptionKeyValid(string key)
-        {
-            return
-                //key not null
-                key != null &&
-                //key is 64 characters
-                key.Length == 64 &&
-                //key is all hex characters
-                !InvalidEncryptionKeyRegex.Match(key).Success;
-        }
-
         /// <summary>
         /// Override the default sandbox and deployment id. Uses the sandboxId
         /// as a key to determine the corresponding deploymentId that has been
@@ -486,16 +472,5 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 #endif
-
-        /// <summary>
-        /// Determines whether the encryption key for the config is valid.
-        /// </summary>
-        /// <returns>
-        /// True if the encryption key is valid, false otherwise.
-        /// </returns>
-        public bool IsEncryptionKeyValid()
-        {
-            return IsEncryptionKeyValid(encryptionKey);
-        }
     }
 }

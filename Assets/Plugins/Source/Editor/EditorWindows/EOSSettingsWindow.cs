@@ -365,7 +365,7 @@ _WIN32 || _WIN64
                 }
             }
 
-            if (!mainEOSConfigFile.IsEncryptionKeyValid())
+            if (!EOSClientCredentials.IsEncryptionKeyValid(mainEOSConfigFile.encryptionKey))
             {
                 int keyLength = mainEOSConfigFile.encryptionKey?.Length ?? 0;
                 EditorGUILayout.HelpBox(

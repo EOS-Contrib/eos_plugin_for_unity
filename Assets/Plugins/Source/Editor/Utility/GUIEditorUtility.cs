@@ -292,7 +292,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             { ConfigFieldType.Float, HandleField<float> },
             { ConfigFieldType.ProductionEnvironments, HandleField<ProductionEnvironments> },
             { ConfigFieldType.SetOfClientCredentials, HandleField<SetOfNamed<EOSClientCredentials>> },
-            { ConfigFieldType.NamedGuid, HandleField<Named<Guid>> },
+            { ConfigFieldType.Guid, HandleField<Named<Guid>> },
             { ConfigFieldType.Version, HandleField<Version> },
             { ConfigFieldType.Deployment, HandleField<Deployment> },
             { ConfigFieldType.ClientCredentials, HandleField<EOSClientCredentials> },
@@ -395,14 +395,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             setValue(target, newValue);
         }
 
-
-
         delegate void FieldHandler(
             object target,
             ConfigFieldAttribute fieldDetails,
             Func<object, object> getValue,
             Action<object, object> setValue,
             float labelWidth);
+
+        public static void RenderSectionHeader(string label)
+        {
+            GUILayout.Label(label.ToUpper(), EditorStyles.boldLabel);
+            Rect rect = EditorGUILayout.GetControlRect(false, 1);  // Set the height to 1 pixel
+            EditorGUI.DrawRect(rect, Color.gray);
+        }
 
         /// <summary>
         /// Render the config fields for the config that has been set to edit.
@@ -696,7 +701,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             Action<Rect, Named<T>> renderItemFn,
             Action addNewItemFn,
             Action<Named<T>> removeItemFn
-        ) where T : IEquatable<T>
+        ) where T : IEquatable<T>, new()
         {
             List<Named<T>> items = value.ToList();
 
@@ -1026,25 +1031,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             // Ensure that the GUI is always enabled before leaving scope
             GUI.enabled = true;
-
-            return value;
-        }
-
-        public static Named<Guid> RenderInput(ConfigFieldAttribute configFieldDetails, Named<Guid> value,
-            float labelWidth)
-        {
-            EditorGUILayout.LabelField(CreateGUIContent(configFieldDetails.Label, configFieldDetails.ToolTip));
-
-            GUILayout.BeginHorizontal();
-
-            value ??= new Named<Guid>();
-
-            value.Name = RenderFieldWithHint(EditorGUILayout.TextField, string.IsNullOrEmpty, value.Name,
-                "Product Name");
-
-            value.Value = RenderFieldWithHint(GuidField, guid => guid.Equals(Guid.Empty), value.Value, "Product Id");
-
-            GUILayout.EndHorizontal();
 
             return value;
         }
