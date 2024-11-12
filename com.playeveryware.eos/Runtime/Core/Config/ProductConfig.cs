@@ -35,7 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Contains information about the product entered by the user from the Epic
     /// Developer Portal.
     /// </summary>
-    [ConfigGroup("Product Configuration", new []{"", "Deployment Configuration"}, false)]
+    [ConfigGroup("Product Configuration", new[] { "", "Deployment Configuration" }, false)]
     public class ProductConfig : Config
     {
         /// <summary>
@@ -212,8 +212,6 @@ namespace PlayEveryWare.EpicOnlineServices
             Write();
 #endif
         }
-
-#endregion
-
+        #endregion
     }
 }

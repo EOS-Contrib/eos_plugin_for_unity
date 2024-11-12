@@ -22,7 +22,7 @@
 
 namespace PlayEveryWare.Common
 {
-    using PlayEveryWare.EpicOnlineServices.Utility;
+    using EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
 
@@ -41,6 +41,14 @@ namespace PlayEveryWare.Common
         /// </summary>
         public T Value;
 
+        /// <summary>
+        /// Create a new Named with the given name and value.
+        /// </summary>
+        /// <param name="name">The name for the value.</param>
+        /// <param name="value">The value.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if either Name or Value is null.
+        /// </exception>
         public Named(string name, T value)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
@@ -75,7 +83,7 @@ namespace PlayEveryWare.Common
         /// </returns>
         public int CompareTo(Named<T> other)
         {
-            return string.Compare(Name, other.Name, StringComparison.Ordinal);
+            return string.CompareOrdinal(Name, other.Name);
         }
 
         /// <summary>
@@ -94,10 +102,7 @@ namespace PlayEveryWare.Common
             if (Value == null && other == null)
                 return true;
 
-            if (Value == null)
-                return false;
-
-            return Value.Equals(other);
+            return Value != null && Value.Equals(other);
         }
 
         public override bool Equals(object obj)
@@ -112,7 +117,7 @@ namespace PlayEveryWare.Common
                 return false;
             }
 
-            return Name == other.Name && EqualityComparer<T>.Default.Equals(Value, other.Value);
+            return ReferenceEquals(this, other) || EqualityComparer<T>.Default.Equals(Value, other.Value);
         }
 
         public override int GetHashCode()

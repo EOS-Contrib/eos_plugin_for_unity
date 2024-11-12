@@ -76,7 +76,7 @@ namespace PlayEveryWare.EpicOnlineServices
         TextList,
 
         /// <summary>
-        /// A Guid field.
+        /// A Guid.
         /// </summary>
         Guid,
 

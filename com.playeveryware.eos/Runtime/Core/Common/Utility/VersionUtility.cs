@@ -26,6 +26,19 @@ namespace PlayEveryWare.Common
 
     public static class VersionUtility
     {
+        /// <summary>
+        /// Compares two versions for equality, ignoring any undefined
+        /// components of the version.
+        /// </summary>
+        /// <param name="v1">The first version.</param>
+        /// <param name="v2">The second version.</param>
+        /// <returns>
+        /// True if, when ignoring any undefined components of both versions,
+        /// the versions are considered to be equal. The default equality
+        /// comparator for Version will return false if either version has a
+        /// component that is undefined. This utility function circumvents that
+        /// limitation.
+        /// </returns>
         public static bool AreVersionsEqual(Version v1, Version v2)
         {
             // Compare major versions

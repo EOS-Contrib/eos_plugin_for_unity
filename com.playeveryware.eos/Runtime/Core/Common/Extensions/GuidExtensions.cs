@@ -24,8 +24,21 @@ namespace PlayEveryWare.Common.Extensions
 {
     using System;
 
+    /// <summary>
+    /// Extension methods for Guid
+    /// </summary>
     public static class GuidExtensions
     {
+        /// <summary>
+        /// Returns a lowercase string representation of a Guid with all "-"
+        /// characters removed.
+        /// </summary>
+        /// <param name="guid">
+        /// The Guid to get the string representation of.
+        /// </param>
+        /// <returns>
+        /// String representation of a Guid.
+        /// </returns>
         public static string ToStrippedString(this Guid guid)
         {
             return guid.ToString().Replace("-", "").ToLower();

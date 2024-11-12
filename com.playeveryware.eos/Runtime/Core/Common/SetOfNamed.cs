@@ -66,8 +66,11 @@ namespace PlayEveryWare.Common
         /// </returns>
         public bool Add(T value)
         {
+            // If value is null, then set it to either be default or a new 
+            // instance of the value type.
             value ??= typeof(T).IsValueType ? default(T) : new T();
-            // Determines the 
+
+            // Determines the name of the new item.
             string newItemName = GetNewItemName();
 
             return Add(newItemName, value);

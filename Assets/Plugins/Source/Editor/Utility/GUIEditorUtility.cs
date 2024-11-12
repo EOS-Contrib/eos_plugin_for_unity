@@ -290,6 +290,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             { ConfigFieldType.Uint, HandleField<uint> },
             { ConfigFieldType.Float, HandleField<float> },
             { ConfigFieldType.ProductionEnvironments, HandleField<ProductionEnvironments> },
+            { ConfigFieldType.SetOfClientCredentials, HandleField<SetOfNamed<EOSClientCredentials>> },
+            { ConfigFieldType.Guid, HandleField<Named<Guid>> },
             { ConfigFieldType.Version, HandleField<Version> },
             { ConfigFieldType.Deployment, HandleField<Deployment> },
             { ConfigFieldType.Guid, HandleField<Guid> },
@@ -408,15 +410,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         public static void RenderSectionHeader(string label)
         {
             GUILayout.Label(label.ToUpper(), EditorStyles.boldLabel);
-            GUIStyle thinSeparator = new GUIStyle(GUI.skin.horizontalSlider);
-            thinSeparator.fixedHeight = 1;  // Set the line thickness
-            thinSeparator.margin = new RectOffset(0, 0, 2, 2);  // Set minimal spacing above/below the line
-
             Rect rect = EditorGUILayout.GetControlRect(false, 1);  // Set the height to 1 pixel
-            EditorGUI.DrawRect(rect, Color.gray);  
+            EditorGUI.DrawRect(rect, Color.gray);
         }
 
-#if !EOS_DISABLE
         /// <summary>
         /// Render the config fields for the config that has been set to edit.
         /// </summary>
@@ -516,7 +513,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 groupSpecified = false;
             }
         }
-#endif
 
         public static float MeasureLongestLabelWidth(List<string> labels)
         {
@@ -745,7 +741,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             Action<Rect, Named<T>, bool> renderItemFn,
             Action addNewItemFn,
             Action<Named<T>> removeItemFn,
-            ReorderableList.ElementHeightCallbackDelegate elementHeightCallback = null) where T : IEquatable<T>, new()
+            ReorderableList.ElementHeightCallbackDelegate elementHeightCallback = null) 
+            where T : IEquatable<T>, new()
         {
             List<Named<T>> items = value.ToList();
 

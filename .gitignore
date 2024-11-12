@@ -42,7 +42,7 @@
 ExportedObj/
 .consulo/
 
-# Only exclude csproj files in the root of the repository. 
+# Only exclude csproj files in the root of the repository
 /*.csproj
 
 *.unityproj

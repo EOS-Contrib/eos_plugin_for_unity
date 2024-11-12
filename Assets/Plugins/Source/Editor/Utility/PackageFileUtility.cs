@@ -20,8 +20,6 @@
 * SOFTWARE.
 */
 
-
-
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using Common.Extensions;
@@ -144,7 +142,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         private static IEnumerable<FileInfoMatchingResult> FindMatchingFiles(string root, string currentWorkingDir, SrcDestPair pair)
         {
             IEnumerable<string> collectedFiles;
-            
+
             string searchPattern = pair.src;
             string path = root;
 
@@ -289,7 +287,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             // Copy the files
             await FileSystemUtility.CopyFilesAsync(copyOperations, cancellationToken, progress);
-            
+
             // Execute callback
             postProcessCallback?.Invoke(destination);
         }

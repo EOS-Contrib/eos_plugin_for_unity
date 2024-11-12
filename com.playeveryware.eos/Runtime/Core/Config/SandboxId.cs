@@ -78,6 +78,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public override readonly string ToString()
         {
+            // SandboxId is _sometimes_, but _not always_ a GUID value. In case
+            // it was entered into the configuration with a format that includes
+            // dashes and upper case letters, this function removes the former
+            // and changes the latter.
             return _value.Replace("-", "").ToLower();
         }
     }

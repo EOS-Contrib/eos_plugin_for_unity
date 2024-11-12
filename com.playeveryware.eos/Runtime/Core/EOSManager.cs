@@ -309,7 +309,7 @@ namespace PlayEveryWare.EpicOnlineServices
             [Obsolete]
             public bool IsEncryptionKeyValid()
             {
-                return Config.Get<EOSConfig>().IsEncryptionKeyValid();
+                return EOSClientCredentials.IsEncryptionKeyValid(Config.Get<EOSConfig>().encryptionKey);
             }
 
             //-------------------------------------------------------------------------

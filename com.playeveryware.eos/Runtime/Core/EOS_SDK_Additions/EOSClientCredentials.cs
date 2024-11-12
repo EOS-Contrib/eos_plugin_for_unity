@@ -66,15 +66,32 @@ namespace PlayEveryWare.EpicOnlineServices
             EncryptionKey = encryptionKey;
         }
 
-        public bool IsEncryptionKeyValid()
+        /// <summary>
+        /// Determines whether an encryption key string is valid.
+        /// </summary>
+        /// <returns>
+        /// True if the encryption key is valid, false otherwise.
+        /// </returns>
+        public static bool IsEncryptionKeyValid(string encryptionKey)
         {
             return
                 //key not null
-                EncryptionKey != null &&
+                encryptionKey != null &&
                 //key is 64 characters
-                EncryptionKey.Length == 64 &&
+                encryptionKey.Length == 64 &&
                 //key is all hex characters
-                !s_invalidEncryptionKeyRegex.Match(EncryptionKey).Success;
+                !s_invalidEncryptionKeyRegex.Match(encryptionKey).Success;
+        }
+
+        /// <summary>
+        /// Determines whether the encryption key for the credentials is valid.
+        /// </summary>
+        /// <returns>
+        /// True if the encryption key is valid, false otherwise.
+        /// </returns>
+        public bool IsEncryptionKeyValid()
+        {
+            return IsEncryptionKeyValid(EncryptionKey);
         }
 
         public bool Equals(EOSClientCredentials other)
