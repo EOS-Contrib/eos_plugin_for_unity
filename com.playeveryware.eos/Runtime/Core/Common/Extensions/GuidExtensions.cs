@@ -8,8 +8,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,26 +20,28 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.Common.Extensions
 {
     using System;
 
-    // Flags specifically for Windows
-    [ConfigGroup("Windows Config", new[]
+    /// <summary>
+    /// Extension methods for Guid
+    /// </summary>
+    public static class GuidExtensions
     {
-        "Windows-Specific Options",
-        "Deployment",
-        "Flags",
-        "Tick Budgets",
-        "Overlay Options"
-    }, false)]
-    public class WindowsConfig : PlatformConfig
-    {
-        static WindowsConfig()
+        /// <summary>
+        /// Returns a lowercase string representation of a Guid with all "-"
+        /// characters removed.
+        /// </summary>
+        /// <param name="guid">
+        /// The Guid to get the string representation of.
+        /// </param>
+        /// <returns>
+        /// String representation of a Guid.
+        /// </returns>
+        public static string ToStrippedString(this Guid guid)
         {
-            RegisterFactory(() => new WindowsConfig());
+            return guid.ToString().Replace("-", "").ToLower();
         }
-
-        protected WindowsConfig() : base(PlatformManager.Platform.Windows) { }
     }
 }

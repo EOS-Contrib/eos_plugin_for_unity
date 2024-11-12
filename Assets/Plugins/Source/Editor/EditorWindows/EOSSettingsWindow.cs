@@ -27,7 +27,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 #if !EOS_DISABLE
     using Epic.OnlineServices.UI;
 #endif
-    using PlayEveryWare.EpicOnlineServices.Extensions;
     using PlayEveryWare.EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
@@ -365,7 +364,8 @@ _WIN32 || _WIN64
                 }
             }
 
-            if (!mainEOSConfigFile.IsEncryptionKeyValid())
+#if !EOS_DISABLE
+            if (!EOSClientCredentials.IsEncryptionKeyValid(mainEOSConfigFile.encryptionKey))
             {
                 int keyLength = mainEOSConfigFile.encryptionKey?.Length ?? 0;
                 EditorGUILayout.HelpBox(
@@ -373,7 +373,6 @@ _WIN32 || _WIN64
                     keyLength + ".", MessageType.Warning);
             }
 
-#if !EOS_DISABLE
             GUIEditorUtility.AssigningEnumField(
                 "Platform Flags",
                 ref mainEOSConfigFile.platformOptionsFlags,

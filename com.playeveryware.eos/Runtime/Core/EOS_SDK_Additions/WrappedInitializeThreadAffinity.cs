@@ -25,11 +25,10 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices.Platform;
+    using Common;
 
-    public struct WrappedInitializeThreadAffinity
+    public class WrappedInitializeThreadAffinity : Wrapped<InitializeThreadAffinity>
     {
-        private InitializeThreadAffinity _value;
-
         /// <summary>
         /// Any thread related to network management that is not IO.
         /// </summary>

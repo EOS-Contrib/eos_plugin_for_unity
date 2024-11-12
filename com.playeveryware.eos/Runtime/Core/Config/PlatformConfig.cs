@@ -44,7 +44,6 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Represents a set of configuration data for use by the EOS Plugin for
     /// Unity on a specific platform.
     /// </summary>
-    [Serializable]
     [ConfigGroup("EOS Config", new[]
     {
         "Deployment",
@@ -85,13 +84,15 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Deployment", ConfigFieldType.Deployment, "Select the deployment to use.", 0)]
         public Deployment deployment;
 
+#if !EOS_DISABLE
         [ConfigField("Client Credentials", ConfigFieldType.ClientCredentials, "Select client credentials to use.", 0)]
         public EOSClientCredentials clientCredentials;
+#endif
 
         [ConfigField("Is Server", ConfigFieldType.Flag, "Check this if your game is a dedicated game server.", 0)]
         public bool isServer;
 
-        #endregion
+#endregion
 
         #region Flags
 
@@ -175,7 +176,7 @@ namespace PlayEveryWare.EpicOnlineServices
             2, "https://dev.epicgames.com/docs/api-ref/structs/eos-initialize-thread-affinity")]
         public WrappedInitializeThreadAffinity threadAffinity;
 #endif
-        #endregion
+#endregion
 
         #region Overlay Options
 
@@ -234,9 +235,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "valid; the SDK will log an error at the start of runtime if an " +
             "invalid combination is selected.", 3)]
         public InputStateButtonFlags toggleFriendsButtonCombination = InputStateButtonFlags.SpecialLeft;
-#endif
-
-        #endregion
 
         /// <summary>
         /// Used to keep track of whether values have been moved from the
@@ -244,6 +242,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [JsonProperty]
         private bool _configValuesMigrated = false;
+#endif
+
+        #endregion
 
         /// <summary>
         /// Create a PlatformConfig by defining the platform it pertains to.
@@ -258,6 +259,8 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         #region Logic for Migrating Override Values from Previous Structure
+
+#if !EOS_DISABLE
 
         protected sealed class NonOverrideableConfigValues : Config
         {
@@ -507,7 +510,8 @@ namespace PlayEveryWare.EpicOnlineServices
             Write();
 #endif
         }
+#endif
 
-        #endregion
+#endregion
     }
 }

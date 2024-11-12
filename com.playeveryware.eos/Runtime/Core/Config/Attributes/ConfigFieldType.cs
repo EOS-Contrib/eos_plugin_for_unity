@@ -76,9 +76,9 @@ namespace PlayEveryWare.EpicOnlineServices
         TextList,
 
         /// <summary>
-        /// A Guid with a label.
+        /// A Guid.
         /// </summary>
-        NamedGuid,
+        Guid,
 
         /// <summary>
         /// The set of Sandbox and Deployment definitions for the project.

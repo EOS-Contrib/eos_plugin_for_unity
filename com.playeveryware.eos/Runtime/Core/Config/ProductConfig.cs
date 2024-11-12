@@ -35,41 +35,36 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Contains information about the product entered by the user from the Epic
     /// Developer Portal.
     /// </summary>
-    [ConfigGroup("Product Information", true)]
+    [ConfigGroup("Product Configuration", new[] { "", "Deployment Configuration" }, false)]
     public class ProductConfig : Config
     {
-        internal class PreviousEOSConfig : Config
-        {
-            public string productName;
-            public string productVersion;
-            public string productID;
-            public List<SandboxDeploymentOverride> sandboxDeploymentOverrides;
-            public string sandboxID;
-            public string deploymentID;
-            public string clientSecret;
-            public string clientID;
-            public string encryptionKey;
-
-            static PreviousEOSConfig()
-            {
-                RegisterFactory(() => new PreviousEOSConfig());
-            }
-
-            protected PreviousEOSConfig() : base("EpicOnlineServicesConfig.json") { }
-        }
-
         /// <summary>
         /// The product ID is a unique GUID labeled "Product ID" in the Epic
         /// Developer Portal. The name for this value can be set to anything -
         /// it is used as a label for user interface purposes - and is allowed
         /// to differ from the label given to it on the Developer Portal.
         /// </summary>
-        [ConfigField("Product Information",
-            ConfigFieldType.NamedGuid,
-            "Enter the name of your product as it appears in the Epic " +
-            "Dev Portal, as well as the Product Id defined there.")]
-        public Named<Guid> ProductId;
+        [ConfigField("Product Name",
+            ConfigFieldType.Text,
+            "Enter your product name as it appears in the EOS Dev " +
+            "Portal here.",
+            0)]
+        public string ProductName;
 
+        [ConfigField("Product Id",
+            ConfigFieldType.Guid,
+            "Enter your Product Id as it appears in the EOS Dev " +
+            "Portal here.",
+            0)]
+        public Guid ProductId;
+
+        [ConfigField("Version",
+            ConfigFieldType.Version,
+            "Use this to indicate to the EOS SDK your game version.",
+            0)]
+        public Version ProductVersion;
+
+#if !EOS_DISABLE
         /// <summary>
         /// The set of Clients as defined within the Epic Developer Portal. For
         /// EOS to function, at least one of these must be set, and the
@@ -82,6 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "Enter the client credentials you have defined in the " +
             "Epic Dev Portal.", 1)]
         public SetOfNamed<EOSClientCredentials> Clients = new("Client");
+#endif
 
         /// <summary>
         /// The set of Sandboxes as defined within the Epic Developer Portal.
@@ -104,24 +100,55 @@ namespace PlayEveryWare.EpicOnlineServices
 
         protected ProductConfig() : base("eos_product_config.json") { }
 
-        private void ImportProductNameAndId(PreviousEOSConfig config)
+        #region Functionality to migrate from old configuration to new
+
+        internal class PreviousEOSConfig : Config
         {
-            ProductId ??= new Named<Guid>();
-            ProductId.Name = config.productName;
-            if (!Guid.TryParse(config.productID, out ProductId.Value))
+            public string productName;
+            public string productVersion;
+            public string productID;
+            public List<SandboxDeploymentOverride> sandboxDeploymentOverrides;
+            public string sandboxID;
+            public string deploymentID;
+            public string clientSecret;
+            public string clientID;
+            public string encryptionKey;
+
+            static PreviousEOSConfig()
+            {
+                RegisterFactory(() => new PreviousEOSConfig());
+            }
+
+            protected PreviousEOSConfig() : base("EpicOnlineServicesConfig.json") { }
+        }
+
+        private void MigrateProductNameVersionAndId(PreviousEOSConfig config)
+        {
+            ProductName = config.productName;
+
+            if (!Version.TryParse(config.productVersion, out ProductVersion))
+            {
+                Debug.LogError(
+                    "Could not parse Version number. " +
+                    "Please be sure to set it in the config window.");
+            }
+
+            if (!Guid.TryParse(config.productID, out ProductId))
             {
                 Debug.LogWarning("Could not parse product ID.");
             }
         }
 
-        private void ImportClientCredentials(PreviousEOSConfig config)
+        private void MigrateClientCredentials(PreviousEOSConfig config)
         {
+#if !EOS_DISABLE
             // Import the old config client stuff
             Clients.Add(new EOSClientCredentials(config.clientID, config.clientSecret,
                 config.encryptionKey));
+#endif
         }
 
-        private void ImportSandboxAndDeployment(PreviousEOSConfig config)
+        private void MigrateSandboxAndDeployment(PreviousEOSConfig config)
         {
             // Import explicitly set sandbox and deployment
             SandboxId sandboxId = new()
@@ -144,7 +171,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-        private void ImportSandboxAndDeploymentOverrides(PreviousEOSConfig config)
+        private void MigrateSandboxAndDeploymentOverrides(PreviousEOSConfig config)
         {
             // Import each of the overrides
             foreach (var overrideValues in config.sandboxDeploymentOverrides)
@@ -171,10 +198,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
             PreviousEOSConfig oldConfig = Get<PreviousEOSConfig>();
 
-            ImportProductNameAndId(oldConfig);
-            ImportClientCredentials(oldConfig);
-            ImportSandboxAndDeployment(oldConfig);
-            ImportSandboxAndDeploymentOverrides(oldConfig);
+            MigrateProductNameVersionAndId(oldConfig);
+            MigrateClientCredentials(oldConfig);
+            MigrateSandboxAndDeployment(oldConfig);
+            MigrateSandboxAndDeploymentOverrides(oldConfig);
 
             // Set to true and save so that old config import happens once
             _oldConfigImported = true;
@@ -185,5 +212,6 @@ namespace PlayEveryWare.EpicOnlineServices
             Write();
 #endif
         }
+        #endregion
     }
 }

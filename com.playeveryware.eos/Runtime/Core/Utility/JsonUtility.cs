@@ -38,6 +38,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             new() { Converters = new JsonConverter[]
             {
                 new StringEnumConverter(),
+                new VersionConverter(),
             } };
 
         /// <summary>

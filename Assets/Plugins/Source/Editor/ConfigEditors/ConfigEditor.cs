@@ -20,7 +20,6 @@
 * SOFTWARE.
 */
 
-#if !EOS_DISABLE
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
@@ -192,7 +191,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             }
             else
             {
-                GUILayout.Label(GetLabelText(), EditorStyles.boldLabel);
+                GUIEditorUtility.RenderSectionHeader(GetLabelText());
                 GUIEditorUtility.RenderInputs(ref config);
             }
         }
@@ -253,5 +252,3 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         }
     }
 }
-
-#endif

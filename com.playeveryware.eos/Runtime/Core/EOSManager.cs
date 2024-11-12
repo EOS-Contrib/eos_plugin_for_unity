@@ -51,7 +51,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using Extensions;
+    //using Extensions;
     using UnityEngine;
     using System;
     using System.Collections.Generic;
@@ -301,7 +301,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public bool IsEncryptionKeyValid()
             {
-                return Config.Get<EOSConfig>().IsEncryptionKeyValid();
+                return EOSClientCredentials.IsEncryptionKeyValid(Config.Get<EOSConfig>().encryptionKey);
             }
 
             //-------------------------------------------------------------------------
@@ -488,7 +488,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #else
                     configData.platformOptionsFlags.Unwrap();
 #endif
-                if (configData.IsEncryptionKeyValid())
+                if (EOSClientCredentials.IsEncryptionKeyValid(configData.encryptionKey))
                 {
                     platformOptions.options.EncryptionKey = configData.encryptionKey;
                 }
