@@ -41,7 +41,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 // allow null value
                 if (value == null)
                 {
-                    _value = value;
+                    _value = null;
                     return;
                 }
 
@@ -56,8 +56,17 @@ namespace PlayEveryWare.EpicOnlineServices
                             "letter characters.");
                     }
                 }
+                else
+                {
+                    // If the Guid was correctly parsed, then considering that
+                    // the EOS SDK prefers SandboxId to be lowercase without
+                    // dashes, do this just to be sure.
+                    value = value.Replace("-", "");
+                }
 
-                _value = value;
+                // Whether the value was correctly matched to the regex or it
+                // was a Guid, it still should be lowercase.
+                _value = value.ToLower();
             }
         }
 
@@ -78,11 +87,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public override readonly string ToString()
         {
-            // SandboxId is _sometimes_, but _not always_ a GUID value. In case
-            // it was entered into the configuration with a format that includes
-            // dashes and upper case letters, this function removes the former
-            // and changes the latter.
-            return _value.Replace("-", "").ToLower();
+            return _value;
         }
     }
 }
