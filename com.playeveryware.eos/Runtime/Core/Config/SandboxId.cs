@@ -66,7 +66,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return _value == other._value;
         }
 
-        public override bool Equals(object obj)
+        public override readonly bool Equals(object obj)
         {
             return obj is SandboxId sandboxId && Equals(sandboxId);
         }
@@ -74,6 +74,15 @@ namespace PlayEveryWare.EpicOnlineServices
         public override readonly int GetHashCode()
         {
             return (_value?.GetHashCode()) ?? 0;
+        }
+
+        public override readonly string ToString()
+        {
+            // SandboxId is _sometimes_, but _not always_ a GUID value. In case
+            // it was entered into the configuration with a format that includes
+            // dashes and upper case letters, this function removes the former
+            // and changes the latter.
+            return _value.Replace("-", "").ToLower();
         }
     }
 }
