@@ -41,8 +41,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using Newtonsoft.Json;
     using PlayEveryWare.EpicOnlineServices.Utility;
 
-
-
     /// <summary>
     /// Represents the default deployment ID to use when a given sandbox ID is
     /// active.
@@ -59,7 +57,6 @@ namespace PlayEveryWare.EpicOnlineServices
     /// <summary>
     /// Represents the EOS Configuration used for initializing EOS SDK.
     /// </summary>
-    [Serializable]
     [ConfigGroup("EOS Config", new[]
     {
         "Product Information",
