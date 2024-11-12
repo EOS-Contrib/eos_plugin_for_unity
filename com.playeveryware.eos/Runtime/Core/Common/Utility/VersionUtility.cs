@@ -27,31 +27,44 @@ namespace PlayEveryWare.Common
     public static class VersionUtility
     {
         /// <summary>
-        /// Compares two versions for equality, ignoring any undefined
-        /// components of the version.
+        /// Compares two versions for equality, ensuring that if one version has
+        /// a component defined and the other one does not, they are considered
+        /// not equal.
         /// </summary>
         /// <param name="v1">The first version.</param>
         /// <param name="v2">The second version.</param>
         /// <returns>
-        /// True if, when ignoring any undefined components of both versions,
-        /// the versions are considered to be equal. The default equality
-        /// comparator for Version will return false if either version has a
-        /// component that is undefined. This utility function circumvents that
-        /// limitation.
+        /// True if both versions are considered equal, considering only defined
+        /// components. If one version has a component defined and the other
+        /// does not, they are considered not equal.
         /// </returns>
         public static bool AreVersionsEqual(Version v1, Version v2)
         {
-            // Compare major versions
+            // Compare major versions (must both be defined and equal)
             if (v1.Major != v2.Major) return false;
 
-            // Compare minor versions
+            // Compare minor versions (must both be defined and equal)
             if (v1.Minor != v2.Minor) return false;
 
-            // Compare build versions if both are specified
-            if (v1.Build != -1 && v2.Build != -1 && v1.Build != v2.Build) return false;
+            // Compare build versions
+            if ((v1.Build != -1 && v2.Build == -1) || (v1.Build == -1 && v2.Build != -1))
+            {
+                return false; // One is defined, the other is not
+            }
+            if (v1.Build != -1 && v2.Build != -1 && v1.Build != v2.Build)
+            {
+                return false; // Both are defined, but not equal
+            }
 
-            // Compare revision versions if both are specified
-            if (v1.Revision != -1 && v2.Revision != -1 && v1.Revision != v2.Revision) return false;
+            // Compare revision versions
+            if ((v1.Revision != -1 && v2.Revision == -1) || (v1.Revision == -1 && v2.Revision != -1))
+            {
+                return false; // One is defined, the other is not
+            }
+            if (v1.Revision != -1 && v2.Revision != -1 && v1.Revision != v2.Revision)
+            {
+                return false; // Both are defined, but not equal
+            }
 
             // If all specified parts are equal, return true
             return true;

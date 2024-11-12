@@ -86,7 +86,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Is Server", ConfigFieldType.Flag, "Check this if your game is a dedicated game server.", 1)]
         public bool isServer;
 
-#endregion
+        #endregion
 
         #region Flags
 
@@ -234,7 +234,7 @@ namespace PlayEveryWare.EpicOnlineServices
         public InputStateButtonFlags toggleFriendsButtonCombination = InputStateButtonFlags.SpecialLeft;
 #endif
 
-        #endregion
+#endregion
 
         /// <summary>
         /// Create a PlatformConfig by defining the platform it pertains to.
@@ -248,9 +248,9 @@ namespace PlayEveryWare.EpicOnlineServices
             Platform = platform;
         }
 
-#if !EOS_DISABLE
         #region Logic for Migrating Override Values from Previous Structure
 
+#if !EOS_DISABLE
         /// <summary>
         /// Used to keep track of whether values have been moved from the
         /// deprecated overrideValues field member.
@@ -518,8 +518,9 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         }
 #pragma warning restore CS0612 // Type or member is obsolete
-        #endregion
-
+#pragma warning restore CS0618 // Type or member is obsolete
 #endif
+
+        #endregion
     }
 }

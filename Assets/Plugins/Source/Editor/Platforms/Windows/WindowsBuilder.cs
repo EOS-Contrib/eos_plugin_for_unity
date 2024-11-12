@@ -24,9 +24,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
 #if !EOS_DISABLE
     using Epic.OnlineServices.Platform;
+    using Extensions;
 #endif
     using Config;
-    using Extensions;
     using Config = EpicOnlineServices.Config;
     using System.IO;
     using UnityEditor;

@@ -46,9 +46,6 @@ namespace PlayEveryWare.Common
         /// </summary>
         /// <param name="name">The name for the value.</param>
         /// <param name="value">The value.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if either Name or Value is null.
-        /// </exception>
         public Named(string name, T value)
         {
             Name = name;

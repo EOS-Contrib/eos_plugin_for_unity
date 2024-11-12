@@ -20,7 +20,6 @@
 * SOFTWARE.
 */
 
-#if !EOS_DISABLE
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
@@ -253,5 +252,3 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         }
     }
 }
-
-#endif

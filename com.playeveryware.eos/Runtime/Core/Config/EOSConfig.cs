@@ -64,7 +64,6 @@ namespace PlayEveryWare.EpicOnlineServices
         "a given platform, and you should access ProductConfig via " +
         "Config.Get<ProductConfig>() for all other values that are common " +
         "to all platforms.")]
-    [Serializable]
     [ConfigGroup("EOS Config", new[]
     {
         "Product Information",

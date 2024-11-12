@@ -26,6 +26,10 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+#if !EOS_DISABLE
+    using Epic.OnlineServices.UI;
+#endif
+    using PlayEveryWare.EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
