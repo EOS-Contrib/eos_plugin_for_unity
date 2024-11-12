@@ -25,7 +25,6 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("com.playeveryware.eos-Editor")]
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
-    using Common.Extensions;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -35,6 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
 #if !EXTERNAL_TO_UNITY
     using UnityEngine;
+    using Common.Extensions;
 #endif
 
     // This compile conditional exists to ensure that the UnityEngine.Networking

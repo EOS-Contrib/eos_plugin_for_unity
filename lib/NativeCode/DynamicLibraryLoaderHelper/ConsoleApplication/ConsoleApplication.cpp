@@ -22,9 +22,83 @@
 
 #include <iostream>
 #include <config.h>
+#include <windows.h>
+
+typedef const char* (__cdecl *GetWindowsConfigFunction)();
+typedef const char* (__cdecl *GetDeploymentId)();
+typedef const char* (__cdecl *GetSandboxId)();
+typedef bool(__cdecl *GetIsServer)();
+typedef int (__cdecl *GetAuthScopeOptionsFlags)();
+typedef int (__cdecl *GetIntegratedPlatformManagementFlags)();
+typedef int (__cdecl *GetTickBudgetInMilliseconds)();
+typedef double(__cdecl *GetTaskNetworkTimeoutSeconds)();
+typedef int (__cdecl *GetThreadAffinity)();
+typedef bool(__cdecl *GetAlwaysSendInputToOverlay)();
+typedef float(__cdecl *GetInitialButtonDelayForOverlay)();
+typedef float(__cdecl *GetRepeatButtonDelayForOverlay)();
+typedef int (__cdecl *GetToggleFriendsButtonCombination)();
+
+const char* call_native_aot()
+{
+    HMODULE hModule = LoadLibraryW(L"EOSPluginNativeAOT.dll");
+    if (!hModule)
+    {
+        std::cerr << "Failed to load library." << std::endl;
+        return nullptr;
+    }
+
+    // Function pointers for each of the typedefs
+    // Function pointers for each of the typedefs using reinterpret_cast
+    auto GetWindowsConfig = reinterpret_cast<GetWindowsConfigFunction>(GetProcAddress(hModule, "GetWindowsConfig"));
+    auto GetDeploymentIdPtr = reinterpret_cast<GetDeploymentId>(GetProcAddress(hModule, "GetDeploymentId"));
+    auto GetSandboxIdPtr = reinterpret_cast<GetSandboxId>(GetProcAddress(hModule, "GetSandboxId"));
+    auto GetIsServerPtr = reinterpret_cast<GetIsServer>(GetProcAddress(hModule, "GetIsServer"));
+    auto GetAuthScopeOptionsFlagsPtr = reinterpret_cast<GetAuthScopeOptionsFlags>(GetProcAddress(hModule, "GetAuthScopeOptionsFlags"));
+    auto GetIntegratedPlatformManagementFlagsPtr = reinterpret_cast<GetIntegratedPlatformManagementFlags>(GetProcAddress(hModule, "GetIntegratedPlatformManagementFlags"));
+    auto GetTickBudgetInMillisecondsPtr = reinterpret_cast<GetTickBudgetInMilliseconds>(GetProcAddress(hModule, "GetTickBudgetInMilliseconds"));
+    auto GetTaskNetworkTimeoutSecondsPtr = reinterpret_cast<GetTaskNetworkTimeoutSeconds>(GetProcAddress(hModule, "GetTaskNetworkTimeoutSeconds"));
+    auto GetThreadAffinityPtr = reinterpret_cast<GetThreadAffinity>(GetProcAddress(hModule, "GetThreadAffinity"));
+    auto GetAlwaysSendInputToOverlayPtr = reinterpret_cast<GetAlwaysSendInputToOverlay>(GetProcAddress(hModule, "GetAlwaysSendInputToOverlay"));
+    auto GetInitialButtonDelayForOverlayPtr = reinterpret_cast<GetInitialButtonDelayForOverlay>(GetProcAddress(hModule, "GetInitialButtonDelayForOverlay"));
+    auto GetRepeatButtonDelayForOverlayPtr = reinterpret_cast<GetRepeatButtonDelayForOverlay>(GetProcAddress(hModule, "GetRepeatButtonDelayForOverlay"));
+    auto GetToggleFriendsButtonCombinationPtr = reinterpret_cast<GetToggleFriendsButtonCombination>(GetProcAddress(hModule, "GetToggleFriendsButtonCombination"));
+
+    if (!GetWindowsConfig ||
+        !GetDeploymentIdPtr ||
+        !GetSandboxIdPtr ||
+        !GetIsServerPtr ||
+        !GetAuthScopeOptionsFlagsPtr ||
+        !GetIntegratedPlatformManagementFlagsPtr ||
+        !GetTickBudgetInMillisecondsPtr ||
+        !GetTaskNetworkTimeoutSecondsPtr ||
+        !GetThreadAffinityPtr ||
+        !GetAlwaysSendInputToOverlayPtr ||
+        !GetInitialButtonDelayForOverlayPtr ||
+        !GetRepeatButtonDelayForOverlayPtr ||
+        !GetToggleFriendsButtonCombinationPtr)
+    {
+        std::cerr << "Failed to get one or more function pointers." << std::endl;
+        FreeLibrary(hModule);
+        return 1;
+    }
+
+    // Use the function pointers as needed...
+
+
+    const char* windowsConfigJSON = GetWindowsConfig();
+    if (windowsConfigJSON)
+    {
+        std::cout << "JSON Data: " << windowsConfigJSON << std::endl;
+    }
+
+    FreeLibrary(hModule);
+    return windowsConfigJSON;
+}
 
 int main()
 {
+    auto windowsConfigJSON = call_native_aot();
+
     pew::eos::config::EOSConfig eos_config;
     if(try_get_eos_config(eos_config))
     {

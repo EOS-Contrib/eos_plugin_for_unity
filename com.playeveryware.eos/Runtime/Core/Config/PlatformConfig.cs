@@ -39,6 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
 
     using Utility;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Represents a set of configuration data for use by the EOS Plugin for
@@ -52,6 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices
         "Tick Budgets",
         "Overlay Options"
     }, false)]
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
     public abstract class PlatformConfig : Config
     {
         private const PlatformManager.Platform OVERLAY_COMPATIBLE_PLATFORMS = ~(PlatformManager.Platform.Android |

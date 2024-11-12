@@ -15,6 +15,7 @@
     <TrimMode>copy</TrimMode> <!-- or copy to preserve more -->
     <PublishTrimmed>true</PublishTrimmed>
     <SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
+    <RootNamespace>PlayEveryWare.EpicOnlineServices</RootNamespace>
 	</PropertyGroup>
 	<ItemGroup>
   <Compile Include="..\..\..\..\Assets\Plugins\Windows\Core\WindowsConfig.cs">
@@ -152,7 +153,7 @@
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\EOS_SDK\Generated\Result.cs" Link="com.playeveryware.eos\Runtime\EOS_SDK\Generated\Result.cs" />
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\EOS_SDK\Generated\Ui\InputStateButtonFlags.cs" Link="com.playeveryware.eos\Runtime\EOS_SDK\Generated\Ui\InputStateButtonFlags.cs" />
     <EmbeddedResource Include="config.json">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <TrimmerRootAssembly Include="EOSPluginNativeAOT" />
 	</ItemGroup>
@@ -164,6 +165,6 @@
     <WriteLinesToFile File="config.json" Overwrite="true" Lines="{ &quot;streamingAssetsPath&quot;: &quot;$(UnityStreamingAssetsDirectory)&quot; }" />
   </Target>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="dotnet publish --no-build --configuration $(Configuration) --output $(PublishDir)" />
+    <Exec Command="dotnet publish --no-build --configuration $(Configuration) --output $(PublishDir)&#xD;&#xA;" />
   </Target>
 </Project>

@@ -40,15 +40,15 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         internal class PreviousEOSConfig : Config
         {
-            public string productName;
-            public string productVersion;
-            public string productID;
-            public List<SandboxDeploymentOverride> sandboxDeploymentOverrides;
-            public string sandboxID;
-            public string deploymentID;
-            public string clientSecret;
-            public string clientID;
-            public string encryptionKey;
+            public string productName = string.Empty;
+            public string productVersion = string.Empty;
+            public string productID = string.Empty;
+            public List<SandboxDeploymentOverride> sandboxDeploymentOverrides = new();
+            public string sandboxID = string.Empty;
+            public string deploymentID = string.Empty;
+            public string clientSecret = string.Empty;
+            public string clientID = string.Empty;
+            public string encryptionKey = string.Empty;
 
             static PreviousEOSConfig()
             {

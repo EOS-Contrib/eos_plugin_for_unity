@@ -30,7 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
     using System.Security.Cryptography;
 
-    public class EOSClientCredentials : IEquatable<EOSClientCredentials>
+    public struct EOSClientCredentials : IEquatable<EOSClientCredentials>
     {
         public string ClientId;
         public string ClientSecret;
@@ -60,11 +60,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public bool Equals(EOSClientCredentials other)
         {
-            if (other == null)
-            {
-                return false;
-            }
-
             return ClientId == other.ClientId &&
                    ClientSecret == other.ClientSecret;
         }

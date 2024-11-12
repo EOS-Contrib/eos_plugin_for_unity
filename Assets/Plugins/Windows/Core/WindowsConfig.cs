@@ -22,7 +22,12 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Epic.OnlineServices.Auth;
+    using Epic.OnlineServices.IntegratedPlatform;
+    using Epic.OnlineServices.UI;
     using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Runtime.InteropServices;
 
     // Flags specifically for Windows
     [Serializable]
@@ -34,6 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices
         "Tick Budgets",
         "Overlay Options"
     }, false)]
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
     public class WindowsConfig : PlatformConfig
     {
         static WindowsConfig()
@@ -42,5 +48,82 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         protected WindowsConfig() : base(PlatformManager.Platform.Windows) { }
+
+#if EXTERNAL_TO_UNITY
+
+        [UnmanagedCallersOnly(EntryPoint = "GetWindowsConfig")]
+        public static Guid GetDeploymentId()
+        {
+            return Get<WindowsConfig>().deployment.DeploymentId;
+        }
+
+        [UnmanagedCallersOnly(EntryPoint = "GetSandboxId")]
+        public static IntPtr GetSandboxId()
+        {
+            string sandboxIdString = Get<WindowsConfig>().deployment.SandboxId.Value;
+
+            return Marshal.StringToHGlobalAnsi(sandboxIdString);
+        }
+
+        [UnmanagedCallersOnly(EntryPoint = "GetIsServer")]
+        public static bool GetIsServer()
+        {
+            return Get<WindowsConfig>().isServer;
+        }
+
+        [UnmanagedCallersOnly(EntryPoint = "GetAuthScopeOptionsFlags")]
+        public static AuthScopeFlags GetAuthScopeOptionsFlags()
+        {
+            return Get<WindowsConfig>().authScopeOptionsFlags;
+        }
+
+        [UnmanagedCallersOnly(EntryPoint = "GetIntegratedPlatformManagementFlags")]
+        public static IntegratedPlatformManagementFlags GetIntegratedPlatformManagementFlags()
+        {
+            return Get<WindowsConfig>().integratedPlatformManagementFlags;
+        }
+
+        [UnmanagedCallersOnly(EntryPoint = "GetTickBudgetInMilliseconds")]
+        public static uint GetTickBudgetInMilliseconds()
+        {
+            return Get<WindowsConfig>().tickBudgetInMilliseconds;
+        }
+
+        [UnmanagedCallersOnly(EntryPoint = "GetTaskNetworkTimeoutSeconds")]
+        public static double GetTaskNetworkTimeoutSeconds()
+        {
+            return Get<WindowsConfig>().taskNetworkTimeoutSeconds;
+        }
+
+        [UnmanagedCallersOnly(EntryPoint = "GetThreadAffinity")]
+        public static WrappedInitializeThreadAffinity GetThreadAffinity()
+        {
+            return Get<WindowsConfig>().threadAffinity;
+        }
+
+        [UnmanagedCallersOnly(EntryPoint = "GetAlwaysSendInputToOverlay")]
+        public static bool GetAlwaysSendInputToOverlay()
+        {
+            return Get<WindowsConfig>().alwaysSendInputToOverlay;
+        }
+
+        [UnmanagedCallersOnly(EntryPoint = "GetInitialButtonDelayForOverlay")]
+        public static float GetInitialButtonDelayForOverlay()
+        {
+            return Get<WindowsConfig>().initialButtonDelayForOverlay;
+        }
+
+        [UnmanagedCallersOnly(EntryPoint = "GetRepeatButtonDelayForOverlay")]
+        public static float GetRepeatButtonDelayForOverlay()
+        {
+            return Get<WindowsConfig>().repeatButtonDelayForOverlay;
+        }
+
+        [UnmanagedCallersOnly(EntryPoint = "GetToggleFriendsButtonCombination")]
+        public static InputStateButtonFlags GetToggleFriendsButtonCombination()
+        {
+            return Get<WindowsConfig>().toggleFriendsButtonCombination;
+        }
+#endif
     }
 }

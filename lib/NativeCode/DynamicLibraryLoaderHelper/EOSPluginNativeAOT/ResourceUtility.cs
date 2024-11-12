@@ -71,7 +71,7 @@ namespace PlayEveryWare.EpicOnlineServices
             var assembly = Assembly.GetExecutingAssembly();
 
             // Automatically prepend the assembly name to the resource path
-            string fullResourceName = $"EOSPluginConfig.{resourceFileName}";
+            string fullResourceName = $"PlayEveryWare.EpicOnlineServices.{resourceFileName}";
 
             using Stream stream = assembly.GetManifestResourceStream(fullResourceName);
 

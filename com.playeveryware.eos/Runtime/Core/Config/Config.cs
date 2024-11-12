@@ -39,13 +39,16 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Text;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
     using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
     using Utility;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Represents a set of configuration data for use by the EOS Plugin for
     /// Unity
     /// </summary>
     [Serializable]
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
     public abstract class Config
 #if UNITY_EDITOR
         : ICloneable
