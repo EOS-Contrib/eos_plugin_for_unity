@@ -73,7 +73,8 @@ namespace PlayEveryWare.Common
         }
 
         /// <summary>
-        /// Compares one named value to another, for sorting purposes.
+        /// Compares one named value to another. This is purely for sorting
+        /// purposes, so only the Name component of the value is compared.
         /// </summary>
         /// <param name="other">
         /// The other named object (must be of same type).
