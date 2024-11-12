@@ -84,13 +84,15 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Deployment", ConfigFieldType.Deployment, "Select the deployment to use.", 0)]
         public Deployment deployment;
 
+#if !EOS_DISABLE
         [ConfigField("Client Credentials", ConfigFieldType.ClientCredentials, "Select client credentials to use.", 0)]
         public EOSClientCredentials clientCredentials;
+#endif
 
         [ConfigField("Is Server", ConfigFieldType.Flag, "Check this if your game is a dedicated game server.", 0)]
         public bool isServer;
 
-        #endregion
+#endregion
 
         #region Flags
 
@@ -174,7 +176,7 @@ namespace PlayEveryWare.EpicOnlineServices
             2, "https://dev.epicgames.com/docs/api-ref/structs/eos-initialize-thread-affinity")]
         public WrappedInitializeThreadAffinity threadAffinity;
 #endif
-        #endregion
+#endregion
 
         #region Overlay Options
 
@@ -257,6 +259,8 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         #region Logic for Migrating Override Values from Previous Structure
+
+#if !EOS_DISABLE
 
         protected sealed class NonOverrideableConfigValues : Config
         {
@@ -506,7 +510,8 @@ namespace PlayEveryWare.EpicOnlineServices
             Write();
 #endif
         }
+#endif
 
-        #endregion
+#endregion
     }
 }

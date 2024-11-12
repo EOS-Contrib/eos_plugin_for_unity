@@ -23,7 +23,11 @@
 namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
     using Common;
+
+#if !EOS_DISABLE
     using Epic.OnlineServices.Platform;
+#endif
+    
     using EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
@@ -263,22 +267,30 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         static readonly Dictionary<Type, RenderInputDelegate> RenderInputMethods = new()
         {
-            { typeof(Deployment), (attr, val, width) => RenderInput(attr, (Deployment)val, width) },
+#if !EOS_DISABLE
             { typeof(EOSClientCredentials), (attr, val, width) => RenderInput(attr, (EOSClientCredentials)val, width) },
             { typeof(SetOfNamed<EOSClientCredentials>), (attr, val, width) => RenderInput(attr, (SetOfNamed<EOSClientCredentials>)val, width) },
+            { typeof(WrappedInitializeThreadAffinity), (attr, val, width) => RenderInput(attr, (WrappedInitializeThreadAffinity)val, width) },
+#endif
+            { typeof(Deployment), (attr, val, width) => RenderInput(attr, (Deployment)val, width) },
             { typeof(string), (attr, val, width) => RenderInput(attr, (string)val, width) },
             { typeof(ulong), (attr, val, width) => RenderInput(attr, (ulong)val, width) },
             { typeof(uint), (attr, val, width) => RenderInput(attr, (uint)val, width) },
             { typeof(ProductionEnvironments), (attr, val, width) => RenderInput(attr, (ProductionEnvironments)val, width) },
             { typeof(float), (attr, val, width) => RenderInput(attr, (float)val, width) },
             { typeof(double), (attr, val, width) => RenderInput(attr, (double)val, width) },
-            { typeof(WrappedInitializeThreadAffinity), (attr, val, width) => RenderInput(attr, (WrappedInitializeThreadAffinity)val, width) },
+            
             { typeof(bool), (attr, val, width) => RenderInput(attr, (bool)val, width) },
             // Add other specific types as needed
         };
 
         static readonly Dictionary<ConfigFieldType, FieldHandler> FieldHandlers = new()
         {
+#if !EOS_DISABLE
+            { ConfigFieldType.SetOfClientCredentials, HandleField<SetOfNamed<EOSClientCredentials>> },
+            { ConfigFieldType.ClientCredentials, HandleField<EOSClientCredentials> },
+            { ConfigFieldType.WrappedInitializeThreadAffinity, HandleField<WrappedInitializeThreadAffinity> },
+#endif
             { ConfigFieldType.Text, HandleField<string> },
             { ConfigFieldType.FilePath, (target, fieldDetails, getValue, setValue, labelWidth) =>
                 HandleField<string>(target, (FilePathFieldAttribute)fieldDetails, getValue, setValue, labelWidth) },
@@ -291,12 +303,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             { ConfigFieldType.Uint, HandleField<uint> },
             { ConfigFieldType.Float, HandleField<float> },
             { ConfigFieldType.ProductionEnvironments, HandleField<ProductionEnvironments> },
-            { ConfigFieldType.SetOfClientCredentials, HandleField<SetOfNamed<EOSClientCredentials>> },
             { ConfigFieldType.Guid, HandleField<Named<Guid>> },
             { ConfigFieldType.Version, HandleField<Version> },
             { ConfigFieldType.Deployment, HandleField<Deployment> },
-            { ConfigFieldType.ClientCredentials, HandleField<EOSClientCredentials> },
-            { ConfigFieldType.WrappedInitializeThreadAffinity, HandleField<WrappedInitializeThreadAffinity> },
             { ConfigFieldType.Button, HandleButtonField },
             { ConfigFieldType.Enum, HandleEnumField },
             // Add other field types as needed
@@ -306,6 +315,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         private static T RenderInput<T>(ConfigFieldAttribute attribute, T value, float labelWidth)
         {
+#if !EOS_DISABLE
             if (typeof(T) == typeof(WrappedInitializeThreadAffinity))
             {
                 // Create a foldout label with a tooltip
@@ -340,6 +350,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     RenderInputs(ref value);
                 }
             }
+#endif
             return value;
         }
 
@@ -872,6 +883,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return Version.TryParse(tempStringVersion, out Version newValue) ? newValue : value;
         }
 
+#if !EOS_DISABLE
         public static EOSClientCredentials RenderInput(ConfigFieldAttribute configFieldAttribute,
             EOSClientCredentials value,
             float labelWidth)
@@ -902,6 +914,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 return (newIndex >= 0 && newIndex < credentials.Count) ? credentials[newIndex].Value : value;
             });
         }
+#endif
 
         public static Deployment RenderInput(ConfigFieldAttribute configFieldAttribute, Deployment value, float labelWidth)
         {
@@ -947,6 +960,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 VersionField);
         }
 
+#if !EOS_DISABLE
         public static SetOfNamed<EOSClientCredentials> RenderInput(ConfigFieldAttribute configFieldAttribute,
             SetOfNamed<EOSClientCredentials> value, float labelWidth)
         {
@@ -1006,6 +1020,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             RenderInputs(ref value);
             return value;
         }
+#endif
 
         public static ProductionEnvironments RenderInput(ConfigFieldAttribute configFieldAttribute,
             ProductionEnvironments value, float labelWidth)
@@ -1215,6 +1230,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             });
         }
 
-        #endregion
+#endregion
     }
 }

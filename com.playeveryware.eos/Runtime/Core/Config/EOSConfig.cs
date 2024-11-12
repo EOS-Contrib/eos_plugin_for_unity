@@ -37,7 +37,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using UnityEngine;
 #endif
     using System.Text.RegularExpressions;
-    using Extensions;
     using Newtonsoft.Json;
     using PlayEveryWare.EpicOnlineServices.Utility;
 
