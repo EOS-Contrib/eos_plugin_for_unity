@@ -44,7 +44,6 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Represents a set of configuration data for use by the EOS Plugin for
     /// Unity on a specific platform.
     /// </summary>
-    [Serializable]
     [ConfigGroup("EOS Config", new[]
     {
         "Deployment",
