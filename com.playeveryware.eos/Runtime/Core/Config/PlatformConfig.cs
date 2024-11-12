@@ -274,6 +274,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             [JsonConverter(typeof(ListOfStringsToAuthScopeFlags))]
             public AuthScopeFlags authScopeOptionsFlags;
+
             public bool alwaysSendInputToOverlay;
 
             static NonOverrideableConfigValues()
