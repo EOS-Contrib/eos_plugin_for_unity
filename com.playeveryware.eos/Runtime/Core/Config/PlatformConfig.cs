@@ -235,9 +235,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "valid; the SDK will log an error at the start of runtime if an " +
             "invalid combination is selected.", 3)]
         public InputStateButtonFlags toggleFriendsButtonCombination = InputStateButtonFlags.SpecialLeft;
-#endif
-
-        #endregion
 
         /// <summary>
         /// Used to keep track of whether values have been moved from the
@@ -245,6 +242,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [JsonProperty]
         private bool _configValuesMigrated = false;
+#endif
+
+        #endregion
 
         /// <summary>
         /// Create a PlatformConfig by defining the platform it pertains to.
