@@ -22,7 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
-    using Config;
+    using PlayEveryWare.EpicOnlineServices;
     using Utility;
     using UnityEditor.Build;
     using UnityEditor.Build.Reporting;
@@ -69,19 +69,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 return;
             }
 
-            // Set the current platform that is being built against
-            if (PlatformManager.TryGetPlatform(report.summary.platform, out PlatformManager.Platform platform))
-            {
-                PlatformManager.CurrentPlatform = platform;
-            }
-
             // Run the static builder's prebuild.
             s_builder?.PreBuild(report);
 
 #if !DISABLESTEAMWORKS
             // If we're using Steamworks, then look at the user's Steam configuration file
             // If the "steamApiInterfaceVersionsArray" is empty, try to set it for the user
-            SteamConfig config = SteamConfig.Get<SteamConfig>();
+            SteamConfig config = Config.Get<SteamConfig>();
             if (config != null && (config.steamApiInterfaceVersionsArray == null || config.steamApiInterfaceVersionsArray.Count == 0))
             {
                 config.steamApiInterfaceVersionsArray = SteamworksUtility.GetSteamInterfaceVersions();
