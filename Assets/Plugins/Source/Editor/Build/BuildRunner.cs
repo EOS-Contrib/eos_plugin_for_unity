@@ -22,6 +22,10 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
+<<<<<<< HEAD
+=======
+    using PlayEveryWare.EpicOnlineServices;
+>>>>>>> fix/use-platformconfig-not-eosconfig
     using Utility;
     using UnityEditor.Build;
     using UnityEditor.Build.Reporting;
@@ -74,7 +78,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 #if !DISABLESTEAMWORKS
             // If we're using Steamworks, then look at the user's Steam configuration file
             // If the "steamApiInterfaceVersionsArray" is empty, try to set it for the user
+<<<<<<< HEAD
             SteamConfig config = EpicOnlineServices.Config.Get<SteamConfig>();
+=======
+            SteamConfig config = Config.Get<SteamConfig>();
+>>>>>>> fix/use-platformconfig-not-eosconfig
             if (config != null && (config.steamApiInterfaceVersionsArray == null || config.steamApiInterfaceVersionsArray.Count == 0))
             {
                 config.steamApiInterfaceVersionsArray = SteamworksUtility.GetSteamInterfaceVersions();

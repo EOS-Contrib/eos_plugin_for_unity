@@ -366,8 +366,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             string fileContents = reader.ReadToEnd();
             reader.Close();
 
-            PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
             ProductConfig productConfig = Config.Get<ProductConfig>();
+            PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
 
             var sb = new System.Text.StringBuilder(fileContents);
 
@@ -376,7 +376,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             sb.Replace("<ExeNameNoExt>", Path.GetFileNameWithoutExtension(buildExeName));
             sb.Replace("<ProductName>", productConfig.ProductName);
             sb.Replace("<ProductID>", productConfig.ProductId.ToStrippedString());
-            sb.Replace("<SandboxID>", platformConfig.deployment.SandboxId.Value.Replace("-", "").ToLower());
+            sb.Replace("<SandboxID>", platformConfig.deployment.SandboxId.ToString());
             sb.Replace("<DeploymentID>", platformConfig.deployment.DeploymentId.ToStrippedString());
 
             fileContents = sb.ToString();
@@ -422,7 +422,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
                 if (!string.IsNullOrWhiteSpace(toolPath))
                 {
-                    GenerateIntegrityCert(report, toolPath, Config.Get<ProductConfig>().ProductId.ToStrippedString(),
+                    var productId = Config.Get<ProductConfig>().ProductId.ToStrippedString();
+                    GenerateIntegrityCert(report, toolPath, productId,
                         toolsConfig.pathToEACPrivateKey, toolsConfig.pathToEACCertificate, cfgPath);
                 }
             }

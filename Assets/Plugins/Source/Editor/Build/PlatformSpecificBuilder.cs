@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
+    using Common;
     using Config;
     using System.Collections.Generic;
     using System.IO;
@@ -241,26 +242,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// </summary>
         private static async void AutoSetProductVersion()
         {
+            PrebuildConfig prebuildConfig = await Config.GetAsync<PrebuildConfig>();
             ProductConfig productConfig = Config.Get<ProductConfig>();
-            var prebuildConfig = await Config.GetAsync<PrebuildConfig>();
 
-            if (prebuildConfig.useAppVersionAsProductVersion)
+            // If the product version is set by config, or if it already equals the product config, stop here.
+            if (!prebuildConfig.useAppVersionAsProductVersion || productConfig.ProductVersion == Application.version)
             {
-                if (!Version.TryParse(Application.version, out Version newVersion))
-                {
-                    Debug.LogWarning(
-                        "Option to use Application version as EOS " +
-                        "SDK version has been set to true, but the " +
-                        "Application version string specified in Edit -> " +
-                        "Project Settings -> Player -> Version is not " +
-                        "properly formatted as a semver. Reverting to " +
-                        "default version.");
-                    return;
-                }
-
-                productConfig.ProductVersion = newVersion;
+                return;
             }
 
+            // Otherwise, set the new product version and write the config.
+            productConfig.ProductVersion = Application.version;
             await productConfig.WriteAsync();
         }
 

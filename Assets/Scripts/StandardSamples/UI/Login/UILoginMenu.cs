@@ -1078,7 +1078,7 @@ using UnityEngine.InputSystem;
             {
                 EOSManager.Instance.StartLoginWithLoginTypeAndToken(loginType,
                                                                        null,
-                                                                       EOSManager.Instance.GetCommandLineArgsFromEpicLauncher().authPassword,
+                                                                       EOSManager.EOSSingleton.GetCommandLineArgsFromEpicLauncher().authPassword,
                                                                        StartLoginWithLoginTypeAndTokenCallback);
             }
             else
