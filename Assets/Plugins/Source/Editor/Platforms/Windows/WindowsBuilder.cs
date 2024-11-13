@@ -91,7 +91,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 #else
             // Determine if 'DisableOverlay' is set in Platform Flags. If it is, then the EOSBootstrapper.exe is not included in the build,
             // because without needing the overlay, the EOSBootstrapper.exe is not useful to users of the plugin
-            EOSConfig configuration = await Config.GetAsync<EOSConfig>();
+            PlatformConfig configuration = PlatformManager.GetPlatformConfig();
             PlatformFlags configuredFlags = configuration.platformOptionsFlags.Unwrap();
             if (configuredFlags.HasFlag(PlatformFlags.DisableOverlay))
             {

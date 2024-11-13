@@ -31,6 +31,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.UI;
 #endif
     using Common;
+    using Common.Extensions;
     using Newtonsoft.Json;
     using System;
 
@@ -321,7 +322,7 @@ namespace PlayEveryWare.EpicOnlineServices
             internal OverrideableConfigValues() : base("EpicOnlineServicesConfig.json") { }
         }
 
-        private TK SelectValue<TK>(TK overrideValuesFromFieldMember, TK mainConfigValue)
+        private static TK SelectValue<TK>(TK overrideValuesFromFieldMember, TK mainConfigValue)
         {
             // If the value in the overrides is not default, then it takes
             // precedent
@@ -379,19 +380,31 @@ namespace PlayEveryWare.EpicOnlineServices
             MigrateThreadAffinity(overrideValuesFromFieldMember, mainOverrideableConfig);
         }
 
-        protected virtual void MigrateNonOverrideableConfigValues(NonOverrideableConfigValues mainNonOverrideableConfig)
+        protected virtual void MigrateNonOverrideableConfigValues(EOSConfig overrideValuesFromFieldMember,
+            NonOverrideableConfigValues mainNonOverrideableConfig)
         {
             authScopeOptionsFlags = mainNonOverrideableConfig.authScopeOptionsFlags;
+
+            // Because by default EOSManager used to define the auth scope flags to default to
+            // the following, when migrating from the old configuration to the new configuration,
+            // set these auth scope options flags explicitly so that they are reflected in both
+            // the functionality and the user interface that displays the configuration
+            authScopeOptionsFlags |= AuthScopeFlags.BasicProfile;
+            authScopeOptionsFlags |= AuthScopeFlags.FriendsList;
+            authScopeOptionsFlags |= AuthScopeFlags.Presence;
+
             tickBudgetInMilliseconds = mainNonOverrideableConfig.tickBudgetInMilliseconds;
             taskNetworkTimeoutSeconds = mainNonOverrideableConfig.taskNetworkTimeoutSeconds;
             alwaysSendInputToOverlay = mainNonOverrideableConfig.alwaysSendInputToOverlay;
 
+            MigratePlatformFlags(overrideValuesFromFieldMember, mainNonOverrideableConfig);
+
             ProductConfig productConfig = Get<ProductConfig>();
-            string compDeploymentString = mainNonOverrideableConfig.deploymentID.ToString().ToLower();
+            string compDeploymentString = mainNonOverrideableConfig.deploymentID.ToLower();
 
             foreach(Named<Deployment> dep in productConfig.Environments.Deployments)
             {
-                if (!compDeploymentString.Equals(dep.Value.DeploymentId.ToString().Replace("-", "").ToLower()))
+                if (!compDeploymentString.Equals(dep.Value.DeploymentId.ToStrippedString()))
                 {
                     continue;
                 }
@@ -421,8 +434,12 @@ namespace PlayEveryWare.EpicOnlineServices
             // incompatible with the platform for this Config. THIS is the 
             // primary reason it is necessary to warn the user and ask them to 
             // double check the values after migration.
-            WrappedPlatformFlags combinedPlatformFlags =
-                overrideValuesFromFieldMember.platformOptionsFlags | mainNonOverrideableConfig.platformOptionsFlags;
+            WrappedPlatformFlags combinedPlatformFlags = mainNonOverrideableConfig.platformOptionsFlags;
+
+            if (overrideValuesFromFieldMember != null)
+            {
+                combinedPlatformFlags |= overrideValuesFromFieldMember.platformOptionsFlags;
+            }
 
             WrappedPlatformFlags migratedPlatformFlags = WrappedPlatformFlags.None;
             foreach (WrappedPlatformFlags flag in EnumUtility<WrappedPlatformFlags>.GetEnumerator(combinedPlatformFlags))
@@ -474,6 +491,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 return;
             }
+
 #pragma warning disable CS0612 // Type or member is obsolete
             if (null != overrideValues)
             {
@@ -481,7 +499,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 // overrideable from the editor window. These values should take
                 // priority over the main config if they are not default values.
                 OverrideableConfigValues mainOverrideableConfigValues = Get<OverrideableConfigValues>();
+#pragma warning disable CS0612 // Type or member is obsolete
                 MigrateOverrideableConfigValues(overrideValues, mainOverrideableConfigValues);
+#pragma warning restore CS0612 // Type or member is obsolete
             }
 #pragma warning restore CS0612 // Type or member is obsolete
 
@@ -489,7 +509,9 @@ namespace PlayEveryWare.EpicOnlineServices
             // overrideable from the editor window. The migrated values should
             // favor these set of values.
             NonOverrideableConfigValues mainNonOverrideableConfigValuesThatCouldNotBeOverridden = Get<NonOverrideableConfigValues>();
-            MigrateNonOverrideableConfigValues(mainNonOverrideableConfigValuesThatCouldNotBeOverridden);
+#pragma warning disable CS0612 // Type or member is obsolete
+            MigrateNonOverrideableConfigValues(overrideValues, mainNonOverrideableConfigValuesThatCouldNotBeOverridden);
+#pragma warning restore CS0612 // Type or member is obsolete
 
             // Notify the user of the migration, encourage them to double check
             // that migration was successful.
@@ -510,8 +532,11 @@ namespace PlayEveryWare.EpicOnlineServices
             Write();
 #endif
         }
+
 #endif
 
-#endregion
+#pragma warning restore CS0618 // Type or member is obsolete
+
+        #endregion
     }
 }
