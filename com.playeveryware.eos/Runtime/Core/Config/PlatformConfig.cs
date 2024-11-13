@@ -262,7 +262,13 @@ namespace PlayEveryWare.EpicOnlineServices
 
         // This warning is suppressed in the migration code because it is
         // necessary to make use of the obsolete type in-order to accomplish the
-        // migration.
+        // migration. 
+        // It is added because it is expected that EOSConfig is going to become
+        // obsolete in an upcoming release, and temporarily marking it as such
+        // helps identify areas of the code where it's usage should be replaced.
+        // Due to the nature of the migration code needing to have access, this
+        // warning suppression was added so that instances within the migration
+        // code are not flagged for referencing a potentially obsolete type.
 #pragma warning disable CS0618 // Type or member is obsolete
 
 #if !EOS_DISABLE
