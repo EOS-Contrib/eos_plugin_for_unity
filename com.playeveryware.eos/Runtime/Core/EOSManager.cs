@@ -866,22 +866,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     Id = id,
                     Token = token
                 };
-
-                /*
-
-                TODO: For discussion - this is explicitly setting the auth 
-                      scope flags to something other than the default, this is
-                      misleading and should not be done.
-
-                AuthScopeFlags scopeFlags = (AuthScopeFlags.BasicProfile |
-                                             AuthScopeFlags.FriendsList |
-                                             AuthScopeFlags.Presence);
-                
-                if (Config.Get<EOSConfig>().authScopeOptionsFlags != AuthScopeFlags.NoFlags)
-                {
-                    scopeFlags = Config.Get<EOSConfig>().authScopeOptionsFlags;
-                }
-                */
                 
                 return new LoginOptions
                 {

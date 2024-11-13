@@ -31,6 +31,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.UI;
 #endif
     using Common;
+    using Common.Extensions;
     using Newtonsoft.Json;
     using System;
 
@@ -260,17 +261,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #region Logic for Migrating Override Values from Previous Structure
 
-        // This warning is suppressed in the migration code because it is
-        // necessary to make use of the obsolete type in-order to accomplish the
-        // migration. 
-        // It is added because it is expected that EOSConfig is going to become
-        // obsolete in an upcoming release, and temporarily marking it as such
-        // helps identify areas of the code where it's usage should be replaced.
-        // Due to the nature of the migration code needing to have access, this
-        // warning suppression was added so that instances within the migration
-        // code are not flagged for referencing a potentially obsolete type.
-#pragma warning disable CS0618 // Type or member is obsolete
-
 #if !EOS_DISABLE
 
         protected sealed class NonOverrideableConfigValues : Config
@@ -332,16 +322,14 @@ namespace PlayEveryWare.EpicOnlineServices
             internal OverrideableConfigValues() : base("EpicOnlineServicesConfig.json") { }
         }
 
-        private TK SelectValue<TK>(TK overrideValuesFromFieldMember, TK mainConfigValue)
+        private static TK SelectValue<TK>(TK overrideValuesFromFieldMember, TK mainConfigValue)
         {
             // If the value in the overrides is not default, then it takes
             // precedent
             return !overrideValuesFromFieldMember.Equals(default) ? overrideValuesFromFieldMember : mainConfigValue;
         }
 
-
         private void MigrateButtonDelays(EOSConfig overrideValuesFromFieldMember, OverrideableConfigValues mainOverrideableConfig)
-
         {
             // Import the values for initial button delay and repeat button
             // delay
@@ -392,19 +380,31 @@ namespace PlayEveryWare.EpicOnlineServices
             MigrateThreadAffinity(overrideValuesFromFieldMember, mainOverrideableConfig);
         }
 
-        protected virtual void MigrateNonOverrideableConfigValues(NonOverrideableConfigValues mainNonOverrideableConfig)
+        protected virtual void MigrateNonOverrideableConfigValues(EOSConfig overrideValuesFromFieldMember,
+            NonOverrideableConfigValues mainNonOverrideableConfig)
         {
             authScopeOptionsFlags = mainNonOverrideableConfig.authScopeOptionsFlags;
+
+            // Because by default EOSManager used to define the auth scope flags to default to
+            // the following, when migrating from the old configuration to the new configuration,
+            // set these auth scope options flags explicitly so that they are reflected in both
+            // the functionality and the user interface that displays the configuration
+            authScopeOptionsFlags |= AuthScopeFlags.BasicProfile;
+            authScopeOptionsFlags |= AuthScopeFlags.FriendsList;
+            authScopeOptionsFlags |= AuthScopeFlags.Presence;
+
             tickBudgetInMilliseconds = mainNonOverrideableConfig.tickBudgetInMilliseconds;
             taskNetworkTimeoutSeconds = mainNonOverrideableConfig.taskNetworkTimeoutSeconds;
             alwaysSendInputToOverlay = mainNonOverrideableConfig.alwaysSendInputToOverlay;
 
+            MigratePlatformFlags(overrideValuesFromFieldMember, mainNonOverrideableConfig);
+
             ProductConfig productConfig = Get<ProductConfig>();
-            string compDeploymentString = mainNonOverrideableConfig.deploymentID.ToString().ToLower();
+            string compDeploymentString = mainNonOverrideableConfig.deploymentID.ToLower();
 
             foreach(Named<Deployment> dep in productConfig.Environments.Deployments)
             {
-                if (!compDeploymentString.Equals(dep.Value.DeploymentId.ToString().Replace("-", "").ToLower()))
+                if (!compDeploymentString.Equals(dep.Value.DeploymentId.ToStrippedString()))
                 {
                     continue;
                 }
@@ -434,8 +434,12 @@ namespace PlayEveryWare.EpicOnlineServices
             // incompatible with the platform for this Config. THIS is the 
             // primary reason it is necessary to warn the user and ask them to 
             // double check the values after migration.
-            WrappedPlatformFlags combinedPlatformFlags =
-                overrideValuesFromFieldMember.platformOptionsFlags | mainNonOverrideableConfig.platformOptionsFlags;
+            WrappedPlatformFlags combinedPlatformFlags = mainNonOverrideableConfig.platformOptionsFlags;
+
+            if (overrideValuesFromFieldMember != null)
+            {
+                combinedPlatformFlags |= overrideValuesFromFieldMember.platformOptionsFlags;
+            }
 
             WrappedPlatformFlags migratedPlatformFlags = WrappedPlatformFlags.None;
             foreach (WrappedPlatformFlags flag in EnumUtility<WrappedPlatformFlags>.GetEnumerator(combinedPlatformFlags))
@@ -487,6 +491,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 return;
             }
+
 #pragma warning disable CS0612 // Type or member is obsolete
             if (null != overrideValues)
             {
@@ -494,7 +499,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 // overrideable from the editor window. These values should take
                 // priority over the main config if they are not default values.
                 OverrideableConfigValues mainOverrideableConfigValues = Get<OverrideableConfigValues>();
+#pragma warning disable CS0612 // Type or member is obsolete
                 MigrateOverrideableConfigValues(overrideValues, mainOverrideableConfigValues);
+#pragma warning restore CS0612 // Type or member is obsolete
             }
 #pragma warning restore CS0612 // Type or member is obsolete
 
@@ -502,7 +509,9 @@ namespace PlayEveryWare.EpicOnlineServices
             // overrideable from the editor window. The migrated values should
             // favor these set of values.
             NonOverrideableConfigValues mainNonOverrideableConfigValuesThatCouldNotBeOverridden = Get<NonOverrideableConfigValues>();
-            MigrateNonOverrideableConfigValues(mainNonOverrideableConfigValuesThatCouldNotBeOverridden);
+#pragma warning disable CS0612 // Type or member is obsolete
+            MigrateNonOverrideableConfigValues(overrideValues, mainNonOverrideableConfigValuesThatCouldNotBeOverridden);
+#pragma warning restore CS0612 // Type or member is obsolete
 
             // Notify the user of the migration, encourage them to double check
             // that migration was successful.
