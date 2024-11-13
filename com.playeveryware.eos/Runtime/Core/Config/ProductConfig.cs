@@ -59,10 +59,10 @@ namespace PlayEveryWare.EpicOnlineServices
         public Guid ProductId;
 
         [ConfigField("Version",
-            ConfigFieldType.Version,
+            ConfigFieldType.Text,
             "Use this to indicate to the EOS SDK your game version.",
             0)]
-        public Version ProductVersion;
+        public string ProductVersion;
 
 #if !EOS_DISABLE
         /// <summary>
@@ -125,13 +125,7 @@ namespace PlayEveryWare.EpicOnlineServices
         private void MigrateProductNameVersionAndId(PreviousEOSConfig config)
         {
             ProductName = config.productName;
-
-            if (!Version.TryParse(config.productVersion, out ProductVersion))
-            {
-                Debug.LogError(
-                    "Could not parse Version number. " +
-                    "Please be sure to set it in the config window.");
-            }
+            ProductVersion = config.productVersion;
 
             if (!Guid.TryParse(config.productID, out ProductId))
             {
