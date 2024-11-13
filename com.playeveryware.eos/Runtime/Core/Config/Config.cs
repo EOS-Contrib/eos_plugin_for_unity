@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Common;
     using Newtonsoft.Json;
     using System;
     using System.Linq;
@@ -60,6 +61,17 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
 
         /// <summary>
+        /// This is the _most recent_, and _current_ version of the JSON schema
+        /// that is utilized. In this context, "schema" does not mean an actual
+        /// JSON schema as defined by RFC 8927, but is used to mean, "the
+        /// version and structure of JSON that this plugin currently writes
+        /// configuration values in. If anything related to Config changes the
+        /// format or way it writes JSON, code should be added to migrate the
+        /// functionality, and this version should be incremented.
+        /// </summary>
+        private static readonly Version SCHEMA_VERSION = new(1, 0);
+
+        /// <summary>
         /// Contains a registration that maps config type to the constructor, to
         /// enforce usage of the factor pattern for classes that derive from the
         /// Config class.
@@ -89,6 +101,14 @@ namespace PlayEveryWare.EpicOnlineServices
         private readonly bool _allowDefaultIfFileNotFound;
 
         /// <summary>
+        /// Stores the version for the schema used to write the JSON file that
+        /// this config is backed by. If null, then the file is from before
+        /// the schemas were being versioned.
+        /// </summary>
+        [JsonProperty]
+        private Version schemaVersion;
+
+        /// <summary>
         /// Instantiate a new config based on the file at the given filename -
         /// in a default directory.
         /// </summary>
@@ -102,7 +122,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         protected Config(string filename, bool allowDefault = false) :
             this(filename, FileSystemUtility.CombinePaths(
-                Application.streamingAssetsPath, "EOS"), allowDefault) { }
+                Application.streamingAssetsPath, "EOS"), allowDefault)
+        { }
 
         /// <summary>
         /// Instantiates a new config based on the file at the given file and
@@ -129,6 +150,11 @@ namespace PlayEveryWare.EpicOnlineServices
             _allowDefaultIfFileNotFound = allowDefault;
         }
 
+        public static WindowsConfig GetWindowsConfig()
+        {
+            return Get<WindowsConfig>();
+        }
+
         /// <summary>
         /// Implement this function in deriving classes to do any additional
         /// work on a Config after it has been retrieved and before it is
@@ -137,6 +163,33 @@ namespace PlayEveryWare.EpicOnlineServices
         protected virtual void MigrateConfig()
         {
             // Default implementation is to do nothing.
+            schemaVersion = SCHEMA_VERSION;
+        }
+
+        /// <summary>
+        /// This function checks to see if the JSON needs to be migrated.
+        /// </summary>
+        /// <returns>
+        /// True if the config needs to be migrated, false otherwise.
+        /// </returns>
+        private bool NeedsMigration()
+        {
+            if (schemaVersion == null)
+            {
+                return true;
+            }
+
+            if (VersionUtility.AreVersionsEqual(schemaVersion, SCHEMA_VERSION))
+            {
+                return false;
+            }
+
+            Debug.LogWarning(
+                $"Config file with schemaVersion \"{SCHEMA_VERSION}\"" +
+                " has been read into memory, and needs to be migrated to " +
+                $"schemaVersion \"{SCHEMA_VERSION}\".");
+
+            return true;
         }
 
         /// <summary>
@@ -178,7 +231,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // Ensure static constructor of template variable type is called
             RuntimeHelpers.RunClassConstructor(typeof(T).TypeHandle);
 
-            if(!s_factories.TryGetValue(typeof(T), out factory))
+            if (!s_factories.TryGetValue(typeof(T), out factory))
             {
                 throw new InvalidOperationException(
                     $"No factory method has been registered for " +
@@ -233,14 +286,22 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // Asynchronously read config values from the corresponding file.
             await instance.ReadAsync();
-            
+
 #if !UNITY_EDITOR
             // Cache the newly created config with its values having been read.
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
 
-            // Call prepare function.
+            // Call migration function.
+            if (!instance.NeedsMigration())
+            {
+                return instance;
+            }
+
             instance.MigrateConfig();
+#if UNITY_EDITOR
+            await instance.WriteAsync();
+#endif
 
             // Return the config being retrieved.
             return instance;
@@ -271,8 +332,8 @@ namespace PlayEveryWare.EpicOnlineServices
             // Use the factory method to create the config.
             T instance = (T)factory();
 
-// This compile conditional is here because write should only happen
-// within the unity editor context.
+            // This compile conditional is here because write should only happen
+            // within the unity editor context.
 #if UNITY_EDITOR
             if (!FileSystemUtility.FileExists(instance.FilePath) && instance._allowDefaultIfFileNotFound)
             {
@@ -287,8 +348,16 @@ namespace PlayEveryWare.EpicOnlineServices
             // Cache the newly created config with its values having been read.
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
-            // Call prepare function.
+            // Call migration function.
+            if (!instance.NeedsMigration())
+            {
+                return instance;
+            }
+
             instance.MigrateConfig();
+#if UNITY_EDITOR
+            instance.Write();
+#endif
 
             // Return the config being retrieved.
             return instance;
@@ -379,6 +448,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task</returns>
         public virtual async Task WriteAsync(bool prettyPrint = true)
         {
+            // Explicitly set the schema version to be the latest
+            schemaVersion = SCHEMA_VERSION;
+
             var json = JsonUtility.ToJson(this, prettyPrint);
 
             // If the json hasn't changed since it was last read, then
@@ -397,6 +469,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public virtual void Write(bool prettyPrint = true)
         {
+            // Explicitly set the schema version to be the latest
+            schemaVersion = SCHEMA_VERSION;
+
             var json = JsonUtility.ToJson(this, prettyPrint);
 
             // If the json hasn't changed since it was last read, then
@@ -461,7 +536,7 @@ namespace PlayEveryWare.EpicOnlineServices
              */
 
             return IteratePropertiesAndFields(configInstance)
-                .All(mInfo => 
+                .All(mInfo =>
                     GetDefaultValue(mInfo.MemberType) == mInfo.MemberValue);
         }
 
@@ -587,10 +662,10 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     // consider the member values to be equal if one is null and
                     // the other is empty
-                    return ((a.MemberValue == null && 
-                             ((List<string>)b.MemberValue).Count == 0) 
+                    return ((a.MemberValue == null &&
+                             ((List<string>)b.MemberValue).Count == 0)
                             ||
-                            (((List<string>)a.MemberValue).Count == 0 && 
+                            (((List<string>)a.MemberValue).Count == 0 &&
                              b.MemberValue == null));
                 }
                 else if (a.MemberType == typeof(string))
@@ -609,7 +684,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public int GetHashCode(MemberInfo memberInfo)
             {
                 return HashCode.Combine(
-                    memberInfo.MemberType, 
+                    memberInfo.MemberType,
                     memberInfo.MemberValue);
             }
         }
@@ -633,7 +708,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </returns>
         private static IEnumerable<MemberInfo> IteratePropertiesAndFields<T>(
             T instance,
-            BindingFlags bindingAttr = 
+            BindingFlags bindingAttr =
                 BindingFlags.Public | BindingFlags.Instance)
         {
             // go over the properties
