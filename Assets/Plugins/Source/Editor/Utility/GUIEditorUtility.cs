@@ -24,10 +24,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
     using Common;
 
-#if !EOS_DISABLE
+
     using Epic.OnlineServices.Platform;
-#endif
-    
+
     using EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
@@ -51,7 +50,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// </summary>
         private static readonly GUIStyle HINT_STYLE = new(GUI.skin.label)
         {
-            normal = new GUIStyleState() { textColor = Color.gray }, fontStyle = FontStyle.Italic
+            normal = new GUIStyleState() { textColor = Color.gray },
+            fontStyle = FontStyle.Italic
         };
 
         private const int HINT_RECT_ADJUST_X = 2;
@@ -79,14 +79,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 return false;
             }
 
-            // This simulates the foldout being indented
-            //GUILayout.BeginVertical();
-            //GUILayout.BeginHorizontal();
-            //GUILayout.Space(20f);
             renderContents();
-            //GUILayout.EndHorizontal();
-            //GUILayout.Space(10f);
-            //GUILayout.EndVertical();
             return true;
         }
 
@@ -267,11 +260,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         static readonly Dictionary<Type, RenderInputDelegate> RenderInputMethods = new()
         {
-#if !EOS_DISABLE
-            { typeof(EOSClientCredentials), (attr, val, width) => RenderInput(attr, (EOSClientCredentials)val, width) },
-            { typeof(SetOfNamed<EOSClientCredentials>), (attr, val, width) => RenderInput(attr, (SetOfNamed<EOSClientCredentials>)val, width) },
-            { typeof(WrappedInitializeThreadAffinity), (attr, val, width) => RenderInput(attr, (WrappedInitializeThreadAffinity)val, width) },
-#endif
             { typeof(Deployment), (attr, val, width) => RenderInput(attr, (Deployment)val, width) },
             { typeof(string), (attr, val, width) => RenderInput(attr, (string)val, width) },
             { typeof(ulong), (attr, val, width) => RenderInput(attr, (ulong)val, width) },
@@ -279,18 +267,22 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             { typeof(ProductionEnvironments), (attr, val, width) => RenderInput(attr, (ProductionEnvironments)val, width) },
             { typeof(float), (attr, val, width) => RenderInput(attr, (float)val, width) },
             { typeof(double), (attr, val, width) => RenderInput(attr, (double)val, width) },
-            
             { typeof(bool), (attr, val, width) => RenderInput(attr, (bool)val, width) },
-            // Add other specific types as needed
+            { typeof(Version), (attr, val, width) => RenderInput(attr, (Version)val, width) },
+            { typeof(Guid), (attr, val, width) => RenderInput(attr, (Guid)val, width)},
+
+            { typeof(EOSClientCredentials), (attr, val, width) => RenderInput(attr, (EOSClientCredentials)val, width) },
+            { typeof(SetOfNamed<EOSClientCredentials>), (attr, val, width) => RenderInput(attr, (SetOfNamed<EOSClientCredentials>)val, width) },
+            { typeof(WrappedInitializeThreadAffinity), (attr, val, width) => RenderInput(attr, (WrappedInitializeThreadAffinity)val, width) },
+
+        // Add other specific types as needed
         };
 
         static readonly Dictionary<ConfigFieldType, FieldHandler> FieldHandlers = new()
         {
-#if !EOS_DISABLE
             { ConfigFieldType.SetOfClientCredentials, HandleField<SetOfNamed<EOSClientCredentials>> },
             { ConfigFieldType.ClientCredentials, HandleField<EOSClientCredentials> },
             { ConfigFieldType.WrappedInitializeThreadAffinity, HandleField<WrappedInitializeThreadAffinity> },
-#endif
             { ConfigFieldType.Text, HandleField<string> },
             { ConfigFieldType.FilePath, (target, fieldDetails, getValue, setValue, labelWidth) =>
                 HandleField<string>(target, (FilePathFieldAttribute)fieldDetails, getValue, setValue, labelWidth) },
@@ -303,11 +295,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             { ConfigFieldType.Uint, HandleField<uint> },
             { ConfigFieldType.Float, HandleField<float> },
             { ConfigFieldType.ProductionEnvironments, HandleField<ProductionEnvironments> },
-            { ConfigFieldType.Guid, HandleField<Named<Guid>> },
             { ConfigFieldType.Version, HandleField<Version> },
             { ConfigFieldType.Deployment, HandleField<Deployment> },
+            { ConfigFieldType.Guid, HandleField<Guid> },
             { ConfigFieldType.Button, HandleButtonField },
             { ConfigFieldType.Enum, HandleEnumField },
+
             // Add other field types as needed
         };
 
@@ -315,42 +308,43 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         private static T RenderInput<T>(ConfigFieldAttribute attribute, T value, float labelWidth)
         {
-#if !EOS_DISABLE
-            if (typeof(T) == typeof(WrappedInitializeThreadAffinity))
+            if (typeof(T) != typeof(WrappedInitializeThreadAffinity))
             {
-                // Create a foldout label with a tooltip
-                GUIContent foldoutContent = new(attribute.Label, attribute.ToolTip);
-
-                if (!_foldoutStates.ContainsKey(attribute.GetHashCode()))
-                {
-                    _foldoutStates.Add(attribute.GetHashCode(), false);
-                }
-
-                GUIStyle boldFoldoutStyle = new(EditorStyles.foldout)
-                {
-                    fontStyle = FontStyle.Bold
-                };
-
-                if (!string.IsNullOrEmpty(attribute.HelpURL))
-                {
-                    EditorGUILayout.BeginHorizontal();
-                }
-
-                _foldoutStates[attribute.GetHashCode()] = EditorGUILayout.Foldout(_foldoutStates[attribute.GetHashCode()], foldoutContent, true, boldFoldoutStyle);
-
-                if (!string.IsNullOrEmpty(attribute.HelpURL))
-                {
-                    GUILayout.FlexibleSpace();
-                    RenderHelpIcon(attribute.HelpURL);
-                    EditorGUILayout.EndHorizontal();
-                }
-
-                if (_foldoutStates[attribute.GetHashCode()])
-                {
-                    RenderInputs(ref value);
-                }
+                return value;
             }
-#endif
+
+            // Create a foldout label with a tooltip
+            GUIContent foldoutContent = new(attribute.Label, attribute.ToolTip);
+
+            if (!_foldoutStates.ContainsKey(attribute.GetHashCode()))
+            {
+                _foldoutStates.Add(attribute.GetHashCode(), false);
+            }
+
+            GUIStyle boldFoldoutStyle = new(EditorStyles.foldout)
+            {
+                fontStyle = FontStyle.Bold
+            };
+
+            if (!string.IsNullOrEmpty(attribute.HelpURL))
+            {
+                EditorGUILayout.BeginHorizontal();
+            }
+
+            _foldoutStates[attribute.GetHashCode()] = EditorGUILayout.Foldout(_foldoutStates[attribute.GetHashCode()], foldoutContent, true, boldFoldoutStyle);
+
+            if (!string.IsNullOrEmpty(attribute.HelpURL))
+            {
+                GUILayout.FlexibleSpace();
+                RenderHelpIcon(attribute.HelpURL);
+                EditorGUILayout.EndHorizontal();
+            }
+
+            if (_foldoutStates[attribute.GetHashCode()])
+            {
+                RenderInputs(ref value);
+            }
+
             return value;
         }
 
@@ -376,7 +370,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             setValue(target, newValue);
         }
-
 
         static void HandleButtonField(
             object target,
@@ -434,15 +427,38 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             string[] groupLabels = typeof(T).GetCustomAttribute<ConfigGroupAttribute>()?.GroupLabels;
 
+            bool groupSpecified = false;
             foreach (var fieldGroup in GetMembersByGroup<T>().ToList())
             {
                 List<string> labelsInGroup = fieldGroup.Select(field => field.FieldDetails.Label).ToList();
                 float labelWidth = MeasureLongestLabelWidth(labelsInGroup);
 
-                // If there is a label for the field group, then display it.
-                if (0 <= fieldGroup.Key && groupLabels?.Length > fieldGroup.Key)
+                // Check to see if there is at least a single value within the 
+                // field group that should be enabled, if so then skip checking
+                // the others and continue.
+                bool sectionEnabled = false;
+                foreach (var member in fieldGroup)
                 {
-                    GUILayout.Label(groupLabels[fieldGroup.Key], EditorStyles.boldLabel);
+                    if (value is not PlatformConfig platformConfig ||
+                        (member.FieldDetails.PlatformsEnabledOn & platformConfig.Platform) != 0)
+                    {
+                        sectionEnabled = true;
+                        break;
+                    }
+                }
+
+                GUI.enabled = sectionEnabled;
+
+                // If there is a label for the field group, then display it.
+                if (0 <= fieldGroup.Key && groupLabels?.Length > fieldGroup.Key && !string.IsNullOrEmpty(groupLabels[fieldGroup.Key]))
+                {
+                    RenderSectionHeader(groupLabels[fieldGroup.Key]);
+                    groupSpecified = true;
+                }
+
+                if (groupSpecified)
+                {
+                    EditorGUILayout.BeginVertical("box");
                 }
 
                 foreach (var member in fieldGroup)
@@ -487,6 +503,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
                     GUI.enabled = true;
                 }
+
+                if (groupSpecified)
+                {
+                    EditorGUILayout.EndVertical();
+                }
+                EditorGUILayout.Space(5);
+                groupSpecified = false;
             }
         }
 
@@ -503,7 +526,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 longestString = label;
             }
 
-            return labelStyle.CalcSize(new GUIContent(longestString)).x;
+            return MeasureLabelWidth(longestString);
+        }
+
+        public static float MeasureLabelWidth(string label)
+        {
+            return new GUIStyle(GUI.skin.label).CalcSize(new GUIContent(label)).x;
         }
 
         /// <summary>
@@ -709,45 +737,85 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             string tooltip,
             string helpUrl,
             SetOfNamed<T> value,
-            Action<Rect, Named<T>> renderItemFn,
+            Action<Rect, Named<T>, bool> renderItemFn,
             Action addNewItemFn,
-            Action<Named<T>> removeItemFn
-        ) where T : IEquatable<T>, new()
+            Action<Named<T>> removeItemFn,
+            ReorderableList.ElementHeightCallbackDelegate elementHeightCallback = null)
+            where T : IEquatable<T>, new()
         {
             List<Named<T>> items = value.ToList();
 
-            ReorderableList list = new(items, typeof(Named<T>))
+            // If there is only one item, then only render one set of inputs
+            // instead of rendering the whole reorderable list
+            if (items.Count == 1)
             {
-                draggable = false,
-                drawHeaderCallback = (rect) =>
-                {
-                    EditorGUI.LabelField(new(rect.x, rect.y, rect.width - 20f, rect.height),
-                        CreateGUIContent(label, tooltip));
-                    if (!string.IsNullOrEmpty(helpUrl))
-                    {
-                        RenderHelpIcon(new(rect.x + rect.width - 20f, rect.y, 20f, rect.height), helpUrl);
-                    }
-                },
-                onAddCallback = (_) => addNewItemFn(),
-                drawElementCallback = (rect, index, _, _) =>
-                {
-                    rect.y += 2f;
-                    rect.height = EditorGUIUtility.singleLineHeight;
+                // Render the single item with a "+" button
+                EditorGUILayout.BeginHorizontal();
 
-                    renderItemFn(rect, items[index]);
-                },
-                onRemoveCallback = (list) =>
-                {
-                    if (list.index < 0 || list.index >= items.Count)
-                    {
-                        return;
-                    }
+                Rect rect = EditorGUILayout.GetControlRect();
+                rect.height = EditorGUIUtility.singleLineHeight;
+                renderItemFn(rect, items[0], true);
 
-                    removeItemFn(items[list.index]);
+                // Render the "+" button to add a new item
+                if (GUILayout.Button("+", GUILayout.Width(24)))
+                {
+                    addNewItemFn();
                 }
-            };
 
-            list.DoLayoutList();
+                if (!string.IsNullOrEmpty(helpUrl))
+                {
+                    RenderHelpIcon(helpUrl);
+                }
+
+                EditorGUILayout.EndHorizontal();
+            }
+            // If there is more than one, then display the whole list
+            else if (items.Count > 1)
+            {
+                EditorGUILayout.Space();
+
+                ReorderableList list = new(items, typeof(Named<T>))
+                {
+                    draggable = false,
+                    drawHeaderCallback = (rect) =>
+                    {
+                        EditorGUI.LabelField(new(rect.x, rect.y, rect.width - 20f, rect.height),
+                            CreateGUIContent(label, tooltip));
+                        if (!string.IsNullOrEmpty(helpUrl))
+                        {
+                            RenderHelpIcon(new(rect.x + rect.width - 20f, rect.y, 20f, rect.height), helpUrl);
+                        }
+                    },
+                    onAddCallback = (_) => addNewItemFn(),
+                    drawElementCallback = (rect, index, _, _) =>
+                    {
+                        rect.y += 2f;
+                        rect.height = EditorGUIUtility.singleLineHeight;
+
+                        renderItemFn(rect, items[index], false);
+                    },
+                    onRemoveCallback = (list) =>
+                    {
+                        if (list.index < 0 || list.index >= items.Count)
+                        {
+                            return;
+                        }
+
+                        removeItemFn(items[list.index]);
+                    }
+                };
+
+                if (elementHeightCallback != null)
+                {
+                    list.elementHeightCallback = elementHeightCallback;
+                }
+
+                list.DoLayoutList();
+            }
+            else
+            {
+                // TODO here
+            }
         }
 
         private static void RenderDeploymentInputs(ref ProductionEnvironments value)
@@ -759,51 +827,80 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 "Enter your deployments here as they appear in the Epic Dev Portal.",
                 "https://dev.epicgames.com/docs/dev-portal/product-management#deployments",
                 productionEnvironmentsCopy.Deployments,
-                (rect, item) =>
+                (rect, item, nameAsLabel) =>
                 {
-                    float firstFieldWidth = (rect.width - 5f) * 0.25f;
-                    float middleFieldWidth = (rect.width - 5f) * 0.50f;
-                    float endFieldWidth = (rect.width - 5f) * 0.25f;
+                    float remainingWidth = rect.width;
+                    float firstFieldWidth = rect.width * 0.25f - 5f;
+                    float middleFieldWidth = rect.width * 0.50f - 5f;
+                    float endFieldWidth = rect.width * 0.25f;
 
-                    item.Name = RenderFieldWithHint(
-                        EditorGUI.TextField,
-                        new Rect(rect.x, rect.y, firstFieldWidth, rect.height),
-                        string.IsNullOrEmpty,
-                        item.Name,
-                        "Sandbox Name");
-
-                    item.Value.DeploymentId = GuidField(
-                        new Rect(rect.x + firstFieldWidth + 5f, rect.y, middleFieldWidth, rect.height),
-                        item.Value.DeploymentId);
-
-                    List<string> sandboxLabelList = new();
-                    int labelIndex = 0;
-                    int selectedIndex = 0;
-                    foreach (Named<SandboxId> sandbox in productionEnvironmentsCopy.Sandboxes)
+                    if (nameAsLabel)
                     {
-                        sandboxLabelList.Add(sandbox.Name);
-                        if (sandbox.Value.Equals(item.Value.SandboxId))
-                        {
-                            selectedIndex = labelIndex;
-                        }
+                        firstFieldWidth = MeasureLabelWidth("Deployment") + 5f;
+                        Rect nameRect = new(rect.x, rect.y, firstFieldWidth, rect.height);
+                        EditorGUI.LabelField(nameRect, item.Name);
+                    }
+                    else
+                    {
+                        Rect nameRect = new(rect.x, rect.y, firstFieldWidth - 5f, rect.height);
 
-                        labelIndex++;
+                        item.Name = RenderFieldWithHint(
+                            EditorGUI.TextField,
+                            nameRect,
+                            string.IsNullOrEmpty,
+                            item.Name,
+                            "Sandbox Name");
                     }
 
-                    int newSelectedIndex = EditorGUI.Popup(
-                        new Rect(rect.x + firstFieldWidth + 5f + middleFieldWidth + 5f, rect.y, endFieldWidth,
-                            rect.height),
-                        selectedIndex, sandboxLabelList.ToArray());
-                    string newSelectedSandboxLabel = sandboxLabelList[newSelectedIndex];
-                    foreach (Named<SandboxId> sandbox in productionEnvironmentsCopy.Sandboxes)
+                    remainingWidth -= firstFieldWidth;
+
+                    float guidFieldWidth = middleFieldWidth;
+                    if (productionEnvironmentsCopy.Sandboxes.Count <= 1)
                     {
-                        if (newSelectedSandboxLabel != sandbox.Name)
+                        guidFieldWidth = remainingWidth;
+                    }
+                    else
+                    {
+                        guidFieldWidth -= 5f;
+                    }
+
+                    item.Value.DeploymentId = GuidField(
+                        new Rect(rect.x + firstFieldWidth, rect.y, guidFieldWidth, rect.height),
+                        item.Value.DeploymentId);
+
+                    // Only render the sandbox dropdown if there is more than
+                    // one sandbox to select from.
+                    if (productionEnvironmentsCopy.Sandboxes.Count > 1)
+                    {
+                        List<string> sandboxLabelList = new();
+                        int labelIndex = 0;
+                        int selectedIndex = 0;
+                        foreach (Named<SandboxId> sandbox in productionEnvironmentsCopy.Sandboxes)
                         {
-                            continue;
+                            sandboxLabelList.Add(sandbox.Name);
+                            if (sandbox.Value.Equals(item.Value.SandboxId))
+                            {
+                                selectedIndex = labelIndex;
+                            }
+
+                            labelIndex++;
                         }
 
-                        item.Value.SandboxId = sandbox.Value;
-                        break;
+                        int newSelectedIndex = EditorGUI.Popup(
+                            new Rect(rect.x + firstFieldWidth + middleFieldWidth, rect.y, endFieldWidth,
+                                rect.height),
+                            selectedIndex, sandboxLabelList.ToArray());
+                        string newSelectedSandboxLabel = sandboxLabelList[newSelectedIndex];
+                        foreach (Named<SandboxId> sandbox in productionEnvironmentsCopy.Sandboxes)
+                        {
+                            if (newSelectedSandboxLabel != sandbox.Name)
+                            {
+                                continue;
+                            }
+
+                            item.Value.SandboxId = sandbox.Value;
+                            break;
+                        }
                     }
                 },
                 () => productionEnvironmentsCopy.AddNewDeployment(),
@@ -821,28 +918,42 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             ProductionEnvironments productionEnvironmentsCopy = value;
 
-            GUILayout.Label("Enter one or more of the Sandbox Ids for your " +
-                            "game from the Epic Dev Portal below.");
-
             RenderSetOfNamed(
                 "Sandboxes",
                 "Enter your sandboxes here, as they appear in the Epic Dev Portal.",
                 "https://dev.epicgames.com/docs/dev-portal/product-management#sandboxes",
                 productionEnvironmentsCopy.Sandboxes,
-                (rect, item) =>
+                (rect, item, nameAsLabel) =>
                 {
-                    float fieldWidth = (rect.width - 5f) / 2f;
+                    float currentX = rect.x;
+                    float remainingWidth = rect.width;
 
-                    item.Name = RenderFieldWithHint(
-                        EditorGUI.TextField,
-                        new Rect(rect.x, rect.y, fieldWidth, rect.height),
-                        string.IsNullOrEmpty,
-                        item.Name,
-                        "Sandbox Name");
+                    if (nameAsLabel)
+                    {
+                        // We are measuring "Deployment" here because it is longer than "Sandbox", and we want them to line up.
+                        float labelWidth = MeasureLabelWidth("Deployment");
+                        Rect nameRect = new(currentX, rect.y, labelWidth + 5f, rect.height);
+                        currentX += 5f + labelWidth;
+                        remainingWidth -= labelWidth - 5f;
+                        EditorGUI.LabelField(nameRect, item.Name);
+                    }
+                    else
+                    {
+                        float fieldWidth = (rect.width - 5f) / 2f;
+                        Rect nameRect = new(currentX, rect.y, fieldWidth - 5f, rect.height);
+                        currentX += fieldWidth + 5f;
+                        remainingWidth -= fieldWidth - 5f;
+                        item.Name = RenderFieldWithHint(
+                            EditorGUI.TextField,
+                            nameRect,
+                            string.IsNullOrEmpty,
+                            item.Name,
+                            "Sandbox Name");
+                    }
 
                     item.Value.Value = RenderFieldWithHint(
                         EditorGUI.TextField,
-                        new Rect(rect.x + fieldWidth + 5f, rect.y, fieldWidth, rect.height),
+                        new Rect(currentX, rect.y, remainingWidth - 10f, rect.height),
                         string.IsNullOrEmpty,
                         item.Value.Value,
                         "Sandbox Id");
@@ -858,32 +969,76 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             );
         }
 
-        private static Guid GuidField(Guid value, params GUILayoutOption[] options)
-        {
-            string tempStringName = EditorGUILayout.TextField(value.ToString(), options);
 
-            return Guid.TryParse(tempStringName, out Guid newValue) ? newValue : value;
+
+        private static SetOfNamed<EOSClientCredentials> RenderInput(ConfigFieldAttribute configFieldAttribute,
+            SetOfNamed<EOSClientCredentials> value, float labelWidth)
+        {
+            SetOfNamed<EOSClientCredentials> clientCredentialsCopy = value;
+
+            RenderSetOfNamed(
+                "Clients",
+                "Enter your client information here as it appears in the Epic Dev Portal.",
+                "https://dev.epicgames.com/docs/dev-portal/product-management#clients",
+                clientCredentialsCopy,
+                (rect, item, nameAsLabel) =>
+                {
+                    float remainingWidth = rect.width;
+                    float firstFieldWidth = (rect.width - 5f) * 0.18f;
+
+                    if (nameAsLabel)
+                    {
+                        // We measure the width of the label "Deployment" because that's the label we want to align to.
+                        firstFieldWidth = MeasureLabelWidth("Deployment");
+                        EditorGUI.LabelField(new Rect(rect.x, rect.y, firstFieldWidth, rect.height), item.Name);
+                    }
+                    else
+                    {
+                        item.Name = RenderFieldWithHint(
+                            EditorGUI.TextField,
+                            new Rect(rect.x, rect.y, firstFieldWidth, rect.height),
+                            string.IsNullOrEmpty,
+                            item.Name,
+                            "Client Name");
+                    }
+
+                    remainingWidth -= firstFieldWidth;
+
+                    item.Value ??= new();
+
+                    float clientFieldWidth = remainingWidth * 0.34f;
+                    float clientIdFieldX = rect.x + firstFieldWidth + 5f;
+                    remainingWidth -= clientFieldWidth;
+
+                    item.Value.ClientId = RenderFieldWithHint(
+                        EditorGUI.TextField,
+                        new Rect(clientIdFieldX, rect.y, clientFieldWidth, rect.height),
+                        string.IsNullOrEmpty,
+                        item.Value.ClientId,
+                        "Client ID"
+                    );
+
+                    item.Value.ClientSecret = RenderFieldWithHint(
+                        EditorGUI.TextField,
+                        new Rect(rect.x + firstFieldWidth + 5f + clientFieldWidth + 5f, rect.y, remainingWidth - 10f,
+                            rect.height),
+                        string.IsNullOrEmpty,
+                        item.Value.ClientSecret,
+                        "Client Secret");
+                },
+                () => clientCredentialsCopy.Add(),
+                (item) =>
+                {
+                    if (!clientCredentialsCopy.Remove(item))
+                    {
+                        // TODO: Tell user that credentials could not be removed.
+                        Debug.LogError("Could not remove client credential");
+                    }
+                });
+
+            return clientCredentialsCopy;
         }
 
-        private static Guid GuidField(Rect rect, Guid value)
-        {
-            string tempStringName = EditorGUI.TextField(rect, value.ToString());
-            return Guid.TryParse(tempStringName, out Guid newValue) ? newValue : value;
-        }
-
-        private static Version VersionField(GUIContent label, Version value, params GUILayoutOption[] options)
-        {
-            string tempStringVersion = EditorGUILayout.TextField(label, value.ToString(), options);
-            return Version.TryParse(tempStringVersion, out Version newValue) ? newValue : value;
-        }
-
-        private static Version VersionField(Version value, params GUILayoutOption[] options)
-        {
-            string tempStringVersion = EditorGUILayout.TextField(value.ToString(), options);
-            return Version.TryParse(tempStringVersion, out Version newValue) ? newValue : value;
-        }
-
-#if !EOS_DISABLE
         public static EOSClientCredentials RenderInput(ConfigFieldAttribute configFieldAttribute,
             EOSClientCredentials value,
             float labelWidth)
@@ -914,7 +1069,52 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 return (newIndex >= 0 && newIndex < credentials.Count) ? credentials[newIndex].Value : value;
             });
         }
-#endif
+
+        public static WrappedInitializeThreadAffinity RenderInput(ConfigFieldAttribute attribute, WrappedInitializeThreadAffinity value)
+        {
+            EditorGUILayout.LabelField(CreateGUIContent(attribute.Label, attribute.ToolTip), new GUIStyle() { fontStyle = FontStyle.Bold });
+            RenderInputs(ref value);
+            return value;
+        }
+
+        private static Guid RenderInput(ConfigFieldAttribute configFieldDetails, Guid value, float labelWidth)
+        {
+            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value,
+                GuidField);
+        }
+
+        private static Guid GuidField(Guid value, params GUILayoutOption[] options)
+        {
+            string tempStringName = EditorGUILayout.TextField(value.ToString(), options);
+
+            return Guid.TryParse(tempStringName, out Guid newValue) ? newValue : value;
+        }
+
+        private static Guid GuidField(Rect rect, Guid value)
+        {
+            string tempStringName = EditorGUI.TextField(rect, value.ToString());
+            return Guid.TryParse(tempStringName, out Guid newValue) ? newValue : value;
+        }
+
+        private static Guid GuidField(GUIContent label, Guid value, params GUILayoutOption[] options)
+        {
+            string tempStringName = EditorGUILayout.TextField(label, value.ToString(), options);
+            return Guid.TryParse(tempStringName, out Guid newValue) ? newValue : value;
+        }
+
+        private static Version VersionField(GUIContent label, Version value, params GUILayoutOption[] options)
+        {
+            value ??= new();
+            string tempStringVersion = EditorGUILayout.TextField(label, value.ToString(), options);
+            return Version.TryParse(tempStringVersion, out Version newValue) ? newValue : value;
+        }
+
+        private static Version VersionField(Version value, params GUILayoutOption[] options)
+        {
+            value ??= new();
+            string tempStringVersion = EditorGUILayout.TextField(value.ToString(), options);
+            return Version.TryParse(tempStringVersion, out Version newValue) ? newValue : value;
+        }
 
         public static Deployment RenderInput(ConfigFieldAttribute configFieldAttribute, Deployment value, float labelWidth)
         {
@@ -953,86 +1153,23 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             return (TEnum)EditorGUILayout.EnumFlagsField(label, value, options);
         }
-
-        public static Version RenderInput(ConfigFieldAttribute configFieldAttribute, Version value, float labelWidth)
+        private static Version RenderInput(ConfigFieldAttribute configFieldAttribute, Version value, float labelWidth)
         {
-            return InputRendererWrapper(configFieldAttribute.Label, configFieldAttribute.ToolTip, labelWidth, value,
-                VersionField);
+            return RenderInput(value, configFieldAttribute.Label, configFieldAttribute.ToolTip, labelWidth);
         }
 
-#if !EOS_DISABLE
-        public static SetOfNamed<EOSClientCredentials> RenderInput(ConfigFieldAttribute configFieldAttribute,
-            SetOfNamed<EOSClientCredentials> value, float labelWidth)
+        public static Version RenderInput(Version value, string label, string tooltip, float labelWidth)
         {
-            EditorGUILayout.Space();
-
-            RenderSetOfNamed(
-                "Clients",
-                "Enter your client information here as it appears in the Epic Dev Portal.",
-                "https://dev.epicgames.com/docs/dev-portal/product-management#clients",
-                value,
-                (rect, item) =>
-                {
-                    float firstFieldWidth = (rect.width - 5f) * 0.18f;
-                    float middleFieldWidth = (rect.width - 5f) * 0.34f;
-                    float endFieldWidth = (rect.width - 5f) * 0.48f;
-
-                    item.Name = RenderFieldWithHint(
-                        EditorGUI.TextField,
-                        new Rect(rect.x, rect.y, firstFieldWidth, rect.height),
-                        string.IsNullOrEmpty,
-                        item.Name,
-                        "Client Name");
-
-                    item.Value ??= new();
-
-                    item.Value.ClientId = RenderFieldWithHint(
-                        EditorGUI.TextField,
-                        new Rect(rect.x + firstFieldWidth + 5f, rect.y, middleFieldWidth, rect.height),
-                        string.IsNullOrEmpty,
-                        item.Value.ClientId,
-                        "Client ID"
-                    );
-
-                    item.Value.ClientSecret = RenderFieldWithHint(
-                        EditorGUI.TextField,
-                        new Rect(rect.x + firstFieldWidth + 5f + middleFieldWidth + 5f, rect.y, endFieldWidth, rect.height),
-                        string.IsNullOrEmpty,
-                        item.Value.ClientSecret,
-                        "Client Secret");
-
-                },
-                () => value.Add(),
-                (item) =>
-                {
-                    if (value.Remove(item))
-                    {
-                        // TODO: Tell user that credentials could not be removed.
-                    }
-                });
-
-            return value;
+            return InputRendererWrapper(label, tooltip, labelWidth, value, VersionField);
         }
-
-        public static WrappedInitializeThreadAffinity RenderInput(ConfigFieldAttribute attribute, WrappedInitializeThreadAffinity value)
-        {
-            EditorGUILayout.LabelField(CreateGUIContent(attribute.Label, attribute.ToolTip), new GUIStyle() {fontStyle = FontStyle.Bold});
-            RenderInputs(ref value);
-            return value;
-        }
-#endif
 
         public static ProductionEnvironments RenderInput(ConfigFieldAttribute configFieldAttribute,
             ProductionEnvironments value, float labelWidth)
         {
             value ??= new();
 
-            EditorGUILayout.Space();
-
             // Render the list of sandboxes
             RenderSandboxInputs(ref value);
-
-            EditorGUILayout.Space();
 
             // Check to see if there are any sandboxes - if there aren't any
             // then you cannot add a deployment.
@@ -1075,7 +1212,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 newValue.Add(string.Empty);
             }
             EditorGUILayout.EndHorizontal();
-            
+
             for (var i = 0; i < newValue.Count; ++i)
             {
                 bool itemRemoved = false;
@@ -1183,7 +1320,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             int intValue = InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, temp,
                 EditorGUILayout.IntField);
-            
+
             return SafeTranslatorUtility.TryConvert(intValue, out uint newValue) ? newValue : value;
         }
 
@@ -1230,6 +1367,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             });
         }
 
-#endregion
+        #endregion
     }
 }
