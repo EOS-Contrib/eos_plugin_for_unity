@@ -35,7 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
     using Utility;
 
-    public static class PlatformManager
+    public static partial class PlatformManager
     {
         /// <summary>
         /// Enum that stores the possible platforms
