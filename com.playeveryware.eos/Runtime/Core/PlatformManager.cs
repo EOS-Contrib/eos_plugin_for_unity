@@ -24,6 +24,7 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System.Collections.Generic;
     using System;
+    using System.Reflection;
 
 #if UNITY_EDITOR
     using UnityEditor;
@@ -65,6 +66,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public Type ConfigType;
             public string DynamicLibraryExtension;
             public string PlatformIconLabel;
+            public Func<PlatformConfig> GetConfigFunc;
         }
 
         /// <summary>
@@ -117,12 +119,54 @@ namespace PlayEveryWare.EpicOnlineServices
             AddPlatformInfo(Platform.PS4,         "PS4",           "eos_ps4_config.json",     null, "PS4");
             AddPlatformInfo(Platform.PS5,         "PS5",           "eos_ps5_config.json",     null, "PS5");
             AddPlatformInfo(Platform.Switch,      "Switch",        "eos_switch_config.json",  null, "Switch");
-            //// TODO: Currently, there is no special config that is utilized for Windows - instead current implementation simply
-            //// relies on EpicOnlineServicesConfig.json, so for now this entry is different. What is commented below is what it *should* be to be consistent.
-            //// AddPlatformInfo(Platform.Windows,     "Windows",         "eos_windows_config.json", typeof(EOSWindowsConfig), ".dll");
-            //// For the time being, this is the entry for the Windows platform
 #endif
             AddPlatformInfo(Platform.Windows,     "Windows", "eos_windows_config.json", typeof(WindowsConfig), "Standalone");
+
+            // If external to unity, then we know that the current platform
+            // is Windows.
+#if EXTERNAL_TO_UNITY
+            CurrentPlatform = Platform.Windows;
+#else
+            // If the Unity Editor is currently running, then the "active"
+            // Platform is whatever the current build target is.
+#if UNITY_EDITOR
+            if (TryGetPlatform(EditorUserBuildSettings.activeBuildTarget, out Platform platform))
+#else
+            // If the Unity editor is _not_ currently running, then the "active"
+            // platform is whatever the runtime application says it is
+            if (TryGetPlatform(Application.platform, out Platform platform))
+#endif
+            {
+                CurrentPlatform = platform;
+            }
+            else
+            {
+                CurrentPlatform = Platform.Unknown;
+                Debug.LogWarning("Platform could not be determined.");
+            }
+#endif
+        }
+
+        public static PlatformConfig GetPlatformConfig()
+        {
+            PlatformConfig config = null;
+
+            // TODO: Confirm that usage of Reflection here is acceptable.
+            MethodInfo methodInfo = typeof(Config).GetMethod("Get");
+            MethodInfo genericMethod = methodInfo?.MakeGenericMethod(GetConfigType());
+
+            if (genericMethod != null)
+            {
+                config = (PlatformConfig)genericMethod.Invoke(null, null);
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    $"Could not retrieve platform-specific " +
+                    $"configuration values for platform \"{PlatformManager.CurrentPlatform}\".");
+            }
+
+            return config;
         }
 
         public static void SetPlatformDetails(Platform platform, Type configType, string dynamicLibraryExtension)
@@ -142,7 +186,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     FullName = fullName,
                     ConfigFileName = configFileName,
-                    PlatformIconLabel = iconLabel, 
+                    PlatformIconLabel = iconLabel,
                     ConfigType = configType,
                 }));
         }
@@ -164,6 +208,33 @@ namespace PlayEveryWare.EpicOnlineServices
                 { BuildTarget.Switch,              Platform.Switch      },
                 { BuildTarget.StandaloneWindows,   Platform.Windows     },
                 { BuildTarget.StandaloneWindows64, Platform.Windows     },
+            };
+
+        /// <summary>
+        /// Maps Unity RuntimePlatform to Platform
+        /// </summary>
+        private static readonly IDictionary<RuntimePlatform, Platform> RuntimeToPlatformsMap =
+            new Dictionary<RuntimePlatform, Platform>()
+            {
+                { RuntimePlatform.Android,            Platform.Android},
+                { RuntimePlatform.IPhonePlayer,       Platform.iOS},
+                { RuntimePlatform.PS4,                Platform.PS4},
+                { RuntimePlatform.PS5,                Platform.PS5},
+                { RuntimePlatform.GameCoreXboxOne,    Platform.XboxOne},
+                { RuntimePlatform.XboxOne,            Platform.XboxOne},
+                { RuntimePlatform.Switch,             Platform.Switch},
+                { RuntimePlatform.GameCoreXboxSeries, Platform.XboxSeriesX},
+                { RuntimePlatform.LinuxPlayer,        Platform.Linux},
+                { RuntimePlatform.LinuxEditor,        Platform.Linux},
+                { RuntimePlatform.EmbeddedLinuxX64,   Platform.Linux},
+                { RuntimePlatform.EmbeddedLinuxX86,   Platform.Linux},
+                { RuntimePlatform.LinuxServer,        Platform.Linux},
+                { RuntimePlatform.WindowsServer,      Platform.Windows},
+                { RuntimePlatform.WindowsPlayer,      Platform.Windows},
+                { RuntimePlatform.WindowsEditor,      Platform.Windows},
+                { RuntimePlatform.OSXEditor,          Platform.macOS},
+                { RuntimePlatform.OSXPlayer,          Platform.macOS},
+                { RuntimePlatform.OSXServer,          Platform.macOS},
             };
 
         /// <summary>
@@ -199,6 +270,17 @@ namespace PlayEveryWare.EpicOnlineServices
         public static bool TryGetPlatform(BuildTarget target, out Platform platform)
         {
             return TargetToPlatformsMap.TryGetValue(target, out platform);
+        }
+
+        /// <summary>
+        /// Get the platform that matches the given runtime platform.
+        /// </summary>
+        /// <param name="runtimePlatform">The active RuntimePlatform</param>
+        /// <param name="platform">The platform for that RuntimePlatform.</param>
+        /// <returns>True if platform was determined, false otherwise.</returns>
+        public static bool TryGetPlatform(RuntimePlatform runtimePlatform, out Platform platform)
+        {
+            return RuntimeToPlatformsMap.TryGetValue(runtimePlatform, out platform);
         }
 
         /// <summary>

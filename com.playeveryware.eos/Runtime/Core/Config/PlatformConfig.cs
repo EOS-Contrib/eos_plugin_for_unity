@@ -260,6 +260,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #region Logic for Migrating Override Values from Previous Structure
 
+        // This warning is suppressed in the migration code because it is
+        // necessary to make use of the obsolete type in-order to accomplish the
+        // migration.
+#pragma warning disable CS0618 // Type or member is obsolete
+
 #if !EOS_DISABLE
 
         protected sealed class NonOverrideableConfigValues : Config
@@ -328,7 +333,9 @@ namespace PlayEveryWare.EpicOnlineServices
             return !overrideValuesFromFieldMember.Equals(default) ? overrideValuesFromFieldMember : mainConfigValue;
         }
 
+
         private void MigrateButtonDelays(EOSConfig overrideValuesFromFieldMember, OverrideableConfigValues mainOverrideableConfig)
+
         {
             // Import the values for initial button delay and repeat button
             // delay
@@ -510,8 +517,11 @@ namespace PlayEveryWare.EpicOnlineServices
             Write();
 #endif
         }
+
 #endif
 
-#endregion
+#pragma warning restore CS0618 // Type or member is obsolete
+
+        #endregion
     }
 }
