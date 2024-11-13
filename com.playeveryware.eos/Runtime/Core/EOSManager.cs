@@ -482,11 +482,20 @@ namespace PlayEveryWare.EpicOnlineServices
                 platformOptions.options.IsServer = platformConfig.isServer;
                 platformOptions.options.Flags =
 #if UNITY_EDITOR
-                    PlatformFlags.LoadingInEditor;
+                PlatformFlags.LoadingInEditor;
 #else
-                    configData.platformOptionsFlags.Unwrap();
+                platformConfig.platformOptionsFlags.Unwrap();
 #endif
-                
+
+                if (!platformConfig.clientCredentials.IsEncryptionKeyValid())
+                {
+                    Debug.LogError("The encryption key used for the selected client credentials is invalid. Please see your platform configuration.");
+                }
+                else
+                {
+                    platformOptions.options.EncryptionKey = platformConfig.clientCredentials.EncryptionKey;
+                }
+
                 platformOptions.options.OverrideCountryCode = null;
                 platformOptions.options.OverrideLocaleCode = null;
                 platformOptions.options.ProductId = productConfig.ProductId.ToStrippedString();
