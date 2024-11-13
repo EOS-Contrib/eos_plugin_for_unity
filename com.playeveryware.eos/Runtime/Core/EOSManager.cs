@@ -51,6 +51,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Common;
     using Common.Extensions;
     using Extensions;
     using UnityEngine;
@@ -69,7 +70,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
     using Epic.OnlineServices.Presence;
     
-    using Extensions;
     using System.Diagnostics;
     using System.Globalization;
     using UnityEngine.Assertions;

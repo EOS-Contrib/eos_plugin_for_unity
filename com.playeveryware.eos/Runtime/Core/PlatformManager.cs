@@ -213,38 +213,6 @@ namespace PlayEveryWare.EpicOnlineServices
             };
 
         /// <summary>
-        /// Get the platform that matches the given runtime platform.
-        /// </summary>
-        /// <param name="runtimePlatform">The active RuntimePlatform</param>
-        /// <param name="platform">The platform for that RuntimePlatform.</param>
-        /// <returns>True if platform was determined, false otherwise.</returns>
-        public static bool TryGetPlatform(RuntimePlatform runtimePlatform, out Platform platform)
-        {
-            return RuntimeToPlatformsMap.TryGetValue(runtimePlatform, out platform);
-        }
-
-        public static PlatformConfig GetPlatformConfig()
-        {
-            PlatformConfig config = null;
-
-            MethodInfo methodInfo = typeof(Config).GetMethod("Get");
-            MethodInfo genericMethod = methodInfo?.MakeGenericMethod(GetConfigType());
-
-            if (genericMethod != null)
-            {
-                config = (PlatformConfig)genericMethod.Invoke(null, null);
-            }
-            else
-            {
-                throw new InvalidOperationException(
-                    $"Could not retrieve platform-specific " +
-                    $"configuration values for platform \"{PlatformManager.CurrentPlatform}\".");
-            }
-
-            return config;
-        }
-
-        /// <summary>
         /// Get the config type for the current platform.
         /// </summary>
         /// <returns>The config type for the current platform.</returns>
@@ -261,21 +229,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public static Type GetConfigType(Platform platform)
         {
             return PlatformInformation[platform].ConfigType;
-        }
-
-        public static bool TryGetConfigType(Platform platform, out Type configType)
-        {
-            configType = null;
-
-            bool typeFound = PlatformInformation.TryGetValue(platform, out PlatformInfo value);
-
-            if (typeFound)
-            {
-                configType = value.ConfigType;
-            }
-
-            
-            return typeFound;
         }
 
 #if !EXTERNAL_TO_UNITY
