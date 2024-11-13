@@ -22,9 +22,9 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using JetBrains.Annotations;
     using System.Collections.Generic;
     using System;
-    using System.Reflection;
 
 #if UNITY_EDITOR
     using UnityEditor;
@@ -59,26 +59,58 @@ namespace PlayEveryWare.EpicOnlineServices
             Any = Unknown | Windows | Android | XboxOne | XboxSeriesX | iOS | Linux | macOS | PS4 | PS5 | Switch | Steam
         }
 
-        private struct PlatformInfo
+        private readonly struct PlatformInfo
         {
-            public string FullName;
-            public string ConfigFileName;
-            public Type ConfigType;
-            public string DynamicLibraryExtension;
-            public string PlatformIconLabel;
-            public Func<PlatformConfig> GetConfigFunc;
+            public string FullName { get;  }
+            public string ConfigFileName { get; }
+            [CanBeNull] public string DynamicLibraryExtension { get; }
+            public string PlatformIconLabel { get; }
+            [CanBeNull] public Func<PlatformConfig> GetConfigFunction { get; }
+            public Type ConfigType { get; }
+
+            private PlatformInfo(Func<PlatformConfig> getConfigFunction, Type configType, string fullName, string configFileName, string dynamicLibraryExtension,
+                string platformIconLabel)
+            {
+                FullName = fullName;
+                ConfigFileName = configFileName;
+                DynamicLibraryExtension = dynamicLibraryExtension;
+                PlatformIconLabel = platformIconLabel;
+                GetConfigFunction = getConfigFunction;
+                ConfigType = configType;
+            }
+
+            public static PlatformInfo Create<T>(string fullName, string configFileName, string dynamicLibraryExtension, string platformIconLabel) where T : PlatformConfig
+            {
+                return new PlatformInfo(Config.Get<T>, typeof(T), fullName, configFileName, dynamicLibraryExtension,
+                    platformIconLabel);
+            }
         }
 
+#if !INCLUDE_RESTRICTED_PLATFORMS
         /// <summary>
-        /// Private collection to store associations between a platform type, it's human readable name, the file in which the configuration is stored, and the type of the config object
+        /// Private collection to store information about each platform.
         /// </summary>
-        private static IDictionary<Platform, PlatformInfo> PlatformInformation =
-            new Dictionary<Platform, PlatformInfo>();
+        private static readonly IDictionary<Platform, PlatformInfo> PlatformInformation =
+            new Dictionary<Platform, PlatformInfo>()
+            {
+                { Platform.Android, PlatformInfo.Create<AndroidConfig>("Android", "eos_android_config.json", null,     "Android")},
+                { Platform.iOS,     PlatformInfo.Create<IOSConfig>    ("iOS",     "eos_ios_config.json",     null,     "iPhone") },
+                { Platform.Linux,   PlatformInfo.Create<LinuxConfig>  ("Linux",   "eos_linux_config.json",   ".so",    "Standalone") },
+                { Platform.macOS,   PlatformInfo.Create<MacOSConfig>  ("macOS",   "eos_macos_config.json",   ".dylib", "Standalone") },
+                { Platform.Windows, PlatformInfo.Create<WindowsConfig>("Windows", "eos_windows_config.json", ".dll",   "Standalone") },
+            };
+#endif
 
         /// <summary>
         /// Backing value for the CurrentPlatform property.
         /// </summary>
         private static Platform s_CurrentPlatform;
+
+        /// <summary>
+        /// Used to cache the PlatformConfig that pertains to the current
+        /// platform.
+        /// </summary>
+        private static PlatformConfig s_platformConfig = null;
 
         /// <summary>
         /// Returns the current platform. In-order to reduce the number of places in the build pipeline
@@ -106,22 +138,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         static PlatformManager()
         {
-            // This compile conditional is here because if we are external to
-            // the Unity Engine, then we only need to use WindowsConfig.
-#if !EXTERNAL_TO_UNITY
-            AddPlatformInfo(Platform.Android,     "Android",       "eos_android_config.json", typeof(AndroidConfig), "Android");
-            AddPlatformInfo(Platform.iOS,         "iOS",           "eos_ios_config.json",     typeof(IOSConfig),     "iPhone");
-            AddPlatformInfo(Platform.Linux,       "Linux",         "eos_linux_config.json",   typeof(LinuxConfig),   "Standalone");
-            AddPlatformInfo(Platform.macOS,       "macOS",         "eos_macos_config.json",   typeof(MacOSConfig),   "Standalone");
-            AddPlatformInfo(Platform.Steam,       "Steam",         "eos_steam_config.json",   null,         "Standalone");
-            AddPlatformInfo(Platform.XboxOne,     "Xbox One",      "eos_xb1_config.json",     null, "XboxOne");
-            AddPlatformInfo(Platform.XboxSeriesX, "Xbox Series X", "eos_xsx_config.json",     null, "XboxOne");
-            AddPlatformInfo(Platform.PS4,         "PS4",           "eos_ps4_config.json",     null, "PS4");
-            AddPlatformInfo(Platform.PS5,         "PS5",           "eos_ps5_config.json",     null, "PS5");
-            AddPlatformInfo(Platform.Switch,      "Switch",        "eos_switch_config.json",  null, "Switch");
-#endif
-            AddPlatformInfo(Platform.Windows,     "Windows", "eos_windows_config.json", typeof(WindowsConfig), "Standalone");
-
             // If external to unity, then we know that the current platform
             // is Windows.
 #if EXTERNAL_TO_UNITY
@@ -149,46 +165,20 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public static PlatformConfig GetPlatformConfig()
         {
-            PlatformConfig config = null;
-
-            // TODO: Confirm that usage of Reflection here is acceptable.
-            MethodInfo methodInfo = typeof(Config).GetMethod("Get");
-            MethodInfo genericMethod = methodInfo?.MakeGenericMethod(GetConfigType());
-
-            if (genericMethod != null)
+            if (s_platformConfig != null)
             {
-                config = (PlatformConfig)genericMethod.Invoke(null, null);
-            }
-            else
-            {
-                throw new InvalidOperationException(
-                    $"Could not retrieve platform-specific " +
-                    $"configuration values for platform \"{PlatformManager.CurrentPlatform}\".");
+                return s_platformConfig;
             }
 
-            return config;
-        }
+            if (!PlatformInformation.TryGetValue(CurrentPlatform, out PlatformInfo platformInfo) || null == platformInfo.GetConfigFunction)
+            {
+                Debug.LogError($"Could not get platform config for platform \"{CurrentPlatform}\".");
+                return null;
+            }
 
-        public static void SetPlatformDetails(Platform platform, Type configType, string dynamicLibraryExtension)
-        {
-            PlatformInfo info = PlatformInformation[platform];
-            info.ConfigType = configType;
-            info.DynamicLibraryExtension = dynamicLibraryExtension;
+            s_platformConfig = platformInfo.GetConfigFunction();
 
-            PlatformInformation.Remove(platform);
-            PlatformInformation.Add(new KeyValuePair<Platform, PlatformInfo>(platform, info));
-        }
-
-        public static void AddPlatformInfo(Platform platform, string fullName, string configFileName, Type configType, string iconLabel)
-        {
-            PlatformInformation.Add(new KeyValuePair<Platform, PlatformInfo>(platform,
-                new PlatformInfo()
-                {
-                    FullName = fullName,
-                    ConfigFileName = configFileName,
-                    PlatformIconLabel = iconLabel,
-                    ConfigType = configType,
-                }));
+            return s_platformConfig;
         }
 
 #if UNITY_EDITOR
@@ -283,25 +273,6 @@ namespace PlayEveryWare.EpicOnlineServices
             return RuntimeToPlatformsMap.TryGetValue(runtimePlatform, out platform);
         }
 
-        /// <summary>
-        /// Get the config type for the current platform.
-        /// </summary>
-        /// <returns>The config type for the current platform.</returns>
-        public static Type GetConfigType()
-        {
-            return GetConfigType(PlatformManager.CurrentPlatform);
-        }
-
-        /// <summary>
-        /// Returns the type of the PlatformConfig that holds configuration values for the indicated Platform.
-        /// </summary>
-        /// <param name="platform">The Platform to get the specific PlatformConfig type of.</param>
-        /// <returns>Type of the specific PlatformConfig that represents the indicated Platform.</returns>
-        public static Type GetConfigType(Platform platform)
-        {
-            return PlatformInformation[platform].ConfigType;
-        }
-
         public static bool TryGetConfigType(Platform platform, out Type configType)
         {
             configType = null;
@@ -314,28 +285,6 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             return typeFound;
-        }
-
-        /// <summary>
-        /// Returns the type of the PlatformConfig that holds configuration values for the indicated BuildTarget
-        /// </summary>
-        /// <param name="target">The BuildTarget to get the specific PlatformConfig type of.</param>
-        /// <returns>Type of the specific PlatformConfig that represents the indicated Platform.</returns>
-        public static Type GetConfigType(BuildTarget target)
-        {
-            Platform platform = TargetToPlatformsMap[target];
-            return GetConfigType(platform);
-        }
-
-        /// <summary>
-        /// Return the fully qualified path to the configuration file for the given build target.
-        /// </summary>
-        /// <param name="target">The build target to get the configuration file for.</param>
-        /// <returns>Fully qualified path.</returns>
-        private static string GetConfigFilePath(BuildTarget target)
-        {
-            var platform = TargetToPlatformsMap[target];
-            return GetConfigFilePath(platform);
         }
 
         /// <summary>
@@ -369,16 +318,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public static string GetDynamicLibraryExtension(Platform platform)
         {
             return PlatformInformation[platform].DynamicLibraryExtension;
-        }
-
-
-        /// <summary>
-        /// Get the file extension used by the current platform for dynamic library files.
-        /// </summary>
-        /// <returns>A string containing the file extension used for dynamic library files on the current platform.</returns>
-        public static string GetDynamicLibraryExtension()
-        {
-            return GetDynamicLibraryExtension(CurrentPlatform);
         }
 
         /// <summary>

@@ -569,6 +569,43 @@ namespace PlayEveryWare.EpicOnlineServices
                 Init(coroutineOwner, EOSPackageInfo.ConfigFileName);
             }
 
+            private void ConfigureCommandLineOptions()
+            {
+                // TODO: Make more complete the support for command line arguments.
+                var epicArgs = GetCommandLineArgsFromEpicLauncher();
+
+                if (string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
+                {
+                    return;
+                }
+
+                var definedProductionEnvironments = Config.Get<ProductConfig>().Environments;
+                bool sandboxOverridden = false;
+                foreach (Named<SandboxId> sandbox in definedProductionEnvironments.Sandboxes)
+                {
+                    if (sandbox.Value.ToString() != epicArgs.epicSandboxID.ToLower())
+                    {
+                        continue;
+                    }
+
+                    PlatformManager.GetPlatformConfig().deployment.SandboxId = sandbox.Value;
+                    sandboxOverridden = true;
+                    Debug.Log($"SandboxID was overridden to be \"{sandbox.Value}\" by a command line parameter.");
+                    break;
+                }
+
+                if (!sandboxOverridden)
+                {
+                    Debug.LogWarning(
+                        $"The SandboxID " +
+                        $"\"{epicArgs.epicSandboxID}\" specified by " +
+                        $"command line argument is not a valid id. " +
+                        $"Defaulting to SandboxID " +
+                        $"\"{PlatformManager.GetPlatformConfig().deployment.SandboxId}\" " +
+                        $"defined in the configuration.");
+                }
+            }
+
             private void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
             {
                 if (GetEOSPlatformInterface() != null)
@@ -601,36 +638,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 InitializeLogLevels();
 #endif
 
-                var epicArgs = GetCommandLineArgsFromEpicLauncher();
-
-                if (!string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
-                {
-                    var definedProductionEnvironments = Config.Get<ProductConfig>().Environments;
-                    bool sandboxOverridden = false;
-                    foreach (Named<SandboxId> sandbox in definedProductionEnvironments.Sandboxes)
-                    {
-                        if (sandbox.Value.ToString() != epicArgs.epicSandboxID.ToLower())
-                        {
-                            continue;
-                        }
-
-                        PlatformManager.GetPlatformConfig().deployment.SandboxId = sandbox.Value;
-                        sandboxOverridden = true;
-                        Debug.Log($"SandboxID was overridden to be \"{sandbox.Value}\" by a command line parameter.");
-                        break;
-                    }
-
-                    if (!sandboxOverridden)
-                    {
-                        Debug.LogWarning(
-                            $"The SandboxID " +
-                            $"\"{epicArgs.epicSandboxID}\" specified by " +
-                            $"command line argument is not a valid id. " +
-                            $"Defaulting to SandboxID " +
-                            $"\"{PlatformManager.GetPlatformConfig().deployment.SandboxId}\" " +
-                            $"defined in the configuration.");
-                    }
-                }
+                ConfigureCommandLineOptions();
 
                 Result initResult = InitializePlatformInterface();
 
@@ -914,11 +922,11 @@ namespace PlayEveryWare.EpicOnlineServices
             /// See https://dev.epicgames.com/docs/services/en-US/Interfaces/Auth/index.html#epicgameslauncher
             /// </summary>
             /// <returns><c>EpicLauncherArgs</c> struct</returns>
-            public EpicLauncherArgs GetCommandLineArgsFromEpicLauncher()
+            public static EpicLauncherArgs GetCommandLineArgsFromEpicLauncher()
             {
                 var epicLauncherArgs = new EpicLauncherArgs();
 
-                void ConfigureEpicArgument(string argument, ref string argumentString)
+                static void ConfigureEpicArgument(string argument, ref string argumentString)
                 {
                     int startIndex = argument.IndexOf('=') + 1;
                     if (!(startIndex < 0 || startIndex > argument.Length))
