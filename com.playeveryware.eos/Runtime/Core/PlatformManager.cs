@@ -181,25 +181,6 @@ namespace PlayEveryWare.EpicOnlineServices
             return s_platformConfig;
         }
 
-#if UNITY_EDITOR
-        /// <summary>
-        /// Maps Unity BuildTarget to Platform
-        /// </summary>
-        private static readonly IDictionary<BuildTarget, Platform> TargetToPlatformsMap =
-            new Dictionary<BuildTarget, Platform>()
-            {
-                { BuildTarget.Android,             Platform.Android     },
-                { BuildTarget.GameCoreXboxOne,     Platform.XboxOne     },
-                { BuildTarget.GameCoreXboxSeries,  Platform.XboxSeriesX },
-                { BuildTarget.iOS,                 Platform.iOS         },
-                { BuildTarget.StandaloneLinux64,   Platform.Linux       },
-                { BuildTarget.PS4,                 Platform.PS4         },
-                { BuildTarget.PS5,                 Platform.PS5         },
-                { BuildTarget.Switch,              Platform.Switch      },
-                { BuildTarget.StandaloneWindows,   Platform.Windows     },
-                { BuildTarget.StandaloneWindows64, Platform.Windows     },
-            };
-
         /// <summary>
         /// Maps Unity RuntimePlatform to Platform
         /// </summary>
@@ -225,6 +206,36 @@ namespace PlayEveryWare.EpicOnlineServices
                 { RuntimePlatform.OSXEditor,          Platform.macOS},
                 { RuntimePlatform.OSXPlayer,          Platform.macOS},
                 { RuntimePlatform.OSXServer,          Platform.macOS},
+            };
+
+        /// <summary>
+        /// Get the platform that matches the given runtime platform.
+        /// </summary>
+        /// <param name="runtimePlatform">The active RuntimePlatform</param>
+        /// <param name="platform">The platform for that RuntimePlatform.</param>
+        /// <returns>True if platform was determined, false otherwise.</returns>
+        public static bool TryGetPlatform(RuntimePlatform runtimePlatform, out Platform platform)
+        {
+            return RuntimeToPlatformsMap.TryGetValue(runtimePlatform, out platform);
+        }
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// Maps Unity BuildTarget to Platform
+        /// </summary>
+        private static readonly IDictionary<BuildTarget, Platform> TargetToPlatformsMap =
+            new Dictionary<BuildTarget, Platform>()
+            {
+                { BuildTarget.Android,             Platform.Android     },
+                { BuildTarget.GameCoreXboxOne,     Platform.XboxOne     },
+                { BuildTarget.GameCoreXboxSeries,  Platform.XboxSeriesX },
+                { BuildTarget.iOS,                 Platform.iOS         },
+                { BuildTarget.StandaloneLinux64,   Platform.Linux       },
+                { BuildTarget.PS4,                 Platform.PS4         },
+                { BuildTarget.PS5,                 Platform.PS5         },
+                { BuildTarget.Switch,              Platform.Switch      },
+                { BuildTarget.StandaloneWindows,   Platform.Windows     },
+                { BuildTarget.StandaloneWindows64, Platform.Windows     },
             };
 
         /// <summary>
@@ -260,17 +271,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public static bool TryGetPlatform(BuildTarget target, out Platform platform)
         {
             return TargetToPlatformsMap.TryGetValue(target, out platform);
-        }
-
-        /// <summary>
-        /// Get the platform that matches the given runtime platform.
-        /// </summary>
-        /// <param name="runtimePlatform">The active RuntimePlatform</param>
-        /// <param name="platform">The platform for that RuntimePlatform.</param>
-        /// <returns>True if platform was determined, false otherwise.</returns>
-        public static bool TryGetPlatform(RuntimePlatform runtimePlatform, out Platform platform)
-        {
-            return RuntimeToPlatformsMap.TryGetValue(runtimePlatform, out platform);
         }
 
         public static bool TryGetConfigType(Platform platform, out Type configType)

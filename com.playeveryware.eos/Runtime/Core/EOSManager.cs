@@ -66,11 +66,10 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.Logging;
     using Epic.OnlineServices.Connect;
     using Epic.OnlineServices.UI;
-#endif
 
-#if !EOS_DISABLE
     using Epic.OnlineServices.Presence;
-
+    
+    using Extensions;
     using System.Diagnostics;
     using System.Globalization;
     using UnityEngine.Assertions;
@@ -84,7 +83,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using LoginStatusChangedCallbackInfo = Epic.OnlineServices.Auth.LoginStatusChangedCallbackInfo;
 
     using Utility;
-    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
     using LogoutCallbackInfo = Epic.OnlineServices.Auth.LogoutCallbackInfo;
     using LogoutOptions = Epic.OnlineServices.Auth.LogoutOptions;
     using OnLogoutCallback = Epic.OnlineServices.Auth.OnLogoutCallback;
