@@ -606,6 +606,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 if (!string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
                 {
                     var definedProductionEnvironments = Config.Get<ProductConfig>().Environments;
+                    bool sandboxOverridden = false;
                     foreach (Named<SandboxId> sandbox in definedProductionEnvironments.Sandboxes)
                     {
                         if (sandbox.Value.ToString() != epicArgs.epicSandboxID.ToLower())
@@ -614,7 +615,20 @@ namespace PlayEveryWare.EpicOnlineServices
                         }
 
                         PlatformManager.GetPlatformConfig().deployment.SandboxId = sandbox.Value;
+                        sandboxOverridden = true;
+                        Debug.Log($"SandboxID was overridden to be \"{sandbox.Value}\" by a command line parameter.");
                         break;
+                    }
+
+                    if (!sandboxOverridden)
+                    {
+                        Debug.LogWarning(
+                            $"The SandboxID " +
+                            $"\"{epicArgs.epicSandboxID}\" specified by " +
+                            $"command line argument is not a valid id. " +
+                            $"Defaulting to SandboxID " +
+                            $"\"{PlatformManager.GetPlatformConfig().deployment.SandboxId}\" " +
+                            $"defined in the configuration.");
                     }
                 }
 
