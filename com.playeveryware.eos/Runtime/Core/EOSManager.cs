@@ -52,6 +52,7 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     //using Extensions;
+    using Common;
     using Common.Extensions;
     using UnityEngine;
     using System;
@@ -604,9 +605,17 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (!string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
                 {
-                    // TODO: Move this to set the deployment on the platform config
-                    //       unless that is done, this will no longer function.
-                    Config.Get<EOSConfig>().SetDeployment(epicArgs.epicSandboxID);
+                    var definedProductionEnvironments = Config.Get<ProductConfig>().Environments;
+                    foreach (Named<SandboxId> sandbox in definedProductionEnvironments.Sandboxes)
+                    {
+                        if (sandbox.Value.ToString() != epicArgs.epicSandboxID.ToLower())
+                        {
+                            continue;
+                        }
+
+                        PlatformManager.GetPlatformConfig().deployment.SandboxId = sandbox.Value;
+                        break;
+                    }
                 }
 
                 Result initResult = InitializePlatformInterface();
