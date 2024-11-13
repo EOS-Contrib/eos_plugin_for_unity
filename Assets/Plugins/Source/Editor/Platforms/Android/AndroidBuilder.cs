@@ -346,7 +346,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
         private static void ConfigureEOSDependentLibrary()
         {
-            string clientIDAsLower = Config.Get<PlatformConfig>().clientCredentials.ClientId.ToLower();
+            string clientIDAsLower = PlatformManager.GetPlatformConfig().clientCredentials.ClientId.ToLower();
 
             var pathToEOSValuesConfig = GetAndroidEOSValuesConfigPath();
             var currentEOSValuesConfigAsXML = new System.Xml.XmlDocument();
