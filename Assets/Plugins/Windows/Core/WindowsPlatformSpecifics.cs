@@ -63,6 +63,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private static GCHandle SteamOptionsGCHandle;
 
+        public WindowsPlatformSpecifics() : base(PlatformManager.Platform.Windows) { }
+
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
