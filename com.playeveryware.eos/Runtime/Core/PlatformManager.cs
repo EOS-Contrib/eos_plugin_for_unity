@@ -231,60 +231,6 @@ namespace PlayEveryWare.EpicOnlineServices
             return PlatformInformation[platform].ConfigType;
         }
 
-#if !EXTERNAL_TO_UNITY
-        public static bool TryGetPlatform(RuntimePlatform runtime, out Platform platform)
-        {
-            switch (runtime)
-            {
-                case RuntimePlatform.Android:
-                    platform = Platform.Android;
-                    break;
-                case RuntimePlatform.IPhonePlayer:
-                    platform = Platform.iOS;
-                    break;
-                case RuntimePlatform.PS4:
-                    platform = Platform.PS4;
-                    break;
-                case RuntimePlatform.GameCoreXboxOne:
-                case RuntimePlatform.XboxOne:
-                    platform = Platform.XboxOne;
-                    break;
-                case RuntimePlatform.Switch:
-                    platform = Platform.Switch;
-                    break;
-                case RuntimePlatform.GameCoreXboxSeries:
-                    platform = Platform.XboxSeriesX;
-                    break;
-                case RuntimePlatform.PS5:
-                    platform = Platform.PS5;
-                    break;
-                case RuntimePlatform.LinuxPlayer:
-                case RuntimePlatform.LinuxEditor:
-                case RuntimePlatform.EmbeddedLinuxX64:
-                case RuntimePlatform.EmbeddedLinuxX86:
-                case RuntimePlatform.LinuxServer:
-                    platform = Platform.Linux;
-                    break;
-                case RuntimePlatform.WindowsServer:
-                case RuntimePlatform.WindowsPlayer:
-                case RuntimePlatform.WindowsEditor:
-                    platform = Platform.Windows;
-                    break;
-                case RuntimePlatform.OSXEditor:
-                case RuntimePlatform.OSXPlayer:
-                case RuntimePlatform.OSXServer:
-                    platform = Platform.macOS;
-                    break;
-                default:
-                    platform = Platform.Unknown;
-                    break;
-            }
-
-            return platform == Platform.Unknown;
-
-        }
-#endif
-
 #if UNITY_EDITOR
         /// <summary>
         /// Maps Unity BuildTarget to Platform
