@@ -150,10 +150,26 @@ namespace PlayEveryWare.EpicOnlineServices
             _allowDefaultIfFileNotFound = allowDefault;
         }
 
+        // When EXTERNAL_TO_UNITY is defined, the context is that this code
+        // file is being compiled as part of a C# class library that is compiled
+        // into Native Code - accessing the WindowsConfig is difficult to do 
+        // from that context from a generic function like Get<> or GetAsync<>, 
+        // so this function is added to help make that smoother.
+#if EXTERNAL_TO_UNITY
+        /// <summary>
+        /// This function exists for the native code to be able to access the
+        /// WindowsConfig class without needing to call the generic get
+        /// function from a native context, which would present complications
+        /// of it's own.
+        /// </summary>
+        /// <returns>
+        /// The WindowsConfig values.
+        /// </returns>
         public static WindowsConfig GetWindowsConfig()
         {
             return Get<WindowsConfig>();
         }
+#endif
 
         /// <summary>
         /// Implement this function in deriving classes to do any additional
