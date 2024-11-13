@@ -438,28 +438,24 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private Result InitializePlatformInterface()
             {
-                EOSConfig configData = Config.Get<EOSConfig>();
+                ProductConfig productConfig = Config.Get<ProductConfig>();
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 print("InitializePlatformInterface: platformSpecifics.GetType() = " + platformSpecifics.GetType());
 
-                EOSInitializeOptions initOptions = new EOSInitializeOptions();
+                EOSInitializeOptions initOptions = new();
 
                 print("InitializePlatformInterface: initOptions.GetType() = " + initOptions.GetType());
 
-                initOptions.options.ProductName = configData.productName;
-                initOptions.options.ProductVersion = configData.productVersion;
+                initOptions.options.ProductName = productConfig.ProductName;
+                initOptions.options.ProductVersion = productConfig.ProductVersion.ToString();
                 initOptions.options.OverrideThreadAffinity = new InitializeThreadAffinity();
 
                 initOptions.options.AllocateMemoryFunction = IntPtr.Zero;
                 initOptions.options.ReallocateMemoryFunction = IntPtr.Zero;
                 initOptions.options.ReleaseMemoryFunction = IntPtr.Zero;
 
-                var overrideThreadAffinity = new InitializeThreadAffinity();
-
-                configData.ConfigureOverrideThreadAffinity(ref overrideThreadAffinity);
-
-                initOptions.options.OverrideThreadAffinity = overrideThreadAffinity;
+                initOptions.options.OverrideThreadAffinity = PlatformManager.GetPlatformConfig().threadAffinity.Unwrap();
 
                 platformSpecifics.ConfigureSystemInitOptions(ref initOptions);
 
@@ -475,49 +471,39 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private PlatformInterface CreatePlatformInterface()
             {
-                EOSConfig configData = Config.Get<EOSConfig>();
+                PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
+                ProductConfig productConfig = Config.Get<ProductConfig>();
+
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
-                EOSCreateOptions platformOptions = new EOSCreateOptions();
+                EOSCreateOptions platformOptions = new();
 
-                
                 platformOptions.options.CacheDirectory = platformSpecifics.GetTempDir();
-                platformOptions.options.IsServer = configData.isServer;
+                platformOptions.options.IsServer = platformConfig.isServer;
                 platformOptions.options.Flags =
 #if UNITY_EDITOR
                     PlatformFlags.LoadingInEditor;
 #else
                     configData.platformOptionsFlags.Unwrap();
 #endif
-                if (EOSClientCredentials.IsEncryptionKeyValid(configData.encryptionKey))
-                {
-                    platformOptions.options.EncryptionKey = configData.encryptionKey;
-                }
-                else
-                {
-                    print(
-                        "EOS config data does not contain a valid encryption key which is needed for Player Data Storage and Title Storage.",
-                        LogType.Warning);
-                }
-
+                
                 platformOptions.options.OverrideCountryCode = null;
                 platformOptions.options.OverrideLocaleCode = null;
-                platformOptions.options.ProductId = configData.productID;
-                platformOptions.options.SandboxId = configData.sandboxID;
-                platformOptions.options.DeploymentId = configData.deploymentID;
+                platformOptions.options.ProductId = productConfig.ProductId.ToStrippedString();
+                platformOptions.options.SandboxId = platformConfig.deployment.SandboxId.ToString();
+                platformOptions.options.DeploymentId = platformConfig.deployment.DeploymentId.ToStrippedString();
 
-                platformOptions.options.TickBudgetInMilliseconds = configData.tickBudgetInMilliseconds;
+                platformOptions.options.TickBudgetInMilliseconds = platformConfig.tickBudgetInMilliseconds;
 
                 // configData has to serialize to JSON, so it doesn't represent null
                 // If the value is <= 0, then set it to null, which the EOS SDK will handle by using default of 30 seconds.
-                platformOptions.options.TaskNetworkTimeoutSeconds = configData.taskNetworkTimeoutSeconds > 0 ? configData.taskNetworkTimeoutSeconds : null;
+                platformOptions.options.TaskNetworkTimeoutSeconds = platformConfig.taskNetworkTimeoutSeconds > 0 ? platformConfig.taskNetworkTimeoutSeconds : null;
 
-                var clientCredentials = new ClientCredentials
+                platformOptions.options.ClientCredentials = new ClientCredentials
                 {
-                    ClientId = configData.clientID,
-                    ClientSecret = configData.clientSecret
+                    ClientId = platformConfig.clientCredentials.ClientId,
+                    ClientSecret = platformConfig.clientCredentials.ClientSecret,
                 };
-                platformOptions.options.ClientCredentials = clientCredentials;
 
 
 #if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX || UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX)
@@ -545,20 +531,17 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private void InitializeOverlay(IEOSCoroutineOwner coroutineOwner)
             {
-                EOSConfig configData = Config.Get<EOSConfig>();
-
                 // Sets the button for the bringing up the overlay
                 var friendToggle = new SetToggleFriendsButtonOptions
                 {
-                    ButtonCombination = configData.toggleFriendsButtonCombination
+                    ButtonCombination = PlatformManager.GetPlatformConfig().toggleFriendsButtonCombination
                 };
                 UIInterface uiInterface = Instance.GetEOSPlatformInterface().GetUIInterface();
                 uiInterface.SetToggleFriendsButton(ref friendToggle);
 
                 EOSManagerPlatformSpecificsSingleton.Instance.InitializeOverlay(coroutineOwner);
 
-                AddNotifyDisplaySettingsUpdatedOptions addNotificationData =
-                    new AddNotifyDisplaySettingsUpdatedOptions();
+                AddNotifyDisplaySettingsUpdatedOptions addNotificationData = new();
 
                 GetEOSUIInterface().AddNotifyDisplaySettingsUpdated(ref addNotificationData, null,
                     (ref OnDisplaySettingsUpdatedCallbackInfo data) =>
@@ -612,6 +595,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (!string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
                 {
+                    // TODO: Move this to set the deployment on the platform config
+                    //       unless that is done, this will no longer function.
                     Config.Get<EOSConfig>().SetDeployment(epicArgs.epicSandboxID);
                 }
 
@@ -850,6 +835,12 @@ namespace PlayEveryWare.EpicOnlineServices
                     Token = token
                 };
 
+                /*
+
+                TODO: For discussion - this is explicitly setting the auth 
+                      scope flags to something other than the default, this is
+                      misleading and should not be done.
+
                 AuthScopeFlags scopeFlags = (AuthScopeFlags.BasicProfile |
                                              AuthScopeFlags.FriendsList |
                                              AuthScopeFlags.Presence);
@@ -858,11 +849,12 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     scopeFlags = Config.Get<EOSConfig>().authScopeOptionsFlags;
                 }
+                */
                 
                 return new LoginOptions
                 {
                     Credentials = loginCredentials,
-                    ScopeFlags = scopeFlags
+                    ScopeFlags = PlatformManager.GetPlatformConfig().authScopeOptionsFlags,
                 };
             }
 
