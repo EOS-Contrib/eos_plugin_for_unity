@@ -65,15 +65,6 @@ namespace PlayEveryWare.EpicOnlineServices
         "Thread Affinity & Tick Budgets",
         "Overlay Options"
     }, false)]
-    [Obsolete(
-        "This class has been deprecated in favor of targetted " +
-        "platform specific configuration files. It remains here to provide " +
-        "backwards compatibility but will be removed in an upcoming release." +
-        "Instead, you should utilize the PlatformConfig returned by " +
-        "PlatformManager.TryGetPlatformConfig for values that are unique to " +
-        "a given platform, and you should access ProductConfig via " +
-        "Config.Get<ProductConfig>() for all other values that are common " +
-        "to all platforms.")]
     public class EOSConfig : Config
     {
         static EOSConfig()
