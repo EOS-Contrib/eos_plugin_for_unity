@@ -38,6 +38,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #region Methods for which the functionality is shared (consider these "sealed")
 
+        protected PlatformSpecifics(PlatformManager.Platform platform)
+        {
+            Platform = platform;
+        }
+
         public string GetDynamicLibraryExtension()
         {
             return PlatformManager.GetDynamicLibraryExtension(Platform);
