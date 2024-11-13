@@ -52,6 +52,7 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     //using Extensions;
+    using Common.Extensions;
     using UnityEngine;
     using System;
     using System.Collections.Generic;
@@ -271,7 +272,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public string GetProductId()
             {
-                return Config.Get<EOSConfig>().productID;
+                return Config.Get<ProductConfig>().ProductId.ToStrippedString();
             }
 
             //-------------------------------------------------------------------------
@@ -281,7 +282,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public string GetSandboxId()
             {
-                return Config.Get<EOSConfig>().sandboxID;
+                return PlatformManager.GetPlatformConfig().deployment.SandboxId.ToString();
             }
 
             //-------------------------------------------------------------------------
@@ -291,7 +292,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public string GetDeploymentID()
             {
-                return Config.Get<EOSConfig>().deploymentID;
+                return PlatformManager.GetPlatformConfig().deployment.DeploymentId.ToStrippedString();
             }
 
             //-------------------------------------------------------------------------
@@ -301,7 +302,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public bool IsEncryptionKeyValid()
             {
-                return EOSClientCredentials.IsEncryptionKeyValid(Config.Get<EOSConfig>().encryptionKey);
+                return PlatformManager.GetPlatformConfig().clientCredentials.IsEncryptionKeyValid();
             }
 
             //-------------------------------------------------------------------------
@@ -324,7 +325,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public bool ShouldOverlayReceiveInput()
             {
                 return (s_isOverlayVisible && s_DoesOverlayHaveExcusiveInput)
-                       || Config.Get<EOSConfig>().alwaysSendInputToOverlay
+                       || PlatformManager.GetPlatformConfig().alwaysSendInputToOverlay
                     ;
             }
 
