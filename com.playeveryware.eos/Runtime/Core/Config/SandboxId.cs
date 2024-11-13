@@ -41,7 +41,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 // allow null value
                 if (value == null)
                 {
-                    _value = value;
+                    _value = null;
                     return;
                 }
 
@@ -56,8 +56,17 @@ namespace PlayEveryWare.EpicOnlineServices
                             "letter characters.");
                     }
                 }
+                else
+                {
+                    // If the Guid was correctly parsed, then considering that
+                    // the EOS SDK prefers SandboxId to be lowercase without
+                    // dashes, do this just to be sure.
+                    value = value.Replace("-", "");
+                }
 
-                _value = value;
+                // Whether the value was correctly matched to the regex or it
+                // was a Guid, it still should be lowercase.
+                _value = value.ToLower();
             }
         }
 
@@ -66,7 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return _value == other._value;
         }
 
-        public override bool Equals(object obj)
+        public override readonly bool Equals(object obj)
         {
             return obj is SandboxId sandboxId && Equals(sandboxId);
         }
@@ -74,6 +83,11 @@ namespace PlayEveryWare.EpicOnlineServices
         public override readonly int GetHashCode()
         {
             return (_value?.GetHashCode()) ?? 0;
+        }
+
+        public override readonly string ToString()
+        {
+            return _value;
         }
     }
 }

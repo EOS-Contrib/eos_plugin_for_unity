@@ -25,7 +25,6 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    [Serializable]
     public class LogCategoryLevelPair
     {
         public string Category;
@@ -38,7 +37,6 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 
-    [Serializable]
     public class LogLevelConfig : Config
     {
         static LogLevelConfig()

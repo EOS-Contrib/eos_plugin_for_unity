@@ -51,7 +51,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using Extensions;
+    //using Extensions;
     using UnityEngine;
     using System;
     using System.Collections.Generic;
@@ -107,8 +107,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public delegate void OnConnectLoginCallback(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);
 
-        public delegate Task<UserLoginInfo> GetUserLoginInfoDelegate();
-
         private static event OnAuthLoginCallback OnAuthLogin;
         private static event OnAuthLogoutCallback OnAuthLogout;
         private static event OnConnectLoginCallback OnConnectLogin;
@@ -119,7 +117,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// UserLoginInfo during <see cref="StartConnectLoginWithEpicAccount"/>.
         /// If this is not provided, no UserLoginInfo will be set.
         /// </summary>
-        public static GetUserLoginInfoDelegate GetUserLoginInfo = null;
+        public static Func<Task<UserLoginInfo>> GetUserLoginInfo = null;
 
         public delegate void OnCreateConnectUserCallback(CreateUserCallbackInfo createUserCallbackInfo);
 
@@ -303,7 +301,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public bool IsEncryptionKeyValid()
             {
-                return Config.Get<EOSConfig>().IsEncryptionKeyValid();
+                return EOSClientCredentials.IsEncryptionKeyValid(Config.Get<EOSConfig>().encryptionKey);
             }
 
             //-------------------------------------------------------------------------
@@ -490,7 +488,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #else
                     configData.platformOptionsFlags.Unwrap();
 #endif
-                if (configData.IsEncryptionKeyValid())
+                if (EOSClientCredentials.IsEncryptionKeyValid(configData.encryptionKey))
                 {
                     platformOptions.options.EncryptionKey = configData.encryptionKey;
                 }

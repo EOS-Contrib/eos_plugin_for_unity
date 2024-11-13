@@ -22,7 +22,7 @@
 
 namespace PlayEveryWare.Common
 {
-    using PlayEveryWare.EpicOnlineServices.Utility;
+    using EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
 
@@ -42,6 +42,17 @@ namespace PlayEveryWare.Common
         public T Value;
 
         /// <summary>
+        /// Create a new Named with the given name and value.
+        /// </summary>
+        /// <param name="name">The name for the value.</param>
+        /// <param name="value">The value.</param>
+        public Named(string name, T value)
+        {
+            Name = name;
+            Value = value;
+        }
+
+        /// <summary>
         /// Creates a Named object from the given value and with a given name.
         /// </summary>
         /// <param name="value">
@@ -55,11 +66,12 @@ namespace PlayEveryWare.Common
         /// </returns>
         public static Named<T> FromValue(T value, string name)
         {
-            return new Named<T>() { Name = name, Value = value };
+            return new Named<T>(name, value);
         }
 
         /// <summary>
-        /// Compares one named value to another, for sorting purposes.
+        /// Compares one named value to another. This is purely for sorting
+        /// purposes, so only the Name component of the value is compared.
         /// </summary>
         /// <param name="other">
         /// The other named object (must be of same type).
@@ -69,7 +81,7 @@ namespace PlayEveryWare.Common
         /// </returns>
         public int CompareTo(Named<T> other)
         {
-            return string.Compare(Name, other.Name, StringComparison.Ordinal);
+            return string.CompareOrdinal(Name, other.Name);
         }
 
         /// <summary>
@@ -88,10 +100,7 @@ namespace PlayEveryWare.Common
             if (Value == null && other == null)
                 return true;
 
-            if (Value == null)
-                return false;
-
-            return Value.Equals(other);
+            return Value != null && Value.Equals(other);
         }
 
         public override bool Equals(object obj)
@@ -106,12 +115,7 @@ namespace PlayEveryWare.Common
                 return false;
             }
 
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            return EqualityComparer<T>.Default.Equals(Value, other.Value);
+            return ReferenceEquals(this, other) || EqualityComparer<T>.Default.Equals(Value, other.Value);
         }
 
         public override int GetHashCode()

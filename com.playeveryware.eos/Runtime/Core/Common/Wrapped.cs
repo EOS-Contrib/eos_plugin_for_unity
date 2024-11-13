@@ -20,26 +20,29 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.Common
 {
-    using System;
 
-    // Flags specifically for Windows
-    [ConfigGroup("Windows Config", new[]
+    /// <summary>
+    /// Provides functionality for a class that can wrap a struct value type.
+    /// </summary>
+    /// <typeparam name="T">
+    /// A struct type to wrap in a reference type.
+    /// </typeparam>
+    public abstract class Wrapped<T> where T : struct
     {
-        "Windows-Specific Options",
-        "Deployment",
-        "Flags",
-        "Tick Budgets",
-        "Overlay Options"
-    }, false)]
-    public class WindowsConfig : PlatformConfig
-    {
-        static WindowsConfig()
+        /// <summary>
+        /// The underlying value that is being wrapped.
+        /// </summary>
+        protected T _value;
+
+        /// <summary>
+        /// Return the wrapped value.
+        /// </summary>
+        /// <returns>The value that is wrapped by this reference.</returns>
+        public T Unwrap()
         {
-            RegisterFactory(() => new WindowsConfig());
+            return _value;
         }
-
-        protected WindowsConfig() : base(PlatformManager.Platform.Windows) { }
     }
 }
