@@ -52,6 +52,8 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     //using Extensions;
+    using Common;
+    using Common.Extensions;
     using UnityEngine;
     using System;
     using System.Collections.Generic;
@@ -64,11 +66,10 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.Logging;
     using Epic.OnlineServices.Connect;
     using Epic.OnlineServices.UI;
-#endif
 
-#if !EOS_DISABLE
     using Epic.OnlineServices.Presence;
-
+    
+    using Extensions;
     using System.Diagnostics;
     using System.Globalization;
     using UnityEngine.Assertions;
@@ -82,7 +83,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using LoginStatusChangedCallbackInfo = Epic.OnlineServices.Auth.LoginStatusChangedCallbackInfo;
 
     using Utility;
-    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
     using LogoutCallbackInfo = Epic.OnlineServices.Auth.LogoutCallbackInfo;
     using LogoutOptions = Epic.OnlineServices.Auth.LogoutOptions;
     using OnLogoutCallback = Epic.OnlineServices.Auth.OnLogoutCallback;
@@ -271,7 +271,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public string GetProductId()
             {
-                return Config.Get<EOSConfig>().productID;
+                return Config.Get<ProductConfig>().ProductId.ToStrippedString();
             }
 
             //-------------------------------------------------------------------------
@@ -281,7 +281,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public string GetSandboxId()
             {
-                return Config.Get<EOSConfig>().sandboxID;
+                return PlatformManager.GetPlatformConfig().deployment.SandboxId.ToString();
             }
 
             //-------------------------------------------------------------------------
@@ -291,7 +291,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public string GetDeploymentID()
             {
-                return Config.Get<EOSConfig>().deploymentID;
+                return PlatformManager.GetPlatformConfig().deployment.DeploymentId.ToStrippedString();
             }
 
             //-------------------------------------------------------------------------
@@ -301,7 +301,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public bool IsEncryptionKeyValid()
             {
-                return EOSClientCredentials.IsEncryptionKeyValid(Config.Get<EOSConfig>().encryptionKey);
+                return PlatformManager.GetPlatformConfig().clientCredentials.IsEncryptionKeyValid();
             }
 
             //-------------------------------------------------------------------------
@@ -324,7 +324,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public bool ShouldOverlayReceiveInput()
             {
                 return (s_isOverlayVisible && s_DoesOverlayHaveExcusiveInput)
-                       || Config.Get<EOSConfig>().alwaysSendInputToOverlay
+                       || PlatformManager.GetPlatformConfig().alwaysSendInputToOverlay
                     ;
             }
 
@@ -437,28 +437,24 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private Result InitializePlatformInterface()
             {
-                EOSConfig configData = Config.Get<EOSConfig>();
+                ProductConfig productConfig = Config.Get<ProductConfig>();
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 print("InitializePlatformInterface: platformSpecifics.GetType() = " + platformSpecifics.GetType());
 
-                EOSInitializeOptions initOptions = new EOSInitializeOptions();
+                EOSInitializeOptions initOptions = new();
 
                 print("InitializePlatformInterface: initOptions.GetType() = " + initOptions.GetType());
 
-                initOptions.options.ProductName = configData.productName;
-                initOptions.options.ProductVersion = configData.productVersion;
+                initOptions.options.ProductName = productConfig.ProductName;
+                initOptions.options.ProductVersion = productConfig.ProductVersion.ToString();
                 initOptions.options.OverrideThreadAffinity = new InitializeThreadAffinity();
 
                 initOptions.options.AllocateMemoryFunction = IntPtr.Zero;
                 initOptions.options.ReallocateMemoryFunction = IntPtr.Zero;
                 initOptions.options.ReleaseMemoryFunction = IntPtr.Zero;
 
-                var overrideThreadAffinity = new InitializeThreadAffinity();
-
-                configData.ConfigureOverrideThreadAffinity(ref overrideThreadAffinity);
-
-                initOptions.options.OverrideThreadAffinity = overrideThreadAffinity;
+                initOptions.options.OverrideThreadAffinity = PlatformManager.GetPlatformConfig().threadAffinity.Unwrap();
 
                 platformSpecifics.ConfigureSystemInitOptions(ref initOptions);
 
@@ -474,49 +470,48 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private PlatformInterface CreatePlatformInterface()
             {
-                EOSConfig configData = Config.Get<EOSConfig>();
+                PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
+                ProductConfig productConfig = Config.Get<ProductConfig>();
+
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
-                EOSCreateOptions platformOptions = new EOSCreateOptions();
+                EOSCreateOptions platformOptions = new();
 
-                
                 platformOptions.options.CacheDirectory = platformSpecifics.GetTempDir();
-                platformOptions.options.IsServer = configData.isServer;
+                platformOptions.options.IsServer = platformConfig.isServer;
                 platformOptions.options.Flags =
 #if UNITY_EDITOR
-                    PlatformFlags.LoadingInEditor;
+                PlatformFlags.LoadingInEditor;
 #else
-                    configData.platformOptionsFlags.Unwrap();
+                platformConfig.platformOptionsFlags.Unwrap();
 #endif
-                if (EOSClientCredentials.IsEncryptionKeyValid(configData.encryptionKey))
+
+                if (!platformConfig.clientCredentials.IsEncryptionKeyValid())
                 {
-                    platformOptions.options.EncryptionKey = configData.encryptionKey;
+                    Debug.LogError("The encryption key used for the selected client credentials is invalid. Please see your platform configuration.");
                 }
                 else
                 {
-                    print(
-                        "EOS config data does not contain a valid encryption key which is needed for Player Data Storage and Title Storage.",
-                        LogType.Warning);
+                    platformOptions.options.EncryptionKey = platformConfig.clientCredentials.EncryptionKey;
                 }
 
                 platformOptions.options.OverrideCountryCode = null;
                 platformOptions.options.OverrideLocaleCode = null;
-                platformOptions.options.ProductId = configData.productID;
-                platformOptions.options.SandboxId = configData.sandboxID;
-                platformOptions.options.DeploymentId = configData.deploymentID;
+                platformOptions.options.ProductId = productConfig.ProductId.ToStrippedString();
+                platformOptions.options.SandboxId = platformConfig.deployment.SandboxId.ToString();
+                platformOptions.options.DeploymentId = platformConfig.deployment.DeploymentId.ToStrippedString();
 
-                platformOptions.options.TickBudgetInMilliseconds = configData.tickBudgetInMilliseconds;
+                platformOptions.options.TickBudgetInMilliseconds = platformConfig.tickBudgetInMilliseconds;
 
                 // configData has to serialize to JSON, so it doesn't represent null
                 // If the value is <= 0, then set it to null, which the EOS SDK will handle by using default of 30 seconds.
-                platformOptions.options.TaskNetworkTimeoutSeconds = configData.taskNetworkTimeoutSeconds > 0 ? configData.taskNetworkTimeoutSeconds : null;
+                platformOptions.options.TaskNetworkTimeoutSeconds = platformConfig.taskNetworkTimeoutSeconds > 0 ? platformConfig.taskNetworkTimeoutSeconds : null;
 
-                var clientCredentials = new ClientCredentials
+                platformOptions.options.ClientCredentials = new ClientCredentials
                 {
-                    ClientId = configData.clientID,
-                    ClientSecret = configData.clientSecret
+                    ClientId = platformConfig.clientCredentials.ClientId,
+                    ClientSecret = platformConfig.clientCredentials.ClientSecret,
                 };
-                platformOptions.options.ClientCredentials = clientCredentials;
 
 
 #if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX || UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX)
@@ -544,20 +539,17 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private void InitializeOverlay(IEOSCoroutineOwner coroutineOwner)
             {
-                EOSConfig configData = Config.Get<EOSConfig>();
-
                 // Sets the button for the bringing up the overlay
                 var friendToggle = new SetToggleFriendsButtonOptions
                 {
-                    ButtonCombination = configData.toggleFriendsButtonCombination
+                    ButtonCombination = PlatformManager.GetPlatformConfig().toggleFriendsButtonCombination
                 };
                 UIInterface uiInterface = Instance.GetEOSPlatformInterface().GetUIInterface();
                 uiInterface.SetToggleFriendsButton(ref friendToggle);
 
                 EOSManagerPlatformSpecificsSingleton.Instance.InitializeOverlay(coroutineOwner);
 
-                AddNotifyDisplaySettingsUpdatedOptions addNotificationData =
-                    new AddNotifyDisplaySettingsUpdatedOptions();
+                AddNotifyDisplaySettingsUpdatedOptions addNotificationData = new();
 
                 GetEOSUIInterface().AddNotifyDisplaySettingsUpdated(ref addNotificationData, null,
                     (ref OnDisplaySettingsUpdatedCallbackInfo data) =>
@@ -573,6 +565,43 @@ namespace PlayEveryWare.EpicOnlineServices
             public void Init(IEOSCoroutineOwner coroutineOwner)
             {
                 Init(coroutineOwner, EOSPackageInfo.ConfigFileName);
+            }
+
+            private void ConfigureCommandLineOptions()
+            {
+                // TODO: Make more complete the support for command line arguments.
+                var epicArgs = GetCommandLineArgsFromEpicLauncher();
+
+                if (string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
+                {
+                    return;
+                }
+
+                var definedProductionEnvironments = Config.Get<ProductConfig>().Environments;
+                bool sandboxOverridden = false;
+                foreach (Named<SandboxId> sandbox in definedProductionEnvironments.Sandboxes)
+                {
+                    if (sandbox.Value.ToString() != epicArgs.epicSandboxID.ToLower())
+                    {
+                        continue;
+                    }
+
+                    PlatformManager.GetPlatformConfig().deployment.SandboxId = sandbox.Value;
+                    sandboxOverridden = true;
+                    Debug.Log($"SandboxID was overridden to be \"{sandbox.Value}\" by a command line parameter.");
+                    break;
+                }
+
+                if (!sandboxOverridden)
+                {
+                    Debug.LogWarning(
+                        $"The SandboxID " +
+                        $"\"{epicArgs.epicSandboxID}\" specified by " +
+                        $"command line argument is not a valid id. " +
+                        $"Defaulting to SandboxID " +
+                        $"\"{PlatformManager.GetPlatformConfig().deployment.SandboxId}\" " +
+                        $"defined in the configuration.");
+                }
             }
 
             private void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
@@ -607,12 +636,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 InitializeLogLevels();
 #endif
 
-                var epicArgs = GetCommandLineArgsFromEpicLauncher();
-
-                if (!string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
-                {
-                    Config.Get<EOSConfig>().SetDeployment(epicArgs.epicSandboxID);
-                }
+                ConfigureCommandLineOptions();
 
                 Result initResult = InitializePlatformInterface();
 
@@ -848,20 +872,11 @@ namespace PlayEveryWare.EpicOnlineServices
                     Id = id,
                     Token = token
                 };
-
-                AuthScopeFlags scopeFlags = (AuthScopeFlags.BasicProfile |
-                                             AuthScopeFlags.FriendsList |
-                                             AuthScopeFlags.Presence);
-                
-                if (Config.Get<EOSConfig>().authScopeOptionsFlags != AuthScopeFlags.NoFlags)
-                {
-                    scopeFlags = Config.Get<EOSConfig>().authScopeOptionsFlags;
-                }
                 
                 return new LoginOptions
                 {
                     Credentials = loginCredentials,
-                    ScopeFlags = scopeFlags
+                    ScopeFlags = PlatformManager.GetPlatformConfig().authScopeOptionsFlags,
                 };
             }
 
@@ -905,11 +920,11 @@ namespace PlayEveryWare.EpicOnlineServices
             /// See https://dev.epicgames.com/docs/services/en-US/Interfaces/Auth/index.html#epicgameslauncher
             /// </summary>
             /// <returns><c>EpicLauncherArgs</c> struct</returns>
-            public EpicLauncherArgs GetCommandLineArgsFromEpicLauncher()
+            public static EpicLauncherArgs GetCommandLineArgsFromEpicLauncher()
             {
                 var epicLauncherArgs = new EpicLauncherArgs();
 
-                void ConfigureEpicArgument(string argument, ref string argumentString)
+                static void ConfigureEpicArgument(string argument, ref string argumentString)
                 {
                     int startIndex = argument.IndexOf('=') + 1;
                     if (!(startIndex < 0 || startIndex > argument.Length))

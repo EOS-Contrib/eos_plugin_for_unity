@@ -38,12 +38,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #region Methods for which the functionality is shared (consider these "sealed")
 
-        protected PlatformSpecifics(PlatformManager.Platform platform, string dynamicLibraryExtension)
-        {
-            this.Platform = platform;
-            PlatformManager.SetPlatformDetails(platform, typeof(T), dynamicLibraryExtension);
-        }
-
         public string GetDynamicLibraryExtension()
         {
             return PlatformManager.GetDynamicLibraryExtension(Platform);
@@ -108,9 +102,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 Debug.Log($"Assigning thread affinity override values for platform \"{Platform}\".");
                 var overrideThreadAffinity = initializeOptions.options.OverrideThreadAffinity.Value;
 
-                Config.Get<EOSConfig>().ConfigureOverrideThreadAffinity(ref overrideThreadAffinity);
-
-                initializeOptions.options.OverrideThreadAffinity = overrideThreadAffinity;
+                PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
+                
+                initializeOptions.options.OverrideThreadAffinity = platformConfig.threadAffinity.Unwrap();
             }
         }
 
