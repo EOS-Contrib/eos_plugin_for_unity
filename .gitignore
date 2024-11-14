@@ -3,6 +3,9 @@
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
 
+# Temporarily prevent EpicOnlineServicesConfig.json from being altered
+Assets/StreamingAssets/EOS/EpicOnlineServicesConfig.json
+
 #-------------------------------------------------------------------------
 # unity
 /[Ll]ibrary/
