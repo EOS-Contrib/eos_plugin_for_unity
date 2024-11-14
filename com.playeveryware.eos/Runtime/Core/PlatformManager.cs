@@ -22,7 +22,6 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using JetBrains.Annotations;
     using System.Collections.Generic;
     using System;
 
@@ -63,9 +62,9 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             public string FullName { get;  }
             public string ConfigFileName { get; }
-            [CanBeNull] public string DynamicLibraryExtension { get; }
+            public string DynamicLibraryExtension { get; }
             public string PlatformIconLabel { get; }
-            [CanBeNull] public Func<PlatformConfig> GetConfigFunction { get; }
+            public Func<PlatformConfig> GetConfigFunction { get; }
             public Type ConfigType { get; }
 
             private PlatformInfo(Func<PlatformConfig> getConfigFunction, Type configType, string fullName, string configFileName, string dynamicLibraryExtension,
