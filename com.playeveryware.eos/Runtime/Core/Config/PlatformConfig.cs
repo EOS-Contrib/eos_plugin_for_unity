@@ -331,6 +331,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private void MigrateThreadAffinity(EOSConfig overrideValuesFromFieldMember, OverrideableConfigValues mainOverrideableConfig)
         {
+            threadAffinity ??= new();
+
             // Import the values for thread initialization
             threadAffinity.NetworkWork = SelectValue(
                 overrideValuesFromFieldMember.ThreadAffinity_networkWork,
