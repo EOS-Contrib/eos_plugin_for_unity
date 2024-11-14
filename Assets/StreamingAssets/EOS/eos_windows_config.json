@@ -16,7 +16,16 @@
   "flags": 0,
   "tickBudgetInMilliseconds": 0,
   "taskNetworkTimeoutSeconds": 0.0,
-  "threadAffinity": null,
+  "threadAffinity": {
+    "NetworkWork": 0,
+    "StorageIo": 0,
+    "WebSocketIo": 0,
+    "P2PIo": 0,
+    "HttpRequestIo": 0,
+    "RTCIo": 0,
+    "EmbeddedOverlayMainThread": 0,
+    "EmbeddedOverlayWorkerThreads": 0
+  },
   "alwaysSendInputToOverlay": false,
   "initialButtonDelayForOverlay": 0.0,
   "repeatButtonDelayForOverlay": 0.0,
