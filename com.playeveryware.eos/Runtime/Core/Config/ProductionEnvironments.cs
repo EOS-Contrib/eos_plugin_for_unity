@@ -44,24 +44,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public SetOfNamed<SandboxId> Sandboxes { get; } = new("Sandbox");
 
         /// <summary>
-        /// Adds a Sandbox to the Production Environment.
-        /// </summary>
-        /// <param name="sandbox">
-        /// The sandbox to add.</param>
-        /// <returns>
-        /// True if the sandbox was added successfully, false otherwise.
-        /// </returns>
-        public bool AddSandbox(Named<SandboxId> sandbox)
-        {
-            return Sandboxes.Add(sandbox);
-        }
-
-        public bool AddNewSandbox()
-        {
-            return Sandboxes.Add();
-        }
-
-        /// <summary>
         /// Removes a Sandbox from the Production Environment.
         /// </summary>
         /// <param name="sandbox">
@@ -104,25 +86,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // Add the deployment to the list of deployments
             return Deployments.Add(deployment);
-        }
-
-        public bool AddNewDeployment()
-        {
-            return Deployments.Add();
-        }
-
-        /// <summary>
-        /// Removes a Deployment from the Production Environment.
-        /// </summary>
-        /// <param name="deployment">
-        /// The Deployment to remove from the Production Environment.
-        /// </param>
-        /// <returns>
-        /// True if the Deployment was successfully removed, false otherwise.
-        /// </returns>
-        public bool RemoveDeployment(Named<Deployment> deployment)
-        {
-            return Deployments.Remove(deployment);
         }
     }
 }

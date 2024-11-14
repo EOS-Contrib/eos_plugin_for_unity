@@ -141,7 +141,7 @@ namespace PlayEveryWare.Common
         /// True if there is an item in the collection with the given name,
         /// false otherwise.
         /// </returns>
-        public bool ContainsName(string name)
+        private bool ContainsName(string name)
         {
             foreach (Named<T> item in this)
             {
@@ -165,7 +165,7 @@ namespace PlayEveryWare.Common
         /// True if there is an item in the collection with the indicated value,
         /// false otherwise.
         /// </returns>
-        public bool Contains(T item)
+        private bool Contains(T item)
         {
             foreach (Named<T> namedItemInSet in this)
             {

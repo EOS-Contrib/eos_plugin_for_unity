@@ -903,10 +903,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                         }
                     }
                 },
-                () => productionEnvironmentsCopy.AddNewDeployment(),
+                () => productionEnvironmentsCopy.Deployments.Add(),
                 (item) =>
                 {
-                    if (!productionEnvironmentsCopy.RemoveDeployment(item))
+                    if (!productionEnvironmentsCopy.Deployments.Remove(item))
                     {
                         // TODO: Tell user why deployment could not be removed
                         //       from the Production Environments.
@@ -958,10 +958,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                         item.Value.Value,
                         "Sandbox Id");
                 },
-                () => productionEnvironmentsCopy.AddNewSandbox(),
+                () => productionEnvironmentsCopy.Sandboxes.Add(),
                 (item) =>
                 {
-                    if (!productionEnvironmentsCopy.RemoveSandbox(item))
+                    if (!productionEnvironmentsCopy.Sandboxes.Remove(item))
                     {
                         // TODO: Tell user why the sandbox could not be removed.
                     }
