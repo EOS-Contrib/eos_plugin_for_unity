@@ -127,7 +127,7 @@ namespace PlayEveryWare.Common
             // same as the value of another item in the collection.
             return !ContainsName(name) &&
                    !Contains(value) &&
-                   base.Add(Named<T>.FromValue(value, name));
+                    Add(new Named<T>(name, value));
         }
 
         /// <summary>

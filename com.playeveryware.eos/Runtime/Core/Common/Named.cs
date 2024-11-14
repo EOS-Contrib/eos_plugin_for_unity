@@ -53,23 +53,6 @@ namespace PlayEveryWare.Common
         }
 
         /// <summary>
-        /// Creates a Named object from the given value and with a given name.
-        /// </summary>
-        /// <param name="value">
-        /// The value to give a name to.
-        /// </param>
-        /// <param name="name">
-        /// The name to associate with the value.
-        /// </param>
-        /// <returns>
-        /// A Named object that associates a name with a value.
-        /// </returns>
-        public static Named<T> FromValue(T value, string name)
-        {
-            return new Named<T>(name, value);
-        }
-
-        /// <summary>
         /// Compares one named value to another. This is purely for sorting
         /// purposes, so only the Name component of the value is compared.
         /// </summary>
