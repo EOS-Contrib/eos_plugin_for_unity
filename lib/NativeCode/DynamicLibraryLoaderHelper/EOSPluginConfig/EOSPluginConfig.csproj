@@ -79,8 +79,20 @@
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Extensions\FileInfoExtensions.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Common\Extensions\FileInfoExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Extensions\GuidExtensions.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Common\Extensions\GuidExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Extensions\ListExtensions.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Common\Extensions\ListExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Utility\EnumUtility.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Utility\EnumUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Utility\HashUtility.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Utility\HashUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Utility\SafeTranslatorUtility.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Utility\SafeTranslatorUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Extensions\StringExtensions.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Common\Extensions\StringExtensions.cs</Link>
@@ -90,6 +102,9 @@
     </Compile>
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\SetOfNamed.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Common\SetOfNamed.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Wrapped.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Common\Wrapped.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\ButtonFieldAttribute.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\ButtonFieldAttribute.cs</Link>
@@ -199,12 +214,6 @@
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\PlatformManager.cs">
       <Link>com.playeveryware.eos\Runtime\Core\PlatformManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Utility\EnumUtility.cs">
-      <Link>com.playeveryware.eos\Runtime\Core\Utility\EnumUtility.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Utility\HashUtility.cs">
-      <Link>com.playeveryware.eos\Runtime\Core\Utility\HashUtility.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Utility\FileSystemUtility.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Utility\FileSystemUtility.cs</Link>
     </Compile>
@@ -214,9 +223,6 @@
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Utility\LogLevelUtility.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Utility\LogLevelUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Utility\SafeTranslatorUtility.cs">
-      <Link>com.playeveryware.eos\Runtime\Core\Utility\SafeTranslatorUtility.cs</Link>
-    </Compile>
     <Compile Include="com.playeveryware.eos\Runtime\Core\Application.cs" />
     <Compile Include="com.playeveryware.eos\Runtime\Core\Debug.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -225,7 +231,7 @@
     </Compile>
     <Compile Include="ResourceUtility.cs" />
     <EmbeddedResource Include="config.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
@@ -235,7 +241,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="ModifyJsonFile" BeforeTargets="BeforeBuild">
     <!-- Example: Modify the JSON file using a PowerShell script or inline MSBuild task -->
-    <WriteLinesToFile File="config.json" Overwrite="true"
-        Lines="{ streamingAssetsPath: &quot;$(UnityStreamingAssetsDirectory)&quot; }" />
-</Target>
+    <WriteLinesToFile File="config.json" Overwrite="true" Lines="{ streamingAssetsPath: &quot;$(UnityStreamingAssetsDirectory)&quot; }" />
+  </Target>
 </Project>

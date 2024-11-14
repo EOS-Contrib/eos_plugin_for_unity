@@ -92,17 +92,19 @@ namespace PlayEveryWare.EpicOnlineServices
         private static readonly IDictionary<Platform, PlatformInfo> PlatformInformation =
             new Dictionary<Platform, PlatformInfo>()
             {
+#if !EXTERNAL_TO_UNITY
                 { Platform.Android, PlatformInfo.Create<AndroidConfig>("Android", "eos_android_config.json", null,     "Android")},
                 { Platform.iOS,     PlatformInfo.Create<IOSConfig>    ("iOS",     "eos_ios_config.json",     null,     "iPhone") },
                 { Platform.Linux,   PlatformInfo.Create<LinuxConfig>  ("Linux",   "eos_linux_config.json",   ".so",    "Standalone") },
                 { Platform.macOS,   PlatformInfo.Create<MacOSConfig>  ("macOS",   "eos_macos_config.json",   ".dylib", "Standalone") },
+#endif
                 { Platform.Windows, PlatformInfo.Create<WindowsConfig>("Windows", "eos_windows_config.json", ".dll",   "Standalone") },
             };
 #endif
 
-        /// <summary>
-        /// Backing value for the CurrentPlatform property.
-        /// </summary>
+                /// <summary>
+                /// Backing value for the CurrentPlatform property.
+                /// </summary>
         private static Platform s_CurrentPlatform;
 
         /// <summary>
@@ -180,6 +182,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return s_platformConfig;
         }
 
+#if !EXTERNAL_TO_UNITY
         /// <summary>
         /// Maps Unity RuntimePlatform to Platform
         /// </summary>
@@ -217,6 +220,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             return RuntimeToPlatformsMap.TryGetValue(runtimePlatform, out platform);
         }
+#endif
 
 #if UNITY_EDITOR
         /// <summary>
