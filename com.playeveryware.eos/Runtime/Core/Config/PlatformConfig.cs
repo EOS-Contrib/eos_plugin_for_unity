@@ -237,12 +237,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "invalid combination is selected.", 3)]
         public InputStateButtonFlags toggleFriendsButtonCombination = InputStateButtonFlags.SpecialLeft;
 
-        /// <summary>
-        /// Used to keep track of whether values have been moved from the
-        /// deprecated overrideValues field member.
-        /// </summary>
-        [JsonProperty]
-        private bool _configValuesMigrated = false;
 #endif
 
         #endregion
@@ -487,11 +481,6 @@ namespace PlayEveryWare.EpicOnlineServices
             // Do nothing if the values have already been moved, or if
             // overrideValues is null.
 
-            if (_configValuesMigrated)
-            {
-                return;
-            }
-
 #pragma warning disable CS0612 // Type or member is obsolete
             if (null != overrideValues)
             {
@@ -515,14 +504,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // Notify the user of the migration, encourage them to double check
             // that migration was successful.
-            Debug.LogWarning("Configuration values have been " +
-                             "migrated. Please double check your " +
-                             "configuration in EOS Plugin -> EOS " +
-                             "Configuration to make sure that the migration " +
-                             "was successful.");
-
-            // Mark that the values have been imported
-            _configValuesMigrated = true;
+            Debug.LogWarning(
+                $"Configuration values for {GetType().Name} have been " +
+                "migrated. Please double check your configuration in EOS " +
+                "Plugin -> EOS Configuration to make sure that the " +
+                "migration was successful.");
 
             // This compile conditional is here because the writing of config
             // values to disk is only something that should happen in the editor
