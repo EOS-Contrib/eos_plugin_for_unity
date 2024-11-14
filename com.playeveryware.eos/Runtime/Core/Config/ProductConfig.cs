@@ -90,9 +90,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "exist within the Epic Dev Portal.", 1)]
         public ProductionEnvironments Environments;
 
-        [JsonProperty]
-        private bool _oldConfigImported;
-
         static ProductConfig()
         {
             RegisterFactory(() => new ProductConfig());
@@ -183,11 +180,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         protected override void MigrateConfig()
         {
-            if (_oldConfigImported)
-            {
-                return;
-            }
-
             Environments ??= new();
 
             PreviousEOSConfig oldConfig = Get<PreviousEOSConfig>();
@@ -196,15 +188,6 @@ namespace PlayEveryWare.EpicOnlineServices
             MigrateClientCredentials(oldConfig);
             MigrateSandboxAndDeployment(oldConfig);
             MigrateSandboxAndDeploymentOverrides(oldConfig);
-
-            // Set to true and save so that old config import happens once
-            _oldConfigImported = true;
-
-            // This compile time conditional is here because writing a config
-            // can only take place in the Unity Editor.
-#if UNITY_EDITOR
-            Write();
-#endif
         }
         #endregion
     }

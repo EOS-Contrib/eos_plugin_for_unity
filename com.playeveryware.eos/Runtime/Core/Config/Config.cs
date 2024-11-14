@@ -288,6 +288,7 @@ namespace PlayEveryWare.EpicOnlineServices
             if (instance.NeedsMigration())
             {
                 instance.MigrateConfig();
+                await instance.WriteAsync();
             }
 
             // Return the config being retrieved.
@@ -339,6 +340,7 @@ namespace PlayEveryWare.EpicOnlineServices
             if (instance.NeedsMigration())
             {
                 instance.MigrateConfig();
+                instance.Write();
             }
 
             // Return the config being retrieved.

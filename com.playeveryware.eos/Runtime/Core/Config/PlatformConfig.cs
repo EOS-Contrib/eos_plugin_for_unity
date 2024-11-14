@@ -45,13 +45,6 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Represents a set of configuration data for use by the EOS Plugin for
     /// Unity on a specific platform.
     /// </summary>
-    [ConfigGroup("EOS Config", new[]
-    {
-        "Deployment",
-        "Flags",
-        "Tick Budgets",
-        "Overlay Options"
-    }, false)]
     public abstract class PlatformConfig : Config
     {
         private const PlatformManager.Platform OVERLAY_COMPATIBLE_PLATFORMS = ~(PlatformManager.Platform.Android |
@@ -82,15 +75,15 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #region Deployment
 
-        [ConfigField("Deployment", ConfigFieldType.Deployment, "Select the deployment to use.", 0)]
+        [ConfigField("Deployment", ConfigFieldType.Deployment, "Select the deployment to use.", 1)]
         public Deployment deployment;
 
 #if !EOS_DISABLE
-        [ConfigField("Client Credentials", ConfigFieldType.ClientCredentials, "Select client credentials to use.", 0)]
+        [ConfigField("Client Credentials", ConfigFieldType.ClientCredentials, "Select client credentials to use.", 1)]
         public EOSClientCredentials clientCredentials;
 #endif
 
-        [ConfigField("Is Server", ConfigFieldType.Flag, "Check this if your game is a dedicated game server.", 0)]
+        [ConfigField("Is Server", ConfigFieldType.Flag, "Check this if your game is a dedicated game server.", 1)]
         public bool isServer;
 
 #endregion
@@ -106,7 +99,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Platform Flags",
             ConfigFieldType.Enum,
             "Platform option flags",
-            1, "https://dev.epicgames.com/docs/epic-online-services/eos-get-started/working-with-the-eos-sdk/eos-overlay-overview#eos-platform-flags-for-the-eos-overlay")]
+            2, "https://dev.epicgames.com/docs/epic-online-services/eos-get-started/working-with-the-eos-sdk/eos-overlay-overview#eos-platform-flags-for-the-eos-overlay")]
         [JsonConverter(typeof(ListOfStringsToPlatformFlags))]
         public WrappedPlatformFlags platformOptionsFlags;
 
@@ -116,7 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Auth Scope Flags",
             ConfigFieldType.Enum,
             "Platform option flags",
-            1, "https://dev.epicgames.com/docs/api-ref/enums/eos-e-auth-scope-flags?lang=en-US")]
+            2, "https://dev.epicgames.com/docs/api-ref/enums/eos-e-auth-scope-flags?lang=en-US")]
         [JsonConverter(typeof(ListOfStringsToAuthScopeFlags))]
         public AuthScopeFlags authScopeOptionsFlags;
 
@@ -126,7 +119,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Integrated Platform Management Flags", 
             ConfigFieldType.Enum, "Integrated Platform Management " +
                                   "Flags for platform specific options.",
-            1, "https://dev.epicgames.com/docs/api-ref/enums/eos-e-integrated-platform-management-flags")]
+            2, "https://dev.epicgames.com/docs/api-ref/enums/eos-e-integrated-platform-management-flags")]
         [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
         [JsonProperty("flags")] // Allow deserialization from old field member.
         public IntegratedPlatformManagementFlags integratedPlatformManagementFlags;
@@ -144,7 +137,7 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType.Uint,
             "Used to define the maximum amount of execution time the " +
             "EOS SDK can use each frame.",
-            2)]
+            3)]
         public uint tickBudgetInMilliseconds;
 
         /// <summary>
@@ -164,7 +157,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "first coming online) the EOS SDK will allow network calls to " +
             "run before failing with EOS_TimedOut. This value does not apply " +
             "after the EOS SDK has been initialized.",
-            2)]
+            3)]
         public double taskNetworkTimeoutSeconds;
 
         // This compile conditional is here so that when EOS is disabled, nothing is
@@ -174,7 +167,7 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType.WrappedInitializeThreadAffinity, 
             "Defines the thread affinity for threads started by the " +
             "EOS SDK. Leave values at zero to use default platform settings.",
-            2, "https://dev.epicgames.com/docs/api-ref/structs/eos-initialize-thread-affinity")]
+            3, "https://dev.epicgames.com/docs/api-ref/structs/eos-initialize-thread-affinity")]
         public WrappedInitializeThreadAffinity threadAffinity;
 #endif
 #endregion
@@ -193,7 +186,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "If true, the plugin will always send input to the " +
             "overlay from the C# side to native, and handle showing the " +
             "overlay. This doesn't always mean input makes it to the EOS SDK.",
-            3)]
+            4)]
         public bool alwaysSendInputToOverlay;
 
         /// <summary>
@@ -202,7 +195,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField(OVERLAY_COMPATIBLE_PLATFORMS,
             "Initial Button Delay", ConfigFieldType.Float,
             "Initial Button Delay (if not set, whatever the default " +
-            "is will be used).", 3)]
+            "is will be used).", 4)]
         [JsonConverter(typeof(StringToTypeConverter<float>))]
         public float initialButtonDelayForOverlay;
 
@@ -212,7 +205,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField(OVERLAY_COMPATIBLE_PLATFORMS,
             "Repeat Button Delay", ConfigFieldType.Float,
             "Repeat button delay for the overlay. If not set, " +
-            "whatever the default is will be used.", 3)]
+            "whatever the default is will be used.", 4)]
         [JsonConverter(typeof(StringToTypeConverter<float>))]
         public float repeatButtonDelayForOverlay;
 
@@ -234,7 +227,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "Users can press the button's associated with this value " +
             "to activate the Epic Social Overlay. Not all combinations are " +
             "valid; the SDK will log an error at the start of runtime if an " +
-            "invalid combination is selected.", 3)]
+            "invalid combination is selected.", 4)]
         public InputStateButtonFlags toggleFriendsButtonCombination = InputStateButtonFlags.SpecialLeft;
 
 #endif
@@ -509,14 +502,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 "migrated. Please double check your configuration in EOS " +
                 "Plugin -> EOS Configuration to make sure that the " +
                 "migration was successful.");
-
-            // This compile conditional is here because the writing of config
-            // values to disk is only something that should happen in the editor
-            // context.
-#if UNITY_EDITOR
-            // Write the imported values
-            Write();
-#endif
         }
 
 #endif

@@ -21,22 +21,26 @@
  */
 
 // Uncomment the following line to see the experimental new config window
-// #define ENABLE_NEW_CONFIG_WINDOW
 
-#if ENABLE_NEW_CONFIG_WINDOW
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+#if !EOS_DISABLE
+    using Epic.OnlineServices.UI;
+#endif
+    using PlayEveryWare.EpicOnlineServices.Utility;
     using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using UnityEditor;
+	using System.Collections.Generic;
+	using System.Threading.Tasks;
+	using UnityEditor;
     using UnityEngine;
 
     /// <summary>
     /// Creates the view for showing the eos plugin editor config values.
     /// </summary>
     [Serializable]
-    public class NewConfigWindow : EOSEditorWindow
+    public class NEW_EOSSettingsWindow : EOSEditorWindow
     {
         /// <summary>
         /// The editor for the product information that is shared across all
@@ -50,15 +54,39 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// </summary>
         private readonly IList<IConfigEditor> _platformConfigEditors = new List<IConfigEditor>();
 
+        /// <summary>
+        /// Contains the GUIContent that represents the set of tabs that contain
+        /// platform icons and platform text (this is not the tab _content_).
+        /// </summary>
         private GUIContent[] _platformTabs;
-        private int _selectedTab = 0;
 
-        public NewConfigWindow() : base("EOS Configuration") { }
+        /// <summary>
+        /// The tab that is currently selected.
+        /// </summary>
+        private int _selectedTab = -1;
 
-        [MenuItem("EOS Plugin/[Experimental] New Config")]
+        /// <summary>
+        /// The style to apply to the platform tabs.
+        /// </summary>
+        private static GUIStyle _platformTabsStyle;
+
+        /// <summary>
+        /// The style to apply to the platform tabs, uses lazy initialization.
+        /// </summary>
+        private static GUIStyle TAB_STYLE => _platformTabsStyle ??= new(GUI.skin.button)
+        {
+            fontSize = 14,
+            padding = new RectOffset(10, 10, 10, 10),
+            alignment = TextAnchor.MiddleCenter,
+            fixedHeight = 40
+        };
+
+        public NEW_EOSSettingsWindow() : base("EOS Configuration") { }
+
+        [MenuItem("EOS Plugin/[NEW] EOS Configuration", priority = 1)]
         public static void ShowWindow()
         {
-            var window = GetWindow<NewConfigWindow>();
+            var window = GetWindow<NEW_EOSSettingsWindow>();
             window.SetIsEmbedded(false);
         }
 
@@ -67,8 +95,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             await _productConfigEditor.LoadAsync();
 
             List<GUIContent> tabContents = new();
+            int tabIndex = 0;
             foreach (PlatformManager.Platform platform in Enum.GetValues(typeof(PlatformManager.Platform)))
             {
+                // This makes sure that the currently selected tab (upon first loading the window) is always the current platform.
+                if (_selectedTab != -1 || platform == PlatformManager.CurrentPlatform)
+                {
+                    _selectedTab = tabIndex;
+                }
+
                 if (!PlatformManager.TryGetConfigType(platform, out Type configType) || null == configType)
                 {
                     continue;
@@ -86,12 +121,23 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 // Do not add the platform if it is not currently available.
                 if (!editor.IsPlatformAvailable())
                 {
+                    // We only increment the tab index if the editor has been
+                    // added to the tabs.
+                    tabIndex++;
                     continue;
                 }
 
                 _platformConfigEditors.Add(editor);
 
                 tabContents.Add(new GUIContent($" {editor.GetLabelText()}", editor.GetPlatformIconTexture()));
+
+            }
+
+            // If (for some reason) a default platform was not selected, then
+            // default to the first tab being selected
+            if (_selectedTab == -1)
+            {
+                _selectedTab = 0;
             }
 
             _platformTabs = tabContents.ToArray();
@@ -99,13 +145,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override void RenderWindow()
         {
+            if (_selectedTab < 0)
+            {
+                _selectedTab = 0;
+            }
+
             // Render the generic product configuration stuff.
             _ = _productConfigEditor.RenderAsync();
 
             if (_platformTabs != null && _platformConfigEditors.Count != 0)
             {
-                _selectedTab = GUILayout.Toolbar(_selectedTab, _platformTabs);
-                GUILayout.Space(10);
+                _selectedTab = GUILayout.Toolbar(_selectedTab, _platformTabs, TAB_STYLE);
+                GUILayout.Space(30);
 
                 _ = _platformConfigEditors[_selectedTab].RenderAsync();
             }
@@ -120,8 +171,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         private async void Save()
         {
+            // Save the product config editor
             await _productConfigEditor.Save();
 
+            // Save each of the platform config editors.
             foreach (IConfigEditor editor in _platformConfigEditors)
             {
                 await editor.Save();
@@ -129,4 +182,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         }
     }
 }
+
 #endif
