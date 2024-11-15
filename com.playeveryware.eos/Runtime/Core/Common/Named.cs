@@ -25,16 +25,18 @@ namespace PlayEveryWare.Common
     using EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
-
+    
     /// <summary>
     /// Used to associate a name with a particular type of value.
     /// </summary>
     public class Named<T> : IEquatable<Named<T>>, IComparable<Named<T>>, IEquatable<T> where T : IEquatable<T>
     {
+        public event EventHandler<ValueChangedEventArgs<string>> NameChanged;
+
         /// <summary>
         /// The name of the value (typically used for things like UI labels)
         /// </summary>
-        public string Name;
+        public string Name { get; private set; }
 
         /// <summary>
         /// The value itself.
@@ -50,6 +52,26 @@ namespace PlayEveryWare.Common
         {
             Name = name;
             Value = value;
+        }
+
+        public bool TrySetName(string newName, bool notify = true)
+        {
+            // If the name hasn't changed, do nothing and return true.
+            if (string.Equals(Name, newName))
+            {
+                return true;
+            }
+
+            string oldName = Name;
+            Name = newName;
+            if (notify)
+            {
+                NameChanged?.Invoke(this, new ValueChangedEventArgs<string>(oldName, newName));
+            }
+
+            // If the name has not been set to the new name then it was 
+            // not able to be set.
+            return !string.Equals(Name, oldName);
         }
 
         /// <summary>

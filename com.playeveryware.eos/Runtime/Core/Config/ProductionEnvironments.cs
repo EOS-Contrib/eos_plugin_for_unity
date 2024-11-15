@@ -43,6 +43,13 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public SetOfNamed<SandboxId> Sandboxes { get; } = new("Sandbox");
 
+        public ProductionEnvironments()
+        {
+            // Set the predicate for removing a sandbox so a sandbox that is
+            // associated with a deployment does not get removed.
+            Sandboxes.SetRemovePredicate(CanSandboxBeRemoved);
+        }
+
         /// <summary>
         /// Removes a Sandbox from the Production Environment.
         /// </summary>
@@ -54,19 +61,17 @@ namespace PlayEveryWare.EpicOnlineServices
         /// defined deployment that references the Sandbox, then removing it is
         /// disallowed.
         /// </returns>
-        public bool RemoveSandbox(Named<SandboxId> sandbox)
+        private bool CanSandboxBeRemoved(SandboxId sandbox)
         {
             foreach (Named<Deployment> deployment in Deployments)
             {
-                if (deployment.Value.SandboxId.Equals(sandbox.Value))
+                if (deployment.Value.SandboxId.Equals(sandbox))
                 {
-                    // TODO: Tell user that the sandbox cannot be removed,
-                    //       because it is currently referenced by a deployment.
                     return false;
                 }
             }
 
-            return Sandboxes.Remove(sandbox);
+            return true;
         }
 
         /// <summary>

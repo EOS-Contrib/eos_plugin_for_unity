@@ -844,12 +844,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     {
                         Rect nameRect = new(rect.x, rect.y, firstFieldWidth - 5f, rect.height);
 
-                        item.Name = RenderFieldWithHint(
+                        string newItemName = RenderFieldWithHint(
                             EditorGUI.TextField,
                             nameRect,
                             string.IsNullOrEmpty,
                             item.Name,
                             "Sandbox Name");
+
+                        if (!item.TrySetName(newItemName))
+                        {
+                            Debug.LogError("COULD NOT CHANGE NAME!!!");
+                        }
                     }
 
                     remainingWidth -= firstFieldWidth;
@@ -943,12 +948,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                         Rect nameRect = new(currentX, rect.y, fieldWidth - 5f, rect.height);
                         currentX += fieldWidth + 5f;
                         remainingWidth -= fieldWidth - 5f;
-                        item.Name = RenderFieldWithHint(
+                        string newItemName = RenderFieldWithHint(
                             EditorGUI.TextField,
                             nameRect,
                             string.IsNullOrEmpty,
                             item.Name,
                             "Sandbox Name");
+
+                        if (!item.TrySetName(newItemName))
+                        {
+                            Debug.LogError("COULD NOT CHANGE NAME!!!");
+                        }
                     }
 
                     item.Value.Value = RenderFieldWithHint(
@@ -994,12 +1004,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     }
                     else
                     {
-                        item.Name = RenderFieldWithHint(
+                        string newItemName = RenderFieldWithHint(
                             EditorGUI.TextField,
                             new Rect(rect.x, rect.y, firstFieldWidth, rect.height),
                             string.IsNullOrEmpty,
                             item.Name,
                             "Client Name");
+
+                        if (!item.TrySetName(newItemName))
+                        {
+                            Debug.LogError("COULD NOT CHANGE NAME!!!");
+                        }
                     }
 
                     remainingWidth -= firstFieldWidth;

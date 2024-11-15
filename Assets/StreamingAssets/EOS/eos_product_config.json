@@ -2,34 +2,35 @@
   "ProductName": "EOS Plugin for Unity",
   "ProductId": "f7102b83-5ed1-4b5f-b6b3-a05d87b3d101",
   "ProductVersion": "1.0",
+  "imported": true,
   "Clients": [
     {
-      "Name": "Client",
       "Value": {
         "ClientId": "xyza7891wPzGRvRf4SkjlIF8YuqlRLbQ",
         "ClientSecret": "aXPlP1xDH0PXnp5U+i+M5pYHhaE1a8viV0l1GO422ms",
         "EncryptionKey": "1111111111111111111111111111111111111111111111111111111111111111"
-      }
+      },
+      "Name": "Client"
     }
   ],
   "Environments": {
     "Deployments": [
       {
-        "Name": "Deployment",
         "Value": {
           "SandboxId": {
             "Value": "ab139ee5b644412781cf99f48b993b45"
           },
           "DeploymentId": "c529498f-660a-4a3d-8a12-3fd04552cb47"
-        }
+        },
+        "Name": "Deployment"
       }
     ],
     "Sandboxes": [
       {
-        "Name": "Sandbox",
         "Value": {
           "Value": "ab139ee5b644412781cf99f48b993b45"
-        }
+        },
+        "Name": "Sandbox"
       }
     ]
   },
