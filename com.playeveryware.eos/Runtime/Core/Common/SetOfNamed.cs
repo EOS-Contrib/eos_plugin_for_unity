@@ -22,8 +22,10 @@
 
 namespace PlayEveryWare.Common
 {
+    using Newtonsoft.Json;
     using System.Collections.Generic;
     using System;
+    using System.Collections;
 
     /// <summary>
     /// Class that stores a unique set of values, where each value has a name
@@ -33,7 +35,7 @@ namespace PlayEveryWare.Common
     /// different values).
     /// </summary>
     /// <typeparam name="T">The type being wrapped with a name.</typeparam>
-    public class SetOfNamed<T> : HashSet<Named<T>> where T : IEquatable<T>, new()
+    public class SetOfNamed<T> : List<Named<T>> where T : IEquatable<T>, new()
     {
         /// <summary>
         /// When items without a name are added to the SortedSet, this is the
@@ -42,7 +44,14 @@ namespace PlayEveryWare.Common
         /// appended with an increasing number until the resulting name does
         /// not exist in the collection.
         /// </summary>
-        private readonly string _defaultNamePattern;
+        [JsonProperty("DefaultName")]
+        private string _defaultNamePattern;
+
+        /// <summary>
+        /// Used to store a function that can be used to determine if an item
+        /// can be removed or not.
+        /// </summary>
+        private Func<T, bool> _removePredicate = null;
 
         /// <summary>
         /// Creates a new SortedSetOfNamed.
@@ -55,25 +64,9 @@ namespace PlayEveryWare.Common
             _defaultNamePattern = defaultNamePattern;
         }
 
-        /// <summary>
-        /// Adds an item to the sorted set with a default name.
-        /// </summary>
-        /// <param name="value">
-        /// The value to add to the SortedSet.
-        /// </param>
-        /// <returns>
-        /// True if the item was able to be added, false otherwise.
-        /// </returns>
-        public bool Add(T value)
+        public void SetRemovePredicate(Func<T, bool> removePredicate)
         {
-            // If value is null, then set it to either be default or a new 
-            // instance of the value type.
-            value ??= typeof(T).IsValueType ? default(T) : new T();
-
-            // Determines the name of the new item.
-            string newItemName = GetNewItemName();
-
-            return Add(newItemName, value);
+            _removePredicate = removePredicate;
         }
 
         /// <summary>
@@ -94,6 +87,58 @@ namespace PlayEveryWare.Common
         }
 
         /// <summary>
+        /// Adds an item to the sorted set with a default name.
+        /// </summary>
+        /// <param name="value">
+        /// The value to add to the SortedSet.
+        /// </param>
+        /// <returns>
+        /// True if the item was able to be added, false otherwise.
+        /// </returns>
+        public bool Add(T value)
+        {
+            // If value is null, then set it to either be default or a new 
+            // instance of the value type.
+            value ??= typeof(T).IsValueType ? default : new T();
+
+            // Determines the name of the new item.
+            string newItemName = GetNewItemName();
+
+            // Add to the collection using the base implementation, so long as
+            // the name for the new item is not used for another named item 
+            // already in the collection, and so long as the value is not the
+            // same as the value of another item in the collection.
+            if (ContainsName(newItemName) || ContainsValue(value))
+            {
+                return false;
+            }
+
+            Named<T> newItem = new(newItemName, value);
+            newItem.NameChanged += OnItemNameChanged;
+
+            Add(newItem);
+            return true;
+        }
+
+        private void OnItemNameChanged(object sender, ValueChangedEventArgs<string> e)
+        {
+            // If the sender is not of the correct type, or if the value hasn't changed, then take no action.
+            if (sender is not Named<T> item || string.Equals(e.CurrentValue, e.NewValue))
+            {
+                return;
+            }
+
+            // If the collection already contains an item with the name
+            if (ContainsName(e.NewValue))
+            {
+                // Set the name back to the old value. The return value can be 
+                // discarded, because it is always true if notify is set to
+                // false.
+                _ = item.TrySetName(e.CurrentValue, false);
+            }
+        }
+
+        /// <summary>
         /// Adds a new default value to the sorted set. This can usually only
         /// be done once, until the added item has it's value and/or it's name
         /// changed.
@@ -103,31 +148,7 @@ namespace PlayEveryWare.Common
         /// </returns>
         public bool Add()
         {
-            return Add(default);
-        }
-
-        /// <summary>
-        /// Adds a new item with the indicated name to the SortedSetOfNamed
-        /// items.
-        /// </summary>
-        /// <param name="name">
-        /// The name of the item to add to the collection.
-        /// </param>
-        /// <param name="value">
-        /// The value to add to the collection.
-        /// </param>
-        /// <returns>
-        /// True if the add was successful, false otherwise.
-        /// </returns>
-        public bool Add(string name, T value)
-        {
-            // Add to the collection using the base implementation, so long as
-            // the name for the new item is not used for another named item 
-            // already in the collection, and so long as the value is not the
-            // same as the value of another item in the collection.
-            return !ContainsName(name) &&
-                   !Contains(value) &&
-                   base.Add(Named<T>.FromValue(value, name));
+            return Add(default(T));
         }
 
         /// <summary>
@@ -141,7 +162,7 @@ namespace PlayEveryWare.Common
         /// True if there is an item in the collection with the given name,
         /// false otherwise.
         /// </returns>
-        public bool ContainsName(string name)
+        private bool ContainsName(string name)
         {
             foreach (Named<T> item in this)
             {
@@ -165,7 +186,7 @@ namespace PlayEveryWare.Common
         /// True if there is an item in the collection with the indicated value,
         /// false otherwise.
         /// </returns>
-        public bool Contains(T item)
+        private bool ContainsValue(T item)
         {
             foreach (Named<T> namedItemInSet in this)
             {
@@ -183,6 +204,24 @@ namespace PlayEveryWare.Common
             }
 
             return false;
+        }
+
+        public new bool Remove(Named<T> item)
+        {
+            // If a predicate is not defined, or the predicate returns false,
+            // then return false and stop.
+            if (_removePredicate != null && !_removePredicate(item.Value))
+            {
+                return false;
+            }
+            
+            // Remove the event subscription
+            item.NameChanged -= OnItemNameChanged;
+
+            // Otherwise attempt to remove the item
+            base.Remove(item);
+
+            return true;
         }
     }
 

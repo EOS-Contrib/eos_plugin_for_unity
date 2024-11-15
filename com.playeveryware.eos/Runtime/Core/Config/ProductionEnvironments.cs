@@ -43,22 +43,11 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public SetOfNamed<SandboxId> Sandboxes { get; } = new("Sandbox");
 
-        /// <summary>
-        /// Adds a Sandbox to the Production Environment.
-        /// </summary>
-        /// <param name="sandbox">
-        /// The sandbox to add.</param>
-        /// <returns>
-        /// True if the sandbox was added successfully, false otherwise.
-        /// </returns>
-        public bool AddSandbox(Named<SandboxId> sandbox)
+        public ProductionEnvironments()
         {
-            return Sandboxes.Add(sandbox);
-        }
-
-        public bool AddNewSandbox()
-        {
-            return Sandboxes.Add();
+            // Set the predicate for removing a sandbox so a sandbox that is
+            // associated with a deployment does not get removed.
+            Sandboxes.SetRemovePredicate(CanSandboxBeRemoved);
         }
 
         /// <summary>
@@ -72,19 +61,17 @@ namespace PlayEveryWare.EpicOnlineServices
         /// defined deployment that references the Sandbox, then removing it is
         /// disallowed.
         /// </returns>
-        public bool RemoveSandbox(Named<SandboxId> sandbox)
+        private bool CanSandboxBeRemoved(SandboxId sandbox)
         {
             foreach (Named<Deployment> deployment in Deployments)
             {
-                if (deployment.Value.SandboxId.Equals(sandbox.Value))
+                if (deployment.Value.SandboxId.Equals(sandbox))
                 {
-                    // TODO: Tell user that the sandbox cannot be removed,
-                    //       because it is currently referenced by a deployment.
                     return false;
                 }
             }
 
-            return Sandboxes.Remove(sandbox);
+            return true;
         }
 
         /// <summary>
@@ -104,25 +91,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // Add the deployment to the list of deployments
             return Deployments.Add(deployment);
-        }
-
-        public bool AddNewDeployment()
-        {
-            return Deployments.Add();
-        }
-
-        /// <summary>
-        /// Removes a Deployment from the Production Environment.
-        /// </summary>
-        /// <param name="deployment">
-        /// The Deployment to remove from the Production Environment.
-        /// </param>
-        /// <returns>
-        /// True if the Deployment was successfully removed, false otherwise.
-        /// </returns>
-        public bool RemoveDeployment(Named<Deployment> deployment)
-        {
-            return Deployments.Remove(deployment);
         }
     }
 }

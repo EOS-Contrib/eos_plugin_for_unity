@@ -1,3 +1,4 @@
 {
-    "useAppVersionAsProductVersion": false
+  "useAppVersionAsProductVersion": false,
+  "schemaVersion": "1.0"
 }

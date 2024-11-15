@@ -75,6 +75,13 @@ namespace PlayEveryWare.EpicOnlineServices
         protected EOSConfig() : base("EpicOnlineServicesConfig.json")
         { }
 
+        protected override bool NeedsMigration()
+        {
+            // Because EOSConfig is becoming obsolete, it should never
+            // be "migrated", but left-as-is.
+            return false;
+        }
+
         #region Product Information
 
         /// <summary>
