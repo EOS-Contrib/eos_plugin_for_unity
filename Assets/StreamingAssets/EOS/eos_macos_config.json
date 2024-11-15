@@ -20,6 +20,6 @@
   "alwaysSendInputToOverlay": false,
   "initialButtonDelayForOverlay": 0.0,
   "repeatButtonDelayForOverlay": 0.0,
-  "toggleFriendsButtonCombination": "SpecialLeft",
+  "toggleFriendsButtonCombination": "None",
   "schemaVersion": "1.0"
 }
