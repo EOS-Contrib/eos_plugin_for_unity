@@ -17,7 +17,7 @@
   "tickBudgetInMilliseconds": 0,
   "taskNetworkTimeoutSeconds": 0.0,
   "threadAffinity": null,
-  "alwaysSendInputToOverlay": true,
+  "alwaysSendInputToOverlay": false,
   "initialButtonDelayForOverlay": 0.0,
   "repeatButtonDelayForOverlay": 0.0,
   "toggleFriendsButtonCombination": "SpecialLeft",

@@ -20,7 +20,9 @@
  * SOFTWARE.
  */
 
-// Uncomment the following line to see the experimental new config window
+// Uncomment the following line to see all platforms, even ones that are not
+// available
+#define DEBUG_SHOW_UNAVAILABLE_PLATFORMS
 
 #if !EOS_DISABLE
 
@@ -118,6 +120,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     continue;
                 }
 
+#if !DEBUG_SHOW_UNAVAILABLE_PLATFORMS
                 // Do not add the platform if it is not currently available.
                 if (!editor.IsPlatformAvailable())
                 {
@@ -126,6 +129,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     tabIndex++;
                     continue;
                 }
+#endif
 
                 _platformConfigEditors.Add(editor);
 

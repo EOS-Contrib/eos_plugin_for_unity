@@ -28,7 +28,7 @@
     "EmbeddedOverlayMainThread": 0,
     "EmbeddedOverlayWorkerThreads": 0
   },
-  "alwaysSendInputToOverlay": true,
+  "alwaysSendInputToOverlay": false,
   "initialButtonDelayForOverlay": 0.0,
   "repeatButtonDelayForOverlay": 0.0,
   "toggleFriendsButtonCombination": "SpecialLeft",
