@@ -60,13 +60,13 @@
   <!-- Consolidated ClCompile Settings -->
   <ItemDefinitionGroup>
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\third_party\eos_sdk\include\;$(SolutionDir)..\include\windows;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\third_party\eos_sdk\include\;$(SolutionDir)..\include\windows;$(ProjectDir)src\Config\;$(ProjectDir)headers\;$(ProjectDir)headers\Config\;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -100,29 +100,41 @@
   </ItemDefinitionGroup>
   <!-- Source Files -->
   <ItemGroup>
-    <ClInclude Include="config.h" />
-    <ClInclude Include="eos_helpers.h" />
-    <ClInclude Include="eos_minimum_includes.h" />
-    <ClInclude Include="io_helpers.h" />
-    <ClInclude Include="json.h" />
-    <ClInclude Include="json_helpers.h" />
-    <ClInclude Include="logging.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="string_helpers.h" />
-    <ClInclude Include="eos_library_helpers.h" />
+    <ClInclude Include="Config\Config.h" />
+    <ClInclude Include="Config\ProductConfig.h" />
+    <ClInclude Include="Config\WindowsConfig.h" />
+    <ClInclude Include="headers\config.h" />
+    <ClInclude Include="headers\Config\ClientCredentials.h" />
+    <ClInclude Include="headers\Config\Deployment.h" />
+    <ClInclude Include="headers\Config\PlatformConfig.h" />
+    <ClInclude Include="headers\Config\ProductionEnvironments.h" />
+    <ClInclude Include="headers\Config\Sandbox.h" />
+    <ClInclude Include="headers\eos_helpers.h" />
+    <ClInclude Include="headers\eos_library_helpers.h" />
+    <ClInclude Include="headers\eos_minimum_includes.h" />
+    <ClInclude Include="headers\io_helpers.h" />
+    <ClInclude Include="headers\json.h" />
+    <ClInclude Include="headers\json_helpers.h" />
+    <ClInclude Include="headers\logging.h" />
+    <ClInclude Include="headers\pch.h" />
+    <ClInclude Include="headers\string_helpers.h" />
+    <ClInclude Include="headers\Version.h" />
+    <ClInclude Include="include\json.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="config.cpp" />
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="eos_helpers.cpp" />
-    <ClCompile Include="eos_library_helpers.cpp" />
-    <ClCompile Include="io_helpers.cpp" />
-    <ClCompile Include="json_helpers.cpp" />
-    <ClCompile Include="logging.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="string_helpers.cpp" />
+    <ClCompile Include="src\Config\Config.cpp" />
+    <ClCompile Include="src\Config\PlatformConfig.cpp" />
+    <ClCompile Include="src\Config\ProductConfig.cpp" />
+    <ClCompile Include="src\config_DEPRECATED.cpp" />
+    <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\eos_helpers.cpp" />
+    <ClCompile Include="src\eos_library_helpers.cpp" />
+    <ClCompile Include="src\io_helpers.cpp" />
+    <ClCompile Include="src\json_helpers.cpp" />
+    <ClCompile Include="src\logging.cpp" />
+    <ClCompile Include="src\pch.cpp" />
+    <ClCompile Include="src\string_helpers.cpp" />
+    <ClCompile Include="src\Version.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="ConfigPaths.props" />

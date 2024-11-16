@@ -33,15 +33,9 @@
 #include "json.h"
 #include "eos_sdk.h"
 
+#include "pch.h"
+
 struct json_value_s;
-
-#define CONFIG_EXPORTS
-
-#ifdef CONFIG_EXPORTS
-#define CONFIG_API __declspec(dllexport)
-#else
-#define CONFIG_API __declspec(dllimport)
-#endif
 
 namespace pew::eos::config
 {

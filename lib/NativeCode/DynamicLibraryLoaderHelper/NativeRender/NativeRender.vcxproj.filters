@@ -13,66 +13,113 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Config">
+      <UniqueIdentifier>{58d272ff-944d-426c-bb6c-9f43398d915c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\include">
+      <UniqueIdentifier>{3ed51568-b9ed-4602-b206-9793b1c6b8c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Config">
+      <UniqueIdentifier>{5277998d-55ee-47b0-a2cd-856ffdbd7a13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
+    <ClInclude Include="Config\ProductConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\WindowsConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Config.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\json.hpp">
+      <Filter>Source Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="eos_minimum_includes.h">
+    <ClInclude Include="headers\eos_helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="string_helpers.h">
+    <ClInclude Include="headers\eos_library_helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="config.h">
+    <ClInclude Include="headers\eos_minimum_includes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="json.h">
+    <ClInclude Include="headers\io_helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="logging.h">
+    <ClInclude Include="headers\json.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="json_helpers.h">
+    <ClInclude Include="headers\json_helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="eos_library_helpers.h">
+    <ClInclude Include="headers\logging.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="io_helpers.h">
+    <ClInclude Include="headers\string_helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="eos_helpers.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="headers\pch.h" />
+    <ClInclude Include="headers\Config\ClientCredentials.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Config\Deployment.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Config\PlatformConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Config\ProductionEnvironments.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Config\Sandbox.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Version.h">
+      <Filter>Header Files\Config</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp">
+    <ClCompile Include="src\config_DEPRECATED.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="src\dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="io_helpers.cpp">
+    <ClCompile Include="src\eos_helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="string_helpers.cpp">
+    <ClCompile Include="src\eos_library_helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="eos_helpers.cpp">
+    <ClCompile Include="src\io_helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="logging.cpp">
+    <ClCompile Include="src\json_helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="config.cpp">
+    <ClCompile Include="src\logging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="json_helpers.cpp">
+    <ClCompile Include="src\string_helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="eos_library_helpers.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\pch.cpp" />
+    <ClCompile Include="src\Config\Config.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Config\PlatformConfig.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Config\ProductConfig.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Version.cpp">
+      <Filter>Source Files\Config</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

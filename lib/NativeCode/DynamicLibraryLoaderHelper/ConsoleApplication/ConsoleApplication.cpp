@@ -21,11 +21,18 @@
  */
 
 #include <iostream>
-#include <config.h>
+#include <headers/Config/Config.h>
 
+#include "headers/Config/ProductConfig.h"
+#include "headers/Config/WindowsConfig.h"
+#include "headers/config.h"
+using namespace pew::eos::config;
 int main()
 {
-    pew::eos::config::EOSConfig eos_config;
+    ProductConfig product_config = Config::get<ProductConfig>();
+    //WindowsConfig windows_config = Config::get<WindowsConfig>();
+
+    EOSConfig eos_config;
     if(try_get_eos_config(eos_config))
     {
         std::cout << "EOSConfig was read successfully.";
