@@ -108,7 +108,7 @@ namespace pew::eos::eos_library_helpers
     /**
      * @brief Queries a registry key for a specific value on Windows.
      *
-     * Attempts to read a value from the specified registry key and subkey. It supports both
+     * Attempts to try_read a value from the specified registry key and subkey. It supports both
      * 32-bit and 64-bit registry views.
      *
      * @param InKey The registry key handle.

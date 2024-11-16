@@ -25,7 +25,6 @@
 // This is apparently needed so that the Overlay can render properly
 #include "pch.h"
 
-#include <array>
 #include <iterator>
 #include <sstream>
 

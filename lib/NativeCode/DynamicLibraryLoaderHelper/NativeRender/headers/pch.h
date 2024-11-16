@@ -9,6 +9,7 @@
 
 // add headers that you want to pre-compile here
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+#define NOMINMAX // This prevents std::min and std::max from breaking.
 // Windows Header Files
 #include <windows.h>
 
@@ -36,6 +37,17 @@
 #define EOS_LOGLEVEL_CONFIG_FILENAME "log_level_config.json"
 
 #define RESTRICT __restrict
+
+#define CONFIG_EXPORT
+#ifdef _WIN32
+#ifdef CONFIG_EXPORT
+#define CONFIG_API __declspec(dllexport)
+#else
+#define CONFIG_API __declspec(dllimport)
+#endif
+#else
+#define CONFIG_API
+#endif
 
 #define DLL_EXPORT(return_value) extern "C" __declspec(dllexport) return_value  __stdcall
 

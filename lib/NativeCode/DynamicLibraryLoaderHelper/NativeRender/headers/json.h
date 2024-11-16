@@ -602,7 +602,7 @@ int json_skip_c_style_comments(struct json_parse_state_s *state) {
 json_weak int json_skip_all_skippables(struct json_parse_state_s *state);
 int json_skip_all_skippables(struct json_parse_state_s *state) {
   /* skip all whitespace and other skippables until there are none left. note
-   * that the previous version suffered from read past errors should. the
+   * that the previous version suffered from try_read past errors should. the
    * stream end on json_skip_c_style_comments eg. '{"a" ' with comments flag.
    */
 
@@ -753,7 +753,7 @@ int json_get_string_size(struct json_parse_state_s *state, size_t is_key) {
          * be treated as an invalid byte sequence. */
 
         if (high_surrogate != 0) {
-          /* we previously read the high half of the \uxxxx\uxxxx pair, so now
+          /* we previously try_read the high half of the \uxxxx\uxxxx pair, so now
            * we expect the low half. */
           if (codepoint >= 0xdc00 &&
               codepoint <= 0xdfff) { /* low surrogate range. */
@@ -781,7 +781,7 @@ int json_get_string_size(struct json_parse_state_s *state, size_t is_key) {
           high_surrogate = codepoint;
         } else if (codepoint >= 0xd800 &&
                    codepoint <= 0xdfff) { /* low surrogate range. */
-          /* we did not read the other half before. */
+          /* we did not try_read the other half before. */
           state->error = json_parse_error_invalid_string_escape_sequence;
           state->offset = offset;
           return 1;
@@ -1450,7 +1450,7 @@ void json_parse_string(struct json_parse_state_s *state,
           continue; /* we need the low half to form a complete codepoint. */
         } else if (codepoint >= 0xdc00 &&
                    codepoint <= 0xdfff) { /* low surrogate. */
-          /* combine with the previously read half to obtain the complete
+          /* combine with the previously try_read half to obtain the complete
            * codepoint. */
           const unsigned long surrogate_offset =
               0x10000u - (0xD800u << 10) - 0xDC00u;

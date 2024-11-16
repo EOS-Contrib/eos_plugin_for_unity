@@ -26,6 +26,7 @@
 #include "io_helpers.h"
 #include "json_helpers.h"
 #include "logging.h"
+#include "pch.h"
 
 using namespace pew::eos::config;
 using namespace pew::eos::json_helpers;
