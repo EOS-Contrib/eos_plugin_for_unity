@@ -121,8 +121,17 @@ namespace PlayEveryWare.EpicOnlineServices
                                   "Flags for platform specific options.",
             2, "https://dev.epicgames.com/docs/api-ref/enums/eos-e-integrated-platform-management-flags")]
         [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
-        [JsonProperty("flags")] // Allow deserialization from old field member.
         public IntegratedPlatformManagementFlags integratedPlatformManagementFlags;
+
+        [JsonProperty]
+        [Obsolete("This property is deprecated in favor of the more precisely named field member 'integratedPlatformManagementFlags'.")]
+        public IntegratedPlatformManagementFlags flags
+        {
+            set
+            {
+                integratedPlatformManagementFlags = value;
+            }
+        }
 #endif
 
         #endregion
