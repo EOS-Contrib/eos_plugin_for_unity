@@ -33,6 +33,10 @@
 #include <eos_library_helpers.h>
 #include <eos_helpers.h>
 #include "io_helpers.h"
+#include "PlatformConfig.h"
+#include "WindowsConfig.h"
+#include "ProductConfig.h"
+#include "Config/Config.h"
 
 using namespace pew::eos;
 using namespace pew::eos::eos_library_helpers;
@@ -46,7 +50,7 @@ extern "C"
     void __declspec(dllexport) __stdcall UnityPluginUnload();
 }
 
-void get_cli_arguments(config::EOSConfig eos_config)
+void get_cli_arguments(config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
 {
     //support sandbox and deployment id override via command line arguments
     std::stringstream argument_stream = std::stringstream(GetCommandLineA());
@@ -72,20 +76,20 @@ void get_cli_arguments(config::EOSConfig eos_config)
             if (!sandboxArg.empty())
             {
                 logging::log_inform(("Sandbox ID override specified: " + sandboxArg).c_str());
-                eos_config.sandboxID = sandboxArg;
+                platform_config.deployment.sandbox.id = sandboxArg;
             }
         }
     }
 
-    //check if a deployment id override exists for sandbox id
-    for (unsigned i = 0; i < eos_config.sandboxDeploymentOverrides.size(); ++i)
-    {
-        if (eos_config.sandboxID == eos_config.sandboxDeploymentOverrides[i].sandboxID)
-        {
-            logging::log_inform(("Sandbox Deployment ID override specified: " + eos_config.sandboxDeploymentOverrides[i].deploymentID).c_str());
-            eos_config.deploymentID = eos_config.sandboxDeploymentOverrides[i].deploymentID;
-        }
-    }
+    ////check if a deployment id override exists for sandbox id
+    //for (unsigned i = 0; i < product_config.environments.sandboxDeploymentOverrides.size(); ++i)
+    //{
+    //    if (platform_config.sandboxID == platform_config.sandboxDeploymentOverrides[i].sandboxID)
+    //    {
+    //        logging::log_inform(("Sandbox Deployment ID override specified: " + platform_config.sandboxDeploymentOverrides[i].deploymentID).c_str());
+    //        platform_config.deploymentID = platform_config.sandboxDeploymentOverrides[i].deploymentID;
+    //    }
+    //}
 
     std::string deploymentArgName = "-eosdeploymentid=";
     std::string egsDeploymentArgName = "-epicdeploymentid=";
@@ -106,10 +110,16 @@ void get_cli_arguments(config::EOSConfig eos_config)
             if (!deploymentArg.empty())
             {
                 logging::log_inform(("Deployment ID override specified: " + deploymentArg).c_str());
-                eos_config.deploymentID = deploymentArg;
+                platform_config.deployment.id = deploymentArg;
             }
         }
     }
+}
+
+template <typename... Args>
+void test(std::vector<std::string>>& arguments_list, const Args&... args)
+{
+    
 }
 
 // Called by unity on load. It kicks off the work to load the DLL for Overlay
@@ -122,13 +132,10 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     logging::show_log_as_dialog("You may attach a debugger to the DLL");
 #endif
 
-    config::EOSConfig eos_config;
-    if (!try_get_eos_config(eos_config))
-    {
-        return;
-    }
+    const config::ProductConfig product_config = config::Config::get<config::ProductConfig>();
+    config::WindowsConfig windows_config = config::Config::get<config::WindowsConfig>();
 
-    get_cli_arguments(eos_config);
+    get_cli_arguments(windows_config, product_config);
 
 #if _DEBUG
     logging::global_log_open("gfx_log.txt");
@@ -147,11 +154,11 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
         {
             logging::log_inform("start eos init");
 
-            eos_init(eos_config);
+            eos_init(windows_config, product_config);
 
             eos_set_loglevel_via_config();
 
-            eos_create(eos_config);
+            eos_create(windows_config, product_config);
 
             s_eos_sdk_lib_handle = nullptr;
             EOS_Initialize_ptr = nullptr;

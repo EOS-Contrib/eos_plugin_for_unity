@@ -70,6 +70,12 @@ namespace pew::eos::config
         bool is_server;
 
         /**
+         * \brief Result of a bit-wise or operation combining all platform
+         * flags.
+         */
+        int platform_options_flags;
+
+        /**
          * \brief The AuthScopeFlags for the platform.
          */
         EOS_EAuthScopeFlags auth_scope_flags = EOS_EAuthScopeFlags::EOS_AS_NoFlags;
@@ -125,6 +131,20 @@ namespace pew::eos::config
          * combination is selected.
          */
         EOS_UI_EInputStateButtonFlags toggle_friends_button_combination = EOS_UI_EInputStateButtonFlags::EOS_UISBF_None;
+
+        /**
+         * \brief The country code to use when creating the eos platform. Note
+         * that the Unity project does not currently expose this property for
+         * the user to edit. TODO: Expose property in Unity project.
+         */
+        std::string overrideCountryCode;
+
+        /**
+         * \brief The locale code to use when creating the eos platform. Note
+         * that the Unity project does not currently expose this property for
+         * the user to edit. TODO: Expose property in Unity project.
+         */
+        std::string overrideLocaleCode;
     };
 
 }

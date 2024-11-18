@@ -67,7 +67,10 @@ namespace pew::eos::config
         {"ConsoleEnableOverlayAutomaticUnloading",            EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING},
 
         {"EOS_PF_RESERVED1",                                  EOS_PF_RESERVED1},
-        {"Reserved1",                                         EOS_PF_RESERVED1}
+        {"Reserved1",                                         EOS_PF_RESERVED1},
+
+        {"EOS_PF_NONE",                                       0},
+        {"None",                                              0},
     };
 
     /**

@@ -31,6 +31,8 @@ namespace pew::eos::config
 {
     using namespace nlohmann;
 
+#define PARSE_FROM_JSON(key, target) try_get_to(json, key, target)
+
     /**
      * \brief Used to describe the functions needed to make an object both
      * serializable and deserializable from JSON.
@@ -38,7 +40,21 @@ namespace pew::eos::config
     struct Serializable
     {
     protected:
+        ~Serializable() = default;
+
         virtual void from_json(const json& json) = 0;
+
+        template<typename T>
+        static bool try_get_to(const json& json, const char* key, T set_to)
+        {
+            if (json.contains(key))
+            {
+                json[key].get_to(set_to);
+                return true;
+            }
+
+            return false;
+        }
     };
 }
 

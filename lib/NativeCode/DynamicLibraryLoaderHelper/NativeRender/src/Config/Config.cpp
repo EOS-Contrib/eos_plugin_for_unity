@@ -86,7 +86,7 @@ namespace pew::eos::config
 
     void Config::from_json_internal(const nlohmann::json& json)
     {
-        Version::try_parse(json["schemaVersion"], schemaVersion);
+        Version::try_parse(json["schemaVersion"], _schema_version);
         from_json(json);
     }
 
