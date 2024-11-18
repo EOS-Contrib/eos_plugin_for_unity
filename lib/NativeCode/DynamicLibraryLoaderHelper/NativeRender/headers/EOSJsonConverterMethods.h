@@ -40,10 +40,10 @@ namespace nlohmann
     void from_json(const json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity);
     void from_json(const json& json, EOS_UI_EInputStateButtonFlags& input_state_button_flags);
 
-    static inline std::string remove(std::string input, char target)
+    static inline std::string remove(const std::string& input, const char& target)
     {
         std::string modified;
-        for (char& c : input)
+        for (const char& c : input)
         {
             if (c == target) continue;
             modified += c;
@@ -82,7 +82,7 @@ namespace nlohmann
         json.get_to(str_enum_values);
 
         // Get the comma-delimited list of strings
-        auto string_values = pew::eos::string_helpers::split_and_trim(str_enum_values);
+        const auto string_values = pew::eos::string_helpers::split_and_trim(str_enum_values);
 
         // Iterate through them and apply to the auth scope flags.
         for (const auto& str : string_values)

@@ -159,8 +159,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-        // TODO: Figure out how this value changing can be leveraged to trigger re-validation of configuration settings.
-        public int ApiLatest
+        public int ApiVersion
         {
             get
             {

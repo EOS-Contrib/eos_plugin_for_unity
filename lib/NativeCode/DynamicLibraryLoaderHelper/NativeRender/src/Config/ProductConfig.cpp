@@ -55,5 +55,6 @@ namespace pew::eos::config
         json["Clients"].get_to(clients);
         json["imported"].get_to(_imported);
         json["Environments"].get_to(environments);
+        json["ProductVersion"].get_to(product_version);
     }
 }

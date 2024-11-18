@@ -29,7 +29,7 @@
 
 namespace pew::eos::config
 {
-    class CONFIG_API WindowsConfig : PlatformConfig
+    class CONFIG_API WindowsConfig : public PlatformConfig
     {
     private:
         explicit WindowsConfig() : PlatformConfig("eos_windows_config.json") {}

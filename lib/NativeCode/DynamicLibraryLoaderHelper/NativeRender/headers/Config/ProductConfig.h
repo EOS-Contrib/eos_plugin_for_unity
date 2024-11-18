@@ -43,15 +43,16 @@ namespace pew::eos::config
 
         bool _imported;
 
-        bool needs_migration();
-        void migrate();
+        bool needs_migration() override;
+        void migrate() override;
         
     protected:
-        void from_json(const nlohmann::json& json);
+        void from_json(const nlohmann::json& json) override;
 
     public:
         std::string product_name;
         std::string product_id;
+        std::string product_version;
 
         ProductConfig();
         ~ProductConfig();
