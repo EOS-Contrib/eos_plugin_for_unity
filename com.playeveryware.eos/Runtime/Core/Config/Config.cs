@@ -149,6 +149,49 @@ namespace PlayEveryWare.EpicOnlineServices
             _allowDefaultIfFileNotFound = allowDefault;
         }
 
+        // This compile conditional is here because async writing is not allowed
+        // on the Android platform.
+#if !UNITY_ANDROID || UNITY_EDITOR
+        /// <summary>
+        /// Performs migration of the config values and writes the result
+        /// asynchronously to disk.
+        /// </summary>
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        private async Task MigrateConfigIfNeededAsync()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+        {
+            MigrateConfigIfNeededInternal();
+#if UNITY_EDITOR
+            await WriteAsync();
+#endif
+        }
+#endif
+
+        /// <summary>
+        /// Synchronously migrates the config if it is needed.
+        /// </summary>
+        private void MigrateConfigIfNeeded()
+        {
+            MigrateConfigIfNeededInternal();
+#if UNITY_EDITOR
+            Write();
+#endif
+        }
+
+        /// <summary>
+        /// Helper function to perform the components of MigrateConfigIfNeeded
+        /// functions that are common to both async and non-async contexts.
+        /// </summary>
+        private void MigrateConfigIfNeededInternal()
+        {
+            if (!NeedsMigration())
+            {
+                return;
+            }
+
+            MigrateConfig();
+        }
+
         /// <summary>
         /// This function checks to see if the JSON needs to be migrated.
         /// </summary>
@@ -279,17 +322,13 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // Asynchronously read config values from the corresponding file.
             await instance.ReadAsync();
-            
+
 #if !UNITY_EDITOR
             // Cache the newly created config with its values having been read.
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
 
-            if (instance.NeedsMigration())
-            {
-                instance.MigrateConfig();
-                await instance.WriteAsync();
-            }
+            await instance.MigrateConfigIfNeededAsync();
 
             // Return the config being retrieved.
             return instance;
@@ -337,11 +376,7 @@ namespace PlayEveryWare.EpicOnlineServices
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
 
-            if (instance.NeedsMigration())
-            {
-                instance.MigrateConfig();
-                instance.Write();
-            }
+            instance.MigrateConfigIfNeeded();
 
             // Return the config being retrieved.
             return instance;
