@@ -23,7 +23,7 @@
     <ProjectGuid>{251D4477-4C90-4FE1-94A2-52377327D3B2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>NativeRender</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>GfxPluginNativeRender</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -31,14 +31,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32' Or '$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32' Or '$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <LinkIncremental>false</LinkIncremental>
@@ -100,15 +100,17 @@
   </ItemDefinitionGroup>
   <!-- Source Files -->
   <ItemGroup>
-    <ClInclude Include="Config\Config.h" />
-    <ClInclude Include="Config\ProductConfig.h" />
-    <ClInclude Include="Config\WindowsConfig.h" />
     <ClInclude Include="headers\config.h" />
     <ClInclude Include="headers\Config\ClientCredentials.h" />
+    <ClInclude Include="headers\Config\Config.h" />
     <ClInclude Include="headers\Config\Deployment.h" />
     <ClInclude Include="headers\Config\PlatformConfig.h" />
+    <ClInclude Include="headers\Config\ProductConfig.h" />
     <ClInclude Include="headers\Config\ProductionEnvironments.h" />
     <ClInclude Include="headers\Config\Sandbox.h" />
+    <ClInclude Include="headers\Config\Serializable.h" />
+    <ClInclude Include="headers\Config\WindowsConfig.h" />
+    <ClInclude Include="headers\EOSJsonConverterMethods.h" />
     <ClInclude Include="headers\eos_helpers.h" />
     <ClInclude Include="headers\eos_library_helpers.h" />
     <ClInclude Include="headers\eos_minimum_includes.h" />
@@ -122,9 +124,14 @@
     <ClInclude Include="include\json.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Config\ClientCredentials.cpp" />
     <ClCompile Include="src\Config\Config.cpp" />
+    <ClCompile Include="src\Config\Deployment.cpp" />
+    <ClCompile Include="src\Config\EOSJsonConverterMethods.cpp" />
     <ClCompile Include="src\Config\PlatformConfig.cpp" />
     <ClCompile Include="src\Config\ProductConfig.cpp" />
+    <ClCompile Include="src\Config\ProductionEnvironments.cpp" />
+    <ClCompile Include="src\Config\Sandbox.cpp" />
     <ClCompile Include="src\config_DEPRECATED.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\eos_helpers.cpp" />

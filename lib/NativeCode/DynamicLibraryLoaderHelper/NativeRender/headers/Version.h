@@ -27,31 +27,29 @@
 
 #include "include/json.hpp"
 #include "pch.h"
-//
-//namespace pew::eos::config
-//{
-//    struct Version
-//    {
-//        int major = 0;
-//        int minor = 0;
-//        int part = 0;
-//
-//        bool operator<(const Version& other) const;
-//        bool operator>(const Version& other) const;
-//        bool operator==(const Version& other) const;
-//        bool operator<=(const Version& other) const;
-//        bool operator>=(const Version& other) const;
-//
-//    private:
-//        friend class Config;
-//    };
-//}
-//
-//namespace nlohmann
-//{
-//    void to_json(json& j, const pew::eos::config::Version& v);
-//    void from_json(const json& j, pew::eos::config::Version& v);
-//}
-//
+#include "Serializable.h"
+
+namespace pew::eos::config
+{
+    struct CONFIG_API Version
+    {
+    public:
+        int major = 0;
+        int minor = 0;
+        int part = 0;
+
+        bool operator<(const Version& other) const;
+        bool operator>(const Version& other) const;
+        bool operator==(const Version& other) const;
+        bool operator<=(const Version& other) const;
+        bool operator>=(const Version& other) const;
+
+        static bool try_parse(const std::string& str, Version& version);
+
+    private:
+        friend class Config;
+        static bool try_parse_int(const std::string& str, int& value);
+    };
+}
 
 #endif

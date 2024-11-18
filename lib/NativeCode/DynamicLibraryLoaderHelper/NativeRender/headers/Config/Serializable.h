@@ -1,5 +1,5 @@
-#ifndef DEPLOYMENT_H
-#define DEPLOYMENT_H
+#ifndef SERIALIZABLE_H
+#define SERIALIZABLE_H
 
 /*
  * Copyright (c) 2024 PlayEveryWare
@@ -24,25 +24,23 @@
  */
 
 #pragma once
-#include "Sandbox.h"
-#include <string>
+
 #include "include/json.hpp"
 
 namespace pew::eos::config
 {
+    using namespace nlohmann;
+
     /**
-     * \brief Used to describe a deployment for initializing the EOS SDK.
+     * \brief Used to describe the functions needed to make an object both
+     * serializable and deserializable from JSON.
      */
-    struct Deployment
+    struct Serializable
     {
-        std::string id;
-        Sandbox sandbox;
+    protected:
+        virtual void from_json(const json& json) = 0;
     };
 }
 
-namespace nlohmann 
-{
-    void from_json(const json& json, pew::eos::config::Deployment& deployment);
-}
-
 #endif
+#pragma once

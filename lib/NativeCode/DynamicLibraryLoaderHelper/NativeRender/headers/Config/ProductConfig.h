@@ -29,6 +29,7 @@
 
 #include "Config.h"
 #include "ProductionEnvironments.h"
+#include "ClientCredentials.h"
 #include "include/json.hpp"
 
 namespace pew::eos::config
@@ -43,15 +44,14 @@ namespace pew::eos::config
         bool _imported;
 
         bool needs_migration();
-
         void migrate();
-
-        void read();
         
+    protected:
+        void from_json(const nlohmann::json& json);
+
     public:
         std::string product_name;
         std::string product_id;
-        std::string product_version;
 
         ProductConfig();
         ~ProductConfig();
@@ -65,7 +65,6 @@ namespace pew::eos::config
         ProductConfig& operator=(const ProductConfig&) = delete;
 
         ProductionEnvironments environments;
-
 
         std::vector<ClientCredentials> clients;
     };

@@ -1,6 +1,3 @@
-#ifndef DEPLOYMENT_H
-#define DEPLOYMENT_H
-
 /*
  * Copyright (c) 2024 PlayEveryWare
  *
@@ -23,26 +20,13 @@
  * SOFTWARE.
  */
 
-#pragma once
+#include <pch.h>
 #include "Sandbox.h"
-#include <string>
-#include "include/json.hpp"
 
-namespace pew::eos::config
+namespace nlohmann
 {
-    /**
-     * \brief Used to describe a deployment for initializing the EOS SDK.
-     */
-    struct Deployment
+    void from_json(const nlohmann::json& json, pew::eos::config::Sandbox& sandbox)
     {
-        std::string id;
-        Sandbox sandbox;
-    };
+        json["Value"]["Value"].get_to(sandbox.id);
+    }
 }
-
-namespace nlohmann 
-{
-    void from_json(const json& json, pew::eos::config::Deployment& deployment);
-}
-
-#endif

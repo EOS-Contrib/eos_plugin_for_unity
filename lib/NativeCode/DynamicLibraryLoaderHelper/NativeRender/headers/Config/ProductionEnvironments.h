@@ -28,7 +28,6 @@
 
 #include "Deployment.h"
 #include "Sandbox.h"
-#include "ClientCredentials.h"
 
 namespace pew::eos::config
 {
@@ -43,6 +42,9 @@ namespace pew::eos::config
     };
 }
 
+namespace nlohmann
+{
+    void from_json(const nlohmann::json& json, pew::eos::config::ProductionEnvironments& environments);
+}
+
 #endif
-#pragma once
-#pragma once

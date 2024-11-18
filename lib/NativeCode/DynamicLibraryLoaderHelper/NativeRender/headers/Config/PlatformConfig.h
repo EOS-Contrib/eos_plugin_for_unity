@@ -50,6 +50,8 @@ namespace pew::eos::config
 
         void migrate();
 
+        void from_json(const nlohmann::json& json);
+
         friend class Config;
     public:
         /**
@@ -70,18 +72,18 @@ namespace pew::eos::config
         /**
          * \brief The AuthScopeFlags for the platform.
          */
-        EOS_EAuthScopeFlags auth_scope_flags;
+        EOS_EAuthScopeFlags auth_scope_flags = EOS_EAuthScopeFlags::EOS_AS_NoFlags;
 
         /**
          * \brief Integrated platform management flags for the platform.
          */
-        EOS_EIntegratedPlatformManagementFlags integrated_platform_management_flags;
+        EOS_EIntegratedPlatformManagementFlags integrated_platform_management_flags = EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled;
 
         /**
          * \brief The maximum amount of execution time the EOS SDK can use each
          * frame.
          */
-        uint32_t tick_budget_in_milliseconds;
+        int tick_budget_in_milliseconds;
 
         /**
          * \brief Indicates the maximum number of seconds that (before first
@@ -122,7 +124,7 @@ namespace pew::eos::config
          * SDK will log an error at the start of runtime if an invalid
          * combination is selected.
          */
-        EOS_UI_EInputStateButtonFlags toggle_friends_button_combination;
+        EOS_UI_EInputStateButtonFlags toggle_friends_button_combination = EOS_UI_EInputStateButtonFlags::EOS_UISBF_None;
     };
 
 }

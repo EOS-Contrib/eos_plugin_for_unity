@@ -28,6 +28,7 @@
 #include <memory>
 #include <string>
 #include "headers/Version.h"
+#include "Serializable.h"
 
 namespace pew::eos::config
 {
@@ -35,7 +36,7 @@ namespace pew::eos::config
      * \brief Used to describe information and functionality that is common to
      * all Config classes.
      */
-    class CONFIG_API Config
+    class CONFIG_API Config : Serializable
     {
     protected:
         /**
@@ -43,6 +44,16 @@ namespace pew::eos::config
          * configuration.
          */
         std::string _file_path;
+        
+        /**
+         * \brief The schema version for the file. 
+         */
+        Version schemaVersion;
+
+        /**
+         * \brief The current schema version that can be parsed.
+         */
+        const Version CURRENT_SCHEMA_VERSION = { 1, 0, 0 };
 
         /**
          * \brief Create a new Config class.
@@ -68,6 +79,8 @@ namespace pew::eos::config
          * \return True if the Config needs migration, false otherwise.
          */
         virtual bool needs_migration();
+
+        void from_json_internal(const nlohmann::json& json);
 
         /**
          * \brief Performs migration of the config values.
