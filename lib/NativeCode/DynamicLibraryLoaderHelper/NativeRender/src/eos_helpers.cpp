@@ -29,9 +29,13 @@
 #include "io_helpers.h"
 #include "json_helpers.h"
 #include "logging.h"
+#include "eos_init.h"
 #include <codecvt>
 
- /**
+#include "ProductConfig.h"
+#include "WindowsConfig.h"
+
+/**
   * @brief Retrieves the system cache directory.
   *
   * Retrieves the system's temporary directory and converts it to a UTF-8 encoded string.
@@ -146,7 +150,7 @@ namespace pew::eos
         logging::log_inform(output.str().c_str());
     }
 
-    void eos_init(const config::EOSConfig eos_config)
+    void eos_init(const config::WindowsConfig& windows_config, const config::ProductConfig& product_config)
     {
         static int reserved[2] = { 1, 1 };
         EOS_InitializeOptions SDKOptions = { 0 };
@@ -154,24 +158,13 @@ namespace pew::eos
         SDKOptions.AllocateMemoryFunction = nullptr;
         SDKOptions.ReallocateMemoryFunction = nullptr;
         SDKOptions.ReleaseMemoryFunction = nullptr;
-        SDKOptions.ProductName = eos_config.productName.c_str();
-        SDKOptions.ProductVersion = eos_config.productVersion.c_str();
+        SDKOptions.ProductName = product_config.product_name.c_str();
+        SDKOptions.ProductVersion = product_config.product_version.c_str();
         SDKOptions.Reserved = reserved;
         SDKOptions.SystemInitializeOptions = nullptr;
 
-        EOS_Initialize_ThreadAffinity overrideThreadAffinity = { 0 };
-
-        overrideThreadAffinity.ApiVersion = EOS_INITIALIZE_THREADAFFINITY_API_LATEST;
-
-        overrideThreadAffinity.HttpRequestIo = eos_config.ThreadAffinity_HTTPRequestIO;
-        overrideThreadAffinity.NetworkWork = eos_config.ThreadAffinity_networkWork;
-        overrideThreadAffinity.P2PIo = eos_config.ThreadAffinity_P2PIO;
-        overrideThreadAffinity.RTCIo = eos_config.ThreadAffinity_RTCIO;
-        overrideThreadAffinity.StorageIo = eos_config.ThreadAffinity_storageIO;
-        overrideThreadAffinity.WebSocketIo = eos_config.ThreadAffinity_webSocketIO;
-
-
-        SDKOptions.OverrideThreadAffinity = &overrideThreadAffinity;
+        EOS_Initialize_ThreadAffinity affinity = windows_config.thread_affinity;
+        SDKOptions.OverrideThreadAffinity = &affinity;
 
         logging::log_inform("call EOS_Initialize");
         EOS_EResult InitResult = eos_library_helpers::EOS_Initialize_ptr(&SDKOptions);

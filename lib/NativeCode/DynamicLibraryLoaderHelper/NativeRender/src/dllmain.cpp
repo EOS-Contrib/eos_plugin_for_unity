@@ -123,7 +123,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 #endif
 
     config::EOSConfig eos_config;
-    if (!config::try_get_eos_config(eos_config))
+    if (!try_get_eos_config(eos_config))
     {
         return;
     }

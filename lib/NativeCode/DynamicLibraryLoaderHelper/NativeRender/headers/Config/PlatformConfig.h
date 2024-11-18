@@ -40,7 +40,7 @@ namespace pew::eos::config
      * \brief Describes the configuration options for a platform that wants to
      * interact with the EOS SDK.
      */
-    class CONFIG_API PlatformConfig : Config
+    class CONFIG_API PlatformConfig : public Config
     {
     protected:
         explicit PlatformConfig(const char* filename)
