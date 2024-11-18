@@ -53,7 +53,6 @@ namespace pew::eos::config
         json["tickBudgetInMilliseconds"].get_to(tick_budget_in_milliseconds);
         json["taskNetworkTimeoutSeconds"].get_to(task_network_timeout_seconds);
 
-        // TODO: Make sure that ApiVersion is being serialized by the C#, because currently it is not
         json["threadAffinity"].get_to(thread_affinity);
         json["alwaysSendInputToOverlay"].get_to(always_send_input_to_overlay);
         json["initialButtonDelayForOverlay"].get_to(initial_button_delay_for_overlay);
