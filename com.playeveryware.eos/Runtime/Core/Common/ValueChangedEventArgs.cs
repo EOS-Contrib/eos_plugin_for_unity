@@ -26,12 +26,12 @@ namespace PlayEveryWare.Common
 
     public class ValueChangedEventArgs<TValueType> : EventArgs
     {
-        public readonly TValueType CurrentValue;
+        public readonly TValueType OldValue;
         public readonly TValueType NewValue;
 
-        public ValueChangedEventArgs(TValueType currentValue, TValueType newValue)
+        public ValueChangedEventArgs(TValueType oldValue, TValueType newValue)
         {
-            CurrentValue = currentValue;
+            OldValue = oldValue;
             NewValue = newValue;
         }
     }
