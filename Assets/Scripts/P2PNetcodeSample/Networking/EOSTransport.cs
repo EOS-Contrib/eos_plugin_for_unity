@@ -52,9 +52,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         public const ulong InvalidClientId = ulong.MaxValue;
 
         // Client ID Maps (locally persistent)
-        private ulong NextClientId = 1; // (ServerClientId is 0, so we start at 1)
-        private Dictionary<ulong, ProductUserId> ClientIdToUserId = null;
-        private Dictionary<ProductUserId, ulong> UserIdToClientId = null;
+        private ulong NextTransportId = 1; // (ServerClientId is 0, so we start at 1)
+        private Dictionary<ulong, ProductUserId> TransportIdToUserId = null;
+        private Dictionary<ProductUserId, ulong> UserIdToTransportId = null;
 
 
         // True if we're the Server, else we're a Client
@@ -81,7 +81,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 #endif
         /// <summary>
         /// A constant `clientId` that represents the server.
-        /// When this value is found in methods such as `Send`, it should be treated as a placeholder that means "the server".
+        /// When this value is found in methods such as `Send`, it should be 
+        /// treated as a placeholder that means "the server".
+        /// 
+        /// While most things inside EOSTransport have some nuanced difference
+        /// between a 'client id' and a 'transport id', this ServerClientId is
+        /// a special constant value. Both the client id and transport id of
+        /// the server will always be this value.
         /// </summary>
         public override ulong ServerClientId => 0;
 
@@ -117,7 +123,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// <summary>
         /// Send a payload to the specified clientId, data and channelName.
         /// </summary>
-        /// <param name="clientId">The clientId to send to.</param>
+        /// <param name="clientId">
+        /// The transport id to send to.
+        /// 
+        /// This function maintains the parameter name 'clientId' because of its
+        /// base class, but this should be provided an associated transport id,
+        /// not the client's client id.
+        /// </param>
         /// <param name="payload">The data to send.</param>
         /// <param name="networkDelivery">The delivery type (QoS) to send data with.</param>
         public override void Send(ulong clientId, ArraySegment<byte> payload, NetworkDelivery networkDelivery)
@@ -157,7 +169,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// <summary>
         /// Polls for incoming events, with an extra output parameter to report the precise time the event was received.
         /// </summary>
-        /// <param name="clientId">The clientId this event is for.</param>
+        /// <param name="clientId">
+        /// The transportId this event is for.
+        /// 
+        /// This function maintains the parameter name 'clientId' because of its
+        /// base class, but this should be provided an associated transport id,
+        /// not the client's client id.
+        /// </param>
         /// <param name="payload">The incoming data payload.</param>
         /// <param name="receiveTime">The time the event was received, as reported by Time.realtimeSinceStartup.</param>
         /// <returns>Returns the event type.</returns>
@@ -187,7 +205,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             {
                 Debug.Assert(socketName == P2PSocketName);
 
-                clientId = GetClientId(userId);
+                clientId = GetTransportId(userId);
                 payload = new ArraySegment<byte>(packet);
                 receiveTime = Time.realtimeSinceStartup;
                 print($"EOSP2PTransport.PollEvent: [{NetworkEvent.Data}, ClientId='{clientId}', UserId='{userId}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
@@ -273,7 +291,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// <summary>
         /// Disconnects a client from the server.
         /// </summary>
-        /// <param name="clientId">The clientId to disconnect.</param>
+        /// <param name="clientId">
+        /// The transport id to disconnect.
+        /// 
+        /// This should be the transport id of the target user, not their client
+        /// id in Network Manager.
+        /// </param>
         public override void DisconnectRemoteClient(ulong clientId)
         {
             Debug.Assert(IsInitialized);
@@ -301,7 +324,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// Gets the round trip time for a specific client.
         /// This method is optional, and not currently implemented in this case.
         /// </summary>
-        /// <param name="clientId">The clientId to get the RTT from.</param>
+        /// <param name="clientId">
+        /// The transport id to get the RTT from.
+        /// 
+        /// This should be the transport id of the target user, not their client
+        /// id in Network Manager.
+        /// </param>
         /// <returns><c>0</c></returns>
         public override ulong GetCurrentRtt(ulong clientId)
         {
@@ -344,8 +372,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             ConnectedDisconnectedUserEvents = null;
 
             // Clear ID maps
-            ClientIdToUserId = null;
-            UserIdToClientId = null;
+            TransportIdToUserId = null;
+            UserIdToTransportId = null;
 
             // Clear Server UserId target
             ServerUserId = null;
@@ -367,9 +395,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
 
             // Create ID maps
-            NextClientId = 1; // Reset local client ID assignment counter
-            ClientIdToUserId = new Dictionary<ulong, ProductUserId>();
-            UserIdToClientId = new Dictionary<ProductUserId, ulong>();
+            NextTransportId = 1; // Reset local client ID assignment counter
+            TransportIdToUserId = new Dictionary<ulong, ProductUserId>();
+            UserIdToTransportId = new Dictionary<ProductUserId, ulong>();
 
             // Create user connects/disconnects event cache
             ConnectedDisconnectedUserEvents = new Queue<Tuple<ProductUserId, ulong, bool>>();
@@ -462,17 +490,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 if (IsServer)
                 {
                     // We don't have this client in our map yet? (ie. We haven't seen them before)
-                    if (UserIdToClientId.ContainsKey(userId) == false)
+                    if (UserIdToTransportId.ContainsKey(userId) == false)
                     {
                         // Add client ID mapping
-                        ulong newClientId = NextClientId++; // Generate new client ID (locally unique, incremental)
-                        ClientIdToUserId.Add(newClientId, userId);
-                        UserIdToClientId.Add(userId, newClientId);
+                        ulong newClientId = NextTransportId++; // Generate new client ID (locally unique, incremental)
+                        TransportIdToUserId.Add(newClientId, userId);
+                        UserIdToTransportId.Add(userId, newClientId);
                     }
                 }
 
                 // Get mapped client ID
-                ulong clientId = GetClientId(userId);
+                ulong clientId = GetTransportId(userId);
 
                 // Cache user connection event, will be returned in a later PollEvent call
                 ConnectedDisconnectedUserEvents.Enqueue(new Tuple<ProductUserId, ulong, bool>(userId, clientId, true));
@@ -499,11 +527,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 if (IsServer)
                 {
                     // We should have seen this client before in a prior call to OnConnectionOpenedCallback
-                    Debug.Assert(UserIdToClientId.ContainsKey(userId) == true);
+                    Debug.Assert(UserIdToTransportId.ContainsKey(userId) == true);
                 }
 
                 // Get mapped client ID
-                ulong clientId = GetClientId(userId);
+                ulong clientId = GetTransportId(userId);
 
                 // NOTE: For simplicity of event processing order and ID lookups we will simply allow the client ID map
                 // to continually grow as we don't expect to receive an unreasonable number (>10k) of unique
@@ -522,26 +550,72 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
         }
 
-        // Returns the ProductUserId corresponding to a given ClientId
-        private ProductUserId GetUserId(ulong clientId)
+        /// <summary>
+        /// Gets the ProductUserId for an associated transportId.
+        /// 
+        /// As only a Server is able to know about clients, calling this 
+        /// function from a client will always return <see cref="ServerUserId"/>.
+        /// </summary>
+        /// <param name="transportId">
+        /// The transport id of the user to look up.
+        /// Note that this is not the same as the "client id" inside 
+        /// NetworkManager. <see cref="GetTransportId(ProductUserId)"/>
+        /// </param>
+        /// <returns>The product user associated with the transport.</returns>
+        public ProductUserId GetUserId(ulong transportId)
         {
             Debug.Assert(IsInitialized);
 
             // We're a Client?
             if (IsServer == false)
             {
-                Debug.AssertFormat(clientId == ServerClientId, "EOSP2PTransport.GetUserId: Unexpected ClientId='{0}' given - We're a Client so we should only be dealing with the Server by definition (Server ClientId='{1}').",
-                                   clientId, ServerClientId);
+                Debug.AssertFormat(transportId == ServerClientId, "EOSP2PTransport.GetUserId: Unexpected ClientId='{0}' given - We're a Client so we should only be dealing with the Server by definition (Server ClientId='{1}').",
+                                   transportId, ServerClientId);
                 return ServerUserId;
             }
             else
             {
-                return ClientIdToUserId[clientId];
+                return TransportIdToUserId[transportId];
             }
         }
 
-        // Returns the ClientId corresponding to a given ProductUserId
-        private ulong GetClientId(ProductUserId userId)
+        /// <summary>
+        /// Gets the TransportId for an associated ProductUserId.
+        /// 
+        /// As only a Server is able to know about clients, calling this 
+        /// function from a client will always return 
+        /// <see cref="ServerClientId"/>.
+        /// 
+        /// The term 'client id' and 'transport id' are related, but not exactly
+        /// the same. When a new client connects to a host,
+        /// <see cref="NetworkManager"/> assigns that user a client id. The
+        /// assigned <see cref="NetworkTransport"/> (which is this class) is
+        /// responsible for identifying when a user joins, and assigning them
+        /// a transport id. NetworkManager and EOSTransport independently
+        /// assign these ids, and while they might coincide they are not
+        /// guaranteed to be the same. For example; if a user starts a client,
+        /// they might have a transport id that is the same as their client id.
+        /// But if they leave and return, EOSTransport will reuse the same
+        /// transport id, while NetworkManager will use a new client id.
+        /// 
+        /// Most NetworkManager functions take in a client id. If it needs to
+        /// do something relating to the NetworkTransport, it will use an
+        /// internal lookup table to translate from the client id to transport
+        /// id, and then run the NetworkTransport function. Whenever 
+        /// NetworkManager calls into  NetworkTransport, it is always going to 
+        /// provide a transport id, even if the parameter name in the transport
+        /// is 'clientId'.
+        /// 
+        /// In order to manage clients, this function can be used to map from
+        /// ProductUserId to transport id. That transport id can then be used
+        /// to call public functions inside EOSTransport, which will usually
+        /// ripple up to NetworkManager to handle client id information. When
+        /// EOSTransport calls NetworkManager to run code, the NetworkManager
+        /// will usually translate the transport id back in to a client id.
+        /// </summary>
+        /// <param name="userId">The EOS Product User to lookup.</param>
+        /// <returns>The transport id associated with the user.</returns>
+        public ulong GetTransportId(ProductUserId userId)
         {
             Debug.Assert(IsInitialized);
 
@@ -554,7 +628,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
             else
             {
-                return UserIdToClientId[userId];
+                return UserIdToTransportId[userId];
             }
         }
     }
