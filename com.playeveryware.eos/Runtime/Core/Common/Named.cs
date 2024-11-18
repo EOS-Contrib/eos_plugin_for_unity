@@ -71,7 +71,7 @@ namespace PlayEveryWare.Common
 
             // If the name has not been set to the new name then it was 
             // not able to be set.
-            return !string.Equals(Name, oldName);
+            return string.Equals(Name, newName);
         }
 
         /// <summary>

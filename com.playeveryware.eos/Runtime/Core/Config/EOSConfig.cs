@@ -79,6 +79,12 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             // Because EOSConfig is becoming obsolete, it should never
             // be "migrated", but left-as-is.
+            //
+            // To be clear - migration _from_ EOSConfig *does* take place, but 
+            // it is considered in those cases that the new config classes are
+            // the ones being migrated - the EOSConfig _itself_ is therefore 
+            // never migrated. Non-obsolete code makes exclusive use of the new
+            // classes.
             return false;
         }
 
