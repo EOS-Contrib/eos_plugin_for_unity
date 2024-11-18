@@ -60,7 +60,6 @@ namespace pew::eos::config
         if (!file.is_open())
         {
             std::cerr << "Failed to open file: \"" << _file_path << "\"\n";
-            // TODO: Possibly log error or take other action.
             return;
         }
 
@@ -69,12 +68,8 @@ namespace pew::eos::config
         std::string json_content = buffer.str();
 
         nlohmann::json json = nlohmann::json::parse(json_content);
-        auto json_dumped = json.dump(4);
-        std::string versionString;
-        auto test = json["schemaVersion"].get_to(versionString);
-        file.close();
-        
-        //_schema_version = json.at("schemaVersion").get<Version>();
+
+        from_json_internal(json);
     }
 
     void Config::write() 
@@ -87,6 +82,12 @@ namespace pew::eos::config
         // The config needs migration if the pImpl is either not set or is not current.
         //return (CURRENT_SCHEMA_VERSION > _schema_version);
         return true;
+    }
+
+    void Config::from_json_internal(const nlohmann::json& json)
+    {
+        Version::try_parse(json["schemaVersion"], schemaVersion);
+        from_json(json);
     }
 
     Config::~Config() = default;

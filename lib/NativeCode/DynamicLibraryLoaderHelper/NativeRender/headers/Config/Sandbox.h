@@ -25,6 +25,9 @@
 
 #pragma once
 
+#include "include/json.hpp"
+#include <string>
+
 namespace pew::eos::config
 {
     /**
@@ -32,8 +35,13 @@ namespace pew::eos::config
      */
     struct Sandbox
     {
-        const char* id;
+        std::string id;
     };
+}
+
+namespace nlohmann
+{
+    void from_json(const json& json, pew::eos::config::Sandbox& sandbox);
 }
 
 #endif

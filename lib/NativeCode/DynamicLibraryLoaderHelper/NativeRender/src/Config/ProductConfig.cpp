@@ -41,51 +41,19 @@ namespace pew::eos::config
         std::cout << "Migrating ProductConfig from EpicOnlineServicesConfig.json" << std::endl;
     }
 
-    ProductConfig::ProductConfig() : Config("eos_product_config.json")
+    ProductConfig::ProductConfig() : Config("eos_product_config.json"), _imported(false)
     {
         
     }
 
     ProductConfig::~ProductConfig() = default;
 
-    void ProductConfig::read()
+    void ProductConfig::from_json(const nlohmann::json& json)
     {
-        if (!std::filesystem::exists(_file_path))
-        {
-            // TODO: Possibly log error or take other action.
-            return;
-        }
-
-        std::ifstream file(_file_path);
-        if (!file.is_open())
-        {
-            std::cerr << "Failed to open file: \"" << _file_path << "\"\n";
-            // TODO: Possibly log error or take other action.
-            return;
-        }
-
-        std::ostringstream buffer;
-        buffer << file.rdbuf();
-        std::string json_content = buffer.str();
-
-        nlohmann::json json = nlohmann::json::parse(json_content);
-        auto json_dumped = json.dump(4);
-        std::string versionString;
-        auto test = json["schemaVersion"].get_to(versionString);
-
         json["ProductId"].get_to(product_id);
         json["ProductName"].get_to(product_name);
-        json["ProductVersion"].get_to(product_version);
-
-
         json["Clients"].get_to(clients);
-
-        file.close();
-
-        // If the product config file does not exist
-        if(!std::filesystem::exists(_file_path) || needs_migration())
-        {
-            migrate();
-        }
+        json["imported"].get_to(_imported);
+        json["Environments"].get_to(environments);
     }
 }

@@ -21,7 +21,11 @@
  */
 
 #include <pch.h>
+#include <iostream>
 #include "../Config/PlatformConfig.h"
+#include "string_helpers.h"
+#include "../include/json.hpp"
+#include "EOSJsonConverterMethods.h"
 
 namespace pew::eos::config
 {
@@ -30,4 +34,32 @@ namespace pew::eos::config
         // Migrate the platform configuration if needed
     }
 
+    void PlatformConfig::from_json(const nlohmann::json& json)
+    {
+        auto json_str = json.dump();
+
+        json["deployment"].get_to(deployment);
+        
+        json["clientCredentials"].get_to(client_credentials);
+        json["isServer"].get_to(is_server);
+        
+        json["authScopeOptionsFlags"].get_to(auth_scope_flags);
+        
+        // TODO: Make C# use this string instead of the generic "flags".
+        //       Also make the value output by the C# to be a comma-delimited 
+        //       list of values.
+        //json["integratedPlatformManagementFlags"].get_to(integrated_platform_management_flags);
+
+        json["tickBudgetInMilliseconds"].get_to(tick_budget_in_milliseconds);
+        json["taskNetworkTimeoutSeconds"].get_to(task_network_timeout_seconds);
+
+        // TODO: Make sure that ApiVersion is being serialized by the C#, because currently it is not
+        json["threadAffinity"].get_to(thread_affinity);
+        json["alwaysSendInputToOverlay"].get_to(always_send_input_to_overlay);
+        json["initialButtonDelayForOverlay"].get_to(initial_button_delay_for_overlay);
+        json["repeatButtonDelayForOverlay"].get_to(repeat_button_delay_for_overlay);
+        json["toggleFriendsButtonCombination"].get_to(toggle_friends_button_combination);
+
+        std::cout << json_str << std::endl;
+    }
 }

@@ -30,7 +30,7 @@ using namespace pew::eos::config;
 int main()
 {
     ProductConfig product_config = Config::get<ProductConfig>();
-    //WindowsConfig windows_config = Config::get<WindowsConfig>();
+    WindowsConfig windows_config = Config::get<WindowsConfig>();
 
     EOSConfig eos_config;
     if(try_get_eos_config(eos_config))

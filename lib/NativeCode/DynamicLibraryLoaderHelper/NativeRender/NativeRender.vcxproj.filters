@@ -24,15 +24,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Config\ProductConfig.h">
-      <Filter>Header Files\Config</Filter>
-    </ClInclude>
-    <ClInclude Include="Config\WindowsConfig.h">
-      <Filter>Header Files\Config</Filter>
-    </ClInclude>
-    <ClInclude Include="Config\Config.h">
-      <Filter>Header Files\Config</Filter>
-    </ClInclude>
     <ClInclude Include="include\json.hpp">
       <Filter>Source Files\include</Filter>
     </ClInclude>
@@ -82,6 +73,21 @@
     <ClInclude Include="headers\Version.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
+    <ClInclude Include="headers\Config\Serializable.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Config\Config.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Config\ProductConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Config\WindowsConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\EOSJsonConverterMethods.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\config_DEPRECATED.cpp">
@@ -119,6 +125,21 @@
       <Filter>Source Files\Config</Filter>
     </ClCompile>
     <ClCompile Include="src\Version.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Config\ProductionEnvironments.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Config\ClientCredentials.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Config\Deployment.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Config\Sandbox.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Config\EOSJsonConverterMethods.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
   </ItemGroup>
