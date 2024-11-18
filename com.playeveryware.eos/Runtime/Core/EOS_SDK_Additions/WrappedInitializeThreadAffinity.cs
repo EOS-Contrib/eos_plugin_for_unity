@@ -29,6 +29,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public class WrappedInitializeThreadAffinity : Wrapped<InitializeThreadAffinity>
     {
+        int? _apiVersion;
+
         /// <summary>
         /// Any thread related to network management that is not IO.
         /// </summary>
@@ -162,7 +164,14 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             get
             {
-                return PlatformInterface.InitializeThreadaffinityApiLatest;
+                if (!_apiVersion.HasValue)
+                    _apiVersion = PlatformInterface.InitializeThreadaffinityApiLatest;
+
+                return _apiVersion.Value;
+            }
+            set
+            {
+                _apiVersion = value;
             }
         }
     }
