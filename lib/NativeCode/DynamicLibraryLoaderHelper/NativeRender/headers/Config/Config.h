@@ -36,8 +36,17 @@ namespace pew::eos::config
      * \brief Used to describe information and functionality that is common to
      * all Config classes.
      */
-    class CONFIG_API Config : Serializable
+    class CONFIG_API Config : public Serializable
     {
+    private:
+        /**
+         * \brief Function internal to Config that is used to call the required
+         * implementation from the more derived class.
+         *
+         * \param json The json value to use for parsing.
+         */
+        void from_json_internal(const nlohmann::json& json);
+
     protected:
         /**
          * \brief The fully qualified path to the file that backs the
@@ -48,7 +57,7 @@ namespace pew::eos::config
         /**
          * \brief The schema version for the file. 
          */
-        Version schemaVersion;
+        Version _schema_version;
 
         /**
          * \brief The current schema version that can be parsed.
@@ -79,8 +88,6 @@ namespace pew::eos::config
          * \return True if the Config needs migration, false otherwise.
          */
         virtual bool needs_migration();
-
-        void from_json_internal(const nlohmann::json& json);
 
         /**
          * \brief Performs migration of the config values.

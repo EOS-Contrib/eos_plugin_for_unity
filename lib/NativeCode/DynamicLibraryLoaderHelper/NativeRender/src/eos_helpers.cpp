@@ -150,25 +150,26 @@ namespace pew::eos
         logging::log_inform(output.str().c_str());
     }
 
-    void eos_init(const config::WindowsConfig& windows_config, const config::ProductConfig& product_config)
+    void eos_init(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
     {
         static int reserved[2] = { 1, 1 };
-        EOS_InitializeOptions SDKOptions = { 0 };
-        SDKOptions.ApiVersion = EOS_INITIALIZE_API_LATEST;
-        SDKOptions.AllocateMemoryFunction = nullptr;
-        SDKOptions.ReallocateMemoryFunction = nullptr;
-        SDKOptions.ReleaseMemoryFunction = nullptr;
-        SDKOptions.ProductName = product_config.product_name.c_str();
-        SDKOptions.ProductVersion = product_config.product_version.c_str();
-        SDKOptions.Reserved = reserved;
-        SDKOptions.SystemInitializeOptions = nullptr;
+        EOS_InitializeOptions sdk_options{};
+        sdk_options.ApiVersion = EOS_INITIALIZE_API_LATEST;
+        sdk_options.AllocateMemoryFunction = nullptr;
+        sdk_options.ReallocateMemoryFunction = nullptr;
+        sdk_options.ReleaseMemoryFunction = nullptr;
+        sdk_options.ProductName = product_config.product_name.c_str();
+        sdk_options.ProductVersion = product_config.product_version.c_str();
+        sdk_options.Reserved = reserved;
+        sdk_options.SystemInitializeOptions = nullptr;
 
-        EOS_Initialize_ThreadAffinity affinity = windows_config.thread_affinity;
-        SDKOptions.OverrideThreadAffinity = &affinity;
+        // Because the parameter passed is const, the value needs to be copied.
+        EOS_Initialize_ThreadAffinity affinity = platform_config.thread_affinity;
+        sdk_options.OverrideThreadAffinity = &affinity;
 
         logging::log_inform("call EOS_Initialize");
-        EOS_EResult InitResult = eos_library_helpers::EOS_Initialize_ptr(&SDKOptions);
-        if (InitResult != EOS_EResult::EOS_Success)
+        const EOS_EResult init_result = eos_library_helpers::EOS_Initialize_ptr(&sdk_options);
+        if (init_result != EOS_EResult::EOS_Success)
         {
             logging::log_error("Unable to do eos init");
         }
@@ -236,29 +237,33 @@ namespace pew::eos
         return s_tempPathBuffer;
     }
 
-    void eos_create(config::EOSConfig eos_config)
+    void eos_create(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
     {
         EOS_Platform_Options platform_options = { 0 };
         platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
-        platform_options.bIsServer = eos_config.isServer;
-        platform_options.Flags = eos_config.flags;
+        platform_options.bIsServer = platform_config.is_server;
+        platform_options.Flags = platform_config.platform_options_flags;
         platform_options.CacheDirectory = GetCacheDirectory();
 
-        platform_options.EncryptionKey = eos_config.encryptionKey.length() > 0 ? eos_config.encryptionKey.c_str() : nullptr;
-        platform_options.OverrideCountryCode = eos_config.overrideCountryCode.length() > 0 ? eos_config.overrideCountryCode.c_str() : nullptr;
-        platform_options.OverrideLocaleCode = eos_config.overrideLocaleCode.length() > 0 ? eos_config.overrideLocaleCode.c_str() : nullptr;
-        platform_options.ProductId = eos_config.productID.c_str();
-        platform_options.SandboxId = eos_config.sandboxID.c_str();
-        platform_options.DeploymentId = eos_config.deploymentID.c_str();
-        platform_options.ClientCredentials.ClientId = eos_config.clientID.c_str();
-        platform_options.ClientCredentials.ClientSecret = eos_config.clientSecret.c_str();
+        
+        platform_options.OverrideCountryCode = nullptr;
+        platform_options.OverrideLocaleCode = platform_config.overrideLocaleCode.length() > 0 ? platform_config.overrideLocaleCode.c_str() : nullptr;
 
-        platform_options.TickBudgetInMilliseconds = eos_config.tickBudgetInMilliseconds;
+        platform_options.ProductId = product_config.product_id.c_str();
+        platform_options.SandboxId = platform_config.deployment.sandbox.id.c_str();
+        platform_options.DeploymentId = platform_config.deployment.id.c_str();
 
-        if (eos_config.taskNetworkTimeoutSeconds > 0)
-        {
-            platform_options.TaskNetworkTimeoutSeconds = &eos_config.taskNetworkTimeoutSeconds;
-        }
+        // Set the Client Credentials and associated values.
+        auto [client_id, client_secret, encryption_key] = platform_config.client_credentials;
+        platform_options.EncryptionKey = encryption_key.c_str();
+        platform_options.ClientCredentials.ClientId = client_id.c_str();
+        platform_options.ClientCredentials.ClientSecret = client_secret.c_str();
+
+        platform_options.TickBudgetInMilliseconds = platform_config.tick_budget_in_milliseconds;
+
+        // Because input parameter is const, we need to make a copy of the value
+        double task_network_timeout_seconds = platform_config.task_network_timeout_seconds;
+        platform_options.TaskNetworkTimeoutSeconds = &task_network_timeout_seconds;
 
         EOS_Platform_RTCOptions rtc_options = { 0 };
 

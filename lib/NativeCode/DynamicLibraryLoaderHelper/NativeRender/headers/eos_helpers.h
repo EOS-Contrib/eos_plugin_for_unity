@@ -36,6 +36,7 @@ namespace pew::eos
 {
     namespace config
     {
+        class PlatformConfig;
         class WindowsConfig;
         class ProductConfig;
         struct EOSConfig;
@@ -75,10 +76,10 @@ namespace pew::eos
      * Sets up and initializes the EOS SDK using the provided configuration. Sets log levels and
      * a logging callback if configured. If initialization fails, an error is logged.
      *
-     * @param windows_config The configuration for Windows.
+     * @param platform_config The configuration for Windows.
      * @param product_config The configuration for the product.
      */
-    void eos_init(const config::WindowsConfig& windows_config, const config::ProductConfig& product_config);
+    void eos_init(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config);
 
     /**
      * @brief Creates an EOS platform using the specified configuration.
@@ -86,8 +87,8 @@ namespace pew::eos
      * Configures and creates an EOS platform instance. This includes setting up RTC options,
      * integrated platform options, and other settings defined in the configuration.
      *
-     * @param eos_config The configuration object containing EOS platform settings.
+     * @param platform_config The configuration object containing EOS platform settings.
      */
-    void eos_create(config::EOSConfig eos_config);
+    void eos_create(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config);
 }
 #endif

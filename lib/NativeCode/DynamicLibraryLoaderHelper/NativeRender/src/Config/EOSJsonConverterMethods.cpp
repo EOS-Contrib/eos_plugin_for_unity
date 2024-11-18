@@ -23,161 +23,171 @@
 #include <pch.h>
 #include "EOSJsonConverterMethods.h"
 #include "string_helpers.h"
-#include <iostream>
 
 namespace nlohmann
 {
     using namespace pew::eos::string_helpers;
-    /*
-    // Helper macro to strip a prefix (e.g., EOS_AS_)
-    #define STRIP_PREFIX(Value, Prefix) #Value + sizeof(#Prefix) - 1
 
-    // Macro to simplify individual key-value pairs
-    #define FLAG_PAIR(EnumValue, Prefix) { EnumValue, STRIP_PREFIX(EnumValue, Prefix) }
+    /**
+     * \brief Maps string values to specific auth scope flags defined within the EOS SDK.
+     */
+    const std::map<std::string, EOS_EAuthScopeFlags> STRINGS_TO_AUTH_SCOPE_FLAGS = {
+        { "NoFlags",           EOS_EAuthScopeFlags::EOS_AS_NoFlags           },
+        { "BasicProfile",      EOS_EAuthScopeFlags::EOS_AS_BasicProfile      },
+        { "FriendsList",       EOS_EAuthScopeFlags::EOS_AS_FriendsList       },
+        { "Presence",          EOS_EAuthScopeFlags::EOS_AS_Presence          },
+        { "FriendsManagement", EOS_EAuthScopeFlags::EOS_AS_FriendsManagement },
+        { "Email",             EOS_EAuthScopeFlags::EOS_AS_Email             },
+        { "Country",           EOS_EAuthScopeFlags::EOS_AS_Country           },
+    };
 
-    // Macro to define the flag-to-string map
-    #define DEFINE_FLAG_STRING_MAP(EnumType, MapName, Prefix, ...) \
-    const std::map<EnumType, std::string> MapName = { __VA_ARGS__ }
-
-    // AUTH_SCOPE_FLAGS_TO_STRINGS
-    DEFINE_FLAG_STRING_MAP(
-        EOS_EAuthScopeFlags,
-        AUTH_SCOPE_FLAGS_TO_STRINGS,
-        EOS_AS_,
-        FLAG_PAIR(EOS_EAuthScopeFlags::EOS_AS_NoFlags, EOS_AS_),
-        FLAG_PAIR(EOS_EAuthScopeFlags::EOS_AS_BasicProfile, EOS_AS_),
-        FLAG_PAIR(EOS_EAuthScopeFlags::EOS_AS_FriendsList, EOS_AS_),
-        FLAG_PAIR(EOS_EAuthScopeFlags::EOS_AS_Presence, EOS_AS_),
-        FLAG_PAIR(EOS_EAuthScopeFlags::EOS_AS_FriendsManagement, EOS_AS_),
-        FLAG_PAIR(EOS_EAuthScopeFlags::EOS_AS_Email, EOS_AS_),
-        FLAG_PAIR(EOS_EAuthScopeFlags::EOS_AS_Country, EOS_AS_)
-    );
-
-    // INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_TO_STRINGS
-    DEFINE_FLAG_STRING_MAP(
-        EOS_EIntegratedPlatformManagementFlags,
-        INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_TO_STRINGS,
-        EOS_IPMF_,
-        FLAG_PAIR(EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled, EOS_IPMF_),
-        FLAG_PAIR(EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication, EOS_IPMF_),
-        FLAG_PAIR(EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK, EOS_IPMF_),
-        FLAG_PAIR(EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring, EOS_IPMF_),
-        FLAG_PAIR(EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions, EOS_IPMF_),
-        FLAG_PAIR(EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity, EOS_IPMF_),
-        FLAG_PAIR(EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity, EOS_IPMF_),
-        FLAG_PAIR(EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin, EOS_IPMF_)
-    );
-
-    // INPUT_STATE_BUTTON_FLAGS_TO_STRINGS
-    DEFINE_FLAG_STRING_MAP(
-        EOS_UI_EInputStateButtonFlags,
-        INPUT_STATE_BUTTON_FLAGS_TO_STRINGS,
-        EOS_UISBF_,
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_None, EOS_UISBF_),
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Left, EOS_UISBF_),
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Right, EOS_UISBF_),
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Down, EOS_UISBF_),
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Up, EOS_UISBF_),
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Left, EOS_UISBF_),
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Right, EOS_UISBF_),
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Bottom, EOS_UISBF_),
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Top, EOS_UISBF_),
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_LeftShoulder, EOS_UISBF_),
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_RightShoulder, EOS_UISBF_),
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_LeftTrigger, EOS_UISBF_),
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_RightTrigger, EOS_UISBF_),
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_Special_Left, EOS_UISBF_),
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_Special_Right, EOS_UISBF_),
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_LeftThumbstick, EOS_UISBF_),
-        FLAG_PAIR(EOS_UI_EInputStateButtonFlags::EOS_UISBF_RightThumbstick, EOS_UISBF_)
-    );
+    /**
+    * \brief Maps string values to values within the EOS_UI_EInputStateButtonFlags enum. Note that there are multiple
+    * keys that can be mapped to the same value. This is to provide backwards-compatibility for versions where the member names of the
+    * enum have changed or were being serialized differently.
     */
-    const std::map<EOS_EAuthScopeFlags, std::string> AUTH_SCOPE_FLAGS_TO_STRINGS = {
-        { EOS_EAuthScopeFlags::EOS_AS_NoFlags,           "NoFlags"           },
-        { EOS_EAuthScopeFlags::EOS_AS_BasicProfile,      "BasicProfile"      },
-        { EOS_EAuthScopeFlags::EOS_AS_FriendsList,       "FriendsList"       },
-        { EOS_EAuthScopeFlags::EOS_AS_Presence,          "Presence"          },
-        { EOS_EAuthScopeFlags::EOS_AS_FriendsManagement, "FriendsManagement" },
-        { EOS_EAuthScopeFlags::EOS_AS_Email,             "Email"             },
-        { EOS_EAuthScopeFlags::EOS_AS_Country,           "Country"           },
+    const std::map<std::string, EOS_UI_EInputStateButtonFlags> STRINGS_TO_INPUT_STATE_BUTTON_FLAGS = {
+        { "None",              EOS_UI_EInputStateButtonFlags::EOS_UISBF_None              },
+
+        { "DPad_Left",         EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Left         },
+        { "DPadLeft",          EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Left         },
+
+        { "DPad_Right",        EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Right        },
+        { "DPadRight",         EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Right        },
+
+        { "DPad_Down",         EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Down         },
+        { "DPadDown",          EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Down         },
+
+        { "DPad_Up",           EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Up           },
+        { "DPadUp",            EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Up           },
+
+        { "FaceButton_Left",   EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Left   },
+        { "FaceButtonLeft",    EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Left   },
+
+        { "FaceButton_Right",  EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Right  },
+        { "FaceButtonRight",   EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Right  },
+
+        { "FaceButton_Bottom", EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Bottom },
+        { "FaceButtonBottom",  EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Bottom },
+
+        { "FaceButton_Top",    EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Top    },
+        { "FaceButtonTop",     EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Top    },
+
+        { "LeftShoulder",      EOS_UI_EInputStateButtonFlags::EOS_UISBF_LeftShoulder      },
+
+        { "RightShoulder",     EOS_UI_EInputStateButtonFlags::EOS_UISBF_RightShoulder     },
+
+        { "LeftTrigger",       EOS_UI_EInputStateButtonFlags::EOS_UISBF_LeftTrigger       },
+
+        { "RightTrigger",      EOS_UI_EInputStateButtonFlags::EOS_UISBF_RightTrigger      },
+
+        { "Special_Left",      EOS_UI_EInputStateButtonFlags::EOS_UISBF_Special_Left      },
+        { "SpecialLeft",       EOS_UI_EInputStateButtonFlags::EOS_UISBF_Special_Left      },
+
+        { "Special_Right",     EOS_UI_EInputStateButtonFlags::EOS_UISBF_Special_Right     },
+        { "SpecialRight",      EOS_UI_EInputStateButtonFlags::EOS_UISBF_Special_Right     },
+
+        { "LeftThumbstick",    EOS_UI_EInputStateButtonFlags::EOS_UISBF_LeftThumbstick    },
+        { "RightThumbstick",   EOS_UI_EInputStateButtonFlags::EOS_UISBF_RightThumbstick   },
     };
 
-    const std::map<EOS_EIntegratedPlatformManagementFlags, std::string> INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_TO_STRINGS = {
-        { EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled,                        "Disabled"                       },
-        { EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication,     "LibraryManagedByApplication"    },
-        { EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK,             "LibraryManagedBySDK"            },
-        { EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring,        "DisablePresenceMirroring"       },
-        { EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions,       "DisableSDKManagedSessions"      },
-        { EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity,               "PreferEOSIdentity"              },
-        { EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity,        "PreferIntegratedIdentity"       },
-        { EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin, "ApplicationManagedIdentityLogin"},
+    /**
+    * \brief Maps string values to values within the EOS_EIntegratedPlatformManagementFlags enum. Note that there are multiple
+    * keys that can be mapped to the same value. This is to provide backwards-compatibility for versions where the member names of the
+    * enum have changed or were being serialized differently.
+    */
+    static const std::map<std::string, EOS_EIntegratedPlatformManagementFlags> INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_STRING_TO_ENUM = {
+        {"EOS_IPMF_Disabled",                        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled },
+        {"Disabled",                                 EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled },
+
+        {"EOS_IPMF_LibraryManagedByApplication",     EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication },
+        {"EOS_IPMF_ManagedByApplication",            EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication},
+        {"ManagedByApplication",                     EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication},
+        {"LibraryManagedByApplication",              EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication},
+
+        {"ManagedBySDK",                             EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK },
+        {"EOS_IPMF_ManagedBySDK",                    EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK },
+        {"EOS_IPMF_LibraryManagedBySDK",             EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK },
+        {"LibraryManagedBySDK",                      EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK },
+
+        {"DisableSharedPresence",                    EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring },
+        {"EOS_IPMF_DisableSharedPresence",           EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring },
+        {"EOS_IPMF_DisablePresenceMirroring",        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring },
+        {"DisablePresenceMirroring",                 EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring},
+
+        {"DisableSessions",                          EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions },
+        {"EOS_IPMF_DisableSessions",                 EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions },
+        {"EOS_IPMF_DisableSDKManagedSessions",       EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions },
+        {"DisableSDKManagedSessions",                EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions },
+
+        {"PreferEOS",                                EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity },
+        {"EOS_IPMF_PreferEOS",                       EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity },
+        {"EOS_IPMF_PreferEOSIdentity",               EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity },
+        {"PreferEOSIdentity",                        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity},
+
+        {"PreferIntegrated",                         EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity },
+        {"EOS_IPMF_PreferIntegrated",                EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity },
+        {"EOS_IPMF_PreferIntegratedIdentity",        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity },
+        {"PreferIntegratedIdentity",                 EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity},
+
+        {"EOS_IPMF_ApplicationManagedIdentityLogin", EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin },
+        {"ApplicationManagedIdentityLogin",          EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin}
     };
 
-    const std::map< EOS_UI_EInputStateButtonFlags, std::string> INPUT_STATE_BUTTON_FLAGS_TO_STRINGS = {
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_None,              "None"              },
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Left,         "DPad_Left"         },
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Right,        "DPad_Right"        },
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Down,         "DPad_Down"         },
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Up,           "DPad_Up"           },
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Left,   "FaceButton_Left"   },
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Right,  "FaceButton_Right"  },
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Bottom, "FaceButton_Bottom" },
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Top,    "FaceButton_Top"    },
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_LeftShoulder,      "LeftShoulder"      },
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_RightShoulder,     "RightShoulder"     },
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_LeftTrigger,       "LeftTrigger"       },
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_RightTrigger,      "RightTrigger"      },
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_Special_Left,      "Special_Left"      },
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_Special_Right,     "Special_Right"     },
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_LeftThumbstick,    "LeftThumbstick"    },
-        { EOS_UI_EInputStateButtonFlags::EOS_UISBF_RightThumbstick,   "RightThumbstick"   },
-    };
     
-
     void from_json(const json& json, EOS_EAuthScopeFlags& auth_scope_flags)
     {
         flags_enum_from_json<EOS_EAuthScopeFlags>(
             json, 
-            AUTH_SCOPE_FLAGS_TO_STRINGS, 
+            STRINGS_TO_AUTH_SCOPE_FLAGS, 
             auth_scope_flags);
     }
 
+    
     void from_json(const json& json, EOS_EIntegratedPlatformManagementFlags& integrated_platform_management_flags)
     {
         flags_enum_from_json<EOS_EIntegratedPlatformManagementFlags>(
             json, 
-            INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_TO_STRINGS, 
+            INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_STRING_TO_ENUM,
             integrated_platform_management_flags);
     }
+
     
     void from_json(const json& json, EOS_UI_EInputStateButtonFlags& input_state_button_flags)
     {
         flags_enum_from_json<EOS_UI_EInputStateButtonFlags>(
             json,
-            INPUT_STATE_BUTTON_FLAGS_TO_STRINGS,
+            STRINGS_TO_INPUT_STATE_BUTTON_FLAGS,
             input_state_button_flags
         );
     }
 
-    unsigned __int64 get_int64_value(const json& json, const char* key)
+    /**
+     * TODO: This might not be needed.
+     * \brief Helper function to get a uint64_t value from json.
+     * \param json Json object to get the uint64_t from.
+     * \param key The key to get the uint64_t value from within the json object.
+     * \return A uint64_t value.
+     */
+    uint64_t get_int64_value(const json& json, const char* key)
     {
         int temp;
         json[key].get_to(temp);
-        return static_cast<unsigned __int64>(temp);
+        return static_cast<uint64_t>(temp);
     }
 
-    #define JSON_PARSE_THREAD_AFFINITY(json, key, affinity) affinity.key = get_int64_value(json, #key)
+    #define JSON_PARSE_THREAD_AFFINITY(key, affinity) affinity.key = get_int64_value(json, #key)
 
     void from_json(const json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity)
     {
-        JSON_PARSE_THREAD_AFFINITY(json, ApiVersion,                   initialize_thread_affinity);
-        JSON_PARSE_THREAD_AFFINITY(json, NetworkWork,                  initialize_thread_affinity);
-        JSON_PARSE_THREAD_AFFINITY(json, StorageIo,                    initialize_thread_affinity);
-        JSON_PARSE_THREAD_AFFINITY(json, WebSocketIo,                  initialize_thread_affinity);
-        JSON_PARSE_THREAD_AFFINITY(json, P2PIo,                        initialize_thread_affinity);
-        JSON_PARSE_THREAD_AFFINITY(json, HttpRequestIo,                initialize_thread_affinity);
-        JSON_PARSE_THREAD_AFFINITY(json, RTCIo,                        initialize_thread_affinity);
-        JSON_PARSE_THREAD_AFFINITY(json, EmbeddedOverlayMainThread,    initialize_thread_affinity);
-        JSON_PARSE_THREAD_AFFINITY(json, EmbeddedOverlayWorkerThreads, initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(ApiVersion,                   initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(NetworkWork,                  initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(StorageIo,                    initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(WebSocketIo,                  initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(P2PIo,                        initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(HttpRequestIo,                initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(RTCIo,                        initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(EmbeddedOverlayMainThread,    initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(EmbeddedOverlayWorkerThreads, initialize_thread_affinity);
     }
 }

@@ -35,61 +35,162 @@
 
 namespace nlohmann
 {
+    using namespace pew::eos;
+
+    /**
+     * This compile conditional is here because C++20 supports the contains
+     * method on the map collection, but older versions of C++ do not.
+     */
+    #if __cplusplus >= 202002L  // Check if C++20 or later
+        #define CONTAINS(map, key) ((map).contains(key))
+    #else
+        #define CONTAINS(map, key) ((map).find(key) != (map).end())
+    #endif
+
+    /**
+     * \brief Maps string values to values for platform options flags. Note that
+     * there are multiple keys that can be mapped to the same value. This is to
+     * provide backwards-compatibility for versions where the member names of
+     * the enum have changed or were being serialized differently.
+     */
+    static const std::map<std::string, int> PLATFORM_CREATION_FLAGS_STRING_TO_ENUM = {
+        {"EOS_PF_LOADING_IN_EDITOR",                          EOS_PF_LOADING_IN_EDITOR},
+        {"LoadingInEditor",                                   EOS_PF_LOADING_IN_EDITOR},
+
+        {"EOS_PF_DISABLE_OVERLAY",                            EOS_PF_DISABLE_OVERLAY},
+        {"DisableOverlay",                                    EOS_PF_DISABLE_OVERLAY},
+
+        {"EOS_PF_DISABLE_SOCIAL_OVERLAY",                     EOS_PF_DISABLE_SOCIAL_OVERLAY},
+        {"DisableSocialOverlay",                              EOS_PF_DISABLE_SOCIAL_OVERLAY},
+
+        {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9",                EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9},
+        {"WindowsEnableOverlayD3D9",                          EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9},
+
+        {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10",               EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10},
+        {"WindowsEnableOverlayD3D10",                         EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10},
+
+        {"EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL",              EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL},
+        {"WindowsEnableOverlayOpengl",                        EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL},
+
+        {"EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING", EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING},
+        {"ConsoleEnableOverlayAutomaticUnloading",            EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING},
+
+        {"EOS_PF_RESERVED1",                                  EOS_PF_RESERVED1},
+        {"Reserved1",                                         EOS_PF_RESERVED1},
+
+        {"EOS_PF_NONE",                                       0},
+        {"None",                                              0},
+    };
+
+    /**
+     * \brief Function that instructs the nlohmann library how to parse auth
+     * scope flags.
+     * \param json The JSON object to read the values from.
+     * \param auth_scope_flags The value to set from the JSON.
+     */
     void from_json(const json& json, EOS_EAuthScopeFlags& auth_scope_flags);
+
+    /**
+     * \brief Function that instructs the nlohmann library how to parse
+     * integrated platform management flags.
+     * \param json The JSON object to read the values from.
+     * \param integrated_platform_management_flags The value to set from the
+     * JSON.
+     */
     void from_json(const json& json, EOS_EIntegratedPlatformManagementFlags& integrated_platform_management_flags);
-    void from_json(const json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity);
+
+    /**
+     * \brief Function that instructs the nlohmann library how to parse input
+     * state button flags.
+     * \param json The JSON object to read the values from.
+     * \param input_state_button_flags The value to set from the JSON.
+     */
     void from_json(const json& json, EOS_UI_EInputStateButtonFlags& input_state_button_flags);
 
-    static inline std::string remove(const std::string& input, const char& target)
+    /**
+     * \brief Function that instructs the nlohmann library how to parse an
+     * EOS_Initialize_ThreadAffinity struct.
+     * \param json The JSON object to read the values from.
+     * \param initialize_thread_affinity The value to set from the JSON.
+     */
+    void from_json(const json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity);
+
+    /**
+     * \brief Helper constraint for allowing template functions to require the
+     * template parameter be either an enum or an int.
+     * \tparam T The type (either an enum class or an int).
+     */
+    template <typename T>
+    constexpr bool is_enum_or_int_v = std::is_enum_v<T> || std::is_same_v<T, int>;
+
+    /**
+     * \brief Converts a string value to an enum or integer value given a custom
+     * mapping of a set of one to the other.
+     * \tparam T Either an enum class or an integer.
+     * \param str The string to parse into an enum or int value.
+     * \param map A map that associates a string value with either an enum or
+     * int value.
+     * \return Returns the enum or int value that is associated with the string
+     * provided.
+     */
+    template <typename T, std::enable_if_t<is_enum_or_int_v<T>, int> = 0>
+    T str_to_enum(const std::string& str, const std::map<std::string, T>& map) 
     {
-        std::string modified;
-        for (const char& c : input)
+        // If the string doesn't exist in the map, then throw an exception.
+        if (!CONTAINS(map, str))
         {
-            if (c == target) continue;
-            modified += c;
+            throw std::invalid_argument("Invalid flag string: \"" + str + "\".");
         }
 
-        return modified;
+        return map.at(str);
     }
 
-    template <typename EnumType>
-    EnumType str_to_enum(const std::string& str, const std::map<EnumType, std::string>& map) 
+    /**
+     * \brief Converts a string value to an enum or integer value given a custom
+     * mapping of a set of one to the other.
+     * \tparam T Either an enum class or an integer.
+     * \param flag_enums_string A string representation of flag enum values, in
+     * the form of a comma-delimited list of values.
+     * \param strings_to_flags A map that associates a string value with either
+     * an enum or int value.
+     * \param flags_enum The variable to assign the determined value to.
+     */
+    template<typename T, std::enable_if_t<is_enum_or_int_v<T>, int> = 0>
+    void flags_enum_from_string(const std::string& flag_enums_string, const std::map<std::string, T>& strings_to_flags, T& flags_enum)
     {
-        static_assert(std::is_enum<EnumType>::value, "EnumType must be an enum");
-        for (const auto& [key, value] : map) 
-        {
-            if (value != str) continue;
-            return key;
-        }
-
-        // Try replacing " " with ""
-        // TODO: This is because the C# that generates the JSON is replacing "_" with "".
-        //       this should be fixed in the C#
-        for (const auto& [key, value] : map)
-        {
-            auto test = remove(value, '_');
-            if (test != str) continue;
-            return key;
-        }
-
-        throw std::invalid_argument("Invalid flag string: " + str);
-    }
-
-    template <typename EnumType, typename std::enable_if<std::is_enum<EnumType>::value, int>::type = 0>
-    void flags_enum_from_json(const json& json, const std::map<EnumType, std::string>& string_to_flags_map, EnumType& flags_enum)
-    {
-        std::string str_enum_values;
-        json.get_to(str_enum_values);
-
         // Get the comma-delimited list of strings
-        const auto string_values = pew::eos::string_helpers::split_and_trim(str_enum_values);
+        const auto string_values = string_helpers::split_and_trim(flag_enums_string);
 
         // Iterate through them and apply to the auth scope flags.
         for (const auto& str : string_values)
         {
-            auto test = str_to_enum<EnumType>(str, string_to_flags_map);
-            flags_enum |= test;
+            // If the string isn't in the map of string values to flag values
+            if (!CONTAINS(strings_to_flags, str))
+            {
+                continue;
+            }
+
+            // Perform bitwise-or operation to add flag value.
+            flags_enum |= strings_to_flags.at(str);
         }
+    }
+
+    /**
+     * \brief Converts the contents of a JSON object to an enum or integer value
+     * given a custom mapping of a set of one to the other.
+     * \tparam T Either an enum class or an integer.
+     * \param json The JSON object to read the values from.
+     * \param strings_to_flags A map that associates a string value with either
+     * an enum or int value.
+     * \param flags_enum The variable to assign the determined value to.
+     */
+    template <typename T, std::enable_if_t<is_enum_or_int_v<T>, int> = 0>
+    void flags_enum_from_json(const json& json, const std::map<std::string, T>& strings_to_flags, T& flags_enum)
+    {
+        std::string str_enum_values;
+        json.get_to(str_enum_values);
+
+        flags_enum_from_string(str_enum_values, strings_to_flags, flags_enum);
     }
 }
 
