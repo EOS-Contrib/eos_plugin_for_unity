@@ -156,6 +156,15 @@ namespace PlayEveryWare.EpicOnlineServices
                 _value.EmbeddedOverlayWorkerThreads = value;
             }
         }
+
+        // TODO: Figure out how this value changing can be leveraged to trigger re-validation of configuration settings.
+        public int ApiLatest
+        {
+            get
+            {
+                return PlatformInterface.InitializeThreadaffinityApiLatest;
+            }
+        }
     }
 }
 

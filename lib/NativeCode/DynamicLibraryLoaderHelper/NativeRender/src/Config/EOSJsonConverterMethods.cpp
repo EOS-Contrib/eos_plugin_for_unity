@@ -170,6 +170,7 @@ namespace nlohmann
 
     void from_json(const json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity)
     {
+        JSON_PARSE_THREAD_AFFINITY(json, ApiVersion,                   initialize_thread_affinity);
         JSON_PARSE_THREAD_AFFINITY(json, NetworkWork,                  initialize_thread_affinity);
         JSON_PARSE_THREAD_AFFINITY(json, StorageIo,                    initialize_thread_affinity);
         JSON_PARSE_THREAD_AFFINITY(json, WebSocketIo,                  initialize_thread_affinity);
