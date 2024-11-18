@@ -44,14 +44,19 @@ namespace PlayEveryWare.Common
         /// appended with an increasing number until the resulting name does
         /// not exist in the collection.
         /// </summary>
-        [JsonProperty("DefaultName")]
-        private string _defaultNamePattern;
+        private readonly string _defaultNamePattern;
 
         /// <summary>
         /// Used to store a function that can be used to determine if an item
         /// can be removed or not.
         /// </summary>
         private Func<T, bool> _removePredicate = null;
+
+        /// <summary>
+        /// Copy of the names of the items that exist within the collection, to
+        /// test for uniqueness in a performant manner.
+        /// </summary>
+        private readonly HashSet<string> _existingNames = new();
 
         /// <summary>
         /// Creates a new SortedSetOfNamed.
@@ -64,6 +69,13 @@ namespace PlayEveryWare.Common
             _defaultNamePattern = defaultNamePattern;
         }
 
+        /// <summary>
+        /// Set the predicate used to determine if an item can be removed from
+        /// the collection.
+        /// </summary>
+        /// <param name="removePredicate">
+        /// A function that can determine whether or not an item can be removed.
+        /// </param>
         public void SetRemovePredicate(Func<T, bool> removePredicate)
         {
             _removePredicate = removePredicate;
@@ -75,12 +87,26 @@ namespace PlayEveryWare.Common
         /// <returns>The name to give to the added set.</returns>
         private string GetNewItemName()
         {
+            int left = 1;
+            int right = Count;
             string newItemName = _defaultNamePattern;
-            int increment = 0;
-            while (ContainsName(newItemName))
+
+            while (left <= right)
             {
-                increment++;
-                newItemName = $"{_defaultNamePattern} ({increment})";
+                int mid = left + (right - left) / 2;
+                string testName = $"{_defaultNamePattern} ({mid})";
+
+                if (ContainsName(testName))
+                {
+                    // If name exists, the smallest valid increment must be greater than mid
+                    left = mid + 1;
+                }
+                else
+                {
+                    // If name does not exist, it might be the smallest increment
+                    newItemName = testName;
+                    right = mid - 1;
+                }
             }
 
             return newItemName;
@@ -95,10 +121,13 @@ namespace PlayEveryWare.Common
         /// <returns>
         /// True if the item was able to be added, false otherwise.
         /// </returns>
-        public bool Add(T value)
+        public bool Add(T value = default)
         {
             // If value is null, then set it to either be default or a new 
-            // instance of the value type.
+            // instance of the value type. This is useful because in the case
+            // where T is a ReferenceType, it's "default" is null, and we want
+            // to make sure that it is instead a new (empty) instance of the
+            // reference type.
             value ??= typeof(T).IsValueType ? default : new T();
 
             // Determines the name of the new item.
@@ -116,6 +145,9 @@ namespace PlayEveryWare.Common
             Named<T> newItem = new(newItemName, value);
             newItem.NameChanged += OnItemNameChanged;
 
+            // Add name to internal hash set used to ensure uniqueness.
+            _existingNames.Add(newItem.Name);
+
             Add(newItem);
             return true;
         }
@@ -123,7 +155,7 @@ namespace PlayEveryWare.Common
         private void OnItemNameChanged(object sender, ValueChangedEventArgs<string> e)
         {
             // If the sender is not of the correct type, or if the value hasn't changed, then take no action.
-            if (sender is not Named<T> item || string.Equals(e.CurrentValue, e.NewValue))
+            if (sender is not Named<T> item || string.Equals(e.OldValue, e.NewValue))
             {
                 return;
             }
@@ -134,21 +166,15 @@ namespace PlayEveryWare.Common
                 // Set the name back to the old value. The return value can be 
                 // discarded, because it is always true if notify is set to
                 // false.
-                _ = item.TrySetName(e.CurrentValue, false);
+                _ = item.TrySetName(e.OldValue, false);
             }
-        }
-
-        /// <summary>
-        /// Adds a new default value to the sorted set. This can usually only
-        /// be done once, until the added item has it's value and/or it's name
-        /// changed.
-        /// </summary>
-        /// <returns>
-        /// True if the add was successful, false otherwise.
-        /// </returns>
-        public bool Add()
-        {
-            return Add(default(T));
+            else
+            {
+                // Remove old name from set used to ensure name uniqueness.
+                _existingNames.Remove(e.OldValue);
+                // Add the new name to the set used to ensure name uniqueness.
+                _existingNames.Add(e.NewValue);
+            }
         }
 
         /// <summary>
@@ -164,15 +190,7 @@ namespace PlayEveryWare.Common
         /// </returns>
         private bool ContainsName(string name)
         {
-            foreach (Named<T> item in this)
-            {
-                if (item.Name == name)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return _existingNames.Contains(name);
         }
 
         /// <summary>
@@ -188,16 +206,10 @@ namespace PlayEveryWare.Common
         /// </returns>
         private bool ContainsValue(T item)
         {
-            foreach (Named<T> namedItemInSet in this)
+            foreach (Named<T> namedItem in this)
             {
-                // Skip if for some reason the value is null or the value is
-                // null.
-                if (namedItemInSet == null || namedItemInSet.Value == null)
-                {
-                    continue;
-                }
-
-                if (namedItemInSet.Value.Equals(item))
+                // Keep going if the value is not the same
+                if (namedItem.Value.Equals(item))
                 {
                     return true;
                 }
