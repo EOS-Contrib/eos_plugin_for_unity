@@ -47,7 +47,7 @@ namespace pew::eos::eos_library_helpers
 
     //extern EOS_Initialize_t EOS_Initialize_ptr;
     extern EOS_Shutdown_t EOS_Shutdown_ptr;
-    extern EOS_Platform_Create_t EOS_Platform_Create_ptr;
+    //extern EOS_Platform_Create_t EOS_Platform_Create_ptr;
     extern EOS_Logging_SetCallback_t EOS_Logging_SetCallback_ptr;
     extern EOS_Logging_SetLogLevel_t EOS_Logging_SetLogLevel_ptr;
     extern EOS_IntegratedPlatformOptionsContainer_Add_t EOS_IntegratedPlatformOptionsContainer_Add_ptr;
