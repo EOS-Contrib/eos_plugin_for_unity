@@ -26,6 +26,7 @@
 
 #include <eos_logging.h>
 #include <filesystem>
+#include <iostream>
 
 /**
  * \brief Forward declarations
@@ -70,24 +71,71 @@ namespace pew::eos::eos_library_helpers
     void* load_library_at_path(const std::filesystem::path& library_path);
 
     /**
+     * This block defines a macro that will correctly decorate the name of a
+     * function when that name is being used to load a function from a library.
+     */
+    #if defined(_WIN32) && !defined(_WIN64)
+    #define DECORATE_FUNCTION_NAME(name) _##name##"@4"
+    #else
+    #define DECORATE_FUNCTION_NAME(name) name
+    #endif
+
+     // Helper to calculate the total size of all function arguments
+    template <typename... Args>
+    constexpr size_t calculate_argument_size()
+    {
+        return (sizeof(Args) + ...); // Fold expression to sum sizes
+    }
+
+    // Function to infer mangling from a typedef
+    template <typename FuncType>
+    constexpr const char* infer_mangled_name(const char* base_name)
+    {
+#if defined(_WIN32) && !defined(_WIN64)
+        if constexpr (std::is_same_v<std::remove_pointer_t<FuncType>, int __stdcall(int, float)>)
+        {
+            constexpr size_t stack_size = calculate_argument_size<int, float>();
+            static char mangled_name[256];
+            snprintf(mangled_name, sizeof(mangled_name), "_%s@%zu", base_name, stack_size);
+            return mangled_name;
+        }
+        else
+        {
+            return base_name; // Default for non-__stdcall or unhandled cases
+        }
+#else
+        return base_name; // Non-32-bit Windows platforms
+#endif
+    }
+
+    /**
      * @brief Retrieves a function pointer of a specified type from a loaded library.
      *
      * This templated function casts the retrieved function pointer to the specified type.
      *
      * @tparam T The type of the function pointer.
      * @param library_handle A handle to the loaded library.
-     * @param function The name of the function to retrieve.
+     * @param name The name of the function to retrieve.
      * @return A pointer to the specified function cast to the specified type.
      */
     template<typename T>
-    T load_function_with_name(void* library_handle, const char* function)
+    bool try_load_function(void* library_handle, const char* name, T& function_ptr)
     {
+        const auto mangled_name = infer_mangled_name<T>(name);
         void* to_return = nullptr;
 #if PLATFORM_WINDOWS
         const auto handle = static_cast<HMODULE>(library_handle);
-        to_return = static_cast<void*>(GetProcAddress(handle, function));
+        to_return = static_cast<void*>(GetProcAddress(handle, mangled_name));
 #endif
-        return reinterpret_cast<T>(to_return);
+        function_ptr = reinterpret_cast<T>(to_return);
+
+        if (function_ptr == nullptr)
+        {
+            std::cerr << "Failed to load function \"" << mangled_name << "\"." << std::endl;
+            return false;
+        }
+
+        return true;
     }
 
     /**

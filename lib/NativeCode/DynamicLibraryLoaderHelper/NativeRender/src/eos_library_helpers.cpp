@@ -77,17 +77,15 @@ namespace pew::eos::eos_library_helpers
 
     void FetchEOSFunctionPointers()
     {
-        // The '@' in the function names is apart of how names are mangled on windows. The value after the '@' is the size of the params on the stack
-        EOS_Initialize_ptr = load_function_with_name<EOS_Initialize_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Initialize@4", "EOS_Initialize"));
-        EOS_Shutdown_ptr = load_function_with_name<EOS_Shutdown_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Shutdown@0", "EOS_Shutdown"));
-        EOS_Platform_Create_ptr = load_function_with_name<EOS_Platform_Create_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Create@4", "EOS_Platform_Create"));
-        EOS_Platform_Release_ptr = load_function_with_name<EOS_Platform_Release_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Release@4", "EOS_Platform_Release"));
-        EOS_Logging_SetLogLevel_ptr = load_function_with_name<EOS_Logging_SetLogLevel_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Logging_SetLogLevel@8", "EOS_Logging_SetLogLevel"));
-        EOS_Logging_SetCallback_ptr = load_function_with_name<EOS_Logging_SetCallback_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("EOS_Logging_SetCallback@4", "EOS_Logging_SetCallback"));
-
-        EOS_IntegratedPlatformOptionsContainer_Add_ptr = load_function_with_name<EOS_IntegratedPlatformOptionsContainer_Add_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_IntegratedPlatformOptionsContainer_Add@8", "EOS_IntegratedPlatformOptionsContainer_Add"));
-        EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr = load_function_with_name<EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer@8", "EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer"));
-        EOS_IntegratedPlatformOptionsContainer_Release_ptr = load_function_with_name<EOS_IntegratedPlatformOptionsContainer_Release_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_IntegratedPlatformOptionsContainer_Release@4", "EOS_IntegratedPlatformOptionsContainer_Release"));
+        try_load_function(s_eos_sdk_lib_handle, "EOS_Initialize", EOS_Initialize_ptr);
+        try_load_function(s_eos_sdk_lib_handle, "EOS_Shutdown", EOS_Shutdown_ptr);
+        try_load_function(s_eos_sdk_lib_handle, "EOS_Platform_Create", EOS_Platform_Create_ptr);
+        try_load_function(s_eos_sdk_lib_handle, "EOS_Platform_Release", EOS_Platform_Release_ptr);
+        try_load_function(s_eos_sdk_lib_handle, "EOS_Logging_SetLogLevel", EOS_Logging_SetLogLevel_ptr);
+        try_load_function(s_eos_sdk_lib_handle, "EOS_Logging_SetCallback", EOS_Logging_SetCallback_ptr);
+        try_load_function(s_eos_sdk_lib_handle, "EOS_IntegratedPlatformOptionsContainer_Add", EOS_IntegratedPlatformOptionsContainer_Add_ptr);
+        try_load_function(s_eos_sdk_lib_handle, "EOS_IntegratedPlatformOptionsContainer_Release", EOS_IntegratedPlatformOptionsContainer_Release_ptr);
+        try_load_function(s_eos_sdk_lib_handle, "EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer", EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr);
     }
 
     bool QueryRegKey(const HKEY InKey, const TCHAR* InSubKey, const TCHAR* InValueName, std::wstring& OutData)
