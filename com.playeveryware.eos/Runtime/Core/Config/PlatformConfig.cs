@@ -121,7 +121,7 @@ namespace PlayEveryWare.EpicOnlineServices
                                   "Flags for platform specific options.",
             2, "https://dev.epicgames.com/docs/api-ref/enums/eos-e-integrated-platform-management-flags")]
         [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
-        public IntegratedPlatformManagementFlags integratedPlatformManagementFlags;
+        public IntegratedPlatformManagementFlags integratedPlatformManagementFlags = IntegratedPlatformManagementFlags.Disabled;
 
         [JsonProperty]
         [Obsolete("This property is deprecated in favor of the more precisely named field member 'integratedPlatformManagementFlags'.")]
@@ -271,6 +271,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
             [JsonConverter(typeof(ListOfStringsToAuthScopeFlags))]
             public AuthScopeFlags authScopeOptionsFlags;
+
+            [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
+            public IntegratedPlatformManagementFlags integratedPlatformManagementFlags;
+
             public bool alwaysSendInputToOverlay;
 
             static NonOverrideableConfigValues()
@@ -396,6 +400,9 @@ namespace PlayEveryWare.EpicOnlineServices
             alwaysSendInputToOverlay = mainNonOverrideableConfig.alwaysSendInputToOverlay;
 
             MigratePlatformFlags(overrideValuesFromFieldMember, mainNonOverrideableConfig);
+
+            integratedPlatformManagementFlags = IntegratedPlatformManagementFlags.Disabled;
+            integratedPlatformManagementFlags |= mainNonOverrideableConfig.integratedPlatformManagementFlags;
 
             ProductConfig productConfig = Get<ProductConfig>();
             string compDeploymentString = mainNonOverrideableConfig.deploymentID.ToLower();
