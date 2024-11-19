@@ -265,9 +265,7 @@ namespace pew::eos::config
             return NULL;
         }
 
-        GetConfigAsJSONString = eos_library_helpers::load_function_with_name<GetConfigAsJSONString_t>(eos_generated_library_handle, "GetConfigAsJSONString");
-
-        if (GetConfigAsJSONString)
+        if (eos_library_helpers::try_load_function(eos_generated_library_handle, "GetConfigAsJSONString", GetConfigAsJSONString))
         {
             const char* config_as_json_string = GetConfigAsJSONString();
             if (config_as_json_string != nullptr)

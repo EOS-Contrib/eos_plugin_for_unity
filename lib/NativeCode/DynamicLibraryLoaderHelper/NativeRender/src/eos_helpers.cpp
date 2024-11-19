@@ -210,9 +210,8 @@ namespace pew::eos
         if (steam_dll_handle != nullptr)
         {
             typedef bool(__cdecl* SteamAPI_Init_t)();
-            SteamAPI_Init_t SteamAPI_Init = pew::eos::eos_library_helpers::load_function_with_name<SteamAPI_Init_t>(steam_dll_handle, "SteamAPI_Init");
-
-            if (SteamAPI_Init())
+            SteamAPI_Init_t SteamAPI_Init;
+            if (eos_library_helpers::try_load_function(steam_dll_handle, "SteamAPI_Init", SteamAPI_Init) && SteamAPI_Init())
             {
                 logging::log_inform("Called SteamAPI_Init with success!");
             }
