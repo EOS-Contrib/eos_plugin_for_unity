@@ -75,16 +75,6 @@ namespace pew::eos::eos_library_helpers
         return to_return;
     }
 
-    void* load_function_with_name(void* library_handle, const char* function)
-    {
-        void* to_return = nullptr;
-#if PLATFORM_WINDOWS
-        HMODULE handle = (HMODULE)library_handle;
-        to_return = (void*)GetProcAddress(handle, function);
-#endif
-        return to_return;
-    }
-
     void FetchEOSFunctionPointers()
     {
         // The '@' in the function names is apart of how names are mangled on windows. The value after the '@' is the size of the params on the stack
