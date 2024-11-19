@@ -173,8 +173,14 @@ namespace pew::eos
         EOS_Initialize_ThreadAffinity affinity = platform_config.thread_affinity;
         sdk_options.OverrideThreadAffinity = &affinity;
 
-        logging::log_inform("call EOS_Initialize");
-        const EOS_EResult init_result = eos_library_helpers::EOS_Initialize_ptr(&sdk_options);
+        logging::log_inform("Calling EOS_Initialize");
+        eos_library_helpers::EOS_Initialize_t EOS_Initialize_ptr;
+        if(!eos_library_helpers::try_load_function(eos_library_helpers::s_eos_sdk_lib_handle, "EOS_Initialize", EOS_Initialize_ptr))
+        {
+            logging::log_error("Unable to load pointer to EOS_Initialize function.");
+        }
+
+        const EOS_EResult init_result = EOS_Initialize_ptr(&sdk_options);
         if (init_result != EOS_EResult::EOS_Success)
         {
             logging::log_error("Unable to do eos init");

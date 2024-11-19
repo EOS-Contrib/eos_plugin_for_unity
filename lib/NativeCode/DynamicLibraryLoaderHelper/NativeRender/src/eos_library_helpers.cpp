@@ -22,6 +22,8 @@
 
 #include <pch.h>
 #include "eos_library_helpers.h"
+
+#include "io_helpers.h"
 #include "logging.h"
 #include "string_helpers.h"
 
@@ -53,7 +55,10 @@ namespace pew::eos::eos_library_helpers
     void* s_eos_sdk_overlay_lib_handle = nullptr;
     EOS_HPlatform eos_platform_handle = nullptr;
 
-    EOS_Initialize_t EOS_Initialize_ptr = nullptr;
+    /**
+     * The following are pointers to functions within libraries external to this project.
+     */
+    //EOS_Initialize_t EOS_Initialize_ptr = nullptr;
     EOS_Shutdown_t EOS_Shutdown_ptr = nullptr;
     EOS_Platform_Create_t EOS_Platform_Create_ptr = nullptr;
     EOS_Logging_SetCallback_t EOS_Logging_SetCallback_ptr = nullptr;
@@ -77,7 +82,8 @@ namespace pew::eos::eos_library_helpers
 
     void FetchEOSFunctionPointers()
     {
-        try_load_function(s_eos_sdk_lib_handle, "EOS_Initialize", EOS_Initialize_ptr);
+        s_eos_sdk_lib_handle = load_library_at_path(io_helpers::get_path_relative_to_current_module(SDK_DLL_NAME));
+        
         try_load_function(s_eos_sdk_lib_handle, "EOS_Shutdown", EOS_Shutdown_ptr);
         try_load_function(s_eos_sdk_lib_handle, "EOS_Platform_Create", EOS_Platform_Create_ptr);
         try_load_function(s_eos_sdk_lib_handle, "EOS_Platform_Release", EOS_Platform_Release_ptr);
