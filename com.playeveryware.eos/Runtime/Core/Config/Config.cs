@@ -160,7 +160,12 @@ namespace PlayEveryWare.EpicOnlineServices
         private async Task MigrateConfigIfNeededAsync()
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
-            MigrateConfigIfNeededInternal();
+            if (!NeedsMigration())
+            {
+                return;
+            }
+
+            MigrateConfig();
 #if UNITY_EDITOR
             await WriteAsync();
 #endif
@@ -172,24 +177,15 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         private void MigrateConfigIfNeeded()
         {
-            MigrateConfigIfNeededInternal();
-#if UNITY_EDITOR
-            Write();
-#endif
-        }
-
-        /// <summary>
-        /// Helper function to perform the components of MigrateConfigIfNeeded
-        /// functions that are common to both async and non-async contexts.
-        /// </summary>
-        private void MigrateConfigIfNeededInternal()
-        {
             if (!NeedsMigration())
             {
                 return;
             }
 
             MigrateConfig();
+#if UNITY_EDITOR
+            Write();
+#endif
         }
 
         /// <summary>

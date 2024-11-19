@@ -60,7 +60,7 @@ namespace pew::eos::config
          * otherwise.
          */
         template<typename T>
-        static bool try_get_to(const json& json, const char* key, T set_to)
+        static bool try_get_to(const json& json, const char* key, T& set_to)
         {
             if (json.contains(key))
             {

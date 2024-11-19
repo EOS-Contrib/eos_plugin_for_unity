@@ -11,7 +11,7 @@
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED "AS IS"].get_to( WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -35,9 +35,9 @@ namespace pew::eos::config
     void PlatformConfig::from_json(const nlohmann::json& json)
     {
         auto json_str = json.dump();
-        PARSE_FROM_JSON("deployment",                        deployment);
-        PARSE_FROM_JSON("clientCredentials",                 client_credentials);
-        PARSE_FROM_JSON("isServer",                          is_server);
+        json["deployment"].get_to(                        deployment);
+        json["clientCredentials"].get_to(                 client_credentials);
+        json["isServer"].get_to(                          is_server);
 
         // "platformOptionsFlags" is special, because it's value is a uint64_t,
         // but the C# code translates it to a custom flag enum type and saves it
@@ -46,21 +46,20 @@ namespace pew::eos::config
         // required. A "from_json" function cannot be written for this scenario
         // because the template parameter would be uint64_t, and parsing would
         // fail.
-        const std::string platform_options_flags_str;
-        if(try_get_to(json, "platformOptionsFlags", platform_options_flags_str))
-        {
-            flags_enum_from_string(platform_options_flags_str, PLATFORM_CREATION_FLAGS_STRING_TO_ENUM, platform_options_flags);
-        }
-
-
-        PARSE_FROM_JSON("authScopeOptionsFlags",             auth_scope_flags);
-        PARSE_FROM_JSON("integratedPlatformManagementFlags", integrated_platform_management_flags);
-        PARSE_FROM_JSON("tickBudgetInMilliseconds",          tick_budget_in_milliseconds);
-        PARSE_FROM_JSON("taskNetworkTimeoutSeconds",         task_network_timeout_seconds);
-        PARSE_FROM_JSON("threadAffinity",                    thread_affinity);
-        PARSE_FROM_JSON("alwaysSendInputToOverlay",          always_send_input_to_overlay);
-        PARSE_FROM_JSON("initialButtonDelayForOverlay",      initial_button_delay_for_overlay);
-        PARSE_FROM_JSON("repeatButtonDelayForOverlay",       repeat_button_delay_for_overlay);
-        PARSE_FROM_JSON("toggleFriendsButtonCombination",    toggle_friends_button_combination);
+        std::string platform_options_flags_str;
+        platform_options_flags = 0;
+        json["platformOptionsFlags"].get_to(platform_options_flags_str);
+        flags_enum_from_string(platform_options_flags_str, PLATFORM_CREATION_FLAGS_STRING_TO_ENUM, platform_options_flags);
+        
+        json["authScopeOptionsFlags"].get_to(             auth_scope_flags);
+        json["integratedPlatformManagementFlags"].get_to( integrated_platform_management_flags);
+        json["tickBudgetInMilliseconds"].get_to(          tick_budget_in_milliseconds);
+        json["taskNetworkTimeoutSeconds"].get_to(         task_network_timeout_seconds);
+        json["threadAffinity"].get_to(                    thread_affinity);
+        json["alwaysSendInputToOverlay"].get_to(          always_send_input_to_overlay);
+        json["alwaysSendInputToOverlay"].get_to(          always_send_input_to_overlay);
+        json["initialButtonDelayForOverlay"].get_to(      initial_button_delay_for_overlay);
+        json["repeatButtonDelayForOverlay"].get_to(       repeat_button_delay_for_overlay);
+        json["toggleFriendsButtonCombination"].get_to(    toggle_friends_button_combination);
     }
 }
