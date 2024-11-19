@@ -70,18 +70,6 @@ namespace pew::eos::eos_library_helpers
     void* load_library_at_path(const std::filesystem::path& library_path);
 
     /**
-     * @brief Retrieves a function pointer by name from a loaded library.
-     *
-     * Uses the provided library handle to obtain the address of a specified function.
-     * On Windows, it uses `GetProcAddress` to retrieve the function pointer.
-     *
-     * @param library_handle A handle to the loaded library.
-     * @param function The name of the function to retrieve.
-     * @return A pointer to the specified function, or `nullptr` if not found.
-     */
-    void* load_function_with_name(void* library_handle, const char* function);
-
-    /**
      * @brief Retrieves a function pointer of a specified type from a loaded library.
      *
      * This templated function casts the retrieved function pointer to the specified type.
@@ -94,7 +82,12 @@ namespace pew::eos::eos_library_helpers
     template<typename T>
     T load_function_with_name(void* library_handle, const char* function)
     {
-        return reinterpret_cast<T>(load_function_with_name(library_handle, function));
+        void* to_return = nullptr;
+#if PLATFORM_WINDOWS
+        const auto handle = static_cast<HMODULE>(library_handle);
+        to_return = static_cast<void*>(GetProcAddress(handle, function));
+#endif
+        return reinterpret_cast<T>(to_return);
     }
 
     /**
