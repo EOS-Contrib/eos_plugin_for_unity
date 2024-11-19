@@ -23,6 +23,7 @@
  */
 
 #pragma once
+#include "eos_library_helpers.h"
 
 namespace std
 {
@@ -69,6 +70,17 @@ namespace pew::eos
      * @param platform_options The EOS platform options structure to log.
      */
     void EOS_Platform_Options_debug_log(const EOS_Platform_Options& platform_options);
+
+    /**
+     * @brief Initializes the EOS SDK and creates an EOS platform using the specified configurations.
+     *
+     * Sets up and initializes the EOS SDK using the provided configuration. Sets log levels and
+     * a logging callback if configured. If initialization fails, an error is logged.
+     *
+     * @param platform_config The configuration for Windows.
+     * @param product_config The configuration for the product.
+     */
+    void eos_start(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config);
 
     /**
      * @brief Initializes the EOS SDK with the provided configuration.

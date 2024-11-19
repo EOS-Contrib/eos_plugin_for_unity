@@ -150,6 +150,12 @@ namespace pew::eos
         logging::log_inform(output.str().c_str());
     }
 
+    void eos_start(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
+    {
+        eos_init(platform_config, product_config);
+        eos_create(platform_config, product_config);
+    }
+
     void eos_init(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
     {
         static int reserved[2] = { 1, 1 };

@@ -175,11 +175,9 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
         {
             logging::log_inform("start eos init");
 
-            eos_init(windows_config, product_config);
+            eos_start(windows_config, product_config);
 
             eos_set_loglevel_via_config();
-
-            eos_create(windows_config, product_config);
 
             s_eos_sdk_lib_handle = nullptr;
             EOS_Initialize_ptr = nullptr;
