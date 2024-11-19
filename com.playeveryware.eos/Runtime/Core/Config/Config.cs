@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Common;
     using Newtonsoft.Json;
     using System;
     using System.Linq;
@@ -89,6 +90,25 @@ namespace PlayEveryWare.EpicOnlineServices
         private readonly bool _allowDefaultIfFileNotFound;
 
         /// <summary>
+        /// This is the _most recent_, and _current_ version of the JSON schema
+        /// that is utilized. In this context, "schema" does not mean an actual
+        /// JSON schema as defined by RFC 8927, but is used to mean, "the
+        /// version and structure of JSON that this plugin currently writes
+        /// configuration values in. If anything related to Config changes the
+        /// format or way it writes JSON, code should be added to migrate the
+        /// functionality, and this version should be incremented.
+        /// </summary>
+        private static readonly Version CURRENT_SCHEMA_VERSION = new(1, 0);
+
+        /// <summary>
+        /// Stores the version for the schema used to write the JSON file that
+        /// this config is backed by. If null, then the file is from before
+        /// the schemas were being versioned.
+        /// </summary>
+        [JsonProperty]
+        private Version schemaVersion;
+
+        /// <summary>
         /// Instantiate a new config based on the file at the given filename -
         /// in a default directory.
         /// </summary>
@@ -127,6 +147,75 @@ namespace PlayEveryWare.EpicOnlineServices
             Filename = filename;
             Directory = directory;
             _allowDefaultIfFileNotFound = allowDefault;
+        }
+
+        // This compile conditional is here because async writing is not allowed
+        // on the Android platform.
+#if !UNITY_ANDROID || UNITY_EDITOR
+        /// <summary>
+        /// Performs migration of the config values and writes the result
+        /// asynchronously to disk.
+        /// </summary>
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        private async Task MigrateConfigIfNeededAsync()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+        {
+            MigrateConfigIfNeededInternal();
+#if UNITY_EDITOR
+            await WriteAsync();
+#endif
+        }
+#endif
+
+        /// <summary>
+        /// Synchronously migrates the config if it is needed.
+        /// </summary>
+        private void MigrateConfigIfNeeded()
+        {
+            MigrateConfigIfNeededInternal();
+#if UNITY_EDITOR
+            Write();
+#endif
+        }
+
+        /// <summary>
+        /// Helper function to perform the components of MigrateConfigIfNeeded
+        /// functions that are common to both async and non-async contexts.
+        /// </summary>
+        private void MigrateConfigIfNeededInternal()
+        {
+            if (!NeedsMigration())
+            {
+                return;
+            }
+
+            MigrateConfig();
+        }
+
+        /// <summary>
+        /// This function checks to see if the JSON needs to be migrated.
+        /// </summary>
+        /// <returns>
+        /// True if the config needs to be migrated, false otherwise.
+        /// </returns>
+        protected virtual bool NeedsMigration()
+        {
+            if (schemaVersion == null)
+            {
+                return true;
+            }
+
+            if (VersionUtility.AreVersionsEqual(schemaVersion, CURRENT_SCHEMA_VERSION))
+            {
+                return false;
+            }
+
+            Debug.LogWarning(
+                $"Config file with schemaVersion \"{CURRENT_SCHEMA_VERSION}\"" +
+                " has been read into memory, and needs to be migrated to " +
+                $"schemaVersion \"{CURRENT_SCHEMA_VERSION}\".");
+
+            return true;
         }
 
         /// <summary>
@@ -233,14 +322,13 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // Asynchronously read config values from the corresponding file.
             await instance.ReadAsync();
-            
+
 #if !UNITY_EDITOR
             // Cache the newly created config with its values having been read.
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
 
-            // Call prepare function.
-            instance.MigrateConfig();
+            await instance.MigrateConfigIfNeededAsync();
 
             // Return the config being retrieved.
             return instance;
@@ -287,8 +375,8 @@ namespace PlayEveryWare.EpicOnlineServices
             // Cache the newly created config with its values having been read.
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
-            // Call prepare function.
-            instance.MigrateConfig();
+
+            instance.MigrateConfigIfNeeded();
 
             // Return the config being retrieved.
             return instance;
@@ -379,6 +467,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task</returns>
         public virtual async Task WriteAsync(bool prettyPrint = true)
         {
+            // Set the schema version to the current before writing.
+            schemaVersion = CURRENT_SCHEMA_VERSION;
+
             var json = JsonUtility.ToJson(this, prettyPrint);
 
             // If the json hasn't changed since it was last read, then
@@ -397,6 +488,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public virtual void Write(bool prettyPrint = true)
         {
+            // Set the schema version to the current before writing.
+            schemaVersion = CURRENT_SCHEMA_VERSION;
+
             var json = JsonUtility.ToJson(this, prettyPrint);
 
             // If the json hasn't changed since it was last read, then

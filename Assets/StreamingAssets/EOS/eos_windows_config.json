@@ -1,6 +1,4 @@
 {
-  "GoogleLoginClientID": null,
-  "GoogleLoginNonce": null,
   "deployment": {
     "SandboxId": {
       "Value": "ab139ee5b644412781cf99f48b993b45"
@@ -28,9 +26,9 @@
     "EmbeddedOverlayMainThread": 0,
     "EmbeddedOverlayWorkerThreads": 0
   },
-  "alwaysSendInputToOverlay": false,
+  "alwaysSendInputToOverlay": true,
   "initialButtonDelayForOverlay": 0.0,
   "repeatButtonDelayForOverlay": 0.0,
-  "toggleFriendsButtonCombination": "None",
+  "toggleFriendsButtonCombination": "SpecialLeft",
   "schemaVersion": "1.0"
 }

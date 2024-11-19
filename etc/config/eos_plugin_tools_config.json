@@ -1,10 +1,11 @@
 {
-    "pathToEACIntegrityTool": "",
-    "pathToEACIntegrityConfig": "",
-    "pathToDefaultCertificate": "",
-    "pathToEACPrivateKey": "",
-    "pathToEACCertificate": "",
-    "pathToEACSplashImage": "",
-    "bootstrapperNameOverride": "",
-    "useEAC": false
+  "pathToEACIntegrityTool": "",
+  "pathToEACIntegrityConfig": "",
+  "pathToDefaultCertificate": "",
+  "pathToEACPrivateKey": "",
+  "pathToEACCertificate": "",
+  "pathToEACSplashImage": "",
+  "bootstrapperNameOverride": "",
+  "useEAC": false,
+  "schemaVersion": "1.0"
 }

@@ -35,7 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         public string ClientId;
         public string ClientSecret;
-        public readonly string EncryptionKey;
+        public string EncryptionKey { get; private set; }
 
         private static readonly Regex s_invalidEncryptionKeyRegex;
 

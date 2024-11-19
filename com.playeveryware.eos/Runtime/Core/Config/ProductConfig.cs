@@ -64,6 +64,16 @@ namespace PlayEveryWare.EpicOnlineServices
             0)]
         public string ProductVersion;
 
+        /// <summary>
+        /// This additional flag determines whether or not the productconfig has
+        /// been imported. The reason that schema alone is not sufficient for
+        /// this is because product_config is a new file altogether, so when it
+        /// is first created, it will have the newest schema version, and
+        /// migration will need to take place.
+        /// </summary>
+        [JsonProperty("imported")]
+        private bool _configImported = false;
+
 #if !EOS_DISABLE
         /// <summary>
         /// The set of Clients as defined within the Epic Developer Portal. For
@@ -88,16 +98,18 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType.ProductionEnvironments,
             "Enter the details of your deployment and sandboxes as they " +
             "exist within the Epic Dev Portal.", 1)]
-        public ProductionEnvironments Environments;
-
-        [JsonProperty]
-        private bool _oldConfigImported;
+        public ProductionEnvironments Environments = new();
 
         static ProductConfig()
         {
             RegisterFactory(() => new ProductConfig());
         }
 
+        protected override bool NeedsMigration()
+        {
+            return base.NeedsMigration() || !_configImported;
+        }
+        
         protected ProductConfig() : base("eos_product_config.json") { }
 
         #region Functionality to migrate from old configuration to new
@@ -183,11 +195,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         protected override void MigrateConfig()
         {
-            if (_oldConfigImported)
-            {
-                return;
-            }
-
             Environments ??= new();
 
             PreviousEOSConfig oldConfig = Get<PreviousEOSConfig>();
@@ -197,14 +204,7 @@ namespace PlayEveryWare.EpicOnlineServices
             MigrateSandboxAndDeployment(oldConfig);
             MigrateSandboxAndDeploymentOverrides(oldConfig);
 
-            // Set to true and save so that old config import happens once
-            _oldConfigImported = true;
-
-            // This compile time conditional is here because writing a config
-            // can only take place in the Unity Editor.
-#if UNITY_EDITOR
-            Write();
-#endif
+            _configImported = true;
         }
         #endregion
     }
