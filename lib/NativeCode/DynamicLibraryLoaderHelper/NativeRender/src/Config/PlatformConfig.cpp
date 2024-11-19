@@ -21,12 +21,8 @@
  */
 
 #include <pch.h>
-#include <iostream>
-#include "../Config/PlatformConfig.h"
-#include "string_helpers.h"
-#include "../include/json.hpp"
+#include "PlatformConfig.h"
 #include "EOSJsonConverterMethods.h"
-#include <EOSJsonConverterMethods.cpp>
 
 namespace pew::eos::config
 {

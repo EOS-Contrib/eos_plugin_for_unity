@@ -22,12 +22,9 @@
 
 #include <pch.h>
 #include "EOSJsonConverterMethods.h"
-#include "string_helpers.h"
 
 namespace nlohmann
 {
-    using namespace pew::eos::string_helpers;
-
     /**
      * \brief Maps string values to specific auth scope flags defined within the EOS SDK.
      */
@@ -178,7 +175,7 @@ namespace nlohmann
 
     #define JSON_PARSE_THREAD_AFFINITY(key, affinity) affinity.key = get_int64_value(json, #key)
 
-    void from_json(const json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity)
+    inline void from_json(const json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity)
     {
         JSON_PARSE_THREAD_AFFINITY(ApiVersion,                   initialize_thread_affinity);
         JSON_PARSE_THREAD_AFFINITY(NetworkWork,                  initialize_thread_affinity);
