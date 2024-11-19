@@ -407,7 +407,19 @@ namespace pew::eos
 
         //EOS_Platform_Options_debug_log(platform_options);
         logging::log_inform("run EOS_Platform_Create");
-        eos_library_helpers::eos_platform_handle = eos_library_helpers::EOS_Platform_Create_ptr(&platform_options);
+
+        eos_library_helpers::EOS_Platform_Create_t EOS_Platform_Create_ptr;
+        if (!eos_library_helpers::try_load_function(eos_library_helpers::s_eos_sdk_lib_handle, "EOS_Platform_Create", EOS_Platform_Create_ptr))
+        {
+            // Stop early - nothing can be done and the try_load_function will log the errors.
+            return;
+        }
+
+        eos_library_helpers::eos_platform_handle = EOS_Platform_Create_ptr(&platform_options);
+
+        // free the platform create function pointer
+        EOS_Platform_Create_ptr = nullptr;
+
         if (integrated_platform_options_container)
         {
             eos_library_helpers::EOS_IntegratedPlatformOptionsContainer_Release_ptr(integrated_platform_options_container);

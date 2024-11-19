@@ -179,7 +179,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 
         s_eos_sdk_lib_handle = nullptr;
         EOS_Shutdown_ptr = nullptr;
-        EOS_Platform_Create_ptr = nullptr;
+        //EOS_Platform_Create_ptr = nullptr;
     }
     else
     {

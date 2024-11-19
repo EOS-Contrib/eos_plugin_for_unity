@@ -60,7 +60,7 @@ namespace pew::eos::eos_library_helpers
      */
     //EOS_Initialize_t EOS_Initialize_ptr = nullptr;
     EOS_Shutdown_t EOS_Shutdown_ptr = nullptr;
-    EOS_Platform_Create_t EOS_Platform_Create_ptr = nullptr;
+    //EOS_Platform_Create_t EOS_Platform_Create_ptr = nullptr;
     EOS_Logging_SetCallback_t EOS_Logging_SetCallback_ptr = nullptr;
     EOS_Logging_SetLogLevel_t EOS_Logging_SetLogLevel_ptr = nullptr;
     EOS_IntegratedPlatformOptionsContainer_Add_t EOS_IntegratedPlatformOptionsContainer_Add_ptr = nullptr;
@@ -85,7 +85,7 @@ namespace pew::eos::eos_library_helpers
         s_eos_sdk_lib_handle = load_library_at_path(io_helpers::get_path_relative_to_current_module(SDK_DLL_NAME));
         
         try_load_function(s_eos_sdk_lib_handle, "EOS_Shutdown", EOS_Shutdown_ptr);
-        try_load_function(s_eos_sdk_lib_handle, "EOS_Platform_Create", EOS_Platform_Create_ptr);
+        //try_load_function(s_eos_sdk_lib_handle, "EOS_Platform_Create", EOS_Platform_Create_ptr);
         try_load_function(s_eos_sdk_lib_handle, "EOS_Platform_Release", EOS_Platform_Release_ptr);
         try_load_function(s_eos_sdk_lib_handle, "EOS_Logging_SetLogLevel", EOS_Logging_SetLogLevel_ptr);
         try_load_function(s_eos_sdk_lib_handle, "EOS_Logging_SetCallback", EOS_Logging_SetCallback_ptr);
