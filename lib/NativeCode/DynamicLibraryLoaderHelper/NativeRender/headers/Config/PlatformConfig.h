@@ -25,6 +25,7 @@
 
 #pragma once
 
+#include "eos_init.h"
 #include "ClientCredentials.h"
 #include "Config.h"
 #include "Deployment.h"

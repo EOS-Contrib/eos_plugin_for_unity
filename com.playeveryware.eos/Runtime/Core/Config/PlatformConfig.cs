@@ -375,6 +375,7 @@ namespace PlayEveryWare.EpicOnlineServices
         private void MigrateOverrideableConfigValues(EOSConfig overrideValuesFromFieldMember,
             OverrideableConfigValues mainOverrideableConfig)
         {
+            threadAffinity ??= new();
             // Import the values for platform option flags.
             platformOptionsFlags |= overrideValuesFromFieldMember.platformOptionsFlags;
 
@@ -491,6 +492,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // Do nothing if the values have already been moved, or if
             // overrideValues is null.
+            threadAffinity ??= new();
 
 #pragma warning disable CS0612 // Type or member is obsolete
             if (null != overrideValues)
@@ -512,6 +514,8 @@ namespace PlayEveryWare.EpicOnlineServices
 #pragma warning disable CS0612 // Type or member is obsolete
             MigrateNonOverrideableConfigValues(overrideValues, mainNonOverrideableConfigValuesThatCouldNotBeOverridden);
 #pragma warning restore CS0612 // Type or member is obsolete
+
+            threadAffinity ??= new();
 
             // Notify the user of the migration, encourage them to double check
             // that migration was successful.
