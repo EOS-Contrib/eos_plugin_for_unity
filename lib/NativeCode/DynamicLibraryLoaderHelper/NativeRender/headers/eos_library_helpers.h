@@ -70,16 +70,6 @@ namespace pew::eos::eos_library_helpers
      */
     void* load_library_at_path(const std::filesystem::path& library_path);
 
-    /**
-     * This block defines a macro that will correctly decorate the name of a
-     * function when that name is being used to load a function from a library.
-     */
-    #if defined(_WIN32) && !defined(_WIN64)
-    #define DECORATE_FUNCTION_NAME(name) _##name##"@4"
-    #else
-    #define DECORATE_FUNCTION_NAME(name) name
-    #endif
-
      // Helper to calculate the total size of all function arguments
     template <typename... Args>
     constexpr size_t calculate_argument_size()
