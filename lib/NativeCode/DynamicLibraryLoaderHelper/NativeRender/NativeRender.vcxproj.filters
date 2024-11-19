@@ -33,9 +33,6 @@
     <ClInclude Include="headers\eos_helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\eos_library_helpers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="headers\eos_minimum_includes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -97,9 +94,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\eos_helpers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\eos_library_helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\io_helpers.cpp">

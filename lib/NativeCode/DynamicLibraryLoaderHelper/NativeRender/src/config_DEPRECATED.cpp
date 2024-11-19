@@ -22,11 +22,11 @@
 
 #include <pch.h>
 #include "config.h"
-#include "eos_library_helpers.h"
 #include "io_helpers.h"
 #include "json_helpers.h"
 #include "logging.h"
-#include "pch.h"
+
+#include "eos_helpers.h"
 
 using namespace pew::eos::config;
 using namespace pew::eos::json_helpers;
@@ -257,7 +257,7 @@ namespace pew::eos::config
 
 #if ENABLE_DLL_BASED_EOS_CONFIG
         logging::log_inform("Trying to load eos config via dll");
-        static void* eos_generated_library_handle = eos_library_helpers::load_library_at_path(io_helpers::get_path_relative_to_current_module("EOSGenerated.dll"));
+        static void* eos_generated_library_handle = load_library_at_path(io_helpers::get_path_relative_to_current_module("EOSGenerated.dll"));
 
         if (!eos_generated_library_handle)
         {
@@ -265,7 +265,7 @@ namespace pew::eos::config
             return NULL;
         }
 
-        if (eos_library_helpers::try_load_function(eos_generated_library_handle, "GetConfigAsJSONString", GetConfigAsJSONString))
+        if (try_load_function(eos_generated_library_handle, "GetConfigAsJSONString", GetConfigAsJSONString))
         {
             const char* config_as_json_string = GetConfigAsJSONString();
             if (config_as_json_string != nullptr)

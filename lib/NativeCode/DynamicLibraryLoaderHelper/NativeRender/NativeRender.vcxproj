@@ -118,7 +118,6 @@
     <ClInclude Include="headers\Config\Version.h" />
     <ClInclude Include="headers\Config\WindowsConfig.h" />
     <ClInclude Include="headers\eos_helpers.h" />
-    <ClInclude Include="headers\eos_library_helpers.h" />
     <ClInclude Include="headers\eos_minimum_includes.h" />
     <ClInclude Include="headers\io_helpers.h" />
     <ClInclude Include="headers\json.h" />
@@ -140,7 +139,6 @@
     <ClCompile Include="src\config_DEPRECATED.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\eos_helpers.cpp" />
-    <ClCompile Include="src\eos_library_helpers.cpp" />
     <ClCompile Include="src\io_helpers.cpp" />
     <ClCompile Include="src\json_helpers.cpp" />
     <ClCompile Include="src\logging.cpp" />
