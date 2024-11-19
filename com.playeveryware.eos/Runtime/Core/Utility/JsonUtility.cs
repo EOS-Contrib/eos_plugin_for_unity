@@ -37,6 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         private static readonly JsonSerializerSettings s_serializerSettings =
             new() { Converters = new JsonConverter[]
             {
+                new PlayEveryWare.EpicOnlineServices.GuidConverter(),
                 new StringEnumConverter(),
                 new VersionConverter(),
             } };
