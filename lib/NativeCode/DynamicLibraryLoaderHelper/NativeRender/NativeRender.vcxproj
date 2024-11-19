@@ -82,7 +82,7 @@
     </ClCompile>
     <PostBuildEvent>
       <!-- Copy the EOS SDK dll into the debug directory so that it can be used -->
-      <Command>xcopy "$(OutputUnityAssetsDirectory.Replace('/', '\'))$(SdkDllName)" "$(TargetDir)"</Command>
+      <Command>xcopy "$(OutputUnityAssetsDirectory.Replace('/', '\'))$(SdkDllName)" "$(TargetDir)" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
