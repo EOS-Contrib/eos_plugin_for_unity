@@ -85,6 +85,9 @@
     <ClInclude Include="headers\Config\EOSJsonConverterMethods.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
+    <ClInclude Include="headers\DLLWrapper.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\config_DEPRECATED.cpp">
@@ -134,6 +137,9 @@
       <Filter>Source Files\Config</Filter>
     </ClCompile>
     <ClCompile Include="src\Config\EOSJsonConverterMethods.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DLLWrapper.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
   </ItemGroup>
