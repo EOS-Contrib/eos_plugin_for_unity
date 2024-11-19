@@ -1,8 +1,15 @@
 <Project>
+  <!-- Define a custom property for platform translation -->
+  <PropertyGroup Condition="'$(Platform)' == 'Win32'">
+    <CustomPlatform>x86</CustomPlatform>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)' != 'Win32'">
+    <CustomPlatform>$(Platform)</CustomPlatform>
+  </PropertyGroup>
   <PropertyGroup>
     <!-- Define a property with the SolutionDir path but with backslashes replaced by forward slashes -->
     <SolutionDirForwardSlashes>$(SolutionDir.Replace('\', '/'))</SolutionDirForwardSlashes>
     <UnityStreamingAssetsDirectory>$(SolutionDirForwardSlashes)../../../Assets/StreamingAssets/</UnityStreamingAssetsDirectory>
-    <OutputUnityAssetsDirectory>$(SolutionDirForwardSlashes)../../../Assets/Plugins/Windows/$(Platform)/</OutputUnityAssetsDirectory>
+    <OutputUnityAssetsDirectory>$(SolutionDirForwardSlashes)../../../Assets/Plugins/Windows/$(CustomPlatform)/</OutputUnityAssetsDirectory>
   </PropertyGroup>
 </Project>

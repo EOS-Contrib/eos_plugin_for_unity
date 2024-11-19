@@ -92,6 +92,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
+      <!-- Copy the meta data file for the generated .dll -->
       <Command>copy $(SolutionDir)$(ProjectName)-$(Platform).dll.meta $(OutputUnityAssetsDirectory)</Command>
       <Command>xcopy "$(TargetDir)*" "$(OutputUnityAssetsDirectory)" /E /I /Y</Command>
     </PostBuildEvent>

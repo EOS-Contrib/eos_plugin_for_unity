@@ -80,6 +80,10 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>OVERLAY_DLL_NAME="$(OverlayDllName)";STEAM_API_DLL="$(SteamApiDll)";SDK_DLL_NAME="$(SdkDllName)";CONFIG_DIRECTORY="$(ConfigDirectory)";_DEBUG;NATIVERENDER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <PostBuildEvent>
+      <!-- Copy the EOS SDK dll into the debug directory so that it can be used -->
+      <Command>xcopy "$(OutputUnityAssetsDirectory.Replace('/', '\'))$(SdkDllName)" "$(TargetDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
@@ -94,6 +98,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
+      <!-- Copy the meta data file for the generated .dll -->
       <Command>copy $(SolutionDir)$(ProjectName)-$(Platform).dll.meta $(OutputUnityAssetsDirectory)</Command>
       <Command>xcopy "$(TargetDir)*" "$(OutputUnityAssetsDirectory)" /E /I /Y</Command>
     </PostBuildEvent>
