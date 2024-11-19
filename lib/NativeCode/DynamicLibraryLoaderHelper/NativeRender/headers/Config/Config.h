@@ -24,10 +24,9 @@
  */
 
 #pragma once
-#include <optional>
-#include <memory>
+
 #include <string>
-#include "headers/Version.h"
+#include "Version.h"
 #include "Serializable.h"
 
 namespace pew::eos::config

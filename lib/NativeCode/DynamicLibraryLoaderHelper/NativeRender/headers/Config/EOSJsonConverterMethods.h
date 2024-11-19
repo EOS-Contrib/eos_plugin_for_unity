@@ -26,11 +26,6 @@
 #pragma once
 
 #include "include/json.hpp"
-
-#include "eos_auth_types.h"
-#include "eos_integratedplatform_types.h"
-#include "eos_init.h"
-#include "eos_ui_types.h"
 #include "string_helpers.h"
 
 namespace nlohmann
@@ -113,7 +108,7 @@ namespace nlohmann
      * \param json The JSON object to read the values from.
      * \param initialize_thread_affinity The value to set from the JSON.
      */
-    void from_json(const json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity);
+    inline void from_json(const json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity);
 
     /**
      * \brief Helper constraint for allowing template functions to require the

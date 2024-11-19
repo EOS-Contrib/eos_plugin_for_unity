@@ -37,8 +37,31 @@ namespace pew::eos::config
      */
     struct ProductionEnvironments
     {
+        /**
+         * \brief The deployments defined for the product.
+         */
         std::vector<Deployment> deployments;
+
+        /**
+         * \brief The sandboxes defined for the product.
+         */
         std::vector<Sandbox> sandboxes;
+
+        /**
+         * \brief Determines if a given deployment id is defined in the product
+         * config or not.
+         * \param deployment_id The deployment to search for.
+         * \return True if the deployment is defined, false otherwise.
+         */
+        bool is_deployment_defined(const std::string& deployment_id) const;
+
+        /**
+         * \brief Determines if a given sandbox is defined in the product config
+         * or not.
+         * \param sandbox_id The sandbox id to search for.
+         * \return True if the sandbox is defined, false otherwise.
+         */
+        bool is_sandbox_defined(const std::string& sandbox_id) const;
     };
 }
 

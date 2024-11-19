@@ -24,7 +24,6 @@
 #include "Version.h"
 #include "include/json.hpp"
 #include <string>
-#include <iostream>
 #include <sstream>
 
 namespace pew::eos::config

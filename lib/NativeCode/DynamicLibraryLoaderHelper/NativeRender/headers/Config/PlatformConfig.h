@@ -29,11 +29,6 @@
 #include "Config.h"
 #include "Deployment.h"
 
-#include "eos_auth_types.h"
-#include "eos_integratedplatform_types.h"
-#include "eos_init.h"
-#include "eos_ui_types.h"
-
 namespace pew::eos::config
 {
     /**
@@ -48,9 +43,9 @@ namespace pew::eos::config
         {
         }
 
-        void migrate();
+        void migrate() override;
 
-        void from_json(const nlohmann::json& json);
+        void from_json(const nlohmann::json& json) override;
 
         friend class Config;
     public:

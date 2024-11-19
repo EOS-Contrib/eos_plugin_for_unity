@@ -70,9 +70,6 @@
     <ClInclude Include="headers\Config\Sandbox.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Version.h">
-      <Filter>Header Files\Config</Filter>
-    </ClInclude>
     <ClInclude Include="headers\Config\Serializable.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
@@ -85,7 +82,10 @@
     <ClInclude Include="headers\Config\WindowsConfig.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="headers\EOSJsonConverterMethods.h">
+    <ClInclude Include="headers\Config\Version.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Config\EOSJsonConverterMethods.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
   </ItemGroup>

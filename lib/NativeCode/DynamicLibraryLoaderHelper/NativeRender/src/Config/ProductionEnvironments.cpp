@@ -25,6 +25,37 @@
 #include "Sandbox.h"
 #include "Deployment.h"
 
+namespace pew::eos::config
+{
+    bool ProductionEnvironments::is_deployment_defined(const std::string& deployment_id) const
+    {
+        for(const Deployment& deployment : deployments)
+        {
+            if (deployment.id == deployment_id)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool ProductionEnvironments::is_sandbox_defined(const std::string& sandbox_id) const
+    {
+        for(const Sandbox& sandbox : sandboxes)
+        {
+            if (sandbox.id == sandbox_id)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+}
+
 namespace nlohmann
 {
     using namespace pew::eos::config;

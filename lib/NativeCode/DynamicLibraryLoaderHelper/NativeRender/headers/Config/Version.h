@@ -25,9 +25,7 @@
 
 #pragma once
 
-#include "include/json.hpp"
-#include "pch.h"
-#include "Serializable.h"
+#include <string>
 
 namespace pew::eos::config
 {

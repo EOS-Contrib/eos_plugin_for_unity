@@ -31,7 +31,12 @@ namespace pew::eos::config
 {
     using namespace nlohmann;
 
-#define PARSE_FROM_JSON(key, target) try_get_to(json, key, target)
+    /**
+     * \brief Helper macro for parsing from a "json" object of type nlohmann::json
+     * \param key The key parse the value from.
+     * \param target Where to put the value that's been parsed.
+     */
+    #define PARSE_FROM_JSON(key, target) try_get_to(json, key, target)
 
     /**
      * \brief Used to describe the functions needed to make an object both
@@ -44,6 +49,16 @@ namespace pew::eos::config
 
         virtual void from_json(const json& json) = 0;
 
+        /**
+         * \brief Helper method to try and get a value from a JSON object at the
+         * specified key.
+         * \tparam T The type to get from the JSON object
+         * \param json The JSON object.
+         * \param key The key at which the value should be extracted.
+         * \param set_to The variable to set the value of.
+         * \return True if the key exists and the value was retrieved, false
+         * otherwise.
+         */
         template<typename T>
         static bool try_get_to(const json& json, const char* key, T set_to)
         {
