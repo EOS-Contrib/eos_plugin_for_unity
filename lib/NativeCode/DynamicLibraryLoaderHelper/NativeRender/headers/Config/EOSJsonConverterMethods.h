@@ -102,13 +102,35 @@ namespace nlohmann
      */
     void from_json(const json& json, EOS_UI_EInputStateButtonFlags& input_state_button_flags);
 
+    inline static uint64_t get_uint64_t_from_int(const json& json, const char* key)
+    {
+        auto json_str = json.dump();
+        int temp_int;
+        json.at(key).get_to(temp_int);
+        return static_cast<uint64_t>(temp_int);
+    }
+
+    #define JSON_PARSE_THREAD_AFFINITY(key, affinity) affinity.key = get_uint64_t_from_int(json, #key);
+
     /**
      * \brief Function that instructs the nlohmann library how to parse an
      * EOS_Initialize_ThreadAffinity struct.
      * \param json The JSON object to read the values from.
      * \param initialize_thread_affinity The value to set from the JSON.
      */
-    inline void from_json(const json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity);
+    inline void from_json(const json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity)
+    {
+        auto json_str = json.dump();
+        JSON_PARSE_THREAD_AFFINITY(ApiVersion, initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(NetworkWork, initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(StorageIo, initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(WebSocketIo, initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(P2PIo, initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(HttpRequestIo, initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(RTCIo, initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(EmbeddedOverlayMainThread, initialize_thread_affinity);
+        JSON_PARSE_THREAD_AFFINITY(EmbeddedOverlayWorkerThreads, initialize_thread_affinity);
+    }
 
     /**
      * \brief Helper constraint for allowing template functions to require the

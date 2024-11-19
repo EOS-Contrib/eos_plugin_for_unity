@@ -159,32 +159,7 @@ namespace nlohmann
         );
     }
 
-    /**
-     * TODO: This might not be needed.
-     * \brief Helper function to get a uint64_t value from json.
-     * \param json Json object to get the uint64_t from.
-     * \param key The key to get the uint64_t value from within the json object.
-     * \return A uint64_t value.
-     */
-    uint64_t get_int64_value(const json& json, const char* key)
-    {
-        int temp;
-        json[key].get_to(temp);
-        return static_cast<uint64_t>(temp);
-    }
+    
 
-    #define JSON_PARSE_THREAD_AFFINITY(key, affinity) affinity.key = get_int64_value(json, #key)
-
-    inline void from_json(const json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity)
-    {
-        JSON_PARSE_THREAD_AFFINITY(ApiVersion,                   initialize_thread_affinity);
-        JSON_PARSE_THREAD_AFFINITY(NetworkWork,                  initialize_thread_affinity);
-        JSON_PARSE_THREAD_AFFINITY(StorageIo,                    initialize_thread_affinity);
-        JSON_PARSE_THREAD_AFFINITY(WebSocketIo,                  initialize_thread_affinity);
-        JSON_PARSE_THREAD_AFFINITY(P2PIo,                        initialize_thread_affinity);
-        JSON_PARSE_THREAD_AFFINITY(HttpRequestIo,                initialize_thread_affinity);
-        JSON_PARSE_THREAD_AFFINITY(RTCIo,                        initialize_thread_affinity);
-        JSON_PARSE_THREAD_AFFINITY(EmbeddedOverlayMainThread,    initialize_thread_affinity);
-        JSON_PARSE_THREAD_AFFINITY(EmbeddedOverlayWorkerThreads, initialize_thread_affinity);
-    }
+    
 }
