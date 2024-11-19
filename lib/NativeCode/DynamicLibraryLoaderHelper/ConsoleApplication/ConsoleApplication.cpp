@@ -26,11 +26,15 @@
 #include "headers/Config/ProductConfig.h"
 #include "headers/Config/WindowsConfig.h"
 #include "headers/config.h"
+#include "headers/eos_helpers.h"
+
 using namespace pew::eos::config;
 int main()
 {
     ProductConfig product_config = Config::get<ProductConfig>();
     WindowsConfig windows_config = Config::get<WindowsConfig>();
+
+    pew::eos::load_eos(windows_config, product_config);
 
     EOSConfig eos_config;
     if(try_get_eos_config(eos_config))

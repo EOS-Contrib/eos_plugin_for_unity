@@ -30,18 +30,15 @@
 
 #include "config.h"
 #include "logging.h"
-#include <eos_library_helpers.h>
 #include <eos_helpers.h>
 #include <iostream>
 
-#include "io_helpers.h"
 #include "PlatformConfig.h"
 #include "WindowsConfig.h"
 #include "ProductConfig.h"
 #include "Config/Config.h"
 
 using namespace pew::eos;
-using namespace pew::eos::eos_library_helpers;
 
 using FSig_ApplicationWillShutdown = void (__stdcall *)(void);
 FSig_ApplicationWillShutdown FuncApplicationWillShutdown = nullptr;
@@ -165,7 +162,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     std::filesystem::path DllPath;
     logging::log_inform("On UnityPluginLoad");
 
-    s_eos_sdk_lib_handle = load_library_at_path(io_helpers::get_path_relative_to_current_module(SDK_DLL_NAME));
+    
 
     if (s_eos_sdk_lib_handle)
     {
@@ -173,7 +170,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 
         logging::log_inform("start eos init");
 
-        eos_start(windows_config, product_config);
+        load_eos(windows_config, product_config);
 
         eos_set_loglevel_via_config();
 
