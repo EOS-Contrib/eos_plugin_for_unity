@@ -171,23 +171,15 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     {
         FetchEOSFunctionPointers();
 
-        if (EOS_Initialize_ptr)
-        {
-            logging::log_inform("start eos init");
+        logging::log_inform("start eos init");
 
-            eos_start(windows_config, product_config);
+        eos_start(windows_config, product_config);
 
-            eos_set_loglevel_via_config();
+        eos_set_loglevel_via_config();
 
-            s_eos_sdk_lib_handle = nullptr;
-            EOS_Initialize_ptr = nullptr;
-            EOS_Shutdown_ptr = nullptr;
-            EOS_Platform_Create_ptr = nullptr;
-        }
-        else
-        {
-            logging::log_warn("unable to find EOS_Initialize");
-        }
+        s_eos_sdk_lib_handle = nullptr;
+        EOS_Shutdown_ptr = nullptr;
+        EOS_Platform_Create_ptr = nullptr;
     }
     else
     {

@@ -45,7 +45,7 @@ namespace pew::eos::eos_library_helpers
     typedef EOS_EResult(*EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t)(const EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions* Options, EOS_HIntegratedPlatformOptionsContainer* OutIntegratedPlatformOptionsContainerHandle);
     typedef void (*EOS_IntegratedPlatformOptionsContainer_Release_t)(EOS_HIntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle);
 
-    extern EOS_Initialize_t EOS_Initialize_ptr;
+    //extern EOS_Initialize_t EOS_Initialize_ptr;
     extern EOS_Shutdown_t EOS_Shutdown_ptr;
     extern EOS_Platform_Create_t EOS_Platform_Create_ptr;
     extern EOS_Logging_SetCallback_t EOS_Logging_SetCallback_ptr;
