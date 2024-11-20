@@ -27,7 +27,7 @@
     <ClInclude Include="include\json.hpp">
       <Filter>Source Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="headers\config.h">
+    <ClInclude Include="headers\config_DEPRECATED.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\eos_helpers.h">
@@ -91,7 +91,6 @@
     <ClInclude Include="headers\EOSWrapper.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\config_DEPRECATED.cpp">
