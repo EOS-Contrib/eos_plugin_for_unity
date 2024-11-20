@@ -91,6 +91,7 @@
     <ClInclude Include="headers\EOSWrapper.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
+    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\config_DEPRECATED.cpp">

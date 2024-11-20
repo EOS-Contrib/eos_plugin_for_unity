@@ -22,8 +22,8 @@
 
 #include <iostream>
 #include "headers/Config/ProductConfig.h"
-//#include "headers/eos_helpers.h"
 #include "headers/eos_helpers.h"
+
 using namespace pew::eos::config;
 int main()
 {
