@@ -34,6 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Common.Extensions;
     using Newtonsoft.Json;
     using System;
+    using UnityEditor.Experimental.GraphView;
 
 #if !EXTERNAL_TO_UNITY
     using UnityEngine;
@@ -121,8 +122,26 @@ namespace PlayEveryWare.EpicOnlineServices
                                   "Flags for platform specific options.",
             2, "https://dev.epicgames.com/docs/api-ref/enums/eos-e-integrated-platform-management-flags")]
         [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
-        [JsonProperty("flags")] // Allow deserialization from old field member.
         public IntegratedPlatformManagementFlags integratedPlatformManagementFlags;
+
+        // This property exists to maintain backwards-compatibility with 
+        // previous versions of the config json structures.
+        [JsonProperty] // Mark it so that it gets read
+        [JsonIgnore] // Ignore so that it does not get written
+        [Obsolete("This property is deprecated. Use the property integratedPlatformManagementFlags instead.")]
+        [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
+        public IntegratedPlatformManagementFlags flags
+        {
+            get
+            {
+                return integratedPlatformManagementFlags;
+            }
+            set
+            {
+                integratedPlatformManagementFlags = value;
+            }
+        }
+    
 #endif
 
         #endregion
@@ -262,6 +281,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
             [JsonConverter(typeof(ListOfStringsToAuthScopeFlags))]
             public AuthScopeFlags authScopeOptionsFlags;
+
+            [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
+            public IntegratedPlatformManagementFlags integratedPlatformManagementFlags;
+
             public bool alwaysSendInputToOverlay;
 
             static NonOverrideableConfigValues()
@@ -388,6 +411,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
             MigratePlatformFlags(overrideValuesFromFieldMember, mainNonOverrideableConfig);
 
+            integratedPlatformManagementFlags = IntegratedPlatformManagementFlags.Disabled;
+            integratedPlatformManagementFlags |= mainNonOverrideableConfig.integratedPlatformManagementFlags;
+
             ProductConfig productConfig = Get<ProductConfig>();
             string compDeploymentString = mainNonOverrideableConfig.deploymentID.ToLower();
 
@@ -475,7 +501,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // Do nothing if the values have already been moved, or if
             // overrideValues is null.
-
 #pragma warning disable CS0612 // Type or member is obsolete
             if (null != overrideValues)
             {
@@ -492,9 +517,11 @@ namespace PlayEveryWare.EpicOnlineServices
             // This config represents the set of values that were not
             // overrideable from the editor window. The migrated values should
             // favor these set of values.
-            NonOverrideableConfigValues mainNonOverrideableConfigValuesThatCouldNotBeOverridden = Get<NonOverrideableConfigValues>();
+            NonOverrideableConfigValues mainNonOverrideableConfigValuesThatCouldNotBeOverridden =
+                Get<NonOverrideableConfigValues>();
 #pragma warning disable CS0612 // Type or member is obsolete
-            MigrateNonOverrideableConfigValues(overrideValues, mainNonOverrideableConfigValuesThatCouldNotBeOverridden);
+            MigrateNonOverrideableConfigValues(overrideValues,
+                mainNonOverrideableConfigValuesThatCouldNotBeOverridden);
 #pragma warning restore CS0612 // Type or member is obsolete
 
             // Notify the user of the migration, encourage them to double check
@@ -505,6 +532,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 "Plugin -> EOS Configuration to make sure that the " +
                 "migration was successful.");
         }
+        
 
 #endif
 

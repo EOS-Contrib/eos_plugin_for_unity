@@ -41,6 +41,7 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
         /// </summary>
         public static Dictionary<string, IntegratedPlatformManagementFlags> CustomMappings { get; } = new()
         {
+            {"Nothing",                                  IntegratedPlatformManagementFlags.Disabled },
             {"EOS_IPMF_Disabled",                        IntegratedPlatformManagementFlags.Disabled },
 
             {"EOS_IPMF_LibraryManagedByApplication",     IntegratedPlatformManagementFlags.LibraryManagedByApplication },
