@@ -29,7 +29,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public class WrappedInitializeThreadAffinity : Wrapped<InitializeThreadAffinity>
     {
-        int? _apiVersion;
+        /// <summary>
+        /// Private backer field member for the api version - made nullable
+        /// because not all versions support it.
+        /// </summary>
+        private int? _apiVersion;
 
         /// <summary>
         /// Any thread related to network management that is not IO.
@@ -82,7 +86,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>   
         /// Any thread that will generate IO related to P2P traffic and management.
         /// </summary>
-        [ConfigField("P2P IO", ConfigFieldType.Ulong, "Any thread that will generate IO related to P2P traffic and management.")]
+        [ConfigField("P2P IO", ConfigFieldType.Ulong,
+            "Any thread that will generate IO related to P2P traffic and management.")]
         public ulong P2PIo
         {
             get
@@ -114,7 +119,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Any thread that will generate IO related to RTC traffic and management.
         /// </summary>
-        [ConfigField("RTC IO", ConfigFieldType.Ulong, "Any thread that will generate IO related to RTC traffic and management.")]
+        [ConfigField("RTC IO", ConfigFieldType.Ulong,
+            "Any thread that will generate IO related to RTC traffic and management.")]
         public ulong RTCIo
         {
             get
@@ -146,7 +152,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Worker threads of the external overlay
         /// </summary>
-        [ConfigField("Embedded Overlay Worker Threads", ConfigFieldType.Ulong, "Worker threads of the external overlay.")]
+        [ConfigField("Embedded Overlay Worker Threads", ConfigFieldType.Ulong,
+            "Worker threads of the external overlay.")]
         public ulong EmbeddedOverlayWorkerThreads
         {
             get
@@ -159,12 +166,19 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
+        /// <summary>
+        /// The ApiVersion for this object.
+        /// </summary>
         public int ApiVersion
         {
             get
             {
+                // If the api version is not set, then set it to the latest
+                // according to the EOS SDK.
                 if (!_apiVersion.HasValue)
+                {
                     _apiVersion = PlatformInterface.InitializeThreadaffinityApiLatest;
+                }
 
                 return _apiVersion.Value;
             }
@@ -175,5 +189,4 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 }
-
 #endif
