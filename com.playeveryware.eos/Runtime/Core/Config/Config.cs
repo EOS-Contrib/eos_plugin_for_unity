@@ -106,7 +106,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// the schemas were being versioned.
         /// </summary>
         [JsonProperty]
-        protected Version schemaVersion;
+        private Version schemaVersion;
 
         /// <summary>
         /// Instantiate a new config based on the file at the given filename -
