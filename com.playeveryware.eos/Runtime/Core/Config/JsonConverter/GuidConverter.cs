@@ -52,7 +52,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
             if (!Guid.TryParseExact(stringValue, "N", out Guid value))
             {
-                value = Guid.Parse(stringValue);
+                if (!Guid.TryParse(stringValue, out value))
+                {
+                    value = Guid.Empty;
+                }
             }
 
             // Deserialize the Guid from the string
