@@ -159,29 +159,12 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     logging::global_log_open("gfx_log.txt");
 #endif
 
-    std::filesystem::path DllPath;
     logging::log_inform("On UnityPluginLoad");
 
     
+    logging::log_inform("start eos init");
 
-    if (s_eos_sdk_lib_handle)
-    {
-        FetchEOSFunctionPointers();
-
-        logging::log_inform("start eos init");
-
-        load_eos(windows_config, product_config);
-
-        eos_set_loglevel_via_config();
-
-        s_eos_sdk_lib_handle = nullptr;
-        EOS_Shutdown_ptr = nullptr;
-        //EOS_Platform_Create_ptr = nullptr;
-    }
-    else
-    {
-        logging::log_warn("Couldn't find dll "  SDK_DLL_NAME);
-    }
+    load_eos(windows_config, product_config);
 }
 
 //-------------------------------------------------------------------------
@@ -194,8 +177,6 @@ DLL_EXPORT(void) UnityPluginUnload()
     {
         FuncApplicationWillShutdown();
     }
-    unload_library(s_eos_sdk_overlay_lib_handle);
-    s_eos_sdk_overlay_lib_handle = nullptr;
-
+    
     logging::global_log_close();
 }

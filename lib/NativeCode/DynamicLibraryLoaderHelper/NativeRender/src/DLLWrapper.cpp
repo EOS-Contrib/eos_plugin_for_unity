@@ -23,10 +23,28 @@
 #include <pch.h>
 #include <DLLWrapper.h>
 #include <filesystem>
+
+#include "io_helpers.h"
 #include "string_helpers.h"
 
 namespace pew::eos
 {
+    DLLWrapper::DLLWrapper(const std::string& library_name)
+    {
+        // Get the path to the library relative to the current module
+        const auto library_path = io_helpers::get_path_relative_to_current_module(library_name);
+
+        // Load a handle to the library
+        _library_handle = load_library_at_path(library_path);
+    }
+
+    DLLWrapper::~DLLWrapper()
+    {
+        // Make sure to free the library handle
+        FreeLibrary(static_cast<HMODULE>(_library_handle));
+        _library_handle = nullptr;
+    }
+
     void* DLLWrapper::load_library_at_path(const std::filesystem::path& library_path)
     {
         void* to_return = nullptr;

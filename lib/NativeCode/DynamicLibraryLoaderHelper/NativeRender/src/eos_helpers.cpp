@@ -31,6 +31,7 @@
 #include "eos_init.h"
 #include <codecvt>
 
+#include "EOSWrapper.h"
 #include "ProductConfig.h"
 #include "WindowsConfig.h"
 
@@ -69,38 +70,17 @@ void eos_call_steam_init(const std::filesystem::path& steam_dll_path);
 
 namespace pew::eos
 {
-    typedef void (EOS_CALL* EOS_Platform_Release_t)(EOS_HPlatform Handle);
-
-    EOS_Platform_Release_t EOS_Platform_Release_ptr;
-
-    void* s_eos_sdk_lib_handle = nullptr;
-    void* s_eos_sdk_overlay_lib_handle = nullptr;
-    EOS_HPlatform eos_platform_handle = nullptr;
-
-    /**
-     * The following are pointers to functions within libraries external to this project.
-     */
-     //EOS_Initialize_t EOS_Initialize_ptr = nullptr;
-    EOS_Shutdown_t EOS_Shutdown_ptr = nullptr;
-    //EOS_Platform_Create_t EOS_Platform_Create_ptr = nullptr;
-    EOS_Logging_SetCallback_t EOS_Logging_SetCallback_ptr = nullptr;
-    EOS_Logging_SetLogLevel_t EOS_Logging_SetLogLevel_ptr = nullptr;
-    EOS_IntegratedPlatformOptionsContainer_Add_t EOS_IntegratedPlatformOptionsContainer_Add_ptr = nullptr;
-    EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr = nullptr;
-    EOS_IntegratedPlatformOptionsContainer_Release_t EOS_IntegratedPlatformOptionsContainer_Release_ptr = nullptr;
-
     DLL_EXPORT(void*) EOS_GetPlatformInterface()
     {
-        return eos_platform_handle;
+        const auto product_config = config::Config::get<config::ProductConfig>();
+        const auto windows_config = config::Config::get<config::WindowsConfig>();
+        const auto interface = load_eos(windows_config, product_config);
+
+        return interface;
     }
 
-    void eos_set_loglevel_via_config()
+    void set_eos_loglevel(const EOSWrapper& eos_sdk)
     {
-        if (EOS_Logging_SetLogLevel_ptr == nullptr)
-        {
-            return;
-        }
-
         auto path_to_log_config_json = config::get_path_for_eos_service_config(EOS_LOGLEVEL_CONFIG_FILENAME);
 
         if (!exists(path_to_log_config_json))
@@ -130,7 +110,10 @@ namespace pew::eos
 
         for (size_t i = 0; i < individual_category_size; i++)
         {
-            EOS_Logging_SetLogLevel_ptr((EOS_ELogCategory)i, logging::eos_loglevel_str_to_enum(log_config.level[i]));
+            eos_sdk.call_library_function<EOS_Logging_SetLogLevel_t>(
+                static_cast<EOS_ELogCategory>(i), 
+                logging::eos_loglevel_str_to_enum(log_config.level[i])
+            );
         }
 
         logging::log_inform("Log levels set according to config");
@@ -169,18 +152,16 @@ namespace pew::eos
         logging::log_inform(output.str().c_str());
     }
 
-    CONFIG_API void load_eos(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
+    CONFIG_API EOS_HPlatform load_eos(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
     {
-        // If the EOS SDK library handle is null, then load it.
-        if (s_eos_sdk_lib_handle == nullptr)
-        {
-            s_eos_sdk_lib_handle = load_library_at_path(io_helpers::get_path_relative_to_current_module(SDK_DLL_NAME));
-        }
-        eos_init(platform_config, product_config);
-        eos_create(platform_config, product_config);
+        const EOSWrapper* eos_sdk = new EOSWrapper();
+        eos_init(*eos_sdk, platform_config, product_config);
+        const auto platform_handle = eos_create(*eos_sdk, platform_config, product_config);
+        set_eos_loglevel(*eos_sdk);
+        return platform_handle;
     }
 
-    void eos_init(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
+    void eos_init(const EOSWrapper& eos_sdk, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
     {
         static int reserved[2] = { 1, 1 };
         EOS_InitializeOptions sdk_options{};
@@ -197,21 +178,16 @@ namespace pew::eos
         EOS_Initialize_ThreadAffinity affinity = platform_config.thread_affinity;
         sdk_options.OverrideThreadAffinity = &affinity;
 
-        const auto init_result = call_library_function<EOS_Initialize_t>("EOS_Initialize", s_eos_sdk_lib_handle, &sdk_options);
+        const auto init_result = eos_sdk.call_library_function<EOS_Initialize_t>(&sdk_options);
+        //const auto init_result = call_library_function<EOS_Initialize_t>("EOS_Initialize", s_eos_sdk_lib_handle, &sdk_options);
         
         if (init_result != EOS_EResult::EOS_Success)
         {
             logging::log_error("Unable to do eos init");
         }
-        if (EOS_Logging_SetLogLevel_ptr != nullptr)
-        {
-            EOS_Logging_SetLogLevel_ptr(EOS_ELogCategory::EOS_LC_ALL_CATEGORIES, EOS_ELogLevel::EOS_LOG_VeryVerbose);
-        }
 
-        if (EOS_Logging_SetCallback_ptr != nullptr)
-        {
-            EOS_Logging_SetCallback_ptr(&logging::eos_log_callback);
-        }
+        eos_sdk.call_library_function<EOS_Logging_SetLogLevel_t>(EOS_ELogCategory::EOS_LC_ALL_CATEGORIES, EOS_ELogLevel::EOS_LOG_VeryVerbose);
+        eos_sdk.call_library_function<EOS_Logging_SetCallback_t>(&logging::eos_log_callback);
     }
 
 
@@ -226,20 +202,6 @@ namespace pew::eos
 #endif
 
         return to_return;
-    }
-
-    void FetchEOSFunctionPointers()
-    {
-        s_eos_sdk_lib_handle = load_library_at_path(io_helpers::get_path_relative_to_current_module(SDK_DLL_NAME));
-
-        try_load_function(s_eos_sdk_lib_handle, "EOS_Shutdown", EOS_Shutdown_ptr);
-        //try_load_function(s_eos_sdk_lib_handle, "EOS_Platform_Create", EOS_Platform_Create_ptr);
-        try_load_function(s_eos_sdk_lib_handle, "EOS_Platform_Release", EOS_Platform_Release_ptr);
-        try_load_function(s_eos_sdk_lib_handle, "EOS_Logging_SetLogLevel", EOS_Logging_SetLogLevel_ptr);
-        try_load_function(s_eos_sdk_lib_handle, "EOS_Logging_SetCallback", EOS_Logging_SetCallback_ptr);
-        try_load_function(s_eos_sdk_lib_handle, "EOS_IntegratedPlatformOptionsContainer_Add", EOS_IntegratedPlatformOptionsContainer_Add_ptr);
-        try_load_function(s_eos_sdk_lib_handle, "EOS_IntegratedPlatformOptionsContainer_Release", EOS_IntegratedPlatformOptionsContainer_Release_ptr);
-        try_load_function(s_eos_sdk_lib_handle, "EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer", EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr);
     }
 
     bool QueryRegKey(const HKEY InKey, const TCHAR* InSubKey, const TCHAR* InValueName, std::wstring& OutData)
@@ -272,11 +234,6 @@ namespace pew::eos
         }
 #endif
         return bSuccess;
-    }
-
-    void unload_library(void* library_handle)
-    {
-        FreeLibrary((HMODULE)library_handle);
     }
 
     static bool get_overlay_dll_path(std::filesystem::path* OutDllPath)
@@ -329,10 +286,11 @@ namespace pew::eos
         {
             typedef bool(__cdecl* SteamAPI_Init_t)();
             SteamAPI_Init_t SteamAPI_Init;
-            if (try_load_function(steam_dll_handle, "SteamAPI_Init", SteamAPI_Init) && SteamAPI_Init())
+            // TODO: Create SteamAPIWrapper class
+            /*if (try_load_function(steam_dll_handle, "SteamAPI_Init", SteamAPI_Init) && SteamAPI_Init())
             {
                 logging::log_inform("Called SteamAPI_Init with success!");
-            }
+            }*/
         }
     }
 
@@ -354,7 +312,7 @@ namespace pew::eos
         return s_tempPathBuffer;
     }
 
-    void eos_create(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
+    EOS_HPlatform eos_create(const EOSWrapper& eos_sdk, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
     {
         EOS_Platform_Options platform_options = { 0 };
         platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
@@ -502,38 +460,32 @@ namespace pew::eos
             steam_platform.ApiVersion = EOS_INTEGRATEDPLATFORM_STEAM_OPTIONS_API_LATEST;
 
             EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions options = { EOS_INTEGRATEDPLATFORM_CREATEINTEGRATEDPLATFORMOPTIONSCONTAINER_API_LATEST };
-            EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr(&options, &integrated_platform_options_container);
+            eos_sdk.call_library_function<EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t>(&options, &integrated_platform_options_container);
+            
             platform_options.IntegratedPlatformOptionsContainerHandle = integrated_platform_options_container;
 
             EOS_IntegratedPlatformOptionsContainer_AddOptions addOptions = { EOS_INTEGRATEDPLATFORMOPTIONSCONTAINER_ADD_API_LATEST };
             addOptions.Options = &steam_integrated_platform_option;
-            EOS_IntegratedPlatformOptionsContainer_Add_ptr(integrated_platform_options_container, &addOptions);
+
+            eos_sdk.call_library_function<EOS_IntegratedPlatformOptionsContainer_Add_t>(integrated_platform_options_container, &addOptions);
         }
 #endif
 
         //EOS_Platform_Options_debug_log(platform_options);
         logging::log_inform("run EOS_Platform_Create");
 
-        EOS_Platform_Create_t EOS_Platform_Create_ptr;
-        if (!try_load_function(s_eos_sdk_lib_handle, "EOS_Platform_Create", EOS_Platform_Create_ptr))
-        {
-            // Stop early - nothing can be done and the try_load_function will log the errors.
-            return;
-        }
-
-        eos_platform_handle = EOS_Platform_Create_ptr(&platform_options);
-
-        // free the platform create function pointer
-        EOS_Platform_Create_ptr = nullptr;
+        auto eos_platform_handle = eos_sdk.call_library_function<EOS_Platform_Create_t>(&platform_options);
 
         if (integrated_platform_options_container)
         {
-            EOS_IntegratedPlatformOptionsContainer_Release_ptr(integrated_platform_options_container);
+            eos_sdk.call_library_function<EOS_IntegratedPlatformOptionsContainer_Release_t>(integrated_platform_options_container);
         }
 
         if (!eos_platform_handle)
         {
             logging::log_error("failed to create the platform");
         }
+
+        return eos_platform_handle;
     }
 }

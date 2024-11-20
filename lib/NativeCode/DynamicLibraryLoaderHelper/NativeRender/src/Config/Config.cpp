@@ -32,6 +32,8 @@
 #include "Version.h"
 #include <cstring>
 
+#include "io_helpers.h"
+
 namespace pew::eos::config
 {
     using namespace std::filesystem;
@@ -43,8 +45,16 @@ namespace pew::eos::config
 
     Config::Config(const char* file_name)
     {
-        auto file_path = absolute(path(CONFIG_DIRECTORY) / file_name);
-        auto file_path_string = file_path.string();
+        const auto config_directory = absolute(io_helpers::get_path_relative_to_current_module(path("../../../../../../Assets/StreamingAssets/EOS/") / file_name));
+        const auto file_path = absolute(io_helpers::get_path_relative_to_current_module(path(
+#ifdef _DEBUG
+            "../../../../../../Assets/StreamingAssets/EOS/"
+#endif
+#ifdef NDEBUG
+            "../../StreamingAssets/EOS/"
+#endif
+        ) / file_name));
+        const auto file_path_string = file_path.string();
         _file_path = file_path_string;
     }
 
@@ -52,14 +62,14 @@ namespace pew::eos::config
     {
         if(!exists(_file_path))
         {
-            // TODO: Possibly log error or take other action.
+            std::cerr << "Config file \"" << _file_path << "\" does not exist." << std::endl;
             return;
         }
 
         std::ifstream file(_file_path);
         if (!file.is_open())
         {
-            std::cerr << "Failed to open file: \"" << _file_path << "\"\n";
+            std::cerr << "Failed to open file: \"" << _file_path << "\"" << std::endl;
             return;
         }
 
