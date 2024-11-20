@@ -134,6 +134,7 @@
     <ClCompile Include="src\Config\Config.cpp" />
     <ClCompile Include="src\Config\Deployment.cpp" />
     <ClCompile Include="src\Config\EOSJsonConverterMethods.cpp" />
+    <ClCompile Include="src\Config\EOSWrapper.cpp" />
     <ClCompile Include="src\Config\PlatformConfig.cpp" />
     <ClCompile Include="src\Config\ProductConfig.cpp" />
     <ClCompile Include="src\Config\ProductionEnvironments.cpp" />

@@ -25,11 +25,19 @@
 
 #pragma once
 #include "DLLWrapper.h"
+#include "Config.h"
 #include "eos_init.h"
 #include "eos_base.h"
 
+namespace pew::eos::config
+{
+    class PlatformConfig;
+    class ProductConfig;
+}
+
 namespace pew::eos
 {
+
     // Macro to define a typedef and associate it with a string name
 #define REGISTER_LIBRARY_FUNCTION(Name, Typedef, TypedefName) \
     typedef Typedef; \
@@ -53,6 +61,10 @@ namespace pew::eos
         EOSWrapper() : DLLWrapper(SDK_DLL_NAME)
         {
         }
+
+        EOS_HPlatform load_eos_sdk();
+    private:
+        void init(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config);
     };
 }
 

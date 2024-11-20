@@ -145,6 +145,9 @@
     <ClCompile Include="src\DLLWrapper.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
+    <ClCompile Include="src\Config\EOSWrapper.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
