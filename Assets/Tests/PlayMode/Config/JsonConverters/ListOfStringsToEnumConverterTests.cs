@@ -53,11 +53,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             {
                 return FromStringArrayWithCustomMapping(array, CUSTOM_MAPPING);
             }
-
-            protected override TestOrderEnum FromNumberValue(JToken token)
-            {
-                return (TestOrderEnum)token.Value<int>();
-            }
         }
 
         [Test]

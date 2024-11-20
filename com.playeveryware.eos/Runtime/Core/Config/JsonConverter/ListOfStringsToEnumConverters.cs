@@ -50,11 +50,6 @@ namespace PlayEveryWare.EpicOnlineServices
         ListOfStringsToIntegratedPlatformManagementFlags : ListOfStringsToEnumConverter<
             IntegratedPlatformManagementFlags>
     {
-        protected override IntegratedPlatformManagementFlags FromNumberValue(JToken token)
-        {
-            return (IntegratedPlatformManagementFlags)token.Value<int>();
-        }
-
         protected override IntegratedPlatformManagementFlags FromStringArray(JArray array)
         {
             return FromStringArrayWithCustomMapping(array, IntegratedPlatformManagementFlagsExtensions.CustomMappings);
@@ -71,11 +66,6 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             return FromStringArrayWithCustomMapping(array, null);
         }
-
-        protected override InputStateButtonFlags FromNumberValue(JToken token)
-        {
-            return (InputStateButtonFlags)token.Value<int>();
-        }
     }
 
     /// <summary>
@@ -87,11 +77,6 @@ namespace PlayEveryWare.EpicOnlineServices
         protected override AuthScopeFlags FromStringArray(JArray array)
         {
             return FromStringArrayWithCustomMapping(array, AuthScopeFlagsExtensions.CustomMappings);
-        }
-
-        protected override AuthScopeFlags FromNumberValue(JToken token)
-        {
-            return (AuthScopeFlags)token.Value<int>();
         }
     }
 
@@ -113,11 +98,6 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             return FromStringArrayWithCustomMapping(array, wrappedCustomMapping);
-        }
-
-        protected override WrappedPlatformFlags FromNumberValue(JToken token)
-        {
-            return (WrappedPlatformFlags)token.Value<int>();
         }
     }
 #endif
@@ -199,7 +179,30 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>
         /// A single enum value of type T.
         /// </returns>
-        protected abstract T FromNumberValue(JToken token);
+        protected T FromNumberValue(JToken token)
+        {
+            // Get the value from json.
+            int value = token.Value<int>();
+
+            // Get the lowest value in the enum
+            int lowest = Int32.MaxValue;
+            foreach(int enumIntValue in Enum.GetValues(typeof(T)))
+            {
+                if (lowest > enumIntValue)
+                {
+                    lowest = enumIntValue;
+                }
+            }
+
+            // If the value is lower than the lowest possible value, then set it
+            // to equal the lowest one in the enum.
+            if (value < lowest)
+            {
+                value = lowest;
+            }
+
+            return (T)Enum.ToObject(typeof(T), value);
+        }
 
         /// <summary>
         /// Given a JSON array and a custom mapping lookup dictionary, this

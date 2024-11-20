@@ -121,17 +121,26 @@ namespace PlayEveryWare.EpicOnlineServices
                                   "Flags for platform specific options.",
             2, "https://dev.epicgames.com/docs/api-ref/enums/eos-e-integrated-platform-management-flags")]
         [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
-        public IntegratedPlatformManagementFlags integratedPlatformManagementFlags = IntegratedPlatformManagementFlags.Disabled;
+        public IntegratedPlatformManagementFlags integratedPlatformManagementFlags;
 
-        [JsonProperty]
-        [Obsolete("This property is deprecated in favor of the more precisely named field member 'integratedPlatformManagementFlags'.")]
+        // This property exists to maintain backwards-compatibility with 
+        // previous versions of the config json structures.
+        [JsonProperty] // Mark it so that it gets read
+        [JsonIgnore] // Ignore so that it does not get written
+        [Obsolete("This property is deprecated. Use the property integratedPlatformManagementFlags instead.")]
+        [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
         public IntegratedPlatformManagementFlags flags
         {
+            get
+            {
+                return integratedPlatformManagementFlags;
+            }
             set
             {
                 integratedPlatformManagementFlags = value;
             }
         }
+    
 #endif
 
         #endregion
@@ -510,9 +519,11 @@ namespace PlayEveryWare.EpicOnlineServices
             // This config represents the set of values that were not
             // overrideable from the editor window. The migrated values should
             // favor these set of values.
-            NonOverrideableConfigValues mainNonOverrideableConfigValuesThatCouldNotBeOverridden = Get<NonOverrideableConfigValues>();
+            NonOverrideableConfigValues mainNonOverrideableConfigValuesThatCouldNotBeOverridden =
+                Get<NonOverrideableConfigValues>();
 #pragma warning disable CS0612 // Type or member is obsolete
-            MigrateNonOverrideableConfigValues(overrideValues, mainNonOverrideableConfigValuesThatCouldNotBeOverridden);
+            MigrateNonOverrideableConfigValues(overrideValues,
+                mainNonOverrideableConfigValuesThatCouldNotBeOverridden);
 #pragma warning restore CS0612 // Type or member is obsolete
 
             threadAffinity ??= new();
@@ -525,6 +536,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 "Plugin -> EOS Configuration to make sure that the " +
                 "migration was successful.");
         }
+        
 
 #endif
 
