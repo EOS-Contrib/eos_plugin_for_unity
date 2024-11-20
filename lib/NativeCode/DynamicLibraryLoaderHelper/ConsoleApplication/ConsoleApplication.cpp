@@ -27,7 +27,7 @@
 using namespace pew::eos::config;
 int main()
 {
-    auto platform_interface = pew::eos::EOS_GetPlatformInterface();
+    const auto platform_interface = pew::eos::EOS_GetPlatformInterface();
 
     if(platform_interface != nullptr)
     {

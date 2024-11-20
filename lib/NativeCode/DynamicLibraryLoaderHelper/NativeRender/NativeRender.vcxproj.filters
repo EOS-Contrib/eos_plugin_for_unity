@@ -85,10 +85,10 @@
     <ClInclude Include="headers\Config\EOSJsonConverterMethods.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="headers\DLLWrapper.h">
+    <ClInclude Include="headers\Config\DLLWrapper.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="headers\EOSWrapper.h">
+    <ClInclude Include="headers\Config\EOSWrapper.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
   </ItemGroup>
@@ -142,7 +142,7 @@
     <ClCompile Include="src\Config\EOSJsonConverterMethods.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
-    <ClCompile Include="src\DLLWrapper.cpp">
+    <ClCompile Include="src\Config\DLLWrapper.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
     <ClCompile Include="src\Config\EOSWrapper.cpp">

@@ -185,5 +185,27 @@ namespace pew::eos
         }
     }
 
+    /**
+     * @brief Loads and initializes the Steam API DLL using a string path.
+     *
+     * Attempts to load the Steam API DLL from the specified path. If the DLL is not already
+     * loaded, this function tries to load it and then calls `SteamAPI_Init`.
+     *
+     * @param steam_dll_path The string path to the Steam API DLL.
+     */
+    //static void eos_call_steam_init(const std::string& steam_dll_path);
+
+    /**
+     * @brief Loads the Steam API DLL from a specified path.
+     *
+     * Loads the Steam API DLL and initializes it if necessary. Attempts to load the DLL from
+     * the specified path, or defaults to `steam_api.dll` if no path is specified.
+     *
+     * This function assumes that if the caller has already loaded the steam
+     * DLL, that SteamAPI_Init doesn't need to be called
+     *
+     * @param steam_dll_path The path to the Steam API DLL.
+     */
+    static void eos_call_steam_init(const std::filesystem::path& steam_dll_path);
 }
 #endif

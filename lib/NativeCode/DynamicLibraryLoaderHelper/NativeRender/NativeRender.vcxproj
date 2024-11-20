@@ -105,6 +105,8 @@
   </ItemDefinitionGroup>
   <!-- Source Files -->
   <ItemGroup>
+    <ClInclude Include="headers\Config\DLLWrapper.h" />
+    <ClInclude Include="headers\Config\EOSWrapper.h" />
     <ClInclude Include="headers\config_DEPRECATED.h" />
     <ClInclude Include="headers\Config\ClientCredentials.h" />
     <ClInclude Include="headers\Config\Config.h" />
@@ -117,8 +119,6 @@
     <ClInclude Include="headers\Config\Serializable.h" />
     <ClInclude Include="headers\Config\Version.h" />
     <ClInclude Include="headers\Config\WindowsConfig.h" />
-    <ClInclude Include="headers\DLLWrapper.h" />
-    <ClInclude Include="headers\EOSWrapper.h" />
     <ClInclude Include="headers\eos_helpers.h" />
     <ClInclude Include="headers\eos_minimum_includes.h" />
     <ClInclude Include="headers\io_helpers.h" />
@@ -133,6 +133,7 @@
     <ClCompile Include="src\Config\ClientCredentials.cpp" />
     <ClCompile Include="src\Config\Config.cpp" />
     <ClCompile Include="src\Config\Deployment.cpp" />
+    <ClCompile Include="src\Config\DLLWrapper.cpp" />
     <ClCompile Include="src\Config\EOSJsonConverterMethods.cpp" />
     <ClCompile Include="src\Config\EOSWrapper.cpp" />
     <ClCompile Include="src\Config\PlatformConfig.cpp" />
@@ -141,7 +142,6 @@
     <ClCompile Include="src\Config\Sandbox.cpp" />
     <ClCompile Include="src\config_DEPRECATED.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
-    <ClCompile Include="src\DLLWrapper.cpp" />
     <ClCompile Include="src\eos_helpers.cpp" />
     <ClCompile Include="src\io_helpers.cpp" />
     <ClCompile Include="src\json_helpers.cpp" />

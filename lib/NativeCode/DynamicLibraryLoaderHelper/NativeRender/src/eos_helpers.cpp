@@ -24,7 +24,6 @@
 #include "eos_helpers.h"
 #include <filesystem>
 #include <sstream>
-#include "config.h"
 #include "io_helpers.h"
 #include "json_helpers.h"
 #include "logging.h"
@@ -36,48 +35,13 @@
 #include "WindowsConfig.h"
 #include "headers/config_DEPRECATED.h"
 
-/**
-  * @brief Retrieves the system cache directory.
-  *
-  * Retrieves the system's temporary directory and converts it to a UTF-8 encoded string.
-  *
-  * @return A pointer to a UTF-8 encoded string containing the system cache directory.
-  *         This pointer is statically allocated, so it should not be freed by the caller.
-  */
-char* GetCacheDirectory();
-
-/**
- * @brief Loads and initializes the Steam API DLL using a string path.
- *
- * Attempts to load the Steam API DLL from the specified path. If the DLL is not already
- * loaded, this function tries to load it and then calls `SteamAPI_Init`.
- *
- * @param steam_dll_path The string path to the Steam API DLL.
- */
-void eos_call_steam_init(const std::string& steam_dll_path);
-
-/**
- * @brief Loads the Steam API DLL from a specified path.
- *
- * Loads the Steam API DLL and initializes it if necessary. Attempts to load the DLL from
- * the specified path, or defaults to `steam_api.dll` if no path is specified.
- *
- * This function assumes that if the caller has already loaded the steam
- * DLL, that SteamAPI_Init doesn't need to be called
- *
- * @param steam_dll_path The path to the Steam API DLL.
- */
-void eos_call_steam_init(const std::filesystem::path& steam_dll_path);
-
 namespace pew::eos
 {
     DLL_EXPORT(void*) EOS_GetPlatformInterface()
     {
-        const auto product_config = config::Config::get<config::ProductConfig>();
-        const auto windows_config = config::Config::get<config::WindowsConfig>();
-        const auto interface = load_eos(windows_config, product_config);
+        const auto eos_sdk = new EOSWrapper();
 
-        return interface;
+        return eos_sdk->start_eos();
     }
 
     void set_eos_loglevel(const EOSWrapper& eos_sdk)
@@ -191,7 +155,6 @@ namespace pew::eos
         eos_sdk.call_library_function<EOS_Logging_SetCallback_t>(&logging::eos_log_callback);
     }
 
-
     void* load_library_at_path(const std::filesystem::path& library_path)
     {
         void* to_return = nullptr;
@@ -265,7 +228,7 @@ namespace pew::eos
         std::string steam_dll_path_as_string = steam_dll_path.string();
         eos_call_steam_init(steam_dll_path_as_string);
     }
-    
+
     static void eos_call_steam_init(const std::string& steam_dll_path)
     {
         auto steam_dll_path_string = io_helpers::get_basename(steam_dll_path);
@@ -295,31 +258,13 @@ namespace pew::eos
         }
     }
 
-    char* GetCacheDirectory()
-    {
-        static char* s_tempPathBuffer = NULL;
-
-        if (s_tempPathBuffer == NULL)
-        {
-            WCHAR tmp_buffer = 0;
-            DWORD buffer_size = GetTempPathW(1, &tmp_buffer) + 1;
-            WCHAR* lpTempPathBuffer = (TCHAR*)malloc(buffer_size * sizeof(TCHAR));
-            GetTempPathW(buffer_size, lpTempPathBuffer);
-
-            s_tempPathBuffer = string_helpers::create_utf8_str_from_wide_str(lpTempPathBuffer);
-            free(lpTempPathBuffer);
-        }
-
-        return s_tempPathBuffer;
-    }
-
     EOS_HPlatform eos_create(const EOSWrapper& eos_sdk, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
     {
         EOS_Platform_Options platform_options = { 0 };
         platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
         platform_options.bIsServer = platform_config.is_server;
         platform_options.Flags = platform_config.platform_options_flags;
-        platform_options.CacheDirectory = GetCacheDirectory();
+        platform_options.CacheDirectory = io_helpers::get_cache_directory();
 
         
         platform_options.OverrideCountryCode = nullptr;

@@ -8,5 +8,6 @@
 *.ipdb.meta
 *.idb
 *.idb.meta
-*.cache
+*.cache*
 *.cs
+*TempPE*

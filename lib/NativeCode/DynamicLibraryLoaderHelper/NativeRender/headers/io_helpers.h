@@ -136,5 +136,6 @@ namespace pew::eos::io_helpers
         return false;
     }
 
+    char* get_cache_directory();
 } // namespace pew::eos::io_helpers
 #endif

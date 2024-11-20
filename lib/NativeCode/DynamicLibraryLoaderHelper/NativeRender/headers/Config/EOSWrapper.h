@@ -62,9 +62,10 @@ namespace pew::eos
         {
         }
 
-        EOS_HPlatform load_eos_sdk();
+        EOS_HPlatform start_eos() const;
     private:
-        void init(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config);
+        void init(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const;
+        EOS_HPlatform create(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const;
     };
 }
 

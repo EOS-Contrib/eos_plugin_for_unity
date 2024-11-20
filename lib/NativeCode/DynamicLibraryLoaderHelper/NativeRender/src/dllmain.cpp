@@ -54,11 +54,6 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     logging::show_log_as_dialog("You may attach a debugger to the DLL");
 #endif
 
-    const config::ProductConfig product_config = config::Config::get<config::ProductConfig>();
-    config::WindowsConfig windows_config = config::Config::get<config::WindowsConfig>();
-
-    apply_cli_arguments(windows_config, product_config);
-
 #if _DEBUG
     logging::global_log_open("gfx_log.txt");
 #endif
@@ -68,7 +63,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     
     logging::log_inform("start eos init");
 
-    load_eos(windows_config, product_config);
+        
 }
 
 //-------------------------------------------------------------------------

@@ -24,6 +24,8 @@
 #include <filesystem>
 #include <string>
 
+#include "string_helpers.h"
+
 namespace pew::eos::io_helpers
 {
     TCHAR* get_path_to_module(HMODULE module)
@@ -84,5 +86,23 @@ namespace pew::eos::io_helpers
         _splitpath_s(path.c_str(), NULL, 0, NULL, 0, filename.data(), filename.size(), NULL, 0);
 
         return filename;
+    }
+
+    char* get_cache_directory()
+    {
+        static char* s_tempPathBuffer = NULL;
+
+        if (s_tempPathBuffer == NULL)
+        {
+            WCHAR tmp_buffer = 0;
+            DWORD buffer_size = GetTempPathW(1, &tmp_buffer) + 1;
+            WCHAR* lpTempPathBuffer = (TCHAR*)malloc(buffer_size * sizeof(TCHAR));
+            GetTempPathW(buffer_size, lpTempPathBuffer);
+
+            s_tempPathBuffer = string_helpers::create_utf8_str_from_wide_str(lpTempPathBuffer);
+            free(lpTempPathBuffer);
+        }
+
+        return s_tempPathBuffer;
     }
 } // namespace pew::eos::io_helpers
