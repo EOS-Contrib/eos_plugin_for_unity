@@ -1,9 +1,0 @@
-Debug/*
-Release/*
-x64/*
-x32/*
-bin/
-obj/
-config.json
-Newtonsoft.Json.dll
-Newtonsoft.Json.xml
