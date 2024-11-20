@@ -34,6 +34,7 @@
 #include "EOSWrapper.h"
 #include "ProductConfig.h"
 #include "WindowsConfig.h"
+#include "headers/config_DEPRECATED.h"
 
 /**
   * @brief Retrieves the system cache directory.

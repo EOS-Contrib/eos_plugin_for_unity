@@ -8,3 +8,5 @@
 *.ipdb.meta
 *.idb
 *.idb.meta
+*.cache
+*.cs

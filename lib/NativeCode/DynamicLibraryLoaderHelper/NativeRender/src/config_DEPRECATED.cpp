@@ -22,11 +22,9 @@
 
 #include <pch.h>
 #include "config.h"
-#include "io_helpers.h"
 #include "json_helpers.h"
 #include "logging.h"
-
-#include "eos_helpers.h"
+#include "config_DEPRECATED.h"
 
 using namespace pew::eos::config;
 using namespace pew::eos::json_helpers;
