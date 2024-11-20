@@ -107,6 +107,8 @@
   <ItemGroup>
     <ClInclude Include="headers\Config\DLLWrapper.h" />
     <ClInclude Include="headers\Config\EOSWrapper.h" />
+    <ClInclude Include="headers\Config\SteamConfig.h" />
+    <ClInclude Include="headers\Config\SteamWrapper.h" />
     <ClInclude Include="headers\config_DEPRECATED.h" />
     <ClInclude Include="headers\Config\ClientCredentials.h" />
     <ClInclude Include="headers\Config\Config.h" />
@@ -140,6 +142,9 @@
     <ClCompile Include="src\Config\ProductConfig.cpp" />
     <ClCompile Include="src\Config\ProductionEnvironments.cpp" />
     <ClCompile Include="src\Config\Sandbox.cpp" />
+    <ClCompile Include="src\Config\SteamConfig.cpp" />
+    <ClCompile Include="src\Config\SteamWrapper.cpp" />
+    <ClCompile Include="src\Config\Version.cpp" />
     <ClCompile Include="src\config_DEPRECATED.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\eos_helpers.cpp" />
@@ -148,7 +153,6 @@
     <ClCompile Include="src\logging.cpp" />
     <ClCompile Include="src\pch.cpp" />
     <ClCompile Include="src\string_helpers.cpp" />
-    <ClCompile Include="src\Version.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

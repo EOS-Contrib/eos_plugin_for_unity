@@ -27,8 +27,8 @@
 #include <sstream>
 #include <vector>
 
-#include "PlatformConfig.h"
-#include "ProductConfig.h"
+#include "Config/PlatformConfig.h"
+#include "Config/ProductConfig.h"
 #include "logging.h"
 #include "io_helpers.h"
 
@@ -193,7 +193,34 @@ namespace pew::eos
      *
      * @param steam_dll_path The string path to the Steam API DLL.
      */
-    //static void eos_call_steam_init(const std::string& steam_dll_path);
+    inline static void eos_call_steam_init(const std::string& steam_dll_path)
+    {
+        auto steam_dll_path_string = io_helpers::get_basename(steam_dll_path);
+        HANDLE steam_dll_handle = GetModuleHandleA(steam_dll_path_string.c_str());
+
+        // Check the default name for the steam_api.dll
+        if (!steam_dll_handle)
+        {
+            steam_dll_handle = GetModuleHandleA("steam_api.dll");
+        }
+
+        // in the case that it's not loaded, try to load it from the user provided path
+        if (!steam_dll_handle)
+        {
+            steam_dll_handle = load_library_at_path(steam_dll_path);
+        }
+
+        if (steam_dll_handle != nullptr)
+        {
+            typedef bool(__cdecl* SteamAPI_Init_t)();
+            SteamAPI_Init_t SteamAPI_Init;
+            // TODO: Create SteamAPIWrapper class
+           /* if (try_load_function(steam_dll_handle, "SteamAPI_Init", SteamAPI_Init) && SteamAPI_Init())
+            {
+                logging::log_inform("Called SteamAPI_Init with success!");
+            }*/
+        }
+    }
 
     /**
      * @brief Loads the Steam API DLL from a specified path.
@@ -206,6 +233,10 @@ namespace pew::eos
      *
      * @param steam_dll_path The path to the Steam API DLL.
      */
-    static void eos_call_steam_init(const std::filesystem::path& steam_dll_path);
+    inline static void eos_call_steam_init(const std::filesystem::path& steam_dll_path)
+    {
+        const std::string steam_dll_path_as_string = steam_dll_path.string();
+        eos_call_steam_init(steam_dll_path_as_string);
+    }
 }
 #endif

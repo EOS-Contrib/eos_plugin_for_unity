@@ -38,24 +38,9 @@ namespace pew::eos::config
 {
     using namespace std::filesystem;
 
-    /**
-     * \brief This represents what the most current version of the schema is.
-     */
-    //static const Version CURRENT_SCHEMA_VERSION = Version{ 1, 0, 0 };
-
-    Config::Config(const char* file_name)
+    Config::Config(const std::filesystem::path& file_name)
     {
-        const auto config_directory = absolute(io_helpers::get_path_relative_to_current_module(path("../../../../../../Assets/StreamingAssets/EOS/") / file_name));
-        const auto file_path = absolute(io_helpers::get_path_relative_to_current_module(path(
-#ifdef _DEBUG
-            "../../../../../../Assets/StreamingAssets/EOS/"
-#endif
-#ifdef NDEBUG
-            "../../StreamingAssets/EOS/"
-#endif
-        ) / file_name));
-        const auto file_path_string = file_path.string();
-        _file_path = file_path_string;
+        _file_path = file_name;
     }
 
     void Config::read() 

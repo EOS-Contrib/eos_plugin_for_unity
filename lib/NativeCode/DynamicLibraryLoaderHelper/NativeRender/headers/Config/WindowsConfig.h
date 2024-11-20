@@ -29,10 +29,12 @@
 
 namespace pew::eos::config
 {
-    class CONFIG_API WindowsConfig : public PlatformConfig
+    class WindowsConfig final : public PlatformConfig
     {
-    private:
         explicit WindowsConfig() : PlatformConfig("eos_windows_config.json") {}
+
+    public:
+        ~WindowsConfig() override = default;
 
         // Makes the WindowsConfig constructor accessible to the Config class.
         friend class Config;

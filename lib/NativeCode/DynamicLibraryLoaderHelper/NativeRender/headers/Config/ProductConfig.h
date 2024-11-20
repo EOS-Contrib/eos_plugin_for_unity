@@ -34,10 +34,10 @@
 
 namespace pew::eos::config
 {
-    class CONFIG_API ProductConfig : Config
+    class ProductConfig final : public Config
     {
-
     private:
+
         // Makes the ProductConfig constructor accessible to the Config class.
         friend class Config;
 
@@ -48,14 +48,15 @@ namespace pew::eos::config
         
     protected:
         void from_json(const nlohmann::json& json) override;
+        std::filesystem::path get_config_path(const char* file_name) override;
 
     public:
         std::string product_name;
         std::string product_id;
         std::string product_version;
 
-        ProductConfig();
-        ~ProductConfig();
+        ProductConfig() : Config(get_config_path("eos_product_config.json")), _imported(false) {};
+        ~ProductConfig() = default;
 
         // Make ProductConfig movable
         ProductConfig(ProductConfig&&) noexcept = default;
@@ -65,6 +66,10 @@ namespace pew::eos::config
         ProductConfig(const ProductConfig&) = delete;
         ProductConfig& operator=(const ProductConfig&) = delete;
 
+    protected:
+        
+
+    public:
         ProductionEnvironments environments;
 
         std::vector<ClientCredentials> clients;

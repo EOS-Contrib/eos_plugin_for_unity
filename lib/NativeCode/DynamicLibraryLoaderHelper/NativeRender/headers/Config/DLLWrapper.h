@@ -35,6 +35,14 @@ namespace std::filesystem
 
 namespace pew::eos
 {
+    // Macro to define a typedef and associate it with a string name
+    #define REGISTER_LIBRARY_FUNCTION(Name, Typedef, TypedefName) \
+            typedef Typedef; \
+            template <> \
+            struct TypedefToString<TypedefName> { \
+                static constexpr const char* value = Name; \
+            }
+
     template<typename T>
     struct TypedefToString;
 

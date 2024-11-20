@@ -42,12 +42,12 @@ namespace pew::eos
         auto windows_config = config::Config::get<config::WindowsConfig>();
 
         // Apply any command line arguments that there might be
-        apply_cli_arguments(windows_config, product_config);
+        apply_cli_arguments(*windows_config, *product_config);
 
         // Initialize the sdk
-        init(windows_config, product_config);
+        init(*windows_config, *product_config);
 
-        const auto platform_interface = create(windows_config, product_config);
+        const auto platform_interface = create(*windows_config, *product_config);
 
         return platform_interface;
     }
@@ -80,6 +80,32 @@ namespace pew::eos
     }
 
     EOS_HPlatform EOSWrapper::create(const config::PlatformConfig& platform_config,
+                                     const config::ProductConfig& product_config) const
+    {
+        auto platform_options = create_platform_options(platform_config, product_config);
+
+        EOS_HIntegratedPlatformOptionsContainer integrated_platform_options_container = nullptr;
+
+        configure_steam_options(platform_options, integrated_platform_options_container);
+
+        logging::log_inform("run EOS_Platform_Create");
+
+        const auto eos_platform_handle = call_library_function<EOS_Platform_Create_t>(&platform_options);
+
+        if (integrated_platform_options_container)
+        {
+            call_library_function<EOS_IntegratedPlatformOptionsContainer_Release_t>(integrated_platform_options_container);
+        }
+
+        if (!eos_platform_handle)
+        {
+            logging::log_error("failed to create the platform");
+        }
+
+        return eos_platform_handle;
+    }
+
+    EOS_Platform_Options EOSWrapper::create_platform_options(const config::PlatformConfig& platform_config,
         const config::ProductConfig& product_config) const
     {
         EOS_Platform_Options platform_options = { 0 };
@@ -87,11 +113,8 @@ namespace pew::eos
         platform_options.bIsServer = platform_config.is_server;
         platform_options.Flags = platform_config.platform_options_flags;
         platform_options.CacheDirectory = io_helpers::get_cache_directory();
-
-
         platform_options.OverrideCountryCode = nullptr;
         platform_options.OverrideLocaleCode = platform_config.overrideLocaleCode.length() > 0 ? platform_config.overrideLocaleCode.c_str() : nullptr;
-
         platform_options.ProductId = product_config.product_id.c_str();
         platform_options.SandboxId = platform_config.deployment.sandbox.id.c_str();
         platform_options.DeploymentId = platform_config.deployment.id.c_str();
@@ -101,7 +124,6 @@ namespace pew::eos
         platform_options.EncryptionKey = encryption_key.c_str();
         platform_options.ClientCredentials.ClientId = client_id.c_str();
         platform_options.ClientCredentials.ClientSecret = client_secret.c_str();
-
         platform_options.TickBudgetInMilliseconds = platform_config.tick_budget_in_milliseconds;
 
         // Because input parameter is const, we need to make a copy of the value
@@ -127,17 +149,18 @@ namespace pew::eos
         rtc_options.PlatformSpecificOptions = &windows_rtc_options;
         platform_options.RTCOptions = &rtc_options;
 
+        return platform_options;
+    }
+
+    void EOSWrapper::configure_steam_options(EOS_Platform_Options& platform_options, EOS_HIntegratedPlatformOptionsContainer& integrated_platform_options_container) const
+    {
         auto path_to_steam_config_json = config::get_path_for_eos_service_config(EOS_STEAM_CONFIG_FILENAME);
-
-        // Defined here so that the override path lives long enough to be referenced by the create option
-        config::EOSSteamConfig eos_steam_config;
-        EOS_IntegratedPlatform_Options steam_integrated_platform_option = { 0 };
-        EOS_IntegratedPlatform_Steam_Options steam_platform = { 0 };
-        EOS_HIntegratedPlatformOptionsContainer integrated_platform_options_container = nullptr;
-        std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-
         if (exists(path_to_steam_config_json))
         {
+            EOS_IntegratedPlatform_Steam_Options steam_platform = { 0 };
+            EOS_IntegratedPlatform_Options steam_integrated_platform_option = { 0 };
+            config::EOSSteamConfig eos_steam_config;
+            std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
             json_value_s* eos_steam_config_as_json = nullptr;
             eos_steam_config_as_json = json_helpers::read_config_json_as_json_from_path(path_to_steam_config_json);
             eos_steam_config = config::eos_steam_config_from_json_value(eos_steam_config_as_json);
@@ -236,21 +259,6 @@ namespace pew::eos
             call_library_function<EOS_IntegratedPlatformOptionsContainer_Add_t>(integrated_platform_options_container, &addOptions);
         }
 
-        logging::log_inform("run EOS_Platform_Create");
-
-        auto eos_platform_handle = call_library_function<EOS_Platform_Create_t>(&platform_options);
-
-        if (integrated_platform_options_container)
-        {
-            call_library_function<EOS_IntegratedPlatformOptionsContainer_Release_t>(integrated_platform_options_container);
-        }
-
-        if (!eos_platform_handle)
-        {
-            logging::log_error("failed to create the platform");
-        }
-
-        return eos_platform_handle;
     }
 }
 

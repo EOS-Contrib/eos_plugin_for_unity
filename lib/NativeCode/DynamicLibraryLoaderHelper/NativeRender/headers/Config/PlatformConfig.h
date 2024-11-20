@@ -29,6 +29,7 @@
 #include "ClientCredentials.h"
 #include "Config.h"
 #include "Deployment.h"
+#include "io_helpers.h"
 
 namespace pew::eos::config
 {
@@ -36,13 +37,22 @@ namespace pew::eos::config
      * \brief Describes the configuration options for a platform that wants to
      * interact with the EOS SDK.
      */
-    class CONFIG_API PlatformConfig : public Config
+    class PlatformConfig : public Config
     {
     protected:
-        explicit PlatformConfig(const char* filename)
-            : Config(filename)
+        explicit PlatformConfig(const char* file_name) : Config(PlatformConfig::get_config_path(file_name)),
+             is_server(false),
+             platform_options_flags(0),
+             tick_budget_in_milliseconds(0),
+             task_network_timeout_seconds(0),
+             thread_affinity(),
+             always_send_input_to_overlay(false),
+             initial_button_delay_for_overlay(0),
+             repeat_button_delay_for_overlay(0)
         {
         }
+
+        std::filesystem::path get_config_path(const char* file_name) override;
 
         void migrate() override;
 
@@ -50,6 +60,7 @@ namespace pew::eos::config
 
         friend class Config;
     public:
+        virtual ~PlatformConfig() = default;
         /**
          * \brief The deployment for the platform.
          */

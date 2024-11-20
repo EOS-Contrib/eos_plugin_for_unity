@@ -1,3 +1,5 @@
+#ifndef STEAM_CONFIG_H
+#define STEAM_CONFIG_H
 /*
  * Copyright (c) 2024 PlayEveryWare
  *
@@ -20,32 +22,42 @@
  * SOFTWARE.
  */
 
-#include <iostream>
-#include "headers/eos_helpers.h"
-#include "headers/Config/SteamConfig.h"
+#pragma once
+#include "Config.h"
 
-using namespace pew::eos::config;
-int main()
+namespace pew::eos::config
 {
-    const auto platform_interface = pew::eos::EOS_GetPlatformInterface();
+    class SteamConfig final : public Config
+    {
+    public:
+        explicit SteamConfig() : Config(get_config_path("eos_plugin_steam_config.json")),
+            steam_sdk_major_version(0),
+            steam_sdk_minor_version(0)
+        {
+        }
 
-    if(platform_interface != nullptr)
-    {
-        std::cout << "EOSConfig was read successfully.";
-    }
-    else
-    {
-        std::cout << "Could not load EOSConfig.";
-    }
+    protected:
+        void from_json(const json& json) override;
+        void migrate() override;
+        std::filesystem::path get_config_path(const char* file_name) override;
+
+    public:
+        friend class Config;
+
+        std::filesystem::path override_library_path;
+
+        uint32_t steam_sdk_major_version;
+
+        uint32_t steam_sdk_minor_version;
+
+        std::vector<std::string> steam_api_interface_versions_array;
+
+        /**
+         * \brief Integrated platform management flags for the platform.
+         */
+        EOS_EIntegratedPlatformManagementFlags integrated_platform_management_flags = EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled;
+
+    };
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+#endif

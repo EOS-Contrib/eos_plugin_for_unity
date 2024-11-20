@@ -32,6 +32,7 @@
 
 #include "EOSWrapper.h"
 #include "ProductConfig.h"
+#include "SteamConfig.h"
 #include "WindowsConfig.h"
 #include "headers/config_DEPRECATED.h"
 
@@ -39,6 +40,7 @@ namespace pew::eos
 {
     DLL_EXPORT(void*) EOS_GetPlatformInterface()
     {
+        const auto steam_config = config::Config::get<config::SteamConfig>();
         const auto eos_sdk = new EOSWrapper();
 
         return eos_sdk->start_eos();
@@ -221,41 +223,6 @@ namespace pew::eos
         log_inform("Trying to get a DLL path on a platform without DLL paths searching");
         return false;
 #endif
-    }
-
-    static void eos_call_steam_init(const std::filesystem::path& steam_dll_path)
-    {
-        std::string steam_dll_path_as_string = steam_dll_path.string();
-        eos_call_steam_init(steam_dll_path_as_string);
-    }
-
-    static void eos_call_steam_init(const std::string& steam_dll_path)
-    {
-        auto steam_dll_path_string = io_helpers::get_basename(steam_dll_path);
-        HANDLE steam_dll_handle = GetModuleHandleA(steam_dll_path_string.c_str());
-
-        // Check the default name for the steam_api.dll
-        if (!steam_dll_handle)
-        {
-            steam_dll_handle = GetModuleHandleA("steam_api.dll");
-        }
-
-        // in the case that it's not loaded, try to load it from the user provided path
-        if (!steam_dll_handle)
-        {
-            steam_dll_handle = load_library_at_path(steam_dll_path);
-        }
-
-        if (steam_dll_handle != nullptr)
-        {
-            typedef bool(__cdecl* SteamAPI_Init_t)();
-            SteamAPI_Init_t SteamAPI_Init;
-            // TODO: Create SteamAPIWrapper class
-            /*if (try_load_function(steam_dll_handle, "SteamAPI_Init", SteamAPI_Init) && SteamAPI_Init())
-            {
-                logging::log_inform("Called SteamAPI_Init with success!");
-            }*/
-        }
     }
 
     EOS_HPlatform eos_create(const EOSWrapper& eos_sdk, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config)

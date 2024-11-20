@@ -37,15 +37,6 @@ namespace pew::eos::config
 
 namespace pew::eos
 {
-
-    // Macro to define a typedef and associate it with a string name
-#define REGISTER_LIBRARY_FUNCTION(Name, Typedef, TypedefName) \
-    typedef Typedef; \
-    template <> \
-    struct TypedefToString<TypedefName> { \
-        static constexpr const char* value = Name; \
-    }
-
     REGISTER_LIBRARY_FUNCTION("EOS_Initialize", EOS_EResult(EOS_CALL* EOS_Initialize_t)(const EOS_InitializeOptions* Options), EOS_Initialize_t);
     REGISTER_LIBRARY_FUNCTION("EOS_Shutdown", EOS_EResult(EOS_CALL* EOS_Shutdown_t)(), EOS_Shutdown_t);
     REGISTER_LIBRARY_FUNCTION("EOS_Platform_Create", EOS_HPlatform(EOS_CALL* EOS_Platform_Create_t)(const EOS_Platform_Options* Options), EOS_Platform_Create_t);
@@ -65,6 +56,11 @@ namespace pew::eos
         EOS_HPlatform start_eos() const;
     private:
         void init(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const;
+
+        EOS_Platform_Options create_platform_options(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const;
+
+        void configure_steam_options(EOS_Platform_Options& platform_options, EOS_HIntegratedPlatformOptionsContainer& integrated_platform_options_container) const;
+
         EOS_HPlatform create(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const;
     };
 }

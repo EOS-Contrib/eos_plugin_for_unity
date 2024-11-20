@@ -1,3 +1,6 @@
+#ifndef STEAM_WRAPPER_H
+#define STEAM_WRAPPER_H
+
 /*
  * Copyright (c) 2024 PlayEveryWare
  *
@@ -20,32 +23,21 @@
  * SOFTWARE.
  */
 
-#include <iostream>
-#include "headers/eos_helpers.h"
-#include "headers/Config/SteamConfig.h"
+#pragma once
+#include "DLLWrapper.h"
 
-using namespace pew::eos::config;
-int main()
+namespace pew::eos
 {
-    const auto platform_interface = pew::eos::EOS_GetPlatformInterface();
+    REGISTER_LIBRARY_FUNCTION("SteamAPI_Init", bool(__cdecl* SteamAPI_Init_t)(), SteamAPI_Init_t);
 
-    if(platform_interface != nullptr)
+    class SteamWrapper : public DLLWrapper
     {
-        std::cout << "EOSConfig was read successfully.";
-    }
-    else
-    {
-        std::cout << "Could not load EOSConfig.";
-    }
+    public:
+        SteamWrapper();
+
+    private:
+        std::string get_library_path();
+    };
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+#endif

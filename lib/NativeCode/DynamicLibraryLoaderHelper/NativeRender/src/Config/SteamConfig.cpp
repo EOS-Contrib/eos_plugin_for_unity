@@ -21,43 +21,52 @@
  */
 
 #include <pch.h>
-#include "../Config/ProductConfig.h"
-#include "include/json.hpp"
+#include "PlatformConfig.h"
+#include "SteamConfig.h"
 #include <iostream>
-
+#include <filesystem>
 #include "io_helpers.h"
+#include "EOSJsonConverterMethods.h"
 
 namespace pew::eos::config
 {
-    bool ProductConfig::needs_migration()
+    void SteamConfig::from_json(const json& json)
     {
-        return Config::needs_migration() || !_imported;
+        const auto json_string = json.dump();
+
+        int version_major;
+        json["steamSDKMajorVersion"].get_to(version_major);
+        steam_sdk_major_version = static_cast<uint32_t>(version_major);
+
+        int version_minor;
+        json["steamSDKMinorVersion"].get_to(version_minor);
+        steam_sdk_minor_version = static_cast<uint32_t>(version_minor);
+
+        
+        if (!json["overrideLibraryPath"].is_null())
+        {
+            std::string library_path = json["overrideLibraryPath"].get<std::string>();
+            override_library_path = std::filesystem::path(library_path);
+        }
+
+        json["integratedPlatformManagementFlags"].get_to(integrated_platform_management_flags);
+
+        json["steamApiInterfaceVersionsArray"].get_to(steam_api_interface_versions_array);
+        std::cout << json_string << std::endl;
     }
 
-    void ProductConfig::migrate()
+    void SteamConfig::migrate()
     {
-        // Migrate the values from EpicOnlineServicesConfig.json if needed
-        std::cout << "Migrating ProductConfig from EpicOnlineServicesConfig.json" << std::endl;
     }
 
-    void ProductConfig::from_json(const nlohmann::json& json)
-    {
-        json["ProductId"].get_to(product_id);
-        json["ProductName"].get_to(product_name);
-        json["Clients"].get_to(clients);
-        json["imported"].get_to(_imported);
-        json["Environments"].get_to(environments);
-        json["ProductVersion"].get_to(product_version);
-    }
-
-    std::filesystem::path ProductConfig::get_config_path(const char* file_name)
+    std::filesystem::path SteamConfig::get_config_path(const char* file_name)
     {
         return absolute(io_helpers::get_path_relative_to_current_module(std::filesystem::path(
 #ifdef _DEBUG
-            "../../../../../../Assets/StreamingAssets/EOS/"
+            "../../../../../../etc/config/"
 #endif
 #ifdef NDEBUG
-            "../../StreamingAssets/EOS/"
+            "../../../etc/config/"
 #endif
         ) / file_name));
     }

@@ -121,7 +121,11 @@ namespace nlohmann
     inline void from_json(const json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity)
     {
         auto json_str = json.dump();
-        JSON_PARSE_THREAD_AFFINITY(ApiVersion, initialize_thread_affinity);
+
+        // Get the ApiVersion (it's different from the other field members
+        // because it's int32_t, not uint64_t.
+        json["ApiVersion"].get_to(initialize_thread_affinity.ApiVersion);
+
         JSON_PARSE_THREAD_AFFINITY(NetworkWork, initialize_thread_affinity);
         JSON_PARSE_THREAD_AFFINITY(StorageIo, initialize_thread_affinity);
         JSON_PARSE_THREAD_AFFINITY(WebSocketIo, initialize_thread_affinity);

@@ -35,7 +35,7 @@ namespace pew::eos::config
      * \brief Used to describe information and functionality that is common to
      * all Config classes.
      */
-    class CONFIG_API Config : public Serializable
+    class Config : public Serializable
     {
     private:
         /**
@@ -51,7 +51,7 @@ namespace pew::eos::config
          * \brief The fully qualified path to the file that backs the
          * configuration.
          */
-        std::string _file_path;
+        std::filesystem::path _file_path;
         
         /**
          * \brief The schema version for the file. 
@@ -65,9 +65,9 @@ namespace pew::eos::config
 
         /**
          * \brief Create a new Config class.
-         * \param file_name The name of the config file. Not fully qualified.
+         * \param file_name The fully qualified path to the config file.
          */
-        Config(const char* file_name);
+        Config(const std::filesystem::path& file_name);
 
         /**
          * \brief Default destructor
@@ -93,6 +93,8 @@ namespace pew::eos::config
          */
         virtual void migrate() = 0;
 
+        virtual std::filesystem::path get_config_path(const char* file_name) = 0;
+
         /**
          * \brief Reads the configuration values from the file.
          */
@@ -112,25 +114,25 @@ namespace pew::eos::config
          * values.
          */
         template <typename T>
-        static std::enable_if_t<std::is_base_of_v<Config, T>, T> get()
+        static std::enable_if_t<std::is_base_of_v<Config, T>, T*> get()
         {
             // Create the config class
-            auto config = T();
+            T* config = new T();
 
             // Read the values from the file
-            config.read();
+            config->read();
 
             // If the config needs to be migrated
-            if (config.needs_migration())
+            if (config->needs_migration())
             {
                 // Migrate the config
-                config.migrate();
+                config->migrate();
 
                 // And write it to disk.
-                config.write();
+                config->write();
             }
 
-            return std::move(config);
+            return config;
         }
     };
 }

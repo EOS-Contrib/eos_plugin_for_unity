@@ -42,7 +42,7 @@ namespace pew::eos::config
      * \brief Used to describe the functions needed to make an object both
      * serializable and deserializable from JSON.
      */
-    struct Serializable
+    struct CONFIG_API Serializable
     {
     protected:
         ~Serializable() = default;

@@ -26,6 +26,18 @@
 
 namespace pew::eos::config
 {
+    std::filesystem::path PlatformConfig::get_config_path(const char* file_name)
+    {
+        return absolute(io_helpers::get_path_relative_to_current_module(std::filesystem::path(
+#ifdef _DEBUG
+            "../../../../../../Assets/StreamingAssets/EOS/"
+#endif
+#ifdef NDEBUG
+            "../../StreamingAssets/EOS/"
+#endif
+        ) / file_name));
+    }
+
     void PlatformConfig::migrate()
     {
         // Migrate the platform configuration if needed. Currently, this
