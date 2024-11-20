@@ -118,6 +118,7 @@
     <ClInclude Include="headers\Config\Version.h" />
     <ClInclude Include="headers\Config\WindowsConfig.h" />
     <ClInclude Include="headers\DLLWrapper.h" />
+    <ClInclude Include="headers\EOSWrapper.h" />
     <ClInclude Include="headers\eos_helpers.h" />
     <ClInclude Include="headers\eos_minimum_includes.h" />
     <ClInclude Include="headers\io_helpers.h" />
@@ -147,6 +148,9 @@
     <ClCompile Include="src\pch.cpp" />
     <ClCompile Include="src\string_helpers.cpp" />
     <ClCompile Include="src\Version.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="ConfigPaths.props" />

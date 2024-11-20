@@ -37,6 +37,8 @@ namespace std
 
 namespace pew::eos
 {
+    class EOSWrapper;
+
     namespace config
     {
         class PlatformConfig;
@@ -44,29 +46,6 @@ namespace pew::eos
         class ProductConfig;
         struct EOSConfig;
     }
-
-    typedef EOS_EResult(EOS_CALL* EOS_Initialize_t)(const EOS_InitializeOptions* Options);
-    typedef EOS_EResult(EOS_CALL* EOS_Shutdown_t)();
-    typedef EOS_HPlatform(EOS_CALL* EOS_Platform_Create_t)(const EOS_Platform_Options* Options);
-    typedef EOS_EResult(EOS_CALL* EOS_Logging_SetCallback_t)(EOS_LogMessageFunc Callback);
-    typedef EOS_EResult(EOS_CALL* EOS_Logging_SetLogLevel_t)(EOS_ELogCategory LogCategory, EOS_ELogLevel LogLevel);
-    typedef EOS_EResult(*EOS_IntegratedPlatformOptionsContainer_Add_t)(EOS_HIntegratedPlatformOptionsContainer Handle, const EOS_IntegratedPlatformOptionsContainer_AddOptions* InOptions);
-    typedef EOS_EResult(*EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t)(const EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions* Options, EOS_HIntegratedPlatformOptionsContainer* OutIntegratedPlatformOptionsContainerHandle);
-    typedef void (*EOS_IntegratedPlatformOptionsContainer_Release_t)(EOS_HIntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle);
-
-    //extern EOS_Initialize_t EOS_Initialize_ptr;
-    extern EOS_Shutdown_t EOS_Shutdown_ptr;
-    //extern EOS_Platform_Create_t EOS_Platform_Create_ptr;
-    extern EOS_Logging_SetCallback_t EOS_Logging_SetCallback_ptr;
-    extern EOS_Logging_SetLogLevel_t EOS_Logging_SetLogLevel_ptr;
-    extern EOS_IntegratedPlatformOptionsContainer_Add_t EOS_IntegratedPlatformOptionsContainer_Add_ptr;
-    extern EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr;
-    extern EOS_IntegratedPlatformOptionsContainer_Release_t EOS_IntegratedPlatformOptionsContainer_Release_ptr;
-
-    extern void* s_eos_sdk_lib_handle;
-    extern void* s_eos_sdk_overlay_lib_handle;
-
-    extern EOS_HPlatform eos_platform_handle;
 
     /**
      * @brief Loads a dynamic library from the specified file path.
@@ -78,72 +57,6 @@ namespace pew::eos
      * @return A handle to the loaded library, or `nullptr` if loading fails.
      */
     void* load_library_at_path(const std::filesystem::path& library_path);
-
-    // Helper to calculate the total size of all function arguments
-    template <typename... Args>
-    constexpr size_t calculate_argument_size()
-    {
-        return (sizeof(Args) + ...); // Fold expression to sum sizes
-    }
-
-    // Function to infer mangling from a typedef
-    template <typename FuncType>
-    constexpr const char* infer_mangled_name(const char* base_name)
-    {
-#if defined(_WIN32) && !defined(_WIN64)
-        if constexpr (std::is_same_v<std::remove_pointer_t<FuncType>, int __stdcall(int, float)>)
-        {
-            constexpr size_t stack_size = calculate_argument_size<int, float>();
-            static char mangled_name[256];
-            snprintf(mangled_name, sizeof(mangled_name), "_%s@%zu", base_name, stack_size);
-            return mangled_name;
-        }
-        else
-        {
-            return base_name; // Default for non-__stdcall or unhandled cases
-        }
-#else
-        return base_name; // Non-32-bit Windows platforms
-#endif
-    }
-
-    /**
-     * @brief Retrieves a function pointer of a specified type from a loaded library.
-     *
-     * This templated function casts the retrieved function pointer to the specified type.
-     *
-     * @tparam T The type of the function pointer.
-     * @param library_handle A handle to the loaded library.
-     * @param name The name of the function to retrieve.
-     * @return A pointer to the specified function cast to the specified type.
-     */
-    template<typename T>
-    bool try_load_function(void* library_handle, const char* name, T& function_ptr)
-    {
-        const auto mangled_name = infer_mangled_name<T>(name);
-        void* to_return = nullptr;
-#if PLATFORM_WINDOWS
-        const auto handle = static_cast<HMODULE>(library_handle);
-        to_return = static_cast<void*>(GetProcAddress(handle, mangled_name));
-#endif
-        function_ptr = reinterpret_cast<T>(to_return);
-
-        if (function_ptr == nullptr)
-        {
-            std::cerr << "Failed to load function \"" << mangled_name << "\"." << std::endl;
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @brief Loads EOS SDK function pointers from the loaded EOS SDK library.
-     *
-     * Maps specific function names from the loaded EOS SDK library to internal pointers, allowing
-     * the library to call various EOS SDK functions.
-     */
-    void FetchEOSFunctionPointers();
 
     /**
      * @brief Queries a registry key for a specific value on Windows.
@@ -158,16 +71,6 @@ namespace pew::eos
      * @return `true` if the value was successfully retrieved, `false` otherwise.
      */
     bool QueryRegKey(const HKEY InKey, const TCHAR* InSubKey, const TCHAR* InValueName, std::wstring& OutData);
-
-    /**
-     * @brief Unloads a previously loaded dynamic library.
-     *
-     * Frees the handle to a loaded library, releasing associated resources.
-     * On Windows, it uses `FreeLibrary` to unload the library.
-     *
-     * @param library_handle The handle to the library to unload.
-     */
-    void unload_library(void* library_handle);
 
     /**
      * @brief Retrieves the path to the overlay DLL.
@@ -195,7 +98,7 @@ namespace pew::eos
      * log category in the EOS SDK. If the configuration file is missing or the entries are
      * invalid, default log levels are used.
      */
-    void eos_set_loglevel_via_config();
+    void set_eos_loglevel(const EOSWrapper& eos_sdk);
 
     /**
      * @brief Logs EOS platform options for debugging purposes.
@@ -216,7 +119,7 @@ namespace pew::eos
      * @param platform_config The configuration for Windows.
      * @param product_config The configuration for the product.
      */
-    CONFIG_API void load_eos(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config);
+    CONFIG_API EOS_HPlatform load_eos(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config);
 
     /**
      * @brief Initializes the EOS SDK with the provided configuration.
@@ -224,10 +127,11 @@ namespace pew::eos
      * Sets up and initializes the EOS SDK using the provided configuration. Sets log levels and
      * a logging callback if configured. If initialization fails, an error is logged.
      *
+     * @param eos_sdk Reference to the eos sdk.
      * @param platform_config The configuration for Windows.
      * @param product_config The configuration for the product.
      */
-    void eos_init(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config);
+    void eos_init(const EOSWrapper& eos_sdk, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config);
 
     /**
      * @brief Creates an EOS platform using the specified configuration.
@@ -235,33 +139,10 @@ namespace pew::eos
      * Configures and creates an EOS platform instance. This includes setting up RTC options,
      * integrated platform options, and other settings defined in the configuration.
      *
+     * @param eos_sdk Reference to the eos sdk.
      * @param platform_config The configuration object containing EOS platform settings.
      * @param product_config The configuration object containing product settings.
      */
-    void eos_create(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config);
-
-    // Templated helper to load and call a DLL function
-    template <typename FuncType, typename... Args>
-    auto call_library_function(const std::string& function_name, void* library_handle, Args&&... args)
-        -> typename std::invoke_result<FuncType, Args...>::type {
-        logging::log_inform("Calling " + function_name);
-
-        // Define the function pointer
-        FuncType function_ptr = nullptr;
-
-        // Try to load the function
-        if (!try_load_function(library_handle, function_name.c_str(), function_ptr)) {
-            logging::log_error("Unable to load pointer to " + function_name + " function.");
-            throw std::runtime_error("Failed to load function: " + function_name);
-        }
-
-        // Invoke the function with arguments or none, depending on Args
-        if constexpr (sizeof...(Args) > 0) {
-            return function_ptr(std::forward<Args>(args)...);
-        }
-        else {
-            return function_ptr();
-        }
-    }
+    EOS_HPlatform eos_create(const EOSWrapper& eos_sdk, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config);
 }
 #endif

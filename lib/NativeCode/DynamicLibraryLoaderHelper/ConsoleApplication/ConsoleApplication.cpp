@@ -21,23 +21,15 @@
  */
 
 #include <iostream>
-#include <headers/Config/Config.h>
-
 #include "headers/Config/ProductConfig.h"
-#include "headers/Config/WindowsConfig.h"
-#include "headers/config.h"
+//#include "headers/eos_helpers.h"
 #include "headers/eos_helpers.h"
-
 using namespace pew::eos::config;
 int main()
 {
-    ProductConfig product_config = Config::get<ProductConfig>();
-    WindowsConfig windows_config = Config::get<WindowsConfig>();
+    auto platform_interface = pew::eos::EOS_GetPlatformInterface();
 
-    pew::eos::load_eos(windows_config, product_config);
-
-    EOSConfig eos_config;
-    if(try_get_eos_config(eos_config))
+    if(platform_interface != nullptr)
     {
         std::cout << "EOSConfig was read successfully.";
     }

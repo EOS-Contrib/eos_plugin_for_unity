@@ -253,34 +253,35 @@ namespace pew::eos::config
 
     json_value_s* read_config_json_from_dll()
     {
-        json_value_s* config_json = nullptr;
-
-#if ENABLE_DLL_BASED_EOS_CONFIG
-        logging::log_inform("Trying to load eos config via dll");
-        static void* eos_generated_library_handle = load_library_at_path(io_helpers::get_path_relative_to_current_module("EOSGenerated.dll"));
-
-        if (!eos_generated_library_handle)
-        {
-            logging::log_warn("No Generated DLL found (Might not be an error)");
-            return NULL;
-        }
-
-        if (try_load_function(eos_generated_library_handle, "GetConfigAsJSONString", GetConfigAsJSONString))
-        {
-            const char* config_as_json_string = GetConfigAsJSONString();
-            if (config_as_json_string != nullptr)
-            {
-                size_t config_as_json_string_length = strlen(config_as_json_string);
-                config_json = json_parse(config_as_json_string, config_as_json_string_length);
-            }
-        }
-        else
-        {
-            logging::log_warn("No function found");
-        }
-#endif
-
-        return config_json;
+        return nullptr;
+//        json_value_s* config_json = nullptr;
+//
+//#if ENABLE_DLL_BASED_EOS_CONFIG
+//        logging::log_inform("Trying to load eos config via dll");
+//        static void* eos_generated_library_handle = load_library_at_path(io_helpers::get_path_relative_to_current_module("EOSGenerated.dll"));
+//
+//        if (!eos_generated_library_handle)
+//        {
+//            logging::log_warn("No Generated DLL found (Might not be an error)");
+//            return NULL;
+//        }
+//
+//        if (try_load_function(eos_generated_library_handle, "GetConfigAsJSONString", GetConfigAsJSONString))
+//        {
+//            const char* config_as_json_string = GetConfigAsJSONString();
+//            if (config_as_json_string != nullptr)
+//            {
+//                size_t config_as_json_string_length = strlen(config_as_json_string);
+//                config_json = json_parse(config_as_json_string, config_as_json_string_length);
+//            }
+//        }
+//        else
+//        {
+//            logging::log_warn("No function found");
+//        }
+//#endif
+//
+//        return config_json;
     }
 
     EOS_EIntegratedPlatformManagementFlags eos_collect_integrated_platform_management_flags(json_object_element_s* iter)
@@ -293,50 +294,52 @@ namespace pew::eos::config
 
     EOSSteamConfig eos_steam_config_from_json_value(json_value_s* config_json)
     {
-        json_object_s* config_json_object = json_value_as_object(config_json);
-        json_object_element_s* iter = config_json_object->start;
+        //json_object_s* config_json_object = json_value_as_object(config_json);
+        //json_object_element_s* iter = config_json_object->start;
+        //EOSSteamConfig eos_config;
+
+        //while (iter != nullptr)
+        //{
+        //    if (!strcmp("flags", iter->name->string))
+        //    {
+        //        eos_config.flags = eos_collect_integrated_platform_management_flags(iter);
+
+        //    }
+        //    else if (!strcmp("overrideLibraryPath", iter->name->string))
+        //    {
+        //        const char* override_library_path = json_value_as_string(iter->value)->string;
+
+        //        if (strcmp("NULL", override_library_path)
+        //            && strcmp("null", override_library_path)
+        //            )
+        //        {
+        //            eos_config.OverrideLibraryPath = override_library_path;
+        //        }
+
+        //    }
+        //    else if (!strcmp("steamSDKMajorVersion", iter->name->string))
+        //    {
+        //        eos_config.steamSDKMajorVersion = json_value_as_uint32(iter->value);
+        //    }
+        //    else if (!strcmp("steamSDKMinorVersion", iter->name->string))
+        //    {
+        //        eos_config.steamSDKMinorVersion = json_value_as_uint32(iter->value);
+        //    }
+        //    else if (!strcmp("steamApiInterfaceVersionsArray", iter->name->string))
+        //    {
+        //        json_array_s* apiVersions = json_value_as_array(iter->value);
+
+        //        for (auto e = apiVersions->start; e != nullptr; e = e->next)
+        //        {
+        //            eos_config.steamApiInterfaceVersionsArray.push_back(json_value_as_string(e->value)->string);
+        //        }
+        //    }
+
+        //    iter = iter->next;
+        //}
+
+        //return eos_config;
         EOSSteamConfig eos_config;
-
-        while (iter != nullptr)
-        {
-            if (!strcmp("flags", iter->name->string))
-            {
-                eos_config.flags = eos_collect_integrated_platform_management_flags(iter);
-
-            }
-            else if (!strcmp("overrideLibraryPath", iter->name->string))
-            {
-                const char* override_library_path = json_value_as_string(iter->value)->string;
-
-                if (strcmp("NULL", override_library_path)
-                    && strcmp("null", override_library_path)
-                    )
-                {
-                    eos_config.OverrideLibraryPath = override_library_path;
-                }
-
-            }
-            else if (!strcmp("steamSDKMajorVersion", iter->name->string))
-            {
-                eos_config.steamSDKMajorVersion = json_value_as_uint32(iter->value);
-            }
-            else if (!strcmp("steamSDKMinorVersion", iter->name->string))
-            {
-                eos_config.steamSDKMinorVersion = json_value_as_uint32(iter->value);
-            }
-            else if (!strcmp("steamApiInterfaceVersionsArray", iter->name->string))
-            {
-                json_array_s* apiVersions = json_value_as_array(iter->value);
-
-                for (auto e = apiVersions->start; e != nullptr; e = e->next)
-                {
-                    eos_config.steamApiInterfaceVersionsArray.push_back(json_value_as_string(e->value)->string);
-                }
-            }
-
-            iter = iter->next;
-        }
-
         return eos_config;
     }
 

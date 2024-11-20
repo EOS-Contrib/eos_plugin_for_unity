@@ -26,9 +26,7 @@
 #include <string>
 #include <type_traits>
 #include <logging.h>
-#include <functional>
 #include <iostream>
-#include <map>
 
 namespace std::filesystem
 {
@@ -37,22 +35,48 @@ namespace std::filesystem
 
 namespace pew::eos
 {
+    template<typename T>
+    struct TypedefToString;
+
     class DLLWrapper
     {
-    protected:
-        std::map<std::function<void()>, std::string> function_to_string_map;
     
-        DLLWrapper(const std::filesystem::path& library_path)
+    protected:
+        DLLWrapper(const std::string& library_name);
+
+        ~DLLWrapper();
+
+        // Templated helper to load and call a DLL function
+        template <typename FuncType, typename... Args>
+        auto call_library_function(const std::string& function_name, Args&&... args) const
+            -> std::invoke_result_t<FuncType, Args...> {
+            logging::log_inform("Calling " + function_name);
+
+            // Define the function pointer
+            FuncType function_ptr = nullptr;
+
+            // Try to load the function
+            if (!try_load_function(_library_handle, function_name.c_str(), function_ptr)) {
+                logging::log_error("Unable to load pointer to " + function_name + " function.");
+                throw std::runtime_error("Failed to load function: " + function_name);
+            }
+
+            // Invoke the function with arguments or none, depending on Args
+            if constexpr (sizeof...(Args) > 0) {
+                return function_ptr(std::forward<Args>(args)...);
+            }
+            else {
+                return function_ptr();
+            }
+        }
+    public:
+        template <typename FuncType, typename... Args>
+        auto call_library_function(Args&&... args) const
+            -> std::invoke_result_t<FuncType, Args...>
         {
-            // Load the library handle.
-            _library_handle = load_library_at_path(library_path);
+            return call_library_function<FuncType>(TypedefToString<FuncType>::value, std::forward<Args>(args)...);
         }
 
-        ~DLLWrapper()
-        {
-            // Free the library handle.
-            _library_handle = nullptr;
-        }
     private:
 
         /**
@@ -141,29 +165,6 @@ namespace pew::eos
 
             return true;
         }
-
-        // Templated helper to load and call a DLL function
-        template <typename FuncType, typename... Args>
-        auto call_library_function(const std::string& function_name, void* library_handle, Args&&... args)
-            -> std::invoke_result_t<FuncType, Args...> {
-            logging::log_inform("Calling " + function_name);
-
-            // Define the function pointer
-            FuncType function_ptr = nullptr;
-
-            // Try to load the function
-            if (!try_load_function(library_handle, function_name.c_str(), function_ptr)) {
-                logging::log_error("Unable to load pointer to " + function_name + " function.");
-                throw std::runtime_error("Failed to load function: " + function_name);
-            }
-
-            // Invoke the function with arguments or none, depending on Args
-            if constexpr (sizeof...(Args) > 0) {
-                return function_ptr(std::forward<Args>(args)...);
-            }
-            else {
-                return function_ptr();
-            }
-        }
     };
 }
+#endif

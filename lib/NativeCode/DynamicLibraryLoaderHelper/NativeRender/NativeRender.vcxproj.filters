@@ -88,6 +88,9 @@
     <ClInclude Include="headers\DLLWrapper.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
+    <ClInclude Include="headers\EOSWrapper.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\config_DEPRECATED.cpp">
@@ -142,5 +145,8 @@
     <ClCompile Include="src\DLLWrapper.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

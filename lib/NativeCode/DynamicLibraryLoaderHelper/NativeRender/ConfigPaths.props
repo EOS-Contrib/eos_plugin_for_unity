@@ -1,11 +1,11 @@
 <Project>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <!-- This is the filepath relative to the executable when debugging -->
-    <ConfigDirectory>$([System.String]::Copy('$(MSBuildThisFileDirectory)').Replace('\', '/'))../../../../Assets/StreamingAssets/EOS/</ConfigDirectory>
+    <ConfigDirectory>../../../../Assets/StreamingAssets/EOS/</ConfigDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <!-- This is the filepath relative to the executable (dll) when in release mode -->
-    <ConfigDirectory>$([System.String]::Copy('$(MSBuildThisFileDirectory)').Replace('\', '/'))../../StreamingAssets/EOS/</ConfigDirectory>
+    <ConfigDirectory>../../StreamingAssets/EOS/</ConfigDirectory>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='x64'">
