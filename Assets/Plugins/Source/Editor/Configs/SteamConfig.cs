@@ -30,16 +30,38 @@ namespace PlayEveryWare.EpicOnlineServices
     using Newtonsoft.Json;
     using Utility;
 
-    [ConfigGroup("Steam Configuration")]
+    [ConfigGroup("Steam Configuration", new string[]
+    {
+        "Steamworks SDK",
+    })]
     public class SteamConfig : EditorConfig
     {
+        #region These fields are referenced by the native code 
+
+        [DirectoryPathField("Override Library Path",
+            "Path to where you have your Steamworks SDK installed.", 0)]
+        public string overrideLibraryPath;
+
+        [ConfigField("SDK Major Version",
+            ConfigFieldType.Uint,
+            "The major version for the Steamworks SDK you have installed.", 0)]
+        public uint steamSDKMajorVersion;
+
+        [ConfigField("SDK Minor Version",
+            ConfigFieldType.Uint,
+            "The minor version for the Steamworks SDK you have installed.", 0)]
+        public uint steamSDKMinorVersion;
+
+        [ConfigField("Steamworks Interface Versions", ConfigFieldType.TextList, null, 0)]
+        public List<string> steamApiInterfaceVersionsArray;
+
         /// <summary>
         /// Used to store integrated platform management flags.
         /// </summary>
         [ConfigField("Integrated Platform Management Flags",
             ConfigFieldType.Enum, "Integrated Platform Management " +
                                   "Flags for platform specific options.",
-            2, "https://dev.epicgames.com/docs/api-ref/enums/eos-e-integrated-platform-management-flags")]
+            1, "https://dev.epicgames.com/docs/api-ref/enums/eos-e-integrated-platform-management-flags")]
         [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
         public IntegratedPlatformManagementFlags integratedPlatformManagementFlags;
 
@@ -61,23 +83,9 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-        #region These fields are referenced by the native code 
-
-        [DirectoryPathField("Override Library Path")]
-        public string overrideLibraryPath;
-
-        [ConfigField("Steamworks SDK Major Version", ConfigFieldType.Uint)]
-        public uint steamSDKMajorVersion;
-
-        [ConfigField("Steamworks SDK Minor Version", ConfigFieldType.Uint)]
-        public uint steamSDKMinorVersion;
-
-        [ConfigField("Steamworks Interface Versions", ConfigFieldType.TextList)]
-        public List<string> steamApiInterfaceVersionsArray;
-
         #endregion
 
-        [ButtonField("Update from Steamworks.NET")]
+        [ButtonField("Update from Steamworks.NET", "Click here to try and import the SDK versions from the indicated Steamworks SDK Library referenced above", 0)]
         [JsonIgnore]
         public Action UpdateFromSteamworksNET;
 
@@ -86,7 +94,7 @@ namespace PlayEveryWare.EpicOnlineServices
             RegisterFactory(() => new SteamConfig());
         }
 
-        protected SteamConfig() : base("eos_steam_config.json")
+        protected SteamConfig() : base("eos_plugin_steam_config.json")
         {
             UpdateFromSteamworksNET = () =>
             {
