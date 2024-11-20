@@ -13,7 +13,7 @@
   "isServer": false,
   "platformOptionsFlags": "None",
   "authScopeOptionsFlags": "BasicProfile, FriendsList, Presence",
-  "flags": 0,
+  "integratedPlatformManagementFlags": "Disabled",
   "tickBudgetInMilliseconds": 0,
   "taskNetworkTimeoutSeconds": 0.0,
   "threadAffinity": null,
