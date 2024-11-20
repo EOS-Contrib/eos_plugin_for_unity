@@ -24,7 +24,6 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
     using System.Collections.Generic;
-    using Editor;
     using Editor.Utility;
     using Newtonsoft.Json;
     using Utility;
