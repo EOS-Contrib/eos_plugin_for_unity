@@ -24,14 +24,12 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
     using System.Collections.Generic;
-    using Editor;
     using Editor.Config;
     using Editor.Utility;
     using Epic.OnlineServices.IntegratedPlatform;
     using Newtonsoft.Json;
     using Utility;
 
-    [Serializable]
     [ConfigGroup("Steam Configuration")]
     public class SteamConfig : EditorConfig
     {
@@ -80,6 +78,7 @@ namespace PlayEveryWare.EpicOnlineServices
         #endregion
 
         [ButtonField("Update from Steamworks.NET")]
+        [JsonIgnore]
         public Action UpdateFromSteamworksNET;
 
         static SteamConfig()
