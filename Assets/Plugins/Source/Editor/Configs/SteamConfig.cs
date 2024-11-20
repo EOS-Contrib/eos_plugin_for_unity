@@ -25,17 +25,43 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
     using System.Collections.Generic;
     using Editor;
+    using Editor.Config;
     using Editor.Utility;
+    using Epic.OnlineServices.IntegratedPlatform;
+    using Newtonsoft.Json;
     using Utility;
 
     [Serializable]
     [ConfigGroup("Steam Configuration")]
-    // TODO: Make SteamConfig derive from EditorConfig, and update the native code
-    //       to properly reference the correct file where appropriate.
-    public class SteamConfig : EpicOnlineServices.Config
+    public class SteamConfig : EditorConfig
     {
-        [ConfigField("Steam Flags", ConfigFieldType.TextList)]
-        public List<string> flags;
+        /// <summary>
+        /// Used to store integrated platform management flags.
+        /// </summary>
+        [ConfigField("Integrated Platform Management Flags",
+            ConfigFieldType.Enum, "Integrated Platform Management " +
+                                  "Flags for platform specific options.",
+            2, "https://dev.epicgames.com/docs/api-ref/enums/eos-e-integrated-platform-management-flags")]
+        [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
+        public IntegratedPlatformManagementFlags integratedPlatformManagementFlags;
+
+        // This property exists to maintain backwards-compatibility with 
+        // previous versions of the config json structures.
+        [JsonProperty] // Mark it so that it gets read
+        [JsonIgnore] // Ignore so that it does not get written
+        [Obsolete("This property is deprecated. Use the property integratedPlatformManagementFlags instead.")]
+        [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
+        public IntegratedPlatformManagementFlags flags
+        {
+            get
+            {
+                return integratedPlatformManagementFlags;
+            }
+            set
+            {
+                integratedPlatformManagementFlags = value;
+            }
+        }
 
         #region These fields are referenced by the native code 
 
