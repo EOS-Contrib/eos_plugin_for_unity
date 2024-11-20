@@ -34,7 +34,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using Common.Extensions;
     using Newtonsoft.Json;
     using System;
-    using UnityEditor.Experimental.GraphView;
 
 #if !EXTERNAL_TO_UNITY
     using UnityEngine;
