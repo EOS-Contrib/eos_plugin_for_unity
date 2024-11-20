@@ -24,11 +24,10 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
     using System.Collections.Generic;
-    using Editor;
     using Editor.Utility;
+    using Newtonsoft.Json;
     using Utility;
 
-    [Serializable]
     [ConfigGroup("Steam Configuration")]
     // TODO: Make SteamConfig derive from EditorConfig, and update the native code
     //       to properly reference the correct file where appropriate.
@@ -54,6 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices
         #endregion
 
         [ButtonField("Update from Steamworks.NET")]
+        [JsonIgnore]
         public Action UpdateFromSteamworksNET;
 
         static SteamConfig()
