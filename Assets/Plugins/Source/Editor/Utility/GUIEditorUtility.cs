@@ -270,7 +270,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             { typeof(bool), (attr, val, width) => RenderInput(attr, (bool)val, width) },
             { typeof(Version), (attr, val, width) => RenderInput(attr, (Version)val, width) },
             { typeof(Guid), (attr, val, width) => RenderInput(attr, (Guid)val, width)},
-
+            { typeof(List<string>), (attr, val, width) => RenderInput(attr, (List<string>)val, width)},
             { typeof(EOSClientCredentials), (attr, val, width) => RenderInput(attr, (EOSClientCredentials)val, width) },
             { typeof(SetOfNamed<EOSClientCredentials>), (attr, val, width) => RenderInput(attr, (SetOfNamed<EOSClientCredentials>)val, width) },
             { typeof(WrappedInitializeThreadAffinity), (attr, val, width) => RenderInput(attr, (WrappedInitializeThreadAffinity)val, width) },
