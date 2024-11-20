@@ -33,6 +33,7 @@
 #include "EOSWrapper.h"
 #include "ProductConfig.h"
 #include "SteamConfig.h"
+#include "SteamWrapper.h"
 #include "WindowsConfig.h"
 #include "headers/config_DEPRECATED.h"
 
@@ -42,7 +43,7 @@ namespace pew::eos
     {
         const auto steam_config = config::Config::get<config::SteamConfig>();
         const auto eos_sdk = new EOSWrapper();
-
+        const auto steam_sdk = new SteamWrapper();
         return eos_sdk->start_eos();
     }
 
