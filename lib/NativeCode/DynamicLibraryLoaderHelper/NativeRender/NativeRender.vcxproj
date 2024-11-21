@@ -101,8 +101,10 @@
   <!-- Source Files -->
   <ItemGroup>
     <ClInclude Include="headers\Config\ClientCredentials.h" />
+    <ClInclude Include="headers\Config\common.hpp" />
     <ClInclude Include="headers\Config\ConfigBase.h" />
     <ClInclude Include="headers\Config\Deployment.h" />
+    <ClInclude Include="headers\Config\ProductConfig.h" />
     <ClInclude Include="headers\Config\ProductionEnvironments.h" />
     <ClInclude Include="headers\Config\Sandbox.h" />
     <ClInclude Include="headers\Config\Serializable.h" />

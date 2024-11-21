@@ -79,6 +79,12 @@
     <ClInclude Include="headers\Config\ConfigBase.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
+    <ClInclude Include="headers\Config\common.hpp">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Config\ProductConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
