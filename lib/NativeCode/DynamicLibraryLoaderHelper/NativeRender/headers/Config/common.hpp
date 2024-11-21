@@ -103,70 +103,27 @@ namespace pew::eos::common
         }
     }
 
-    inline TCHAR* get_path_to_module(const HMODULE module)
-    {
-        DWORD module_path_length = 128;
-        auto module_path = static_cast<TCHAR*>(malloc(module_path_length * sizeof(TCHAR)));
-
-        if (!module_path) {
-            return nullptr; // Failed to allocate memory
-        }
-
-        while (true) {
-            DWORD buffer_length = GetModuleFileName(module, module_path, module_path_length);
-
-            if (buffer_length > 0 && GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
-                // Successfully retrieved path
-                break;
-            }
-
-            // Handle insufficient buffer case
-            module_path_length += 20;
-            auto new_module_path = static_cast<TCHAR*>(realloc(module_path, module_path_length * sizeof(TCHAR)));
-            if (!new_module_path) {
-                free(module_path);
-                return nullptr; // Memory allocation failure
-            }
-            module_path = new_module_path;
-        }
-
-        return module_path;
-    }
-
-    inline std::wstring get_path_to_module_as_string(const HMODULE module)
-    {
-        wchar_t* module_path = get_path_to_module(module);
-
-        std::wstring module_file_path_string(module_path);
-        free(module_path);
-        return module_file_path_string;
-    }
-
     inline std::filesystem::path get_path_relative_to_current_module(const std::filesystem::path& relative_path)
     {
+        wchar_t module_path[MAX_PATH];
         HMODULE this_module = nullptr;
-        if (!GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-            (LPCWSTR)&get_path_relative_to_current_module, &this_module) || !this_module) {
-            return {};
+
+        // Retrieve the handle to the current module
+        if (!GetModuleHandleEx(
+            GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+            reinterpret_cast<LPCWSTR>(&get_path_relative_to_current_module),
+            &this_module) || !this_module) {
+            return {}; // Return empty path on failure
         }
 
-        std::wstring module_file_path_string = get_path_to_module_as_string(this_module);
-        return std::filesystem::path(module_file_path_string).remove_filename() / relative_path;
-    }
-
-    inline std::string trim(const std::string& str)
-    {
-        const auto start = std::find_if_not(str.begin(), str.end(), ::isspace);
-        const auto end = std::find_if_not(str.rbegin(), str.rend(), ::isspace).base();
-
-        if (start < end)
+        // Retrieve the module file path
+        if (GetModuleFileNameW(this_module, module_path, MAX_PATH) == 0) 
         {
-            return std::basic_string<char>(start, end);
+            return {}; // Return empty path if GetModuleFileNameW fails
         }
-        else
-        {
-            return "";
-        }
+
+        // Construct the full path and combine with the relative path
+        return std::filesystem::path(module_path).remove_filename() / relative_path;
     }
 
     inline std::vector<std::string> split_and_trim(const std::string& input, const char delimiter = ',')
@@ -175,80 +132,37 @@ namespace pew::eos::common
         std::stringstream ss(input);
         std::string item;
 
-        while (std::getline(ss, item, delimiter))
-        {
-            std::string trimmedItem = trim(item);
-            if (!trimmedItem.empty())
-            {
-                result.push_back(trimmedItem);
+        while (std::getline(ss, item, delimiter)) {
+            // Trim item in-place
+            auto start = std::find_if_not(item.begin(), item.end(), ::isspace);
+            auto end = std::find_if_not(item.rbegin(), item.rend(), ::isspace).base();
+
+            if (start < end) {
+                result.emplace_back(start, end); // Efficiently construct and add to result
             }
         }
 
         return result;
     }
 
-    inline bool create_timestamp_str(char* final_timestamp, const size_t final_timestamp_len)
-    {
-        constexpr size_t buffer_len = 32;
-        char buffer[buffer_len];
-
-        if (buffer_len > final_timestamp_len)
-        {
-            return false;
-        }
-
-        const time_t raw_time = time(nullptr);
-        tm time_info = { 0 };
-
-        timespec time_spec = { 0 };
-        timespec_get(&time_spec, TIME_UTC);
-        localtime_s(&time_info, &raw_time);
-
-        strftime(buffer, buffer_len, "%Y-%m-%dT%H:%M:%S", &time_info);
-        const long milliseconds = static_cast<long>(round(time_spec.tv_nsec / 1.0e6));
-        snprintf(final_timestamp, final_timestamp_len, "%s.%03ld", buffer, milliseconds);
-
-        return true;
-    }
-
-    inline size_t utf8_str_bytes_required_for_wide_str(const wchar_t* wide_str, const int wide_str_len)
-    {
-        const int bytes_required = WideCharToMultiByte(CP_UTF8, 0, wide_str, wide_str_len, NULL, 0, NULL, NULL);
-
-        if (bytes_required < 0)
-        {
-            return 0;
-        }
-
-        return bytes_required;
-    }
-
     // wide_str must be null terminated if wide_str_len is passed
-    inline bool copy_to_utf8_str_from_wide_str(char* RESTRICT utf8_str, const size_t utf8_str_len, const wchar_t* RESTRICT wide_str, const int wide_str_len)
-    {
-        if (utf8_str_len > INT_MAX)
-        {
-            return false;
-        }
-
-        WideCharToMultiByte(CP_UTF8, 0, wide_str, wide_str_len, utf8_str, static_cast<int>(utf8_str_len), NULL, NULL);
-
-        return true;
-    }
-
     inline char* create_utf8_str_from_wide_str(const wchar_t* wide_str)
     {
-        const int wide_str_len = static_cast<int>(wcslen(wide_str)) + 1;
-        const int bytes_required = static_cast<int>(utf8_str_bytes_required_for_wide_str(wide_str, wide_str_len));
-        auto to_return = static_cast<char*>(malloc(bytes_required));
+        if (!wide_str) return nullptr;
 
-        if (!copy_to_utf8_str_from_wide_str(to_return, bytes_required, wide_str, wide_str_len))
+        const int wide_str_len = static_cast<int>(wcslen(wide_str)) + 1;
+        const int bytes_required = WideCharToMultiByte(CP_UTF8, 0, wide_str, wide_str_len, nullptr, 0, nullptr, nullptr);
+
+        if (bytes_required <= 0) return nullptr;
+
+        const auto utf8_str = static_cast<char*>(malloc(bytes_required));
+        if (!utf8_str || WideCharToMultiByte(CP_UTF8, 0, wide_str, wide_str_len, utf8_str, bytes_required, nullptr, nullptr) == 0) 
         {
-            free(to_return);
-            to_return = NULL;
+            free(utf8_str);
+            return nullptr;
         }
 
-        return to_return;
+        return utf8_str;
     }
 
     inline std::string to_utf8_str(const std::wstring& wide_str)
@@ -264,7 +178,7 @@ namespace pew::eos::common
         return to_utf8_str(path.native());
     }
 
-    inline static char* get_cache_directory()
+    static char* get_cache_directory()
     {
         static char* s_tempPathBuffer = NULL;
 
