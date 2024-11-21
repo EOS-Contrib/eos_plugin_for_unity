@@ -132,6 +132,7 @@
     </ClCompile>
     <ClCompile Include="src\Config\ConfigBase.cpp" />
     <ClCompile Include="src\Config\DLLWrapper.cpp" />
+    <ClCompile Include="src\Config\EOSWrapper.cpp" />
     <ClCompile Include="src\Config\PlatformConfig.cpp" />
     <ClCompile Include="src\Config\ProductConfig.cpp" />
     <ClCompile Include="src\Config\SteamConfig.cpp" />
