@@ -23,7 +23,9 @@
  */
 
 #pragma once
+
 #include "Config.h"
+#include "io_helpers.h"
 
 namespace pew::eos::config
 {
@@ -34,23 +36,30 @@ namespace pew::eos::config
             steam_sdk_major_version(0),
             steam_sdk_minor_version(0)
         {
+            _library_path = io_helpers::get_path_relative_to_current_module(STEAM_SDK_DLL_NAME);
         }
+
+    private:
+        std::filesystem::path _library_path;
+        std::filesystem::path _override_library_path;
+        std::vector<std::string> _steam_api_interface_versions_array;
 
     protected:
         void from_json(const json& json) override;
         void migrate() override;
         std::filesystem::path get_config_path(const char* file_name) override;
+        
 
     public:
         friend class Config;
 
-        std::filesystem::path override_library_path;
+        bool try_get_library_path(std::filesystem::path& library_path) const;
 
         uint32_t steam_sdk_major_version;
 
         uint32_t steam_sdk_minor_version;
 
-        std::vector<std::string> steam_api_interface_versions_array;
+        const char* get_steam_api_interface_versions_array() const;
 
         /**
          * \brief Integrated platform management flags for the platform.

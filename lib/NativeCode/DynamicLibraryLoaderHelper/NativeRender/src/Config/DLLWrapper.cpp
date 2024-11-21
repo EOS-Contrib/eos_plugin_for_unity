@@ -35,14 +35,14 @@ namespace pew::eos
         const auto library_path = io_helpers::get_path_relative_to_current_module(library_name);
 
         // Load a handle to the library
-        _library_handle = load_library_at_path(library_path);
+        //library_handle = DLLWrapper::load_library_at_path(library_path);
     }
 
     DLLWrapper::~DLLWrapper()
     {
         // Make sure to free the library handle
-        FreeLibrary(static_cast<HMODULE>(_library_handle));
-        _library_handle = nullptr;
+        FreeLibrary(static_cast<HMODULE>(library_handle));
+        library_handle = nullptr;
     }
 
     void* DLLWrapper::load_library_at_path(const std::filesystem::path& library_path)
@@ -52,7 +52,8 @@ namespace pew::eos
 #if PLATFORM_WINDOWS
         logging::log_inform(("Loading path at " + string_helpers::to_utf8_str(library_path)).c_str());
         HMODULE handle = LoadLibrary(library_path.c_str());
-        to_return = (void*)handle;
+        //EnumerateFunctions(handle);
+        to_return = static_cast<void*>(handle);
 #endif
 
         return to_return;

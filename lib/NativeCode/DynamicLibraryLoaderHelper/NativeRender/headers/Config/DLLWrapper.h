@@ -64,7 +64,7 @@ namespace pew::eos
             FuncType function_ptr = nullptr;
 
             // Try to load the function
-            if (!try_load_function(_library_handle, function_name.c_str(), function_ptr)) {
+            if (!try_load_function(library_handle, function_name.c_str(), function_ptr)) {
                 logging::log_error("Unable to load pointer to " + function_name + " function.");
                 throw std::runtime_error("Failed to load function: " + function_name);
             }
@@ -77,6 +77,44 @@ namespace pew::eos
                 return function_ptr();
             }
         }
+
+        inline void EnumerateFunctions(HMODULE hModule) {
+            // Get the base address of the module
+            auto baseAddress = reinterpret_cast<BYTE*>(hModule);
+
+            // Access the DOS header
+            auto dosHeader = reinterpret_cast<IMAGE_DOS_HEADER*>(baseAddress);
+
+            // Access the NT headers
+            auto ntHeaders = reinterpret_cast<IMAGE_NT_HEADERS*>(baseAddress + dosHeader->e_lfanew);
+
+            // Locate the Export Table
+            auto exportDirRVA = ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
+            if (exportDirRVA == 0) {
+                std::cout << "No export table found.\n";
+                return;
+            }
+
+            auto exportDir = reinterpret_cast<IMAGE_EXPORT_DIRECTORY*>(baseAddress + exportDirRVA);
+
+            // Get the list of exported function names
+            auto namesRVA = reinterpret_cast<DWORD*>(baseAddress + exportDir->AddressOfNames);
+            auto functionsRVA = reinterpret_cast<DWORD*>(baseAddress + exportDir->AddressOfFunctions);
+            auto ordinals = reinterpret_cast<WORD*>(baseAddress + exportDir->AddressOfNameOrdinals);
+
+            for (DWORD i = 0; i < exportDir->NumberOfNames; ++i) {
+                auto functionName = reinterpret_cast<char*>(baseAddress + namesRVA[i]);
+                std::string function_name_string = functionName;
+                std::string pattern = "Init";
+                if (function_name_string.find(pattern))
+                {
+                    std::cout << "Function: " << functionName << std::endl;
+                }
+                auto functionAddress = baseAddress + functionsRVA[ordinals[i]];
+
+                
+            }
+        }
     public:
         template <typename FuncType, typename... Args>
         auto call_library_function(Args&&... args) const
@@ -85,12 +123,13 @@ namespace pew::eos
             return call_library_function<FuncType>(TypedefToString<FuncType>::value, std::forward<Args>(args)...);
         }
 
-    private:
-
+    protected:
         /**
          * \brief Stores a handle to the loaded library
          */
-        void* _library_handle;
+        void* library_handle;
+
+    private:
 
         /**
          * @brief Loads a dynamic library from the specified file path.
@@ -101,7 +140,7 @@ namespace pew::eos
          * @param library_path The file path to the library to load.
          * @return A handle to the loaded library, or `nullptr` if loading fails.
          */
-        static void* load_library_at_path(const std::filesystem::path& library_path);
+        virtual void* load_library_at_path(const std::filesystem::path& library_path);
 
         /**
          * @brief This function helps take a typedef and infer the size of the

@@ -32,8 +32,6 @@ namespace pew::eos::config
 {
     void SteamConfig::from_json(const json& json)
     {
-        const auto json_string = json.dump();
-
         int version_major;
         json["steamSDKMajorVersion"].get_to(version_major);
         steam_sdk_major_version = static_cast<uint32_t>(version_major);
@@ -46,13 +44,12 @@ namespace pew::eos::config
         if (!json["overrideLibraryPath"].is_null())
         {
             std::string library_path = json["overrideLibraryPath"].get<std::string>();
-            override_library_path = std::filesystem::path(library_path);
+            _override_library_path = std::filesystem::path(library_path);
         }
 
         json["integratedPlatformManagementFlags"].get_to(integrated_platform_management_flags);
 
-        json["steamApiInterfaceVersionsArray"].get_to(steam_api_interface_versions_array);
-        std::cout << json_string << std::endl;
+        json["steamApiInterfaceVersionsArray"].get_to(_steam_api_interface_versions_array);
     }
 
     void SteamConfig::migrate()
@@ -69,5 +66,43 @@ namespace pew::eos::config
             "../../../etc/config/"
 #endif
         ) / file_name));
+    }
+
+    bool SteamConfig::try_get_library_path(std::filesystem::path& library_path) const
+    {
+        if(std::filesystem::exists(_override_library_path))
+        {
+            library_path = std::filesystem::absolute(_override_library_path);
+            return true;
+        }
+
+        if (std::filesystem::exists(_library_path))
+        {
+            library_path = absolute(_library_path);
+            return true;
+        }
+
+        return false;
+    }
+
+    const char* SteamConfig::get_steam_api_interface_versions_array() const
+    {
+        // For each element in the array (each of which is a string of an api version information)
+        // iterate across each character, and at the end of a string add a null terminator \0
+        // then add one more null terminator at the end of the array
+        std::vector<char> steamApiInterfaceVersionsAsCharArray;
+
+        for (const auto& currentFullValue : _steam_api_interface_versions_array)
+        {
+            for (char currentCharacter : currentFullValue)
+            {
+                steamApiInterfaceVersionsAsCharArray.push_back(currentCharacter);
+            }
+
+            steamApiInterfaceVersionsAsCharArray.push_back('\0');
+        }
+        steamApiInterfaceVersionsAsCharArray.push_back('\0');
+
+        return steamApiInterfaceVersionsAsCharArray.data();
     }
 }

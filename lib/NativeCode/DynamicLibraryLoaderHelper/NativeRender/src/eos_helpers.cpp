@@ -44,6 +44,8 @@ namespace pew::eos
         const auto steam_config = config::Config::get<config::SteamConfig>();
         const auto eos_sdk = new EOSWrapper();
         const auto steam_sdk = new SteamWrapper();
+        steam_sdk->init();
+
         return eos_sdk->start_eos();
     }
 

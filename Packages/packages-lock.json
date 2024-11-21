@@ -9,6 +9,13 @@
         "com.unity.editorcoroutines": "1.0.0"
       }
     },
+    "com.rlabrecque.steamworks.net": {
+      "version": "https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "a2fc889ab2672981ec3e6225d551d86ce6923121"
+    },
     "com.unity.burst": {
       "version": "1.8.8",
       "depth": 0,

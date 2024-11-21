@@ -31,6 +31,7 @@
 #include "config_DEPRECATED.h"
 #include "eos_helpers.h"
 #include "json_helpers.h"
+#include "SteamConfig.h"
 #include "string_helpers.h"
 
 namespace pew::eos
@@ -154,11 +155,14 @@ namespace pew::eos
 
     void EOSWrapper::configure_steam_options(EOS_Platform_Options& platform_options, EOS_HIntegratedPlatformOptionsContainer& integrated_platform_options_container) const
     {
+        const auto steam_config = config::Config::get<config::SteamConfig>();
         auto path_to_steam_config_json = config::get_path_for_eos_service_config(EOS_STEAM_CONFIG_FILENAME);
+
+
         if (exists(path_to_steam_config_json))
         {
-            EOS_IntegratedPlatform_Steam_Options steam_platform = { 0 };
-            EOS_IntegratedPlatform_Options steam_integrated_platform_option = { 0 };
+            
+            
             config::EOSSteamConfig eos_steam_config;
             std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
             json_value_s* eos_steam_config_as_json = nullptr;
@@ -195,6 +199,7 @@ namespace pew::eos
                 }
             }
 
+            EOS_IntegratedPlatform_Steam_Options steam_platform = { 0 };
             if (eos_steam_config.is_managed_by_application())
             {
                 eos_call_steam_init(eos_steam_config.OverrideLibraryPath.value());
@@ -241,6 +246,7 @@ namespace pew::eos
                 steam_platform.SteamApiInterfaceVersionsArrayBytes = static_cast<uint32_t>(size);
             }
 
+            EOS_IntegratedPlatform_Options steam_integrated_platform_option = { 0 };
             steam_integrated_platform_option.ApiVersion = EOS_INTEGRATEDPLATFORM_OPTIONS_API_LATEST;
             steam_integrated_platform_option.Type = EOS_IPT_Steam;
             steam_integrated_platform_option.Flags = eos_steam_config.flags;

@@ -22,11 +22,19 @@
 
 #include <iostream>
 #include "headers/eos_helpers.h"
-#include "headers/Config/SteamConfig.h"
 
 using namespace pew::eos::config;
 int main()
 {
+    HMODULE hModule = LoadLibrary(L"steam_api64.dll");
+    typedef bool(__cdecl* TEST_t)();
+
+    TEST_t test = (TEST_t)GetProcAddress(hModule, "SteamAPI_Init");
+
+    auto result = test();
+
+    FreeLibrary(hModule);
+
     const auto platform_interface = pew::eos::EOS_GetPlatformInterface();
 
     if(platform_interface != nullptr)

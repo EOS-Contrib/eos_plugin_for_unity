@@ -28,15 +28,19 @@
 
 namespace pew::eos
 {
-    REGISTER_LIBRARY_FUNCTION("SteamAPI_Init", bool(__cdecl* SteamAPI_Init_t)(), SteamAPI_Init_t);
+    REGISTER_LIBRARY_FUNCTION("SteamInternal_SteamAPI_Init", bool(__cdecl* SteamAPI_Init_t)(), SteamAPI_Init_t);
 
     class SteamWrapper : public DLLWrapper
     {
     public:
         SteamWrapper();
 
+        void init();
+
     private:
         std::string get_library_path();
+
+        void* load_library_at_path(const std::filesystem::path& library_path) override;
     };
 }
 
