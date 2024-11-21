@@ -338,6 +338,19 @@ namespace nlohmann
             input_state_button_flags
         );
     }
+
+    inline void from_json(const nlohmann::json& json, pew::eos::config::ClientCredentials& credentials)
+    {
+        nlohmann::json temp_json = json;
+        if (temp_json.contains("Value"))
+        {
+            temp_json = temp_json["Value"];
+        }
+
+        temp_json["ClientId"].get_to(credentials.client_id);
+        temp_json["ClientSecret"].get_to(credentials.client_secret);
+        temp_json["EncryptionKey"].get_to(credentials.encryption_key);
+    }
 }
 
 #endif

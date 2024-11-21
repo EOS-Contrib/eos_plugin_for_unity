@@ -25,6 +25,7 @@
 #include "include/json.hpp"
 #include <iostream>
 #include "common.hpp"
+#include "headers/Config/nlohmann_helpers.hpp"
 
 namespace pew::eos::config
 {

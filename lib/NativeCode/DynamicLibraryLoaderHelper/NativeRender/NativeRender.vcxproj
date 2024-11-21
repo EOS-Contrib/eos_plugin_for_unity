@@ -138,7 +138,6 @@
     <ClInclude Include="include\json.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Config\ClientCredentials.cpp" />
     <ClCompile Include="src\Config\ConfigBase.cpp" />
     <ClCompile Include="src\Config\Deployment.cpp" />
     <ClCompile Include="src\Config\DLLWrapper.cpp" />

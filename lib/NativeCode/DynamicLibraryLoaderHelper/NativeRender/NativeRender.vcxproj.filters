@@ -133,9 +133,6 @@
     <ClCompile Include="src\Config\ProductionEnvironments.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
-    <ClCompile Include="src\Config\ClientCredentials.cpp">
-      <Filter>Source Files\Config</Filter>
-    </ClCompile>
     <ClCompile Include="src\Config\Deployment.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>

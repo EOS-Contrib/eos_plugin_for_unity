@@ -41,9 +41,4 @@ namespace pew::eos::config
         std::string encryption_key;
     };
 }
-
-namespace nlohmann 
-{
-    void from_json(const nlohmann::json& json, pew::eos::config::ClientCredentials& credentials);
-}
 #endif
