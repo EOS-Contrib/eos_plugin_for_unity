@@ -94,6 +94,9 @@
     <ClInclude Include="headers\Config\SteamConfig.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
+    <ClInclude Include="headers\Config\EOSWrapper.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
