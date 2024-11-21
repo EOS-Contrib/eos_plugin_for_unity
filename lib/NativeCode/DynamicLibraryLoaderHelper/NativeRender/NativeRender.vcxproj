@@ -109,6 +109,7 @@
     <ClInclude Include="headers\Config\ProductionEnvironments.h" />
     <ClInclude Include="headers\Config\Sandbox.h" />
     <ClInclude Include="headers\Config\Serializable.h" />
+    <ClInclude Include="headers\Config\SteamConfig.h" />
     <ClInclude Include="headers\Config\Version.h" />
     <ClInclude Include="headers\Config\WindowsConfig.h" />
     <ClInclude Include="headers\config_legacy.h" />
