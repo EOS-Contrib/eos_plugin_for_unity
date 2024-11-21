@@ -104,6 +104,7 @@
     <ClInclude Include="headers\Config\common.hpp" />
     <ClInclude Include="headers\Config\ConfigBase.h" />
     <ClInclude Include="headers\Config\Deployment.h" />
+    <ClInclude Include="headers\Config\DLLWrapper.h" />
     <ClInclude Include="headers\Config\ProductConfig.h" />
     <ClInclude Include="headers\Config\ProductionEnvironments.h" />
     <ClInclude Include="headers\Config\Sandbox.h" />
