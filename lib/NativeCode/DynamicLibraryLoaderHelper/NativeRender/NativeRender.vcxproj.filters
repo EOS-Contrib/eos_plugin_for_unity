@@ -19,6 +19,12 @@
     <Filter Include="include\nlohmann">
       <UniqueIdentifier>{e2435868-f908-4f6f-8697-eea2e0b8d724}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Config">
+      <UniqueIdentifier>{671bf193-3c16-4ad2-b7ac-71a64fa845a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Config">
+      <UniqueIdentifier>{4daa6b3d-6965-47a2-88a1-b0cf6a8c928f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\eos_helpers.h">
@@ -51,6 +57,9 @@
     </ClInclude>
     <ClInclude Include="include\nlohmann\json.hpp">
       <Filter>include\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Config\Sandbox.h">
+      <Filter>Header Files\Config</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
