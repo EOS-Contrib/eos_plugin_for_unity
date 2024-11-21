@@ -35,10 +35,8 @@ namespace pew::eos::config
      */
     struct Serializable
     {
-
     protected:
         ~Serializable() = default;
-
         virtual void from_json(const nlohmann::json& json) = 0;
     };
 }

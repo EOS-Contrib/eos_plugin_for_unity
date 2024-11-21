@@ -24,8 +24,6 @@
 #include "headers/Config/ProductConfig.h"
 #include "headers/Config/common.hpp"
 #include "headers/Config/nlohmann_helpers.hpp"
-#include "headers/Config/ClientCredentials.hpp"
-#include "headers/Config/ProductionEnvironments.hpp"
 
 namespace pew::eos::config
 {
@@ -40,6 +38,8 @@ namespace pew::eos::config
         json["ProductVersion"].get_to(product_version);
     }
 
+    // TODO: The implementation between this and what is in PlatformConfig.h is
+    //       identical. Figure out a way to reduce the duplication.
     std::filesystem::path ProductConfig::get_config_path(const char* file_name)
     {
         return absolute(get_path_relative_to_current_module(std::filesystem::path(

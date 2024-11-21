@@ -52,9 +52,6 @@
     <ClInclude Include="headers\Config\ProductionEnvironments.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Config\Serializable.h">
-      <Filter>Header Files\Config</Filter>
-    </ClInclude>
     <ClInclude Include="headers\Config\ClientCredentials.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
@@ -90,6 +87,9 @@
     </ClInclude>
     <ClInclude Include="headers\PEW_EOS_Defines.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Config\Serializable.hpp">
+      <Filter>Header Files\Config</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -23,11 +23,12 @@
 #include <pch.h>
 #include <filesystem>
 #include <fstream>
-#include <iostream>
 #include <sstream>
 #include <string>
 
 #include "headers/Config/ConfigBase.h"
+
+#include "logging.h"
 #include "headers/Config/Version.hpp"
 
 namespace pew::eos::config
@@ -43,14 +44,14 @@ namespace pew::eos::config
     {
         if(!exists(_file_path))
         {
-            std::cerr << "Config file \"" << _file_path << "\" does not exist." << std::endl;
+            logging::log_error("Config file \"" + _file_path.string() + "\" does not exist.");
             return;
         }
 
         const std::ifstream file(_file_path);
         if (!file.is_open())
         {
-            std::cerr << "Failed to open file: \"" << _file_path << "\"" << std::endl;
+            logging::log_error("Failed to open existing file: \"" + _file_path.string() + "\"");
             return;
         }
 

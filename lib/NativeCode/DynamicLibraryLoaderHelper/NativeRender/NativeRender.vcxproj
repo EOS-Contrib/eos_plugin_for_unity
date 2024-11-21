@@ -112,7 +112,7 @@
     <ClInclude Include="headers\Config\PlatformConfig.h" />
     <ClInclude Include="headers\Config\ProductConfig.h" />
     <ClInclude Include="headers\Config\ProductionEnvironments.hpp" />
-    <ClInclude Include="headers\Config\Serializable.h" />
+    <ClInclude Include="headers\Config\Serializable.hpp" />
     <ClInclude Include="headers\Config\SteamConfig.h" />
     <ClInclude Include="headers\Config\Version.hpp" />
     <ClInclude Include="headers\Config\WindowsConfig.h" />
