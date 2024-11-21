@@ -27,19 +27,19 @@
 
 #include <vector>
 
-#include "Config.h"
+#include "ConfigBase.h"
 #include "ProductionEnvironments.h"
 #include "ClientCredentials.h"
 #include "include/json.hpp"
 
 namespace pew::eos::config
 {
-    class ProductConfig final : public Config
+    class ProductConfig final : public ConfigBase
     {
     private:
 
         // Makes the ProductConfig constructor accessible to the Config class.
-        friend class Config;
+        friend class ConfigBase;
 
         bool _imported;
 
@@ -55,7 +55,7 @@ namespace pew::eos::config
         std::string product_id;
         std::string product_version;
 
-        ProductConfig() : Config(get_config_path("eos_product_config.json")), _imported(false) {};
+        ProductConfig() : ConfigBase(get_config_path("eos_product_config.json")), _imported(false) {};
         ~ProductConfig() = default;
 
         // Make ProductConfig movable

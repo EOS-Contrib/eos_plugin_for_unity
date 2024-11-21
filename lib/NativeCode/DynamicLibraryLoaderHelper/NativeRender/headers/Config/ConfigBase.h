@@ -35,7 +35,7 @@ namespace pew::eos::config
      * \brief Used to describe information and functionality that is common to
      * all Config classes.
      */
-    class Config : public Serializable
+    class ConfigBase : public Serializable
     {
     private:
         /**
@@ -67,20 +67,20 @@ namespace pew::eos::config
          * \brief Create a new Config class.
          * \param file_name The fully qualified path to the config file.
          */
-        Config(const std::filesystem::path& file_name);
+        ConfigBase(const std::filesystem::path& file_name);
 
         /**
          * \brief Default destructor
          */
-        ~Config();
+        ~ConfigBase();
 
         // Explicitly default move constructor and move assignment operator
-        Config(Config&&) noexcept = default;
-        Config& operator=(Config&&) noexcept = default;
+        ConfigBase(ConfigBase&&) noexcept = default;
+        ConfigBase& operator=(ConfigBase&&) noexcept = default;
 
         // Delete the copy constructor and copy assignment operator
-        Config(const Config&) = delete;
-        Config& operator=(const Config&) = delete;
+        ConfigBase(const ConfigBase&) = delete;
+        ConfigBase& operator=(const ConfigBase&) = delete;
 
         /**
          * \brief Indicates whether the config file needs to be migrated.
@@ -114,7 +114,7 @@ namespace pew::eos::config
          * values.
          */
         template <typename T>
-        static std::enable_if_t<std::is_base_of_v<Config, T>, T*> get()
+        static std::enable_if_t<std::is_base_of_v<ConfigBase, T>, T*> get()
         {
             // Create the config class
             T* config = new T();

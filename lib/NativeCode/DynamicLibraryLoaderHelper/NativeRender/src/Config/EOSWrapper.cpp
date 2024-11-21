@@ -34,8 +34,8 @@ namespace pew::eos
     EOS_HPlatform EOSWrapper::start_eos() const
     {
         // Get the configuration values
-        const auto product_config = config::Config::get<config::ProductConfig>();
-        auto windows_config = config::Config::get<config::WindowsConfig>();
+        const auto product_config = config::ConfigBase::get<config::ProductConfig>();
+        auto windows_config = config::ConfigBase::get<config::WindowsConfig>();
 
         // Apply any command line arguments that there might be
         apply_cli_arguments(*windows_config, *product_config);

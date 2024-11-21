@@ -34,7 +34,7 @@
 #include "ProductConfig.h"
 #include "SteamConfig.h"
 #include "WindowsConfig.h"
-#include "headers/config_DEPRECATED.h"
+#include "headers/config_legacy.h"
 
 namespace pew::eos
 {

@@ -21,7 +21,7 @@
  */
 
 #include <pch.h>
-#include "../Config/Config.h"
+#include "../Config/ConfigBase.h"
 #include <filesystem>
 #include "include/json.hpp"
 #include <fstream>
@@ -35,12 +35,12 @@ namespace pew::eos::config
 {
     using namespace std::filesystem;
 
-    Config::Config(const std::filesystem::path& file_name)
+    ConfigBase::ConfigBase(const std::filesystem::path& file_name)
     {
         _file_path = file_name;
     }
 
-    void Config::read() 
+    void ConfigBase::read() 
     {
         if(!exists(_file_path))
         {
@@ -64,23 +64,23 @@ namespace pew::eos::config
         from_json_internal(json);
     }
 
-    void Config::write() 
+    void ConfigBase::write() 
     {
 
     }
 
-    bool Config::needs_migration()
+    bool ConfigBase::needs_migration()
     {
         // The config needs migration if the pImpl is either not set or is not current.
         //return (CURRENT_SCHEMA_VERSION > _schema_version);
         return true;
     }
 
-    void Config::from_json_internal(const nlohmann::json& json)
+    void ConfigBase::from_json_internal(const nlohmann::json& json)
     {
         Version::try_parse(json["schemaVersion"], _schema_version);
         from_json(json);
     }
 
-    Config::~Config() = default;
+    ConfigBase::~ConfigBase() = default;
 }

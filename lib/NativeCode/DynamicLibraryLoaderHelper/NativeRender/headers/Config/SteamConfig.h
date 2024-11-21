@@ -24,15 +24,15 @@
 
 #pragma once
 
-#include "Config.h"
+#include "ConfigBase.h"
 #include <common.hpp>
 
 namespace pew::eos::config
 {
-    class SteamConfig final : public Config
+    class SteamConfig final : public ConfigBase
     {
     public:
-        explicit SteamConfig() : Config(get_config_path("eos_plugin_steam_config.json")),
+        explicit SteamConfig() : ConfigBase(get_config_path("eos_plugin_steam_config.json")),
             steam_sdk_major_version(0),
             steam_sdk_minor_version(0)
         {
@@ -51,7 +51,7 @@ namespace pew::eos::config
         
 
     public:
-        friend class Config;
+        friend class ConfigBase;
 
         bool try_get_library_path(std::filesystem::path& library_path) const;
 

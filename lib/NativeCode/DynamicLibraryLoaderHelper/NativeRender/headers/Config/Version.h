@@ -46,7 +46,7 @@ namespace pew::eos::config
         static bool try_parse(const std::string& str, Version& version);
 
     private:
-        friend class Config;
+        friend class ConfigBase;
         static bool try_parse_int(const std::string& str, int& value);
     };
 }

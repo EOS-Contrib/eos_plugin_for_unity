@@ -25,7 +25,7 @@
 // This is apparently needed so that the Overlay can render properly
 #include "pch.h"
 
-#include "config.h"
+#include "config_legacy.h"
 #include "logging.h"
 #include <eos_helpers.h>
 

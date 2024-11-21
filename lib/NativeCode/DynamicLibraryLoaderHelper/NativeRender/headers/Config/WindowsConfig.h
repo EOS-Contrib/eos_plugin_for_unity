@@ -37,7 +37,7 @@ namespace pew::eos::config
         ~WindowsConfig() override = default;
 
         // Makes the WindowsConfig constructor accessible to the Config class.
-        friend class Config;
+        friend class ConfigBase;
     };
 }
 

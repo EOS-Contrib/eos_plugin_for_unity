@@ -32,7 +32,7 @@ namespace pew::eos::config
 
     bool ProductConfig::needs_migration()
     {
-        return Config::needs_migration() || !_imported;
+        return ConfigBase::needs_migration() || !_imported;
     }
 
     void ProductConfig::migrate()

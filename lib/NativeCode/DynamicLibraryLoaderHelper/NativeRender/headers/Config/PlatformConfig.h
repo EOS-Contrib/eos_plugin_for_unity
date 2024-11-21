@@ -27,7 +27,7 @@
 
 #include "eos_init.h"
 #include "ClientCredentials.h"
-#include "Config.h"
+#include "ConfigBase.h"
 #include "Deployment.h"
 
 namespace pew::eos::config
@@ -36,10 +36,10 @@ namespace pew::eos::config
      * \brief Describes the configuration options for a platform that wants to
      * interact with the EOS SDK.
      */
-    class PlatformConfig : public Config
+    class PlatformConfig : public ConfigBase
     {
     protected:
-        explicit PlatformConfig(const char* file_name) : Config(PlatformConfig::get_config_path(file_name)),
+        explicit PlatformConfig(const char* file_name) : ConfigBase(PlatformConfig::get_config_path(file_name)),
              is_server(false),
              platform_options_flags(0),
              tick_budget_in_milliseconds(0),
@@ -57,7 +57,7 @@ namespace pew::eos::config
 
         void from_json(const nlohmann::json& json) override;
 
-        friend class Config;
+        friend class ConfigBase;
     public:
         virtual ~PlatformConfig() = default;
         /**

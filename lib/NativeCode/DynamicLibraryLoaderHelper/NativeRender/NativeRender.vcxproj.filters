@@ -27,7 +27,7 @@
     <ClInclude Include="include\json.hpp">
       <Filter>Source Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="headers\config_DEPRECATED.h">
+    <ClInclude Include="headers\config_legacy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\eos_helpers.h">
@@ -70,7 +70,7 @@
     <ClInclude Include="headers\Config\Serializable.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Config\Config.h">
+    <ClInclude Include="headers\Config\ConfigBase.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
     <ClInclude Include="headers\Config\ProductConfig.h">
@@ -99,7 +99,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\config_DEPRECATED.cpp">
+    <ClCompile Include="src\config_legacy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\dllmain.cpp">
@@ -121,7 +121,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\pch.cpp" />
-    <ClCompile Include="src\Config\Config.cpp">
+    <ClCompile Include="src\Config\ConfigBase.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
     <ClCompile Include="src\Config\PlatformConfig.cpp">
