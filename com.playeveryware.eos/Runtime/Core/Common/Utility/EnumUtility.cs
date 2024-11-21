@@ -243,5 +243,31 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             
             return compositeParts;
         }
+
+        /// <summary>
+        /// Gets the lowest value in an enum type.
+        /// </summary>
+        /// <returns>
+        /// The lowest type within an enum. If the enum is empty, default is
+        /// returned.
+        /// </returns>
+        public static TEnum GetLowest()
+        {
+            object lowest = null;
+            foreach (var value in Enum.GetValues(typeof(TEnum)))
+            {
+                if (lowest == null || Comparer<object>.Default.Compare(value, lowest) < 0)
+                {
+                    lowest = value;
+                }
+            }
+
+            if (lowest != null)
+            {
+                return (TEnum)Enum.ToObject(typeof(TEnum), lowest);
+            }
+
+            return default;
+        }
     }
 }
