@@ -25,7 +25,7 @@
 #pragma once
 
 #include "Config.h"
-#include "io_helpers.h"
+#include <common.hpp>
 
 namespace pew::eos::config
 {
@@ -36,7 +36,7 @@ namespace pew::eos::config
             steam_sdk_major_version(0),
             steam_sdk_minor_version(0)
         {
-            _library_path = io_helpers::get_path_relative_to_current_module(STEAM_SDK_DLL_NAME);
+            _library_path = common::get_path_relative_to_current_module(STEAM_SDK_DLL_NAME);
         }
 
     private:

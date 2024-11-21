@@ -24,11 +24,12 @@
 #include "../Config/ProductConfig.h"
 #include "include/json.hpp"
 #include <iostream>
-
-#include "io_helpers.h"
+#include "common.hpp"
 
 namespace pew::eos::config
 {
+    using namespace common;
+
     bool ProductConfig::needs_migration()
     {
         return Config::needs_migration() || !_imported;
@@ -52,7 +53,7 @@ namespace pew::eos::config
 
     std::filesystem::path ProductConfig::get_config_path(const char* file_name)
     {
-        return absolute(io_helpers::get_path_relative_to_current_module(std::filesystem::path(
+        return absolute(get_path_relative_to_current_module(std::filesystem::path(
 #ifdef _DEBUG
             "../../../../../../Assets/StreamingAssets/EOS/"
 #endif

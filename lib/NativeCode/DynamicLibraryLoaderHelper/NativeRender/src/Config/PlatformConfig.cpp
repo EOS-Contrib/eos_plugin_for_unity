@@ -22,13 +22,16 @@
 
 #include <pch.h>
 #include "PlatformConfig.h"
-#include "EOSJsonConverterMethods.h"
+#include "common.hpp"
+#include "nlohmann_helpers.hpp"
 
 namespace pew::eos::config
 {
+    using namespace common;
+
     std::filesystem::path PlatformConfig::get_config_path(const char* file_name)
     {
-        return absolute(io_helpers::get_path_relative_to_current_module(std::filesystem::path(
+        return std::filesystem::absolute(get_path_relative_to_current_module(std::filesystem::path(
 #ifdef _DEBUG
             "../../../../../../Assets/StreamingAssets/EOS/"
 #endif

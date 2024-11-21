@@ -82,7 +82,7 @@
     <ClInclude Include="headers\Config\Version.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Config\EOSJsonConverterMethods.h">
+    <ClInclude Include="headers\Config\nlohmann_helpers.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
     <ClInclude Include="headers\Config\DLLWrapper.h">
@@ -94,7 +94,7 @@
     <ClInclude Include="headers\Config\SteamConfig.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Config\SteamWrapper.h">
+    <ClInclude Include="headers\common.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
   </ItemGroup>
@@ -142,9 +142,6 @@
     <ClCompile Include="src\Config\Sandbox.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
-    <ClCompile Include="src\Config\EOSJsonConverterMethods.cpp">
-      <Filter>Source Files\Config</Filter>
-    </ClCompile>
     <ClCompile Include="src\Config\DLLWrapper.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
@@ -155,9 +152,6 @@
       <Filter>Source Files\Config</Filter>
     </ClCompile>
     <ClCompile Include="src\Config\Version.cpp">
-      <Filter>Source Files\Config</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Config\SteamWrapper.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
   </ItemGroup>

@@ -21,15 +21,14 @@
  */
 
 #include <pch.h>
-#include "PlatformConfig.h"
 #include "SteamConfig.h"
-#include <iostream>
 #include <filesystem>
-#include "io_helpers.h"
-#include "EOSJsonConverterMethods.h"
+#include "common.hpp"
 
 namespace pew::eos::config
 {
+    using namespace common;
+
     void SteamConfig::from_json(const json& json)
     {
         int version_major;
@@ -58,7 +57,7 @@ namespace pew::eos::config
 
     std::filesystem::path SteamConfig::get_config_path(const char* file_name)
     {
-        return absolute(io_helpers::get_path_relative_to_current_module(std::filesystem::path(
+        return std::filesystem::absolute(get_path_relative_to_current_module(std::filesystem::path(
 #ifdef _DEBUG
             "../../../../../../etc/config/"
 #endif

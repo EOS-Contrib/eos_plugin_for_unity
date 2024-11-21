@@ -111,15 +111,15 @@
   </ItemDefinitionGroup>
   <!-- Source Files -->
   <ItemGroup>
+    <ClInclude Include="headers\common.hpp" />
     <ClInclude Include="headers\Config\DLLWrapper.h" />
     <ClInclude Include="headers\Config\EOSWrapper.h" />
     <ClInclude Include="headers\Config\SteamConfig.h" />
-    <ClInclude Include="headers\Config\SteamWrapper.h" />
     <ClInclude Include="headers\config_DEPRECATED.h" />
     <ClInclude Include="headers\Config\ClientCredentials.h" />
     <ClInclude Include="headers\Config\Config.h" />
     <ClInclude Include="headers\Config\Deployment.h" />
-    <ClInclude Include="headers\Config\EOSJsonConverterMethods.h" />
+    <ClInclude Include="headers\Config\nlohmann_helpers.hpp" />
     <ClInclude Include="headers\Config\PlatformConfig.h" />
     <ClInclude Include="headers\Config\ProductConfig.h" />
     <ClInclude Include="headers\Config\ProductionEnvironments.h" />
@@ -142,14 +142,12 @@
     <ClCompile Include="src\Config\Config.cpp" />
     <ClCompile Include="src\Config\Deployment.cpp" />
     <ClCompile Include="src\Config\DLLWrapper.cpp" />
-    <ClCompile Include="src\Config\EOSJsonConverterMethods.cpp" />
     <ClCompile Include="src\Config\EOSWrapper.cpp" />
     <ClCompile Include="src\Config\PlatformConfig.cpp" />
     <ClCompile Include="src\Config\ProductConfig.cpp" />
     <ClCompile Include="src\Config\ProductionEnvironments.cpp" />
     <ClCompile Include="src\Config\Sandbox.cpp" />
     <ClCompile Include="src\Config\SteamConfig.cpp" />
-    <ClCompile Include="src\Config\SteamWrapper.cpp" />
     <ClCompile Include="src\Config\Version.cpp" />
     <ClCompile Include="src\config_DEPRECATED.cpp" />
     <ClCompile Include="src\dllmain.cpp" />

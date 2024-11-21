@@ -23,19 +23,19 @@
 #include <pch.h>
 #include <DLLWrapper.h>
 #include <filesystem>
-
-#include "io_helpers.h"
-#include "string_helpers.h"
+#include "common.hpp"
 
 namespace pew::eos
 {
+    using namespace common;
+
     DLLWrapper::DLLWrapper(const std::string& library_name)
     {
         // Get the path to the library relative to the current module
-        const auto library_path = io_helpers::get_path_relative_to_current_module(library_name);
+        const auto library_path = get_path_relative_to_current_module(library_name);
 
         // Load a handle to the library
-        //library_handle = DLLWrapper::load_library_at_path(library_path);
+        library_handle = DLLWrapper::load_library_at_path(library_path);
     }
 
     DLLWrapper::~DLLWrapper()
@@ -50,8 +50,10 @@ namespace pew::eos
         void* to_return = nullptr;
 
 #if PLATFORM_WINDOWS
-        logging::log_inform(("Loading path at " + string_helpers::to_utf8_str(library_path)).c_str());
+        logging::log_inform(("Loading path at " + to_utf8_str(library_path)).c_str());
         HMODULE handle = LoadLibrary(library_path.c_str());
+
+        // Uncomment the following line to list all the functions in the library once it is loaded.
         //EnumerateFunctions(handle);
         to_return = static_cast<void*>(handle);
 #endif
