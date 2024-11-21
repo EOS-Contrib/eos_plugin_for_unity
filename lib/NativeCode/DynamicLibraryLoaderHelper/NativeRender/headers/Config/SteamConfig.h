@@ -46,7 +46,7 @@ namespace pew::eos::config
         std::vector<std::string> _steam_api_interface_versions_array;
 
     protected:
-        void from_json(const json& json) override;
+        void from_json(const nlohmann::json& json) override;
 
         std::filesystem::path get_config_path(const char* file_name) override;
         

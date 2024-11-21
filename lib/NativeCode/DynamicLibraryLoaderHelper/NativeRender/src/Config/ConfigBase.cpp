@@ -28,8 +28,7 @@
 #include <string>
 
 #include "headers/Config/ConfigBase.h"
-#include "include/nlohmann/json.hpp"
-#include "headers/Config/Version.h"
+#include "headers/Config/Version.hpp"
 
 namespace pew::eos::config
 {
@@ -59,12 +58,12 @@ namespace pew::eos::config
         buffer << file.rdbuf();
         std::string json_content = buffer.str();
 
-        const json json = json::parse(json_content);
+        const nlohmann::json json = nlohmann::json::parse(json_content);
 
         from_json_internal(json);
     }
 
-    void ConfigBase::from_json_internal(const json& json)
+    void ConfigBase::from_json_internal(const nlohmann::json& json)
     {
         Version::try_parse(json["schemaVersion"], _schema_version);
         from_json(json);

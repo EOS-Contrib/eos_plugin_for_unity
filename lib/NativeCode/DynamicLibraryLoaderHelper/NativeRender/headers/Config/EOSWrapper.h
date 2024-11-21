@@ -24,6 +24,7 @@
  */
 
 #pragma once
+
 #include "headers/Config/DLLWrapper.h"
 #include "headers/Config/ConfigBase.h"
 #include "eos_init.h"

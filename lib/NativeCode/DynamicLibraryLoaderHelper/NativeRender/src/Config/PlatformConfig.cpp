@@ -23,8 +23,8 @@
 #include <pch.h>
 #include "headers/Config/PlatformConfig.h"
 #include "headers/Config/common.hpp"
-//#include "Config/nlohmann_helpers.hpp"
-
+#include "headers/Config/nlohmann_helpers.hpp"
+#include "eos_init.h"
 namespace pew::eos::config
 {
     using namespace common;
@@ -41,34 +41,34 @@ namespace pew::eos::config
         ) / file_name));
     }
 
-    void PlatformConfig::from_json(const json& json)
+    void PlatformConfig::from_json(const nlohmann::json& json)
     {
-        //auto json_str = json.dump();
-        ////json["deployment"].get_to(                        deployment);
-        ////json["clientCredentials"].get_to(                 client_credentials);
-        ////json["isServer"].get_to(                          is_server);
+        auto json_str = json.dump();
+        json["deployment"].get_to(                        deployment);
+        json["clientCredentials"].get_to(                 client_credentials);
+        json["isServer"].get_to(                          is_server);
 
-        //// "platformOptionsFlags" is special, because it's value is a uint64_t,
-        //// but the C# code translates it to a custom flag enum type and saves it
-        //// into the json as a comma-delimited list of values. Attempting to
-        //// parse that directly into an integer fails, so custom logic is
-        //// required. A "from_json" function cannot be written for this scenario
-        //// because the template parameter would be uint64_t, and parsing would
-        //// fail.
-        //std::string platform_options_flags_str;
-        //platform_options_flags = 0;
-        //json["platformOptionsFlags"].get_to(platform_options_flags_str);
-        //flags_enum_from_string(platform_options_flags_str, PLATFORM_CREATION_FLAGS_STRING_TO_ENUM, platform_options_flags);
-        //
-        //json["authScopeOptionsFlags"].get_to(             auth_scope_flags);
-        //json["integratedPlatformManagementFlags"].get_to( integrated_platform_management_flags);
-        //json["tickBudgetInMilliseconds"].get_to(          tick_budget_in_milliseconds);
-        //json["taskNetworkTimeoutSeconds"].get_to(         task_network_timeout_seconds);
-        //json["threadAffinity"].get_to(                    thread_affinity);
-        //json["alwaysSendInputToOverlay"].get_to(          always_send_input_to_overlay);
-        //json["alwaysSendInputToOverlay"].get_to(          always_send_input_to_overlay);
-        //json["initialButtonDelayForOverlay"].get_to(      initial_button_delay_for_overlay);
-        //json["repeatButtonDelayForOverlay"].get_to(       repeat_button_delay_for_overlay);
-        //json["toggleFriendsButtonCombination"].get_to(    toggle_friends_button_combination);
+        // "platformOptionsFlags" is special, because it's value is a uint64_t,
+        // but the C# code translates it to a custom flag enum type and saves it
+        // into the json as a comma-delimited list of values. Attempting to
+        // parse that directly into an integer fails, so custom logic is
+        // required. A "from_json" function cannot be written for this scenario
+        // because the template parameter would be uint64_t, and parsing would
+        // fail.
+        std::string platform_options_flags_str;
+        platform_options_flags = 0;
+        json["platformOptionsFlags"].get_to(platform_options_flags_str);
+        flags_enum_from_string(platform_options_flags_str, PLATFORM_CREATION_FLAGS_STRING_TO_ENUM, platform_options_flags);
+        
+        json["authScopeOptionsFlags"].get_to(             auth_scope_flags);
+        json["integratedPlatformManagementFlags"].get_to( integrated_platform_management_flags);
+        json["tickBudgetInMilliseconds"].get_to(          tick_budget_in_milliseconds);
+        json["taskNetworkTimeoutSeconds"].get_to(         task_network_timeout_seconds);
+        json["threadAffinity"].get_to(                    thread_affinity);
+        json["alwaysSendInputToOverlay"].get_to(          always_send_input_to_overlay);
+        json["alwaysSendInputToOverlay"].get_to(          always_send_input_to_overlay);
+        json["initialButtonDelayForOverlay"].get_to(      initial_button_delay_for_overlay);
+        json["repeatButtonDelayForOverlay"].get_to(       repeat_button_delay_for_overlay);
+        json["toggleFriendsButtonCombination"].get_to(    toggle_friends_button_combination);
     }
 }

@@ -24,10 +24,11 @@
  */
 
 #pragma once
+#include <algorithm>
 #include <vector>
 
-#include "headers/Config/Deployment.h"
-#include "headers/Config/Sandbox.h"
+#include "headers/Config/Deployment.hpp"
+#include "headers/Config/Sandbox.hpp"
 
 namespace pew::eos::config
 {

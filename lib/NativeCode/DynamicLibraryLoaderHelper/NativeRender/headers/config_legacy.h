@@ -43,7 +43,7 @@ struct json_value_s;
 #define CONFIG_API __declspec(dllimport)
 #endif
 
-namespace pew::eos::config
+namespace pew::eos::config_legacy
 {
     /**
      * \brief

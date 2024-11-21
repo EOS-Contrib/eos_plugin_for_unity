@@ -26,9 +26,9 @@
 #pragma once
 
 #include "eos_init.h"
-#include "headers/Config/ClientCredentials.h"
+#include "headers/Config/ClientCredentials.hpp"
 #include "headers/Config/ConfigBase.h"
-#include "headers/Config/Deployment.h"
+#include "headers/Config/Deployment.hpp"
 
 namespace pew::eos::config
 {

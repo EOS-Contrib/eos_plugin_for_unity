@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="include">
-      <UniqueIdentifier>{27635286-19df-4823-a6ef-188f1e65e466}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\nlohmann">
-      <UniqueIdentifier>{e2435868-f908-4f6f-8697-eea2e0b8d724}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Config">
       <UniqueIdentifier>{671bf193-3c16-4ad2-b7ac-71a64fa845a4}</UniqueIdentifier>
     </Filter>
@@ -55,25 +49,22 @@
     <ClInclude Include="headers\config_legacy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\nlohmann\json.hpp">
-      <Filter>include\nlohmann</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Config\Sandbox.h">
+    <ClInclude Include="headers\Config\Sandbox.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Config\Deployment.h">
+    <ClInclude Include="headers\Config\Deployment.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Config\ProductionEnvironments.h">
+    <ClInclude Include="headers\Config\ProductionEnvironments.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
     <ClInclude Include="headers\Config\Serializable.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Config\ClientCredentials.h">
+    <ClInclude Include="headers\Config\ClientCredentials.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Config\Version.h">
+    <ClInclude Include="headers\Config\Version.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
     <ClInclude Include="headers\Config\ConfigBase.h">
@@ -98,6 +89,9 @@
       <Filter>Header Files\Config</Filter>
     </ClInclude>
     <ClInclude Include="headers\Config\nlohmann_helpers.hpp">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Config\PlatformConfig.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
   </ItemGroup>
@@ -130,9 +124,6 @@
     <ClCompile Include="src\Config\ConfigBase.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
-    <ClCompile Include="src\Config\Version.cpp">
-      <Filter>Source Files\Config</Filter>
-    </ClCompile>
     <ClCompile Include="src\Config\DLLWrapper.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
@@ -148,5 +139,8 @@
     <ClCompile Include="src\Config\EOSWrapper.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

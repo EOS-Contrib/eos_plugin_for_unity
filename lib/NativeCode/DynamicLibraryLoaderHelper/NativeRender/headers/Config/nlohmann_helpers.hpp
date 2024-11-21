@@ -25,24 +25,52 @@
 
 #pragma once
 
-#include "include/nlohmann/json.hpp"
+#include <map>
+#include <vector>
 #include "headers/Config/common.hpp"
+#include <nlohmann/json.hpp>
 
-namespace nlohmann
+#include "headers/Config/Sandbox.hpp"
+#include "headers/Config/Deployment.hpp"
+
+/**
+ * Because C++20 supports the "contains" method on the map collection, but older
+ * versions of C++ do not, this MACRO is here to make it easier.
+ */
+#if __cplusplus >= 202002L  // Check if C++20 or later
+#define CONTAINS(map, key) ((map).contains(key))
+#else
+#define CONTAINS(map, key) ((map).find(key) != (map).end())
+#endif
+
+ /**
+  * \brief Function that instructs the nlohmann library how to parse an
+  * EOS_Initialize_ThreadAffinity struct.
+  *
+  * Note that this is defined outside the pew::eos::config namespace. This is
+  * because from_json functions must be defined within the namespace that the
+  * object they parse to is defined, and since EOS_Initialize_ThreadAffinity is
+  * defined in an anonymous namespace being as how it's included from,
+  * eos_init.h.
+  *
+  * \param json The JSON object to read the values from.
+  * \param initialize_thread_affinity The value to set from the JSON.
+  */
+inline void from_json(const nlohmann::json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity)
 {
-    using namespace pew::eos::config;
-    using namespace pew::eos::common;
-    
-    /**
-     * This compile conditional is here because C++20 supports the contains
-     * method on the map collection, but older versions of C++ do not.
-     */
-    #if __cplusplus >= 202002L  // Check if C++20 or later
-        #define CONTAINS(map, key) ((map).contains(key))
-    #else
-        #define CONTAINS(map, key) ((map).find(key) != (map).end())
-    #endif
+    initialize_thread_affinity.ApiVersion = json["ApiVersion"].get<int>();
+    initialize_thread_affinity.NetworkWork = json["Net"].get<uint64_t>();
+    initialize_thread_affinity.StorageIo = json["StorageIo"].get<uint64_t>();
+    initialize_thread_affinity.WebSocketIo = json["WebSocketIo"].get<uint64_t>();
+    initialize_thread_affinity.P2PIo = json["P2PIo"].get<uint64_t>();
+    initialize_thread_affinity.HttpRequestIo = json["HttpRequestIo"].get<uint64_t>();
+    initialize_thread_affinity.RTCIo = json["RTCIo"].get<uint64_t>();
+    initialize_thread_affinity.EmbeddedOverlayMainThread = json["EmbeddedOverlayMainThread"].get<uint64_t>();
+    initialize_thread_affinity.EmbeddedOverlayWorkerThreads = json["EmbeddedOverlayWorkerThreads"].get<uint64_t>();
+}
 
+namespace pew::eos::config
+{
     /**
      * \brief Maps string values to values for platform options flags. Note that
      * there are multiple keys that can be mapped to the same value. This is to
@@ -184,36 +212,7 @@ namespace nlohmann
         {"ApplicationManagedIdentityLogin",          EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin}
     };
 
-    inline static uint64_t get_uint64_t_from_int(const json& json, const char* key)
-    {
-        int temp_int;
-        json.at(key).get_to(temp_int);
-        return static_cast<uint64_t>(temp_int);
-    }
-
-    #define JSON_PARSE_THREAD_AFFINITY(key, affinity) affinity.key = get_uint64_t_from_int(json, #key);
-
-    /**
-     * \brief Function that instructs the nlohmann library how to parse an
-     * EOS_Initialize_ThreadAffinity struct.
-     * \param json The JSON object to read the values from.
-     * \param initialize_thread_affinity The value to set from the JSON.
-     */
-    inline void from_json(const json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity)
-    {
-        // Get the ApiVersion (it's different from the other field members
-        // because it's int32_t, not uint64_t.
-        json["ApiVersion"].get_to(initialize_thread_affinity.ApiVersion);
-
-        JSON_PARSE_THREAD_AFFINITY(NetworkWork, initialize_thread_affinity)
-        JSON_PARSE_THREAD_AFFINITY(StorageIo, initialize_thread_affinity)
-        JSON_PARSE_THREAD_AFFINITY(WebSocketIo, initialize_thread_affinity)
-        JSON_PARSE_THREAD_AFFINITY(P2PIo, initialize_thread_affinity)
-        JSON_PARSE_THREAD_AFFINITY(HttpRequestIo, initialize_thread_affinity)
-        JSON_PARSE_THREAD_AFFINITY(RTCIo, initialize_thread_affinity)
-        JSON_PARSE_THREAD_AFFINITY(EmbeddedOverlayMainThread, initialize_thread_affinity)
-        JSON_PARSE_THREAD_AFFINITY(EmbeddedOverlayWorkerThreads, initialize_thread_affinity)
-    }
+    
 
     /**
      * \brief Helper constraint for allowing template functions to require the
@@ -234,7 +233,7 @@ namespace nlohmann
      * provided.
      */
     template <typename T, std::enable_if_t<is_enum_or_int_v<T>, int> = 0>
-    T str_to_enum(const std::string& str, const std::map<std::string, T>& map) 
+    T str_to_enum(const std::string& str, const std::map<std::string, T>& map)
     {
         // If the string doesn't exist in the map, then throw an exception.
         if (!CONTAINS(map, str))
@@ -259,7 +258,7 @@ namespace nlohmann
     void flags_enum_from_string(const std::string& flag_enums_string, const std::map<std::string, T>& strings_to_flags, T& flags_enum)
     {
         // Get the comma-delimited list of strings
-        const auto string_values = split_and_trim(flag_enums_string);
+        const auto string_values = common::split_and_trim(flag_enums_string);
 
         // Iterate through them and apply to the auth scope flags.
         for (const auto& str : string_values)
@@ -285,7 +284,7 @@ namespace nlohmann
      * \param flags_enum The variable to assign the determined value to.
      */
     template <typename T, std::enable_if_t<is_enum_or_int_v<T>, int> = 0>
-    void flags_enum_from_json(const json& json, const std::map<std::string, T>& strings_to_flags, T& flags_enum)
+    void flags_enum_from_json(const nlohmann::json& json, const std::map<std::string, T>& strings_to_flags, T& flags_enum)
     {
         std::string str_enum_values;
         json.get_to(str_enum_values);
@@ -299,7 +298,7 @@ namespace nlohmann
      * \param json The JSON object to read the values from.
      * \param auth_scope_flags The value to set from the JSON.
      */
-    inline void from_json(const json& json, EOS_EAuthScopeFlags& auth_scope_flags)
+    inline void from_json(const nlohmann::json& json, EOS_EAuthScopeFlags& auth_scope_flags)
     {
         flags_enum_from_json<EOS_EAuthScopeFlags>(
             json,
@@ -314,7 +313,7 @@ namespace nlohmann
      * \param integrated_platform_management_flags The value to set from the
      * JSON.
      */
-    inline void from_json(const json& json, EOS_EIntegratedPlatformManagementFlags& integrated_platform_management_flags)
+    inline void from_json(const nlohmann::json& json, EOS_EIntegratedPlatformManagementFlags& integrated_platform_management_flags)
     {
         flags_enum_from_json<EOS_EIntegratedPlatformManagementFlags>(
             json,
@@ -328,7 +327,7 @@ namespace nlohmann
      * \param json The JSON object to read the values from.
      * \param input_state_button_flags The value to set from the JSON.
      */
-    inline void from_json(const json& json, EOS_UI_EInputStateButtonFlags& input_state_button_flags)
+    inline void from_json(const nlohmann::json& json, EOS_UI_EInputStateButtonFlags& input_state_button_flags)
     {
         flags_enum_from_json<EOS_UI_EInputStateButtonFlags>(
             json,
@@ -337,7 +336,7 @@ namespace nlohmann
         );
     }
 
-    inline void from_json(const json& json, ClientCredentials& credentials)
+    inline void from_json(const nlohmann::json& json, ClientCredentials& credentials)
     {
         nlohmann::json temp_json = json;
         if (temp_json.contains("Value"))
@@ -350,7 +349,7 @@ namespace nlohmann
         temp_json["EncryptionKey"].get_to(credentials.encryption_key);
     }
 
-    inline void from_json(const json& json, Deployment& deployment)
+    inline void from_json(const nlohmann::json& json, Deployment& deployment)
     {
         nlohmann::json temp_json = json;
         if (temp_json.contains("Value"))
@@ -364,16 +363,45 @@ namespace nlohmann
         temp_json["DeploymentId"].get_to(deployment.id);
     }
 
-    inline void from_json(const json& json, Sandbox& sandbox)
+    inline void from_json(const nlohmann::json& json, Sandbox& sandbox)
     {
         json["Value"]["Value"].get_to(sandbox.id);
     }
 
-    inline void from_json(const json& json, ProductionEnvironments& environments)
+    inline void from_json(const nlohmann::json& json, ProductionEnvironments& environments)
     {
-        environments.sandboxes = json["Sandboxes"].get<std::vector<Sandbox>>();
+        environments.sandboxes = json["Sandboxes"].get_to(environments.sandboxes);
         environments.deployments = json["Deployments"].get <std::vector<Deployment>>();
     }
-}
 
+    inline void from_json(const nlohmann::json& json, PlatformConfig& platform_config)
+    {
+        json["deployment"].get_to(platform_config.deployment);
+        json["clientCredentials"].get_to(platform_config.client_credentials);
+        json["isServer"].get_to(platform_config.is_server);
+
+        // "platformOptionsFlags" is special, because it's value is a uint64_t,
+        // but the C# code translates it to a custom flag enum type and saves it
+        // into the json as a comma-delimited list of values. Attempting to
+        // parse that directly into an integer fails, so custom logic is
+        // required. A "from_json" function cannot be written for this scenario
+        // because the template parameter would be uint64_t, and parsing would
+        // fail.
+        std::string platform_options_flags_str;
+        platform_config.platform_options_flags = 0;
+        json["platformOptionsFlags"].get_to(platform_options_flags_str);
+        flags_enum_from_string(platform_options_flags_str, PLATFORM_CREATION_FLAGS_STRING_TO_ENUM, platform_config.platform_options_flags);
+
+        json["authScopeOptionsFlags"].get_to(platform_config.auth_scope_flags);
+        json["integratedPlatformManagementFlags"].get_to(platform_config.integrated_platform_management_flags);
+        json["tickBudgetInMilliseconds"].get_to(platform_config.tick_budget_in_milliseconds);
+        json["taskNetworkTimeoutSeconds"].get_to(platform_config.task_network_timeout_seconds);
+        json["threadAffinity"].get_to(platform_config.thread_affinity);
+        json["alwaysSendInputToOverlay"].get_to(platform_config.always_send_input_to_overlay);
+        json["alwaysSendInputToOverlay"].get_to(platform_config.always_send_input_to_overlay);
+        json["initialButtonDelayForOverlay"].get_to(platform_config.initial_button_delay_for_overlay);
+        json["repeatButtonDelayForOverlay"].get_to(platform_config.repeat_button_delay_for_overlay);
+        json["toggleFriendsButtonCombination"].get_to(platform_config.toggle_friends_button_combination);
+    }
+}
 #endif

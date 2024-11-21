@@ -1,8 +1,8 @@
-#ifndef VERSION_H
-#define VERSION_H
+#ifndef DEPLOYMENT_H
+#define DEPLOYMENT_H
 
 /*
- * Copyright (c) 2021 PlayEveryWare
+ * Copyright (c) 2024 PlayEveryWare
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,30 +24,18 @@
  */
 
 #pragma once
-
-#include "pch.h"
+#include "headers/Config/Sandbox.hpp"
 #include <string>
 
 namespace pew::eos::config
 {
-    struct CONFIG_API Version
+    /**
+     * \brief Used to describe a deployment for initializing the EOS SDK.
+     */
+    struct Deployment
     {
-    public:
-        int major = 0;
-        int minor = 0;
-        int part = 0;
-
-        bool operator<(const Version& other) const;
-        bool operator>(const Version& other) const;
-        bool operator==(const Version& other) const;
-        bool operator<=(const Version& other) const;
-        bool operator>=(const Version& other) const;
-
-        static bool try_parse(const std::string& str, Version& version);
-
-    private:
-        friend class ConfigBase;
-        static bool try_parse_int(const std::string& str, int& value);
+        std::string id;
+        Sandbox sandbox;
     };
 }
 

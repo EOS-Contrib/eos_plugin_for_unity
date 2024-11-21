@@ -100,19 +100,20 @@
   </ItemDefinitionGroup>
   <!-- Source Files -->
   <ItemGroup>
-    <ClInclude Include="headers\Config\ClientCredentials.h" />
+    <ClInclude Include="headers\Config\ClientCredentials.hpp" />
     <ClInclude Include="headers\Config\common.hpp" />
     <ClInclude Include="headers\Config\ConfigBase.h" />
-    <ClInclude Include="headers\Config\Deployment.h" />
+    <ClInclude Include="headers\Config\Deployment.hpp" />
     <ClInclude Include="headers\Config\DLLWrapper.h" />
     <ClInclude Include="headers\Config\EOSWrapper.h" />
     <ClInclude Include="headers\Config\nlohmann_helpers.hpp" />
+    <ClInclude Include="headers\Config\PlatformConfig.h" />
     <ClInclude Include="headers\Config\ProductConfig.h" />
-    <ClInclude Include="headers\Config\ProductionEnvironments.h" />
-    <ClInclude Include="headers\Config\Sandbox.h" />
+    <ClInclude Include="headers\Config\ProductionEnvironments.hpp" />
+    <ClInclude Include="headers\Config\Sandbox.hpp" />
     <ClInclude Include="headers\Config\Serializable.h" />
     <ClInclude Include="headers\Config\SteamConfig.h" />
-    <ClInclude Include="headers\Config\Version.h" />
+    <ClInclude Include="headers\Config\Version.hpp" />
     <ClInclude Include="headers\Config\WindowsConfig.h" />
     <ClInclude Include="headers\config_legacy.h" />
     <ClInclude Include="headers\eos_helpers.h" />
@@ -123,7 +124,6 @@
     <ClInclude Include="headers\json_helpers.h" />
     <ClInclude Include="headers\logging.h" />
     <ClInclude Include="headers\string_helpers.h" />
-    <ClInclude Include="include\nlohmann\json.hpp" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -136,7 +136,6 @@
     <ClCompile Include="src\Config\PlatformConfig.cpp" />
     <ClCompile Include="src\Config\ProductConfig.cpp" />
     <ClCompile Include="src\Config\SteamConfig.cpp" />
-    <ClCompile Include="src\Config\Version.cpp" />
     <ClCompile Include="src\config_legacy.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\eos_helpers.cpp" />
@@ -146,7 +145,18 @@
     <ClCompile Include="src\logging.cpp" />
     <ClCompile Include="src\string_helpers.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="ConfigPaths.props" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets" Condition="Exists('..\packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets'))" />
+  </Target>
 </Project>

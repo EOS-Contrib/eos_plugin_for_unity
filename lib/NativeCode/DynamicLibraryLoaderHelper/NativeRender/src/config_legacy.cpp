@@ -27,7 +27,7 @@
 #include "json_helpers.h"
 #include "logging.h"
 
-using namespace pew::eos::config;
+using namespace pew::eos::config_legacy;
 using namespace pew::eos::json_helpers;
 
  /**
@@ -168,7 +168,7 @@ EOSConfig eos_config_from_json_value(json_value_s* config_json)
     return eos_config;
 }
 
-namespace pew::eos::config
+namespace pew::eos::config_legacy
 {
     /**
      * \brief Function that gets the config as a JSON string.

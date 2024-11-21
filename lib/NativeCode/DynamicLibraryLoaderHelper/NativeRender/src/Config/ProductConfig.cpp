@@ -22,22 +22,23 @@
 
 #include <pch.h>
 #include "headers/Config/ProductConfig.h"
-//#include "include/nlohmann/json.hpp"
 #include "headers/Config/common.hpp"
-//#include "headers/Config/nlohmann_helpers.hpp"
+#include "headers/Config/nlohmann_helpers.hpp"
+#include "headers/Config/ClientCredentials.hpp"
+#include "headers/Config/ProductionEnvironments.hpp"
 
 namespace pew::eos::config
 {
     using namespace common;
 
-    void ProductConfig::from_json(const json& json)
+    void ProductConfig::from_json(const nlohmann::json& json)
     {
-        //json["ProductId"].get_to(product_id);
-        //json["ProductName"].get_to(product_name);
+        json["ProductId"].get_to(product_id);
+        json["ProductName"].get_to(product_name);
         //json["Clients"].get_to(clients);
-        //json["imported"].get_to(_imported);
+        json["imported"].get_to(_imported);
         //json["Environments"].get_to(environments);
-        //json["ProductVersion"].get_to(product_version);
+        json["ProductVersion"].get_to(product_version);
     }
 
     std::filesystem::path ProductConfig::get_config_path(const char* file_name)

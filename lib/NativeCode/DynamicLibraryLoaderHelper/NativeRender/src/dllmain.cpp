@@ -46,7 +46,7 @@ extern "C"
     void __declspec(dllexport) __stdcall UnityPluginUnload();
 }
 
-void get_cli_arguments(config::EOSConfig eos_config)
+void get_cli_arguments(config_legacy::EOSConfig eos_config)
 {
     //support sandbox and deployment id override via command line arguments
     std::stringstream argument_stream = std::stringstream(GetCommandLineA());
@@ -122,8 +122,8 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     logging::show_log_as_dialog("You may attach a debugger to the DLL");
 #endif
 
-    config::EOSConfig eos_config;
-    if (!config::try_get_eos_config(eos_config))
+    config_legacy::EOSConfig eos_config;
+    if (!config_legacy::try_get_eos_config(eos_config))
     {
         return;
     }

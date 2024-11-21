@@ -29,24 +29,24 @@ namespace pew::eos::config
 {
     using namespace common;
 
-    void SteamConfig::from_json(const json& json)
+    void SteamConfig::from_json(const nlohmann::json& json)
     {
-        //int version_major;
-        //json["steamSDKMajorVersion"].get_to(version_major);
-        //steam_sdk_major_version = static_cast<uint32_t>(version_major);
+        int version_major;
+        json["steamSDKMajorVersion"].get_to(version_major);
+        steam_sdk_major_version = static_cast<uint32_t>(version_major);
 
-        //int version_minor;
-        //json["steamSDKMinorVersion"].get_to(version_minor);
-        //steam_sdk_minor_version = static_cast<uint32_t>(version_minor);
+        int version_minor;
+        json["steamSDKMinorVersion"].get_to(version_minor);
+        steam_sdk_minor_version = static_cast<uint32_t>(version_minor);
 
-        //if (!json["overrideLibraryPath"].is_null())
-        //{
-        //    std::string library_path = json["overrideLibraryPath"].get<std::string>();
-        //    _override_library_path = std::filesystem::path(library_path);
-        //}
+        if (!json["overrideLibraryPath"].is_null())
+        {
+            std::string library_path = json["overrideLibraryPath"].get<std::string>();
+            _override_library_path = std::filesystem::path(library_path);
+        }
 
-        //json["integratedPlatformManagementFlags"].get_to(integrated_platform_management_flags);
-        //json["steamApiInterfaceVersionsArray"].get_to(_steam_api_interface_versions_array);
+        json["integratedPlatformManagementFlags"].get_to(integrated_platform_management_flags);
+        json["steamApiInterfaceVersionsArray"].get_to(_steam_api_interface_versions_array);
     }
 
     std::filesystem::path SteamConfig::get_config_path(const char* file_name)

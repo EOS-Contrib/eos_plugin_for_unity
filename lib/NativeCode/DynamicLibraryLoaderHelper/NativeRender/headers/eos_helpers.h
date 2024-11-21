@@ -34,7 +34,7 @@ namespace std
 
 namespace pew::eos
 {
-    namespace config
+    namespace config_legacy
     {
         struct EOSConfig;
     }
@@ -75,7 +75,7 @@ namespace pew::eos
      *
      * @param eos_config The EOS configuration settings.
      */
-    void eos_init(const config::EOSConfig eos_config);
+    void eos_init(const config_legacy::EOSConfig eos_config);
 
     /**
      * @brief Creates an EOS platform using the specified configuration.
@@ -85,6 +85,6 @@ namespace pew::eos
      *
      * @param eos_config The configuration object containing EOS platform settings.
      */
-    void eos_create(config::EOSConfig eos_config);
+    void eos_create(config_legacy::EOSConfig eos_config);
 }
 #endif

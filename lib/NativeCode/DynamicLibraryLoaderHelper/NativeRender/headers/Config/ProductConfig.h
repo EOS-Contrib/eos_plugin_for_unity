@@ -28,9 +28,8 @@
 #include <vector>
 
 #include "headers/Config/ConfigBase.h"
-#include "headers/Config/ProductionEnvironments.h"
-#include "headers/Config/ClientCredentials.h"
-#include "include/nlohmann/json.hpp"
+#include "headers/Config/ProductionEnvironments.hpp"
+#include "headers/Config/ClientCredentials.hpp"
 
 namespace pew::eos::config
 {

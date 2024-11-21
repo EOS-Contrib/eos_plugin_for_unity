@@ -25,12 +25,10 @@
 
 #pragma once
 
-#include "include/nlohmann/json.hpp"
+#include "nlohmann/json.hpp"
 
 namespace pew::eos::config
 {
-    using namespace nlohmann;
-
     /**
      * \brief Helper macro for parsing from a "json" object of type nlohmann::json
      * \param key The key parse the value from.
@@ -47,7 +45,7 @@ namespace pew::eos::config
     protected:
         ~Serializable() = default;
 
-        virtual void from_json(const json& json) = 0;
+        virtual void from_json(const nlohmann::json& json) = 0;
 
         /**
          * \brief Helper method to try and get a value from a JSON object at the
@@ -60,7 +58,7 @@ namespace pew::eos::config
          * otherwise.
          */
         template<typename T>
-        static bool try_get_to(const json& json, const char* key, T& set_to)
+        static bool try_get_to(const nlohmann::json& json, const char* key, T& set_to)
         {
             if (json.contains(key))
             {
