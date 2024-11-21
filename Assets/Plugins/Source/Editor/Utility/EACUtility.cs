@@ -375,9 +375,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             sb.Replace("<ExeName>", buildExeName);
             sb.Replace("<ExeNameNoExt>", Path.GetFileNameWithoutExtension(buildExeName));
             sb.Replace("<ProductName>", productConfig.ProductName);
-            sb.Replace("<ProductID>", productConfig.ProductId.ToStrippedString());
+            sb.Replace("<ProductID>", productConfig.ProductId.ToString("N").ToLowerInvariant());
             sb.Replace("<SandboxID>", platformConfig.deployment.SandboxId.ToString());
-            sb.Replace("<DeploymentID>", platformConfig.deployment.DeploymentId.ToStrippedString());
+            sb.Replace("<DeploymentID>", platformConfig.deployment.DeploymentId.ToString("N").ToLowerInvariant());
 
             fileContents = sb.ToString();
 
@@ -422,7 +422,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
                 if (!string.IsNullOrWhiteSpace(toolPath))
                 {
-                    var productId = Config.Get<ProductConfig>().ProductId.ToStrippedString();
+                    var productId = Config.Get<ProductConfig>().ProductId.ToString("N").ToLowerInvariant();
                     GenerateIntegrityCert(report, toolPath, productId,
                         toolsConfig.pathToEACPrivateKey, toolsConfig.pathToEACCertificate, cfgPath);
                 }
