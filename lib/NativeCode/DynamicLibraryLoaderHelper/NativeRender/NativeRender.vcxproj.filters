@@ -121,5 +121,8 @@
     <ClCompile Include="src\Config\Version.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
+    <ClCompile Include="src\Config\DLLWrapper.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
