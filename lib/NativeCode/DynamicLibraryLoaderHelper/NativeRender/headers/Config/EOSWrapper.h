@@ -33,8 +33,8 @@
 
 namespace pew::eos::config
 {
-    class PlatformConfig;
-    class ProductConfig;
+    struct PlatformConfig;
+    struct ProductConfig;
 }
 
 namespace pew::eos

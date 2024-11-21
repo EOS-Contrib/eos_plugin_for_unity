@@ -36,31 +36,11 @@ namespace pew::eos::config
      * \brief Describes the configuration options for a platform that wants to
      * interact with the EOS SDK.
      */
-    class PlatformConfig : public ConfigBase
+    struct PlatformConfig : ConfigBase
     {
-    protected:
-        explicit PlatformConfig(const char* file_name) : ConfigBase(PlatformConfig::get_config_path(file_name)),
-             is_server(false),
-             platform_options_flags(0),
-             tick_budget_in_milliseconds(0),
-             task_network_timeout_seconds(0),
-             thread_affinity(),
-             always_send_input_to_overlay(false),
-             initial_button_delay_for_overlay(0),
-             repeat_button_delay_for_overlay(0)
-        {
-        }
-
-        std::filesystem::path get_config_path(const char* file_name) override;
-
-        void from_json(const nlohmann::json& json) override;
-
-        friend class ConfigBase;
-    public:
-        virtual ~PlatformConfig() = default;
         /**
-         * \brief The deployment for the platform.
-         */
+        * \brief The deployment for the platform.
+        */
         ProductionEnvironments::Deployment deployment;
 
         /**
@@ -149,8 +129,27 @@ namespace pew::eos::config
          * the user to edit. TODO: Expose property in Unity project.
          */
         std::string overrideLocaleCode;
-    };
 
+    protected:
+        explicit PlatformConfig(const char* file_name) : ConfigBase(PlatformConfig::get_config_path(file_name)),
+             is_server(false),
+             platform_options_flags(0),
+             tick_budget_in_milliseconds(0),
+             task_network_timeout_seconds(0),
+             thread_affinity(),
+             always_send_input_to_overlay(false),
+             initial_button_delay_for_overlay(0),
+             repeat_button_delay_for_overlay(0)
+        {
+        }
+
+        std::filesystem::path get_config_path(const char* file_name) override;
+
+        void from_json(const nlohmann::json& json) override;
+
+        friend struct ConfigBase;
+        virtual ~PlatformConfig() = default;
+    };
 }
 
 #endif

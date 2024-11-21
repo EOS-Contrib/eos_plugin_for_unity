@@ -34,8 +34,26 @@ namespace pew::eos::config
      * \brief Used to describe information and functionality that is common to
      * all Config classes.
      */
-    class ConfigBase : public Serializable
+    struct ConfigBase : public Serializable
     {
+        /**
+         * \brief Gets the config class and values indicated by the template
+         * parameter given.
+         * \tparam T The Config-type-derived class that is being retrieved.
+         * \return An instance of a class derived from Config that contains all
+         * values.
+         */
+        template <typename T>
+        static std::enable_if_t<std::is_base_of_v<ConfigBase, T>, T*> get()
+        {
+            // Create the config class
+            T* config = new T();
+
+            // Read the values from the file
+            config->read();
+
+            return config;
+        }
     private:
         /**
          * \brief Function internal to Config that is used to call the required
@@ -56,11 +74,6 @@ namespace pew::eos::config
          * \brief The schema version for the file. 
          */
         Version _schema_version;
-
-        /**
-         * \brief The current schema version that can be parsed.
-         */
-        const Version CURRENT_SCHEMA_VERSION = { 1, 0, 0 };
 
         /**
          * \brief Create a new Config class.
@@ -87,26 +100,6 @@ namespace pew::eos::config
          * \brief Reads the configuration values from the file.
          */
         void read();
-
-    public:
-        /**
-         * \brief Gets the config class and values indicated by the template
-         * parameter given.
-         * \tparam T The Config-type-derived class that is being retrieved.
-         * \return An instance of a class derived from Config that contains all
-         * values.
-         */
-        template <typename T>
-        static std::enable_if_t<std::is_base_of_v<ConfigBase, T>, T*> get()
-        {
-            // Create the config class
-            T* config = new T();
-
-            // Read the values from the file
-            config->read();
-
-            return config;
-        }
     };
 }
 
