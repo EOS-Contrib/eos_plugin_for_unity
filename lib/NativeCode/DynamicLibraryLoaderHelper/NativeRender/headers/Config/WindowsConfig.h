@@ -25,7 +25,7 @@
 
 #pragma once
 
-#include "PlatformConfig.h"
+#include "headers/Config/PlatformConfig.h"
 
 namespace pew::eos::config
 {

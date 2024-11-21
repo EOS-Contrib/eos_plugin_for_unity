@@ -21,9 +21,9 @@
  */
 
 #include <pch.h>
-#include "SteamConfig.h"
+#include "headers/Config/SteamConfig.h"
 #include <filesystem>
-#include "common.hpp"
+#include "headers/Config/common.hpp"
 
 namespace pew::eos::config
 {

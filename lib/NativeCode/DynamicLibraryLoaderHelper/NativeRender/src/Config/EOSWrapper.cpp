@@ -21,11 +21,11 @@
  */
 
 #include <pch.h>
-#include "EOSWrapper.h"
+#include "headers/Config/EOSWrapper.h"
 
-#include "ProductConfig.h"
-#include "WindowsConfig.h"
-#include "SteamConfig.h"
+#include "headers/Config/ProductConfig.h"
+#include "headers/Config/WindowsConfig.h"
+#include "headers/Config/SteamConfig.h"
 
 namespace pew::eos
 {

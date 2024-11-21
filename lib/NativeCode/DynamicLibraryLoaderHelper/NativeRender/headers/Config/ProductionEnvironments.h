@@ -26,8 +26,8 @@
 #pragma once
 #include <vector>
 
-#include "Deployment.h"
-#include "Sandbox.h"
+#include "headers/Config/Deployment.h"
+#include "headers/Config/Sandbox.h"
 
 namespace pew::eos::config
 {

@@ -21,8 +21,8 @@
  */
 
 #include <pch.h>
-#include "PlatformConfig.h"
-#include "common.hpp"
+#include "headers/Config/PlatformConfig.h"
+#include "headers/Config/common.hpp"
 #include "nlohmann_helpers.hpp"
 
 namespace pew::eos::config

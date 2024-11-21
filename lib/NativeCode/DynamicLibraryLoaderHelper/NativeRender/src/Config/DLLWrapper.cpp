@@ -23,7 +23,7 @@
 #include <pch.h>
 #include <DLLWrapper.h>
 #include <filesystem>
-#include "common.hpp"
+#include "headers/Config/common.hpp"
 
 namespace pew::eos
 {

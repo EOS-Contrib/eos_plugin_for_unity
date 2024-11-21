@@ -29,7 +29,7 @@
 #include <sstream>
 #include <string>
 
-#include "Version.h"
+#include "headers/Config/Version.h"
 
 namespace pew::eos::config
 {

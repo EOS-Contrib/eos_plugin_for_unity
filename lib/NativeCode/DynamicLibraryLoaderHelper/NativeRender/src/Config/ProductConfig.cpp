@@ -21,10 +21,10 @@
  */
 
 #include <pch.h>
-#include "../Config/ProductConfig.h"
+#include "headers/Config/ProductConfig.h"
 #include "include/json.hpp"
 #include <iostream>
-#include "common.hpp"
+#include "headers/Config/common.hpp"
 #include "headers/Config/nlohmann_helpers.hpp"
 
 namespace pew::eos::config

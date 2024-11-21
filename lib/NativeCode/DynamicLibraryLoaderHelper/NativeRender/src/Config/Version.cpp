@@ -21,7 +21,7 @@
  */
 
 #include <pch.h>
-#include "Version.h"
+#include "headers/Config/Version.h"
 #include "include/json.hpp"
 #include <string>
 #include <sstream>
