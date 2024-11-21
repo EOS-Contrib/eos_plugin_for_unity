@@ -50,11 +50,6 @@ namespace PlayEveryWare.EpicOnlineServices
         ListOfStringsToIntegratedPlatformManagementFlags : ListOfStringsToEnumConverter<
             IntegratedPlatformManagementFlags>
     {
-        protected override IntegratedPlatformManagementFlags FromNumberValue(JToken token)
-        {
-            return (IntegratedPlatformManagementFlags)token.Value<int>();
-        }
-
         protected override IntegratedPlatformManagementFlags FromStringArray(JArray array)
         {
             return FromStringArrayWithCustomMapping(array, IntegratedPlatformManagementFlagsExtensions.CustomMappings);
@@ -71,11 +66,6 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             return FromStringArrayWithCustomMapping(array, null);
         }
-
-        protected override InputStateButtonFlags FromNumberValue(JToken token)
-        {
-            return (InputStateButtonFlags)token.Value<int>();
-        }
     }
 
     /// <summary>
@@ -87,11 +77,6 @@ namespace PlayEveryWare.EpicOnlineServices
         protected override AuthScopeFlags FromStringArray(JArray array)
         {
             return FromStringArrayWithCustomMapping(array, AuthScopeFlagsExtensions.CustomMappings);
-        }
-
-        protected override AuthScopeFlags FromNumberValue(JToken token)
-        {
-            return (AuthScopeFlags)token.Value<int>();
         }
     }
 
@@ -114,11 +99,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
             return FromStringArrayWithCustomMapping(array, wrappedCustomMapping);
         }
-
-        protected override WrappedPlatformFlags FromNumberValue(JToken token)
-        {
-            return (WrappedPlatformFlags)token.Value<int>();
-        }
     }
 #endif
 
@@ -128,16 +108,16 @@ namespace PlayEveryWare.EpicOnlineServices
     /// single value, or a single string into an enum value of the type
     /// specified by the type parameter.
     /// </summary>
-    /// <typeparam name="T">
+    /// <typeparam name="TEnum">
     /// Indicates the enum type that conversion functionality is being
     /// implemented for.
     /// </typeparam>
-    internal abstract class ListOfStringsToEnumConverter<T> : JsonConverter where T : struct, Enum
+    internal abstract class ListOfStringsToEnumConverter<TEnum> : JsonConverter where TEnum : struct, Enum
     {
         /// <summary>
         /// Used as a cleaner proxy for typeof(T)
         /// </summary>
-        private readonly Type _targetType = typeof(T);
+        private readonly Type _targetType = typeof(TEnum);
 
         /// <summary>
         /// Determines whether the type that the implementing class attribute is
@@ -151,7 +131,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </returns>
         public override bool CanConvert(Type objectType)
         {
-            return typeof(T).IsEnum;
+            return typeof(TEnum).IsEnum;
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -168,7 +148,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 JTokenType.Integer => FromNumberValue(token),
 
-                JTokenType.Null => default(T),
+                JTokenType.Null => default(TEnum),
 
                 _ => throw new JsonSerializationException(
                     $"Unexpected token type '{token.Type}' when " +
@@ -185,7 +165,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// A list of string values from which to compose a single enum value.
         /// </param>
         /// <returns>A single enum value of type T.</returns>
-        protected abstract T FromStringArray(JArray array);
+        protected abstract TEnum FromStringArray(JArray array);
 
         /// <summary>
         /// Implementing classes should override this function to define the
@@ -199,7 +179,20 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>
         /// A single enum value of type T.
         /// </returns>
-        protected abstract T FromNumberValue(JToken token);
+        protected TEnum FromNumberValue(JToken token)
+        {
+            Type underlyingType = Enum.GetUnderlyingType(typeof(TEnum));
+            object value = Convert.ChangeType(token, underlyingType);
+
+            object lowestValue = EnumUtility<TEnum>.GetLowest();
+
+            if (Comparer<object>.Default.Compare(value, lowestValue) < 0)
+            {
+                value = lowestValue;
+            }
+
+            return (TEnum)value;
+        }
 
         /// <summary>
         /// Given a JSON array and a custom mapping lookup dictionary, this
@@ -216,7 +209,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>
         /// A single enum value of type T.
         /// </returns>
-        protected T FromStringArrayWithCustomMapping(JArray array, IDictionary<string, T> customMappings)
+        protected TEnum FromStringArrayWithCustomMapping(JArray array, IDictionary<string, TEnum> customMappings)
         {
             List<string> elementsAsStrings = new();
             foreach (JToken element in array)
@@ -224,7 +217,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 elementsAsStrings.Add(element.ToString());
             }
 
-            _ = EnumUtility<T>.TryParse(elementsAsStrings, customMappings, out T result);
+            _ = EnumUtility<TEnum>.TryParse(elementsAsStrings, customMappings, out TEnum result);
 
             return result;
         }
