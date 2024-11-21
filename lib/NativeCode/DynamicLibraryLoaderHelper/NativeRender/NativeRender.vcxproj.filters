@@ -88,6 +88,9 @@
     <ClInclude Include="headers\Config\DLLWrapper.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
+    <ClInclude Include="headers\Config\WindowsConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

@@ -110,6 +110,7 @@
     <ClInclude Include="headers\Config\Sandbox.h" />
     <ClInclude Include="headers\Config\Serializable.h" />
     <ClInclude Include="headers\Config\Version.h" />
+    <ClInclude Include="headers\Config\WindowsConfig.h" />
     <ClInclude Include="headers\config_legacy.h" />
     <ClInclude Include="headers\eos_helpers.h" />
     <ClInclude Include="headers\eos_library_helpers.h" />
