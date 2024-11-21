@@ -142,5 +142,8 @@
     <ClCompile Include="src\Config\PlatformConfig.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
+    <ClCompile Include="src\Config\SteamConfig.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

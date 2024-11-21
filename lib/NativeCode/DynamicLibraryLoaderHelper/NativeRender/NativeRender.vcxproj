@@ -134,6 +134,7 @@
     <ClCompile Include="src\Config\DLLWrapper.cpp" />
     <ClCompile Include="src\Config\PlatformConfig.cpp" />
     <ClCompile Include="src\Config\ProductConfig.cpp" />
+    <ClCompile Include="src\Config\SteamConfig.cpp" />
     <ClCompile Include="src\Config\Version.cpp" />
     <ClCompile Include="src\config_legacy.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
