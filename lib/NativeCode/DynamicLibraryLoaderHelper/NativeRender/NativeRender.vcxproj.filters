@@ -94,7 +94,7 @@
     <ClInclude Include="headers\Config\SteamConfig.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="headers\common.hpp">
+    <ClInclude Include="headers\Config\common.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
   </ItemGroup>

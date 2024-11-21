@@ -30,11 +30,11 @@ int main()
 
     if(platform_interface != nullptr)
     {
-        std::cout << "EOSConfig was read successfully.";
+        std::cout << "EOS SDK LOADED!";
     }
     else
     {
-        std::cout << "Could not load EOSConfig.";
+        std::cerr << "EOS SDK NOT LOADED!";
     }
 }
 

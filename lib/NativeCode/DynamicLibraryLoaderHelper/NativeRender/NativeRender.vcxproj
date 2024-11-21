@@ -111,7 +111,7 @@
   </ItemDefinitionGroup>
   <!-- Source Files -->
   <ItemGroup>
-    <ClInclude Include="headers\common.hpp" />
+    <ClInclude Include="headers\Config\common.hpp" />
     <ClInclude Include="headers\Config\DLLWrapper.h" />
     <ClInclude Include="headers\Config\EOSWrapper.h" />
     <ClInclude Include="headers\Config\SteamConfig.h" />
