@@ -106,5 +106,11 @@
     <ClCompile Include="src\config_legacy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Config\ConfigBase.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Config\Version.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
