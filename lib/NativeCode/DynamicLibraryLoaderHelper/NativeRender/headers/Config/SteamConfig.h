@@ -46,10 +46,9 @@ namespace pew::eos::config
 
     protected:
         void from_json(const json& json) override;
-        void migrate() override;
+
         std::filesystem::path get_config_path(const char* file_name) override;
         
-
     public:
         friend class ConfigBase;
 

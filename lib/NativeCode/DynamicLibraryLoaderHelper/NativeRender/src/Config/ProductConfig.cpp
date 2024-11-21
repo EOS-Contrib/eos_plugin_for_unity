@@ -31,18 +31,7 @@ namespace pew::eos::config
 {
     using namespace common;
 
-    bool ProductConfig::needs_migration()
-    {
-        return ConfigBase::needs_migration() || !_imported;
-    }
-
-    void ProductConfig::migrate()
-    {
-        // Migrate the values from EpicOnlineServicesConfig.json if needed
-        std::cout << "Migrating ProductConfig from EpicOnlineServicesConfig.json" << std::endl;
-    }
-
-    void ProductConfig::from_json(const nlohmann::json& json)
+    void ProductConfig::from_json(const json& json)
     {
         json["ProductId"].get_to(product_id);
         json["ProductName"].get_to(product_name);

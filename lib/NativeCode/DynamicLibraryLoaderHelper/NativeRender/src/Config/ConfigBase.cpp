@@ -21,7 +21,7 @@
  */
 
 #include <pch.h>
-#include "../Config/ConfigBase.h"
+#include "headers/Config/ConfigBase.h"
 #include <filesystem>
 #include "include/json.hpp"
 #include <fstream>
@@ -35,7 +35,7 @@ namespace pew::eos::config
 {
     using namespace std::filesystem;
 
-    ConfigBase::ConfigBase(const std::filesystem::path& file_name)
+    ConfigBase::ConfigBase(const path& file_name)
     {
         _file_path = file_name;
     }
@@ -48,7 +48,7 @@ namespace pew::eos::config
             return;
         }
 
-        std::ifstream file(_file_path);
+        const std::ifstream file(_file_path);
         if (!file.is_open())
         {
             std::cerr << "Failed to open file: \"" << _file_path << "\"" << std::endl;
@@ -59,24 +59,12 @@ namespace pew::eos::config
         buffer << file.rdbuf();
         std::string json_content = buffer.str();
 
-        nlohmann::json json = nlohmann::json::parse(json_content);
+        const json json = json::parse(json_content);
 
         from_json_internal(json);
     }
 
-    void ConfigBase::write() 
-    {
-
-    }
-
-    bool ConfigBase::needs_migration()
-    {
-        // The config needs migration if the pImpl is either not set or is not current.
-        //return (CURRENT_SCHEMA_VERSION > _schema_version);
-        return true;
-    }
-
-    void ConfigBase::from_json_internal(const nlohmann::json& json)
+    void ConfigBase::from_json_internal(const json& json)
     {
         Version::try_parse(json["schemaVersion"], _schema_version);
         from_json(json);

@@ -39,7 +39,6 @@ namespace pew::eos::config
         json["steamSDKMinorVersion"].get_to(version_minor);
         steam_sdk_minor_version = static_cast<uint32_t>(version_minor);
 
-        
         if (!json["overrideLibraryPath"].is_null())
         {
             std::string library_path = json["overrideLibraryPath"].get<std::string>();
@@ -47,17 +46,12 @@ namespace pew::eos::config
         }
 
         json["integratedPlatformManagementFlags"].get_to(integrated_platform_management_flags);
-
         json["steamApiInterfaceVersionsArray"].get_to(_steam_api_interface_versions_array);
-    }
-
-    void SteamConfig::migrate()
-    {
     }
 
     std::filesystem::path SteamConfig::get_config_path(const char* file_name)
     {
-        return std::filesystem::absolute(get_path_relative_to_current_module(std::filesystem::path(
+        return absolute(get_path_relative_to_current_module(std::filesystem::path(
 #ifdef _DEBUG
             "../../../../../../etc/config/"
 #endif
@@ -69,13 +63,13 @@ namespace pew::eos::config
 
     bool SteamConfig::try_get_library_path(std::filesystem::path& library_path) const
     {
-        if(std::filesystem::exists(_override_library_path))
+        if(exists(_override_library_path))
         {
-            library_path = std::filesystem::absolute(_override_library_path);
+            library_path = absolute(_override_library_path);
             return true;
         }
 
-        if (std::filesystem::exists(_library_path))
+        if (exists(_library_path))
         {
             library_path = absolute(_library_path);
             return true;

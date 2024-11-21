@@ -31,7 +31,7 @@ namespace pew::eos::config
 
     std::filesystem::path PlatformConfig::get_config_path(const char* file_name)
     {
-        return std::filesystem::absolute(get_path_relative_to_current_module(std::filesystem::path(
+        return absolute(get_path_relative_to_current_module(std::filesystem::path(
 #ifdef _DEBUG
             "../../../../../../Assets/StreamingAssets/EOS/"
 #endif
@@ -41,13 +41,7 @@ namespace pew::eos::config
         ) / file_name));
     }
 
-    void PlatformConfig::migrate()
-    {
-        // Migrate the platform configuration if needed. Currently, this
-        // scaffolding is in-place for future-proofing.
-    }
-
-    void PlatformConfig::from_json(const nlohmann::json& json)
+    void PlatformConfig::from_json(const json& json)
     {
         auto json_str = json.dump();
         json["deployment"].get_to(                        deployment);

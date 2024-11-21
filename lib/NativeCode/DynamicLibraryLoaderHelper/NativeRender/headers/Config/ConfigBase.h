@@ -26,8 +26,8 @@
 #pragma once
 
 #include <string>
-#include "Version.h"
-#include "Serializable.h"
+#include "headers/Config/Version.h"
+#include "headers/Config/Serializable.h"
 
 namespace pew::eos::config
 {
@@ -82,28 +82,12 @@ namespace pew::eos::config
         ConfigBase(const ConfigBase&) = delete;
         ConfigBase& operator=(const ConfigBase&) = delete;
 
-        /**
-         * \brief Indicates whether the config file needs to be migrated.
-         * \return True if the Config needs migration, false otherwise.
-         */
-        virtual bool needs_migration();
-
-        /**
-         * \brief Performs migration of the config values.
-         */
-        virtual void migrate() = 0;
-
         virtual std::filesystem::path get_config_path(const char* file_name) = 0;
 
         /**
          * \brief Reads the configuration values from the file.
          */
         void read();
-
-        /**
-         * \brief Writes the configuration values to the file.
-         */
-        void write();
 
     public:
         /**
@@ -121,16 +105,6 @@ namespace pew::eos::config
 
             // Read the values from the file
             config->read();
-
-            // If the config needs to be migrated
-            if (config->needs_migration())
-            {
-                // Migrate the config
-                config->migrate();
-
-                // And write it to disk.
-                config->write();
-            }
 
             return config;
         }

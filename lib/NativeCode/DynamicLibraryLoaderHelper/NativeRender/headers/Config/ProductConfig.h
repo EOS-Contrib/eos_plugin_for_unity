@@ -43,9 +43,6 @@ namespace pew::eos::config
 
         bool _imported;
 
-        bool needs_migration() override;
-        void migrate() override;
-        
     protected:
         void from_json(const nlohmann::json& json) override;
         std::filesystem::path get_config_path(const char* file_name) override;

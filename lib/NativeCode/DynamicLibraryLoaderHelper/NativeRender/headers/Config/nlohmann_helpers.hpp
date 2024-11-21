@@ -30,8 +30,9 @@
 
 namespace nlohmann
 {
-    using namespace pew::eos;
-
+    using namespace pew::eos::config;
+    using namespace pew::eos::common;
+    
     /**
      * This compile conditional is here because C++20 supports the contains
      * method on the map collection, but older versions of C++ do not.
@@ -185,7 +186,6 @@ namespace nlohmann
 
     inline static uint64_t get_uint64_t_from_int(const json& json, const char* key)
     {
-        auto json_str = json.dump();
         int temp_int;
         json.at(key).get_to(temp_int);
         return static_cast<uint64_t>(temp_int);
@@ -201,8 +201,6 @@ namespace nlohmann
      */
     inline void from_json(const json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity)
     {
-        auto json_str = json.dump();
-
         // Get the ApiVersion (it's different from the other field members
         // because it's int32_t, not uint64_t.
         json["ApiVersion"].get_to(initialize_thread_affinity.ApiVersion);
@@ -261,7 +259,7 @@ namespace nlohmann
     void flags_enum_from_string(const std::string& flag_enums_string, const std::map<std::string, T>& strings_to_flags, T& flags_enum)
     {
         // Get the comma-delimited list of strings
-        const auto string_values = common::split_and_trim(flag_enums_string);
+        const auto string_values = split_and_trim(flag_enums_string);
 
         // Iterate through them and apply to the auth scope flags.
         for (const auto& str : string_values)
@@ -339,7 +337,7 @@ namespace nlohmann
         );
     }
 
-    inline void from_json(const nlohmann::json& json, pew::eos::config::ClientCredentials& credentials)
+    inline void from_json(const json& json, ClientCredentials& credentials)
     {
         nlohmann::json temp_json = json;
         if (temp_json.contains("Value"))
@@ -352,7 +350,7 @@ namespace nlohmann
         temp_json["EncryptionKey"].get_to(credentials.encryption_key);
     }
 
-    inline void from_json(const nlohmann::json& json, pew::eos::config::Deployment& deployment)
+    inline void from_json(const json& json, Deployment& deployment)
     {
         nlohmann::json temp_json = json;
         if (temp_json.contains("Value"))
@@ -360,21 +358,21 @@ namespace nlohmann
             temp_json = temp_json["Value"];
         }
 
-        pew::eos::config::Sandbox sandbox;
+        Sandbox sandbox;
         temp_json["SandboxId"]["Value"].get_to(sandbox.id);
         deployment.sandbox = sandbox;
         temp_json["DeploymentId"].get_to(deployment.id);
     }
 
-    inline void from_json(const nlohmann::json& json, pew::eos::config::Sandbox& sandbox)
+    inline void from_json(const json& json, Sandbox& sandbox)
     {
         json["Value"]["Value"].get_to(sandbox.id);
     }
 
-    inline void from_json(const nlohmann::json& json, config::ProductionEnvironments& environments)
+    inline void from_json(const json& json, ProductionEnvironments& environments)
     {
-        environments.sandboxes = json["Sandboxes"].get<std::vector<config::Sandbox>>();
-        environments.deployments = json["Deployments"].get < std::vector<config::Deployment>>();
+        environments.sandboxes = json["Sandboxes"].get<std::vector<Sandbox>>();
+        environments.deployments = json["Deployments"].get <std::vector<Deployment>>();
     }
 }
 

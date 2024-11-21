@@ -24,7 +24,7 @@
  */
 
 #pragma once
-#include "Sandbox.h"
+#include "headers/Config/Sandbox.h"
 #include <string>
 
 namespace pew::eos::config

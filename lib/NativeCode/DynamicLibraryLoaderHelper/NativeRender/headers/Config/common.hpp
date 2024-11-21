@@ -8,8 +8,8 @@
 #include <string>
 #include <iostream>
 
-#include "PlatformConfig.h"
-#include "ProductConfig.h"
+#include "headers/Config/PlatformConfig.h"
+#include "headers/Config/ProductConfig.h"
 
 namespace pew::eos::common
 {
@@ -22,7 +22,7 @@ namespace pew::eos::common
      * \return True if the argument was provided, false otherwise.
      */
     template <typename... Flags>
-    inline bool try_get_command_line_argument(const std::vector<std::string>& arguments, std::string& value, const Flags&... args)
+    bool try_get_command_line_argument(const std::vector<std::string>& arguments, std::string& value, const Flags&... args)
     {
         // This gathers the variadic parameters which represent parameter flags, any
         // of which indicate the same value that is being passed in on the command
@@ -74,10 +74,10 @@ namespace pew::eos::common
      * the provided sandbox id or deployment id is not defined in the product
      * config. If they are not defined, they will still be applied.
      */
-    inline static void apply_cli_arguments(config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
+    static void apply_cli_arguments(config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
     {
         //support sandbox and deployment id override via command line arguments
-        std::stringstream argument_stream = std::stringstream(GetCommandLineA());
+        auto argument_stream = std::stringstream(GetCommandLineA());
         const std::istream_iterator<std::string> argument_stream_begin(argument_stream);
         const std::istream_iterator<std::string> argument_stream_end;
         const std::vector argument_strings(argument_stream_begin, argument_stream_end);
@@ -103,10 +103,10 @@ namespace pew::eos::common
         }
     }
 
-    inline TCHAR* get_path_to_module(HMODULE module)
+    inline TCHAR* get_path_to_module(const HMODULE module)
     {
         DWORD module_path_length = 128;
-        TCHAR* module_path = static_cast<TCHAR*>(malloc(module_path_length * sizeof(TCHAR)));
+        auto module_path = static_cast<TCHAR*>(malloc(module_path_length * sizeof(TCHAR)));
 
         if (!module_path) {
             return nullptr; // Failed to allocate memory
@@ -122,7 +122,7 @@ namespace pew::eos::common
 
             // Handle insufficient buffer case
             module_path_length += 20;
-            TCHAR* new_module_path = static_cast<TCHAR*>(realloc(module_path, module_path_length * sizeof(TCHAR)));
+            auto new_module_path = static_cast<TCHAR*>(realloc(module_path, module_path_length * sizeof(TCHAR)));
             if (!new_module_path) {
                 free(module_path);
                 return nullptr; // Memory allocation failure
@@ -133,7 +133,7 @@ namespace pew::eos::common
         return module_path;
     }
 
-    inline std::wstring get_path_to_module_as_string(HMODULE module)
+    inline std::wstring get_path_to_module_as_string(const HMODULE module)
     {
         wchar_t* module_path = get_path_to_module(module);
 
@@ -169,7 +169,7 @@ namespace pew::eos::common
         }
     }
 
-    inline std::vector<std::string> split_and_trim(const std::string& input, char delimiter = ',')
+    inline std::vector<std::string> split_and_trim(const std::string& input, const char delimiter = ',')
     {
         std::vector<std::string> result;
         std::stringstream ss(input);
@@ -187,7 +187,7 @@ namespace pew::eos::common
         return result;
     }
 
-    inline bool create_timestamp_str(char* final_timestamp, size_t final_timestamp_len)
+    inline bool create_timestamp_str(char* final_timestamp, const size_t final_timestamp_len)
     {
         constexpr size_t buffer_len = 32;
         char buffer[buffer_len];
@@ -211,7 +211,7 @@ namespace pew::eos::common
         return true;
     }
 
-    inline size_t utf8_str_bytes_required_for_wide_str(const wchar_t* wide_str, int wide_str_len)
+    inline size_t utf8_str_bytes_required_for_wide_str(const wchar_t* wide_str, const int wide_str_len)
     {
         const int bytes_required = WideCharToMultiByte(CP_UTF8, 0, wide_str, wide_str_len, NULL, 0, NULL, NULL);
 
@@ -224,7 +224,7 @@ namespace pew::eos::common
     }
 
     // wide_str must be null terminated if wide_str_len is passed
-    inline bool copy_to_utf8_str_from_wide_str(char* RESTRICT utf8_str, size_t utf8_str_len, const wchar_t* RESTRICT wide_str, int wide_str_len)
+    inline bool copy_to_utf8_str_from_wide_str(char* RESTRICT utf8_str, const size_t utf8_str_len, const wchar_t* RESTRICT wide_str, const int wide_str_len)
     {
         if (utf8_str_len > INT_MAX)
         {
@@ -251,17 +251,6 @@ namespace pew::eos::common
         return to_return;
     }
 
-    inline wchar_t* create_wide_str_from_utf8_str(const char* utf8_str)
-    {
-        const int chars_required = MultiByteToWideChar(CP_UTF8, 0, utf8_str, -1, NULL, 0);
-        auto* to_return = static_cast<wchar_t*>(malloc(chars_required * sizeof(wchar_t)));
-        const int utf8_str_len = static_cast<int>(strlen(utf8_str));
-
-        MultiByteToWideChar(CP_UTF8, 0, utf8_str, utf8_str_len, to_return, chars_required);
-
-        return to_return;
-    }
-
     inline std::string to_utf8_str(const std::wstring& wide_str)
     {
         std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
@@ -283,7 +272,7 @@ namespace pew::eos::common
         {
             WCHAR tmp_buffer = 0;
             DWORD buffer_size = GetTempPathW(1, &tmp_buffer) + 1;
-            WCHAR* lpTempPathBuffer = (TCHAR*)malloc(buffer_size * sizeof(TCHAR));
+            auto lpTempPathBuffer = (TCHAR*)malloc(buffer_size * sizeof(TCHAR));
             GetTempPathW(buffer_size, lpTempPathBuffer);
 
             s_tempPathBuffer = create_utf8_str_from_wide_str(lpTempPathBuffer);

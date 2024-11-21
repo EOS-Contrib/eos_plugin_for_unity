@@ -35,7 +35,7 @@ namespace pew::eos
     {
         // Get the configuration values
         const auto product_config = config::ConfigBase::get<config::ProductConfig>();
-        auto windows_config = config::ConfigBase::get<config::WindowsConfig>();
+        const auto windows_config = config::ConfigBase::get<config::WindowsConfig>();
 
         // Apply any command line arguments that there might be
         apply_cli_arguments(*windows_config, *product_config);
@@ -43,9 +43,8 @@ namespace pew::eos
         // Initialize the sdk
         init(*windows_config, *product_config);
 
-        const auto platform_interface = create(*windows_config, *product_config);
-
-        return platform_interface;
+        // Create the platform and return a pointer to the platform interface.
+        return create(*windows_config, *product_config);
     }
 
     void EOSWrapper::init(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const
@@ -107,12 +106,12 @@ namespace pew::eos
         logging::log_inform("setting up rtc");
         std::filesystem::path xaudio2_dll_path = get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
         std::string xaudio2_dll_path_as_string = to_utf8_str(xaudio2_dll_path);
-        EOS_Windows_RTCOptions windows_rtc_options = { 0 };
+        EOS_Windows_RTCOptions windows_rtc_options;
         windows_rtc_options.ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
         windows_rtc_options.XAudio29DllPath = xaudio2_dll_path_as_string.c_str();
         logging::log_warn(xaudio2_dll_path_as_string.c_str());
 
-        if (!std::filesystem::exists(xaudio2_dll_path))
+        if (!exists(xaudio2_dll_path))
         {
             logging::log_warn("Missing XAudio dll!");
         }
