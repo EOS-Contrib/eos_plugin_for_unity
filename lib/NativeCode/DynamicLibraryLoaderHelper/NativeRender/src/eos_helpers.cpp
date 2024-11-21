@@ -24,7 +24,7 @@
 #include "eos_helpers.h"
 #include <filesystem>
 #include <sstream>
-#include "config.h"
+#include "config_legacy.h"
 #include "eos_library_helpers.h"
 #include "io_helpers.h"
 #include "json_helpers.h"

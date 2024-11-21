@@ -100,7 +100,7 @@
   </ItemDefinitionGroup>
   <!-- Source Files -->
   <ItemGroup>
-    <ClInclude Include="headers\config.h" />
+    <ClInclude Include="headers\config_legacy.h" />
     <ClInclude Include="headers\eos_helpers.h" />
     <ClInclude Include="headers\eos_library_helpers.h" />
     <ClInclude Include="headers\eos_minimum_includes.h" />
@@ -115,7 +115,7 @@
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\config.cpp" />
+    <ClCompile Include="src\config_legacy.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\eos_helpers.cpp" />
     <ClCompile Include="src\eos_library_helpers.cpp" />

@@ -29,7 +29,7 @@
 #include <iterator>
 #include <sstream>
 
-#include "config.h"
+#include "config_legacy.h"
 #include "logging.h"
 #include <eos_library_helpers.h>
 #include <eos_helpers.h>
