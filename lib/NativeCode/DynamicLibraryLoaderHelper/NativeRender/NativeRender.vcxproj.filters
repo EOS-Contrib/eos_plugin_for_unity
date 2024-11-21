@@ -64,6 +64,9 @@
     <ClInclude Include="headers\Config\Deployment.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
+    <ClInclude Include="headers\Config\ProductionEnvironments.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
