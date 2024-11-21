@@ -109,6 +109,7 @@
     <ClInclude Include="headers\json_helpers.h" />
     <ClInclude Include="headers\logging.h" />
     <ClInclude Include="headers\string_helpers.h" />
+    <ClInclude Include="include\nlohmann\json.hpp" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>

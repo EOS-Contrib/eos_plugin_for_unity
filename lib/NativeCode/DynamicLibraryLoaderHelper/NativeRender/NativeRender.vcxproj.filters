@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{27635286-19df-4823-a6ef-188f1e65e466}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\nlohmann">
+      <UniqueIdentifier>{e2435868-f908-4f6f-8697-eea2e0b8d724}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\eos_helpers.h">
@@ -42,6 +48,9 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="headers\config_legacy.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\json.hpp">
+      <Filter>include\nlohmann</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
