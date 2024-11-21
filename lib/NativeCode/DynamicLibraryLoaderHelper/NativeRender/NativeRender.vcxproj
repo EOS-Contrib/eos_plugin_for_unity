@@ -106,6 +106,7 @@
     <ClInclude Include="headers\Config\Deployment.h" />
     <ClInclude Include="headers\Config\DLLWrapper.h" />
     <ClInclude Include="headers\Config\EOSWrapper.h" />
+    <ClInclude Include="headers\Config\nlohmann_helpers.hpp" />
     <ClInclude Include="headers\Config\ProductConfig.h" />
     <ClInclude Include="headers\Config\ProductionEnvironments.h" />
     <ClInclude Include="headers\Config\Sandbox.h" />
