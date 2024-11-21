@@ -106,14 +106,12 @@
     <ClInclude Include="headers\Config\ClientCredentials.hpp" />
     <ClInclude Include="headers\Config\common.hpp" />
     <ClInclude Include="headers\Config\ConfigBase.h" />
-    <ClInclude Include="headers\Config\Deployment.hpp" />
     <ClInclude Include="headers\Config\DLLWrapper.h" />
     <ClInclude Include="headers\Config\EOSWrapper.h" />
     <ClInclude Include="headers\Config\nlohmann_helpers.hpp" />
     <ClInclude Include="headers\Config\PlatformConfig.h" />
     <ClInclude Include="headers\Config\ProductConfig.h" />
     <ClInclude Include="headers\Config\ProductionEnvironments.hpp" />
-    <ClInclude Include="headers\Config\Sandbox.hpp" />
     <ClInclude Include="headers\Config\Serializable.h" />
     <ClInclude Include="headers\Config\SteamConfig.h" />
     <ClInclude Include="headers\Config\Version.hpp" />

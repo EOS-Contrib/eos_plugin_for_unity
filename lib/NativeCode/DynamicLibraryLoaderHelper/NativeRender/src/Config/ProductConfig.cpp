@@ -36,7 +36,6 @@ namespace pew::eos::config
         json["ProductId"].get_to(product_id);
         json["ProductName"].get_to(product_name);
         json["Clients"].get_to(clients);
-        json["imported"].get_to(_imported);
         json["Environments"].get_to(environments);
         json["ProductVersion"].get_to(product_version);
     }
@@ -45,11 +44,11 @@ namespace pew::eos::config
     {
         return absolute(get_path_relative_to_current_module(std::filesystem::path(
 #ifdef _DEBUG
-            "../../../../../../Assets/StreamingAssets/EOS/"
+            "../../../../../../"
 #endif
 #ifdef NDEBUG
-            "../../StreamingAssets/EOS/"
+            "../../../"
 #endif
-        ) / file_name));
+        ) / "Assets/StreamingAssets/EOS/" / file_name));
     }
 }

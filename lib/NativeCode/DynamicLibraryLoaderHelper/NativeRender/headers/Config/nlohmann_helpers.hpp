@@ -30,9 +30,7 @@
 
 #include "headers/Config/common.hpp"
 #include <nlohmann/json.hpp>
-
-#include "headers/Config/Sandbox.hpp"
-#include "headers/Config/Deployment.hpp"
+#include "ProductionEnvironments.hpp"
 
 /**
  * Because C++20 supports the "contains" method on the map collection, but older
@@ -330,7 +328,7 @@ namespace pew::eos::config
         temp_json["EncryptionKey"].get_to(credentials.encryption_key);
     }
 
-    inline void from_json(const nlohmann::json& json, Deployment& deployment)
+    inline void from_json(const nlohmann::json& json, ProductionEnvironments::Deployment& deployment)
     {
         nlohmann::json temp_json = json;
         if (temp_json.contains("Value"))
@@ -338,13 +336,13 @@ namespace pew::eos::config
             temp_json = temp_json["Value"];
         }
 
-        Sandbox sandbox;
+        ProductionEnvironments::Sandbox sandbox;
         temp_json["SandboxId"]["Value"].get_to(sandbox.id);
         deployment.sandbox = sandbox;
         temp_json["DeploymentId"].get_to(deployment.id);
     }
 
-    inline void from_json(const nlohmann::json& json, Sandbox& sandbox)
+    inline void from_json(const nlohmann::json& json, ProductionEnvironments::Sandbox& sandbox)
     {
         json["Value"]["Value"].get_to(sandbox.id);
     }
@@ -352,7 +350,7 @@ namespace pew::eos::config
     inline void from_json(const nlohmann::json& json, ProductionEnvironments& environments)
     {
         environments.sandboxes = json["Sandboxes"].get_to(environments.sandboxes);
-        environments.deployments = json["Deployments"].get <std::vector<Deployment>>();
+        environments.deployments = json["Deployments"].get <std::vector<ProductionEnvironments::Deployment>>();
     }
 
     inline void from_json(const nlohmann::json& json, PlatformConfig& platform_config)

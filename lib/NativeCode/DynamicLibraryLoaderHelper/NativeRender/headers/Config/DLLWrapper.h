@@ -49,7 +49,6 @@ namespace pew::eos
 
     class PEW_EOS_API DLLWrapper
     {
-    private:
 #pragma warning(push)
 #pragma warning(disable: 4251) // Disable C4251 warning for this member
         std::string _library_name;
@@ -94,7 +93,6 @@ namespace pew::eos
             return call_library_function<FuncType>(TypedefToString<FuncType>::value, std::forward<Args>(args)...);
         }
 
-    protected:
         /**
          * \brief Stores a handle to the loaded library
          */

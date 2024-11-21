@@ -26,9 +26,9 @@
 #pragma once
 
 #include "eos_init.h"
+#include "ProductionEnvironments.hpp"
 #include "headers/Config/ClientCredentials.hpp"
 #include "headers/Config/ConfigBase.h"
-#include "headers/Config/Deployment.hpp"
 
 namespace pew::eos::config
 {
@@ -61,7 +61,7 @@ namespace pew::eos::config
         /**
          * \brief The deployment for the platform.
          */
-        Deployment deployment;
+        ProductionEnvironments::Deployment deployment;
 
         /**
          * \brief The client credentials to use for the platform.

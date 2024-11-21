@@ -27,9 +27,6 @@
 #include <algorithm>
 #include <vector>
 
-#include "headers/Config/Deployment.hpp"
-#include "headers/Config/Sandbox.hpp"
-
 namespace pew::eos::config
 {
     /**
@@ -38,6 +35,23 @@ namespace pew::eos::config
      */
     struct ProductionEnvironments
     {
+        /**
+         * \brief Used to describe the sandbox component of a deployment.
+         */
+        struct Sandbox
+        {
+            std::string id;
+        };
+
+        /**
+         * \brief Used to describe a deployment for initializing the EOS SDK.
+         */
+        struct Deployment
+        {
+            std::string id;
+            Sandbox sandbox;
+        };
+
         /**
          * \brief The deployments defined for the product.
          */

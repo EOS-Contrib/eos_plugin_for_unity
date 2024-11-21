@@ -49,12 +49,6 @@
     <ClInclude Include="headers\config_legacy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Config\Sandbox.hpp">
-      <Filter>Header Files\Config</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Config\Deployment.hpp">
-      <Filter>Header Files\Config</Filter>
-    </ClInclude>
     <ClInclude Include="headers\Config\ProductionEnvironments.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
