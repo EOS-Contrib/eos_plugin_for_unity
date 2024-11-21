@@ -26,7 +26,6 @@
 #pragma once
 
 #include <string>
-#include "include/json.hpp"
 
 namespace pew::eos::config
 {

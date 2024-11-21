@@ -26,7 +26,6 @@
 #pragma once
 #include "Sandbox.h"
 #include <string>
-#include "include/json.hpp"
 
 namespace pew::eos::config
 {
@@ -38,11 +37,6 @@ namespace pew::eos::config
         std::string id;
         Sandbox sandbox;
     };
-}
-
-namespace nlohmann 
-{
-    void from_json(const json& json, pew::eos::config::Deployment& deployment);
 }
 
 #endif

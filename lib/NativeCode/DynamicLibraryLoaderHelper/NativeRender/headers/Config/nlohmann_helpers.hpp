@@ -351,6 +351,31 @@ namespace nlohmann
         temp_json["ClientSecret"].get_to(credentials.client_secret);
         temp_json["EncryptionKey"].get_to(credentials.encryption_key);
     }
+
+    inline void from_json(const nlohmann::json& json, pew::eos::config::Deployment& deployment)
+    {
+        nlohmann::json temp_json = json;
+        if (temp_json.contains("Value"))
+        {
+            temp_json = temp_json["Value"];
+        }
+
+        pew::eos::config::Sandbox sandbox;
+        temp_json["SandboxId"]["Value"].get_to(sandbox.id);
+        deployment.sandbox = sandbox;
+        temp_json["DeploymentId"].get_to(deployment.id);
+    }
+
+    inline void from_json(const nlohmann::json& json, pew::eos::config::Sandbox& sandbox)
+    {
+        json["Value"]["Value"].get_to(sandbox.id);
+    }
+
+    inline void from_json(const nlohmann::json& json, config::ProductionEnvironments& environments)
+    {
+        environments.sandboxes = json["Sandboxes"].get<std::vector<config::Sandbox>>();
+        environments.deployments = json["Deployments"].get < std::vector<config::Deployment>>();
+    }
 }
 
 #endif

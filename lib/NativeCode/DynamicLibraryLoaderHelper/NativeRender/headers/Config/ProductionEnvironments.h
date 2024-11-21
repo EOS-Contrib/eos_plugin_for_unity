@@ -53,7 +53,13 @@ namespace pew::eos::config
          * \param deployment_id The deployment to search for.
          * \return True if the deployment is defined, false otherwise.
          */
-        bool is_deployment_defined(const std::string& deployment_id) const;
+        bool is_deployment_defined(const std::string& deployment_id) const
+        {
+            return std::any_of(deployments.begin(), deployments.end(), [deployment_id](const Deployment& d)
+                {
+                    return d.id == deployment_id;
+                });
+        }
 
         /**
          * \brief Determines if a given sandbox is defined in the product config
@@ -61,13 +67,14 @@ namespace pew::eos::config
          * \param sandbox_id The sandbox id to search for.
          * \return True if the sandbox is defined, false otherwise.
          */
-        bool is_sandbox_defined(const std::string& sandbox_id) const;
+        bool is_sandbox_defined(const std::string& sandbox_id) const
+        {
+            return std::any_of(sandboxes.begin(), sandboxes.end(), [sandbox_id](const Sandbox& s)
+                {
+                    return s.id == sandbox_id;
+                });
+        }
     };
-}
-
-namespace nlohmann
-{
-    void from_json(const nlohmann::json& json, pew::eos::config::ProductionEnvironments& environments);
 }
 
 #endif

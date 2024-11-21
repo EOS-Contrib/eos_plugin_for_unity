@@ -130,15 +130,6 @@
     <ClCompile Include="src\Config\ProductConfig.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
-    <ClCompile Include="src\Config\ProductionEnvironments.cpp">
-      <Filter>Source Files\Config</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Config\Deployment.cpp">
-      <Filter>Source Files\Config</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Config\Sandbox.cpp">
-      <Filter>Source Files\Config</Filter>
-    </ClCompile>
     <ClCompile Include="src\Config\DLLWrapper.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
