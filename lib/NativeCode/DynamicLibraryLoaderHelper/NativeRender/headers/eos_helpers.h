@@ -23,6 +23,7 @@
  */
 
 #pragma once
+#include "headers/PEW_EOS_Defines.h"
 
 namespace std
 {
@@ -46,7 +47,7 @@ namespace pew::eos
      *
      * @return A pointer to the EOS platform interface handle.
      */
-    DLL_EXPORT(void*) EOS_GetPlatformInterface();
+    PEW_EOS_API_FUNC(void*) EOS_GetPlatformInterface();
 
     /**
      * @brief Sets the log level for the EOS SDK based on the configuration file.

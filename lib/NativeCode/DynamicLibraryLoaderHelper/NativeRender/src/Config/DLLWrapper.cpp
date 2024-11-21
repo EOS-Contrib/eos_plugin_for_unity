@@ -31,6 +31,8 @@ namespace pew::eos
 
     DLLWrapper::DLLWrapper(const std::string& library_name)
     {
+        _library_name = library_name;
+
         // Get the path to the library relative to the current module
         const auto library_path = get_path_relative_to_current_module(library_name);
 
@@ -41,6 +43,7 @@ namespace pew::eos
     DLLWrapper::~DLLWrapper()
     {
         // Make sure to free the library handle
+        logging::log_inform("Freeing \"" + _library_name + "\".");
         FreeLibrary(static_cast<HMODULE>(library_handle));
         library_handle = nullptr;
     }
@@ -50,8 +53,8 @@ namespace pew::eos
         void* to_return = nullptr;
 
 #if PLATFORM_WINDOWS
-        logging::log_inform(("Loading path at " + to_utf8_str(library_path)).c_str());
-        HMODULE handle = LoadLibrary(library_path.c_str());
+        logging::log_inform(("Loading \"" + _library_name + ",\" at \"" + to_utf8_str(library_path)) + "\".");
+        const HMODULE handle = LoadLibrary(library_path.c_str());
 
         // Uncomment the following line to list all the functions in the library once it is loaded.
         //EnumerateFunctions(handle);

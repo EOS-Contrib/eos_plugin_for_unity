@@ -33,12 +33,20 @@
 #include "eos_library_helpers.h"
 #include "eos_helpers.h"
 #include "io_helpers.h"
+#include "Config/EOSWrapper.h"
 
 using namespace pew::eos;
 using namespace pew::eos::eos_library_helpers;
 
 using FSig_ApplicationWillShutdown = void (__stdcall *)(void);
 FSig_ApplicationWillShutdown FuncApplicationWillShutdown = nullptr;
+
+// Comment out the following define to use legacy config
+//#define USE_LEGACY
+
+// Keep a pointer to the EOSWrapper for the duration, so it can be properly
+// freed
+std::unique_ptr<EOSWrapper> eos_sdk;
 
 extern "C"
 {
@@ -116,24 +124,15 @@ void get_cli_arguments(config_legacy::EOSConfig eos_config)
 #if PLATFORM_32BITS
 #pragma comment(linker, "/export:UnityPluginLoad=_UnityPluginLoad@4")
 #endif
-DLL_EXPORT(void) UnityPluginLoad(void*)
+PEW_EOS_API_FUNC(void) UnityPluginLoad(void*)
 {
 #if _DEBUG
     logging::show_log_as_dialog("You may attach a debugger to the DLL");
-#endif
-
-    config_legacy::EOSConfig eos_config;
-    if (!config_legacy::try_get_eos_config(eos_config))
-    {
-        return;
-    }
-
-    get_cli_arguments(eos_config);
-
-#if _DEBUG
     logging::global_log_open("gfx_log.txt");
 #endif
 
+    
+#ifdef USE_LEGACY
     std::filesystem::path DllPath;
     logging::log_inform("On UnityPluginLoad");
 
@@ -145,6 +144,17 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 
         if (EOS_Initialize_ptr)
         {
+            config_legacy::EOSConfig eos_config;
+            if (!config_legacy::try_get_eos_config(eos_config))
+            {
+                logging::log_error("Could not load EOSConfig.");
+            }
+            else
+            {
+                logging::log_inform("Loaded EOSConfig json file.");
+            }
+
+            get_cli_arguments(eos_config);
             logging::log_inform("start eos init");
 
             eos_init(eos_config);
@@ -167,20 +177,32 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     {
         logging::log_warn("Couldn't find dll "  SDK_DLL_NAME);
     }
+#else
+    // Make a pointer to the eos sdk
+    eos_sdk = std::make_unique<EOSWrapper>();
+    // Create the platform interface
+    eos_platform_handle = eos_sdk->start_eos();
+#endif
 }
 
 //-------------------------------------------------------------------------
 #if PLATFORM_32BITS
 #pragma comment(linker, "/export:_UnityPluginUnload=_UnityPluginUnload@0")
 #endif
-DLL_EXPORT(void) UnityPluginUnload()
+PEW_EOS_API_FUNC(void) UnityPluginUnload()
 {
     if (FuncApplicationWillShutdown != nullptr)
     {
         FuncApplicationWillShutdown();
     }
+
+#ifdef USE_LEGACY
     unload_library(s_eos_sdk_overlay_lib_handle);
     s_eos_sdk_overlay_lib_handle = nullptr;
-
+#else
+    // Destroy the pointer to the platform that was created
+    eos_platform_handle = nullptr;
+    // No need to do anything to eos_sdk - it is automatically freed
+#endif
     logging::global_log_close();
 }

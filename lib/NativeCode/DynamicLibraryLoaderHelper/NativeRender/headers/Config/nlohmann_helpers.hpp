@@ -27,6 +27,7 @@
 
 #include <map>
 #include <vector>
+
 #include "headers/Config/common.hpp"
 #include <nlohmann/json.hpp>
 
@@ -59,7 +60,7 @@
 inline void from_json(const nlohmann::json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity)
 {
     initialize_thread_affinity.ApiVersion = json["ApiVersion"].get<int>();
-    initialize_thread_affinity.NetworkWork = json["Net"].get<uint64_t>();
+    initialize_thread_affinity.NetworkWork = json["NetworkWork"].get<uint64_t>();
     initialize_thread_affinity.StorageIo = json["StorageIo"].get<uint64_t>();
     initialize_thread_affinity.WebSocketIo = json["WebSocketIo"].get<uint64_t>();
     initialize_thread_affinity.P2PIo = json["P2PIo"].get<uint64_t>();
@@ -67,6 +68,62 @@ inline void from_json(const nlohmann::json& json, EOS_Initialize_ThreadAffinity&
     initialize_thread_affinity.RTCIo = json["RTCIo"].get<uint64_t>();
     initialize_thread_affinity.EmbeddedOverlayMainThread = json["EmbeddedOverlayMainThread"].get<uint64_t>();
     initialize_thread_affinity.EmbeddedOverlayWorkerThreads = json["EmbeddedOverlayWorkerThreads"].get<uint64_t>();
+}
+
+/**
+     * \brief Helper constraint for allowing template functions to require the
+     * template parameter be either an enum or an int.
+     * \tparam T The type (either an enum class or an int).
+     */
+template <typename T>
+constexpr bool is_enum_or_int_v = std::is_enum_v<T> || std::is_same_v<T, int>;
+
+/**
+ * \brief Converts a string value to an enum or integer value given a custom
+ * mapping of a set of one to the other.
+ * \tparam T Either an enum class or an integer.
+ * \param flag_enums_string A string representation of flag enum values, in
+ * the form of a comma-delimited list of values.
+ * \param strings_to_flags A map that associates a string value with either
+ * an enum or int value.
+ * \param flags_enum The variable to assign the determined value to.
+ */
+template<typename T, std::enable_if_t<is_enum_or_int_v<T>, int> = 0>
+void flags_enum_from_string(const std::string& flag_enums_string, const std::map<std::string, T>& strings_to_flags, T& flags_enum)
+{
+    // Get the comma-delimited list of strings
+    const auto string_values = pew::eos::common::split_and_trim(flag_enums_string);
+
+    // Iterate through them and apply to the auth scope flags.
+    for (const auto& str : string_values)
+    {
+        // If the string isn't in the map of string values to flag values
+        if (!CONTAINS(strings_to_flags, str))
+        {
+            continue;
+        }
+
+        // Perform bitwise-or operation to add flag value.
+        flags_enum |= strings_to_flags.at(str);
+    }
+}
+
+/**
+ * \brief Converts the contents of a JSON object to an enum or integer value
+ * given a custom mapping of a set of one to the other.
+ * \tparam T Either an enum class or an integer.
+ * \param json The JSON object to read the values from.
+ * \param strings_to_flags A map that associates a string value with either
+ * an enum or int value.
+ * \param flags_enum The variable to assign the determined value to.
+ */
+template <typename T, std::enable_if_t<is_enum_or_int_v<T>, int> = 0>
+void flags_enum_from_json(const nlohmann::json& json, const std::map<std::string, T>& strings_to_flags, T& flags_enum)
+{
+    std::string str_enum_values;
+    json.get_to(str_enum_values);
+
+    flags_enum_from_string(str_enum_values, strings_to_flags, flags_enum);
 }
 
 namespace pew::eos::config
@@ -211,131 +268,55 @@ namespace pew::eos::config
         {"EOS_IPMF_ApplicationManagedIdentityLogin", EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin },
         {"ApplicationManagedIdentityLogin",          EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin}
     };
+}
 
-    
 
-    /**
-     * \brief Helper constraint for allowing template functions to require the
-     * template parameter be either an enum or an int.
-     * \tparam T The type (either an enum class or an int).
-     */
-    template <typename T>
-    constexpr bool is_enum_or_int_v = std::is_enum_v<T> || std::is_same_v<T, int>;
+/**
+ * \brief Function that instructs the nlohmann library how to parse auth
+ * scope flags.
+ * \param json The JSON object to read the values from.
+ * \param auth_scope_flags The value to set from the JSON.
+ */
+inline void from_json(const nlohmann::json& json, EOS_EAuthScopeFlags& auth_scope_flags)
+{
+    flags_enum_from_json<EOS_EAuthScopeFlags>(
+        json,
+        pew::eos::config::STRINGS_TO_AUTH_SCOPE_FLAGS,
+        auth_scope_flags);
+}
 
-    /**
-     * \brief Converts a string value to an enum or integer value given a custom
-     * mapping of a set of one to the other.
-     * \tparam T Either an enum class or an integer.
-     * \param str The string to parse into an enum or int value.
-     * \param map A map that associates a string value with either an enum or
-     * int value.
-     * \return Returns the enum or int value that is associated with the string
-     * provided.
-     */
-    template <typename T, std::enable_if_t<is_enum_or_int_v<T>, int> = 0>
-    T str_to_enum(const std::string& str, const std::map<std::string, T>& map)
-    {
-        // If the string doesn't exist in the map, then throw an exception.
-        if (!CONTAINS(map, str))
-        {
-            throw std::invalid_argument("Invalid flag string: \"" + str + "\".");
-        }
+/**
+ * \brief Function that instructs the nlohmann library how to parse
+ * integrated platform management flags.
+ * \param json The JSON object to read the values from.
+ * \param integrated_platform_management_flags The value to set from the
+ * JSON.
+ */
+inline void from_json(const nlohmann::json& json, EOS_EIntegratedPlatformManagementFlags& integrated_platform_management_flags)
+{
+    flags_enum_from_json<EOS_EIntegratedPlatformManagementFlags>(
+        json,
+        pew::eos::config::INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_STRING_TO_ENUM,
+        integrated_platform_management_flags);
+}
 
-        return map.at(str);
-    }
+/**
+ * \brief Function that instructs the nlohmann library how to parse input
+ * state button flags.
+ * \param json The JSON object to read the values from.
+ * \param input_state_button_flags The value to set from the JSON.
+ */
+inline void from_json(const nlohmann::json& json, EOS_UI_EInputStateButtonFlags& input_state_button_flags)
+{
+    flags_enum_from_json<EOS_UI_EInputStateButtonFlags>(
+        json,
+        pew::eos::config::STRINGS_TO_INPUT_STATE_BUTTON_FLAGS,
+        input_state_button_flags
+    );
+}
 
-    /**
-     * \brief Converts a string value to an enum or integer value given a custom
-     * mapping of a set of one to the other.
-     * \tparam T Either an enum class or an integer.
-     * \param flag_enums_string A string representation of flag enum values, in
-     * the form of a comma-delimited list of values.
-     * \param strings_to_flags A map that associates a string value with either
-     * an enum or int value.
-     * \param flags_enum The variable to assign the determined value to.
-     */
-    template<typename T, std::enable_if_t<is_enum_or_int_v<T>, int> = 0>
-    void flags_enum_from_string(const std::string& flag_enums_string, const std::map<std::string, T>& strings_to_flags, T& flags_enum)
-    {
-        // Get the comma-delimited list of strings
-        const auto string_values = common::split_and_trim(flag_enums_string);
-
-        // Iterate through them and apply to the auth scope flags.
-        for (const auto& str : string_values)
-        {
-            // If the string isn't in the map of string values to flag values
-            if (!CONTAINS(strings_to_flags, str))
-            {
-                continue;
-            }
-
-            // Perform bitwise-or operation to add flag value.
-            flags_enum |= strings_to_flags.at(str);
-        }
-    }
-
-    /**
-     * \brief Converts the contents of a JSON object to an enum or integer value
-     * given a custom mapping of a set of one to the other.
-     * \tparam T Either an enum class or an integer.
-     * \param json The JSON object to read the values from.
-     * \param strings_to_flags A map that associates a string value with either
-     * an enum or int value.
-     * \param flags_enum The variable to assign the determined value to.
-     */
-    template <typename T, std::enable_if_t<is_enum_or_int_v<T>, int> = 0>
-    void flags_enum_from_json(const nlohmann::json& json, const std::map<std::string, T>& strings_to_flags, T& flags_enum)
-    {
-        std::string str_enum_values;
-        json.get_to(str_enum_values);
-
-        flags_enum_from_string(str_enum_values, strings_to_flags, flags_enum);
-    }
-
-    /**
-     * \brief Function that instructs the nlohmann library how to parse auth
-     * scope flags.
-     * \param json The JSON object to read the values from.
-     * \param auth_scope_flags The value to set from the JSON.
-     */
-    inline void from_json(const nlohmann::json& json, EOS_EAuthScopeFlags& auth_scope_flags)
-    {
-        flags_enum_from_json<EOS_EAuthScopeFlags>(
-            json,
-            STRINGS_TO_AUTH_SCOPE_FLAGS,
-            auth_scope_flags);
-    }
-
-    /**
-     * \brief Function that instructs the nlohmann library how to parse
-     * integrated platform management flags.
-     * \param json The JSON object to read the values from.
-     * \param integrated_platform_management_flags The value to set from the
-     * JSON.
-     */
-    inline void from_json(const nlohmann::json& json, EOS_EIntegratedPlatformManagementFlags& integrated_platform_management_flags)
-    {
-        flags_enum_from_json<EOS_EIntegratedPlatformManagementFlags>(
-            json,
-            INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_STRING_TO_ENUM,
-            integrated_platform_management_flags);
-    }
-
-    /**
-     * \brief Function that instructs the nlohmann library how to parse input
-     * state button flags.
-     * \param json The JSON object to read the values from.
-     * \param input_state_button_flags The value to set from the JSON.
-     */
-    inline void from_json(const nlohmann::json& json, EOS_UI_EInputStateButtonFlags& input_state_button_flags)
-    {
-        flags_enum_from_json<EOS_UI_EInputStateButtonFlags>(
-            json,
-            STRINGS_TO_INPUT_STATE_BUTTON_FLAGS,
-            input_state_button_flags
-        );
-    }
-
+namespace pew::eos::config
+{
     inline void from_json(const nlohmann::json& json, ClientCredentials& credentials)
     {
         nlohmann::json temp_json = json;

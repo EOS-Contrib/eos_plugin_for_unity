@@ -65,7 +65,7 @@ namespace pew::eos::logging
         }
     }
 
-    DLL_EXPORT(void) global_log_flush_with_function(const log_flush_function_t log_flush_function)
+    PEW_EOS_API_FUNC(void) global_log_flush_with_function(const log_flush_function_t log_flush_function)
     {
         if (!buffered_output.empty())
         {

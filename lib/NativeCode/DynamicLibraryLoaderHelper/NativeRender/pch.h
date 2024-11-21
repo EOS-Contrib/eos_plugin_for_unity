@@ -38,17 +38,4 @@
 
 #define RESTRICT __restrict
 
-#define CONFIG_EXPORT
-#ifdef _WIN32
-#ifdef CONFIG_EXPORT
-#define CONFIG_API __declspec(dllexport)
-#else
-#define CONFIG_API __declspec(dllimport)
-#endif
-#else
-#define CONFIG_API
-#endif
-
-#define DLL_EXPORT(return_value) extern "C" __declspec(dllexport) return_value  __stdcall
-
 #endif //PCH_H

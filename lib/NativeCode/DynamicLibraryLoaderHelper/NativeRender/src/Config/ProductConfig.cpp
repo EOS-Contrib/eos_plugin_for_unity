@@ -35,9 +35,9 @@ namespace pew::eos::config
     {
         json["ProductId"].get_to(product_id);
         json["ProductName"].get_to(product_name);
-        //json["Clients"].get_to(clients);
+        json["Clients"].get_to(clients);
         json["imported"].get_to(_imported);
-        //json["Environments"].get_to(environments);
+        json["Environments"].get_to(environments);
         json["ProductVersion"].get_to(product_version);
     }
 

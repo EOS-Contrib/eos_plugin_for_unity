@@ -31,7 +31,9 @@
 #include "logging.h"
 #include <codecvt>
 
- /**
+#include "headers/PEW_EOS_Defines.h"
+
+/**
   * @brief Retrieves the system cache directory.
   *
   * Retrieves the system's temporary directory and converts it to a UTF-8 encoded string.
@@ -66,7 +68,7 @@ void eos_call_steam_init(const std::filesystem::path& steam_dll_path);
 
 namespace pew::eos
 {
-    DLL_EXPORT(void*) EOS_GetPlatformInterface()
+    PEW_EOS_API_FUNC(void*) EOS_GetPlatformInterface()
     {
         return eos_library_helpers::eos_platform_handle;
     }

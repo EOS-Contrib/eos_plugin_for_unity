@@ -62,10 +62,6 @@ namespace pew::eos::config
         ProductConfig(const ProductConfig&) = delete;
         ProductConfig& operator=(const ProductConfig&) = delete;
 
-    protected:
-        
-
-    public:
         ProductionEnvironments environments;
 
         std::vector<ClientCredentials> clients;

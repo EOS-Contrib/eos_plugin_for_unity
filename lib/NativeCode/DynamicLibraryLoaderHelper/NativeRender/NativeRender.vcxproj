@@ -78,15 +78,18 @@
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>OVERLAY_DLL_NAME="$(OverlayDllName)";STEAM_API_DLL="$(SteamApiDll)";SDK_DLL_NAME="$(SdkDllName)";CONFIG_DIRECTORY="$(ConfigDirectory)";_DEBUG;NATIVERENDER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PEW_EOS_EXPORT;OVERLAY_DLL_NAME="$(OverlayDllName)";STEAM_API_DLL="$(SteamApiDll)";SDK_DLL_NAME="$(SdkDllName)";CONFIG_DIRECTORY="$(ConfigDirectory)";_DEBUG;NATIVERENDER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <PostBuildEvent>
+      <Command>copy "$(OutputUnityAssetsDirectory)$(SdkDllName)" $(TargetDir) /Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>OVERLAY_DLL_NAME="$(OverlayDllName)";STEAM_API_DLL="$(SteamApiDll)";SDK_DLL_NAME="$(SdkDllName)";CONFIG_DIRECTORY="$(ConfigDirectory)";NDEBUG;NATIVERENDER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PEW_EOS_EXPORT;OVERLAY_DLL_NAME="$(OverlayDllName)";STEAM_API_DLL="$(SteamApiDll)";SDK_DLL_NAME="$(SdkDllName)";CONFIG_DIRECTORY="$(ConfigDirectory)";NDEBUG;NATIVERENDER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -123,6 +126,7 @@
     <ClInclude Include="headers\json.h" />
     <ClInclude Include="headers\json_helpers.h" />
     <ClInclude Include="headers\logging.h" />
+    <ClInclude Include="headers\PEW_EOS_Defines.h" />
     <ClInclude Include="headers\string_helpers.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>

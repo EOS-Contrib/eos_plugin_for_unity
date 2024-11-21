@@ -3,6 +3,6 @@
     <!-- Define a property with the SolutionDir path but with backslashes replaced by forward slashes -->
     <SolutionDirForwardSlashes>$(SolutionDir.Replace('\', '/'))</SolutionDirForwardSlashes>
     <UnityStreamingAssetsDirectory>$(SolutionDirForwardSlashes)../../../Assets/StreamingAssets/</UnityStreamingAssetsDirectory>
-    <OutputUnityAssetsDirectory>$(SolutionDirForwardSlashes)../../../Assets/Plugins/Windows/$(Platform)/</OutputUnityAssetsDirectory>
+    <OutputUnityAssetsDirectory>$(SolutionDir)..\..\..\Assets\Plugins\Windows\$(Platform)\</OutputUnityAssetsDirectory>
   </PropertyGroup>
 </Project>

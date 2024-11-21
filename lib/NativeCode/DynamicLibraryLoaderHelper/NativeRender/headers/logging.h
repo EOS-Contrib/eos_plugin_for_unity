@@ -27,7 +27,9 @@
 #include <string>
 #include <eos_logging.h>
 
- /**
+#include "headers/PEW_EOS_Defines.h"
+
+/**
   * \brief Forward declarations
   */
 enum class EOS_ELogLevel;
@@ -55,7 +57,7 @@ namespace pew::eos::logging
      *
      * @param log_flush_function The function to call for each log message in the buffer.
      */
-    DLL_EXPORT(void) global_log_flush_with_function(log_flush_function_t log_flush_function);
+    PEW_EOS_API_FUNC(void) global_log_flush_with_function(log_flush_function_t log_flush_function);
 
     /**
      * @brief Converts a log level string to its corresponding EOS log level enumeration.
@@ -103,7 +105,7 @@ namespace pew::eos::logging
      *
      * @param message The log message provided by the EOS SDK.
      */
-    EXTERN_C void EOS_CALL eos_log_callback(const EOS_LogMessage* message);
+    PEW_EOS_API_FUNC(void) EOS_CALL eos_log_callback(const EOS_LogMessage* message);
 
     /**
      * @brief Opens a log file for writing.

@@ -25,8 +25,9 @@
 #pragma once
 #include <string>
 #include <type_traits>
-#include <logging.h>
+#include "headers/logging.h"
 #include <iostream>
+#include "headers/PEW_EOS_Defines.h"
 
 namespace std::filesystem
 {
@@ -46,9 +47,14 @@ namespace pew::eos
     template<typename T>
     struct TypedefToString;
 
-    class DLLWrapper
+    class PEW_EOS_API DLLWrapper
     {
-    
+    private:
+#pragma warning(push)
+#pragma warning(disable: 4251) // Disable C4251 warning for this member
+        std::string _library_name;
+#pragma warning(pop)
+
     protected:
         DLLWrapper(const std::string& library_name);
 
@@ -69,6 +75,9 @@ namespace pew::eos
                 throw std::runtime_error("Failed to load function: " + function_name);
             }
 
+            // Log the call to the library
+            logging::log_inform("Calling " + _library_name + ": " + function_name);
+
             // Invoke the function with arguments or none, depending on Args
             if constexpr (sizeof...(Args) > 0) {
                 return function_ptr(std::forward<Args>(args)...);
@@ -78,44 +87,6 @@ namespace pew::eos
             }
         }
 
-        inline void EnumerateFunctions(HMODULE hModule) {
-            // Get the base address of the module
-            auto baseAddress = reinterpret_cast<BYTE*>(hModule);
-
-            // Access the DOS header
-            auto dosHeader = reinterpret_cast<IMAGE_DOS_HEADER*>(baseAddress);
-
-            // Access the NT headers
-            auto ntHeaders = reinterpret_cast<IMAGE_NT_HEADERS*>(baseAddress + dosHeader->e_lfanew);
-
-            // Locate the Export Table
-            auto exportDirRVA = ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
-            if (exportDirRVA == 0) {
-                std::cout << "No export table found.\n";
-                return;
-            }
-
-            auto exportDir = reinterpret_cast<IMAGE_EXPORT_DIRECTORY*>(baseAddress + exportDirRVA);
-
-            // Get the list of exported function names
-            auto namesRVA = reinterpret_cast<DWORD*>(baseAddress + exportDir->AddressOfNames);
-            auto functionsRVA = reinterpret_cast<DWORD*>(baseAddress + exportDir->AddressOfFunctions);
-            auto ordinals = reinterpret_cast<WORD*>(baseAddress + exportDir->AddressOfNameOrdinals);
-
-            for (DWORD i = 0; i < exportDir->NumberOfNames; ++i) {
-                auto functionName = reinterpret_cast<char*>(baseAddress + namesRVA[i]);
-                std::string function_name_string = functionName;
-                std::string pattern = "Init";
-                if (function_name_string.find(pattern))
-                {
-                    std::cout << "Function: " << functionName << std::endl;
-                }
-                auto functionAddress = baseAddress + functionsRVA[ordinals[i]];
-
-                
-            }
-        }
-    public:
         template <typename FuncType, typename... Args>
         auto call_library_function(Args&&... args) const
             -> std::invoke_result_t<FuncType, Args...>
@@ -205,8 +176,7 @@ namespace pew::eos
 
             if (function_ptr == nullptr)
             {
-                // TODO: Should this be printed to the console, or should logging be used?
-                std::cerr << "Failed to load function \"" << mangled_name << "\"." << std::endl;
+                logging::log_error("Failed to load function \"" + std::string(mangled_name) + "\".");
                 return false;
             }
 

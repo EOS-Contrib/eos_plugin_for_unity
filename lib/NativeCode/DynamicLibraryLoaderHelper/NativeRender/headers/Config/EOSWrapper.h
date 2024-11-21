@@ -29,6 +29,7 @@
 #include "headers/Config/ConfigBase.h"
 #include "eos_init.h"
 #include "eos_base.h"
+#include "headers/PEW_EOS_Defines.h"
 
 namespace pew::eos::config
 {
@@ -47,10 +48,16 @@ namespace pew::eos
     REGISTER_LIBRARY_FUNCTION("EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer", EOS_EResult(*EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t)(const EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions* Options, EOS_HIntegratedPlatformOptionsContainer* OutIntegratedPlatformOptionsContainerHandle), EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t);
     REGISTER_LIBRARY_FUNCTION("EOS_IntegratedPlatformOptionsContainer_Release", void(*EOS_IntegratedPlatformOptionsContainer_Release_t)(EOS_HIntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle), EOS_IntegratedPlatformOptionsContainer_Release_t);
 
-    class EOSWrapper : public DLLWrapper
+    class PEW_EOS_API EOSWrapper : public DLLWrapper
     {
     public:
-        EOSWrapper() : DLLWrapper(SDK_DLL_NAME)
+        EOSWrapper() : DLLWrapper(
+#if _WIN64
+            "EOSSDK-Win64-Shipping.dll"
+#elif _WIN32
+            "EOSSDK-Win32-Shipping.dll"
+#endif
+            )
         {
         }
 

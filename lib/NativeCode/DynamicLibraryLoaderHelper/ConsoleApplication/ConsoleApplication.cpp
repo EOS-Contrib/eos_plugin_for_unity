@@ -23,10 +23,15 @@
 #include <iostream>
 
 #include "headers/config_legacy.h"
+#include "headers/Config/EOSWrapper.h"
 
 int main()
 {
     pew::eos::config_legacy::EOSConfig eos_config;
+
+    const auto eos_sdk = new pew::eos::EOSWrapper();
+    const auto platform_interface = eos_sdk->start_eos();
+
     if(pew::eos::config_legacy::try_get_eos_config(eos_config))
     {
         std::cout << "EOSConfig was read successfully.";

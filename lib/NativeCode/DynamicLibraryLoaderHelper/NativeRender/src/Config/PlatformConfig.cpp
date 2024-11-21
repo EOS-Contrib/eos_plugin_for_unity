@@ -24,7 +24,11 @@
 #include "headers/Config/PlatformConfig.h"
 #include "headers/Config/common.hpp"
 #include "headers/Config/nlohmann_helpers.hpp"
-#include "eos_init.h"
+
+#include "eos_auth_types.h"
+#include "eos_ui_types.h"
+#include "eos_integratedplatform_types.h"
+
 namespace pew::eos::config
 {
     using namespace common;
@@ -43,7 +47,6 @@ namespace pew::eos::config
 
     void PlatformConfig::from_json(const nlohmann::json& json)
     {
-        auto json_str = json.dump();
         json["deployment"].get_to(                        deployment);
         json["clientCredentials"].get_to(                 client_credentials);
         json["isServer"].get_to(                          is_server);
@@ -59,11 +62,13 @@ namespace pew::eos::config
         platform_options_flags = 0;
         json["platformOptionsFlags"].get_to(platform_options_flags_str);
         flags_enum_from_string(platform_options_flags_str, PLATFORM_CREATION_FLAGS_STRING_TO_ENUM, platform_options_flags);
-        
+
         json["authScopeOptionsFlags"].get_to(             auth_scope_flags);
         json["integratedPlatformManagementFlags"].get_to( integrated_platform_management_flags);
         json["tickBudgetInMilliseconds"].get_to(          tick_budget_in_milliseconds);
         json["taskNetworkTimeoutSeconds"].get_to(         task_network_timeout_seconds);
+
+        const auto affinity_str = json["threadAffinity"].dump();
         json["threadAffinity"].get_to(                    thread_affinity);
         json["alwaysSendInputToOverlay"].get_to(          always_send_input_to_overlay);
         json["alwaysSendInputToOverlay"].get_to(          always_send_input_to_overlay);
