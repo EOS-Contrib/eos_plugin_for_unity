@@ -29,7 +29,7 @@ int main()
     HMODULE hModule = LoadLibrary(L"steam_api64.dll");
     typedef bool(__cdecl* TEST_t)();
 
-    TEST_t test = (TEST_t)GetProcAddress(hModule, "SteamAPI_Init");
+    TEST_t test = (TEST_t)GetProcAddress(hModule, "SteamInternal_SteamAPI_Init");
 
     auto result = test();
 
