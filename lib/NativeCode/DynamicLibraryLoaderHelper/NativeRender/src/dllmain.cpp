@@ -25,14 +25,13 @@
 // This is apparently needed so that the Overlay can render properly
 #include "pch.h"
 
-#include <array>
 #include <iterator>
 #include <sstream>
 
 #include "config_legacy.h"
 #include "logging.h"
-#include <eos_library_helpers.h>
-#include <eos_helpers.h>
+#include "eos_library_helpers.h"
+#include "eos_helpers.h"
 #include "io_helpers.h"
 
 using namespace pew::eos;
