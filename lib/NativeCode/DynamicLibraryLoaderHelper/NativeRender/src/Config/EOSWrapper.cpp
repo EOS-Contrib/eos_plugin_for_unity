@@ -78,38 +78,6 @@ namespace pew::eos
     EOS_HPlatform EOSWrapper::create(const config::PlatformConfig& platform_config,
                                      const config::ProductConfig& product_config) const
     {
-        auto platform_options = create_platform_options(platform_config, product_config);
-
-        EOS_HIntegratedPlatformOptionsContainer integrated_platform_options_container = nullptr;
-
-        logging::log_inform("run EOS_Platform_Create");
-
-        EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions options = {
-            EOS_INTEGRATEDPLATFORM_CREATEINTEGRATEDPLATFORMOPTIONSCONTAINER_API_LATEST
-        };
-
-        call_library_function<EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t>(&options, &integrated_platform_options_container);
-
-        platform_options.IntegratedPlatformOptionsContainerHandle = integrated_platform_options_container;
-
-        const auto eos_platform_handle = call_library_function<EOS_Platform_Create_t>(&platform_options);
-
-        if (!eos_platform_handle)
-        {
-            logging::log_error("failed to create the platform");
-        }
-
-        if (integrated_platform_options_container)
-        {
-            call_library_function<EOS_IntegratedPlatformOptionsContainer_Release_t>(integrated_platform_options_container);
-        }
-
-        return eos_platform_handle;
-    }
-
-    EOS_Platform_Options EOSWrapper::create_platform_options(const config::PlatformConfig& platform_config,
-        const config::ProductConfig& product_config)
-    {
         EOS_Platform_Options platform_options = { 0 };
         platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
         platform_options.bIsServer = platform_config.is_server;
@@ -151,7 +119,32 @@ namespace pew::eos
         rtc_options.PlatformSpecificOptions = &windows_rtc_options;
         platform_options.RTCOptions = &rtc_options;
 
-        return platform_options;
+
+        EOS_HIntegratedPlatformOptionsContainer integrated_platform_options_container = nullptr;
+
+        logging::log_inform("run EOS_Platform_Create");
+
+        EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions options = {
+            EOS_INTEGRATEDPLATFORM_CREATEINTEGRATEDPLATFORMOPTIONSCONTAINER_API_LATEST
+        };
+
+        call_library_function<EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t>(&options, &integrated_platform_options_container);
+
+        platform_options.IntegratedPlatformOptionsContainerHandle = integrated_platform_options_container;
+
+        const auto eos_platform_handle = call_library_function<EOS_Platform_Create_t>(&platform_options);
+
+        if (!eos_platform_handle)
+        {
+            logging::log_error("failed to create the platform");
+        }
+
+        if (integrated_platform_options_container)
+        {
+            call_library_function<EOS_IntegratedPlatformOptionsContainer_Release_t>(integrated_platform_options_container);
+        }
+
+        return eos_platform_handle;
     }
 }
 
