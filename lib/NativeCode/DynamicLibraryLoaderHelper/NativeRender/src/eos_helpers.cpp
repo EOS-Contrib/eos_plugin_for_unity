@@ -31,6 +31,7 @@
 #include "logging.h"
 #include <codecvt>
 
+#include "Config/EOSWrapper.h"
 #include "headers/PEW_EOS_Defines.h"
 
 /**
@@ -68,6 +69,12 @@ void eos_call_steam_init(const std::filesystem::path& steam_dll_path);
 
 namespace pew::eos
 {
+    PEW_EOS_API_FUNC(EOS_Platform_Options) EOS_PEW_GetPlatformOptions()
+    {
+        const auto eos_sdk = std::make_unique<EOSWrapper>();
+        return eos_sdk->PEW_EOS_ExportPlatformOptions();
+    }
+
     PEW_EOS_API_FUNC(void*) EOS_GetPlatformInterface()
     {
         return eos_library_helpers::eos_platform_handle;
