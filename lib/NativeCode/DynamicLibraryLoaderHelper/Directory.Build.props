@@ -1,8 +1,13 @@
 <Project>
-  <PropertyGroup>
+	<PropertyGroup>
+		<!-- Normalize PlatformTarget -->
+		<NormalizedPlatform Condition="'$(PlatformTarget)' == 'x86' or '$(PlatformTarget)' == 'Win32'">x86</NormalizedPlatform>
+		<NormalizedPlatform Condition="'$(PlatformTarget)' == 'x64'">x64</NormalizedPlatform>
+		<NormalizedPlatform Condition="'$(Platform)' == 'x86' or '$(Platform)' == 'Win32'">x86</NormalizedPlatform>
+		<NormalizedPlatform Condition="'$(Platform)' == 'x64'">x64</NormalizedPlatform>
     <!-- Define a property with the SolutionDir path but with backslashes replaced by forward slashes -->
     <SolutionDirForwardSlashes>$(SolutionDir.Replace('\', '/'))</SolutionDirForwardSlashes>
     <UnityStreamingAssetsDirectory>$(SolutionDirForwardSlashes)../../../Assets/StreamingAssets/</UnityStreamingAssetsDirectory>
-    <OutputUnityAssetsDirectory>$(SolutionDir)..\..\..\Assets\Plugins\Windows\$(Platform)\</OutputUnityAssetsDirectory>
+    <OutputUnityAssetsDirectory>$(SolutionDir)..\..\..\Assets\Plugins\Windows\$(NormalizedPlatform)\</OutputUnityAssetsDirectory>
   </PropertyGroup>
 </Project>
