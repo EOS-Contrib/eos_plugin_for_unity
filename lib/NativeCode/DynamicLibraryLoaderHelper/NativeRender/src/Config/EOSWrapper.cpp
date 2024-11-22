@@ -63,8 +63,64 @@ namespace pew::eos
         call_library_function<EOS_Logging_SetCallback_t>(&logging::eos_log_callback);
     }
 
-    void EOSWrapper::make_platform_options(EOS_Platform_Options& platform_options, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const
+    void EOSWrapper::set_platform_options(EOS_Platform_Options& platform_options, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const
     {
+        
+        platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
+        platform_options.bIsServer = platform_config.is_server;
+        platform_options.Flags = platform_config.platform_options_flags;
+        platform_options.CacheDirectory = get_cache_directory();
+        platform_options.OverrideCountryCode = nullptr;
+        platform_options.OverrideLocaleCode = platform_config.overrideLocaleCode.length() > 0 ? platform_config.overrideLocaleCode.c_str() : nullptr;
+        platform_options.ProductId = product_config.product_id.c_str();
+        platform_options.SandboxId = platform_config.deployment.sandbox.id.c_str();
+        platform_options.DeploymentId = platform_config.deployment.id.c_str();
+
+        // Set the Client Credentials and associated values.
+        static auto encryption_key = platform_config.client_credentials.encryption_key;
+        static auto client_id = platform_config.client_credentials.client_id;
+        static auto client_secret = platform_config.client_credentials.client_secret;
+
+        platform_options.EncryptionKey = encryption_key.c_str();
+        platform_options.ClientCredentials.ClientId = client_id.c_str();
+        platform_options.ClientCredentials.ClientSecret = client_secret.c_str();
+        platform_options.TickBudgetInMilliseconds = platform_config.tick_budget_in_milliseconds;
+
+        // Because input parameter is const, we need to make a copy of the value
+        static double task_network_timeout_seconds = platform_config.task_network_timeout_seconds;
+        platform_options.TaskNetworkTimeoutSeconds = &task_network_timeout_seconds;
+
+        static EOS_Platform_RTCOptions rtc_options = { 0 };
+        rtc_options.ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
+
+        logging::log_inform("setting up rtc");
+        static std::filesystem::path xaudio2_dll_path = get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
+        static std::string xaudio2_dll_path_as_string = to_utf8_str(xaudio2_dll_path);
+        static EOS_Windows_RTCOptions windows_rtc_options;
+        windows_rtc_options.ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
+        windows_rtc_options.XAudio29DllPath = xaudio2_dll_path_as_string.c_str();
+        logging::log_warn(xaudio2_dll_path_as_string.c_str());
+
+        if (!exists(xaudio2_dll_path))
+        {
+            logging::log_warn("Missing XAudio dll!");
+        }
+        rtc_options.PlatformSpecificOptions = &windows_rtc_options;
+        platform_options.RTCOptions = &rtc_options;
+
+        static EOS_HIntegratedPlatformOptionsContainer integrated_platform_options_container = nullptr;
+
+        logging::log_inform("run EOS_Platform_Create");
+
+        static EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions options = {
+            EOS_INTEGRATEDPLATFORM_CREATEINTEGRATEDPLATFORMOPTIONSCONTAINER_API_LATEST
+        };
+
+        call_library_function<EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t>(&options, &integrated_platform_options_container);
+
+        platform_options.IntegratedPlatformOptionsContainerHandle = integrated_platform_options_container;
+
+
     }
 
     void EOSWrapper::set_initialize_options(EOS_InitializeOptions& intialize_options,
@@ -88,59 +144,12 @@ namespace pew::eos
                                      const config::ProductConfig& product_config) const
     {
         EOS_Platform_Options platform_options = { 0 };
-        platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
-        platform_options.bIsServer = platform_config.is_server;
-        platform_options.Flags = platform_config.platform_options_flags;
-        platform_options.CacheDirectory = get_cache_directory();
-        platform_options.OverrideCountryCode = nullptr;
-        platform_options.OverrideLocaleCode = platform_config.overrideLocaleCode.length() > 0 ? platform_config.overrideLocaleCode.c_str() : nullptr;
-        platform_options.ProductId = product_config.product_id.c_str();
-        platform_options.SandboxId = platform_config.deployment.sandbox.id.c_str();
-        platform_options.DeploymentId = platform_config.deployment.id.c_str();
+        set_platform_options(platform_options, platform_config, product_config);
 
-        // Set the Client Credentials and associated values.
-        auto [client_id, client_secret, encryption_key] = platform_config.client_credentials;
-        platform_options.EncryptionKey = encryption_key.c_str();
-        platform_options.ClientCredentials.ClientId = client_id.c_str();
-        platform_options.ClientCredentials.ClientSecret = client_secret.c_str();
-        platform_options.TickBudgetInMilliseconds = platform_config.tick_budget_in_milliseconds;
-
-        // Because input parameter is const, we need to make a copy of the value
-        double task_network_timeout_seconds = platform_config.task_network_timeout_seconds;
-        platform_options.TaskNetworkTimeoutSeconds = &task_network_timeout_seconds;
-
-        EOS_Platform_RTCOptions rtc_options = { 0 };
-
-        rtc_options.ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
-
-        logging::log_inform("setting up rtc");
-        std::filesystem::path xaudio2_dll_path = get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
-        std::string xaudio2_dll_path_as_string = to_utf8_str(xaudio2_dll_path);
-        EOS_Windows_RTCOptions windows_rtc_options;
-        windows_rtc_options.ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
-        windows_rtc_options.XAudio29DllPath = xaudio2_dll_path_as_string.c_str();
-        logging::log_warn(xaudio2_dll_path_as_string.c_str());
-
-        if (!exists(xaudio2_dll_path))
-        {
-            logging::log_warn("Missing XAudio dll!");
-        }
-        rtc_options.PlatformSpecificOptions = &windows_rtc_options;
-        platform_options.RTCOptions = &rtc_options;
+        
 
 
-        EOS_HIntegratedPlatformOptionsContainer integrated_platform_options_container = nullptr;
-
-        logging::log_inform("run EOS_Platform_Create");
-
-        EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions options = {
-            EOS_INTEGRATEDPLATFORM_CREATEINTEGRATEDPLATFORMOPTIONSCONTAINER_API_LATEST
-        };
-
-        call_library_function<EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t>(&options, &integrated_platform_options_container);
-
-        platform_options.IntegratedPlatformOptionsContainerHandle = integrated_platform_options_container;
-
+        
         const auto eos_platform_handle = call_library_function<EOS_Platform_Create_t>(&platform_options);
 
         if (!eos_platform_handle)
@@ -148,9 +157,9 @@ namespace pew::eos
             logging::log_error("failed to create the platform");
         }
 
-        if (integrated_platform_options_container)
+        if (platform_options.IntegratedPlatformOptionsContainerHandle)
         {
-            call_library_function<EOS_IntegratedPlatformOptionsContainer_Release_t>(integrated_platform_options_container);
+            call_library_function<EOS_IntegratedPlatformOptionsContainer_Release_t>(platform_options.IntegratedPlatformOptionsContainerHandle);
         }
 
         return eos_platform_handle;
