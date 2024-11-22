@@ -47,6 +47,28 @@ namespace pew::eos
         return create(*windows_config, *product_config);
     }
 
+    EOS_InitializeOptions EOSWrapper::PEW_EOS_ExportInitializeOptions() const
+    {
+        const auto product_config = config::ConfigBase::get<config::ProductConfig>();
+        const auto windows_config = config::ConfigBase::get<config::WindowsConfig>();
+
+        EOS_InitializeOptions options;
+        set_initialize_options(options, *windows_config, *product_config);
+
+        return options;
+    }
+
+    EOS_Platform_Options EOSWrapper::PEW_EOS_ExportPlatformOptions() const
+    {
+        const auto product_config = config::ConfigBase::get<config::ProductConfig>();
+        const auto windows_config = config::ConfigBase::get<config::WindowsConfig>();
+
+        EOS_Platform_Options options;
+        set_platform_options(options, *windows_config, *product_config);
+
+        return options;
+    }
+
     void EOSWrapper::init(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const
     {
         EOS_InitializeOptions sdk_options{};
@@ -65,7 +87,6 @@ namespace pew::eos
 
     void EOSWrapper::set_platform_options(EOS_Platform_Options& platform_options, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const
     {
-        
         platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
         platform_options.bIsServer = platform_config.is_server;
         platform_options.Flags = platform_config.platform_options_flags;
@@ -119,25 +140,23 @@ namespace pew::eos
         call_library_function<EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t>(&options, &integrated_platform_options_container);
 
         platform_options.IntegratedPlatformOptionsContainerHandle = integrated_platform_options_container;
-
-
     }
 
-    void EOSWrapper::set_initialize_options(EOS_InitializeOptions& intialize_options,
-        const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const
+    void EOSWrapper::set_initialize_options(EOS_InitializeOptions& initialize_options,
+        const config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
     {
-        intialize_options.ApiVersion = EOS_INITIALIZE_API_LATEST;
-        intialize_options.AllocateMemoryFunction = nullptr;
-        intialize_options.ReallocateMemoryFunction = nullptr;
-        intialize_options.ReleaseMemoryFunction = nullptr;
-        intialize_options.ProductName = product_config.product_name.c_str();
-        intialize_options.ProductVersion = product_config.product_version.c_str();
-        intialize_options.Reserved = new int[2] {1, 1};
-        intialize_options.SystemInitializeOptions = nullptr;
+        initialize_options.ApiVersion = EOS_INITIALIZE_API_LATEST;
+        initialize_options.AllocateMemoryFunction = nullptr;
+        initialize_options.ReallocateMemoryFunction = nullptr;
+        initialize_options.ReleaseMemoryFunction = nullptr;
+        initialize_options.ProductName = product_config.product_name.c_str();
+        initialize_options.ProductVersion = product_config.product_version.c_str();
+        initialize_options.Reserved = new int[2] {1, 1};
+        initialize_options.SystemInitializeOptions = nullptr;
 
         // Because the parameter passed is const, the value needs to be copied.
         static EOS_Initialize_ThreadAffinity affinity = platform_config.thread_affinity;
-        intialize_options.OverrideThreadAffinity = &affinity;
+        initialize_options.OverrideThreadAffinity = &affinity;
     }
 
     EOS_HPlatform EOSWrapper::create(const config::PlatformConfig& platform_config,
@@ -146,10 +165,6 @@ namespace pew::eos
         EOS_Platform_Options platform_options = { 0 };
         set_platform_options(platform_options, platform_config, product_config);
 
-        
-
-
-        
         const auto eos_platform_handle = call_library_function<EOS_Platform_Create_t>(&platform_options);
 
         if (!eos_platform_handle)

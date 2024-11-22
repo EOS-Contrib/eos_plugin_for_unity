@@ -31,6 +31,7 @@ int main()
 
     const auto eos_sdk = new pew::eos::EOSWrapper();
     const auto platform_interface = eos_sdk->start_eos();
+    const auto platform_options = eos_sdk->PEW_EOS_ExportPlatformOptions();
 
     if(pew::eos::config_legacy::try_get_eos_config(eos_config))
     {

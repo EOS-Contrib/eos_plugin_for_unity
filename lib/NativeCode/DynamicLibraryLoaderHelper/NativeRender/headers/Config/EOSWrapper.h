@@ -62,11 +62,16 @@ namespace pew::eos
         }
 
         EOS_HPlatform start_eos() const;
+
+        EOS_Platform_Options PEW_EOS_ExportPlatformOptions() const;
+
+        EOS_InitializeOptions PEW_EOS_ExportInitializeOptions() const;
+
     private:
         void init(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const;
 
         void set_platform_options(EOS_Platform_Options& platform_options, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const;
-        void set_initialize_options(EOS_InitializeOptions& intialize_options, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const;
+        static void set_initialize_options(EOS_InitializeOptions& initialize_options, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config);
 
         EOS_HPlatform create(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const;
     };
