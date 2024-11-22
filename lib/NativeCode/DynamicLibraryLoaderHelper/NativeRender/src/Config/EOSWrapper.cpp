@@ -50,18 +50,7 @@ namespace pew::eos
     void EOSWrapper::init(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const
     {
         EOS_InitializeOptions sdk_options{};
-        sdk_options.ApiVersion = EOS_INITIALIZE_API_LATEST;
-        sdk_options.AllocateMemoryFunction = nullptr;
-        sdk_options.ReallocateMemoryFunction = nullptr;
-        sdk_options.ReleaseMemoryFunction = nullptr;
-        sdk_options.ProductName = product_config.product_name.c_str();
-        sdk_options.ProductVersion = product_config.product_version.c_str();
-        sdk_options.Reserved = new int[2] {1, 1};
-        sdk_options.SystemInitializeOptions = nullptr;
-
-        // Because the parameter passed is const, the value needs to be copied.
-        EOS_Initialize_ThreadAffinity affinity = platform_config.thread_affinity;
-        sdk_options.OverrideThreadAffinity = &affinity;
+        set_initialize_options(sdk_options, platform_config, product_config);
 
         const auto init_result = call_library_function<EOS_Initialize_t>(&sdk_options);
         if (init_result != EOS_EResult::EOS_Success)
@@ -72,6 +61,27 @@ namespace pew::eos
         // Set the log level and the log callback
         call_library_function<EOS_Logging_SetLogLevel_t>(EOS_ELogCategory::EOS_LC_ALL_CATEGORIES, EOS_ELogLevel::EOS_LOG_VeryVerbose);
         call_library_function<EOS_Logging_SetCallback_t>(&logging::eos_log_callback);
+    }
+
+    void EOSWrapper::make_platform_options(EOS_Platform_Options& platform_options, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const
+    {
+    }
+
+    void EOSWrapper::set_initialize_options(EOS_InitializeOptions& intialize_options,
+        const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const
+    {
+        intialize_options.ApiVersion = EOS_INITIALIZE_API_LATEST;
+        intialize_options.AllocateMemoryFunction = nullptr;
+        intialize_options.ReallocateMemoryFunction = nullptr;
+        intialize_options.ReleaseMemoryFunction = nullptr;
+        intialize_options.ProductName = product_config.product_name.c_str();
+        intialize_options.ProductVersion = product_config.product_version.c_str();
+        intialize_options.Reserved = new int[2] {1, 1};
+        intialize_options.SystemInitializeOptions = nullptr;
+
+        // Because the parameter passed is const, the value needs to be copied.
+        static EOS_Initialize_ThreadAffinity affinity = platform_config.thread_affinity;
+        intialize_options.OverrideThreadAffinity = &affinity;
     }
 
     EOS_HPlatform EOSWrapper::create(const config::PlatformConfig& platform_config,

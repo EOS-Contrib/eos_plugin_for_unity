@@ -1,0 +1,1 @@
+2024-11-22T13:17:56.925 NativePlugin (INFORM): Loading "EOSSDK-Win64-Shipping.dll," at "C:\Users\PaulPEW\dev\repos\eos_plugin_for_unity\lib\NativeCode\DynamicLibraryLoaderHelper\Build\Debug\x64\EOSSDK-Win64-Shipping.dll".
