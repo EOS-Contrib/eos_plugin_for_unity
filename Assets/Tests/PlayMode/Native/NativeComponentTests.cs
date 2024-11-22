@@ -24,6 +24,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Native
 {
     using NUnit.Framework;
     using System;
+    using System.IO;
     using System.Runtime.InteropServices;
     using UnityEngine;
 
@@ -86,13 +87,38 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Native
             public IntPtr TaskNetworkTimeoutSeconds;
         }
 
-        [DllImport("GfxPluginNativeRender-x64", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr GetPlatformOptionsFromNative();
+        private const string DllName = "GfxPluginNativeRender-x64.dll";
+        private static readonly string DllPath = Path.Combine("Assets", "Plugins", "Windows", "x64", DllName);
+
+        [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Auto)]
+        private static extern IntPtr LoadLibrary(string lpFileName);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr EOS_PEW_GetPlatformOptions();
+
+        [SetUp]
+        public static void LoadDLLManually()
+        {
+            if (!File.Exists(DllPath))
+            {
+                throw new FileNotFoundException("DLL NOT FOUND");
+            }
+
+            IntPtr handle = LoadLibrary(DllPath);
+            if (handle == IntPtr.Zero)
+            {
+                throw new Exception("Failed to load DLL");
+            }
+            else
+            {
+                Debug.Log("Successfully Loaded DLL");
+            }
+        }
 
         [Test]
         public static void LoadPlatformOptionsAsParsedByNative()
         {
-            IntPtr natively_parsed_options_ptr = GetPlatformOptionsFromNative();
+            IntPtr natively_parsed_options_ptr = EOS_PEW_GetPlatformOptions();
 
             EOS_Platform_Options natively_parsed_options =
                 Marshal.PtrToStructure<EOS_Platform_Options>(natively_parsed_options_ptr);
