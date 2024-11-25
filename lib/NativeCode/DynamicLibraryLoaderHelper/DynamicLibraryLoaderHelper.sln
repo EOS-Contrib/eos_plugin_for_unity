@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleApplication", "Conso
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedPluginCode", "ManagedPluginCode\ManagedPluginCode.csproj", "{B3ADEB07-B668-482E-A5AA-9671CE65C5F7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ManagedToUnmanagedBridge", "ManagedToUnmanagedBridge\ManagedToUnmanagedBridge.vcxproj", "{4421F72C-9585-4245-BD8D-FEF6CE45C7D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,18 @@ Global
 		{B3ADEB07-B668-482E-A5AA-9671CE65C5F7}.Release|x64.Build.0 = Release|x64
 		{B3ADEB07-B668-482E-A5AA-9671CE65C5F7}.Release|x86.ActiveCfg = Release|x86
 		{B3ADEB07-B668-482E-A5AA-9671CE65C5F7}.Release|x86.Build.0 = Release|x86
+		{4421F72C-9585-4245-BD8D-FEF6CE45C7D6}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{4421F72C-9585-4245-BD8D-FEF6CE45C7D6}.Debug|Any CPU.Build.0 = Debug|x64
+		{4421F72C-9585-4245-BD8D-FEF6CE45C7D6}.Debug|x64.ActiveCfg = Debug|x64
+		{4421F72C-9585-4245-BD8D-FEF6CE45C7D6}.Debug|x64.Build.0 = Debug|x64
+		{4421F72C-9585-4245-BD8D-FEF6CE45C7D6}.Debug|x86.ActiveCfg = Debug|Win32
+		{4421F72C-9585-4245-BD8D-FEF6CE45C7D6}.Debug|x86.Build.0 = Debug|Win32
+		{4421F72C-9585-4245-BD8D-FEF6CE45C7D6}.Release|Any CPU.ActiveCfg = Release|x64
+		{4421F72C-9585-4245-BD8D-FEF6CE45C7D6}.Release|Any CPU.Build.0 = Release|x64
+		{4421F72C-9585-4245-BD8D-FEF6CE45C7D6}.Release|x64.ActiveCfg = Release|x64
+		{4421F72C-9585-4245-BD8D-FEF6CE45C7D6}.Release|x64.Build.0 = Release|x64
+		{4421F72C-9585-4245-BD8D-FEF6CE45C7D6}.Release|x86.ActiveCfg = Release|Win32
+		{4421F72C-9585-4245-BD8D-FEF6CE45C7D6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,3 +7,7 @@ GfxPluginNativeRender-x86.lib.meta
 
 DynamicLibraryLoaderHelper.iobj
 DynamicLibraryLoaderHelper.iobj.meta
+ManagedPluginCode.dll
+ManagedToUnmanagedBridge*
+Newtonsoft.Json.dll
+Newtonsoft.Json.xml

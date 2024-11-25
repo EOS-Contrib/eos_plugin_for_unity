@@ -13,3 +13,7 @@ DynamicLibraryLoaderHelper.lib
 DynamicLibraryLoaderHelper.lib.meta
 
 ConsoleApplication*
+ManagedPluginCode.dll
+ManagedToUnmanagedBridge*
+Newtonsoft.Json.dll
+Newtonsoft.Json.xml
