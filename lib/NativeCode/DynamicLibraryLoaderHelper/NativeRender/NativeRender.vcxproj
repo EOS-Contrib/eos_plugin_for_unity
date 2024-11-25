@@ -103,29 +103,29 @@
   </ItemDefinitionGroup>
   <!-- Source Files -->
   <ItemGroup>
-    <ClInclude Include="headers\Config\ClientCredentials.hpp" />
-    <ClInclude Include="headers\Config\common.hpp" />
-    <ClInclude Include="headers\Config\ConfigBase.h" />
-    <ClInclude Include="headers\Config\DLLWrapper.h" />
-    <ClInclude Include="headers\Config\EOSWrapper.h" />
-    <ClInclude Include="headers\Config\nlohmann_helpers.hpp" />
-    <ClInclude Include="headers\Config\PlatformConfig.h" />
-    <ClInclude Include="headers\Config\ProductConfig.h" />
-    <ClInclude Include="headers\Config\ProductionEnvironments.hpp" />
-    <ClInclude Include="headers\Config\Serializable.hpp" />
-    <ClInclude Include="headers\Config\SteamConfig.h" />
-    <ClInclude Include="headers\Config\Version.hpp" />
-    <ClInclude Include="headers\Config\WindowsConfig.h" />
-    <ClInclude Include="headers\config_legacy.h" />
-    <ClInclude Include="headers\eos_helpers.h" />
-    <ClInclude Include="headers\eos_library_helpers.h" />
-    <ClInclude Include="headers\eos_minimum_includes.h" />
-    <ClInclude Include="headers\io_helpers.h" />
-    <ClInclude Include="headers\json.h" />
-    <ClInclude Include="headers\json_helpers.h" />
-    <ClInclude Include="headers\logging.h" />
-    <ClInclude Include="headers\PEW_EOS_Defines.h" />
-    <ClInclude Include="headers\string_helpers.h" />
+    <ClInclude Include="include\Config\ClientCredentials.hpp" />
+    <ClInclude Include="include\Config\common.hpp" />
+    <ClInclude Include="include\Config\ConfigBase.h" />
+    <ClInclude Include="include\Config\DLLWrapper.h" />
+    <ClInclude Include="include\Config\EOSWrapper.h" />
+    <ClInclude Include="include\Config\nlohmann_helpers.hpp" />
+    <ClInclude Include="include\Config\PlatformConfig.h" />
+    <ClInclude Include="include\Config\ProductConfig.h" />
+    <ClInclude Include="include\Config\ProductionEnvironments.hpp" />
+    <ClInclude Include="include\Config\Serializable.hpp" />
+    <ClInclude Include="include\Config\SteamConfig.h" />
+    <ClInclude Include="include\Config\Version.hpp" />
+    <ClInclude Include="include\Config\WindowsConfig.h" />
+    <ClInclude Include="include\config_legacy.h" />
+    <ClInclude Include="include\eos_helpers.h" />
+    <ClInclude Include="include\eos_library_helpers.h" />
+    <ClInclude Include="include\eos_minimum_includes.h" />
+    <ClInclude Include="include\io_helpers.h" />
+    <ClInclude Include="include\json.h" />
+    <ClInclude Include="include\json_helpers.h" />
+    <ClInclude Include="include\logging.h" />
+    <ClInclude Include="include\PEW_EOS_Defines.h" />
+    <ClInclude Include="include\string_helpers.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>

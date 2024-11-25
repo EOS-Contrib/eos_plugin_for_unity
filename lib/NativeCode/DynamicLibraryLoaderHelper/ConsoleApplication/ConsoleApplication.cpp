@@ -22,8 +22,8 @@
 
 #include <iostream>
 
-#include "headers/config_legacy.h"
-#include "headers/Config/EOSWrapper.h"
+#include "include/config_legacy.h"
+#include "include/Config/EOSWrapper.h"
 
 int main()
 {
