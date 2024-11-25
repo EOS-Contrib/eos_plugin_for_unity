@@ -108,16 +108,16 @@ namespace PlayEveryWare.EpicOnlineServices
     /// single value, or a single string into an enum value of the type
     /// specified by the type parameter.
     /// </summary>
-    /// <typeparam name="T">
+    /// <typeparam name="TEnum">
     /// Indicates the enum type that conversion functionality is being
     /// implemented for.
     /// </typeparam>
-    internal abstract class ListOfStringsToEnumConverter<T> : JsonConverter where T : struct, Enum
+    internal abstract class ListOfStringsToEnumConverter<TEnum> : JsonConverter where TEnum : struct, Enum
     {
         /// <summary>
         /// Used as a cleaner proxy for typeof(T)
         /// </summary>
-        private readonly Type _targetType = typeof(T);
+        private readonly Type _targetType = typeof(TEnum);
 
         /// <summary>
         /// Determines whether the type that the implementing class attribute is
@@ -131,7 +131,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </returns>
         public override bool CanConvert(Type objectType)
         {
-            return typeof(T).IsEnum;
+            return typeof(TEnum).IsEnum;
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -148,7 +148,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 JTokenType.Integer => FromNumberValue(token),
 
-                JTokenType.Null => default(T),
+                JTokenType.Null => default(TEnum),
 
                 _ => throw new JsonSerializationException(
                     $"Unexpected token type '{token.Type}' when " +
@@ -165,7 +165,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// A list of string values from which to compose a single enum value.
         /// </param>
         /// <returns>A single enum value of type T.</returns>
-        protected abstract T FromStringArray(JArray array);
+        protected abstract TEnum FromStringArray(JArray array);
 
         /// <summary>
         /// Implementing classes should override this function to define the
@@ -179,29 +179,19 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>
         /// A single enum value of type T.
         /// </returns>
-        protected T FromNumberValue(JToken token)
+        protected TEnum FromNumberValue(JToken token)
         {
-            // Get the value from json.
-            int value = token.Value<int>();
+            Type underlyingType = Enum.GetUnderlyingType(typeof(TEnum));
+            object value = Convert.ChangeType(token, underlyingType);
 
-            // Get the lowest value in the enum
-            int lowest = Int32.MaxValue;
-            foreach(int enumIntValue in Enum.GetValues(typeof(T)))
+            object lowestValue = EnumUtility<TEnum>.GetLowest();
+
+            if (Comparer<object>.Default.Compare(value, lowestValue) < 0)
             {
-                if (lowest > enumIntValue)
-                {
-                    lowest = enumIntValue;
-                }
+                value = lowestValue;
             }
 
-            // If the value is lower than the lowest possible value, then set it
-            // to equal the lowest one in the enum.
-            if (value < lowest)
-            {
-                value = lowest;
-            }
-
-            return (T)Enum.ToObject(typeof(T), value);
+            return (TEnum)value;
         }
 
         /// <summary>
@@ -219,7 +209,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>
         /// A single enum value of type T.
         /// </returns>
-        protected T FromStringArrayWithCustomMapping(JArray array, IDictionary<string, T> customMappings)
+        protected TEnum FromStringArrayWithCustomMapping(JArray array, IDictionary<string, TEnum> customMappings)
         {
             List<string> elementsAsStrings = new();
             foreach (JToken element in array)
@@ -227,7 +217,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 elementsAsStrings.Add(element.ToString());
             }
 
-            _ = EnumUtility<T>.TryParse(elementsAsStrings, customMappings, out T result);
+            _ = EnumUtility<TEnum>.TryParse(elementsAsStrings, customMappings, out TEnum result);
 
             return result;
         }

@@ -271,7 +271,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public string GetProductId()
             {
-                return Config.Get<ProductConfig>().ProductId.ToStrippedString();
+                return Config.Get<ProductConfig>().ProductId.ToString("N").ToLowerInvariant();
             }
 
             //-------------------------------------------------------------------------
@@ -291,7 +291,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public string GetDeploymentID()
             {
-                return PlatformManager.GetPlatformConfig().deployment.DeploymentId.ToStrippedString();
+                return PlatformManager.GetPlatformConfig().deployment.DeploymentId.ToString("N").ToLowerInvariant();
             }
 
             //-------------------------------------------------------------------------
@@ -497,9 +497,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 platformOptions.options.OverrideCountryCode = null;
                 platformOptions.options.OverrideLocaleCode = null;
-                platformOptions.options.ProductId = productConfig.ProductId.ToStrippedString();
+                platformOptions.options.ProductId = productConfig.ProductId.ToString("N").ToLowerInvariant();
                 platformOptions.options.SandboxId = platformConfig.deployment.SandboxId.ToString();
-                platformOptions.options.DeploymentId = platformConfig.deployment.DeploymentId.ToStrippedString();
+                platformOptions.options.DeploymentId = platformConfig.deployment.DeploymentId.ToString("N").ToLowerInvariant();
 
                 platformOptions.options.TickBudgetInMilliseconds = platformConfig.tickBudgetInMilliseconds;
 
