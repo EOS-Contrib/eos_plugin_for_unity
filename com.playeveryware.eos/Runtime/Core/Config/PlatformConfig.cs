@@ -393,7 +393,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             foreach(Named<Deployment> dep in productConfig.Environments.Deployments)
             {
-                if (!compDeploymentString.Equals(dep.Value.DeploymentId.ToStrippedString()))
+                if (!compDeploymentString.Equals(dep.Value.DeploymentId.ToString("N").ToLowerInvariant()))
                 {
                     continue;
                 }
