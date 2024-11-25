@@ -31,7 +31,8 @@
 #include "headers/config_legacy.h"
 #include "headers/Config/EOSWrapper.h"
 #include "ManagedToUnmanagedBridge.hpp"
-
+#include "../ManagedToUnmanagedBridge/ManagedToUnmanagedBridge.hpp"
+#include "../NativeRender/headers/Config/EOSWrapper.h"
 
 
 #using <ManagedPluginCode.dll>
@@ -109,13 +110,21 @@ void CheckEquality(const char* name, const uint32_t& unmanaged_uint, const uint3
     }
 }
 
+void CheckEquality(const char* name, const uint64_t& long_value, uint64_t managed_long_value)
+{
+    if (long_value != managed_long_value)
+    {
+        std::cerr << name << " is not equal (Native: " << long_value << ", Managed: " << managed_long_value << ")." << std::endl;
+    }
+}
+
 bool NativeAndManagedPlatformOptionsAreIdentical()
 {
     const auto eos_sdk = new pew::eos::EOSWrapper();
     
     const auto native_platform_options = eos_sdk->PEW_EOS_ExportPlatformOptions();
     const auto managed_platform_options = pew::eos::tests::NativeTestUtilityBridge::get_windows_options();
-
+    
     CheckEquality("ProductId", native_platform_options.ProductId, managed_platform_options->ProductId->ToString());
     CheckEquality("SandboxId", native_platform_options.SandboxId, managed_platform_options->SandboxId->ToString());
     CheckEquality("ClientId", native_platform_options.ClientCredentials.ClientId, managed_platform_options->ClientCredentials.ClientId->ToString());
@@ -131,9 +140,36 @@ bool NativeAndManagedPlatformOptionsAreIdentical()
     return true;
 }
 
+bool NativeAndManagedInitializeOptionsAreIdentical()
+{
+    const auto eos_sdk = new pew::eos::EOSWrapper();
+
+    const auto native_initialize_options = eos_sdk->PEW_EOS_ExportInitializeOptions();
+    const auto managed_platform_initialize_options = pew::eos::tests::NativeTestUtilityBridge::get_initialize_options();
+
+    CheckEquality("ProductName", native_initialize_options.ProductName, managed_platform_initialize_options->ProductName->ToString());
+    CheckEquality("ProductVersion", native_initialize_options.ProductVersion, managed_platform_initialize_options->ProductVersion->ToString());
+
+    if (nullptr != native_initialize_options.OverrideThreadAffinity)
+    {
+        CheckEquality("OverrideThreadAffinity.NetworkWork", native_initialize_options.OverrideThreadAffinity->NetworkWork, managed_platform_initialize_options->OverrideThreadAffinity.Value.NetworkWork);
+        CheckEquality("OverrideThreadAffinity.StorageIo", native_initialize_options.OverrideThreadAffinity->StorageIo, managed_platform_initialize_options->OverrideThreadAffinity.Value.StorageIo);
+        CheckEquality("OverrideThreadAffinity.WebSocketIo", native_initialize_options.OverrideThreadAffinity->WebSocketIo, managed_platform_initialize_options->OverrideThreadAffinity.Value.WebSocketIo);
+        CheckEquality("OverrideThreadAffinity.P2PIo", native_initialize_options.OverrideThreadAffinity->P2PIo, managed_platform_initialize_options->OverrideThreadAffinity.Value.P2PIo);
+        CheckEquality("OverrideThreadAffinity.HttpRequestIo", native_initialize_options.OverrideThreadAffinity->HttpRequestIo, managed_platform_initialize_options->OverrideThreadAffinity.Value.HttpRequestIo);
+        CheckEquality("OverrideThreadAffinity.RTCIo", native_initialize_options.OverrideThreadAffinity->RTCIo, managed_platform_initialize_options->OverrideThreadAffinity.Value.RTCIo);
+        CheckEquality("OverrideThreadAffinity.EmbeddedOverlayMainThread", native_initialize_options.OverrideThreadAffinity->EmbeddedOverlayMainThread, managed_platform_initialize_options->OverrideThreadAffinity.Value.EmbeddedOverlayMainThread);
+        CheckEquality("OverrideThreadAffinity.EmbeddedOverlayWorkerThreads", native_initialize_options.OverrideThreadAffinity->EmbeddedOverlayWorkerThreads, managed_platform_initialize_options->OverrideThreadAffinity.Value.EmbeddedOverlayWorkerThreads);
+    }
+
+    delete eos_sdk;
+    return true;
+}
+
 int main()
 {
     NativeAndManagedPlatformOptionsAreIdentical();
+    NativeAndManagedInitializeOptionsAreIdentical();
 
     pew::eos::config_legacy::EOSConfig eos_config;
 

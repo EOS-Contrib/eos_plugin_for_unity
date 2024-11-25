@@ -33,7 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
     using UnityEditor;
     using UnityEngine;
     using Utility;
-    using JsonUtility = Utility.JsonUtility;
+    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     /// <summary>
     /// This class consolidates any code coverage history data output from the

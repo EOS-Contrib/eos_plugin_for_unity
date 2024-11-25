@@ -56,9 +56,18 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Utility
             return options;
         }
 
+        // TODO: Make sure this is literally the same code that EOSManager uses, so
+        //       that the testing actually reflects the correct thing.
         public static InitializeOptions GetInitializeOptions()
         {
             InitializeOptions options = new InitializeOptions();
+
+            ProductConfig productConfig = Config.Get<ProductConfig>();
+            WindowsConfig windowsConfig = Config.Get<WindowsConfig>();
+
+            options.ProductName = productConfig.ProductName.ToString();
+            options.ProductVersion = productConfig.ProductVersion.ToString();
+            options.OverrideThreadAffinity = windowsConfig.threadAffinity.Unwrap();
 
             return options;
         }
