@@ -123,9 +123,14 @@ bool NativeAndManagedPlatformOptionsAreIdentical()
     CheckEquality("IsServer", native_platform_options.bIsServer, managed_platform_options->IsServer);
     CheckEquality("EncryptionKey", native_platform_options.EncryptionKey, managed_platform_options->EncryptionKey->ToString());
     CheckEquality("DeploymentId", native_platform_options.DeploymentId, managed_platform_options->DeploymentId->ToString());
+
     CheckEquality("Flags", native_platform_options.Flags, managed_platform_options->Flags);
+    //native_platform_options.OverrideCountryCode;
+    //native_platform_options.OverrideLocaleCode;
+
     CheckEquality("TaskNetworkTimeoutSeconds", native_platform_options.TaskNetworkTimeoutSeconds, managed_platform_options->TaskNetworkTimeoutSeconds);
     CheckEquality("TickBudgetInMilliseconds", native_platform_options.TickBudgetInMilliseconds, managed_platform_options->TickBudgetInMilliseconds);
+    
     
     delete eos_sdk;
     return true;

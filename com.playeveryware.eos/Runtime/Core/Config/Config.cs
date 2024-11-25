@@ -391,7 +391,8 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             get
             {
-                return FileSystemUtility.CombinePaths(Directory, Filename);
+                string combinedPath = FileSystemUtility.CombinePaths(Directory, Filename);
+                return FileSystemUtility.GetFullPath(combinedPath);
             }
         }
 

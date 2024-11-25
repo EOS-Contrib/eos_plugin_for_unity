@@ -24,7 +24,7 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     public static class Application
     {
-        public static readonly string streamingAssetsPath = "";
+        public static readonly string streamingAssetsPath = "..\\..\\..\\..\\Assets\\StreamingAssets\\";
         public static readonly string temporaryCachePath = "";
     }
 }

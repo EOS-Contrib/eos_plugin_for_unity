@@ -97,8 +97,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)$(ProjectName)-$(Platform).dll.meta $(OutputUnityAssetsDirectory)</Command>
-      <Command>xcopy "$(TargetDir)*" "$(OutputUnityAssetsDirectory)" /E /I /Y</Command>
+      <Command>copy $(SolutionDir)$(ProjectName)-$(Platform).dll.meta $(OutputUnityAssetsDirectory) /Y</Command>
+      <Command>copy $(SolutionDir)$(ProjectName)-$(Platform).dll $(OutputUnityAssetsDirectory) /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <!-- Source Files -->

@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <UnityStreamingAssetsDirectory>$(UnityStreamingAssetsDirectory)</UnityStreamingAssetsDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,7 +26,7 @@
   <PropertyGroup>
     <LangVersion>9.0</LangVersion>
     <DefineConstants>EXTERNAL_TO_UNITY</DefineConstants>
-    <DefineConstants>TRACE;DEBUG;EXTERNAL_TO_UNITY</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;EXTERNAL_TO_UNITY;STREAMING_ASSETS_DIRECTORY="$(UnityStreamingAssetsDirectory)"</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <OutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)</OutputPath>
@@ -49,6 +50,9 @@
     </Compile>
     <Compile Include="..\..\..\..\Assets\Plugins\Windows\Core\WindowsPlatformSpecifics.cs">
       <Link>Assets\Plugins\Windows\Core\WindowsPlatformSpecifics.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Assets\Tests\Common\Utility\NativeTestUtility.cs">
+      <Link>Assets\Tests\Common\Utility\NativeTestUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Extensions\FileInfoExtensions.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Common\Extensions\FileInfoExtensions.cs</Link>

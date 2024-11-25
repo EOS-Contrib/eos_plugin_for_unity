@@ -128,7 +128,7 @@ namespace pew::eos
         }
         rtc_options.PlatformSpecificOptions = &windows_rtc_options;
         platform_options.RTCOptions = &rtc_options;
-
+        /*
         static EOS_HIntegratedPlatformOptionsContainer integrated_platform_options_container = nullptr;
 
         logging::log_inform("run EOS_Platform_Create");
@@ -140,6 +140,7 @@ namespace pew::eos
         call_library_function<EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t>(&options, &integrated_platform_options_container);
 
         platform_options.IntegratedPlatformOptionsContainerHandle = integrated_platform_options_container;
+        */
     }
 
     void EOSWrapper::set_initialize_options(EOS_InitializeOptions& initialize_options,
