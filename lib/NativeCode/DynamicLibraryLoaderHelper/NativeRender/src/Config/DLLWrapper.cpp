@@ -21,9 +21,9 @@
  */
 
 #include <pch.h>
-#include "headers/Config/DLLWrapper.h"
+#include "include/Config/DLLWrapper.h"
 #include <filesystem>
-#include "headers/Config/common.hpp"
+#include "include/Config/common.hpp"
 
 namespace pew::eos
 {

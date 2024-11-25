@@ -25,8 +25,8 @@
 
 #pragma once
 
-#include "headers/Config/Version.hpp"
-#include "headers/Config/Serializable.hpp"
+#include "include/Config/Version.hpp"
+#include "include/Config/Serializable.hpp"
 
 namespace pew::eos::config
 {

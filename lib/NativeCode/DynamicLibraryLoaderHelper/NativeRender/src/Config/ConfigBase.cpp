@@ -26,10 +26,10 @@
 #include <sstream>
 #include <string>
 
-#include "headers/Config/ConfigBase.h"
+#include "include/Config/ConfigBase.h"
 
 #include "logging.h"
-#include "headers/Config/Version.hpp"
+#include "include/Config/Version.hpp"
 
 namespace pew::eos::config
 {

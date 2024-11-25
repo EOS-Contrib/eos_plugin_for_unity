@@ -30,8 +30,8 @@
 #include <string>
 #include <iostream>
 
-#include "headers/Config/PlatformConfig.h"
-#include "headers/Config/ProductConfig.h"
+#include "include/Config/PlatformConfig.h"
+#include "include/Config/ProductConfig.h"
 
 namespace pew::eos::common
 {

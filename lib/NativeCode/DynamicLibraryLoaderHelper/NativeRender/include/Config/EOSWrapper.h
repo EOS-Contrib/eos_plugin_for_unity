@@ -25,11 +25,11 @@
 
 #pragma once
 
-#include "headers/Config/DLLWrapper.h"
-#include "headers/Config/ConfigBase.h"
+#include "include/Config/DLLWrapper.h"
+#include "include/Config/ConfigBase.h"
 #include "eos_init.h"
 #include "eos_base.h"
-#include "headers/PEW_EOS_Defines.h"
+#include "include/PEW_EOS_Defines.h"
 
 namespace pew::eos::config
 {

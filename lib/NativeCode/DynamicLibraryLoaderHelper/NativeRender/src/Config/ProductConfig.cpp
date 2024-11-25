@@ -21,9 +21,9 @@
  */
 
 #include <pch.h>
-#include "headers/Config/ProductConfig.h"
-#include "headers/Config/common.hpp"
-#include "headers/Config/nlohmann_helpers.hpp"
+#include "include/Config/ProductConfig.h"
+#include "include/Config/common.hpp"
+#include "include/Config/nlohmann_helpers.hpp"
 
 namespace pew::eos::config
 {

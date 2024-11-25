@@ -28,11 +28,11 @@
 
 #include <iostream>
 
-#include "headers/config_legacy.h"
-#include "headers/Config/EOSWrapper.h"
+#include "include/config_legacy.h"
+#include "include/Config/EOSWrapper.h"
 #include "ManagedToUnmanagedBridge.hpp"
 #include "../ManagedToUnmanagedBridge/ManagedToUnmanagedBridge.hpp"
-#include "../NativeRender/headers/Config/EOSWrapper.h"
+#include "../NativeRender/include/Config/EOSWrapper.h"
 
 
 #using <ManagedPluginCode.dll>

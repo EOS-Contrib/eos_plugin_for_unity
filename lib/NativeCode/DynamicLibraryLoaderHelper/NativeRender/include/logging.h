@@ -27,7 +27,7 @@
 #include <string>
 #include <eos_logging.h>
 
-#include "headers/PEW_EOS_Defines.h"
+#include "include/PEW_EOS_Defines.h"
 
 /**
   * \brief Forward declarations

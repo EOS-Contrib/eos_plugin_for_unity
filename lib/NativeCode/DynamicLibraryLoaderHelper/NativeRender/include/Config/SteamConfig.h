@@ -24,8 +24,8 @@
 
 #pragma once
 
-#include "headers/Config/ConfigBase.h"
-#include "headers/Config/common.hpp"
+#include "include/Config/ConfigBase.h"
+#include "include/Config/common.hpp"
 
 namespace pew::eos::config
 {
