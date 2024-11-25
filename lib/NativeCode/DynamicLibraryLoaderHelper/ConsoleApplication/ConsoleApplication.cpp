@@ -22,7 +22,7 @@
 
 #include <iostream>
 
-#include "headers/config.h"
+#include "include/config.h"
 
 int main()
 {
