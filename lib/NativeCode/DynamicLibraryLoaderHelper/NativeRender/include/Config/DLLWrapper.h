@@ -25,9 +25,9 @@
 #pragma once
 #include <string>
 #include <type_traits>
-#include "headers/logging.h"
+#include "include/logging.h"
 #include <iostream>
-#include "headers/PEW_EOS_Defines.h"
+#include "include/PEW_EOS_Defines.h"
 
 namespace std::filesystem
 {

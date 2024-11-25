@@ -27,9 +27,9 @@
 
 #include <vector>
 
-#include "headers/Config/ConfigBase.h"
-#include "headers/Config/ProductionEnvironments.hpp"
-#include "headers/Config/ClientCredentials.hpp"
+#include "include/Config/ConfigBase.h"
+#include "include/Config/ProductionEnvironments.hpp"
+#include "include/Config/ClientCredentials.hpp"
 
 namespace pew::eos::config
 {

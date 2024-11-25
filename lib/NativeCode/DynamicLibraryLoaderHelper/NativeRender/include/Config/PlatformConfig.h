@@ -27,8 +27,8 @@
 
 #include "eos_init.h"
 #include "ProductionEnvironments.hpp"
-#include "headers/Config/ClientCredentials.hpp"
-#include "headers/Config/ConfigBase.h"
+#include "include/Config/ClientCredentials.hpp"
+#include "include/Config/ConfigBase.h"
 
 namespace pew::eos::config
 {

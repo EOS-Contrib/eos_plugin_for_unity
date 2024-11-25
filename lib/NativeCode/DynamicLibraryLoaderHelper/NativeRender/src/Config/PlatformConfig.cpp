@@ -21,9 +21,9 @@
  */
 
 #include <pch.h>
-#include "headers/Config/PlatformConfig.h"
-#include "headers/Config/common.hpp"
-#include "headers/Config/nlohmann_helpers.hpp"
+#include "include/Config/PlatformConfig.h"
+#include "include/Config/common.hpp"
+#include "include/Config/nlohmann_helpers.hpp"
 
 #include "eos_auth_types.h"
 #include "eos_ui_types.h"

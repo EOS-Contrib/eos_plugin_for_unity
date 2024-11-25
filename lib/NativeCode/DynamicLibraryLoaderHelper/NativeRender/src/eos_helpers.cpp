@@ -31,7 +31,7 @@
 #include "logging.h"
 #include <codecvt>
 
-#include "headers/PEW_EOS_Defines.h"
+#include "include/PEW_EOS_Defines.h"
 
 /**
   * @brief Retrieves the system cache directory.
