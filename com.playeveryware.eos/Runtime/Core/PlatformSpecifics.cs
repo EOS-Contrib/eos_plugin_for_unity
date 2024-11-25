@@ -21,7 +21,7 @@
  */
 
 #if !EOS_DISABLE
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR && !EXTERNAL_TO_UNITY
 using UnityEngine.Scripting;
 [assembly: AlwaysLinkAssembly]
 #endif
@@ -29,7 +29,9 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
     using System.Collections.Generic;
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
     using JsonUtility = Utility.JsonUtility;
 
     public abstract class PlatformSpecifics<T> : IPlatformSpecifics where T : PlatformConfig
@@ -57,11 +59,12 @@ namespace PlayEveryWare.EpicOnlineServices
             return Application.temporaryCachePath;
         }
 
+#if !EXTERNAL_TO_UNITY
         public virtual void InitializeOverlay(IEOSCoroutineOwner owner)
         {
             // default behavior is to take no action.
         }
-
+#endif
         public virtual void AddPluginSearchPaths(ref List<string> pluginPaths)
         {
             // default behavior is to take no action.
@@ -88,6 +91,8 @@ namespace PlayEveryWare.EpicOnlineServices
             // this might be different on future platforms.
             return false;
         }
+
+#if !EXTERNAL_TO_UNITY
         public virtual void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions)
         {
             ((EOSCreateOptions)createOptions).options.RTCOptions = new();
@@ -111,7 +116,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 initializeOptions.options.OverrideThreadAffinity = platformConfig.threadAffinity?.Unwrap();
             }
         }
-
+#endif
         /// <summary>
         /// Indicates whether the platform is ready for network activity.
         /// TODO: Determine where this is used, and why it isn't a boolean.
@@ -127,7 +132,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
         }
 
-        #endregion
+#endregion
     }
 }
 #endif //!EOS_DISABLE
