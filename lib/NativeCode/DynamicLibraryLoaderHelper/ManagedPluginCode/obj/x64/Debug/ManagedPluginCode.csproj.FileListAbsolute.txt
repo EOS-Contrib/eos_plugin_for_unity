@@ -1,7 +1,0 @@
-C:\Users\PaulPEW\dev\repos\eos_plugin_for_unity\lib\NativeCode\DynamicLibraryLoaderHelper\Build\Debug\x64\ManagedPluginCode.dll
-C:\Users\PaulPEW\dev\repos\eos_plugin_for_unity\lib\NativeCode\DynamicLibraryLoaderHelper\Build\Debug\x64\ManagedPluginCode.pdb
-C:\Users\PaulPEW\dev\repos\eos_plugin_for_unity\lib\NativeCode\DynamicLibraryLoaderHelper\ManagedPluginCode\obj\x64\Debug\ManagedPluginCode.csproj.AssemblyReference.cache
-C:\Users\PaulPEW\dev\repos\eos_plugin_for_unity\lib\NativeCode\DynamicLibraryLoaderHelper\ManagedPluginCode\obj\x64\Debug\ManagedPluginCode.csproj.CoreCompileInputs.cache
-C:\Users\PaulPEW\dev\repos\eos_plugin_for_unity\lib\NativeCode\DynamicLibraryLoaderHelper\ManagedPluginCode\obj\x64\Debug\ManagedPluginCode.csproj.CopyComplete
-C:\Users\PaulPEW\dev\repos\eos_plugin_for_unity\lib\NativeCode\DynamicLibraryLoaderHelper\ManagedPluginCode\obj\x64\Debug\ManagedPluginCode.dll
-C:\Users\PaulPEW\dev\repos\eos_plugin_for_unity\lib\NativeCode\DynamicLibraryLoaderHelper\ManagedPluginCode\obj\x64\Debug\ManagedPluginCode.pdb
