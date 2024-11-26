@@ -41,11 +41,17 @@ using namespace pew::eos::eos_library_helpers;
 using FSig_ApplicationWillShutdown = void (__stdcall *)(void);
 FSig_ApplicationWillShutdown FuncApplicationWillShutdown = nullptr;
 
-extern "C"
-{
-    void __declspec(dllexport) __stdcall UnityPluginLoad(void* unityInterfaces);
-    void __declspec(dllexport) __stdcall UnityPluginUnload();
-}
+/**
+ * \brief Forward declaration for function to be called when Unity is loading
+ * the plugin.
+ */
+PEW_EOS_API_FUNC(void) UnityPluginLoad(void* unityInterfaces);
+
+/**
+ * \brief Forward declaration for function to be called when Unity is unloading
+ * the plugin.
+ */
+PEW_EOS_API_FUNC(void) __stdcall UnityPluginUnload();
 
 void get_cli_arguments(config::EOSConfig eos_config)
 {
@@ -117,7 +123,7 @@ void get_cli_arguments(config::EOSConfig eos_config)
 #if PLATFORM_32BITS
 #pragma comment(linker, "/export:UnityPluginLoad=_UnityPluginLoad@4")
 #endif
-DLL_EXPORT(void) UnityPluginLoad(void*)
+PEW_EOS_API_FUNC(void) UnityPluginLoad(void*)
 {
 #if _DEBUG
     logging::show_log_as_dialog("You may attach a debugger to the DLL");
@@ -174,7 +180,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 #if PLATFORM_32BITS
 #pragma comment(linker, "/export:_UnityPluginUnload=_UnityPluginUnload@0")
 #endif
-DLL_EXPORT(void) UnityPluginUnload()
+PEW_EOS_API_FUNC(void) UnityPluginUnload()
 {
     if (FuncApplicationWillShutdown != nullptr)
     {

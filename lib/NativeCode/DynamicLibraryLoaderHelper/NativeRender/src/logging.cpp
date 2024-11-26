@@ -65,7 +65,7 @@ namespace pew::eos::logging
         }
     }
 
-    DLL_EXPORT(void) global_log_flush_with_function(const log_flush_function_t log_flush_function)
+    PEW_EOS_API_FUNC(void) global_log_flush_with_function(const log_flush_function_t log_flush_function)
     {
         if (!buffered_output.empty())
         {
@@ -132,7 +132,7 @@ namespace pew::eos::logging
         }
     }
 
-    EXTERN_C void EOS_CALL eos_log_callback(const EOS_LogMessage* message)
+    PEW_EOS_API_FUNC(void) EOS_CALL eos_log_callback(const EOS_LogMessage* message)
     {
         constexpr size_t final_timestamp_len = 32;
         char final_timestamp[final_timestamp_len] = { 0 };

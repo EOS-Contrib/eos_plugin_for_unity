@@ -43,6 +43,9 @@
     <ClInclude Include="include\string_helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\PEW_EOS_Defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

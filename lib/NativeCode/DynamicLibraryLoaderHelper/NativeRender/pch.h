@@ -37,6 +37,4 @@
 
 #define RESTRICT __restrict
 
-#define DLL_EXPORT(return_value) extern "C" __declspec(dllexport) return_value  __stdcall
-
 #endif //PCH_H
