@@ -21,7 +21,8 @@
  */
 
 #include <iostream>
-#include <config.h>
+
+#include "include/config.h"
 
 int main()
 {
