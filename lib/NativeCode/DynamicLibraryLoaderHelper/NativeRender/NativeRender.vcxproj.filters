@@ -15,63 +15,59 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="include\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="eos_minimum_includes.h">
+    <ClInclude Include="include\eos_helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="string_helpers.h">
+    <ClInclude Include="include\eos_library_helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="config.h">
+    <ClInclude Include="include\eos_minimum_includes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="json.h">
+    <ClInclude Include="include\io_helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="logging.h">
+    <ClInclude Include="include\json.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="json_helpers.h">
+    <ClInclude Include="include\json_helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="eos_library_helpers.h">
+    <ClInclude Include="include\logging.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="io_helpers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="eos_helpers.h">
+    <ClInclude Include="include\string_helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp">
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="src\config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="src\dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="io_helpers.cpp">
+    <ClCompile Include="src\eos_helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="string_helpers.cpp">
+    <ClCompile Include="src\eos_library_helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="eos_helpers.cpp">
+    <ClCompile Include="src\io_helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="logging.cpp">
+    <ClCompile Include="src\json_helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="config.cpp">
+    <ClCompile Include="src\logging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="json_helpers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="eos_library_helpers.cpp">
+    <ClCompile Include="src\string_helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

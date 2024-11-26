@@ -66,7 +66,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\third_party\eos_sdk\include\;$(SolutionDir)..\include\windows;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\;$(SolutionDir)..\third_party\eos_sdk\include\;$(SolutionDir)..\include\windows;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -100,29 +100,29 @@
   </ItemDefinitionGroup>
   <!-- Source Files -->
   <ItemGroup>
-    <ClInclude Include="config.h" />
-    <ClInclude Include="eos_helpers.h" />
-    <ClInclude Include="eos_minimum_includes.h" />
-    <ClInclude Include="io_helpers.h" />
-    <ClInclude Include="json.h" />
-    <ClInclude Include="json_helpers.h" />
-    <ClInclude Include="logging.h" />
+    <ClInclude Include="include\config.h" />
+    <ClInclude Include="include\eos_helpers.h" />
+    <ClInclude Include="include\eos_library_helpers.h" />
+    <ClInclude Include="include\eos_minimum_includes.h" />
+    <ClInclude Include="include\io_helpers.h" />
+    <ClInclude Include="include\json.h" />
+    <ClInclude Include="include\json_helpers.h" />
+    <ClInclude Include="include\logging.h" />
+    <ClInclude Include="include\string_helpers.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="string_helpers.h" />
-    <ClInclude Include="eos_library_helpers.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="config.cpp" />
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="eos_helpers.cpp" />
-    <ClCompile Include="eos_library_helpers.cpp" />
-    <ClCompile Include="io_helpers.cpp" />
-    <ClCompile Include="json_helpers.cpp" />
-    <ClCompile Include="logging.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="string_helpers.cpp" />
+    <ClCompile Include="src\config.cpp" />
+    <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\eos_helpers.cpp" />
+    <ClCompile Include="src\eos_library_helpers.cpp" />
+    <ClCompile Include="src\io_helpers.cpp" />
+    <ClCompile Include="src\json_helpers.cpp" />
+    <ClCompile Include="src\logging.cpp" />
+    <ClCompile Include="src\string_helpers.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="ConfigPaths.props" />
