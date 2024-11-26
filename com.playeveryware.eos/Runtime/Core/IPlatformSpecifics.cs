@@ -40,14 +40,16 @@ namespace PlayEveryWare.EpicOnlineServices
         void LoadDelegatesWithEOSBindingAPI();
         //#endif
 
+        // The EXTERNAL_TO_UNITY block is here to enable the compilation of this
+        // code file outside of the context of Unity altogether.
 #if !EXTERNAL_TO_UNITY
         void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptions);
 
         void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions);
 
-
         void InitializeOverlay(IEOSCoroutineOwner owner);
 #endif
+
         void RegisterForPlatformNotifications();
 
         bool IsApplicationConstrainedWhenOutOfFocus();

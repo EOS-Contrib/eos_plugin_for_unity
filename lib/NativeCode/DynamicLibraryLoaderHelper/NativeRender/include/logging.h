@@ -138,6 +138,14 @@ namespace pew::eos::logging
      */
     void log_warn(const char* log_string);
 
+    /**
+     * @brief Logs a warning message.
+     *
+     * Records a warning message with a "WARNING" header and, if enabled,
+     * displays it in a dialog box.
+     *
+     * @param log_string The warning message to log.
+     */
     inline void log_warn(const std::string& log_string)
     {
         return log_warn(log_string.c_str());
@@ -152,9 +160,16 @@ namespace pew::eos::logging
      */
     void log_inform(const char* log_string);
 
+    /**
+     * @brief Logs an informational message.
+     *
+     * Records an informational message with an "INFORM" header.
+     *
+     * @param log_string The informational message to log.
+     */
     inline void log_inform(const std::string& log_string)
     {
-        return log_inform(log_string.c_str());
+        return log_inform(log_string);
     }
 
     /**
@@ -166,9 +181,16 @@ namespace pew::eos::logging
      */
     void log_error(const char* log_string);
 
+    /**
+     * @brief Logs an error message.
+     *
+     * Records an error message with an "ERROR" header.
+     *
+     * @param log_string The error message to log.
+     */
     inline void log_error(const std::string& log_string)
     {
-        return log_error(log_string.c_str());
+        return log_error(log_string);
     }
 }
 #endif
