@@ -109,21 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public virtual void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptionsRef)
         {
-            Debug.Log("ConfigureSystemInitOptions");
-
-            if (initializeOptionsRef is not EOSInitializeOptions initializeOptions)
-            {
-                throw new Exception("ConfigureSystemInitOptions: initializeOptions is null!");
-            }
-
-            if (initializeOptions.options.OverrideThreadAffinity.HasValue)
-            {
-                Debug.Log($"Assigning thread affinity override values for platform \"{Platform}\".");
-
-                PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
-                
-                initializeOptions.options.OverrideThreadAffinity = platformConfig.threadAffinity?.Unwrap();
-            }
+            // Default implementation is to do nothing
         }
 #endif
         /// <summary>

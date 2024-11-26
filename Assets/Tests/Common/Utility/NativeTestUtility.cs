@@ -20,57 +20,41 @@
  * SOFTWARE.
  */
 
-//#if EXTERNAL_TO_UNITY
+#if EXTERNAL_TO_UNITY
 namespace PlayEveryWare.EpicOnlineServices.Tests.Utility
 {
     using Epic.OnlineServices.Platform;
-    using Extensions;
 
-
-    public class NativeTestUtility
+    /// <summary>
+    /// This class serves as an entry point for native code to test equality
+    /// between the config values parsed by managed code and those parsed by
+    /// unmanaged code.
+    /// </summary>
+    public static class NativeTestUtility
     {
-        // TODO: Make sure this is literally the same code that EOSManager uses, so
-        //       that the testing actually reflects the correct thing.
+        /// <summary>
+        /// Returns the WindowsOptions used to create the EOS SDK platform when
+        /// it is created from within managed code.
+        /// </summary>
+        /// <returns>
+        /// The result of injesting the configuration values used for EOS
+        /// platform creation..</returns>
         public static WindowsOptions GetWindowsOptions()
         {
-            WindowsOptions options = new WindowsOptions();
-
-            ProductConfig productConfig = Config.Get<ProductConfig>();
-            WindowsConfig windowsConfig = Config.Get<WindowsConfig>();
-
-            options.DeploymentId = windowsConfig.deployment.DeploymentId.ToString("N").ToLowerInvariant();
-            options.SandboxId = windowsConfig.deployment.SandboxId.ToString();
-            options.ProductId = productConfig.ProductId.ToString("N").ToLowerInvariant();
-            options.ClientCredentials = new ClientCredentials()
-            {
-                ClientId = windowsConfig.clientCredentials.ClientId,
-                ClientSecret = windowsConfig.clientCredentials.ClientSecret
-            };
-            options.EncryptionKey = windowsConfig.clientCredentials.EncryptionKey;
-            
-            options.Flags = windowsConfig.platformOptionsFlags.Unwrap();
-            options.IsServer = windowsConfig.isServer;
-            options.TickBudgetInMilliseconds = windowsConfig.tickBudgetInMilliseconds;
-            options.TaskNetworkTimeoutSeconds = windowsConfig.taskNetworkTimeoutSeconds;
-
-            return options;
+            return EOSManager.EOSSingleton.GetEOSCreateOptions().options;
         }
 
-        // TODO: Make sure this is literally the same code that EOSManager uses, so
-        //       that the testing actually reflects the correct thing.
+        /// <summary>
+        /// Returns the InitializeOptions used to initialize the EOS SDK
+        /// platform when initialized from within managed code.
+        /// </summary>
+        /// <returns>
+        /// The result of injesting the configuration values used for EOS
+        /// platform initialization.</returns>
         public static InitializeOptions GetInitializeOptions()
         {
-            InitializeOptions options = new InitializeOptions();
-
-            ProductConfig productConfig = Config.Get<ProductConfig>();
-            WindowsConfig windowsConfig = Config.Get<WindowsConfig>();
-
-            options.ProductName = productConfig.ProductName.ToString();
-            options.ProductVersion = productConfig.ProductVersion.ToString();
-            options.OverrideThreadAffinity = windowsConfig.threadAffinity.Unwrap();
-
-            return options;
+            return EOSManager.EOSSingleton.GetEOSInitializeOptions().options;
         }
     }
 }
-//#endif
+#endif

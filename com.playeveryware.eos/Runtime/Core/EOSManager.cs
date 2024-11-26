@@ -434,29 +434,34 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
             }
 
-            //-------------------------------------------------------------------------
-            private Result InitializePlatformInterface()
+            public static EOSInitializeOptions GetEOSInitializeOptions()
             {
+                EOSInitializeOptions initOptions = new() { options = new() };
+
+                // Get the product config and the platform config
                 ProductConfig productConfig = Config.Get<ProductConfig>();
-                IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
+                PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
 
-                print("InitializePlatformInterface: platformSpecifics.GetType() = " + platformSpecifics.GetType());
-
-                EOSInitializeOptions initOptions = new();
-
-                print("InitializePlatformInterface: initOptions.GetType() = " + initOptions.GetType());
-
+                // Set the product name, version, and override thread affinity
                 initOptions.options.ProductName = productConfig.ProductName;
-                initOptions.options.ProductVersion = productConfig.ProductVersion.ToString();
-                initOptions.options.OverrideThreadAffinity = new InitializeThreadAffinity();
+                initOptions.options.ProductVersion = productConfig.ProductVersion;
+                initOptions.options.OverrideThreadAffinity = platformConfig.threadAffinity.Unwrap();
 
                 initOptions.options.AllocateMemoryFunction = IntPtr.Zero;
                 initOptions.options.ReallocateMemoryFunction = IntPtr.Zero;
                 initOptions.options.ReleaseMemoryFunction = IntPtr.Zero;
 
-                initOptions.options.OverrideThreadAffinity = PlatformManager.GetPlatformConfig().threadAffinity.Unwrap();
-
+                IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
                 platformSpecifics.ConfigureSystemInitOptions(ref initOptions);
+
+                // Return;
+                return initOptions;
+            }
+
+            //-------------------------------------------------------------------------
+            private Result InitializePlatformInterface()
+            {
+                EOSInitializeOptions initOptions = GetEOSInitializeOptions();
 
 #if UNITY_PS4 && !UNITY_EDITOR
                 // On PS4, RegisterForPlatformNotifications is called at a later time by EOSPSNManager
@@ -467,8 +472,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 return PlatformInterface.Initialize(ref (initOptions as EOSInitializeOptions).options);
             }
 
-            //-------------------------------------------------------------------------
-            private PlatformInterface CreatePlatformInterface()
+            public static EOSCreateOptions GetEOSCreateOptions()
             {
                 PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
                 ProductConfig productConfig = Config.Get<ProductConfig>();
@@ -527,10 +531,18 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
                 platformSpecifics.ConfigureSystemPlatformCreateOptions(ref platformOptions);
 
+                return platformOptions;
+            }
+
+            //-------------------------------------------------------------------------
+            private PlatformInterface CreatePlatformInterface()
+            {
+                EOSCreateOptions platformOptions = GetEOSCreateOptions();
+
                 PlatformInterface platformInterface = PlatformInterface.Create(ref (platformOptions as EOSCreateOptions).options);
 
 #if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX || UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX)
-                integratedPlatformOptionsContainer.Release();
+                platformOptions.options.IntegratedPlatformOptionsContainerHandle.Release();
 #endif
                 return platformInterface;
 
