@@ -21,7 +21,7 @@
  */
 
 #if !EOS_DISABLE
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR && !EXTERNAL_TO_UNITY
 using UnityEngine.Scripting;
 [assembly: AlwaysLinkAssembly]
 #endif
@@ -29,7 +29,13 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
     using System.Collections.Generic;
+
+    // The EXTERNAL_TO_UNITY block is here to enable the compilation of this
+    // code file outside of the context of Unity altogether.
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
+
     using JsonUtility = Utility.JsonUtility;
 
     public abstract class PlatformSpecifics<T> : IPlatformSpecifics where T : PlatformConfig
@@ -57,10 +63,14 @@ namespace PlayEveryWare.EpicOnlineServices
             return Application.temporaryCachePath;
         }
 
+        // The EXTERNAL_TO_UNITY block is here to enable the compilation of this
+        // code file outside of the context of Unity altogether.
+#if !EXTERNAL_TO_UNITY
         public virtual void InitializeOverlay(IEOSCoroutineOwner owner)
         {
             // default behavior is to take no action.
         }
+#endif
 
         public virtual void AddPluginSearchPaths(ref List<string> pluginPaths)
         {
@@ -88,10 +98,15 @@ namespace PlayEveryWare.EpicOnlineServices
             // this might be different on future platforms.
             return false;
         }
+
+        // The EXTERNAL_TO_UNITY block is here to enable the compilation of this
+        // code file outside of the context of Unity altogether.
+#if !EXTERNAL_TO_UNITY
         public virtual void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions)
         {
             ((EOSCreateOptions)createOptions).options.RTCOptions = new();
         }
+#endif
 
         public virtual void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptionsRef)
         {
