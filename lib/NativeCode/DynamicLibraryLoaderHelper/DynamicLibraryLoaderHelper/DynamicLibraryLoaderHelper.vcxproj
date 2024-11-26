@@ -92,8 +92,10 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)$(ProjectName)-$(Platform).dll.meta $(OutputUnityAssetsDirectory)</Command>
-      <Command>xcopy "$(TargetDir)*" "$(OutputUnityAssetsDirectory)" /E /I /Y</Command>
+      <!-- Copy the meta file stored in the solution directory, since it's values have been properly set in such a way that Unity interacts with the DLL in the intended manner. -->
+      <Command>copy $(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta $(OutputUnityAssetsDirectory) /Y</Command>
+      <!-- Copy just the output .dll file into the appropriate assets directory alongside the aforementioned .dll.meta file.-->
+      <Command>copy "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" "$(OutputUnityAssetsDirectory)" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <!-- Source Files -->

@@ -22,6 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+<<<<<<< HEAD
     <ClInclude Include="include\Config\ClientCredentials.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
@@ -61,6 +62,8 @@
     <ClInclude Include="include\Config\WindowsConfig.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
+=======
+>>>>>>> fix/prep-native-for-expansion
     <ClInclude Include="include\config_legacy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -91,9 +94,18 @@
     <ClInclude Include="include\string_helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\PEW_EOS_Defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
+<<<<<<< HEAD
+=======
+    <ClCompile Include="src\config_legacy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+>>>>>>> fix/prep-native-for-expansion
     <ClCompile Include="src\dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

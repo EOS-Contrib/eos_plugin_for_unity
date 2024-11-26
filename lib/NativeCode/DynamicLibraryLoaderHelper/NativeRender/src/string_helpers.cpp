@@ -25,9 +25,9 @@
 #include <codecvt>
 #include <ctime>
 #include <locale>
-#include "string_helpers.h"
 #include <sstream>
 #include <filesystem>
+#include "string_helpers.h"
 
 namespace pew::eos::string_helpers
 {
