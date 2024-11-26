@@ -24,8 +24,7 @@
     "HttpRequestIo": 0,
     "RTCIo": 0,
     "EmbeddedOverlayMainThread": 0,
-    "EmbeddedOverlayWorkerThreads": 0,
-    "ApiVersion": 3
+    "EmbeddedOverlayWorkerThreads": 0
   },
   "alwaysSendInputToOverlay": true,
   "initialButtonDelayForOverlay": 0.0,
