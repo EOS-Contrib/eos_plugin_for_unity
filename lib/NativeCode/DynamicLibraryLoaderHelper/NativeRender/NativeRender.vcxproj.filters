@@ -16,7 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="include\config.h">
+    <ClInclude Include="include\config_legacy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\eos_helpers.h">
@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="src\config.cpp">
+    <ClCompile Include="src\config_legacy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\dllmain.cpp">

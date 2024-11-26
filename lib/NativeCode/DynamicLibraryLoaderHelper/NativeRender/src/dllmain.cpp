@@ -25,11 +25,10 @@
 // This is apparently needed so that the Overlay can render properly
 #include "pch.h"
 
-#include <array>
 #include <iterator>
 #include <sstream>
 
-#include "config.h"
+#include "config_legacy.h"
 #include "logging.h"
 #include <eos_library_helpers.h>
 #include <eos_helpers.h>
@@ -53,7 +52,7 @@ PEW_EOS_API_FUNC(void) UnityPluginLoad(void* unityInterfaces);
  */
 PEW_EOS_API_FUNC(void) __stdcall UnityPluginUnload();
 
-void get_cli_arguments(config::EOSConfig eos_config)
+void get_cli_arguments(config_legacy::EOSConfig eos_config)
 {
     //support sandbox and deployment id override via command line arguments
     std::stringstream argument_stream = std::stringstream(GetCommandLineA());
@@ -127,39 +126,43 @@ PEW_EOS_API_FUNC(void) UnityPluginLoad(void*)
 {
 #if _DEBUG
     logging::show_log_as_dialog("You may attach a debugger to the DLL");
-#endif
-
-    config::EOSConfig eos_config;
-    if (!config::try_get_eos_config(eos_config))
-    {
-        return;
-    }
-
-    get_cli_arguments(eos_config);
-
-#if _DEBUG
     logging::global_log_open("gfx_log.txt");
 #endif
 
     std::filesystem::path DllPath;
     logging::log_inform("On UnityPluginLoad");
 
+    // Acquire pointer to EOS SDK library
     s_eos_sdk_lib_handle = load_library_at_path(io_helpers::get_path_relative_to_current_module(SDK_DLL_NAME));
 
+    // If acquisition was successful.
     if (s_eos_sdk_lib_handle)
     {
+        // Make use of the library handle to get pointers to all the functions
+        // that are needed.
         FetchEOSFunctionPointers();
 
+        // If the initialize function pointer is not null
         if (EOS_Initialize_ptr)
         {
+            // Load EOSConfig
+            config_legacy::EOSConfig eos_config;
+            if (!config_legacy::try_get_eos_config(eos_config))
+            {
+                logging::log_error("Could not load EOSConfig.");
+            }
+            else
+            {
+                logging::log_inform("Loaded EOSConfig.");
+            }
+
             logging::log_inform("start eos init");
 
             eos_init(eos_config);
-
             eos_set_loglevel_via_config();
-
             eos_create(eos_config);
 
+            // Free function pointers and library handle.
             s_eos_sdk_lib_handle = nullptr;
             EOS_Initialize_ptr = nullptr;
             EOS_Shutdown_ptr = nullptr;
