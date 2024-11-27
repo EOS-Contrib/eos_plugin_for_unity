@@ -24,7 +24,7 @@
 #include "eos_helpers.h"
 #include <filesystem>
 #include <sstream>
-#include "config.h"
+#include "config_legacy.h"
 #include "eos_library_helpers.h"
 #include "io_helpers.h"
 #include "json_helpers.h"
@@ -66,7 +66,7 @@ void eos_call_steam_init(const std::filesystem::path& steam_dll_path);
 
 namespace pew::eos
 {
-    DLL_EXPORT(void*) EOS_GetPlatformInterface()
+    PEW_EOS_API_FUNC(void*) EOS_GetPlatformInterface()
     {
         return eos_library_helpers::eos_platform_handle;
     }
@@ -78,7 +78,7 @@ namespace pew::eos
             return;
         }
 
-        auto path_to_log_config_json = config::get_path_for_eos_service_config(EOS_LOGLEVEL_CONFIG_FILENAME);
+        auto path_to_log_config_json = config_legacy::get_path_for_eos_service_config(EOS_LOGLEVEL_CONFIG_FILENAME);
 
         if (!exists(path_to_log_config_json))
         {
@@ -87,7 +87,7 @@ namespace pew::eos
         }
 
         json_value_s* log_config_as_json = json_helpers::read_config_json_as_json_from_path(path_to_log_config_json);
-        config::LogLevelConfig log_config = config::log_config_from_json_value(log_config_as_json);
+        config_legacy::LogLevelConfig log_config = config_legacy::log_config_from_json_value(log_config_as_json);
         free(log_config_as_json);
 
         // Validation to prevent out of range exception
@@ -146,7 +146,7 @@ namespace pew::eos
         logging::log_inform(output.str().c_str());
     }
 
-    void eos_init(const config::EOSConfig eos_config)
+    void eos_init(const config_legacy::EOSConfig eos_config)
     {
         static int reserved[2] = { 1, 1 };
         EOS_InitializeOptions SDKOptions = { 0 };
@@ -243,7 +243,7 @@ namespace pew::eos
         return s_tempPathBuffer;
     }
 
-    void eos_create(config::EOSConfig eos_config)
+    void eos_create(config_legacy::EOSConfig eos_config)
     {
         EOS_Platform_Options platform_options = { 0 };
         platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
@@ -288,10 +288,10 @@ namespace pew::eos
 #endif
 
 #if PLATFORM_WINDOWS
-        auto path_to_steam_config_json = config::get_path_for_eos_service_config(EOS_STEAM_CONFIG_FILENAME);
+        auto path_to_steam_config_json = config_legacy::get_path_for_eos_service_config(EOS_STEAM_CONFIG_FILENAME);
 
         // Defined here so that the override path lives long enough to be referenced by the create option
-        config::EOSSteamConfig eos_steam_config;
+        config_legacy::EOSSteamConfig eos_steam_config;
         EOS_IntegratedPlatform_Options steam_integrated_platform_option = { 0 };
         EOS_IntegratedPlatform_Steam_Options steam_platform = { 0 };
         EOS_HIntegratedPlatformOptionsContainer integrated_platform_options_container = nullptr;
@@ -301,7 +301,7 @@ namespace pew::eos
         {
             json_value_s* eos_steam_config_as_json = nullptr;
             eos_steam_config_as_json = json_helpers::read_config_json_as_json_from_path(path_to_steam_config_json);
-            eos_steam_config = config::eos_steam_config_from_json_value(eos_steam_config_as_json);
+            eos_steam_config = config_legacy::eos_steam_config_from_json_value(eos_steam_config_as_json);
             free(eos_steam_config_as_json);
 
             if (eos_steam_config.OverrideLibraryPath.has_value())

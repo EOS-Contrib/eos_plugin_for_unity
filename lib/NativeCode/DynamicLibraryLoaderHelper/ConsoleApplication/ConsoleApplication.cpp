@@ -22,12 +22,12 @@
 
 #include <iostream>
 
-#include "include/config.h"
+#include "include/config_legacy.h"
 
 int main()
 {
-    pew::eos::config::EOSConfig eos_config;
-    if(try_get_eos_config(eos_config))
+    pew::eos::config_legacy::EOSConfig eos_config;
+    if(pew::eos::config_legacy::try_get_eos_config(eos_config))
     {
         std::cout << "EOSConfig was read successfully.";
     }

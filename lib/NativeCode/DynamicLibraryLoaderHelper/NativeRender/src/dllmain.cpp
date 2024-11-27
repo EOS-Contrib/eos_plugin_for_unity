@@ -25,11 +25,10 @@
 // This is apparently needed so that the Overlay can render properly
 #include "pch.h"
 
-#include <array>
 #include <iterator>
 #include <sstream>
 
-#include "config.h"
+#include "config_legacy.h"
 #include "logging.h"
 #include <eos_library_helpers.h>
 #include <eos_helpers.h>
@@ -43,11 +42,20 @@ FSig_ApplicationWillShutdown FuncApplicationWillShutdown = nullptr;
 
 extern "C"
 {
+    /**
+     * \brief Forward declaration and export for function to be called when
+     * Unity is loading the plugin.
+     */
     void __declspec(dllexport) __stdcall UnityPluginLoad(void* unityInterfaces);
+
+    /**
+     * \brief Forward declaration for function to be called when Unity is
+     * unloading the plugin.
+     */
     void __declspec(dllexport) __stdcall UnityPluginUnload();
 }
 
-void get_cli_arguments(config::EOSConfig eos_config)
+void get_cli_arguments(config_legacy::EOSConfig eos_config)
 {
     //support sandbox and deployment id override via command line arguments
     std::stringstream argument_stream = std::stringstream(GetCommandLineA());
@@ -117,14 +125,14 @@ void get_cli_arguments(config::EOSConfig eos_config)
 #if PLATFORM_32BITS
 #pragma comment(linker, "/export:UnityPluginLoad=_UnityPluginLoad@4")
 #endif
-DLL_EXPORT(void) UnityPluginLoad(void*)
+PEW_EOS_API_FUNC(void) UnityPluginLoad(void*)
 {
 #if _DEBUG
     logging::show_log_as_dialog("You may attach a debugger to the DLL");
 #endif
 
-    config::EOSConfig eos_config;
-    if (!config::try_get_eos_config(eos_config))
+    config_legacy::EOSConfig eos_config;
+    if (!config_legacy::try_get_eos_config(eos_config))
     {
         return;
     }
@@ -138,22 +146,26 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     std::filesystem::path DllPath;
     logging::log_inform("On UnityPluginLoad");
 
+    // Acquire pointer to EOS SDK library
     s_eos_sdk_lib_handle = load_library_at_path(io_helpers::get_path_relative_to_current_module(SDK_DLL_NAME));
 
+    // If acquisition was successful.
     if (s_eos_sdk_lib_handle)
     {
+        // Make use of the library handle to get pointers to all the functions
+        // that are needed.
         FetchEOSFunctionPointers();
 
+        // If the initialize function pointer is not null
         if (EOS_Initialize_ptr)
         {
             logging::log_inform("start eos init");
 
             eos_init(eos_config);
-
             eos_set_loglevel_via_config();
-
             eos_create(eos_config);
 
+            // Free function pointers and library handle.
             s_eos_sdk_lib_handle = nullptr;
             EOS_Initialize_ptr = nullptr;
             EOS_Shutdown_ptr = nullptr;
@@ -174,7 +186,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 #if PLATFORM_32BITS
 #pragma comment(linker, "/export:_UnityPluginUnload=_UnityPluginUnload@0")
 #endif
-DLL_EXPORT(void) UnityPluginUnload()
+PEW_EOS_API_FUNC(void) UnityPluginUnload()
 {
     if (FuncApplicationWillShutdown != nullptr)
     {

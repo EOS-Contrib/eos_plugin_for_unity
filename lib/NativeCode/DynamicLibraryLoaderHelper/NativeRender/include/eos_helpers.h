@@ -23,6 +23,7 @@
  */
 
 #pragma once
+#include "PEW_EOS_Defines.h"
 
 namespace std
 {
@@ -34,7 +35,7 @@ namespace std
 
 namespace pew::eos
 {
-    namespace config
+    namespace config_legacy
     {
         struct EOSConfig;
     }
@@ -46,7 +47,7 @@ namespace pew::eos
      *
      * @return A pointer to the EOS platform interface handle.
      */
-    DLL_EXPORT(void*) EOS_GetPlatformInterface();
+    PEW_EOS_API_FUNC(void*) EOS_GetPlatformInterface();
 
     /**
      * @brief Sets the log level for the EOS SDK based on the configuration file.
@@ -75,7 +76,7 @@ namespace pew::eos
      *
      * @param eos_config The EOS configuration settings.
      */
-    void eos_init(const config::EOSConfig eos_config);
+    void eos_init(const config_legacy::EOSConfig eos_config);
 
     /**
      * @brief Creates an EOS platform using the specified configuration.
@@ -85,6 +86,6 @@ namespace pew::eos
      *
      * @param eos_config The configuration object containing EOS platform settings.
      */
-    void eos_create(config::EOSConfig eos_config);
+    void eos_create(config_legacy::EOSConfig eos_config);
 }
 #endif
