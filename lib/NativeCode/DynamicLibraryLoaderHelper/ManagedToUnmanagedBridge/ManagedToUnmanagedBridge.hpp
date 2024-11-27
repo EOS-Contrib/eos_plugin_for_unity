@@ -6,18 +6,18 @@ using namespace System;
 
 namespace pew::eos::tests {
     using namespace Epic::OnlineServices::Platform;
-    using namespace PlayEveryWare::EpicOnlineServices::Tests::Utility;
+    using namespace PlayEveryWare::EpicOnlineServices::Utility;
 
     public ref class NativeTestUtilityBridge
     {
     public:
         static WindowsOptions^ get_windows_options()
         {
-            return NativeTestUtility::GetWindowsOptions();
+            return ConfigurationUtility::GetEOSCreateOptions()->options;
         }
         static InitializeOptions^ get_initialize_options()
         {
-            return NativeTestUtility::GetInitializeOptions();
+            return ConfigurationUtility::GetEOSInitializeOptions()->options;
         }
 	};
 }

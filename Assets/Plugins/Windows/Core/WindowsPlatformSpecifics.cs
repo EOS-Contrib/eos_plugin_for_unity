@@ -25,12 +25,15 @@
 //#define ENABLE_CONFIGURE_STEAM_FROM_MANAGED
 
 // If standalone windows and not editor, or the windows editor.
-#if (UNITY_STANDALONE_WIN && !UNITY_EDITOR) || UNITY_EDITOR_WIN
+#if (UNITY_STANDALONE_WIN && !UNITY_EDITOR) || UNITY_EDITOR_WIN || EXTERNAL_TO_UNITY
 
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System.Collections.Generic;
+
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
 
     using Epic.OnlineServices.Platform;
     using System.Runtime.InteropServices;
@@ -65,18 +68,20 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public WindowsPlatformSpecifics() : base(PlatformManager.Platform.Windows) { }
 
+#if !EXTERNAL_TO_UNITY
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
         {
             EOSManagerPlatformSpecificsSingleton.SetEOSManagerPlatformSpecificsInterface(new WindowsPlatformSpecifics());
         }
+#endif
 
         //-------------------------------------------------------------------------
         public override void LoadDelegatesWithEOSBindingAPI()
         {
             // In the editor, EOS needs to be dynamically bound.
-#if EOS_DYNAMIC_BINDINGS || UNITY_EDITOR 
+#if EOS_DYNAMIC_BINDINGS || UNITY_EDITOR
             const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
             var eosLibraryHandle = EOSManager.EOSSingleton.LoadDynamicLibrary(EOSBinaryName);
             Epic.OnlineServices.WindowsBindings.Hook<DLLHandle>(eosLibraryHandle, (DLLHandle handle, string functionName) => {
@@ -85,6 +90,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         }
 
+#if !EXTERNAL_TO_UNITY
         //-------------------------------------------------------------------------
         /// <summary>
         /// Nothing to be done on windows for the moment
@@ -189,6 +195,8 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
             }
         }
+
+#endif
     }
 }
 #endif

@@ -23,11 +23,8 @@
  */
 
 #pragma once
-<<<<<<< HEAD
+
 #include "include/PEW_EOS_Defines.h"
-=======
-#include "PEW_EOS_Defines.h"
->>>>>>> fix/prep-native-for-expansion
 
 namespace std
 {

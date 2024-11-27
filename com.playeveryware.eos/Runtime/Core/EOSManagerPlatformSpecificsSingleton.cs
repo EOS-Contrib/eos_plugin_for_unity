@@ -24,7 +24,9 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
 
     //-------------------------------------------------------------------------
     public class EOSManagerPlatformSpecificsSingleton

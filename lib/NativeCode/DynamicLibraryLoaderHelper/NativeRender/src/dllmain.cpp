@@ -41,6 +41,10 @@ using namespace pew::eos::eos_library_helpers;
 using FSig_ApplicationWillShutdown = void (__stdcall *)(void);
 FSig_ApplicationWillShutdown FuncApplicationWillShutdown = nullptr;
 
+#ifndef USE_LEGACY
+std::unique_ptr<EOSWrapper> eos_sdk;
+#endif
+
 /**
  * \brief Forward declaration for function to be called when Unity is loading
  * the plugin.

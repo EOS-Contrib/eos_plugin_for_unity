@@ -98,15 +98,15 @@ namespace PlayEveryWare.EpicOnlineServices
             // this might be different on future platforms.
             return false;
         }
-
-        // The EXTERNAL_TO_UNITY block is here to enable the compilation of this
-        // code file outside of the context of Unity altogether.
-#if !EXTERNAL_TO_UNITY
+        
         public virtual void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions)
         {
             ((EOSCreateOptions)createOptions).options.RTCOptions = new();
         }
 
+        // The EXTERNAL_TO_UNITY block is here to enable the compilation of this
+        // code file outside of the context of Unity altogether.
+#if !EXTERNAL_TO_UNITY
         public virtual void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptionsRef)
         {
             // Default implementation is to do nothing

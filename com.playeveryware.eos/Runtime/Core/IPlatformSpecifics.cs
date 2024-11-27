@@ -45,10 +45,10 @@ namespace PlayEveryWare.EpicOnlineServices
 #if !EXTERNAL_TO_UNITY
         void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptions);
 
-        void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions);
-
         void InitializeOverlay(IEOSCoroutineOwner owner);
 #endif
+
+        void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions);
 
         void RegisterForPlatformNotifications();
 

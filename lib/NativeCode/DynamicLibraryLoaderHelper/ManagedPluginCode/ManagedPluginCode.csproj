@@ -51,9 +51,6 @@
     <Compile Include="..\..\..\..\Assets\Plugins\Windows\Core\WindowsPlatformSpecifics.cs">
       <Link>Assets\Plugins\Windows\Core\WindowsPlatformSpecifics.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Assets\Tests\Common\Utility\NativeTestUtility.cs">
-      <Link>Assets\Tests\Common\Utility\NativeTestUtility.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Extensions\FileInfoExtensions.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Common\Extensions\FileInfoExtensions.cs</Link>
     </Compile>
@@ -65,9 +62,6 @@
     </Compile>
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Utility\HashUtility.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Utility\HashUtility.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Utility\SafeTranslatorUtility.cs">
-      <Link>com.playeveryware.eos\Runtime\Core\Utility\SafeTranslatorUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Extensions\StringExtensions.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Common\Extensions\StringExtensions.cs</Link>
@@ -204,6 +198,9 @@
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\PlatformSpecifics.cs">
       <Link>com.playeveryware.eos\Runtime\Core\PlatformSpecifics.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Utility\ConfigurationUtility.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Utility\ConfigurationUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Utility\FileSystemUtility.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Utility\FileSystemUtility.cs</Link>
     </Compile>
@@ -222,5 +219,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
