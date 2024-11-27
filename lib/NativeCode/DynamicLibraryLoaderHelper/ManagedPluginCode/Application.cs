@@ -22,9 +22,23 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public static class Application
+    /// <summary>
+    /// This class is defined here as a stand-in for UnityEngine.Application,
+    /// so that files compiled outside of the Unity Editor that reference that
+    /// class can still be compiled properly.
+    /// </summary>
+    internal static class Application
     {
-        public static readonly string streamingAssetsPath = "..\\..\\..\\..\\Assets\\StreamingAssets\\";
-        public static readonly string temporaryCachePath = "";
+        /// <summary>
+        /// This is the path of the streaming assets directory relative to the
+        /// output directory of this class library.
+        /// </summary>
+        public static readonly string streamingAssetsPath = @"..\..\..\..\Assets\StreamingAssets\";
+
+        /// <summary>
+        /// For the purposes of this class library, this field member must be
+        /// present - but it's value is not utilized, so it is being left empty.
+        /// </summary>
+        public static readonly string temporaryCachePath = string.Empty;
     }
 }

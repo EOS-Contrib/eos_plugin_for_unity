@@ -24,25 +24,63 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
 
-    internal class Debug
+    /// <summary>
+    /// <para>
+    /// This class is defined here as a stand-in for UnityEngine.Debug, so that
+    /// files compiled outside of the Unity Editor that reference that class can
+    /// still be compiled properly.
+    /// </para>
+    /// <para>
+    /// In this class library, when Debug.Log* functions are called, the "log"
+    /// message is output to the console - not to any log file or other logging
+    /// system.
+    /// </para>
+    /// <para>
+    /// It is internal because it will only ever be utilized within this class
+    /// library.
+    /// </para>
+    /// </summary>
+    internal static class Debug
     {
-        public static void LogError(string message)
-        {
-            Log($"ERROR: {message}");
-        }
-        public static void LogWarning(string message)
-        {
-            Log($"WARNING: {message}");
-        }
-
-        public static void Log(string message)
+        /// <summary>
+        /// Base functionality common to all the log functions.
+        /// </summary>
+        /// <param name="message">The message to write to the console.</param>
+        private static void LogBase(string message)
         {
             Console.WriteLine(message);
         }
 
+        /// <summary>
+        /// Logs the given message to the console.
+        /// </summary>
+        /// <param name="message">Message to log.</param>
+        public static void LogError(string message)
+        {
+            LogBase($"ERROR: {message}");
+        }
+
+        /// <summary>
+        /// Logs the given message to the console.
+        /// </summary>
+        /// <param name="message">Message to log.</param>
+        public static void LogWarning(string message)
+        {
+            LogBase($"WARNING: {message}");
+        }
+
+        /// <summary>
+        /// Logs the given message to the console.
+        /// </summary>
+        /// <param name="message">Message to log.</param>
+        public static void Log(string message)
+        {
+            LogBase($"INFO: {message}");
+        }
+
         public static void LogException(Exception e)
         {
-            Console.WriteLine($"An exception was logged. Exception message: \"{e.Message}\".");
+            LogBase($"EXCEPTION: \"{e.Message}\".");
         }
     }
 }
