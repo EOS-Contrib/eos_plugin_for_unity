@@ -1,36 +1,51 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
-* 
-* Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files (the "Software"), to deal
-* in the Software without restriction, including without limitation the rights
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the Software is
-* furnished to do so, subject to the following conditions:
-* 
-* The above copyright notice and this permission notice shall be included in all
-* copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-* SOFTWARE.
-*/
+ * Copyright (c) 2021 PlayEveryWare
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+// When compiled outside of Unity - there are some fields within this file
+// that are never used. This suppresses those warnings - as the fact that they
+// are unused is expected.
+#if EXTERNAL_TO_UNITY
+// Field is never used
+#pragma warning disable CS0169
+// Field is assigned but its value is never used
+#pragma warning disable CS0414
+// Field is never assigned to, and will always have its default value.
+#pragma warning disable CS0649
+#endif
 
 #if !EOS_DISABLE
 
 //#define ENABLE_CONFIGURE_STEAM_FROM_MANAGED
 
 // If standalone windows and not editor, or the windows editor.
-#if (UNITY_STANDALONE_WIN && !UNITY_EDITOR) || UNITY_EDITOR_WIN
+#if (UNITY_STANDALONE_WIN && !UNITY_EDITOR) || UNITY_EDITOR_WIN || EXTERNAL_TO_UNITY
 
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System.Collections.Generic;
+
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
 
     using Epic.OnlineServices.Platform;
     using System.Runtime.InteropServices;
@@ -55,9 +70,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #if ENABLE_CONFIGURE_STEAM_FROM_MANAGED
         private static readonly string SteamDllName = 
 #if UNITY_64
-        "steam_api64.dll";
-#else
-        "steam_api.dll";
+	@@ -61,22 +79,22 @@ public class WindowsPlatformSpecifics : PlatformSpecifics<WindowsConfig>
 #endif
 #endif
 
@@ -65,18 +78,20 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public WindowsPlatformSpecifics() : base(PlatformManager.Platform.Windows) { }
 
+#if !EXTERNAL_TO_UNITY
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
         {
             EOSManagerPlatformSpecificsSingleton.SetEOSManagerPlatformSpecificsInterface(new WindowsPlatformSpecifics());
         }
+#endif
 
         //-------------------------------------------------------------------------
         public override void LoadDelegatesWithEOSBindingAPI()
         {
             // In the editor, EOS needs to be dynamically bound.
-#if EOS_DYNAMIC_BINDINGS || UNITY_EDITOR 
+#if EOS_DYNAMIC_BINDINGS || UNITY_EDITOR
             const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
             var eosLibraryHandle = EOSManager.EOSSingleton.LoadDynamicLibrary(EOSBinaryName);
             Epic.OnlineServices.WindowsBindings.Hook<DLLHandle>(eosLibraryHandle, (DLLHandle handle, string functionName) => {
@@ -85,6 +100,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         }
 
+#if !EXTERNAL_TO_UNITY
         //-------------------------------------------------------------------------
         /// <summary>
         /// Nothing to be done on windows for the moment
@@ -189,7 +205,21 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
             }
         }
+
+#endif
     }
 }
 #endif
 #endif // !EOS_DISABLE
+
+// When compiled outside of Unity - there are some fields within this file
+// that are never used. This suppresses those warnings - as the fact that they
+// are unused is expected.
+#if EXTERNAL_TO_UNITY
+// Field is never used
+#pragma warning restore CS0169
+// Field is assigned but its value is never used
+#pragma warning restore CS0414
+// Field is never assigned to, and will always have its default value.
+#pragma warning restore CS0649
+#endif
