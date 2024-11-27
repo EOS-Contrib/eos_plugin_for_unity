@@ -64,20 +64,17 @@ namespace PlayEveryWare.EpicOnlineServices
     //-------------------------------------------------------------------------
     public class WindowsPlatformSpecifics : PlatformSpecifics<WindowsConfig>
     {
-        // This compile conditional is here because outside of the Unity context
-        // these field members are not used - and their presence generates
-        // compiler warnings to that affect.
         static string Xaudio2DllName = "xaudio2_9redist.dll";
-        private static GCHandle SteamOptionsGCHandle;
         public static string SteamConfigPath = "eos_steam_config.json";
+
 #if ENABLE_CONFIGURE_STEAM_FROM_MANAGED
         private static readonly string SteamDllName = 
 #if UNITY_64
-        "steam_api64.dll";
-#else
-        "steam_api.dll";
+	@@ -61,22 +79,22 @@ public class WindowsPlatformSpecifics : PlatformSpecifics<WindowsConfig>
 #endif
 #endif
+
+        private static GCHandle SteamOptionsGCHandle;
 
         public WindowsPlatformSpecifics() : base(PlatformManager.Platform.Windows) { }
 
