@@ -150,7 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ManagedToUnmanagedBridge.hpp" />
+    <ClInclude Include="ConfigurationUtilityBridge.hpp" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>

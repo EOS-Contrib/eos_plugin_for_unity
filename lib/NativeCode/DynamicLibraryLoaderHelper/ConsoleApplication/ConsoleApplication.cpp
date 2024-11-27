@@ -30,17 +30,13 @@
 
 #include "include/config_legacy.h"
 #include "include/Config/EOSWrapper.h"
-#include "ManagedToUnmanagedBridge.hpp"
-#include "../ManagedToUnmanagedBridge/ManagedToUnmanagedBridge.hpp"
-#include "../NativeRender/include/Config/EOSWrapper.h"
-
+#include "ConfigurationUtilityBridge.hpp"
 
 #using <ManagedPluginCode.dll>
 #using <ManagedToUnmanagedBridge.dll>
 
 using namespace Epic::OnlineServices;
 
-#define CHECK_EQUALITY()
 
 bool Equals(const char* c_str, System::String^ str)
 {
@@ -121,9 +117,9 @@ void CheckEquality(const char* name, const uint64_t& long_value, uint64_t manage
 bool NativeAndManagedPlatformOptionsAreIdentical()
 {
     const auto eos_sdk = new pew::eos::EOSWrapper();
-    
-    const auto native_platform_options = eos_sdk->PEW_EOS_ExportPlatformOptions();
-    const auto managed_platform_options = pew::eos::tests::NativeTestUtilityBridge::get_windows_options();
+
+    const auto native_platform_options = eos_sdk->get_platform_options();
+    const auto managed_platform_options = pew::eos::tests::ConfigurationUtilityBridge::get_windows_options();
     
     CheckEquality("ProductId", native_platform_options.ProductId, managed_platform_options->ProductId->ToString());
     CheckEquality("SandboxId", native_platform_options.SandboxId, managed_platform_options->SandboxId->ToString());
@@ -144,8 +140,8 @@ bool NativeAndManagedInitializeOptionsAreIdentical()
 {
     const auto eos_sdk = new pew::eos::EOSWrapper();
 
-    const auto native_initialize_options = eos_sdk->PEW_EOS_ExportInitializeOptions();
-    const auto managed_platform_initialize_options = pew::eos::tests::NativeTestUtilityBridge::get_initialize_options();
+    const auto native_initialize_options = eos_sdk->get_initialize_options();
+    const auto managed_platform_initialize_options = pew::eos::tests::ConfigurationUtilityBridge::get_initialize_options();
 
     CheckEquality("ProductName", native_initialize_options.ProductName, managed_platform_initialize_options->ProductName->ToString());
     CheckEquality("ProductVersion", native_initialize_options.ProductVersion, managed_platform_initialize_options->ProductVersion->ToString());
