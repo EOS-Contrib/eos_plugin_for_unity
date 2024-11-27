@@ -27,11 +27,7 @@
 #include <string>
 #include <eos_logging.h>
 
-<<<<<<< HEAD
 #include "include/PEW_EOS_Defines.h"
-=======
-#include "PEW_EOS_Defines.h"
->>>>>>> fix/prep-native-for-expansion
 
 /**
   * \brief Forward declarations
@@ -183,7 +179,7 @@ namespace pew::eos::logging
      */
     inline void log_inform(const std::string& log_string)
     {
-        return log_inform(log_string);
+        return log_inform(log_string.c_str());
     }
 
     /**
@@ -195,11 +191,6 @@ namespace pew::eos::logging
      */
     void log_error(const char* log_string);
 
-<<<<<<< HEAD
-    inline void log_error(const std::string& log_string)
-    {
-        return log_error(log_string.c_str());
-=======
     /**
      * @brief Logs an error message.
      *
@@ -209,8 +200,7 @@ namespace pew::eos::logging
      */
     inline void log_error(const std::string& log_string)
     {
-        return log_error(log_string);
->>>>>>> fix/prep-native-for-expansion
+        return log_error(log_string.c_str());
     }
 }
 #endif
