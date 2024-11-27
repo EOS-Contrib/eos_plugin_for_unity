@@ -31,6 +31,7 @@
 #include "include/Config/common.hpp"
 #include <nlohmann/json.hpp>
 #include "ProductionEnvironments.hpp"
+#include "include/logging.h"
 
 /**
  * Because C++20 supports the "contains" method on the map collection, but older
@@ -41,6 +42,21 @@
 #else
 #define CONTAINS(map, key) ((map).find(key) != (map).end())
 #endif
+
+#define PARSE_IF_EXISTS(value, json, key) get_if_exists(key, json, value)
+
+template<typename T>
+inline void get_if_exists(const std::string& key, const nlohmann::json& json, T& value)
+{
+    if (json.contains(key))
+    {
+        value = json[key].get<T>();
+    }
+    else
+    {
+        pew::eos::logging::log_warn("Expected to find key \"" + key + "\" but it was not found.");
+    }
+}
 
  /**
   * \brief Function that instructs the nlohmann library how to parse an
@@ -57,15 +73,15 @@
   */
 inline void from_json(const nlohmann::json& json, EOS_Initialize_ThreadAffinity& initialize_thread_affinity)
 {
-    initialize_thread_affinity.ApiVersion = json["ApiVersion"].get<int>();
-    initialize_thread_affinity.NetworkWork = json["NetworkWork"].get<uint64_t>();
-    initialize_thread_affinity.StorageIo = json["StorageIo"].get<uint64_t>();
-    initialize_thread_affinity.WebSocketIo = json["WebSocketIo"].get<uint64_t>();
-    initialize_thread_affinity.P2PIo = json["P2PIo"].get<uint64_t>();
-    initialize_thread_affinity.HttpRequestIo = json["HttpRequestIo"].get<uint64_t>();
-    initialize_thread_affinity.RTCIo = json["RTCIo"].get<uint64_t>();
-    initialize_thread_affinity.EmbeddedOverlayMainThread = json["EmbeddedOverlayMainThread"].get<uint64_t>();
-    initialize_thread_affinity.EmbeddedOverlayWorkerThreads = json["EmbeddedOverlayWorkerThreads"].get<uint64_t>();
+    get_if_exists("ApiVersion", json, initialize_thread_affinity.ApiVersion);
+    get_if_exists("NetworkWork", json, initialize_thread_affinity.NetworkWork);
+    get_if_exists("StorageIo", json, initialize_thread_affinity.StorageIo);
+    get_if_exists("WebSocketIo", json, initialize_thread_affinity.WebSocketIo);
+    get_if_exists("P2PIo", json, initialize_thread_affinity.P2PIo);
+    get_if_exists("HttpRequestIo", json, initialize_thread_affinity.HttpRequestIo);
+    get_if_exists("RTCIo", json, initialize_thread_affinity.RTCIo);
+    get_if_exists("EmbeddedOverlayMainThread", json, initialize_thread_affinity.EmbeddedOverlayMainThread);
+    get_if_exists("EmbeddedOverlayWorkerThreads", json, initialize_thread_affinity.EmbeddedOverlayWorkerThreads);
 }
 
 /**
@@ -323,9 +339,9 @@ namespace pew::eos::config
             temp_json = temp_json["Value"];
         }
 
-        temp_json["ClientId"].get_to(credentials.client_id);
-        temp_json["ClientSecret"].get_to(credentials.client_secret);
-        temp_json["EncryptionKey"].get_to(credentials.encryption_key);
+        get_if_exists("ClientId", json, credentials.client_id);
+        get_if_exists("ClientSecret", json, credentials.client_secret);
+        get_if_exists("EncryptionKey", json, credentials.encryption_key);
     }
 
     inline void from_json(const nlohmann::json& json, ProductionEnvironments::Deployment& deployment)
