@@ -169,7 +169,7 @@ namespace pew::eos::logging
      */
     inline void log_inform(const std::string& log_string)
     {
-        return log_inform(log_string);
+        return log_inform(log_string.c_str());
     }
 
     /**
@@ -190,7 +190,7 @@ namespace pew::eos::logging
      */
     inline void log_error(const std::string& log_string)
     {
-        return log_error(log_string);
+        return log_error(log_string.c_str());
     }
 }
 #endif
