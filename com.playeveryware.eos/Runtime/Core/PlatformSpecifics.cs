@@ -55,7 +55,7 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         #endregion
-        
+
         #region Virtual methods that have a default behavior, but may need to be overwritten by deriving classes.
 
         public virtual string GetTempDir()
@@ -99,34 +99,19 @@ namespace PlayEveryWare.EpicOnlineServices
             return false;
         }
 
-        // The EXTERNAL_TO_UNITY block is here to enable the compilation of this
-        // code file outside of the context of Unity altogether.
-#if !EXTERNAL_TO_UNITY
         public virtual void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions)
         {
             ((EOSCreateOptions)createOptions).options.RTCOptions = new();
         }
-#endif
 
+        // The EXTERNAL_TO_UNITY block is here to enable the compilation of this
+        // code file outside of the context of Unity altogether.
+#if !EXTERNAL_TO_UNITY
         public virtual void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptionsRef)
         {
-            Debug.Log("ConfigureSystemInitOptions");
-
-            if (initializeOptionsRef is not EOSInitializeOptions initializeOptions)
-            {
-                throw new Exception("ConfigureSystemInitOptions: initializeOptions is null!");
-            }
-
-            if (initializeOptions.options.OverrideThreadAffinity.HasValue)
-            {
-                Debug.Log($"Assigning thread affinity override values for platform \"{Platform}\".");
-
-                PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
-                
-                initializeOptions.options.OverrideThreadAffinity = platformConfig.threadAffinity?.Unwrap();
-            }
+            // Default implementation is to do nothing
         }
-
+#endif
         /// <summary>
         /// Indicates whether the platform is ready for network activity.
         /// TODO: Determine where this is used, and why it isn't a boolean.
