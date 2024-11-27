@@ -63,14 +63,19 @@ namespace pew::eos
 
         EOS_HPlatform start_eos() const;
 
-        EOS_Platform_Options PEW_EOS_ExportPlatformOptions() const;
+        // These functions are only in debug because they are used to compare
+        // the parsed values between managed and unmanaged code - something that
+        // only needs to be done in debug.
+#if _DEBUG
+        static EOS_Platform_Options get_platform_options();
 
-        EOS_InitializeOptions PEW_EOS_ExportInitializeOptions() const;
+        static EOS_InitializeOptions get_initialize_options();
+#endif
 
     private:
         void init(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const;
 
-        void set_platform_options(EOS_Platform_Options& platform_options, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const;
+        static void set_platform_options(EOS_Platform_Options& platform_options, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config);
         static void set_initialize_options(EOS_InitializeOptions& initialize_options, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config);
 
         EOS_HPlatform create(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const;

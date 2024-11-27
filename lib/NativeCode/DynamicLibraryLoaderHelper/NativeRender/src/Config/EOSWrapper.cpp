@@ -47,7 +47,12 @@ namespace pew::eos
         return create(*windows_config, *product_config);
     }
 
-    EOS_InitializeOptions EOSWrapper::PEW_EOS_ExportInitializeOptions() const
+    // These functions are only in debug because they are used to compare the
+    // parsed values between managed and unmanaged code - something that only
+    // needs to be done in debug.
+#if _DEBUG
+
+    EOS_InitializeOptions EOSWrapper::get_initialize_options()
     {
         const auto product_config = config::ConfigBase::get<config::ProductConfig>();
         const auto windows_config = config::ConfigBase::get<config::WindowsConfig>();
@@ -58,7 +63,7 @@ namespace pew::eos
         return options;
     }
 
-    EOS_Platform_Options EOSWrapper::PEW_EOS_ExportPlatformOptions() const
+    EOS_Platform_Options EOSWrapper::get_platform_options()
     {
         const auto product_config = config::ConfigBase::get<config::ProductConfig>();
         const auto windows_config = config::ConfigBase::get<config::WindowsConfig>();
@@ -68,6 +73,8 @@ namespace pew::eos
 
         return options;
     }
+#endif
+
 
     void EOSWrapper::init(const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const
     {
@@ -85,7 +92,7 @@ namespace pew::eos
         call_library_function<EOS_Logging_SetCallback_t>(&logging::eos_log_callback);
     }
 
-    void EOSWrapper::set_platform_options(EOS_Platform_Options& platform_options, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config) const
+    void EOSWrapper::set_platform_options(EOS_Platform_Options& platform_options, const config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
     {
         platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
         platform_options.bIsServer = platform_config.is_server;
