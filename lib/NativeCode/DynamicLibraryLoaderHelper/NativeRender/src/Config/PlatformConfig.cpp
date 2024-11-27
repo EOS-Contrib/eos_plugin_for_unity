@@ -47,6 +47,10 @@ namespace pew::eos::config
 
     void PlatformConfig::from_json(const nlohmann::json& json)
     {
+#if _DEBUG
+        const auto json_str = json.dump();
+
+#endif
         json["deployment"].get_to(                        deployment);
         json["clientCredentials"].get_to(                 client_credentials);
         json["isServer"].get_to(                          is_server);

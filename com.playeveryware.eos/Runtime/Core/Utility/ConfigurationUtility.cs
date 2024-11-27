@@ -64,9 +64,11 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 ClientSecret = platformConfig.clientCredentials.ClientSecret,
             };
 
+            // TODO: Make sure that it is acceptable not to inspect this external to unity
+#if !EXTERNAL_TO_UNITY
 
 #if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX || UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX)
-                var createIntegratedPlatformOptionsContainerOptions = new Epic.OnlineServices.IntegratedPlatform.CreateIntegratedPlatformOptionsContainerOptions();
+            var createIntegratedPlatformOptionsContainerOptions = new Epic.OnlineServices.IntegratedPlatform.CreateIntegratedPlatformOptionsContainerOptions();
                 var integratedPlatformOptionsContainer = new Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer();
                 var integratedPlatformOptionsContainerResult = Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformInterface.CreateIntegratedPlatformOptionsContainer(ref createIntegratedPlatformOptionsContainerOptions, out integratedPlatformOptionsContainer);
                 
@@ -76,6 +78,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 }
                 platformOptions.options.IntegratedPlatformOptionsContainerHandle = integratedPlatformOptionsContainer;
 #endif
+#endif
+
             // Note that this function only sets rtcoptions - which is not
             // exposed or affected by configuration, so it is not considered
             // when being called external to unity.
