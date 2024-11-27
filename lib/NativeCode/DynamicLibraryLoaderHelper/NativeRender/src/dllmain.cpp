@@ -129,6 +129,17 @@ PEW_EOS_API_FUNC(void) UnityPluginLoad(void*)
 {
 #if _DEBUG
     logging::show_log_as_dialog("You may attach a debugger to the DLL");
+#endif
+
+    config_legacy::EOSConfig eos_config;
+    if (!config_legacy::try_get_eos_config(eos_config))
+    {
+        return;
+    }
+
+    get_cli_arguments(eos_config);
+
+#if _DEBUG
     logging::global_log_open("gfx_log.txt");
 #endif
 
@@ -148,17 +159,6 @@ PEW_EOS_API_FUNC(void) UnityPluginLoad(void*)
         // If the initialize function pointer is not null
         if (EOS_Initialize_ptr)
         {
-            // Load EOSConfig
-            config_legacy::EOSConfig eos_config;
-            if (!config_legacy::try_get_eos_config(eos_config))
-            {
-                logging::log_error("Could not load EOSConfig.");
-            }
-            else
-            {
-                logging::log_inform("Loaded EOSConfig.");
-            }
-
             logging::log_inform("start eos init");
 
             eos_init(eos_config);
