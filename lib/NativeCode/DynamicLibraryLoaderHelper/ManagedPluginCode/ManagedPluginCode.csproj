@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B3ADEB07-B668-482E-A5AA-9671CE65C5F7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ManagedPluginCode</RootNamespace>
+    <AssemblyName>ManagedPluginCode</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <UnityStreamingAssetsDirectory>$(UnityStreamingAssetsDirectory)</UnityStreamingAssetsDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'Release' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>9.0</LangVersion>
+    <DefineConstants>EXTERNAL_TO_UNITY</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;EXTERNAL_TO_UNITY;STREAMING_ASSETS_DIRECTORY="$(UnityStreamingAssetsDirectory)"</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <OutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\..\Assets\Plugins\Windows\Core\WindowsConfig.cs">
+      <Link>Assets\Plugins\Windows\Core\WindowsConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Assets\Plugins\Windows\Core\WindowsPlatformSpecifics.cs">
+      <Link>Assets\Plugins\Windows\Core\WindowsPlatformSpecifics.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Extensions\FileInfoExtensions.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Common\Extensions\FileInfoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Extensions\ListExtensions.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Common\Extensions\ListExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Utility\EnumUtility.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Utility\EnumUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Utility\HashUtility.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Utility\HashUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Extensions\StringExtensions.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Common\Extensions\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Named.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Common\Named.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\SetOfNamed.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Common\SetOfNamed.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Utility\VersionUtility.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Common\VersionUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\ValueChangedEventArgs.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Common\ValueChangedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Common\Wrapped.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Common\Wrapped.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\ButtonFieldAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\ButtonFieldAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\ConfigFieldAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\ConfigFieldAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\ConfigFieldType.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\ConfigFieldType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\ConfigGroupAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\ConfigGroupAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\DirectoryPathFieldAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\DirectoryPathFieldAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\ExpandFieldAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\ExpandFieldAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\FieldValidator.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\FieldValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\FieldValidatorAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\FieldValidatorAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\FilePathFieldAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\FilePathFieldAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\GUIDFieldValidatorAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\GUIDFieldValidatorAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\NonEmptyStringFieldValidatorAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\NonEmptyStringFieldValidatorAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\PlatformDependentConfigFieldAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\PlatformDependentConfigFieldAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\SandboxIDFieldValidatorAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\SandboxIDFieldValidatorAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Config.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Config.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Deployment.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Deployment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\EOSConfig.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\EOSConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\JsonConverter\GuidConverter.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\JsonConverter\GuidConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\JsonConverter\ListOfStringsToEnumConverters.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\JsonConverter\ListOfStringsToEnumConverters.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\JsonConverter\StringToTypeConverter.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\JsonConverter\StringToTypeConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\LogLevelConfig.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\LogLevelConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\PlatformConfig.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\PlatformConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\ProductConfig.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\ProductConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\ProductionEnvironments.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\ProductionEnvironments.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\RuntimeConfig.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\RuntimeConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\SandboxId.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\SandboxId.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\EOSClientCredentials.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\EOSClientCredentials.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\EventHandlers.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\EventHandlers.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\Extensions\AuthScopeFlagsExtensions.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\Extensions\AuthScopeFlagsExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\Extensions\IntegratedPlatformManagementFlagsExtensions.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\Extensions\IntegratedPlatformManagementFlagsExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\Extensions\PlatformFlagsExtensions.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\Extensions\PlatformFlagsExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\FileRequestTransferWrapper.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\FileRequestTransferWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\IFileTransferRequest.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\IFileTransferRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\PlayerDataStorageFileTransferRequestWrapper.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\PlayerDataStorageFileTransferRequestWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\TitleStorageFileTransferRequestWrapper.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\TitleStorageFileTransferRequestWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\WrappedInitializeThreadAffinity.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\WrappedInitializeThreadAffinity.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\WrappedPlatformFlags.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\EOS_SDK_Additions\WrappedPlatformFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\IPlatformSpecifics.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\IPlatformSpecifics.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\PlatformManager.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\PlatformManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\PlatformSpecifics.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\PlatformSpecifics.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Utility\ConfigurationUtility.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Utility\ConfigurationUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Utility\FileSystemUtility.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Utility\FileSystemUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Utility\JsonUtility.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Utility\JsonUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Utility\LogLevelUtility.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Utility\LogLevelUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\EOS_SDK\**\*.cs">
+      <Link>com.playeveryware.eos\Runtime\EOS_SDK\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="Application.cs" />
+    <Compile Include="Debug.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
