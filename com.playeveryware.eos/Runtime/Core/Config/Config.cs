@@ -8,7 +8,7 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in 
+ * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -19,6 +19,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+// When compiled outside of Unity - there are some fields within this file
+// that are never used. This suppresses those warnings - as the fact that they
+// are unused is expected.
+#if EXTERNAL_TO_UNITY
+// Field is never used
+#pragma warning disable CS0169
+// Field is assigned but its value is never used
+#pragma warning disable CS0414
+// Field is never assigned to, and will always have its default value.
+#pragma warning disable CS0649
+#endif
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -757,5 +769,16 @@ namespace PlayEveryWare.EpicOnlineServices
 
 #endif
     }
-
 }
+
+// When compiled outside of Unity - there are some fields within this file
+// that are never used. This suppresses those warnings - as the fact that they
+// are unused is expected.
+#if EXTERNAL_TO_UNITY
+// Field is never used
+#pragma warning restore CS0169
+// Field is assigned but its value is never used
+#pragma warning restore CS0414
+// Field is never assigned to, and will always have its default value.
+#pragma warning restore CS0649
+#endif
