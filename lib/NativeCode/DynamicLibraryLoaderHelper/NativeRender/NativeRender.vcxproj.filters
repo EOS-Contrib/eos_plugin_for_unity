@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Config">
+      <UniqueIdentifier>{5aafc329-e650-4bf8-97f2-29ba2d2229dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Config">
+      <UniqueIdentifier>{b98d0628-f79b-479a-bdc9-d7bde7eeedb1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -46,6 +52,30 @@
     <ClInclude Include="include\PEW_EOS_Defines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Config\ClientCredentials.hpp">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config\ConfigBase.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config\PlatformConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config\ProductConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config\ProductionEnvironments.hpp">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config\SteamConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config\Version.hpp">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config\WindowsConfig.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -72,6 +102,18 @@
     </ClCompile>
     <ClCompile Include="src\string_helpers.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Config\ConfigBase.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Config\PlatformConfig.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Config\ProductConfig.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Config\SteamConfig.cpp">
+      <Filter>Source Files\Config</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

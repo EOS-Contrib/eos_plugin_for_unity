@@ -106,6 +106,14 @@
   </ItemDefinitionGroup>
   <!-- Source Files -->
   <ItemGroup>
+    <ClInclude Include="include\Config\ClientCredentials.hpp" />
+    <ClInclude Include="include\Config\ConfigBase.h" />
+    <ClInclude Include="include\Config\PlatformConfig.h" />
+    <ClInclude Include="include\Config\ProductConfig.h" />
+    <ClInclude Include="include\Config\ProductionEnvironments.hpp" />
+    <ClInclude Include="include\Config\SteamConfig.h" />
+    <ClInclude Include="include\Config\Version.hpp" />
+    <ClInclude Include="include\Config\WindowsConfig.h" />
     <ClInclude Include="include\config_legacy.h" />
     <ClInclude Include="include\eos_helpers.h" />
     <ClInclude Include="include\eos_library_helpers.h" />
@@ -122,6 +130,10 @@
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Config\ConfigBase.cpp" />
+    <ClCompile Include="src\Config\PlatformConfig.cpp" />
+    <ClCompile Include="src\Config\ProductConfig.cpp" />
+    <ClCompile Include="src\Config\SteamConfig.cpp" />
     <ClCompile Include="src\config_legacy.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\eos_helpers.cpp" />
