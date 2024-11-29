@@ -48,22 +48,9 @@ char* GetCacheDirectory();
  * Attempts to load the Steam API DLL from the specified path. If the DLL is not already
  * loaded, this function tries to load it and then calls `SteamAPI_Init`.
  *
- * @param steam_dll_path The string path to the Steam API DLL.
+ * @param steam_dll_filename The string path to the Steam API DLL.
  */
-void eos_call_steam_init(const std::string& steam_dll_path);
-
-/**
- * @brief Loads the Steam API DLL from a specified path.
- *
- * Loads the Steam API DLL and initializes it if necessary. Attempts to load the DLL from
- * the specified path, or defaults to `steam_api.dll` if no path is specified.
- *
- * This function assumes that if the caller has already loaded the steam
- * DLL, that SteamAPI_Init doesn't need to be called
- *
- * @param steam_dll_path The path to the Steam API DLL.
- */
-void eos_call_steam_init(const std::filesystem::path& steam_dll_path);
+void eos_call_steam_init(const std::string& steam_dll_filename);
 
 namespace pew::eos
 {
@@ -191,41 +178,103 @@ namespace pew::eos
         }
     }
 
-    static void eos_call_steam_init(const std::filesystem::path& steam_dll_path)
+    void eos_call_steam_init(const std::string& steam_dll_filename)
     {
-        std::string steam_dll_path_as_string = steam_dll_path.string();
-        eos_call_steam_init(steam_dll_path_as_string);
-    }
-    
-    static void eos_call_steam_init(const std::string& steam_dll_path)
-    {
-        /*
-        auto steam_dll_path_string = io_helpers::get_basename(steam_dll_path);
-        HANDLE steam_dll_handle = GetModuleHandleA(steam_dll_path_string.c_str());
+        // Default (fallback) name of the steam dll to load.
+        constexpr const char* DEFAULT_STEAM_DLL_NAME = "steam_api.dll";
 
-        // Check the default name for the steam_api.dll
-        if (!steam_dll_handle)
+        const auto steam_dll_path = std::filesystem::path(steam_dll_filename);
+
+        // Check to see if the path exists, stop and log a warning if it does not.
+        if (!exists(steam_dll_path))
         {
-            steam_dll_handle = GetModuleHandleA("steam_api.dll");
+            logging::log_warn("Steam DLL provided (\""
+                + steam_dll_path.string() + "\") does not exist; cannot "
+                                            "initialize steam.");
+            return;
         }
 
-        // in the case that it's not loaded, try to load it from the user provided path
-        if (!steam_dll_handle)
-        {
-            steam_dll_handle = eos_library_helpers::load_library_at_path(steam_dll_path);
-        }
+        // Get a handle to the steam dll
+        HANDLE steam_dll_handle = GetModuleHandleA(steam_dll_path.filename().string().c_str());
 
-        if (steam_dll_handle != nullptr)
+        // If getting a handle to the steam dll was not successful, log a
+        // warning, and if the filename given as a parameter is something other
+        // than "steam_api.dll", try using that to get a library handle.
+        if (steam_dll_handle == nullptr)
         {
-            typedef bool(__cdecl* SteamAPI_Init_t)();
-            SteamAPI_Init_t SteamAPI_Init = pew::eos::eos_library_helpers::load_function_with_name<SteamAPI_Init_t>(steam_dll_handle, "SteamAPI_Init");
-
-            if (SteamAPI_Init())
+            logging::log_warn("Steam DLL exists, but a handle to the module was not able to be loaded.");
+            if (steam_dll_filename != DEFAULT_STEAM_DLL_NAME)
             {
-                logging::log_inform("Called SteamAPI_Init with success!");
+                logging::log_inform(
+                    "Because Steam DLL could not be loaded, and a "
+                    "different dll file that the default was indicated, trying "
+                    "again with the default dll file name of "
+                    "\"" + std::string(DEFAULT_STEAM_DLL_NAME) + "\".");
+
+                // TODO: Isn't it supposed to be the basename of the dll, like
+                // it is in the first call to GetModuleHandleA?
+                steam_dll_handle = GetModuleHandleA(DEFAULT_STEAM_DLL_NAME);
+            }
+
+            // If the steam dll handle is *STILL* not loaded, then attempt to
+            // use load_library_at_path to load the dll - because _it_ uses the
+            // LoadLibrary method, different from the GetModuleHandleA functions
+            // used above.
+            //
+            // TODO: This seems very confusing and incorrect - it seems that all
+            //       functionality above this line should be included into the
+            //       "load_library_at_path" method - that way every time a
+            //       library load is attempted, both methods (GetModuleHandleA
+            //       and LoadLibrary) can be used if one of them fails.
+            if (steam_dll_handle == nullptr)
+            {
+                steam_dll_handle = eos_library_helpers::load_library_at_path(steam_dll_path);
+            }
+
+            // If a handle to the steam dll has still not been obtained, then
+            // log an error and stop.
+            if (steam_dll_handle == nullptr)
+            {
+                logging::log_error(
+                    "Could not obtain a handle to the steam library. "
+                    "Steam initialization has failed.");
+                return;
             }
         }
-        */
+
+        logging::log_inform(
+            "Handle to the Steam library has been retrieved. Next "
+            "attempting to load a pointer to the SteamAPI_Init function from "
+            "within it.");
+
+        // TODO: Typedef should be moved outside the scope of the function?
+        typedef bool(__cdecl* SteamAPI_Init_t)();
+
+        // Get a pointer to the SteamAPI_Init function within the steam
+        // library.
+        const auto SteamAPI_Init = pew::eos::eos_library_helpers::load_function_with_name<SteamAPI_Init_t>(steam_dll_handle, "SteamAPI_Init");
+
+        // If the SteamAPI_Init function pointer is null, then it was not
+        // correctly retrieved from the steam library. Log an error and stop
+        if (SteamAPI_Init == nullptr)
+        {
+            logging::log_error(
+                "Could not load a pointer to the SteamAPI_Init "
+                "function within the loaded steam library handle.");
+            return;
+        }
+
+        if (SteamAPI_Init())
+        {
+            logging::log_inform("SteamAPI_Init returned true. "
+                                "Steam has been initialized.");
+        }
+        else
+        {
+            logging::log_error(
+                "SteamAPI_Init returned false. Steam was not able "
+                "to be initialized.");
+        }
     }
 
     char* GetCacheDirectory()

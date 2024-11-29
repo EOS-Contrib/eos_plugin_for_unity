@@ -44,7 +44,7 @@ EOSConfig eos_config_from_json_value(json_value_s* config_json)
 {
     // Create platform instance
     const json_object_s* config_json_object = json_value_as_object(config_json);
-    const json_object_element_s* iter = config_json_object->start;
+    json_object_element_s* iter = config_json_object->start;
     EOSConfig eos_config;
 
     while (iter != nullptr)
