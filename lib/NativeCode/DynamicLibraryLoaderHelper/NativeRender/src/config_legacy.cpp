@@ -177,23 +177,37 @@ namespace pew::eos::config_legacy
 
     CONFIG_API bool try_get_eos_config(EOSConfig& config)
     {
-        auto path_to_config_json = get_path_for_eos_service_config(EOS_SERVICE_CONFIG_FILENAME);
+        const auto path_to_config_json = get_path_for_eos_service_config(EOS_SERVICE_CONFIG_FILENAME);
+
         json_value_s* eos_config_as_json = nullptr;
 
-        eos_config_as_json = read_config_json_from_dll();
-
-        if (!eos_config_as_json && exists(path_to_config_json))
+        // Test to see if the path to config json exists.
+        if (!exists(path_to_config_json))
         {
+            logging::log_warn("Could not find config at path \"" + path_to_config_json.string() + "\".");
+
+            // Since the config json file does not exist, try and get the json
+            // from a generated dll
+            eos_config_as_json = read_config_json_from_dll();
+
+            // If the config json is still null, then the config values cannot
+            // be retrieved
+            if (!eos_config_as_json)
+            {
+                logging::log_warn("Could not load config values for initializing the EOS SDK.");
+                return false;
+            }
+        }
+        else
+        {
+            // Since it exists, load the json from the filepath given.
             eos_config_as_json = read_config_json_as_json_from_path(path_to_config_json);
         }
 
-        if (!eos_config_as_json)
-        {
-            logging::log_warn("Failed to load a valid json config for EOS");
-            return false;
-        }
-
+        // Set the config reference by parsing the json values into the object
         config = eos_config_from_json_value(eos_config_as_json);
+
+        // Indicate successful parsing of the eos config.
         return true;
     }
 
