@@ -26,6 +26,9 @@
 #include "PEW_EOS_Defines.h"
 #include <eos_types.h>
 
+#include "Config/PlatformConfig.h"
+#include "Config/ProductConfig.h"
+
 
 namespace pew::eos
 {
@@ -71,9 +74,10 @@ namespace pew::eos
      * Sets up and initializes the EOS SDK using the provided configuration. Sets log levels and
      * a logging callback if configured. If initialization fails, an error is logged.
      *
-     * @param eos_config The EOS configuration settings.
+     * @param platform_config The config for the platform.
+     * @param product_config The config for the product.
      */
-    void eos_init(const config_legacy::EOSConfig eos_config);
+    void eos_init(const pew::eos::config::PlatformConfig& platform_config, const pew::eos::config::ProductConfig& product_config);
 
     /**
      * @brief Creates an EOS platform using the specified configuration.
@@ -81,8 +85,9 @@ namespace pew::eos
      * Configures and creates an EOS platform instance. This includes setting up RTC options,
      * integrated platform options, and other settings defined in the configuration.
      *
-     * @param eos_config The configuration object containing EOS platform settings.
+     * @param platform_config The config for the platform.
+     * @param product_config The config for the product.
      */
-    void eos_create(config_legacy::EOSConfig eos_config);
+    void eos_create(const pew::eos::config::PlatformConfig& platform_config, const pew::eos::config::ProductConfig& product_config);
 }
 #endif

@@ -32,7 +32,10 @@
 #include <codecvt>
 #include <eos_types.h>
 
- /**
+#include "Config/PlatformConfig.h"
+#include "Config/ProductConfig.h"
+
+/**
   * @brief Retrieves the system cache directory.
   *
   * Retrieves the system's temporary directory and converts it to a UTF-8 encoded string.
@@ -134,7 +137,7 @@ namespace pew::eos
         logging::log_inform(output.str().c_str());
     }
 
-    void eos_init(const config_legacy::EOSConfig eos_config)
+    void eos_init(const pew::eos::config::PlatformConfig& platform_config, const pew::eos::config::ProductConfig& product_config)
     {
         static int reserved[2] = { 1, 1 };
         EOS_InitializeOptions SDKOptions = { 0 };
@@ -142,22 +145,13 @@ namespace pew::eos
         SDKOptions.AllocateMemoryFunction = nullptr;
         SDKOptions.ReallocateMemoryFunction = nullptr;
         SDKOptions.ReleaseMemoryFunction = nullptr;
-        SDKOptions.ProductName = eos_config.productName.c_str();
-        SDKOptions.ProductVersion = eos_config.productVersion.c_str();
+        SDKOptions.ProductName = product_config.product_name.c_str();
+        SDKOptions.ProductVersion = product_config.product_version.c_str();
         SDKOptions.Reserved = reserved;
         SDKOptions.SystemInitializeOptions = nullptr;
 
-        EOS_Initialize_ThreadAffinity overrideThreadAffinity = { 0 };
-
+        EOS_Initialize_ThreadAffinity overrideThreadAffinity = platform_config.thread_affinity;
         overrideThreadAffinity.ApiVersion = EOS_INITIALIZE_THREADAFFINITY_API_LATEST;
-
-        overrideThreadAffinity.HttpRequestIo = eos_config.ThreadAffinity_HTTPRequestIO;
-        overrideThreadAffinity.NetworkWork = eos_config.ThreadAffinity_networkWork;
-        overrideThreadAffinity.P2PIo = eos_config.ThreadAffinity_P2PIO;
-        overrideThreadAffinity.RTCIo = eos_config.ThreadAffinity_RTCIO;
-        overrideThreadAffinity.StorageIo = eos_config.ThreadAffinity_storageIO;
-        overrideThreadAffinity.WebSocketIo = eos_config.ThreadAffinity_webSocketIO;
-
 
         SDKOptions.OverrideThreadAffinity = &overrideThreadAffinity;
 
@@ -295,28 +289,29 @@ namespace pew::eos
         return s_tempPathBuffer;
     }
 
-    void eos_create(config_legacy::EOSConfig eos_config)
+    void eos_create(const pew::eos::config::PlatformConfig& platform_config, const pew::eos::config::ProductConfig& product_config)
     {
         EOS_Platform_Options platform_options = { 0 };
         platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
-        platform_options.bIsServer = eos_config.isServer;
-        platform_options.Flags = eos_config.flags;
+        platform_options.bIsServer = platform_config.is_server;
+        platform_options.Flags = platform_config.platform_options_flags;
         platform_options.CacheDirectory = GetCacheDirectory();
 
-        platform_options.EncryptionKey = eos_config.encryptionKey.length() > 0 ? eos_config.encryptionKey.c_str() : nullptr;
-        platform_options.OverrideCountryCode = eos_config.overrideCountryCode.length() > 0 ? eos_config.overrideCountryCode.c_str() : nullptr;
-        platform_options.OverrideLocaleCode = eos_config.overrideLocaleCode.length() > 0 ? eos_config.overrideLocaleCode.c_str() : nullptr;
-        platform_options.ProductId = eos_config.productID.c_str();
-        platform_options.SandboxId = eos_config.sandboxID.c_str();
-        platform_options.DeploymentId = eos_config.deploymentID.c_str();
-        platform_options.ClientCredentials.ClientId = eos_config.clientID.c_str();
-        platform_options.ClientCredentials.ClientSecret = eos_config.clientSecret.c_str();
+        platform_options.EncryptionKey = platform_config.client_credentials.encryption_key.c_str();
+        platform_options.OverrideCountryCode = platform_config.overrideCountryCode.c_str();
+        platform_options.OverrideLocaleCode = platform_config.overrideLocaleCode.c_str();
+        platform_options.ProductId = product_config.product_id.c_str();
+        platform_options.SandboxId = platform_config.deployment.sandbox.id.c_str();
+        platform_options.DeploymentId = platform_config.deployment.id.c_str();
+        platform_options.ClientCredentials.ClientId = platform_config.client_credentials.client_id.c_str();
+        platform_options.ClientCredentials.ClientSecret = platform_config.client_credentials.client_secret.c_str();
 
-        platform_options.TickBudgetInMilliseconds = eos_config.tickBudgetInMilliseconds;
+        platform_options.TickBudgetInMilliseconds = platform_config.tick_budget_in_milliseconds;
 
-        if (eos_config.taskNetworkTimeoutSeconds > 0)
+        if (platform_config.task_network_timeout_seconds > 0)
         {
-            platform_options.TaskNetworkTimeoutSeconds = &eos_config.taskNetworkTimeoutSeconds;
+            double task_network_timeout_seconds_dbl = platform_config.task_network_timeout_seconds;
+            platform_options.TaskNetworkTimeoutSeconds = &task_network_timeout_seconds_dbl;
         }
 
         EOS_Platform_RTCOptions rtc_options = { 0 };

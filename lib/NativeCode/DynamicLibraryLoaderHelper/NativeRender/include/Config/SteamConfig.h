@@ -24,19 +24,18 @@
 
 #pragma once
 
-#include "include/Config/ConfigBase.h"
-#include "include/Config/common.hpp"
+#include "include/Config/Config.hpp"
 
 namespace pew::eos::config
 {
-    struct SteamConfig final : public ConfigBase
+    struct SteamConfig final : public Config
     {
     private:
         std::filesystem::path _library_path;
         std::filesystem::path _override_library_path;
         std::vector<std::string> _steam_api_interface_versions_array;
 
-        explicit SteamConfig() : ConfigBase(get_config_path("eos_plugin_steam_config.json")),
+        explicit SteamConfig() : Config(get_config_path("eos_plugin_steam_config.json")),
             steam_sdk_major_version(0),
             steam_sdk_minor_version(0)
         {
@@ -44,10 +43,10 @@ namespace pew::eos::config
             //_library_path = common::get_path_relative_to_current_module(STEAM_SDK_DLL_NAME);
         }
 
-        void from_json(const nlohmann::json& json) override;
+        void from_json(const json_value_s& json) override;
         std::filesystem::path get_config_path(const char* file_name) override;
 
-        friend struct ConfigBase;
+        friend struct Config;
 
     public:
         

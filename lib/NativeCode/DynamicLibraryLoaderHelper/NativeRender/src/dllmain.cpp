@@ -33,6 +33,7 @@
 #include <eos_library_helpers.h>
 #include <eos_helpers.h>
 #include "io_helpers.h"
+#include "Config/WindowsConfig.h"
 
 using namespace pew::eos;
 using namespace pew::eos::eos_library_helpers;
@@ -131,17 +132,6 @@ PEW_EOS_API_FUNC(void) UnityPluginLoad(void* arg)
     //       Visual Studio.
 #if _DEBUG
     logging::show_log_as_dialog("You may attach a debugger to the DLL");
-#endif
-
-    config_legacy::EOSConfig eos_config;
-    if (!config_legacy::try_get_eos_config(eos_config))
-    {
-        return;
-    }
-
-    get_cli_arguments(eos_config);
-
-#if _DEBUG
     logging::global_log_open("gfx_log.txt");
 #endif
 
@@ -163,9 +153,14 @@ PEW_EOS_API_FUNC(void) UnityPluginLoad(void* arg)
         {
             logging::log_inform("start eos init");
 
-            eos_init(eos_config);
+            const auto product_config = config::Config::get<config::ProductConfig>();
+            const auto windows_config = config::Config::get<config::WindowsConfig>();
+
+            // TODO: Apply CLI arguments
+
+            eos_init(*windows_config, *product_config);
             eos_set_loglevel_via_config();
-            eos_create(eos_config);
+            eos_create(*windows_config, *product_config);
 
             // Free function pointers and library handle.
             s_eos_sdk_lib_handle = nullptr;

@@ -99,7 +99,7 @@ namespace pew::eos::config
             return true;
         }
     private:
-        friend struct ConfigBase;
+        friend struct Config;
 
         static bool try_parse_int(const std::string& str, int& value)
         {

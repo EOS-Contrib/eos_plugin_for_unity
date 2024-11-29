@@ -26,9 +26,11 @@
 #pragma once
 
 #include "eos_init.h"
+#include "eos_auth_types.h"
+#include "eos_ui_types.h"
 #include "ProductionEnvironments.hpp"
 #include "include/Config/ClientCredentials.hpp"
-#include "include/Config/ConfigBase.h"
+#include "include/Config/Config.hpp"
 
 namespace pew::eos::config
 {
@@ -36,7 +38,7 @@ namespace pew::eos::config
      * \brief Describes the configuration options for a platform that wants to
      * interact with the EOS SDK.
      */
-    struct PlatformConfig : ConfigBase
+    struct PlatformConfig : Config
     {
         /**
         * \brief The deployment for the platform.
@@ -131,7 +133,7 @@ namespace pew::eos::config
         std::string overrideLocaleCode;
 
     protected:
-        explicit PlatformConfig(const char* file_name) : ConfigBase(PlatformConfig::get_config_path(file_name)),
+        explicit PlatformConfig(const char* file_name) : Config(PlatformConfig::get_config_path(file_name)),
              is_server(false),
              platform_options_flags(0),
              tick_budget_in_milliseconds(0),
@@ -145,9 +147,9 @@ namespace pew::eos::config
 
         std::filesystem::path get_config_path(const char* file_name) override;
 
-        void from_json(const nlohmann::json& json) override;
+        void from_json(const json_value_s& json) override;
 
-        friend struct ConfigBase;
+        friend struct Config;
         virtual ~PlatformConfig() = default;
     };
 }

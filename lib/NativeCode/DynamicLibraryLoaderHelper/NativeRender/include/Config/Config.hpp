@@ -1,5 +1,5 @@
-#ifndef CONFIG_CLASS_H
-#define CONFIG_CLASS_H
+#ifndef CONFIG_CLASS_HPP
+#define CONFIG_CLASS_HPP
 
 /*
  * Copyright (c) 2024 PlayEveryWare
@@ -25,8 +25,13 @@
 
 #pragma once
 
+#include <filesystem>
 #include "json.h"
+#include "logging.h"
+#include "Serializable.hpp"
 #include "include/Config/Version.hpp"
+#include <fstream>
+#include <sstream>
 
 namespace pew::eos::config
 {
@@ -34,7 +39,7 @@ namespace pew::eos::config
      * \brief Used to describe information and functionality that is common to
      * all Config classes.
      */
-    struct ConfigBase
+    struct Config : Serializable
     {
         /**
          * \brief Gets the config class and values indicated by the template
@@ -44,7 +49,7 @@ namespace pew::eos::config
          * values.
          */
         template <typename T>
-        static std::enable_if_t<std::is_base_of_v<ConfigBase, T>, T*> get()
+        static std::enable_if_t<std::is_base_of_v<Config, T>, T*> get()
         {
             // Create the config class
             T* config = new T();
@@ -62,7 +67,11 @@ namespace pew::eos::config
          *
          * \param json The json value to use for parsing.
          */
-        void from_json_internal(const nlohmann::json& json);
+        void from_json_internal(const json_value_s& json)
+        {
+            // Call the deriving class' from_json function.
+            from_json(json);
+        }
 
     protected:
         /**
@@ -80,27 +89,53 @@ namespace pew::eos::config
          * \brief Create a new Config class.
          * \param file_name The fully qualified path to the config file.
          */
-        ConfigBase(const std::filesystem::path& file_name);
+        Config(const std::filesystem::path& file_name)
+        {
+            // TODO: Prepend path to SteamingAssets/EOS here
+            _file_path = file_name;
+        }
 
         /**
          * \brief Default destructor
          */
-        ~ConfigBase();
+        ~Config() = default;
 
         // Explicitly default move constructor and move assignment operator
-        ConfigBase(ConfigBase&&) noexcept = default;
-        ConfigBase& operator=(ConfigBase&&) noexcept = default;
+        Config(Config&&) noexcept = default;
+        Config& operator=(Config&&) noexcept = default;
 
         // Delete the copy constructor and copy assignment operator
-        ConfigBase(const ConfigBase&) = delete;
-        ConfigBase& operator=(const ConfigBase&) = delete;
+        Config(const Config&) = delete;
+        Config& operator=(const Config&) = delete;
 
         virtual std::filesystem::path get_config_path(const char* file_name) = 0;
 
         /**
          * \brief Reads the configuration values from the file.
          */
-        void read(const json_value_s* json);
+        void read()
+        {
+            if (!exists(_file_path))
+            {
+                logging::log_error("Config file \"" + _file_path.string() + "\" does not exist.");
+                return;
+            }
+
+            const std::ifstream file(_file_path);
+            if (!file.is_open())
+            {
+                logging::log_error("Failed to open existing file: \"" + _file_path.string() + "\"");
+                return;
+            }
+
+            std::ostringstream buffer;
+            buffer << file.rdbuf();
+            const std::string json_content = buffer.str();
+
+            const json_value_s* json = json_parse(&json_content, json_content.length());
+
+            from_json_internal(*json);
+        }
     };
 }
 

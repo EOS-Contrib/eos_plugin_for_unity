@@ -107,10 +107,11 @@
   <!-- Source Files -->
   <ItemGroup>
     <ClInclude Include="include\Config\ClientCredentials.hpp" />
-    <ClInclude Include="include\Config\ConfigBase.h" />
+    <ClInclude Include="include\Config\Config.hpp" />
     <ClInclude Include="include\Config\PlatformConfig.h" />
     <ClInclude Include="include\Config\ProductConfig.h" />
     <ClInclude Include="include\Config\ProductionEnvironments.hpp" />
+    <ClInclude Include="include\Config\Serializable.hpp" />
     <ClInclude Include="include\Config\SteamConfig.h" />
     <ClInclude Include="include\Config\Version.hpp" />
     <ClInclude Include="include\Config\WindowsConfig.h" />
@@ -130,7 +131,6 @@
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Config\ConfigBase.cpp" />
     <ClCompile Include="src\Config\PlatformConfig.cpp" />
     <ClCompile Include="src\Config\ProductConfig.cpp" />
     <ClCompile Include="src\Config\SteamConfig.cpp" />

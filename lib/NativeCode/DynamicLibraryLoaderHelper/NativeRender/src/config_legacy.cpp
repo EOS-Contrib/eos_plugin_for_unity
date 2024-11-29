@@ -175,6 +175,7 @@ namespace pew::eos::config_legacy
      */
     static GetConfigAsJSONString_t GetConfigAsJSONString;
 
+    /*
     CONFIG_API bool try_get_eos_config(EOSConfig& config)
     {
         const auto path_to_config_json = get_path_for_eos_service_config(EOS_SERVICE_CONFIG_FILENAME);
@@ -210,7 +211,7 @@ namespace pew::eos::config_legacy
         // Indicate successful parsing of the eos config.
         return true;
     }
-
+    */
 
     bool EOSSteamConfig::is_managed_by_application() const
     {

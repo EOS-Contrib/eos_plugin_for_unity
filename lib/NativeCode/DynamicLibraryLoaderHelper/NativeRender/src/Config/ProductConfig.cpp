@@ -22,27 +22,20 @@
 
 #include <pch.h>
 #include "include/Config/ProductConfig.h"
-#include "include/Config/common.hpp"
-#include "include/Config/nlohmann_helpers.hpp"
+#include "io_helpers.h"
 
 namespace pew::eos::config
 {
-    using namespace common;
-
-    void ProductConfig::from_json(const nlohmann::json& json)
+    void ProductConfig::from_json(const json_value_s& json)
     {
-        json["ProductId"].get_to(product_id);
-        json["ProductName"].get_to(product_name);
-        json["Clients"].get_to(clients);
-        json["Environments"].get_to(environments);
-        json["ProductVersion"].get_to(product_version);
+        // TODO: Implement
     }
 
     // TODO: The implementation between this and what is in PlatformConfig.h is
     //       identical. Figure out a way to reduce the duplication.
     std::filesystem::path ProductConfig::get_config_path(const char* file_name)
     {
-        return absolute(get_path_relative_to_current_module(std::filesystem::path(
+        return std::filesystem::absolute(io_helpers::get_path_relative_to_current_module(std::filesystem::path(
 #ifdef _DEBUG
             "../../../../../../"
 #endif

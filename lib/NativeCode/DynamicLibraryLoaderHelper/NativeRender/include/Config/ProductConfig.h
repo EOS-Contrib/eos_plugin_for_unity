@@ -27,13 +27,13 @@
 
 #include <vector>
 
-#include "include/Config/ConfigBase.h"
+#include "include/Config/Config.hpp"
 #include "include/Config/ProductionEnvironments.hpp"
 #include "include/Config/ClientCredentials.hpp"
 
 namespace pew::eos::config
 {
-    struct ProductConfig final : ConfigBase
+    struct ProductConfig final : Config
     {
         std::string product_name;
         std::string product_id;
@@ -43,11 +43,11 @@ namespace pew::eos::config
 
     private:
         // Makes the ProductConfig constructor accessible to the Config class.
-        friend struct ConfigBase;
-        ProductConfig() : ConfigBase(get_config_path("eos_product_config.json")) {}
+        friend struct Config;
+        ProductConfig() : Config(get_config_path("eos_product_config.json")) {}
         ~ProductConfig() = default;
 
-        void from_json(const nlohmann::json& json) override;
+        void from_json(const json_value_s& json) override;
         std::filesystem::path get_config_path(const char* file_name) override;
     };
 }

@@ -255,7 +255,7 @@ namespace pew::eos::config_legacy
      * \brief Parses an EOS configuration object from a JSON structure.
      * \return An `EOSConfig` object populated with settings from the JSON structure.
      */
-    CONFIG_API bool try_get_eos_config(EOSConfig& config);
+    //CONFIG_API bool try_get_eos_config(EOSConfig& config);
 
     /**
      * @brief Collects integrated platform management flags from a JSON element.

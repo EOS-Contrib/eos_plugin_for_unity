@@ -36,7 +36,7 @@ namespace pew::eos::config
     private:
         explicit WindowsConfig() : PlatformConfig("eos_windows_config.json") {}
         // Makes the WindowsConfig constructor accessible to the Config class.
-        friend struct ConfigBase;
+        friend struct Config;
     };
 }
 
