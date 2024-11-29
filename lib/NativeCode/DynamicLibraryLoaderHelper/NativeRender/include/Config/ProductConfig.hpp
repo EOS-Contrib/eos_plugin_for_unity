@@ -1,5 +1,8 @@
+#ifndef PRODUCT_CONFIG_HPP
+#define PRODUCT_CONFIG_HPP
+
 /*
- * Copyright (c) 2024 PlayEveryWare
+ * Copyright (c) 2021 PlayEveryWare
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,28 +23,35 @@
  * SOFTWARE.
  */
 
-#include <pch.h>
-#include "include/Config/ProductConfig.h"
-#include "io_helpers.h"
+#pragma once
+
+#include <vector>
+
+#include "include/Config/Config.hpp"
+#include "include/Config/ProductionEnvironments.hpp"
+#include "include/Config/ClientCredentials.hpp"
 
 namespace pew::eos::config
 {
-    void ProductConfig::from_json(const json_value_s& json)
+    struct ProductConfig final : Config
     {
-        // TODO: Implement
-    }
+        std::string product_name;
+        std::string product_id;
+        std::string product_version;
+        ProductionEnvironments environments;
+        std::vector<ClientCredentials> clients;
 
-    // TODO: The implementation between this and what is in PlatformConfig.h is
-    //       identical. Figure out a way to reduce the duplication.
-    std::filesystem::path ProductConfig::get_config_path(const char* file_name)
-    {
-        return std::filesystem::absolute(io_helpers::get_path_relative_to_current_module(std::filesystem::path(
-#ifdef _DEBUG
-            "../../../../../../"
-#endif
-#ifdef NDEBUG
-            "../../../"
-#endif
-        ) / "Assets/StreamingAssets/EOS/" / file_name));
-    }
+    private:
+        // Makes the ProductConfig constructor accessible to the Config class.
+        friend struct Config;
+        ProductConfig() : Config("eos_product_config.json") {}
+        ~ProductConfig() = default;
+
+        void from_json(const json_value_s& json) override
+        {
+            // TODO: Implement
+        }
+    };
 }
+
+#endif

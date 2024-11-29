@@ -1,3 +1,6 @@
+#ifndef WINDOWS_CONFIG_HPP
+#define WINDOWS_CONFIG_HPP
+
 /*
  * Copyright (c) 2024 PlayEveryWare
  *
@@ -11,7 +14,7 @@
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS"].get_to( WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -20,30 +23,21 @@
  * SOFTWARE.
  */
 
-#include <pch.h>
-#include "include/Config/PlatformConfig.h"
+#pragma once
 
-#include "eos_auth_types.h"
-#include "eos_ui_types.h"
-#include "eos_integratedplatform_types.h"
-#include "io_helpers.h"
+#include "include/Config/PlatformConfig.hpp"
 
 namespace pew::eos::config
 {
-    std::filesystem::path PlatformConfig::get_config_path(const char* file_name)
+    struct WindowsConfig final : PlatformConfig
     {
-        return std::filesystem::absolute(io_helpers::get_path_relative_to_current_module(std::filesystem::path(
-#ifdef _DEBUG
-            "../../../../../../Assets/StreamingAssets/EOS/"
-#endif
-#ifdef NDEBUG
-            "../../StreamingAssets/EOS/"
-#endif
-        ) / file_name));
-    }
+        ~WindowsConfig() override = default;
 
-    void PlatformConfig::from_json(const json_value_s& json)
-    {
-        // TODO: Implement
-    }
+    private:
+        explicit WindowsConfig() : PlatformConfig("eos_windows_config.json") {}
+        // Makes the WindowsConfig constructor accessible to the Config class.
+        friend struct Config;
+    };
 }
+
+#endif

@@ -23,6 +23,10 @@
  */
 #pragma once
 
+#include <tchar.h>
+#include <wchar.h>
+#include <wtypes.h>
+
  /**
   * @file io_helpers.h
   * @brief Helper functions for file I/O and path operations.

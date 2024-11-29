@@ -32,6 +32,10 @@
 #include "include/Config/Version.hpp"
 #include <fstream>
 #include <sstream>
+#include <array>
+#include <string_view>
+#include <string>
+#include "io_helpers.h"
 
 namespace pew::eos::config
 {
@@ -61,6 +65,37 @@ namespace pew::eos::config
         }
 
     private:
+
+        // Depending on the configuration (debug or release) these are the possible relative paths to the config directory
+        static constexpr std::array<std::string_view, 2> s_possible_config_directories = {
+            "../../../Assets/StreamingAssets/EOS/",
+            "../../../../../../Assets/StreamingAssets/EOS/",
+        };
+
+        static inline std::filesystem::path s_config_directory;
+
+        static std::filesystem::path get_config_directory()
+        {
+            // If the config directory has not been determined, then determine
+            // it.
+            if (s_config_directory.empty())
+            {
+                for(const auto& directory : s_possible_config_directories)
+                {
+                    const auto absolute_dir_path = absolute(io_helpers::get_path_relative_to_current_module(directory));
+                    if (!exists(absolute_dir_path))
+                    {
+                        continue;
+                    }
+
+                    s_config_directory = absolute_dir_path;
+                    break;
+                }
+            }
+
+            return s_config_directory;
+        }
+
         /**
          * \brief Function internal to Config that is used to call the required
          * implementation from the more derived class.
@@ -91,8 +126,7 @@ namespace pew::eos::config
          */
         Config(const std::filesystem::path& file_name)
         {
-            // TODO: Prepend path to SteamingAssets/EOS here
-            _file_path = file_name;
+            _file_path = std::filesystem::path(get_config_directory()) / file_name;
         }
 
         /**
@@ -107,8 +141,6 @@ namespace pew::eos::config
         // Delete the copy constructor and copy assignment operator
         Config(const Config&) = delete;
         Config& operator=(const Config&) = delete;
-
-        virtual std::filesystem::path get_config_path(const char* file_name) = 0;
 
         /**
          * \brief Reads the configuration values from the file.
@@ -132,7 +164,7 @@ namespace pew::eos::config
             buffer << file.rdbuf();
             const std::string json_content = buffer.str();
 
-            const json_value_s* json = json_parse(&json_content, json_content.length());
+            const json_value_s* json = json_parse(json_content.c_str(), json_content.length());
 
             from_json_internal(*json);
         }

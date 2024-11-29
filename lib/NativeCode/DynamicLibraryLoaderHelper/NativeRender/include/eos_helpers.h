@@ -26,8 +26,8 @@
 #include "PEW_EOS_Defines.h"
 #include <eos_types.h>
 
-#include "Config/PlatformConfig.h"
-#include "Config/ProductConfig.h"
+#include "Config/PlatformConfig.hpp"
+#include "Config/ProductConfig.hpp"
 
 
 namespace pew::eos

@@ -58,10 +58,10 @@
     <ClInclude Include="include\Config\Config.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="include\Config\PlatformConfig.h">
+    <ClInclude Include="include\Config\PlatformConfig.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="include\Config\ProductConfig.h">
+    <ClInclude Include="include\Config\ProductConfig.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
     <ClInclude Include="include\Config\ProductionEnvironments.hpp">
@@ -73,7 +73,7 @@
     <ClInclude Include="include\Config\Version.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="include\Config\WindowsConfig.h">
+    <ClInclude Include="include\Config\WindowsConfig.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
     <ClInclude Include="include\Config\Serializable.hpp">
@@ -105,12 +105,6 @@
     </ClCompile>
     <ClCompile Include="src\string_helpers.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Config\PlatformConfig.cpp">
-      <Filter>Source Files\Config</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Config\ProductConfig.cpp">
-      <Filter>Source Files\Config</Filter>
     </ClCompile>
     <ClCompile Include="src\Config\SteamConfig.cpp">
       <Filter>Source Files\Config</Filter>

@@ -27,13 +27,13 @@
 
 #include <iterator>
 #include <sstream>
-
+#include <string>
 #include "config_legacy.h"
 #include "logging.h"
 #include <eos_library_helpers.h>
 #include <eos_helpers.h>
 #include "io_helpers.h"
-#include "Config/WindowsConfig.h"
+#include "Config/WindowsConfig.hpp"
 
 using namespace pew::eos;
 using namespace pew::eos::eos_library_helpers;

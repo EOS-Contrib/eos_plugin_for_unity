@@ -133,7 +133,7 @@ namespace pew::eos::config
         std::string overrideLocaleCode;
 
     protected:
-        explicit PlatformConfig(const char* file_name) : Config(PlatformConfig::get_config_path(file_name)),
+        explicit PlatformConfig(const char* file_name) : Config(file_name),
              is_server(false),
              platform_options_flags(0),
              tick_budget_in_milliseconds(0),
@@ -145,9 +145,10 @@ namespace pew::eos::config
         {
         }
 
-        std::filesystem::path get_config_path(const char* file_name) override;
-
-        void from_json(const json_value_s& json) override;
+        void from_json(const json_value_s& json) override
+        {
+            // TODO: Implement
+        }
 
         friend struct Config;
         virtual ~PlatformConfig() = default;

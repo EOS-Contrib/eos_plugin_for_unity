@@ -33,18 +33,6 @@ namespace pew::eos::config
         // TODO: Implement
     }
 
-    std::filesystem::path SteamConfig::get_config_path(const char* file_name)
-    {
-        return std::filesystem::absolute(io_helpers::get_path_relative_to_current_module(std::filesystem::path(
-#ifdef _DEBUG
-            "../../../../../../etc/config/"
-#endif
-#ifdef NDEBUG
-            "../../../etc/config/"
-#endif
-        ) / file_name));
-    }
-
     bool SteamConfig::try_get_library_path(std::filesystem::path& library_path) const
     {
         if(exists(_override_library_path))

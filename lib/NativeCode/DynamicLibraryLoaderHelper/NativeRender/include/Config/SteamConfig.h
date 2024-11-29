@@ -28,14 +28,14 @@
 
 namespace pew::eos::config
 {
-    struct SteamConfig final : public Config
+    struct SteamConfig final : Config
     {
     private:
         std::filesystem::path _library_path;
         std::filesystem::path _override_library_path;
         std::vector<std::string> _steam_api_interface_versions_array;
 
-        explicit SteamConfig() : Config(get_config_path("eos_plugin_steam_config.json")),
+        explicit SteamConfig() : Config("eos_plugin_steam_config.json"),
             steam_sdk_major_version(0),
             steam_sdk_minor_version(0)
         {
@@ -44,7 +44,6 @@ namespace pew::eos::config
         }
 
         void from_json(const json_value_s& json) override;
-        std::filesystem::path get_config_path(const char* file_name) override;
 
         friend struct Config;
 
