@@ -113,24 +113,38 @@ namespace pew::eos::json_helpers
         return val;
     }
 
-    json_value_s* read_config_json_as_json_from_path(std::filesystem::path path_to_config_json)
+    json_value_s* read_config_json_as_json_from_path(const std::filesystem::path& path_to_config_json)
     {
-        logging::log_inform(("json path" + string_helpers::to_utf8_str(path_to_config_json)).c_str());
-        const size_t config_file_size = static_cast<size_t>(file_size(path_to_config_json));
+        logging::log_inform("Reading json from file \"" + path_to_config_json.string()  + "\".");
+        const auto config_file_size = file_size(path_to_config_json);
         if (config_file_size > SIZE_MAX)
         {
             throw std::filesystem::filesystem_error("File is too large", std::make_error_code(std::errc::file_too_large));
         }
 
+        // TODO: Avoid explicit calls to calloc - leverage RAII for automatic
+        //       memory management instead.
         FILE* file = nullptr;
         errno_t config_file_error = _wfopen_s(&file, path_to_config_json.wstring().c_str(), L"r");
-        char* buffer = static_cast<char*>(calloc(1, config_file_size));
+        const auto buffer = static_cast<char*>(calloc(1, config_file_size));
 
         const size_t bytes_read = fread(buffer, 1, config_file_size, file);
-        fclose(file);
-        struct json_value_s* config_json = json_parse(buffer, bytes_read);
+
+        // Close the file, log an error if it was not closed.
+        if (fclose(file) != 0)
+        {
+            logging::log_error(
+                "There was an unspecified error trying to close "
+                "file \"" + path_to_config_json.string() + "\".");
+        }
+
+        // Load the JSON from the file contents.
+        json_value_s* config_json = json_parse(buffer, bytes_read);
+
+        // Free the allocated buffer.
         free(buffer);
 
+        // Return the loaded and parsed JSON object.
         return config_json;
     }
 }
