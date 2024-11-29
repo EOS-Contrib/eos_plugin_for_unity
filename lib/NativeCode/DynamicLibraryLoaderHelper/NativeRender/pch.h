@@ -31,7 +31,6 @@
 #define ENABLE_DLL_BASED_EOS_CONFIG 1
 #define XAUDIO2_DLL_NAME "xaudio2_9redist.dll"
 
-#define EOS_SERVICE_CONFIG_FILENAME "EpicOnlineServicesConfig.json"
 #define EOS_STEAM_CONFIG_FILENAME "eos_steam_config.json"
 #define EOS_LOGLEVEL_CONFIG_FILENAME "log_level_config.json"
 
