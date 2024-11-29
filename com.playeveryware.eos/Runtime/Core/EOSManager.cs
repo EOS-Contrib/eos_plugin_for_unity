@@ -20,6 +20,12 @@
  * SOFTWARE.
  */
 
+// Uncomment the following line to enable logging of application focus state 
+// changes. If this is on it can clutter the log window and make debugging 
+// difficult, so please enable it when you need to diagnose application focus
+// state-related issues.
+//#define LOG_APPLICATION_FOCUS_CHANGE
+
 // Don't shut down the interface if running in the editor.
 // According to the Epic documentation, shutting down this will disable a given loaded
 // instance of the SDK from ever initializing again. Which is bad because Unity often (always?) loads a library just once
@@ -1770,9 +1776,11 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             public void OnApplicationFocus(bool hasFocus)
             {
+#if LOG_APPLICATION_FOCUS_CHANGE
                 bool hadFocus = s_hasFocus;
-                s_hasFocus = hasFocus;
                 print($"EOSSingleton.OnApplicationFocus: HasFocus {hadFocus} -> {s_hasFocus}");
+#endif
+                s_hasFocus = hasFocus;
 
                 //                // Poll for the latest application constrained state as we're about
                 //                // to need it to determine the appropriate EOS application status
