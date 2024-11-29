@@ -30,6 +30,7 @@
 #include "json_helpers.h"
 #include "logging.h"
 #include <codecvt>
+#include <eos_types.h>
 
  /**
   * @brief Retrieves the system cache directory.

@@ -24,14 +24,8 @@
 
 #pragma once
 #include "PEW_EOS_Defines.h"
+#include <eos_types.h>
 
-namespace std
-{
-    namespace filesystem
-    {
-        class path;
-    }
-}
 
 namespace pew::eos
 {

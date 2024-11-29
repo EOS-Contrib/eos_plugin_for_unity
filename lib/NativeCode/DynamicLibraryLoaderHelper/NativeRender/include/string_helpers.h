@@ -25,11 +25,7 @@
 #pragma once
 #include <string>
 #include <vector>
-
-namespace std::filesystem
-{
-    class path;
-}
+#include <filesystem>
 
 namespace pew::eos::string_helpers
 {

@@ -23,19 +23,12 @@
  */
 
 #pragma once
+#include <filesystem>
 #include <map>
 #include <vector>
 
 #include "json.h"
 #include "string_helpers.h"
-
-namespace std
-{
-    namespace filesystem
-    {
-        class path;
-    }
-}
 
 namespace pew::eos::json_helpers
 {
