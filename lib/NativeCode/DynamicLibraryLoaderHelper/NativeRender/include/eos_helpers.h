@@ -40,6 +40,9 @@ namespace pew::eos
         struct EOSConfig;
     }
 
+    PEW_EOS_API_FUNC(void) UnityPluginUnload();
+    PEW_EOS_API_FUNC(void) UnityPluginLoad(void*);
+
     /**
      * @brief Retrieves the EOS platform interface handle.
      *

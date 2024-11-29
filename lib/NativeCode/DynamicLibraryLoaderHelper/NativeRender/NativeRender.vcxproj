@@ -80,6 +80,10 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>PEW_EOS_EXPORT;OVERLAY_DLL_NAME="$(OverlayDllName)";STEAM_API_DLL="$(SteamApiDll)";SDK_DLL_NAME="$(SdkDllName)";CONFIG_DIRECTORY="$(ConfigDirectory)";_DEBUG;NATIVERENDER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <PreBuildEvent>
+      <!-- When debugging, make sure to copy the EOSSDK Dll to the output directory -->
+      <Command>copy "$(OutputUnityAssetsDirectory)$(SdkDllName)" "$(TargetDir)" /Y</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>

@@ -125,8 +125,10 @@ void get_cli_arguments(config_legacy::EOSConfig eos_config)
 #if PLATFORM_32BITS
 #pragma comment(linker, "/export:UnityPluginLoad=_UnityPluginLoad@4")
 #endif
-PEW_EOS_API_FUNC(void) UnityPluginLoad(void*)
+PEW_EOS_API_FUNC(void) UnityPluginLoad(void* arg)
 {
+    // TODO: Only display this dialog when not running in debug from within
+    //       Visual Studio.
 #if _DEBUG
     logging::show_log_as_dialog("You may attach a debugger to the DLL");
 #endif
