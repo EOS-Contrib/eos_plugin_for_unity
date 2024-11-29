@@ -239,7 +239,7 @@ namespace pew::eos::config_legacy
      * @param config_filename The name of the configuration file.
      * @return The path to the EOS service configuration file.
      */
-    std::filesystem::path get_path_for_eos_service_config(std::string config_filename);
+    std::filesystem::path get_path_for_eos_service_config(const std::string& config_filename);
 
     /**
      * @brief Reads a JSON configuration from a DLL.

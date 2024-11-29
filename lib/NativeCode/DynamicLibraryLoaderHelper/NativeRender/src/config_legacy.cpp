@@ -43,8 +43,8 @@ json_value_s* read_eos_config_as_json_value_from_file(std::string config_filenam
 EOSConfig eos_config_from_json_value(json_value_s* config_json)
 {
     // Create platform instance
-    json_object_s* config_json_object = json_value_as_object(config_json);
-    json_object_element_s* iter = config_json_object->start;
+    const json_object_s* config_json_object = json_value_as_object(config_json);
+    const json_object_element_s* iter = config_json_object->start;
     EOSConfig eos_config;
 
     while (iter != nullptr)
@@ -259,12 +259,23 @@ namespace pew::eos::config_legacy
         return log_config;
     }
 
-    std::filesystem::path get_path_for_eos_service_config(std::string config_filename)
+    /**
+     * \brief Gets the fully-qualified path to a config file. Uses
+     * CONFIG_DIRECTORY in concert with the determined path of the current
+     * module to determine the fully qualified path.
+     * \param config_filename The file name to get the path for.
+     * \return A fully qualified path to the config file indicated.
+     */
+    std::filesystem::path get_path_for_eos_service_config(const std::string& config_filename)
     {
-        auto const relative_config_file_path = std::filesystem::path(CONFIG_DIRECTORY) / config_filename;
+        // Get the config file path using CONFIG_DIRECTORY
+        const auto relative_config_file_path = std::filesystem::path(CONFIG_DIRECTORY) / config_filename;
+
+        // Get the path of the file relative to the current module
         const auto config_file_path_relative_to_module = io_helpers::get_path_relative_to_current_module(relative_config_file_path);
-        auto path_to_config = std::filesystem::absolute(config_file_path_relative_to_module);
-        return path_to_config;
+
+        // Return the absolute path of the relative path determined above.
+        return absolute(config_file_path_relative_to_module);
     }
 
     json_value_s* read_config_json_from_dll()
@@ -358,9 +369,15 @@ namespace pew::eos::config_legacy
         return eos_config;
     }
 
-    json_value_s* read_eos_config_as_json_value_from_file(std::string config_filename)
+    /**
+     * \brief Reads the indicated config file and parses the contents into a
+     * JSON object.
+     * \param config_filename The name of the config file to read JSON from.
+     * \return A JSON object.
+     */
+    json_value_s* read_eos_config_as_json_value_from_file(const std::string& config_filename)
     {
-        std::filesystem::path path_to_config_json = get_path_for_eos_service_config(config_filename);
+        const std::filesystem::path path_to_config_json = get_path_for_eos_service_config(config_filename);
 
         return read_config_json_as_json_from_path(path_to_config_json);
     }
