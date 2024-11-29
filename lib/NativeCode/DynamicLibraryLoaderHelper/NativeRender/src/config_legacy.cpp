@@ -261,7 +261,10 @@ namespace pew::eos::config_legacy
 
     std::filesystem::path get_path_for_eos_service_config(std::string config_filename)
     {
-        return std::filesystem::path(CONFIG_DIRECTORY) / config_filename;
+        auto const relative_config_file_path = std::filesystem::path(CONFIG_DIRECTORY) / config_filename;
+        const auto config_file_path_relative_to_module = io_helpers::get_path_relative_to_current_module(relative_config_file_path);
+        auto path_to_config = std::filesystem::absolute(config_file_path_relative_to_module);
+        return path_to_config;
     }
 
     json_value_s* read_config_json_from_dll()

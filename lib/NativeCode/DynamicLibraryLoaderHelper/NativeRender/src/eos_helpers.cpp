@@ -199,6 +199,7 @@ namespace pew::eos
     
     static void eos_call_steam_init(const std::string& steam_dll_path)
     {
+        /*
         auto steam_dll_path_string = io_helpers::get_basename(steam_dll_path);
         HANDLE steam_dll_handle = GetModuleHandleA(steam_dll_path_string.c_str());
 
@@ -224,6 +225,7 @@ namespace pew::eos
                 logging::log_inform("Called SteamAPI_Init with success!");
             }
         }
+        */
     }
 
     char* GetCacheDirectory()
