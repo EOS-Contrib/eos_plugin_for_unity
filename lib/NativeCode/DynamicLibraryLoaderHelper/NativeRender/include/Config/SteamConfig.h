@@ -43,7 +43,10 @@ namespace pew::eos::config
             //_library_path = common::get_path_relative_to_current_module(STEAM_SDK_DLL_NAME);
         }
 
-        void from_json(const json_value_s& json) override;
+        void parse_json_element(const std::string& name, json_value_s& value) override
+        {
+            // TODO: Implement
+        }
 
         friend struct Config;
 

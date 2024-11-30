@@ -131,7 +131,10 @@ PEW_EOS_API_FUNC(void) UnityPluginLoad(void* arg)
     // TODO: Only display this dialog when not running in debug from within
     //       Visual Studio.
 #if _DEBUG
-    logging::show_log_as_dialog("You may attach a debugger to the DLL");
+    if (!IsDebuggerPresent())
+    {
+        logging::show_log_as_dialog("You may attach a debugger to the DLL");
+    }
     logging::global_log_open("gfx_log.txt");
 #endif
 

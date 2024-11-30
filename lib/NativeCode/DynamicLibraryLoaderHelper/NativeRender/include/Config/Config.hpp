@@ -68,7 +68,11 @@ namespace pew::eos::config
 
         // Depending on the configuration (debug or release) these are the possible relative paths to the config directory
         static constexpr std::array<std::string_view, 2> s_possible_config_directories = {
-            "../../../Assets/StreamingAssets/EOS/",
+            // This is the relative path for the config files when in release mode
+            "../../StreamingAssets/EOS/",
+            // This is the relative path for the config files when in debug mode
+            // (specifically when the library is loaded in the Build\Debug
+            // directory).
             "../../../../../../Assets/StreamingAssets/EOS/",
         };
 
@@ -102,7 +106,7 @@ namespace pew::eos::config
          *
          * \param json The json value to use for parsing.
          */
-        void from_json_internal(const json_value_s& json)
+        void from_json_internal(const json_object_s& json)
         {
             // Call the deriving class' from_json function.
             from_json(json);
@@ -164,9 +168,12 @@ namespace pew::eos::config
             buffer << file.rdbuf();
             const std::string json_content = buffer.str();
 
-            const json_value_s* json = json_parse(json_content.c_str(), json_content.length());
+            json_value_s* json_value = json_parse(json_content.c_str(), json_content.length());
+            const auto json_object = static_cast<json_object_s*>(json_value->payload);
 
-            from_json_internal(*json);
+            from_json(*json_object);
+
+            free(json_value);
         }
     };
 }

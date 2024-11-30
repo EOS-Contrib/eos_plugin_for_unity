@@ -27,17 +27,41 @@
 
 #include <string>
 
+#include "Serializable.hpp"
+
 namespace pew::eos::config
 {
     /**
      * \brief Extends EOS_Platform_ClientCredentials to include the encryption
      * key value.
      */
-    struct ClientCredentials
+    struct ClientCredentials final : Serializable
     {
         std::string client_id;
         std::string client_secret;
         std::string encryption_key;
+
+    protected:
+        void parse_json_element(const std::string& name, json_value_s& value) override
+        {
+            if (name == "Value")
+            {
+                from_json(value);
+            }
+            else if (name == "ClientId")
+            {
+                client_id = json_value_as_string(&value)->string;
+            }
+            else if (name == "ClientSecret")
+            {
+                client_secret = json_value_as_string(&value)->string;
+            }
+            else if (name == "EncryptionKey")
+            {
+                encryption_key = json_value_as_string(&value)->string;
+            }
+        }
+
     };
 }
 #endif

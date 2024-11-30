@@ -46,37 +46,6 @@ struct json_value_s;
 namespace pew::eos::config_legacy
 {
     /**
-     * \brief
-     * Maps string values to values defined by the EOS SDK regarding platform
-     * creation.
-     */
-    static const std::map<std::string, int> PLATFORM_CREATION_FLAGS_STRINGS_TO_ENUM = {
-        {"EOS_PF_LOADING_IN_EDITOR",                          EOS_PF_LOADING_IN_EDITOR},
-        {"LoadingInEditor",                                   EOS_PF_LOADING_IN_EDITOR},
-
-        {"EOS_PF_DISABLE_OVERLAY",                            EOS_PF_DISABLE_OVERLAY},
-        {"DisableOverlay",                                    EOS_PF_DISABLE_OVERLAY},
-
-        {"EOS_PF_DISABLE_SOCIAL_OVERLAY",                     EOS_PF_DISABLE_SOCIAL_OVERLAY},
-        {"DisableSocialOverlay",                              EOS_PF_DISABLE_SOCIAL_OVERLAY},
-
-        {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9",                EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9},
-        {"WindowsEnableOverlayD3D9",                          EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9},
-
-        {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10",               EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10},
-        {"WindowsEnableOverlayD3D10",                         EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10},
-
-        {"EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL",              EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL},
-        {"WindowsEnableOverlayOpengl",                        EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL},
-
-        {"EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING", EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING},
-        {"ConsoleEnableOverlayAutomaticUnloading",            EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING},
-
-        {"EOS_PF_RESERVED1",                                  EOS_PF_RESERVED1},
-        {"Reserved1",                                         EOS_PF_RESERVED1}
-    };
-
-    /**
      * \brief Maps string values to values within the
      * EOS_EIntegratedPlatformManagementFlags enum.
      */
@@ -116,6 +85,105 @@ namespace pew::eos::config_legacy
 
         {"EOS_IPMF_ApplicationManagedIdentityLogin", EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin },
         {"ApplicationManagedIdentityLogin",          EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin}
+    };
+
+    /**
+     * \brief Maps string values to values for platform options flags. Note that
+     * there are multiple keys that can be mapped to the same value. This is to
+     * provide backwards-compatibility for versions where the member names of
+     * the enum have changed or were being serialized differently.
+     */
+    static const std::map<std::string, int> PLATFORM_CREATION_FLAGS_STRINGS_TO_ENUM = {
+        {"EOS_PF_LOADING_IN_EDITOR",                          EOS_PF_LOADING_IN_EDITOR},
+        {"LoadingInEditor",                                   EOS_PF_LOADING_IN_EDITOR},
+
+        {"EOS_PF_DISABLE_OVERLAY",                            EOS_PF_DISABLE_OVERLAY},
+        {"DisableOverlay",                                    EOS_PF_DISABLE_OVERLAY},
+
+        {"EOS_PF_DISABLE_SOCIAL_OVERLAY",                     EOS_PF_DISABLE_SOCIAL_OVERLAY},
+        {"DisableSocialOverlay",                              EOS_PF_DISABLE_SOCIAL_OVERLAY},
+
+        {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9",                EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9},
+        {"WindowsEnableOverlayD3D9",                          EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9},
+
+        {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10",               EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10},
+        {"WindowsEnableOverlayD3D10",                         EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10},
+
+        {"EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL",              EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL},
+        {"WindowsEnableOverlayOpengl",                        EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL},
+
+        {"EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING", EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING},
+        {"ConsoleEnableOverlayAutomaticUnloading",            EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING},
+
+        {"EOS_PF_RESERVED1",                                  EOS_PF_RESERVED1},
+        {"Reserved1",                                         EOS_PF_RESERVED1},
+
+        {"EOS_PF_NONE",                                       0},
+        {"None",                                              0},
+    };
+
+    /**
+     * \brief Maps string values to specific auth scope flags defined within the
+     * EOS SDK.
+     */
+    const std::map<std::string, EOS_EAuthScopeFlags> AUTH_SCOPE_FLAGS_STRINGS_TO_ENUM = {
+        { "NoFlags",           EOS_EAuthScopeFlags::EOS_AS_NoFlags           },
+        { "BasicProfile",      EOS_EAuthScopeFlags::EOS_AS_BasicProfile      },
+        { "FriendsList",       EOS_EAuthScopeFlags::EOS_AS_FriendsList       },
+        { "Presence",          EOS_EAuthScopeFlags::EOS_AS_Presence          },
+        { "FriendsManagement", EOS_EAuthScopeFlags::EOS_AS_FriendsManagement },
+        { "Email",             EOS_EAuthScopeFlags::EOS_AS_Email             },
+        { "Country",           EOS_EAuthScopeFlags::EOS_AS_Country           },
+    };
+
+    /**
+    * \brief Maps string values to values within the EOS_UI_EInputStateButtonFlags enum. Note that there are multiple
+    * keys that can be mapped to the same value. This is to provide backwards-compatibility for versions where the member names of the
+    * enum have changed or were being serialized differently.
+    */
+    const std::map<std::string, EOS_UI_EInputStateButtonFlags> INPUT_STATE_BUTTON_FLAGS_STRINGS_TO_ENUM = {
+        { "None",              EOS_UI_EInputStateButtonFlags::EOS_UISBF_None              },
+
+        { "DPad_Left",         EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Left         },
+        { "DPadLeft",          EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Left         },
+
+        { "DPad_Right",        EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Right        },
+        { "DPadRight",         EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Right        },
+
+        { "DPad_Down",         EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Down         },
+        { "DPadDown",          EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Down         },
+
+        { "DPad_Up",           EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Up           },
+        { "DPadUp",            EOS_UI_EInputStateButtonFlags::EOS_UISBF_DPad_Up           },
+
+        { "FaceButton_Left",   EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Left   },
+        { "FaceButtonLeft",    EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Left   },
+
+        { "FaceButton_Right",  EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Right  },
+        { "FaceButtonRight",   EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Right  },
+
+        { "FaceButton_Bottom", EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Bottom },
+        { "FaceButtonBottom",  EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Bottom },
+
+        { "FaceButton_Top",    EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Top    },
+        { "FaceButtonTop",     EOS_UI_EInputStateButtonFlags::EOS_UISBF_FaceButton_Top    },
+
+        { "LeftShoulder",      EOS_UI_EInputStateButtonFlags::EOS_UISBF_LeftShoulder      },
+
+        { "RightShoulder",     EOS_UI_EInputStateButtonFlags::EOS_UISBF_RightShoulder     },
+
+        { "LeftTrigger",       EOS_UI_EInputStateButtonFlags::EOS_UISBF_LeftTrigger       },
+
+        { "RightTrigger",      EOS_UI_EInputStateButtonFlags::EOS_UISBF_RightTrigger      },
+
+        { "Special_Left",      EOS_UI_EInputStateButtonFlags::EOS_UISBF_Special_Left      },
+        { "SpecialLeft",       EOS_UI_EInputStateButtonFlags::EOS_UISBF_Special_Left      },
+
+        { "Special_Right",     EOS_UI_EInputStateButtonFlags::EOS_UISBF_Special_Right     },
+        { "SpecialRight",      EOS_UI_EInputStateButtonFlags::EOS_UISBF_Special_Right     },
+
+        { "LeftThumbstick",    EOS_UI_EInputStateButtonFlags::EOS_UISBF_LeftThumbstick    },
+        { "RightThumbstick",   EOS_UI_EInputStateButtonFlags::EOS_UISBF_RightThumbstick   },
     };
 
     /**

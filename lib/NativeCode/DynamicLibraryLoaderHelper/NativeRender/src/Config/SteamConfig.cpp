@@ -28,11 +28,6 @@
 
 namespace pew::eos::config
 {
-    void SteamConfig::from_json(const json_value_s& json)
-    {
-        // TODO: Implement
-    }
-
     bool SteamConfig::try_get_library_path(std::filesystem::path& library_path) const
     {
         if(exists(_override_library_path))

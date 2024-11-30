@@ -47,9 +47,30 @@ namespace pew::eos::config
         ProductConfig() : Config("eos_product_config.json") {}
         ~ProductConfig() = default;
 
-        void from_json(const json_value_s& json) override
+        void parse_json_element(const std::string& name, json_value_s& value) override
         {
-            // TODO: Implement
+            if (name == "ProductName")
+            {
+                product_name = json_value_as_string(&value)->string;
+            }
+            else if (name == "ProductId")
+            {
+                product_id = json_value_as_string(&value)->string;
+            }
+            else if (name == "ProductVersion")
+            {
+                product_version = json_value_as_string(&value)->string;
+            }
+            else if (name == "Clients")
+            {
+                clients = parse_json_array<ClientCredentials>(value);
+            }
+            else if (name == "Environments")
+            {
+                // Parse environments
+                auto parsed_environments = ProductionEnvironments();
+                parsed_environments.from_json(value);
+            }
         }
     };
 }

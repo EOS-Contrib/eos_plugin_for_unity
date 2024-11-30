@@ -37,6 +37,6 @@
 #define EOS_STEAM_CONFIG_FILENAME "eos_steam_config.json"
 #define EOS_LOGLEVEL_CONFIG_FILENAME "log_level_config.json"
 
-#define RESTRICT __restrict
+//#define RESTRICT __restrict
 
 #endif //PCH_H
