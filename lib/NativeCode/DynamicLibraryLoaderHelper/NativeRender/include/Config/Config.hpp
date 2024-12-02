@@ -26,16 +26,16 @@
 #pragma once
 
 #include <filesystem>
-#include "json.h"
-#include "logging.h"
-#include "Serializable.hpp"
-#include "include/Config/Version.hpp"
 #include <fstream>
 #include <sstream>
 #include <array>
-#include <string_view>
 #include <string>
-#include "io_helpers.h"
+
+#include "json.h"
+#include "include/logging.h"
+#include "include/io_helpers.h"
+#include "include/Config/Serializable.hpp"
+#include "include/Config/Version.hpp"
 
 namespace pew::eos::config
 {
@@ -45,6 +45,10 @@ namespace pew::eos::config
      */
     struct Config : Serializable
     {
+        // Delete the copy constructor and copy assignment operator
+        Config(const Config&) = delete;
+        Config& operator=(const Config&) = delete;
+
         /**
          * \brief Gets the config class and values indicated by the template
          * parameter given.
@@ -141,10 +145,6 @@ namespace pew::eos::config
         // Explicitly default move constructor and move assignment operator
         Config(Config&&) noexcept = default;
         Config& operator=(Config&&) noexcept = default;
-
-        // Delete the copy constructor and copy assignment operator
-        Config(const Config&) = delete;
-        Config& operator=(const Config&) = delete;
 
         /**
          * \brief Reads the configuration values from the file.
