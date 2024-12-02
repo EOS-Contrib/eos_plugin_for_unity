@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GfxPluginNativeRender", "Na
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleApplication", "ConsoleApplication\ConsoleApplication.vcxproj", "{D7462EAF-0024-4EA5-9D89-DBBBC7766333}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedPluginCode", "ManagedPluginCode\ManagedPluginCode.csproj", "{B3ADEB07-B668-482E-A5AA-9671CE65C5F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -39,6 +41,12 @@ Global
 		{D7462EAF-0024-4EA5-9D89-DBBBC7766333}.Debug|x86.Build.0 = Debug|Win32
 		{D7462EAF-0024-4EA5-9D89-DBBBC7766333}.Release|x64.ActiveCfg = Release|x64
 		{D7462EAF-0024-4EA5-9D89-DBBBC7766333}.Release|x86.ActiveCfg = Release|Win32
+		{B3ADEB07-B668-482E-A5AA-9671CE65C5F7}.Debug|x64.ActiveCfg = Debug|x64
+		{B3ADEB07-B668-482E-A5AA-9671CE65C5F7}.Debug|x64.Build.0 = Debug|x64
+		{B3ADEB07-B668-482E-A5AA-9671CE65C5F7}.Debug|x86.ActiveCfg = Debug|x86
+		{B3ADEB07-B668-482E-A5AA-9671CE65C5F7}.Debug|x86.Build.0 = Debug|x86
+		{B3ADEB07-B668-482E-A5AA-9671CE65C5F7}.Release|x64.ActiveCfg = Release|x64
+		{B3ADEB07-B668-482E-A5AA-9671CE65C5F7}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
