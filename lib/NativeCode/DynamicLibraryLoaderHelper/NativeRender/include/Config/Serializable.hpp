@@ -50,18 +50,12 @@ namespace pew::eos::config
          */
         virtual void parse_json_element(const std::string& name, json_value_s& value) = 0;
 
-        ///**
-        // * \brief Function that is called when an element inside the json object
-        // * passed to from_json is being parsed. Default implementation ignores
-        // * the iterator, but it's made virtual so that deriving classes can
-        // * override it and make use of the iterator for circumstances where
-        // * doing so is useful.
-        // * \param iterator The iterator pointing to the indicated name and value.
-        // */
-        //virtual void parse_json_element(const json_object_element_s* iterator)
-        //{
-        //    parse_json_element(iterator->name->string, *(iterator->value));
-        //}
+        /**
+         * \brief Parses a JSON array into an std::vector of a specified type T.
+         * \tparam T The type for to parse a vector of from the given json value.
+         * \param array_value The JSON value containing the JSON array.
+         * \return An std::vector<T>
+         */
         template<typename T>
         static std::enable_if_t<std::is_base_of_v<Serializable, T>, std::vector<T>> parse_json_array(json_value_s& array_value)
         {
@@ -90,13 +84,19 @@ namespace pew::eos::config
             return elements;
         }
 
+        /**
+         * \brief Parses a number from json into a specific type. 
+         * \tparam T The type to parse the number into. Supports int, double, long, float, and uint64_t.
+         * \param json_value The json value that contains a number.
+         * \return The result of parsing the json value into the specified number type.
+         */
         template <typename T, typename = std::enable_if_t<
-            std::is_same_v<T, int> || 
-            std::is_same_v<T, double> || 
-            std::is_same_v<T, long> ||
-            std::is_same_v<T, float> ||
-            std::is_same_v<T, uint64_t>
-        >>
+                      std::is_same_v<T, int> || 
+                      std::is_same_v<T, double> || 
+                      std::is_same_v<T, long> ||
+                      std::is_same_v<T, float> ||
+                      std::is_same_v<T, uint64_t>
+                  >>
         static T parse_number(json_value_s& json_value)
         {
             // TODO: Add warning for if the value expected does not match the type expected
@@ -129,6 +129,13 @@ namespace pew::eos::config
             return number_value;
         }
 
+        /**
+         * \brief Parses a json value into true or false. If the type of the
+         * json value is determined to neither be true nor false, the returned
+         * value is false, and a warning is logged.
+         * \param json_value The json value that contains either true or false.
+         * \return True or false, depending on the contents of the given JSON.
+         */
         static bool parse_bool(const json_value_s& json_value)
         {
             if (json_value_is_true(&json_value))
@@ -146,19 +153,42 @@ namespace pew::eos::config
             }
         }
 
+        /**
+         * \brief Parses a JSON value into a given type.
+         *
+         * \tparam T The output type. Currently supported is int,
+         * EOS_EAuthScopeFlags, EOS_EIntegratedPlatformManagementFlags, and
+         * EOS_UI_EInputStateButtonFlags.
+         *
+         * \param strings_to_enum_values Mappings of string values to the
+         * corresponding output value to interpret the string as.
+         *
+         * \param default_value If no value is provided or can be determined,
+         * this is the returned value.
+         *
+         * \param value The JSON value that contains the strings used to parse
+         * into the value.
+         *
+         * \return The value (flag) determined by parsing the JSON.
+         */
         template<typename T, typename = std::enable_if_t< 
-            std::is_same_v<T, int> ||
-            std::is_same_v<T, EOS_EAuthScopeFlags> ||
-            std::is_same_v<T, EOS_EIntegratedPlatformManagementFlags> ||
-            std::is_same_v<T, EOS_UI_EInputStateButtonFlags>
-            >>
+                     std::is_same_v<T, int> ||
+                     std::is_same_v<T, EOS_EAuthScopeFlags> ||
+                     std::is_same_v<T, EOS_EIntegratedPlatformManagementFlags> ||
+                     std::is_same_v<T, EOS_UI_EInputStateButtonFlags>
+                 >>
         static T parse_flags(const std::map<std::string, T>* strings_to_enum_values, T default_value, json_value_s* value)
         {
             T flags_to_return = static_cast<T>(0);
             bool flag_set = false;
 
-            // TODO: Deal with null case.
-            const std::string flags_str = json_value_as_string(value)->string;
+            const auto json_value_string = json_value_as_string(value);
+            if (json_value_string == nullptr)
+            {
+                return default_value;
+            }
+
+            const std::string flags_str = json_value_string->string;
 
             const std::vector<std::string> string_values = string_helpers::split_and_trim(flags_str);
 
@@ -166,13 +196,13 @@ namespace pew::eos::config
             for (const auto str : string_values)
             {
                 // Skip if the string is not in the map
-                if (strings_to_enum_values->find(str.c_str()) == strings_to_enum_values->end())
+                if (strings_to_enum_values->find(str) == strings_to_enum_values->end())
                 {
                     continue;
                 }
 
                 // Otherwise, append the enum value
-                flags_to_return |= strings_to_enum_values->at(str.c_str());
+                flags_to_return |= strings_to_enum_values->at(str);
                 flag_set = true;
             }
 
