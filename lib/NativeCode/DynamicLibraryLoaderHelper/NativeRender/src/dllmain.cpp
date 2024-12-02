@@ -41,21 +41,6 @@ using namespace pew::eos::eos_library_helpers;
 using FSig_ApplicationWillShutdown = void (__stdcall *)(void);
 FSig_ApplicationWillShutdown FuncApplicationWillShutdown = nullptr;
 
-extern "C"
-{
-    /**
-     * \brief Forward declaration and export for function to be called when
-     * Unity is loading the plugin.
-     */
-    void __declspec(dllexport) __stdcall UnityPluginLoad(void* unityInterfaces);
-
-    /**
-     * \brief Forward declaration for function to be called when Unity is
-     * unloading the plugin.
-     */
-    void __declspec(dllexport) __stdcall UnityPluginUnload();
-}
-
 void get_cli_arguments(config_legacy::EOSConfig eos_config)
 {
     //support sandbox and deployment id override via command line arguments
