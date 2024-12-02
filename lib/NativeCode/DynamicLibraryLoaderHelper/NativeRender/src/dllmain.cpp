@@ -128,8 +128,6 @@ void get_cli_arguments(config_legacy::EOSConfig eos_config)
 #endif
 PEW_EOS_API_FUNC(void) UnityPluginLoad(void* arg)
 {
-    // TODO: Only display this dialog when not running in debug from within
-    //       Visual Studio.
 #if _DEBUG
     if (!IsDebuggerPresent())
     {
