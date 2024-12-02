@@ -86,5 +86,58 @@ namespace pew::eos::io_helpers
      * @note The caller must free the returned string if dynamically allocated.
      */
     std::wstring get_path_to_module_as_string(HMODULE module);
+
+    /**
+     * \brief Gets the value of a command line argument specified by one or more possible flags.
+     * \tparam Flags Options for what flags might be permissible for the value. Exclude the leading dash and the following "=" from the flags provided.
+     * \param arguments All of the command-line arguments passed in.
+     * \param value The value for the indicated command line argument.
+     * \param args The labels that can be used to specify the command argument.
+     * \return True if the argument was provided, false otherwise.
+     */
+    template <typename... Flags>
+    bool try_get_command_line_argument(const std::vector<std::string>& arguments, std::string& value, const Flags&... args)
+    {
+        // This gathers the variadic parameters which represent parameter flags, any
+        // of which indicate the same value that is being passed in on the command
+        // line.
+        const std::vector<std::string> flag_options = { args... };
+
+        for (const auto& argument : arguments)
+        {
+            const std::string* match = nullptr;
+
+            // See if the argument matches any of the flag options provided.
+            for (const std::string& flag : flag_options)
+            {
+                // If the argument doesn't start with the flag, move to the next.
+                if (!argument._Starts_with("-" + flag + "="))
+                {
+                    continue;
+                }
+
+                // Indicate the match and exit the loop.
+                match = &flag;
+                break;
+            }
+
+            // If there was a match
+            if (match != nullptr)
+            {
+                // extract the value.
+                std::string arg_value;
+                arg_value = argument.substr(match->length());
+
+                if (!arg_value.empty())
+                {
+                    value = arg_value;
+                    return true;
+                }
+            }
+        }
+
+        // Return false if the value wasn't set on the command line.
+        return false;
+    }
 } // namespace pew::eos::io_helpers
 #endif
