@@ -43,39 +43,6 @@ namespace pew::eos::config
      */
     struct PlatformConfig : Config
     {
-    private:
-        /**
-         * \brief Return the locale code of the current machine.
-         * \return The locale code of the current machine
-         */
-        static std::string get_locale_code()
-        {
-            WCHAR locale_name[LOCALE_NAME_MAX_LENGTH];
-            if (GetUserDefaultLocaleName(locale_name, LOCALE_NAME_MAX_LENGTH)) {
-                // Convert from wide string to narrow string
-                char narrow_locale[LOCALE_NAME_MAX_LENGTH];
-                WideCharToMultiByte(CP_UTF8, 0, locale_name, -1, narrow_locale, LOCALE_NAME_MAX_LENGTH, nullptr, nullptr);
-                return narrow_locale;
-            }
-            return "en-US"; // Default to english us.
-        }
-
-        /**
-         * \brief Extracts the two-letter country code component from the locale
-         * code of the current machine.
-         * \param locale_code The locale code from which to extract the country
-         * code.
-         * \return Returns a two-character string indicating the country code of
-         * the current machine.
-         */
-        static std::string get_country_code(const std::string& locale_code)
-        {
-            const size_t dash_pos = locale_code.find('-'); 
-            if (dash_pos != std::string::npos && dash_pos + 1 < locale_code.size()) {
-                return locale_code.substr(dash_pos + 1, 2);
-            }
-            return "US"; // Default to US.
-        }
     public:
         /**
         * \brief The deployment for the platform.
@@ -283,24 +250,6 @@ namespace pew::eos::config
                     &config_legacy::INPUT_STATE_BUTTON_FLAGS_STRINGS_TO_ENUM,
                     EOS_UI_EInputStateButtonFlags::EOS_UISBF_None,
                     &value);
-            }
-        }
-
-        void read() override
-        {
-            // Perform the base implementation of config reading.
-            Config::read();
-
-            // If it's empty, then get the locale code
-            if (overrideLocaleCode.empty())
-            {
-                overrideLocaleCode = get_locale_code();
-            }
-
-            // If it's empty, then get the country code.
-            if (overrideCountryCode.empty())
-            {
-                overrideCountryCode = get_country_code(overrideLocaleCode);
             }
         }
 

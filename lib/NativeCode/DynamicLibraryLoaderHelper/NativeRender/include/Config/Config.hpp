@@ -150,7 +150,7 @@ namespace pew::eos::config
         /**
          * \brief Reads the configuration values from the file.
          */
-        virtual void read()
+        void read()
         {
             if (!exists(_file_path))
             {

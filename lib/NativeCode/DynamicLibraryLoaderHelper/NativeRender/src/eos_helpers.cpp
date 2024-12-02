@@ -299,8 +299,8 @@ namespace pew::eos
 
         platform_options.EncryptionKey = platform_config.client_credentials.encryption_key.c_str();
 
-        platform_options.OverrideCountryCode = platform_config.overrideCountryCode.c_str();
-        platform_options.OverrideLocaleCode = platform_config.overrideLocaleCode.c_str();
+        platform_options.OverrideCountryCode = platform_config.overrideCountryCode.empty() ? nullptr : platform_config.overrideCountryCode.c_str();
+        platform_options.OverrideLocaleCode = platform_config.overrideLocaleCode.empty() ? nullptr : platform_config.overrideLocaleCode.c_str();
 
         platform_options.ProductId = product_config.product_id.c_str();
         platform_options.SandboxId = platform_config.deployment.sandbox.id.c_str();
@@ -446,7 +446,7 @@ namespace pew::eos
 #endif
 
         //EOS_Platform_Options_debug_log(platform_options);
-        logging::log_inform("run EOS_Platform_Create");
+        logging::log_inform("Calling EOS_Platform_Create");
         eos_library_helpers::eos_platform_handle = eos_library_helpers::EOS_Platform_Create_ptr(&platform_options);
         if (integrated_platform_options_container)
         {
@@ -455,7 +455,11 @@ namespace pew::eos
 
         if (!eos_library_helpers::eos_platform_handle)
         {
-            logging::log_error("failed to create the platform");
+            logging::log_error("Failed to create the EOS SDK Platform.");
+        }
+        else
+        {
+            logging::log_inform("Successfully created the EOS SDK Platform.");
         }
     }
 }
