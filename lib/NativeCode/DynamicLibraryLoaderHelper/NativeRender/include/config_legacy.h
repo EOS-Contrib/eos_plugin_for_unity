@@ -322,12 +322,6 @@ namespace pew::eos::config_legacy
     json_value_s* read_config_json_from_dll();
 
     /**
-     * \brief Parses an EOS configuration object from a JSON structure.
-     * \return An `EOSConfig` object populated with settings from the JSON structure.
-     */
-    //CONFIG_API bool try_get_eos_config(EOSConfig& config);
-
-    /**
      * @brief Collects integrated platform management flags from a JSON element.
      *
      * Parses platform management flags from a JSON element and combines them into a single flag value.
