@@ -95,7 +95,7 @@ namespace pew::eos::logging
      * stdout.
      * \param mirror Whether to mirror log statements to stdout.
      */
-    void set_mirror_to_stdout(const bool& mirror)
+    PEW_EOS_API_FUNC(void) set_mirror_to_stdout(const bool& mirror)
     {
         s_mirror_to_stdout = mirror;
     }
