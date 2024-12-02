@@ -10,10 +10,10 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyDescriptionAttribute(L"Used as a proxy or bridge between managed and unmanaged code.")];
 [assembly:AssemblyConfigurationAttribute(L"")];
 [assembly:AssemblyCompanyAttribute(L"PlayEveryWare, Inc.")];
-[assembly:AssemblyProductAttribute(L"ManagedToUnmanagedBridge")];
+[assembly:AssemblyProductAttribute(L"EOS Plugin for Unity")];
 [assembly:AssemblyCopyrightAttribute(L"Copyright (c)  2024")];
 [assembly:AssemblyTrademarkAttribute(L"")];
-[assembly:AssemblyCultureAttribute(L"")];
+[assembly:AssemblyCultureAttribute(L"en-US")];
 
 [assembly:AssemblyVersionAttribute(L"1.0.*")];
 

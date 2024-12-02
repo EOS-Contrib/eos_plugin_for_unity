@@ -151,7 +151,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)NativeRender\;$(SolutionDir)..\third_party\eos_sdk\include\;$(SolutionDir)..\include\windows;$(SolutionDir)ManagedToUnmanagedBridge\;$(SolutionDir)Build\$(Configuration)\$(Platform)\;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)NativeRender\include\;$(SolutionDir)NativeRender\;$(SolutionDir)..\third_party\eos_sdk\include\;$(SolutionDir)..\include\windows;$(SolutionDir)ManagedToUnmanagedBridge\;$(SolutionDir)Build\$(Configuration)\$(Platform)\;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAsManaged>true</CompileAsManaged>
       <ExceptionHandling>Async</ExceptionHandling>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>

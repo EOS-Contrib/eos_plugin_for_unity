@@ -25,19 +25,28 @@
 
 #pragma once
 
+#include <unordered_map>
+#include "config_legacy.h"
+#include "EnumMappings.h"
 #include "eos_init.h"
+#include "eos_auth_types.h"
+#include "eos_ui_types.h"
+#include "json_helpers.h"
 #include "ProductionEnvironments.hpp"
 #include "include/Config/ClientCredentials.hpp"
-#include "include/Config/ConfigBase.h"
+#include "include/Config/Config.hpp"
 
 namespace pew::eos::config
 {
+    
+
     /**
      * \brief Describes the configuration options for a platform that wants to
      * interact with the EOS SDK.
      */
-    struct PlatformConfig : ConfigBase
+    struct PlatformConfig : Config
     {
+    public:
         /**
         * \brief The deployment for the platform.
         */
@@ -131,7 +140,7 @@ namespace pew::eos::config
         std::string overrideLocaleCode;
 
     protected:
-        explicit PlatformConfig(const char* file_name) : ConfigBase(PlatformConfig::get_config_path(file_name)),
+        explicit PlatformConfig(const char* file_name) : Config(file_name),
              is_server(false),
              platform_options_flags(0),
              tick_budget_in_milliseconds(0),
@@ -143,11 +152,111 @@ namespace pew::eos::config
         {
         }
 
-        std::filesystem::path get_config_path(const char* file_name) override;
+        void parse_json_element(const std::string& name, json_value_s& value) override
+        {
+            if (name == "deployment")
+            {
+                deployment.from_json(value);
+            }
+            else if (name == "clientCredentials")
+            {
+                client_credentials.from_json(value);
+            }
+            else if (name == "isServer")
+            {
+                is_server = parse_bool(value);
+            }
+            else if (name == "platformOptionsFlags")
+            {
+                platform_options_flags = parse_flags<int>(
+                    &PLATFORM_CREATION_FLAGS_STRINGS_TO_ENUM, 
+                    0, 
+                    &value);
+            }
+            else if (name == "authScopeOptionsFlags")
+            {
+                auth_scope_flags = parse_flags<EOS_EAuthScopeFlags>(
+                    &AUTH_SCOPE_FLAGS_STRINGS_TO_ENUM, 
+                    EOS_EAuthScopeFlags::EOS_AS_NoFlags, 
+                    &value);
+            }
+            else if (name == "integratedPlatformManagementFlags")
+            {
+                integrated_platform_management_flags = 
+                    parse_flags<EOS_EIntegratedPlatformManagementFlags>(
+                        &config_legacy::INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_STRINGS_TO_ENUM, 
+                        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled, 
+                        &value);
+            }
+            else if (name == "tickBudgetInMilliseconds")
+            {
+                tick_budget_in_milliseconds = parse_number<int>(value);
+            }
+            else if (name == "taskNetworkTimeoutSeconds")
+            {
+                task_network_timeout_seconds = parse_number<double>(value);
+            }
+            else if (name == "threadAffinity")
+            {
+                const auto thread_affinity_json_object = *static_cast<json_object_s*>(value.payload);
+                auto thread_affinity_iterator = thread_affinity_json_object.start;
 
-        void from_json(const nlohmann::json& json) override;
+                // TODO: Figure out how to implement this clean approach with
+                //       all the properties of any class deriving from
+                //       Serializable.
+                std::unordered_map<std::string, uint64_t*> affinity_map = {
+                    {"NetworkWork", &thread_affinity.NetworkWork},
+                    {"StorageIo", &thread_affinity.StorageIo},
+                    {"WebSocketIo", &thread_affinity.WebSocketIo},
+                    {"P2PIo", &thread_affinity.P2PIo},
+                    {"HttpRequestIo", &thread_affinity.HttpRequestIo},
+                    {"RTCIo", &thread_affinity.RTCIo},
+                    {"EmbeddedOverlayMainThread", &thread_affinity.EmbeddedOverlayMainThread},
+                    {"EmbeddedOverlayWorkerThreads", &thread_affinity.EmbeddedOverlayWorkerThreads},
+                };
 
-        friend struct ConfigBase;
+                while(thread_affinity_iterator)
+                {
+                    auto element = *(thread_affinity_iterator->value);
+                    const std::string element_name = thread_affinity_iterator->name->string;
+
+                    if (affinity_map.find(element_name) != affinity_map.end())
+                    {
+                        *affinity_map[element_name] = parse_number<uint64_t>(element);
+                    }
+
+                    thread_affinity_iterator = thread_affinity_iterator->next;
+                }
+
+                // TODO: Confirm that setting this version to the latest every
+                //       time won't be a problem for users if their config was
+                //       serialized with an older version.
+                thread_affinity.ApiVersion = EOS_INITIALIZE_THREADAFFINITY_API_LATEST;
+                
+            }
+            else if (name == "alwaysSendInputToOverlay")
+            {
+                always_send_input_to_overlay = parse_bool(value);
+            }
+            else if (name == "initialButtonDelayForOverlay")
+            {
+                initial_button_delay_for_overlay = parse_number<float>(value);
+            }
+            else if (name == "repeatButtonDelayForOverlay")
+            {
+                repeat_button_delay_for_overlay = parse_number<float>(value);
+            }
+            else if (name == "toggleFriendsButtonCombination")
+            {
+                // Handle toggleFriendsButtonCombination
+                toggle_friends_button_combination = parse_flags<EOS_UI_EInputStateButtonFlags>(
+                    &INPUT_STATE_BUTTON_FLAGS_STRINGS_TO_ENUM,
+                    EOS_UI_EInputStateButtonFlags::EOS_UISBF_None,
+                    &value);
+            }
+        }
+
+        friend struct Config;
         virtual ~PlatformConfig() = default;
     };
 }

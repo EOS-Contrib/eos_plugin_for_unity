@@ -25,11 +25,7 @@
 #pragma once
 #include <string>
 #include <vector>
-
-namespace std::filesystem
-{
-    class path;
-}
+#include <filesystem>
 
 namespace pew::eos::string_helpers
 {
@@ -94,7 +90,7 @@ namespace pew::eos::string_helpers
      *
      * @note `wide_str` must be null-terminated if `wide_str_len` is set to -1.
      */
-    bool copy_to_utf8_str_from_wide_str(char* RESTRICT utf8_str, size_t utf8_str_len, const wchar_t* RESTRICT wide_str, int wide_str_len);
+    bool copy_to_utf8_str_from_wide_str(char* utf8_str, size_t utf8_str_len, const wchar_t* wide_str, int wide_str_len);
 
     /**
      * @brief Creates a UTF-8 encoded string from a wide character string.

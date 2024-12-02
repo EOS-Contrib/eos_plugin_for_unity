@@ -1,5 +1,5 @@
-#ifndef PRODUCTION_ENVIRONMENTS_H
-#define PRODUCTION_ENVIRONMENTS_H
+#ifndef PRODUCTION_ENVIRONMENTS_HPP
+#define PRODUCTION_ENVIRONMENTS_HPP
 
 /*
  * Copyright (c) 2024 PlayEveryWare
@@ -24,8 +24,14 @@
  */
 
 #pragma once
+
 #include <algorithm>
 #include <vector>
+#include <string>
+#include <algorithm>
+#include <vector>
+
+#include "Serializable.hpp"
 
 namespace pew::eos::config
 {
@@ -33,23 +39,59 @@ namespace pew::eos::config
      * \brief Used to describe the production environments to use for the EOS
      * SDK that are available to the product.
      */
-    struct ProductionEnvironments
+    struct ProductionEnvironments final : Serializable
     {
         /**
          * \brief Used to describe the sandbox component of a deployment.
          */
-        struct Sandbox
+        struct Sandbox final : Serializable
         {
             std::string id;
+
+        protected:
+            void parse_json_element(const std::string& name, json_value_s& value) override
+            {
+                if (name == "Value")
+                {
+                    const auto json_string = json_value_as_string(&value);
+                    if (nullptr == json_string)
+                    {
+                        from_json(value);
+                    }
+                    else
+                    {
+                        id = json_string->string;
+                    }
+                }
+            }
         };
 
         /**
          * \brief Used to describe a deployment for initializing the EOS SDK.
          */
-        struct Deployment
+        struct Deployment final : Serializable
         {
             std::string id;
             Sandbox sandbox;
+
+        protected:
+            void parse_json_element(const std::string& name, json_value_s& value) override
+            {
+                if (name == "Value")
+                {
+                    from_json(value);
+                }
+                else if (name == "DeploymentId")
+                {
+                    id = json_value_as_string(&value)->string;
+                }
+                else if (name == "SandboxId")
+                {
+                    auto sandbox_temp = Sandbox();
+                    sandbox_temp.from_json(value);
+                    sandbox = sandbox_temp;
+                }
+            }
         };
 
         /**
@@ -88,6 +130,21 @@ namespace pew::eos::config
                 {
                     return s.id == sandbox_id;
                 });
+        }
+
+    protected:
+        friend struct ProductConfig;
+
+        void parse_json_element(const std::string& name, json_value_s& value) override
+        {
+            if (name == "Deployments")
+            {
+                deployments = parse_json_array<Deployment>(value);
+            }
+            else if (name == "Sandboxes")
+            {
+                sandboxes = parse_json_array<Sandbox>(value);
+            }
         }
     };
 }

@@ -1,5 +1,5 @@
-#ifndef VERSION_H
-#define VERSION_H
+#ifndef VERSION_HPP
+#define VERSION_HPP
 
 /*
  * Copyright (c) 2021 PlayEveryWare
@@ -99,7 +99,7 @@ namespace pew::eos::config
             return true;
         }
     private:
-        friend struct ConfigBase;
+        friend struct Config;
 
         static bool try_parse_int(const std::string& str, int& value)
         {

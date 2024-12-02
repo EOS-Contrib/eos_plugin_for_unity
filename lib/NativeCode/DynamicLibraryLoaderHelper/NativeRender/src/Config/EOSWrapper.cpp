@@ -23,9 +23,10 @@
 #include <pch.h>
 #include "include/Config/EOSWrapper.h"
 
-#include "include/Config/ProductConfig.h"
-#include "include/Config/WindowsConfig.h"
-#include "include/Config/SteamConfig.h"
+#include "Config/common.hpp"
+#include "include/Config/ProductConfig.hpp"
+#include "include/Config/WindowsConfig.hpp"
+#include "include/Config/SteamConfig.hpp"
 
 namespace pew::eos
 {
@@ -34,8 +35,8 @@ namespace pew::eos
     EOS_HPlatform EOSWrapper::start_eos() const
     {
         // Get the configuration values
-        const auto product_config = config::ConfigBase::get<config::ProductConfig>();
-        const auto windows_config = config::ConfigBase::get<config::WindowsConfig>();
+        const auto product_config = config::Config::get<config::ProductConfig>();
+        const auto windows_config = config::Config::get<config::WindowsConfig>();
 
         // Apply any command line arguments that there might be
         apply_cli_arguments(*windows_config, *product_config);
@@ -54,8 +55,8 @@ namespace pew::eos
 
     EOS_InitializeOptions EOSWrapper::get_initialize_options()
     {
-        const auto product_config = config::ConfigBase::get<config::ProductConfig>();
-        const auto windows_config = config::ConfigBase::get<config::WindowsConfig>();
+        const auto product_config = config::Config::get<config::ProductConfig>();
+        const auto windows_config = config::Config::get<config::WindowsConfig>();
 
         EOS_InitializeOptions options;
         set_initialize_options(options, *windows_config, *product_config);
@@ -65,8 +66,8 @@ namespace pew::eos
 
     EOS_Platform_Options EOSWrapper::get_platform_options()
     {
-        const auto product_config = config::ConfigBase::get<config::ProductConfig>();
-        const auto windows_config = config::ConfigBase::get<config::WindowsConfig>();
+        const auto product_config = config::Config::get<config::ProductConfig>();
+        const auto windows_config = config::Config::get<config::WindowsConfig>();
 
         EOS_Platform_Options options;
         set_platform_options(options, *windows_config, *product_config);

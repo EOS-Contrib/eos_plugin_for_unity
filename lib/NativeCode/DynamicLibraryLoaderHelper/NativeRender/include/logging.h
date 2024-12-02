@@ -38,6 +38,8 @@ namespace pew::eos::logging
 {
     typedef void (*log_flush_function_t)(const char* str);
 
+    PEW_EOS_API_FUNC(void) set_mirror_to_stdout(const bool& mirror);
+
     /**
      * @brief Converts an EOS log level to its corresponding string representation.
      *
@@ -136,7 +138,7 @@ namespace pew::eos::logging
      *
      * @param log_string The warning message to log.
      */
-    void log_warn(const char* log_string);
+    PEW_EOS_API_FUNC(void) log_warn(const char* log_string);
 
     /**
      * @brief Logs a warning message.
@@ -158,7 +160,7 @@ namespace pew::eos::logging
      *
      * @param log_string The informational message to log.
      */
-    void log_inform(const char* log_string);
+    PEW_EOS_API_FUNC(void) log_inform(const char* log_string);
 
     /**
      * @brief Logs an informational message.
@@ -179,7 +181,7 @@ namespace pew::eos::logging
      *
      * @param log_string The error message to log.
      */
-    void log_error(const char* log_string);
+    PEW_EOS_API_FUNC(void) log_error(const char* log_string);
 
     /**
      * @brief Logs an error message.

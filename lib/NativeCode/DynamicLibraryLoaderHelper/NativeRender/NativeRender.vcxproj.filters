@@ -15,6 +15,9 @@
     <Filter Include="Source Files\Config">
       <UniqueIdentifier>{4daa6b3d-6965-47a2-88a1-b0cf6a8c928f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Config">
+      <UniqueIdentifier>{5aafc329-e650-4bf8-97f2-29ba2d2229dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -54,22 +57,10 @@
     <ClInclude Include="include\Config\common.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="include\Config\ConfigBase.h">
-      <Filter>Header Files\Config</Filter>
-    </ClInclude>
     <ClInclude Include="include\Config\DLLWrapper.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
     <ClInclude Include="include\Config\EOSWrapper.h">
-      <Filter>Header Files\Config</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Config\nlohmann_helpers.hpp">
-      <Filter>Header Files\Config</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Config\PlatformConfig.h">
-      <Filter>Header Files\Config</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Config\ProductConfig.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
     <ClInclude Include="include\Config\ProductionEnvironments.hpp">
@@ -84,7 +75,34 @@
     <ClInclude Include="include\Config\Version.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="include\Config\WindowsConfig.h">
+    <ClInclude Include="include\Config\ClientCredentials.hpp">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config\Config.hpp">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config\PlatformConfig.hpp">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config\ProductConfig.hpp">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config\ProductionEnvironments.hpp">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config\SteamConfig.hpp">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config\Version.hpp">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config\WindowsConfig.hpp">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config\Serializable.hpp">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config\EnumMappings.h">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
   </ItemGroup>
@@ -117,22 +135,10 @@
     <ClCompile Include="src\config_legacy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Config\ConfigBase.cpp">
-      <Filter>Source Files\Config</Filter>
-    </ClCompile>
     <ClCompile Include="src\Config\DLLWrapper.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
     <ClCompile Include="src\Config\EOSWrapper.cpp">
-      <Filter>Source Files\Config</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Config\PlatformConfig.cpp">
-      <Filter>Source Files\Config</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Config\ProductConfig.cpp">
-      <Filter>Source Files\Config</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Config\SteamConfig.cpp">
       <Filter>Source Files\Config</Filter>
     </ClCompile>
   </ItemGroup>

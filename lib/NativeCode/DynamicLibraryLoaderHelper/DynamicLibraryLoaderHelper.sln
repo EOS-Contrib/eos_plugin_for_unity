@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleApplication", "Conso
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedPluginCode", "ManagedPluginCode\ManagedPluginCode.csproj", "{B3ADEB07-B668-482E-A5AA-9671CE65C5F7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ManagedToUnmanagedBridge", "ManagedToUnmanagedBridge\ManagedToUnmanagedBridge.vcxproj", "{4421F72C-9585-4245-BD8D-FEF6CE45C7D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

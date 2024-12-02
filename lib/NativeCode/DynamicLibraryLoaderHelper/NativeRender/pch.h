@@ -15,6 +15,11 @@
 
 #if _WIN32 || _WIN64
 #define PLATFORM_WINDOWS 1
+#if _WIN64
+#define PLATFORM_64BITS 1
+#else
+#define PLATFORM_32BITS 1
+#endif
 #endif
 
 #define STATIC_EXPORT(return_type) extern "C" return_type
@@ -32,10 +37,12 @@
 #define ENABLE_DLL_BASED_EOS_CONFIG 1
 #define XAUDIO2_DLL_NAME "xaudio2_9redist.dll"
 
-#define EOS_SERVICE_CONFIG_FILENAME "EpicOnlineServicesConfig.json"
+#define EOS_WINDOWS_CONFIG_FILENAME "eos_windows_config.json"
+#define EOS_PRODUCT_CONFIG_FILENAME "eos_product_config.json"
+
 #define EOS_STEAM_CONFIG_FILENAME "eos_steam_config.json"
 #define EOS_LOGLEVEL_CONFIG_FILENAME "log_level_config.json"
 
-#define RESTRICT __restrict
+//#define RESTRICT __restrict
 
 #endif //PCH_H

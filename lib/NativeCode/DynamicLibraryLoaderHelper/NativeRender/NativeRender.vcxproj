@@ -80,9 +80,10 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>PEW_EOS_EXPORT;OVERLAY_DLL_NAME="$(OverlayDllName)";STEAM_API_DLL="$(SteamApiDll)";SDK_DLL_NAME="$(SdkDllName)";CONFIG_DIRECTORY="$(ConfigDirectory)";_DEBUG;NATIVERENDER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <PostBuildEvent>
-      <Command>copy "$(OutputUnityAssetsDirectory)$(SdkDllName)" $(TargetDir) /Y</Command>
-    </PostBuildEvent>
+    <PreBuildEvent>
+      <!-- When debugging, make sure to copy the EOSSDK Dll to the output directory -->
+      <Command>copy "$(OutputUnityAssetsDirectory)$(SdkDllName)" "$(TargetDir)" /Y</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
@@ -107,17 +108,18 @@
   <ItemGroup>
     <ClInclude Include="include\Config\ClientCredentials.hpp" />
     <ClInclude Include="include\Config\common.hpp" />
-    <ClInclude Include="include\Config\ConfigBase.h" />
     <ClInclude Include="include\Config\DLLWrapper.h" />
     <ClInclude Include="include\Config\EOSWrapper.h" />
-    <ClInclude Include="include\Config\nlohmann_helpers.hpp" />
-    <ClInclude Include="include\Config\PlatformConfig.h" />
-    <ClInclude Include="include\Config\ProductConfig.h" />
     <ClInclude Include="include\Config\ProductionEnvironments.hpp" />
-    <ClInclude Include="include\Config\Serializable.hpp" />
     <ClInclude Include="include\Config\SteamConfig.h" />
     <ClInclude Include="include\Config\Version.hpp" />
-    <ClInclude Include="include\Config\WindowsConfig.h" />
+    <ClInclude Include="include\Config\Config.hpp" />
+    <ClInclude Include="include\Config\EnumMappings.h" />
+    <ClInclude Include="include\Config\PlatformConfig.hpp" />
+    <ClInclude Include="include\Config\ProductConfig.hpp" />
+    <ClInclude Include="include\Config\Serializable.hpp" />
+    <ClInclude Include="include\Config\SteamConfig.hpp" />
+    <ClInclude Include="include\Config\WindowsConfig.hpp" />
     <ClInclude Include="include\config_legacy.h" />
     <ClInclude Include="include\eos_helpers.h" />
     <ClInclude Include="include\eos_library_helpers.h" />
@@ -134,12 +136,8 @@
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Config\ConfigBase.cpp" />
     <ClCompile Include="src\Config\DLLWrapper.cpp" />
     <ClCompile Include="src\Config\EOSWrapper.cpp" />
-    <ClCompile Include="src\Config\PlatformConfig.cpp" />
-    <ClCompile Include="src\Config\ProductConfig.cpp" />
-    <ClCompile Include="src\Config\SteamConfig.cpp" />
     <ClCompile Include="src\config_legacy.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\eos_helpers.cpp" />

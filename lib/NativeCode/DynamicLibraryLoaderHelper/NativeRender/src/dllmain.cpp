@@ -27,13 +27,14 @@
 
 #include <iterator>
 #include <sstream>
-
+#include <string>
 #include "config_legacy.h"
 #include "logging.h"
 #include "eos_library_helpers.h"
 #include "eos_helpers.h"
 #include "io_helpers.h"
-#include "Config/EOSWrapper.h"
+#include "include/Config/EOSWrapper.h"
+#include "include/Config/WindowsConfig.hpp"
 
 using namespace pew::eos;
 using namespace pew::eos::eos_library_helpers;
@@ -41,96 +42,50 @@ using namespace pew::eos::eos_library_helpers;
 using FSig_ApplicationWillShutdown = void (__stdcall *)(void);
 FSig_ApplicationWillShutdown FuncApplicationWillShutdown = nullptr;
 
-<<<<<<< HEAD
 #ifndef USE_LEGACY
 std::unique_ptr<EOSWrapper> eos_sdk;
 #endif
 
 /**
- * \brief Forward declaration for function to be called when Unity is loading
- * the plugin.
+ * \brief Applies any command line arguments that may have been provided.
+ * \param platform_config The platform config whose values may need to be
+ * overridden by command line arguments.
+ * \param product_config The product config. This is used to warn the user if
+ * the provided sandbox id or deployment id is not defined in the product
+ * config. If they are not defined, they will still be applied.
  */
-PEW_EOS_API_FUNC(void) UnityPluginLoad(void* unityInterfaces);
-=======
-extern "C"
-{
-    /**
-     * \brief Forward declaration and export for function to be called when
-     * Unity is loading the plugin.
-     */
-    void __declspec(dllexport) __stdcall UnityPluginLoad(void* unityInterfaces);
->>>>>>> development
-
-    /**
-     * \brief Forward declaration for function to be called when Unity is
-     * unloading the plugin.
-     */
-    void __declspec(dllexport) __stdcall UnityPluginUnload();
-}
-
-void get_cli_arguments(config_legacy::EOSConfig eos_config)
+static void apply_cli_arguments(config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
 {
     //support sandbox and deployment id override via command line arguments
-    std::stringstream argument_stream = std::stringstream(GetCommandLineA());
-    std::istream_iterator<std::string> argument_stream_begin(argument_stream);
-    std::istream_iterator<std::string> argument_stream_end;
-    std::vector<std::string> argument_strings(argument_stream_begin, argument_stream_end);
-    std::string egsArgName = "-epicsandboxid=";
-    std::string sandboxArgName = "-eossandboxid=";
-    for (unsigned i = 0; i < argument_strings.size(); ++i)
+    auto argument_stream = std::stringstream(GetCommandLineA());
+    const std::istream_iterator<std::string> argument_stream_begin(argument_stream);
+    const std::istream_iterator<std::string> argument_stream_end;
+    const std::vector argument_strings(argument_stream_begin, argument_stream_end);
+
+    std::string sandbox_id_override;
+    if (io_helpers::try_get_command_line_argument(argument_strings, sandbox_id_override, "epicsandboxid", "eossandboxid"))
     {
-        std::string* match = nullptr;
-        if (argument_strings[i]._Starts_with(sandboxArgName))
+        if (!product_config.environments.is_sandbox_defined(sandbox_id_override))
         {
-            match = &sandboxArgName;
+            logging::log_warn(
+              "Sandbox Id \"" + sandbox_id_override + "\" was provided on the "
+              "command line, but is not found in the product config. Attempting "
+              "to use it regardless.");
         }
-        else if (argument_strings[i]._Starts_with(egsArgName))
-        {
-            match = &egsArgName;
-        }
-        if (match != nullptr)
-        {
-            std::string sandboxArg = argument_strings[i].substr(match->length());
-            if (!sandboxArg.empty())
-            {
-                logging::log_inform(("Sandbox ID override specified: " + sandboxArg).c_str());
-                eos_config.sandboxID = sandboxArg;
-            }
-        }
+        platform_config.deployment.sandbox.id = sandbox_id_override;
     }
 
-    //check if a deployment id override exists for sandbox id
-    for (unsigned i = 0; i < eos_config.sandboxDeploymentOverrides.size(); ++i)
+    std::string deployment_id_override;
+    if (io_helpers::try_get_command_line_argument(argument_strings, deployment_id_override, "eosdeploymentid", "epicdeploymentid"))
     {
-        if (eos_config.sandboxID == eos_config.sandboxDeploymentOverrides[i].sandboxID)
+        if (!product_config.environments.is_deployment_defined(deployment_id_override))
         {
-            logging::log_inform(("Sandbox Deployment ID override specified: " + eos_config.sandboxDeploymentOverrides[i].deploymentID).c_str());
-            eos_config.deploymentID = eos_config.sandboxDeploymentOverrides[i].deploymentID;
+            logging::log_warn(
+              "Deployment Id \"" + deployment_id_override + "\" was provided on the "
+              "command line, but is not found in the product config. Attempting "
+              "to use it regardless.");
         }
-    }
-
-    std::string deploymentArgName = "-eosdeploymentid=";
-    std::string egsDeploymentArgName = "-epicdeploymentid=";
-    for (unsigned i = 0; i < argument_strings.size(); ++i)
-    {
-        std::string* match = nullptr;
-        if (argument_strings[i]._Starts_with(deploymentArgName))
-        {
-            match = &deploymentArgName;
-        }
-        else if (argument_strings[i]._Starts_with(egsDeploymentArgName))
-        {
-            match = &egsDeploymentArgName;
-        }
-        if (match != nullptr)
-        {
-            std::string deploymentArg = argument_strings[i].substr(match->length());
-            if (!deploymentArg.empty())
-            {
-                logging::log_inform(("Deployment ID override specified: " + deploymentArg).c_str());
-                eos_config.deploymentID = deploymentArg;
-            }
-        }
+        platform_config.deployment.id = deployment_id_override;
     }
 }
 
@@ -138,21 +93,13 @@ void get_cli_arguments(config_legacy::EOSConfig eos_config)
 #if PLATFORM_32BITS
 #pragma comment(linker, "/export:UnityPluginLoad=_UnityPluginLoad@4")
 #endif
-PEW_EOS_API_FUNC(void) UnityPluginLoad(void*)
+PEW_EOS_API_FUNC(void) UnityPluginLoad(void* arg)
 {
 #if _DEBUG
-    logging::show_log_as_dialog("You may attach a debugger to the DLL");
-#endif
-
-    config_legacy::EOSConfig eos_config;
-    if (!config_legacy::try_get_eos_config(eos_config))
+    if (!IsDebuggerPresent())
     {
-        return;
+        logging::show_log_as_dialog("You may attach a debugger to the DLL");
     }
-
-    get_cli_arguments(eos_config);
-
-#if _DEBUG
     logging::global_log_open("gfx_log.txt");
 #endif
 
@@ -160,6 +107,19 @@ PEW_EOS_API_FUNC(void) UnityPluginLoad(void*)
 #ifdef USE_LEGACY
     std::filesystem::path DllPath;
     logging::log_inform("On UnityPluginLoad");
+
+    // Load EOSConfig
+    config_legacy::EOSConfig eos_config;
+    if (!config_legacy::try_get_eos_config(eos_config))
+    {
+        logging::log_error("Could not load EOSConfig.");
+    }
+    else
+    {
+        logging::log_inform("Loaded EOSConfig.");
+    }
+
+    get_cli_arguments(eos_config);
 
     // Acquire pointer to EOS SDK library
     s_eos_sdk_lib_handle = load_library_at_path(io_helpers::get_path_relative_to_current_module(SDK_DLL_NAME));
@@ -174,27 +134,16 @@ PEW_EOS_API_FUNC(void) UnityPluginLoad(void*)
         // If the initialize function pointer is not null
         if (EOS_Initialize_ptr)
         {
-<<<<<<< HEAD
-            // Load EOSConfig
-            config_legacy::EOSConfig eos_config;
-            if (!config_legacy::try_get_eos_config(eos_config))
-            {
-                logging::log_error("Could not load EOSConfig.");
-            }
-            else
-            {
-                logging::log_inform("Loaded EOSConfig.");
-            }
-
-            get_cli_arguments(eos_config);
-
-=======
->>>>>>> development
             logging::log_inform("start eos init");
 
-            eos_init(eos_config);
+            const auto product_config = config::Config::get<config::ProductConfig>();
+            const auto windows_config = config::Config::get<config::WindowsConfig>();
+
+            apply_cli_arguments(*windows_config, *product_config);
+
+            eos_init(*windows_config, *product_config);
             eos_set_loglevel_via_config();
-            eos_create(eos_config);
+            eos_create(*windows_config, *product_config);
 
             // Free function pointers and library handle.
             s_eos_sdk_lib_handle = nullptr;

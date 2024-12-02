@@ -1,8 +1,8 @@
-#ifndef PRODUCT_CONFIG_H
-#define PRODUCT_CONFIG_H
+#ifndef WINDOWS_CONFIG_HPP
+#define WINDOWS_CONFIG_HPP
 
 /*
- * Copyright (c) 2021 PlayEveryWare
+ * Copyright (c) 2024 PlayEveryWare
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,30 +25,18 @@
 
 #pragma once
 
-#include <vector>
-
-#include "include/Config/ConfigBase.h"
-#include "include/Config/ProductionEnvironments.hpp"
-#include "include/Config/ClientCredentials.hpp"
+#include "include/Config/PlatformConfig.hpp"
 
 namespace pew::eos::config
 {
-    struct ProductConfig final : ConfigBase
+    struct WindowsConfig final : PlatformConfig
     {
-        std::string product_name;
-        std::string product_id;
-        std::string product_version;
-        ProductionEnvironments environments;
-        std::vector<ClientCredentials> clients;
+        ~WindowsConfig() override = default;
 
     private:
-        // Makes the ProductConfig constructor accessible to the Config class.
-        friend struct ConfigBase;
-        ProductConfig() : ConfigBase(get_config_path("eos_product_config.json")) {}
-        ~ProductConfig() = default;
-
-        void from_json(const nlohmann::json& json) override;
-        std::filesystem::path get_config_path(const char* file_name) override;
+        explicit WindowsConfig() : PlatformConfig("eos_windows_config.json") {}
+        // Makes the WindowsConfig constructor accessible to the Config class.
+        friend struct Config;
     };
 }
 

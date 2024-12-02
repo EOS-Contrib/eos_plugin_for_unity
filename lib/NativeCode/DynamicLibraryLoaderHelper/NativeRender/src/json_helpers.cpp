@@ -113,24 +113,42 @@ namespace pew::eos::json_helpers
         return val;
     }
 
-    json_value_s* read_config_json_as_json_from_path(std::filesystem::path path_to_config_json)
+    json_value_s* read_config_json_as_json_from_path(const std::filesystem::path& path_to_config_json)
     {
-        logging::log_inform(("json path" + string_helpers::to_utf8_str(path_to_config_json)).c_str());
-        const size_t config_file_size = static_cast<size_t>(file_size(path_to_config_json));
-        if (config_file_size > SIZE_MAX)
+        logging::log_inform("Reading json from file \"" + path_to_config_json.string() + "\".");
+
+        const auto config_file_size_uintmax = file_size(path_to_config_json);
+        if (config_file_size_uintmax > static_cast<std::uintmax_t>(std::numeric_limits<size_t>::max())) 
         {
             throw std::filesystem::filesystem_error("File is too large", std::make_error_code(std::errc::file_too_large));
         }
 
+        // Safe cast to size_t after bounds check
+        const auto config_file_size = static_cast<size_t>(config_file_size_uintmax);
+
         FILE* file = nullptr;
-        errno_t config_file_error = _wfopen_s(&file, path_to_config_json.wstring().c_str(), L"r");
-        char* buffer = static_cast<char*>(calloc(1, config_file_size));
+        const errno_t config_file_error = _wfopen_s(&file, path_to_config_json.wstring().c_str(), L"r");
+        if (config_file_error != 0 || file == nullptr) 
+        {
+            throw std::runtime_error("Failed to open file: " + path_to_config_json.string());
+        }
 
-        const size_t bytes_read = fread(buffer, 1, config_file_size, file);
-        fclose(file);
-        struct json_value_s* config_json = json_parse(buffer, bytes_read);
-        free(buffer);
+        // Use a std::vector to manage the buffer memory
+        std::vector buffer(config_file_size, '\0');
 
-        return config_json;
+        const size_t bytes_read = fread(buffer.data(), 1, config_file_size, file);
+
+        // Close the file and check for errors
+        if (fclose(file) != 0) 
+        {
+            logging::log_error(
+                "There was an unspecified error trying to close "
+                "file \"" + path_to_config_json.string() + "\".");
+        }
+
+        // Parse the JSON using the buffer
+        json_value_s* config_json = json_parse(buffer.data(), bytes_read);
+
+        return config_json;  // Return the parsed JSON object
     }
 }

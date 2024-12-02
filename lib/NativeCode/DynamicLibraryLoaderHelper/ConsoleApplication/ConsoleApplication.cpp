@@ -164,21 +164,19 @@ bool NativeAndManagedInitializeOptionsAreIdentical()
 
 int main()
 {
+    pew::eos::logging::set_mirror_to_stdout(true);
     NativeAndManagedPlatformOptionsAreIdentical();
     NativeAndManagedInitializeOptionsAreIdentical();
 
-    pew::eos::config_legacy::EOSConfig eos_config;
-
     const auto eos_sdk = new pew::eos::EOSWrapper();
     const auto platform_interface = eos_sdk->start_eos();
-    
 
-    if(pew::eos::config_legacy::try_get_eos_config(eos_config))
+    if (platform_interface == nullptr)
     {
-        std::cout << "EOSConfig was read successfully.";
+        pew::eos::logging::log_error("Could not start the EOS SDK.");
     }
     else
     {
-        std::cout << "Could not load EOSConfig.";
+        pew::eos::logging::log_inform("Successfully started the EOS SDK.");
     }
 }
