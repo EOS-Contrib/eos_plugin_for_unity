@@ -35,10 +35,31 @@ namespace pew::eos::config
 {
     struct ProductConfig final : Config
     {
+        /**
+         * \brief Name of the product.
+         */
         std::string product_name;
+
+        /**
+         * \brief Product id.
+         */
         std::string product_id;
+
+        /**
+         * \brief Version of the product.
+         */
         std::string product_version;
+
+        /**
+         * \brief Contains information regarding all of the production
+         * environments defined for the product.
+         */
         ProductionEnvironments environments;
+
+        /**
+         * \brief Contains a list of all the client definitions that have been
+         * configured for the product.
+         */
         std::vector<ClientCredentials> clients;
 
     private:
