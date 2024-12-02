@@ -60,6 +60,7 @@ namespace pew::eos::config
         static std::enable_if_t<std::is_base_of_v<Config, T>, T*> get()
         {
             // Create the config class
+            // TODO: Replace raw pointers with shared_ptr or unique_ptr where appropriate.
             T* config = new T();
 
             // Read the values from the file

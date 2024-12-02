@@ -41,69 +41,46 @@ using namespace pew::eos::eos_library_helpers;
 using FSig_ApplicationWillShutdown = void (__stdcall *)(void);
 FSig_ApplicationWillShutdown FuncApplicationWillShutdown = nullptr;
 
-void get_cli_arguments(config_legacy::EOSConfig eos_config)
+/**
+ * \brief Applies any command line arguments that may have been provided.
+ * \param platform_config The platform config whose values may need to be
+ * overridden by command line arguments.
+ * \param product_config The product config. This is used to warn the user if
+ * the provided sandbox id or deployment id is not defined in the product
+ * config. If they are not defined, they will still be applied.
+ */
+static void apply_cli_arguments(config::PlatformConfig& platform_config, const config::ProductConfig& product_config)
 {
     //support sandbox and deployment id override via command line arguments
-    std::stringstream argument_stream = std::stringstream(GetCommandLineA());
-    std::istream_iterator<std::string> argument_stream_begin(argument_stream);
-    std::istream_iterator<std::string> argument_stream_end;
-    std::vector<std::string> argument_strings(argument_stream_begin, argument_stream_end);
-    std::string egsArgName = "-epicsandboxid=";
-    std::string sandboxArgName = "-eossandboxid=";
-    for (unsigned i = 0; i < argument_strings.size(); ++i)
+    auto argument_stream = std::stringstream(GetCommandLineA());
+    const std::istream_iterator<std::string> argument_stream_begin(argument_stream);
+    const std::istream_iterator<std::string> argument_stream_end;
+    const std::vector argument_strings(argument_stream_begin, argument_stream_end);
+
+    std::string sandbox_id_override;
+    if (io_helpers::try_get_command_line_argument(argument_strings, sandbox_id_override, "epicsandboxid", "eossandboxid"))
     {
-        std::string* match = nullptr;
-        if (argument_strings[i]._Starts_with(sandboxArgName))
+        if (!product_config.environments.is_sandbox_defined(sandbox_id_override))
         {
-            match = &sandboxArgName;
+            logging::log_warn(
+              "Sandbox Id \"" + sandbox_id_override + "\" was provided on the "
+              "command line, but is not found in the product config. Attempting "
+              "to use it regardless.");
         }
-        else if (argument_strings[i]._Starts_with(egsArgName))
-        {
-            match = &egsArgName;
-        }
-        if (match != nullptr)
-        {
-            std::string sandboxArg = argument_strings[i].substr(match->length());
-            if (!sandboxArg.empty())
-            {
-                logging::log_inform(("Sandbox ID override specified: " + sandboxArg).c_str());
-                eos_config.sandboxID = sandboxArg;
-            }
-        }
+        platform_config.deployment.sandbox.id = sandbox_id_override;
     }
 
-    //check if a deployment id override exists for sandbox id
-    for (unsigned i = 0; i < eos_config.sandboxDeploymentOverrides.size(); ++i)
+    std::string deployment_id_override;
+    if (io_helpers::try_get_command_line_argument(argument_strings, deployment_id_override, "eosdeploymentid", "epicdeploymentid"))
     {
-        if (eos_config.sandboxID == eos_config.sandboxDeploymentOverrides[i].sandboxID)
+        if (!product_config.environments.is_deployment_defined(deployment_id_override))
         {
-            logging::log_inform(("Sandbox Deployment ID override specified: " + eos_config.sandboxDeploymentOverrides[i].deploymentID).c_str());
-            eos_config.deploymentID = eos_config.sandboxDeploymentOverrides[i].deploymentID;
+            logging::log_warn(
+              "Deployment Id \"" + deployment_id_override + "\" was provided on the "
+              "command line, but is not found in the product config. Attempting "
+              "to use it regardless.");
         }
-    }
-
-    std::string deploymentArgName = "-eosdeploymentid=";
-    std::string egsDeploymentArgName = "-epicdeploymentid=";
-    for (unsigned i = 0; i < argument_strings.size(); ++i)
-    {
-        std::string* match = nullptr;
-        if (argument_strings[i]._Starts_with(deploymentArgName))
-        {
-            match = &deploymentArgName;
-        }
-        else if (argument_strings[i]._Starts_with(egsDeploymentArgName))
-        {
-            match = &egsDeploymentArgName;
-        }
-        if (match != nullptr)
-        {
-            std::string deploymentArg = argument_strings[i].substr(match->length());
-            if (!deploymentArg.empty())
-            {
-                logging::log_inform(("Deployment ID override specified: " + deploymentArg).c_str());
-                eos_config.deploymentID = deploymentArg;
-            }
-        }
+        platform_config.deployment.id = deployment_id_override;
     }
 }
 
@@ -142,7 +119,7 @@ PEW_EOS_API_FUNC(void) UnityPluginLoad(void* arg)
             const auto product_config = config::Config::get<config::ProductConfig>();
             const auto windows_config = config::Config::get<config::WindowsConfig>();
 
-            // TODO: Apply CLI arguments
+            apply_cli_arguments(*windows_config, *product_config);
 
             eos_init(*windows_config, *product_config);
             eos_set_loglevel_via_config();
