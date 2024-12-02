@@ -74,7 +74,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.UI;
 
     using Epic.OnlineServices.Presence;
-    
+
     using Extensions;
     using System.Diagnostics;
     using System.Globalization;
@@ -195,7 +195,7 @@ namespace PlayEveryWare.EpicOnlineServices
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectAuthExpirationCallbackHandle;
-            
+
             // Setting it twice will cause an exception
             static bool hasSetLoggingCallback;
 
@@ -443,26 +443,7 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private Result InitializePlatformInterface()
             {
-                ProductConfig productConfig = Config.Get<ProductConfig>();
-                IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
-
-                print("InitializePlatformInterface: platformSpecifics.GetType() = " + platformSpecifics.GetType());
-
-                EOSInitializeOptions initOptions = new();
-
-                print("InitializePlatformInterface: initOptions.GetType() = " + initOptions.GetType());
-
-                initOptions.options.ProductName = productConfig.ProductName;
-                initOptions.options.ProductVersion = productConfig.ProductVersion.ToString();
-                initOptions.options.OverrideThreadAffinity = new InitializeThreadAffinity();
-
-                initOptions.options.AllocateMemoryFunction = IntPtr.Zero;
-                initOptions.options.ReallocateMemoryFunction = IntPtr.Zero;
-                initOptions.options.ReleaseMemoryFunction = IntPtr.Zero;
-
-                initOptions.options.OverrideThreadAffinity = PlatformManager.GetPlatformConfig().threadAffinity.Unwrap();
-
-                platformSpecifics.ConfigureSystemInitOptions(ref initOptions);
+                EOSInitializeOptions initOptions = ConfigurationUtility.GetEOSInitializeOptions();
 
 #if UNITY_PS4 && !UNITY_EDITOR
                 // On PS4, RegisterForPlatformNotifications is called at a later time by EOSPSNManager
@@ -470,73 +451,18 @@ namespace PlayEveryWare.EpicOnlineServices
                 RegisterForPlatformNotifications();
 #endif
 
-                return PlatformInterface.Initialize(ref (initOptions as EOSInitializeOptions).options);
+                return PlatformInterface.Initialize(ref initOptions.options);
             }
 
             //-------------------------------------------------------------------------
             private PlatformInterface CreatePlatformInterface()
             {
-                PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
-                ProductConfig productConfig = Config.Get<ProductConfig>();
+                EOSCreateOptions platformOptions = ConfigurationUtility.GetEOSCreateOptions();
 
-                IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
-
-                EOSCreateOptions platformOptions = new();
-
-                platformOptions.options.CacheDirectory = platformSpecifics.GetTempDir();
-                platformOptions.options.IsServer = platformConfig.isServer;
-                platformOptions.options.Flags =
-#if UNITY_EDITOR
-                PlatformFlags.LoadingInEditor;
-#else
-                platformConfig.platformOptionsFlags.Unwrap();
-#endif
-
-                if (!platformConfig.clientCredentials.IsEncryptionKeyValid())
-                {
-                    Debug.LogError("The encryption key used for the selected client credentials is invalid. Please see your platform configuration.");
-                }
-                else
-                {
-                    platformOptions.options.EncryptionKey = platformConfig.clientCredentials.EncryptionKey;
-                }
-
-                platformOptions.options.OverrideCountryCode = null;
-                platformOptions.options.OverrideLocaleCode = null;
-                platformOptions.options.ProductId = productConfig.ProductId.ToString("N").ToLowerInvariant();
-                platformOptions.options.SandboxId = platformConfig.deployment.SandboxId.ToString();
-                platformOptions.options.DeploymentId = platformConfig.deployment.DeploymentId.ToString("N").ToLowerInvariant();
-
-                platformOptions.options.TickBudgetInMilliseconds = platformConfig.tickBudgetInMilliseconds;
-
-                // configData has to serialize to JSON, so it doesn't represent null
-                // If the value is <= 0, then set it to null, which the EOS SDK will handle by using default of 30 seconds.
-                platformOptions.options.TaskNetworkTimeoutSeconds = platformConfig.taskNetworkTimeoutSeconds > 0 ? platformConfig.taskNetworkTimeoutSeconds : null;
-
-                platformOptions.options.ClientCredentials = new ClientCredentials
-                {
-                    ClientId = platformConfig.clientCredentials.ClientId,
-                    ClientSecret = platformConfig.clientCredentials.ClientSecret,
-                };
-
+                PlatformInterface platformInterface = PlatformInterface.Create(ref platformOptions.options);
 
 #if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX || UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX)
-                var createIntegratedPlatformOptionsContainerOptions = new Epic.OnlineServices.IntegratedPlatform.CreateIntegratedPlatformOptionsContainerOptions();
-                var integratedPlatformOptionsContainer = new Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer();
-                var integratedPlatformOptionsContainerResult = Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformInterface.CreateIntegratedPlatformOptionsContainer(ref createIntegratedPlatformOptionsContainerOptions, out integratedPlatformOptionsContainer);
-                
-                if (integratedPlatformOptionsContainerResult != Result.Success)
-                {
-                    print($"Error creating integrated platform container: {integratedPlatformOptionsContainerResult}");
-                }
-                platformOptions.options.IntegratedPlatformOptionsContainerHandle = integratedPlatformOptionsContainer;
-#endif
-                platformSpecifics.ConfigureSystemPlatformCreateOptions(ref platformOptions);
-
-                PlatformInterface platformInterface = PlatformInterface.Create(ref (platformOptions as EOSCreateOptions).options);
-
-#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX || UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX)
-                integratedPlatformOptionsContainer.Release();
+                platformOptions.options.IntegratedPlatformOptionsContainerHandle.Release();
 #endif
                 return platformInterface;
 
@@ -878,7 +804,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     Id = id,
                     Token = token
                 };
-                
+
                 return new LoginOptions
                 {
                     Credentials = loginCredentials,
@@ -1564,7 +1490,7 @@ namespace PlayEveryWare.EpicOnlineServices
                         if (deletePersistentAuthCallbackInfo.ResultCode != Result.Success)
                         {
                             print("Unable to delete persistent token, Result : " +
-                                           deletePersistentAuthCallbackInfo.ResultCode, 
+                                           deletePersistentAuthCallbackInfo.ResultCode,
                                            LogType.Error);
                         }
                         else
@@ -1838,8 +1764,8 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 #endif
 
-                /// <value>Private static instance of <c>EOSSingleton</c></value>
-                static EOSSingleton s_instance;
+        /// <value>Private static instance of <c>EOSSingleton</c></value>
+        static EOSSingleton s_instance;
 
         /// <value>Public static instance of <c>EOSSingleton</c></value>
         //-------------------------------------------------------------------------
