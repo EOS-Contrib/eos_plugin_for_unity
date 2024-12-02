@@ -20,6 +20,12 @@
  * SOFTWARE.
  */
 
+// Uncomment the following line to enable logging of application focus state 
+// changes. If this is on it can clutter the log window and make debugging 
+// difficult, so please enable it when you need to diagnose application focus
+// state-related issues.
+//#define LOG_APPLICATION_FOCUS_CHANGE
+
 // Don't shut down the interface if running in the editor.
 // According to the Epic documentation, shutting down this will disable a given loaded
 // instance of the SDK from ever initializing again. Which is bad because Unity often (always?) loads a library just once
@@ -68,7 +74,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.UI;
 
     using Epic.OnlineServices.Presence;
-    
+
     using Extensions;
     using System.Diagnostics;
     using System.Globalization;
@@ -189,7 +195,7 @@ namespace PlayEveryWare.EpicOnlineServices
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectAuthExpirationCallbackHandle;
-            
+
             // Setting it twice will cause an exception
             static bool hasSetLoggingCallback;
 
@@ -798,7 +804,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     Id = id,
                     Token = token
                 };
-                
+
                 return new LoginOptions
                 {
                     Credentials = loginCredentials,
@@ -1484,7 +1490,7 @@ namespace PlayEveryWare.EpicOnlineServices
                         if (deletePersistentAuthCallbackInfo.ResultCode != Result.Success)
                         {
                             print("Unable to delete persistent token, Result : " +
-                                           deletePersistentAuthCallbackInfo.ResultCode, 
+                                           deletePersistentAuthCallbackInfo.ResultCode,
                                            LogType.Error);
                         }
                         else
@@ -1696,9 +1702,11 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             public void OnApplicationFocus(bool hasFocus)
             {
+#if LOG_APPLICATION_FOCUS_CHANGE
                 bool hadFocus = s_hasFocus;
-                s_hasFocus = hasFocus;
                 print($"EOSSingleton.OnApplicationFocus: HasFocus {hadFocus} -> {s_hasFocus}");
+#endif
+                s_hasFocus = hasFocus;
 
                 //                // Poll for the latest application constrained state as we're about
                 //                // to need it to determine the appropriate EOS application status
@@ -1756,8 +1764,8 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 #endif
 
-                /// <value>Private static instance of <c>EOSSingleton</c></value>
-                static EOSSingleton s_instance;
+        /// <value>Private static instance of <c>EOSSingleton</c></value>
+        static EOSSingleton s_instance;
 
         /// <value>Public static instance of <c>EOSSingleton</c></value>
         //-------------------------------------------------------------------------

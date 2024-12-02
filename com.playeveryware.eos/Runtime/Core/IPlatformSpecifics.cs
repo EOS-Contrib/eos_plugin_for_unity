@@ -35,7 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         string GetDynamicLibraryExtension();
 
-//#if EOS_DYNAMIC_BINDINGS
+        //#if EOS_DYNAMIC_BINDINGS
         // Only called if EOS_DYNAMIC_BINDINGS is defined
         void LoadDelegatesWithEOSBindingAPI();
         //#endif

@@ -19,14 +19,13 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'Release' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup>
     <LangVersion>9.0</LangVersion>
-    <DefineConstants>EXTERNAL_TO_UNITY</DefineConstants>
-    <DefineConstants>TRACE;DEBUG;EXTERNAL_TO_UNITY;STREAMING_ASSETS_DIRECTORY="$(UnityStreamingAssetsDirectory)"</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;EXTERNAL_TO_UNITY</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <OutputPath>$(SolutionDir)Build\$(Configuration)\$(Platform)</OutputPath>
@@ -213,8 +212,8 @@
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\EOS_SDK\**\*.cs">
       <Link>com.playeveryware.eos\Runtime\EOS_SDK\%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
-    <Compile Include="com.playeveryware.eos\Runtime\Core\Application.cs" />
-    <Compile Include="com.playeveryware.eos\Runtime\Core\Debug.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="Debug.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -55,7 +55,7 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         #endregion
-        
+
         #region Virtual methods that have a default behavior, but may need to be overwritten by deriving classes.
 
         public virtual string GetTempDir()
