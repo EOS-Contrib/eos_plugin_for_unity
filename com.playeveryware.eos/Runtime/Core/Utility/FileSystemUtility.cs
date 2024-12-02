@@ -134,7 +134,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         public static bool TryGetTempDirectory(out string path)
         {
             path = default;
-            
+
             // Nested local function to reduce repetitive code.
             string GenerateTempPath()
             {
@@ -211,7 +211,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// </param>
         /// <returns></returns>
         public static IEnumerable<string> GetDirectories(
-            IEnumerable<string> filepaths, 
+            IEnumerable<string> filepaths,
             bool creationOrder = true)
         {
             // For each filepath, determine the immediate parent directory of
@@ -223,9 +223,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
                 // skip if no parent
                 if (null == parent) continue;
-                
+
                 directoriesToCreate.Add(parent);
-                
+
             }
 
             // Return the list of directories to create in ascending order of
@@ -262,9 +262,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Task</returns>
         public static async Task CopyFilesAsync(
-            IList<CopyFileOperation> operations, 
-            CancellationToken cancellationToken = default, 
-            IProgress<CopyFileProgressInfo> progress = null, 
+            IList<CopyFileOperation> operations,
+            CancellationToken cancellationToken = default,
+            IProgress<CopyFileProgressInfo> progress = null,
             int updateIntervalMS = DefaultUpdateIntervalMS)
         {
             IEnumerable<string> directoriesToCreate = GetDirectories(
@@ -302,9 +302,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 // Copy the files asynchronously with the provided
                 // cancellation token, and progress stuff.
                 await CopyFilesAsyncInternal(
-                    operationsList, 
-                    cancellationToken, 
-                    progress, 
+                    operationsList,
+                    cancellationToken,
+                    progress,
                     progressInfo);
             }
             else
@@ -322,9 +322,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <param name="progressInfo">Progress information.</param>
         /// <returns>Task</returns>
         private static async Task CopyFilesAsyncInternal(
-            IEnumerable<CopyFileOperation> operations, 
-            CancellationToken cancellationToken = default, 
-            IProgress<CopyFileProgressInfo> progress = null, 
+            IEnumerable<CopyFileOperation> operations,
+            CancellationToken cancellationToken = default,
+            IProgress<CopyFileProgressInfo> progress = null,
             CopyFileProgressInfo progressInfo = default)
         {
             var tasks = operations.Select(async copyOperation =>
@@ -361,14 +361,14 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Task</returns>
         private static async Task CopyFileAsync(
-            CopyFileOperation op, 
+            CopyFileOperation op,
             CancellationToken cancellationToken)
         {
             // Maximum number of times the operation is retried if it fails.
             const int maxRetries = 3;
 
             // This is the initial delay before the operation is retried.
-            const int delayMilliseconds = 200; 
+            const int delayMilliseconds = 200;
 
             for (int attempt = 0; attempt < maxRetries; attempt++)
             {
@@ -401,7 +401,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                     // exponentially increase the delay to maximize the chance
                     // it will succeed without waiting too long.
                     var delay = delayMilliseconds * (int)Math.Pow(2, attempt);
-                    
+
                     // Construct detailed message regarding the nature of the problem.
                     StringBuilder sb = new();
                     sb.AppendLine($"Exception occurred during the following copy operation:");
@@ -685,7 +685,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             {
                 dInfo.Create();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogException(ex);
             }
@@ -790,7 +790,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 {
                     // Skip .git directories 
                     if (ignoreGit && subDir.EndsWith(".git")) { continue; }
-                    
+
                     // TODO: This is a little bit dangerous as one developer has found out. If the output directory is not
                     //       empty, and contains directories and files unrelated to output, this will (without prompting)
                     //       delete them. So, if you're outputting to, say the "Desktop" directory, it will delete everything

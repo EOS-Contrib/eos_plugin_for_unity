@@ -279,7 +279,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // Ensure static constructor of template variable type is called
             RuntimeHelpers.RunClassConstructor(typeof(T).TypeHandle);
 
-            if(!s_factories.TryGetValue(typeof(T), out factory))
+            if (!s_factories.TryGetValue(typeof(T), out factory))
             {
                 throw new InvalidOperationException(
                     $"No factory method has been registered for " +
@@ -567,7 +567,7 @@ namespace PlayEveryWare.EpicOnlineServices
              */
 
             return IteratePropertiesAndFields(configInstance)
-                .All(mInfo => 
+                .All(mInfo =>
                     GetDefaultValue(mInfo.MemberType) == mInfo.MemberValue);
         }
 
@@ -693,10 +693,10 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     // consider the member values to be equal if one is null and
                     // the other is empty
-                    return ((a.MemberValue == null && 
-                             ((List<string>)b.MemberValue).Count == 0) 
+                    return ((a.MemberValue == null &&
+                             ((List<string>)b.MemberValue).Count == 0)
                             ||
-                            (((List<string>)a.MemberValue).Count == 0 && 
+                            (((List<string>)a.MemberValue).Count == 0 &&
                              b.MemberValue == null));
                 }
                 else if (a.MemberType == typeof(string))
@@ -715,7 +715,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public int GetHashCode(MemberInfo memberInfo)
             {
                 return HashCode.Combine(
-                    memberInfo.MemberType, 
+                    memberInfo.MemberType,
                     memberInfo.MemberValue);
             }
         }
@@ -739,7 +739,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </returns>
         private static IEnumerable<MemberInfo> IteratePropertiesAndFields<T>(
             T instance,
-            BindingFlags bindingAttr = 
+            BindingFlags bindingAttr =
                 BindingFlags.Public | BindingFlags.Instance)
         {
             // go over the properties

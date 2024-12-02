@@ -2,6 +2,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+<<<<<<< HEAD
 ## [3.3.4] - 2024-10-28
 
 ### Added
@@ -60,6 +61,23 @@ Improved the configuration interface with explicit priorities and reorganized ad
   - Removed temporary files and logging statements used during debugging.
 ### Removals and Deprecations
 - **Obsolete Config Editors:** Removed outdated configuration editors that are no longer in use. [Commit: a2fdd306]
+=======
+## [3.3.4] - 2024-11-26
+
+### Changed
+
+- Update to EOS SDK 1.14.3.
+
+### Added
+
+- feat: EOSManager can have UserLoginInfo Provided to it
+- feat: Authentication Listener knows the difference between a Connect and Auth login
+
+### Fixed
+
+- fix: Add isolated changes that address the Android thread IO issue.
+- fix: Correct usage of FileSystemUtility in the IOSBuilder.
+>>>>>>> release-3.3.4
 
 ## [3.3.3] - 2024-09-19
 
