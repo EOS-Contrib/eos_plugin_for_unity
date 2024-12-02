@@ -68,7 +68,6 @@ namespace pew::eos::config
         friend struct Config;
         ProductConfig() : Config("eos_product_config.json") {}
         
-
         void parse_json_element(const std::string& name, json_value_s& value) override
         {
             if (name == "ProductName")

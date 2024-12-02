@@ -132,7 +132,6 @@ namespace pew::eos::config
     protected:
         friend struct ProductConfig;
 
-        // Delete the base implementation
         void parse_json_element(const std::string& name, json_value_s& value) override
         {
             if (name == "Deployments")
