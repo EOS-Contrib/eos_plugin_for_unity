@@ -67,7 +67,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// need to execute first in-order to register themselves as builders
         /// for their respective platforms.
         /// </summary>
-        public int callbackOrder => 1;
+        public int callbackOrder => 0;
 
         /// <summary>
         /// Stores the targets for which the builder can be used.
