@@ -9,11 +9,17 @@
 
 // add headers that you want to pre-compile here
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+#define NOMINMAX
 // Windows Header Files
 #include <windows.h>
 
 #if _WIN32 || _WIN64
 #define PLATFORM_WINDOWS 1
+#if _WIN64
+#define PLATFORM_64BITS 1
+#else
+#define PLATFORM_32BITS 1
+#endif
 #endif
 
 #define STATIC_EXPORT(return_type) extern "C" return_type

@@ -32,7 +32,14 @@
 
 namespace pew::eos
 {
+    #if PLATFORM_32BITS
+    #pragma comment(linker, "/export:_UnityPluginUnload=_UnityPluginUnload@0")
+    #endif
     PEW_EOS_API_FUNC(void) UnityPluginUnload();
+
+    #if PLATFORM_32BITS
+    #pragma comment(linker, "/export:UnityPluginLoad=_UnityPluginLoad@4")
+    #endif
     PEW_EOS_API_FUNC(void) UnityPluginLoad(void*);
 
     /**

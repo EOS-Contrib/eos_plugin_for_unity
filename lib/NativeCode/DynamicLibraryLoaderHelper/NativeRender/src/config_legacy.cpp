@@ -30,16 +30,6 @@
 using namespace pew::eos::config_legacy;
 using namespace pew::eos::json_helpers;
 
- /**
-  * @brief Reads an EOS configuration file as a JSON value.
-  *
-  * Retrieves the specified configuration file, loads its contents, and parses it into a JSON structure.
-  *
-  * @param config_filename The name of the configuration file.
-  * @return A pointer to a `json_value_s` representing the configuration data, or `nullptr` if parsing fails.
-  */
-json_value_s* read_eos_config_as_json_value_from_file(std::string config_filename);
-
 namespace pew::eos::config_legacy
 {
     /**
@@ -202,18 +192,5 @@ namespace pew::eos::config_legacy
         }
 
         return eos_config;
-    }
-
-    /**
-     * \brief Reads the indicated config file and parses the contents into a
-     * JSON object.
-     * \param config_filename The name of the config file to read JSON from.
-     * \return A JSON object.
-     */
-    json_value_s* read_eos_config_as_json_value_from_file(const std::string& config_filename)
-    {
-        const std::filesystem::path path_to_config_json = get_path_for_eos_service_config(config_filename);
-
-        return read_config_json_as_json_from_path(path_to_config_json);
     }
 }

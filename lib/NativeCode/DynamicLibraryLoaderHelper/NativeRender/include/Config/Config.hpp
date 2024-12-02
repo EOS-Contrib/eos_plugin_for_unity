@@ -57,11 +57,10 @@ namespace pew::eos::config
          * values.
          */
         template <typename T>
-        static std::enable_if_t<std::is_base_of_v<Config, T>, T*> get()
+        static std::enable_if_t<std::is_base_of_v<Config, T>, std::unique_ptr<T>> get()
         {
             // Create the config class
-            // TODO: Replace raw pointers with shared_ptr or unique_ptr where appropriate.
-            T* config = new T();
+            auto config = std::unique_ptr<T>(new T());
 
             // Read the values from the file
             config->read();

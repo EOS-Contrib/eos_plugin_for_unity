@@ -62,11 +62,12 @@ namespace pew::eos::config
          */
         std::vector<ClientCredentials> clients;
 
+        ~ProductConfig() = default;
     private:
         // Makes the ProductConfig constructor accessible to the Config class.
         friend struct Config;
         ProductConfig() : Config("eos_product_config.json") {}
-        ~ProductConfig() = default;
+        
 
         void parse_json_element(const std::string& name, json_value_s& value) override
         {
