@@ -299,9 +299,8 @@ namespace pew::eos
 
         platform_options.EncryptionKey = platform_config.client_credentials.encryption_key.c_str();
 
-        // TODO: Determine why now this cannot be empty.
-        platform_options.OverrideCountryCode = "US";// platform_config.overrideCountryCode.c_str();
-        platform_options.OverrideLocaleCode = "en-US"; // platform_config.overrideLocaleCode.c_str();
+        platform_options.OverrideCountryCode = platform_config.overrideCountryCode.c_str();
+        platform_options.OverrideLocaleCode = platform_config.overrideLocaleCode.c_str();
 
         platform_options.ProductId = product_config.product_id.c_str();
         platform_options.SandboxId = platform_config.deployment.sandbox.id.c_str();

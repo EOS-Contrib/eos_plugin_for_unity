@@ -183,7 +183,9 @@ namespace pew::eos::config
 
         virtual void from_json(const json_value_s& json_value)
         {
+            // Convert the value to json object
             const auto json_object = static_cast<json_object_s*>(json_value.payload);
+            // Use the object to parse
             from_json(*json_object);
         }
 

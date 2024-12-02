@@ -43,7 +43,7 @@ namespace pew::eos::config
      * \brief Used to describe information and functionality that is common to
      * all Config classes.
      */
-    struct Config : Serializable
+    struct Config : public Serializable
     {
         // Delete the copy constructor and copy assignment operator
         Config(const Config&) = delete;
@@ -150,7 +150,7 @@ namespace pew::eos::config
         /**
          * \brief Reads the configuration values from the file.
          */
-        void read()
+        virtual void read()
         {
             if (!exists(_file_path))
             {
