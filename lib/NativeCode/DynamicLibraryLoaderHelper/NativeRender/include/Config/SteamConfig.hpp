@@ -1,5 +1,5 @@
-#ifndef STEAM_CONFIG_H
-#define STEAM_CONFIG_H
+#ifndef STEAM_CONFIG_HPP
+#define STEAM_CONFIG_HPP
 /*
  * Copyright (c) 2024 PlayEveryWare
  *
@@ -30,6 +30,49 @@ namespace pew::eos::config
 {
     struct SteamConfig final : Config
     {
+        uint32_t steam_sdk_major_version;
+        uint32_t steam_sdk_minor_version;
+        EOS_EIntegratedPlatformManagementFlags integrated_platform_management_flags = EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled;
+
+        bool try_get_library_path(std::filesystem::path& library_path) const
+        {
+            if (exists(_override_library_path))
+            {
+                library_path = absolute(_override_library_path);
+                return true;
+            }
+
+            if (exists(_library_path))
+            {
+                library_path = absolute(_library_path);
+                return true;
+            }
+
+            return false;
+        }
+
+        
+        const char* get_steam_api_interface_versions_array() const
+        {
+            // For each element in the array (each of which is a string of an api version information)
+            // iterate across each character, and at the end of a string add a null terminator \0
+            // then add one more null terminator at the end of the array
+            std::vector<char> steamApiInterfaceVersionsAsCharArray;
+
+            for (const auto& currentFullValue : _steam_api_interface_versions_array)
+            {
+                for (char currentCharacter : currentFullValue)
+                {
+                    steamApiInterfaceVersionsAsCharArray.push_back(currentCharacter);
+                }
+
+                steamApiInterfaceVersionsAsCharArray.push_back('\0');
+            }
+            steamApiInterfaceVersionsAsCharArray.push_back('\0');
+
+            return steamApiInterfaceVersionsAsCharArray.data();
+        }
+
     private:
         std::filesystem::path _library_path;
         std::filesystem::path _override_library_path;
@@ -49,15 +92,6 @@ namespace pew::eos::config
         }
 
         friend struct Config;
-
-    public:
-        
-        bool try_get_library_path(std::filesystem::path& library_path) const;
-        uint32_t steam_sdk_major_version;
-        uint32_t steam_sdk_minor_version;
-        const char* get_steam_api_interface_versions_array() const;
-        EOS_EIntegratedPlatformManagementFlags integrated_platform_management_flags = EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled;
-
     };
 }
 

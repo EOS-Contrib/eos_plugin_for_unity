@@ -67,7 +67,7 @@
     <ClInclude Include="include\Config\ProductionEnvironments.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
-    <ClInclude Include="include\Config\SteamConfig.h">
+    <ClInclude Include="include\Config\SteamConfig.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
     <ClInclude Include="include\Config\Version.hpp">
@@ -108,9 +108,6 @@
     </ClCompile>
     <ClCompile Include="src\string_helpers.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Config\SteamConfig.cpp">
-      <Filter>Source Files\Config</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
