@@ -32,11 +32,6 @@
 
 namespace pew::eos
 {
-    namespace config_legacy
-    {
-        struct EOSConfig;
-    }
-
     PEW_EOS_API_FUNC(void) UnityPluginUnload();
     PEW_EOS_API_FUNC(void) UnityPluginLoad(void*);
 

@@ -195,60 +195,6 @@ namespace pew::eos::config_legacy
     typedef const char* (*GetConfigAsJSONString_t)();
 
     /**
-     * @brief Represents a sandbox deployment override configuration.
-     *
-     * Contains the sandbox ID and the corresponding deployment ID to override the default sandbox
-     * deployment configuration.
-     */
-    struct SandboxDeploymentOverride
-    {
-        std::string sandboxID;
-        std::string deploymentID;
-    };
-
-
-    /**
-     * @brief Holds EOS platform configuration settings.
-     *
-     * This structure defines various configuration parameters for the EOS platform, including
-     * product details, sandbox information, client credentials, thread affinities, and platform
-     * options.
-     */
-    struct EOSConfig
-    {
-        std::string productName;
-        std::string productVersion;
-
-        std::string productID;
-        std::string sandboxID;
-        std::string deploymentID;
-        std::vector<SandboxDeploymentOverride> sandboxDeploymentOverrides;
-
-        std::string clientSecret;
-        std::string clientID;
-        std::string encryptionKey;
-
-        std::string overrideCountryCode;
-        std::string overrideLocaleCode;
-
-        // this is called platformOptionsFlags in C#
-        uint64_t flags = 0;
-
-        uint32_t tickBudgetInMilliseconds = 0;
-        double taskNetworkTimeoutSeconds = 0.0;
-
-        uint64_t ThreadAffinity_networkWork = 0;
-        uint64_t ThreadAffinity_storageIO = 0;
-        uint64_t ThreadAffinity_webSocketIO = 0;
-        uint64_t ThreadAffinity_P2PIO = 0;
-        uint64_t ThreadAffinity_HTTPRequestIO = 0;
-        uint64_t ThreadAffinity_RTCIO = 0;
-
-        bool isServer = false;
-
-    };
-
-    /**
      * @brief Holds configuration for log levels and categories.
      *
      * This structure defines log level settings for specific log categories.
