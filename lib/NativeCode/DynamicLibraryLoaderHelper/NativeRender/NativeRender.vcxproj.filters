@@ -16,9 +16,6 @@
     <Filter Include="Header Files\Config">
       <UniqueIdentifier>{5aafc329-e650-4bf8-97f2-29ba2d2229dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Config">
-      <UniqueIdentifier>{b98d0628-f79b-479a-bdc9-d7bde7eeedb1}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
