@@ -79,6 +79,9 @@
     <ClInclude Include="include\Config\Serializable.hpp">
       <Filter>Header Files\Config</Filter>
     </ClInclude>
+    <ClInclude Include="include\Config\EnumMappings.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

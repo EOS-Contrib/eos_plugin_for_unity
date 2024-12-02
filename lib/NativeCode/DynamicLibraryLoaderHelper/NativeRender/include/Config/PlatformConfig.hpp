@@ -27,6 +27,7 @@
 
 #include <unordered_map>
 #include "config_legacy.h"
+#include "EnumMappings.h"
 #include "eos_init.h"
 #include "eos_auth_types.h"
 #include "eos_ui_types.h"
@@ -37,6 +38,8 @@
 
 namespace pew::eos::config
 {
+    
+
     /**
      * \brief Describes the configuration options for a platform that wants to
      * interact with the EOS SDK.
@@ -166,14 +169,14 @@ namespace pew::eos::config
             else if (name == "platformOptionsFlags")
             {
                 platform_options_flags = parse_flags<int>(
-                    &config_legacy::PLATFORM_CREATION_FLAGS_STRINGS_TO_ENUM, 
+                    &PLATFORM_CREATION_FLAGS_STRINGS_TO_ENUM, 
                     0, 
                     &value);
             }
             else if (name == "authScopeOptionsFlags")
             {
                 auth_scope_flags = parse_flags<EOS_EAuthScopeFlags>(
-                    &config_legacy::AUTH_SCOPE_FLAGS_STRINGS_TO_ENUM, 
+                    &AUTH_SCOPE_FLAGS_STRINGS_TO_ENUM, 
                     EOS_EAuthScopeFlags::EOS_AS_NoFlags, 
                     &value);
             }
@@ -247,7 +250,7 @@ namespace pew::eos::config
             {
                 // Handle toggleFriendsButtonCombination
                 toggle_friends_button_combination = parse_flags<EOS_UI_EInputStateButtonFlags>(
-                    &config_legacy::INPUT_STATE_BUTTON_FLAGS_STRINGS_TO_ENUM,
+                    &INPUT_STATE_BUTTON_FLAGS_STRINGS_TO_ENUM,
                     EOS_UI_EInputStateButtonFlags::EOS_UISBF_None,
                     &value);
             }
