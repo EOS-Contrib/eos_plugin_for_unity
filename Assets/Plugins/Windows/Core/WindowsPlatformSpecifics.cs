@@ -34,7 +34,7 @@
 
 #if !EOS_DISABLE
 
-//#define ENABLE_CONFIGURE_STEAM_FROM_MANAGED
+#define ENABLE_CONFIGURE_STEAM_FROM_MANAGED
 
 // If standalone windows and not editor, or the windows editor.
 #if (UNITY_STANDALONE_WIN && !UNITY_EDITOR) || UNITY_EDITOR_WIN || EXTERNAL_TO_UNITY
@@ -68,10 +68,13 @@ namespace PlayEveryWare.EpicOnlineServices
         public static string SteamConfigPath = "eos_steam_config.json";
 
 #if ENABLE_CONFIGURE_STEAM_FROM_MANAGED
-        private static readonly string SteamDllName = 
+        private static readonly string SteamDllName =
 #if UNITY_64
-	@@ -61,22 +79,22 @@ public class WindowsPlatformSpecifics : PlatformSpecifics<WindowsConfig>
+        "steam_api64.dll"
+#else
+        "steam_api.dll"
 #endif
+        ;
 #endif
 
         private static GCHandle SteamOptionsGCHandle;
