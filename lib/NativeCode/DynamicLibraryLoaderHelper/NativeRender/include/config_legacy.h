@@ -312,6 +312,8 @@ namespace pew::eos::config_legacy
     /**
      * @brief Reads a JSON configuration from a DLL.
      *
+     * TODO: This is no longer supported, it should be removed.
+     *
      * Attempts to load configuration data from a DLL. The function retrieves the
      * JSON configuration string from the DLL, parses it, and returns the parsed JSON object.
      *
