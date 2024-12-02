@@ -38,6 +38,8 @@ namespace pew::eos::logging
 {
     typedef void (*log_flush_function_t)(const char* str);
 
+    PEW_EOS_API_FUNC(void) set_mirror_to_stdout(const bool& mirror);
+
     /**
      * @brief Converts an EOS log level to its corresponding string representation.
      *

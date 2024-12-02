@@ -21,9 +21,11 @@
  */
 
 #include "include/eos_helpers.h"
+#include "include/logging.h"
 
 int main()
 {
+    pew::eos::logging::set_mirror_to_stdout(true);
     pew::eos::UnityPluginLoad(nullptr);
     pew::eos::UnityPluginUnload();
 }
