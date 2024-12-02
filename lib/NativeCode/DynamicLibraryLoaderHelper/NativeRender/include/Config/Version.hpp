@@ -1,5 +1,5 @@
-#ifndef VERSION_H
-#define VERSION_H
+#ifndef VERSION_HPP
+#define VERSION_HPP
 
 /*
  * Copyright (c) 2021 PlayEveryWare
