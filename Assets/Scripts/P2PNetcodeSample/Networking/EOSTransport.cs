@@ -103,19 +103,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         private Queue<Tuple<ProductUserId, ulong, bool>> ConnectedDisconnectedUserEvents = null;
 
         [System.Diagnostics.Conditional("EOS_TRANSPORT_DEBUG")]
-        private void log(string msg)
+        private void Log(string msg)
         {
             Debug.Log(msg);
         }
 
         [System.Diagnostics.Conditional("EOS_TRANSPORT_DEBUG")]
-        private void logWarning(string msg)
+        private void LogWarning(string msg)
         {
             Debug.LogWarning(msg);
         }
 
         [System.Diagnostics.Conditional("EOS_TRANSPORT_DEBUG")]
-        private void logError(string msg)
+        private void LogError(string msg)
         {
             Debug.LogError(msg);
         }
@@ -138,7 +138,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             ProductUserId userId = GetUserId(clientId);
 
-            log($"EOSP2PTransport.Send: [ClientId='{clientId}', UserId='{userId}', PayloadBytes='{payload.Count}', SendTimeSec='{Time.realtimeSinceStartup}']");
+            Log($"EOSP2PTransport.Send: [ClientId='{clientId}', UserId='{userId}', PayloadBytes='{payload.Count}', SendTimeSec='{Time.realtimeSinceStartup}']");
 
             Epic.OnlineServices.P2P.PacketReliability reliability = Epic.OnlineServices.P2P.PacketReliability.ReliableOrdered;
             if (networkDelivery == NetworkDelivery.Unreliable)
@@ -158,7 +158,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             {
                 if (reliability != Epic.OnlineServices.P2P.PacketReliability.ReliableOrdered)
                 {
-                    logError($"EOSP2PTransport.Send: Unable to send payload - The payload size ({payload.Count} bytes) exceeds the maxmimum packet size supported by EOS P2P ({EOSTransportManager.MaxPacketSize} bytes).");
+                    LogError($"EOSP2PTransport.Send: Unable to send payload - The payload size ({payload.Count} bytes) exceeds the maxmimum packet size supported by EOS P2P ({EOSTransportManager.MaxPacketSize} bytes).");
                     return;
                 }
             }
@@ -196,7 +196,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 payload = new ArraySegment<byte>();
                 receiveTime = Time.realtimeSinceStartup;
                 NetworkEvent networkEventType = evntIsConnectionEvent ? NetworkEvent.Connect : NetworkEvent.Disconnect;
-                log($"EOSP2PTransport.PollEvent: [{networkEventType}, ClientId='{clientId}', UserId='{evntUserId}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
+                Log($"EOSP2PTransport.PollEvent: [{networkEventType}, ClientId='{clientId}', UserId='{evntUserId}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
                 return networkEventType;
             }
 
@@ -208,7 +208,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 clientId = GetTransportId(userId);
                 payload = new ArraySegment<byte>(packet);
                 receiveTime = Time.realtimeSinceStartup;
-                log($"EOSP2PTransport.PollEvent: [{NetworkEvent.Data}, ClientId='{clientId}', UserId='{userId}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
+                Log($"EOSP2PTransport.PollEvent: [{NetworkEvent.Data}, ClientId='{clientId}', UserId='{userId}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
                 return NetworkEvent.Data;
             }
 
@@ -216,7 +216,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             clientId = InvalidClientId;
             payload = new ArraySegment<byte>();
             receiveTime = 0;
-            log("EOSP2PTransport.PollEvent: []");
+            Log("EOSP2PTransport.PollEvent: []");
             return NetworkEvent.Nothing;
         }
 
@@ -233,7 +233,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 #endif
             if (ServerUserIdToConnectTo == null)
             {
-                log("EOSP2PTransport.StartClient: No ServerUserIDToConnectTo set!");
+                Log("EOSP2PTransport.StartClient: No ServerUserIDToConnectTo set!");
                 return false;
             }
 
@@ -253,17 +253,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 // Attempt to connect to the server hosted by ServerUserId - was the request successfully initiated?
                 if (result = P2PManager.OpenConnection(ServerUserId, P2PSocketName))
                 {
-                    log($"EOSP2PTransport.StartClient: Successful Client start up - REQUESTED outgoing '{P2PSocketName}' socket connection with Server UserId Server UserId='{ServerUserId}'.");
+                    Log($"EOSP2PTransport.StartClient: Successful Client start up - REQUESTED outgoing '{P2PSocketName}' socket connection with Server UserId Server UserId='{ServerUserId}'.");
                     result = true;
                 }
                 else
                 {
-                    logError($"EOSP2PTransport.StartClient: Failed Client start up - Unable to initiate a connect request with Server UserId='{ServerUserId}'.");
+                    LogError($"EOSP2PTransport.StartClient: Failed Client start up - Unable to initiate a connect request with Server UserId='{ServerUserId}'.");
                 }
             }
             else
             {
-                logError("EOSP2PTransport.StartClient: Failed Client start up - 'ServerUserIdToConnectTo' is null or invalid."
+                LogError("EOSP2PTransport.StartClient: Failed Client start up - 'ServerUserIdToConnectTo' is null or invalid."
                     + " Please set a valid EOS ProductUserId of the Server host this Client should try connecting to in the 'ServerUserIdToConnectTo' property before calling StartClient"
                     + $" (ServerUserIdToConnectTo='{ServerUserIdToConnectTo}').");
             }
@@ -277,7 +277,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         public override bool StartServer()
         {
             Debug.Assert(IsInitialized);
-            log($"EOSP2PTransport.StartServer: Entering Server mode with EOS UserId='{OurUserId}'.");
+            Log($"EOSP2PTransport.StartServer: Entering Server mode with EOS UserId='{OurUserId}'.");
 #if UNITY_EDITOR
             ServerUserIDForCopying = OurUserId.ToString();
 #endif
@@ -304,7 +304,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             ProductUserId userId = GetUserId(clientId);
 
-            log($"EOSP2PTransport.DisconnectRemoteClient: Disconnecting ClientId='{clientId}' (UserId='{userId}') from our Server.");
+            Log($"EOSP2PTransport.DisconnectRemoteClient: Disconnecting ClientId='{clientId}' (UserId='{userId}') from our Server.");
             P2PManager.CloseConnection(userId, P2PSocketName, true);
         }
 
@@ -316,7 +316,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             Debug.Assert(IsInitialized);
             Debug.Assert(IsServer == false);
 
-            log($"EOSP2PTransport.DisconnectLocalClient: Disconnecting our Client from the Server (UserId='{ServerUserId}').");
+            Log($"EOSP2PTransport.DisconnectLocalClient: Disconnecting our Client from the Server (UserId='{ServerUserId}').");
             P2PManager.CloseConnection(ServerUserId, P2PSocketName, true);
         }
 
@@ -355,7 +355,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         public override void Shutdown()
         {
             Debug.Assert(IsInitialized);
-            log("EOSP2PTransport.Shutdown: Shutting down Epic Online Services Peer-2-Peer NetworkTransport.");
+            Log("EOSP2PTransport.Shutdown: Shutting down Epic Online Services Peer-2-Peer NetworkTransport.");
             IsInitialized = false;
 
             // Shutdown EOS Peer-2-Peer Manager
@@ -385,12 +385,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         public override void Initialize(NetworkManager networkManager)
         {
             Debug.Assert(IsInitialized == false);
-            log("EOSP2PTransport.Initialize: Initializing Epic Online Services Peer-2-Peer NetworkTransport.");
+            Log("EOSP2PTransport.Initialize: Initializing Epic Online Services Peer-2-Peer NetworkTransport.");
 
             // EOSManager should already be initialized and exist by this point
             if (EOSManager.Instance == null)
             {
-                logError("EOSP2PTransport.Initialize: Unable to initialize - EOSManager singleton is null (has the EOSManager component been added to an object in your initial scene?)");
+                LogError("EOSP2PTransport.Initialize: Unable to initialize - EOSManager singleton is null (has the EOSManager component been added to an object in your initial scene?)");
                 return;
             }
 
@@ -419,7 +419,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             P2PManager.OnConnectionClosedCb = OnConnectionClosedCallback;
             if (P2PManager.Initialize() == false)
             {
-                logError("EOSP2PTransport.Initialize: Unable to initialize - EOSP2PManager failed to initialize.");
+                LogError("EOSP2PTransport.Initialize: Unable to initialize - EOSP2PManager failed to initialize.");
                 P2PManager.OnIncomingConnectionRequestedCb = null;
                 P2PManager.OnConnectionOpenedCb = null;
                 P2PManager.OnConnectionClosedCb = null;
@@ -444,7 +444,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             {
                 if (data.ResultCode == Result.Success)
                 {
-                    log("Logout Successful. [" + data.ResultCode + "]");
+                    Log("Logout Successful. [" + data.ResultCode + "]");
                     GameStateManager.ChangeScene("MainMenu", false);
                 }
             });
@@ -464,13 +464,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             if (IsServer && socketName == P2PSocketName)
             {
                 // Accept connection request
-                log($"EOSP2PTransport.OnIncomingConnectionRequestedCallback: ACCEPTING incoming '{socketName}' socket connection request from UserId='{userId}'.");
+                Log($"EOSP2PTransport.OnIncomingConnectionRequestedCallback: ACCEPTING incoming '{socketName}' socket connection request from UserId='{userId}'.");
                 P2PManager.OpenConnection(userId, socketName);
             }
             else
             {
                 // Reject connection request
-                log($"EOSP2PTransport.OnIncomingConnectionRequestedCallback: REJECTING incoming '{socketName}' socket connection request from UserId='{userId}'.");
+                Log($"EOSP2PTransport.OnIncomingConnectionRequestedCallback: REJECTING incoming '{socketName}' socket connection request from UserId='{userId}'.");
                 P2PManager.CloseConnection(userId, socketName);
             }
         }
@@ -484,7 +484,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         {
             Debug.Assert(IsInitialized);
 
-            log($"EOSP2PTransport.OnConnectionOpenedCallback: '{socketName}' socket connection OPENED with UserId='{userId}'.");
+            Log($"EOSP2PTransport.OnConnectionOpenedCallback: '{socketName}' socket connection OPENED with UserId='{userId}'.");
             if (socketName == P2PSocketName)
             {
                 if (IsServer)
@@ -520,7 +520,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         {
             Debug.Assert(IsInitialized);
 
-            log($"EOSP2PTransport.OnConnectionClosedCallback: '{socketName}' socket connection CLOSED with UserId='{userId}'.");
+            Log($"EOSP2PTransport.OnConnectionClosedCallback: '{socketName}' socket connection CLOSED with UserId='{userId}'.");
             if (socketName == P2PSocketName)
             {
                 // We're the Server?
