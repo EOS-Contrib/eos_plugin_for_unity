@@ -24,14 +24,27 @@
 
 #pragma once
 
+#include "config_legacy.h"
 #include "include/Config/Config.hpp"
 
 namespace pew::eos::config
 {
     struct SteamConfig final : Config
     {
+        /**
+         * \brief Major version of the steam SDK used.
+         */
         uint32_t steam_sdk_major_version;
+
+        /**
+         * \brief Minor version of the steam SDK used.
+         */
         uint32_t steam_sdk_minor_version;
+
+        /**
+         * \brief Any platform management flags that need setting because of
+         * Steam integration. Defaults to none.
+         */
         EOS_EIntegratedPlatformManagementFlags integrated_platform_management_flags = EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled;
 
         bool try_get_library_path(std::filesystem::path& library_path) const
@@ -73,12 +86,24 @@ namespace pew::eos::config
             return steamApiInterfaceVersionsAsCharArray.data();
         }
 
+        bool is_managed_by_application() const
+        {
+            return static_cast<std::underlying_type_t<EOS_EIntegratedPlatformManagementFlags>>(integrated_platform_management_flags &
+                EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication);
+        }
+
+        bool is_managed_by_sdk() const
+        {
+            return static_cast<std::underlying_type_t<EOS_EIntegratedPlatformManagementFlags>>(integrated_platform_management_flags &
+                EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK);
+        }
+
     private:
         std::filesystem::path _library_path;
         std::filesystem::path _override_library_path;
         std::vector<std::string> _steam_api_interface_versions_array;
 
-        explicit SteamConfig() : Config("eos_plugin_steam_config.json"),
+        explicit SteamConfig() : Config("eos_steam_config.json"),
             steam_sdk_major_version(0),
             steam_sdk_minor_version(0)
         {
@@ -88,7 +113,30 @@ namespace pew::eos::config
 
         void parse_json_element(const std::string& name, json_value_s& value) override
         {
-            // TODO: Implement
+            if (name == "overrideLibraryPath")
+            {
+
+            }
+            else if (name == "steamSDKMajorVersion")
+            {
+                steam_sdk_major_version = parse_number<uint32_t>(value);
+            }
+            else if (name == "steamSDKMinorVersion")
+            {
+                steam_sdk_minor_version = parse_number<uint32_t>(value);
+            }
+            else if (name == "steamApiInterfaceVersionsArray")
+            {
+                _steam_api_interface_versions_array = parse_json_array<std::string>(value);
+            }
+            else if (name == "integratedPlatformManagementFlags")
+            {
+                integrated_platform_management_flags =
+                    parse_flags<EOS_EIntegratedPlatformManagementFlags>(
+                        &config_legacy::INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_STRINGS_TO_ENUM,
+                        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled,
+                        &value);
+            }
         }
 
         friend struct Config;

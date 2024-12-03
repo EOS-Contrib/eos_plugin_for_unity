@@ -25,6 +25,7 @@
 
 #pragma once
 
+#include <iostream>
 #include <map>
 
 #include "json.h"
@@ -57,7 +58,10 @@ namespace pew::eos::config
          * \return An std::vector<T>
          */
         template<typename T>
-        static std::enable_if_t<std::is_base_of_v<Serializable, T>, std::vector<T>> parse_json_array(json_value_s& array_value)
+        static std::enable_if_t<
+            std::is_base_of_v<Serializable, T> || 
+            std::is_same_v<std::string, T>
+        , std::vector<T>> parse_json_array(json_value_s& array_value)
         {
             std::vector<T> elements;
 
@@ -74,7 +78,19 @@ namespace pew::eos::config
             {
                 auto element = T();
 
-                element.from_json(*(array_iterator->value));
+                if constexpr(std::is_same_v<T, std::string>)
+                {
+                    const auto temp_string = json_value_as_string(array_iterator->value);
+                    element = (temp_string == nullptr) ? "" : temp_string->string;
+                }
+                else if constexpr(std::is_base_of_v<Serializable, T>)
+                {
+                    element.from_json(*(array_iterator->value));
+                }
+                else
+                {
+                    throw;
+                }
 
                 elements.push_back(element);
 
@@ -86,7 +102,8 @@ namespace pew::eos::config
 
         /**
          * \brief Parses a number from json into a specific type. 
-         * \tparam T The type to parse the number into. Supports int, double, long, float, and uint64_t.
+         * \tparam T The type to parse the number into. Supports int, double,
+         * long, float, uint64_t, and uint32_t
          * \param json_value The json value that contains a number.
          * \return The result of parsing the json value into the specified number type.
          */
@@ -95,11 +112,11 @@ namespace pew::eos::config
                       std::is_same_v<T, double> || 
                       std::is_same_v<T, long> ||
                       std::is_same_v<T, float> ||
-                      std::is_same_v<T, uint64_t>
+                      std::is_same_v<T, uint64_t> ||
+                      std::is_same_v<T, uint32_t>
                   >>
         static T parse_number(json_value_s& json_value)
         {
-            // TODO: Add warning for if the value expected does not match the type expected
             T number_value;
             const auto number = json_value_as_number(&json_value);
 
@@ -124,6 +141,11 @@ namespace pew::eos::config
             {
                 char* end;
                 number_value = (number == nullptr) ? 0 : std::strtoull(number->number, &end, 10);
+            }
+            else if constexpr (std::is_same_v<T, uint32_t>)
+            {
+                char* end;
+                number_value = (number == nullptr) ? 0 : static_cast<uint32_t>(std::strtoul(number->number, &end, 10));
             }
 
             return number_value;
