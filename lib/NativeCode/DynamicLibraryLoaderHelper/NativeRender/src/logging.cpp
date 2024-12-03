@@ -25,11 +25,13 @@
 #include <eos_logging.h>
 #include "string_helpers.h"
 #include <unordered_map>
+#include <iostream>
 
 namespace pew::eos::logging
 {
     FILE* s_log_file = nullptr;
     std::vector<std::string> buffered_output;
+    bool s_mirror_to_stdout = false;
 
     const std::unordered_map<std::string, EOS_ELogLevel> LOGLEVEL_STR_MAP =
     {
@@ -85,6 +87,16 @@ namespace pew::eos::logging
             return it->second;
         }
         return EOS_ELogLevel::EOS_LOG_Verbose;
+    }
+
+    /**
+     * \brief Allows an option to be set that will mirror the log messages to
+     * stdout.
+     * \param mirror Whether to mirror log statements to stdout.
+     */
+    PEW_EOS_API_FUNC(void) set_mirror_to_stdout(const bool& mirror)
+    {
+        s_mirror_to_stdout = mirror;
     }
 
     void show_log_as_dialog(const char* log_string)
@@ -177,6 +189,11 @@ namespace pew::eos::logging
         else
         {
             global_logf("NativePlugin (%s): %s", header, message);
+        }
+
+        if (s_mirror_to_stdout)
+        {
+            std::cout << "NativePlugin (" << header << "): " << message << std::endl;
         }
     }
 
