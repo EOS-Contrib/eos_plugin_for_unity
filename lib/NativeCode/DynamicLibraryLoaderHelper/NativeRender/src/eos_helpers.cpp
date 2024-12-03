@@ -298,7 +298,8 @@ namespace pew::eos
         return s_tempPathBuffer;
     }
 
-    void eos_create(const PlatformConfig& platform_config, const ProductConfig& product_config)
+
+    EOS_Platform_Options get_create_options(const PlatformConfig& platform_config, const ProductConfig& product_config)
     {
         EOS_Platform_Options platform_options = { 0 };
         platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
@@ -324,6 +325,13 @@ namespace pew::eos
             double task_network_timeout_seconds_dbl = platform_config.task_network_timeout_seconds;
             platform_options.TaskNetworkTimeoutSeconds = &task_network_timeout_seconds_dbl;
         }
+
+        return platform_options;
+    }
+
+    void eos_create(const PlatformConfig& platform_config, const ProductConfig& product_config)
+    {
+        auto platform_options = get_create_options(platform_config, product_config);
 
         EOS_Platform_RTCOptions rtc_options = { 0 };
 

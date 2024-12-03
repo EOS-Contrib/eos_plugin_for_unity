@@ -82,6 +82,8 @@ namespace pew::eos
      */
     EOS_InitializeOptions get_initialize_options(const PlatformConfig& platform_config, const ProductConfig& product_config);
 
+    EOS_Platform_Options get_create_options(const PlatformConfig& platform_config, const ProductConfig& product_config);
+
     /**
      * @brief Initializes the EOS SDK with the provided configuration.
      *
