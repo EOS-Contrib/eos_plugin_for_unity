@@ -29,7 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using UnityEngine;
     using System.Collections.Generic;
     using System.IO;
-    using System.Reflection;   
+    using System.Reflection;
     using System.Text;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
     using System.Runtime.CompilerServices;
@@ -77,15 +77,28 @@ namespace PlayEveryWare.EpicOnlineServices
         private string _lastReadJsonString;
 
         /// <summary>
+        /// Indicates whether, if the file is not found, it is acceptable to
+        /// return from the Get functions an instance of the config with
+        /// default values.
+        /// </summary>
+        private readonly bool _allowDefaultIfFileNotFound;
+
+        /// <summary>
         /// Instantiate a new config based on the file at the given filename -
         /// in a default directory.
         /// </summary>
         /// <param name="filename">
         /// The name of the file containing the config values.
         /// </param>
-        protected Config(string filename) : 
+        /// <param name="allowDefault">
+        /// Indicates whether, if the backing file cannot be found it is
+        /// acceptable to return from the Get functions an instance of the
+        /// config with default values.
+        /// </param>
+        protected Config(string filename, bool allowDefault = false) :
             this(filename, FileSystemUtility.CombinePaths(
-                Application.streamingAssetsPath, "EOS")) { }
+                Application.streamingAssetsPath, "EOS"), allowDefault)
+        { }
 
         /// <summary>
         /// Instantiates a new config based on the file at the given file and
@@ -97,10 +110,19 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="directory">
         /// The directory that contains the file.
         /// </param>
-        protected Config(string filename, string directory)
+        /// <param name="allowDefault">
+        /// Indicates whether, if the backing file cannot be found, it is
+        /// acceptable to return from the Get functions an instance of the
+        /// config with default values.
+        /// </param>
+        protected Config(
+            string filename,
+            string directory,
+            bool allowDefault = false)
         {
             Filename = filename;
             Directory = directory;
+            _allowDefaultIfFileNotFound = allowDefault;
         }
 
         /// <summary>
@@ -111,7 +133,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         /// <typeparam name="T">The config type.</typeparam>
         /// <param name="factory">The function to create the config type</param>
-        protected static void RegisterFactory<T>(Func<T> factory) 
+        protected static void RegisterFactory<T>(Func<T> factory)
             where T : Config
         {
             s_factories[typeof(T)] = factory;
@@ -136,30 +158,37 @@ namespace PlayEveryWare.EpicOnlineServices
         /// how to properly implement the Config implementing class such that
         /// its constructor is properly registered.
         /// </exception>
-        private static bool TryGetFactory<T>(out Func<Config> factory) 
+        private static bool TryGetFactory<T>(out Func<Config> factory)
             where T : Config
         {
             // Ensure static constructor of template variable type is called
             RuntimeHelpers.RunClassConstructor(typeof(T).TypeHandle);
 
-            if(!s_factories.TryGetValue(typeof(T), out factory))
+            if (!s_factories.TryGetValue(typeof(T), out factory))
             {
                 throw new InvalidOperationException(
                     $"No factory method has been registered for " +
                     $"type \"{typeof(T).FullName}\". " +
                     $"Please make sure that \"{typeof(T).FullName}\" " +
-                    $"registers its constructor with the base Config class " +
-                    $"via a static constructor.");
+                    "registers its constructor with the base Config class via" +
+                    " a static constructor.");
             }
 
             return true;
         }
 
+        // NOTE: This compile conditional is here because in Unity, Async IO 
+        //       works poorly on Android devices.
+#if !UNITY_ANDROID || UNITY_EDITOR
         /// <summary>
         /// Retrieves indicated Config object, reading its values into memory.
         /// </summary>
-        /// <typeparam name="T">The Config to retrieve.</typeparam>
-        /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
+        /// <typeparam name="T">
+        /// The Config to retrieve.
+        /// </typeparam>
+        /// <returns>
+        /// Task<typeparam name="T">Config type.</typeparam>
+        /// </returns>
         public static async Task<T> GetAsync<T>() where T : Config
         {
             // NOTE: This block (and the corresponding one below) exists so that
@@ -174,7 +203,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 #endif
             // Try to get the factory method used to instantiate the config.
-            TryGetFactory<T>(out Func<Config> factory);
+            _ = TryGetFactory<T>(out Func<Config> factory);
 
             // Use the factory method to create the config.
             T instance = (T)factory();
@@ -190,6 +219,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // Return the config being retrieved.
             return instance;
         }
+#endif
 
         /// <summary>
         /// Retrieves indicated Config object, reading its values into memory.
@@ -198,8 +228,104 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
         public static T Get<T>() where T : Config
         {
-            T config = Task.Run(GetAsync<T>).GetAwaiter().GetResult();
-            return config;
+            // NOTE: This block (and the corresponding one below) exists so that
+            //       the config values are only cached when not in the editor.
+            //       In the editor, config files can be changed, so they should
+            //       not be cached.
+#if !UNITY_EDITOR
+            // Return cached copy if it exists.
+            if (s_cachedConfigs.TryGetValue(typeof(T), out Config config))
+            {
+                return (T)config;
+            }
+#endif
+            // Try to get the factory method used to instantiate the config.
+            _ = TryGetFactory<T>(out Func<Config> factory);
+
+            // Use the factory method to create the config.
+            T instance = (T)factory();
+
+            // Synchronously read config values from the corresponding file.
+            instance.Read();
+
+#if !UNITY_EDITOR
+            // Cache the newly created config with its values having been read.
+            s_cachedConfigs.Add(typeof(T), instance);
+#endif
+
+            // Return the config being retrieved.
+            return instance;
+        }
+
+        /// <summary>
+        /// Returns the fully-qualified path to the file that holds the
+        /// configuration values.
+        /// </summary>
+        public string FilePath
+        {
+            get
+            {
+                return FileSystemUtility.CombinePaths(Directory, Filename);
+            }
+        }
+
+        // NOTE: This compile conditional is here because Async IO does not work
+        //       well on Android.
+#if !UNITY_ANDROID || UNITY_EDITOR
+        /// <summary>
+        /// Asynchronously read the values from the JSON file associated with
+        /// this Config
+        /// </summary>
+        /// <returns>Task.</returns>
+        protected virtual async Task ReadAsync()
+        {
+            await EnsureConfigFileExistsAsync();
+
+            if (await FileSystemUtility.FileExistsAsync(FilePath))
+            {
+                _lastReadJsonString = await FileSystemUtility.ReadAllTextAsync(FilePath);
+                JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
+            }
+        }
+#endif
+
+        /// <summary>
+        /// Synchronously reads the contents of a Config from the json file that
+        /// defines it.
+        /// </summary>
+        protected virtual void Read()
+        {
+            if (!FileSystemUtility.FileExists(FilePath))
+            {
+                return;
+            }
+
+            _lastReadJsonString = FileSystemUtility.ReadAllText(FilePath);
+            JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
+        }
+
+        /// <summary>
+        /// Determines if the config file exists, and if it does not, and the
+        /// editor is running, then create the file.
+        /// </summary>
+        /// <returns>Task.</returns>
+        private async Task EnsureConfigFileExistsAsync()
+        {
+            bool fileExists = await FileSystemUtility.FileExistsAsync(FilePath);
+
+            if (!fileExists)
+            {
+#if UNITY_EDITOR
+                await WriteAsync();
+#else
+                if (_allowDefaultIfFileNotFound)
+                    return;
+                // If the editor is not running, then the config file not
+                // existing should throw an error.
+                throw new FileNotFoundException(
+                    $"Config file \"{FilePath}\" does not exist.");
+#endif
+            }
         }
 
         /// <summary>
@@ -220,7 +346,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>
         /// True if the parsing of flags was successful, false otherwise.
         /// </returns>
-        protected delegate bool TryParseEnumDelegate<TEnum>(IList<string> 
+        protected delegate bool TryParseEnumDelegate<TEnum>(IList<string>
             stringFlags, out TEnum result) where TEnum : struct, Enum;
 
         /// <summary>
@@ -242,68 +368,12 @@ namespace PlayEveryWare.EpicOnlineServices
         /// the items in a list into the indicated enum type value.
         /// </returns>
         protected static TEnum StringsToEnum<TEnum>(
-            IList<string> stringFlags, 
+            IList<string> stringFlags,
             TryParseEnumDelegate<TEnum> parseEnumFn)
             where TEnum : struct, Enum
         {
             _ = parseEnumFn(stringFlags, out TEnum result);
             return result;
-        }
-
-        /// <summary>
-        /// Returns the fully-qualified path to the file that holds the
-        /// configuration values.
-        /// </summary>
-        public string FilePath
-        {
-            get
-            {
-                return FileSystemUtility.CombinePaths(Directory, Filename);
-            }
-        }
-
-        /// <summary>
-        /// Asynchronously read the values from the JSON file associated with
-        /// this Config
-        /// </summary>
-        /// <returns>Task.</returns>
-        protected virtual async Task ReadAsync()
-        {
-            await EnsureConfigFileExistsAsync();
-            _lastReadJsonString = await FileSystemUtility.ReadAllTextAsync(FilePath);
-            JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
-        }
-
-        /// <summary>
-        /// Synchronously reads the contents of a Config from the json file that
-        /// defines it.
-        /// </summary>
-        protected virtual void Read()
-        {
-            // Call ReadAsync() synchronously.
-            Task.Run(ReadAsync).GetAwaiter().GetResult();
-        }
-
-        /// <summary>
-        /// Determines if the config file exists, and if it does not, and the
-        /// editor is running, then create the file.
-        /// </summary>
-        /// <returns>Task.</returns>
-        private async Task EnsureConfigFileExistsAsync()
-        {
-            bool fileExists = await FileSystemUtility.FileExistsAsync(FilePath);
-
-            if (!fileExists)
-            {
-#if UNITY_EDITOR
-                await WriteAsync();
-#else
-                // If the editor is not running, then the config file not
-                // existing should throw an error.
-                throw new FileNotFoundException(
-                    $"Config file \"{FilePath}\" does not exist.");
-#endif
-            }
         }
 
         // Functions declared below should only ever be utilized in the editor.
@@ -321,7 +391,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         /// <returns>Task</returns>
         public virtual async Task WriteAsync(
-            bool prettyPrint = true, 
+            bool prettyPrint = true,
             bool updateAssetDatabase = true)
         {
             var json = JsonUtility.ToJson(this, prettyPrint);
@@ -344,7 +414,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Indicates whether to update the asset database after writing.
         /// </param>
         public virtual void Write(
-            bool prettyPrint = true, 
+            bool prettyPrint = true,
             bool updateAssetDatabase = true)
         {
             var json = JsonUtility.ToJson(this, prettyPrint);
@@ -362,8 +432,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 AssetDatabase.Refresh();
             }
         }
-
-
 
         /// <summary>
         /// Determines whether the values in the Config have their
@@ -419,7 +487,7 @@ namespace PlayEveryWare.EpicOnlineServices
              */
 
             return IteratePropertiesAndFields(configInstance)
-                .All(mInfo => 
+                .All(mInfo =>
                     GetDefaultValue(mInfo.MemberType) == mInfo.MemberValue);
         }
 
@@ -545,10 +613,10 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     // consider the member values to be equal if one is null and
                     // the other is empty
-                    return ((a.MemberValue == null && 
-                             ((List<string>)b.MemberValue).Count == 0) 
+                    return ((a.MemberValue == null &&
+                             ((List<string>)b.MemberValue).Count == 0)
                             ||
-                            (((List<string>)a.MemberValue).Count == 0 && 
+                            (((List<string>)a.MemberValue).Count == 0 &&
                              b.MemberValue == null));
                 }
                 else if (a.MemberType == typeof(string))
@@ -567,7 +635,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public int GetHashCode(MemberInfo memberInfo)
             {
                 return HashCode.Combine(
-                    memberInfo.MemberType, 
+                    memberInfo.MemberType,
                     memberInfo.MemberValue);
             }
         }
@@ -591,7 +659,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </returns>
         private static IEnumerable<MemberInfo> IteratePropertiesAndFields<T>(
             T instance,
-            BindingFlags bindingAttr = 
+            BindingFlags bindingAttr =
                 BindingFlags.Public | BindingFlags.Instance)
         {
             // go over the properties

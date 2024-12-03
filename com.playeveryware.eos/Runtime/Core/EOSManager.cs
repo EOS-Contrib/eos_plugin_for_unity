@@ -51,6 +51,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Extensions;
     using UnityEngine;
     using System;
     using System.Collections.Generic;
@@ -85,6 +86,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using LogoutCallbackInfo = Epic.OnlineServices.Auth.LogoutCallbackInfo;
     using LogoutOptions = Epic.OnlineServices.Auth.LogoutOptions;
     using OnLogoutCallback = Epic.OnlineServices.Auth.OnLogoutCallback;
+    using System.Threading.Tasks;
 #endif
     /// <summary>
     /// One of the responsibilities of this class is to manage the lifetime of
@@ -108,6 +110,14 @@ namespace PlayEveryWare.EpicOnlineServices
         private static event OnAuthLoginCallback OnAuthLogin;
         private static event OnAuthLogoutCallback OnAuthLogout;
         private static event OnConnectLoginCallback OnConnectLogin;
+
+        /// <summary>
+        /// Some platforms require additional user information while performing 
+        /// a connect login. This delegate can be provided to saturate a
+        /// UserLoginInfo during <see cref="StartConnectLoginWithEpicAccount"/>.
+        /// If this is not provided, no UserLoginInfo will be set.
+        /// </summary>
+        public static Func<Task<UserLoginInfo>> GetUserLoginInfo = null;
 
         public delegate void OnCreateConnectUserCallback(CreateUserCallbackInfo createUserCallbackInfo);
 
@@ -179,7 +189,7 @@ namespace PlayEveryWare.EpicOnlineServices
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectAuthExpirationCallbackHandle;
-            
+
             // Setting it twice will cause an exception
             static bool hasSetLoggingCallback;
 
@@ -469,13 +479,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 EOSCreateOptions platformOptions = new EOSCreateOptions();
 
+
                 platformOptions.options.CacheDirectory = platformSpecifics.GetTempDir();
                 platformOptions.options.IsServer = configData.isServer;
                 platformOptions.options.Flags =
 #if UNITY_EDITOR
                     PlatformFlags.LoadingInEditor;
 #else
-                configData.GetPlatformFlags();
+                    configData.GetPlatformFlags();
 #endif
                 if (configData.IsEncryptionKeyValid())
                 {
@@ -564,8 +575,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 Init(coroutineOwner, EOSPackageInfo.ConfigFileName);
             }
 
-            //-------------------------------------------------------------------------
-            public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
+            private void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
             {
                 if (GetEOSPlatformInterface() != null)
                 {
@@ -756,6 +766,12 @@ namespace PlayEveryWare.EpicOnlineServices
             /// </summary>
             private void InitializeLogLevels()
             {
+                // This compile conditional is here to circumnavigate issues
+                // unique to android with respect to Config class functionality.
+#if UNITY_ANDROID && !UNITY_EDITOR
+                SetLogLevel(LogCategory.AllCategories, LogLevel.Info);
+                return;
+#else
                 var logLevelList = LogLevelUtility.LogLevelList;
 
                 if (logLevelList == null)
@@ -768,6 +784,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
                 }
+#endif
             }
 
             //-------------------------------------------------------------------------
@@ -832,15 +849,19 @@ namespace PlayEveryWare.EpicOnlineServices
                     Token = token
                 };
 
-                var defaultScopeFlags =
-                    AuthScopeFlags.BasicProfile | AuthScopeFlags.FriendsList | AuthScopeFlags.Presence;
+                AuthScopeFlags scopeFlags = (AuthScopeFlags.BasicProfile |
+                                             AuthScopeFlags.FriendsList |
+                                             AuthScopeFlags.Presence);
+
+                if (Config.Get<EOSConfig>().GetAuthScopeFlags() != AuthScopeFlags.NoFlags)
+                {
+                    scopeFlags = Config.Get<EOSConfig>().GetAuthScopeFlags();
+                }
 
                 return new LoginOptions
                 {
                     Credentials = loginCredentials,
-                    ScopeFlags = Config.Get<EOSConfig>().authScopeOptionsFlags.Count > 0
-                        ? Config.Get<EOSConfig>().GetAuthScopeFlags()
-                        : defaultScopeFlags
+                    ScopeFlags = scopeFlags
                 };
             }
 
@@ -1028,11 +1049,21 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             /// <summary>
-            /// 
+            /// Starts a Connect Login using a provided EpicAccountId.
+            /// If <see cref="GetUserLoginInfoDelegate"/> is set, this will
+            /// use that delegate to determine the 
+            /// <see cref="Epic.OnlineServices.Connect.LoginOptions.UserLoginInfo"/>.
             /// </summary>
-            /// <param name="epicAccountId"></param>
-            /// <param name="onConnectLoginCallback"></param>
-            public void StartConnectLoginWithEpicAccount(EpicAccountId epicAccountId,
+            /// <param name="epicAccountId">
+            /// The Epic Account to login as.
+            /// This is provided by logging in through the Auth interface.
+            /// </param>
+            /// <param name="onConnectLoginCallback">
+            /// Callback to run with information about the results of the login.
+            /// Also contains the information needed to set ProductUserId.
+            /// <see cref="s_localProductUserId"/>
+            /// </param>
+            public async void StartConnectLoginWithEpicAccount(EpicAccountId epicAccountId,
                 OnConnectLoginCallback onConnectLoginCallback)
             {
                 var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
@@ -1067,6 +1098,13 @@ namespace PlayEveryWare.EpicOnlineServices
                     return;
                 }
 
+                // If the GetUserLoginInfo delegate is set, the UserLoginInfo can
+                // be provided here for platforms that require it in this scenario.
+                if (EOSManager.GetUserLoginInfo != null)
+                {
+                    connectLoginOptions.UserLoginInfo = await EOSManager.GetUserLoginInfo();
+                }
+
                 // If the authToken returned a value, and there is a RefreshToken, then try to login using that
                 // Otherwise, try to use the AccessToken if that's available
                 // One or the other should be provided, but if neither is available then fail to login
@@ -1074,24 +1112,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     print("Attempting to use refresh token to login with connect");
 
-                    // need to refresh the epicaccount id
-                    // LoginCredentialType.RefreshToken
-                    Instance.StartLoginWithLoginTypeAndToken(LoginCredentialType.RefreshToken, null,
-                        authToken.Value.RefreshToken, callbackInfo =>
-                        {
-                            var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
-                            var copyUserTokenOptions = new CopyUserAuthTokenOptions();
-                            var result = EOSAuthInterface.CopyUserAuthToken(ref copyUserTokenOptions,
-                                callbackInfo.LocalUserId, out Token? userAuthToken);
+                    connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
+                    {
+                        Token = authToken.Value.RefreshToken,
+                        Type = ExternalCredentialType.Epic
+                    };
 
-                            connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
-                            {
-                                Token = userAuthToken.Value.AccessToken,
-                                Type = ExternalCredentialType.Epic
-                            };
-
-                            StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
-                        });
+                    StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
                 }
                 else if (authToken.Value.AccessToken != null)
                 {
@@ -1516,7 +1543,7 @@ namespace PlayEveryWare.EpicOnlineServices
                         if (deletePersistentAuthCallbackInfo.ResultCode != Result.Success)
                         {
                             print("Unable to delete persistent token, Result : " +
-                                           deletePersistentAuthCallbackInfo.ResultCode, 
+                                           deletePersistentAuthCallbackInfo.ResultCode,
                                            LogType.Error);
                         }
                         else
