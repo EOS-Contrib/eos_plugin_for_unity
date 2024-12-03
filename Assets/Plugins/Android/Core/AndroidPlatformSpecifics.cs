@@ -109,7 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         //-------------------------------------------------------------------------
         [Conditional("ENABLE_DEBUG_EOSMANAGERANDROID")]
-        static void print(string toPrint)
+        static void log(string toPrint)
         {
             UnityEngine.Debug.Log(toPrint);
         }
