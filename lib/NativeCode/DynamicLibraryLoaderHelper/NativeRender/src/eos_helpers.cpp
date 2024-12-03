@@ -138,26 +138,34 @@ namespace pew::eos
         logging::log_inform(output.str().c_str());
     }
 
-    void eos_init(const pew::eos::config::PlatformConfig& platform_config, const pew::eos::config::ProductConfig& product_config)
+    EOS_InitializeOptions get_initialize_options(const PlatformConfig& platform_config, const ProductConfig& product_config)
     {
         static int reserved[2] = { 1, 1 };
-        EOS_InitializeOptions SDKOptions = { 0 };
-        SDKOptions.ApiVersion = EOS_INITIALIZE_API_LATEST;
-        SDKOptions.AllocateMemoryFunction = nullptr;
-        SDKOptions.ReallocateMemoryFunction = nullptr;
-        SDKOptions.ReleaseMemoryFunction = nullptr;
-        SDKOptions.ProductName = product_config.product_name.c_str();
-        SDKOptions.ProductVersion = product_config.product_version.c_str();
-        SDKOptions.Reserved = reserved;
-        SDKOptions.SystemInitializeOptions = nullptr;
+        EOS_InitializeOptions sdk_initialize_options = {};
+        sdk_initialize_options.ApiVersion = EOS_INITIALIZE_API_LATEST;
+        sdk_initialize_options.AllocateMemoryFunction = nullptr;
+        sdk_initialize_options.ReallocateMemoryFunction = nullptr;
+        sdk_initialize_options.ReleaseMemoryFunction = nullptr;
+        sdk_initialize_options.ProductName = product_config.product_name.c_str();
+        sdk_initialize_options.ProductVersion = product_config.product_version.c_str();
+        sdk_initialize_options.Reserved = reserved;
+        sdk_initialize_options.SystemInitializeOptions = nullptr;
 
-        EOS_Initialize_ThreadAffinity overrideThreadAffinity = platform_config.thread_affinity;
+        static EOS_Initialize_ThreadAffinity overrideThreadAffinity;
         overrideThreadAffinity.ApiVersion = EOS_INITIALIZE_THREADAFFINITY_API_LATEST;
+        overrideThreadAffinity = platform_config.thread_affinity;
 
-        SDKOptions.OverrideThreadAffinity = &overrideThreadAffinity;
+        sdk_initialize_options.OverrideThreadAffinity = &overrideThreadAffinity;
+
+        return sdk_initialize_options;
+    }
+
+    void eos_init(const PlatformConfig& platform_config, const ProductConfig& product_config)
+    {
+        auto sdk_initialization_options = get_initialize_options(platform_config, product_config);
 
         logging::log_inform("call EOS_Initialize");
-        EOS_EResult InitResult = eos_library_helpers::EOS_Initialize_ptr(&SDKOptions);
+        EOS_EResult InitResult = eos_library_helpers::EOS_Initialize_ptr(&sdk_initialization_options);
         if (InitResult != EOS_EResult::EOS_Success)
         {
             logging::log_error("Unable to do eos init");
@@ -290,7 +298,7 @@ namespace pew::eos
         return s_tempPathBuffer;
     }
 
-    void eos_create(const pew::eos::config::PlatformConfig& platform_config, const pew::eos::config::ProductConfig& product_config)
+    void eos_create(const PlatformConfig& platform_config, const ProductConfig& product_config)
     {
         EOS_Platform_Options platform_options = { 0 };
         platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
@@ -329,7 +337,7 @@ namespace pew::eos
         windows_rtc_options.XAudio29DllPath = xaudio2_dll_path_as_string.c_str();
         logging::log_warn(xaudio2_dll_path_as_string.c_str());
 
-        if (!std::filesystem::exists(xaudio2_dll_path))
+        if (!exists(xaudio2_dll_path))
         {
             logging::log_warn("Missing XAudio dll!");
         }
@@ -343,7 +351,7 @@ namespace pew::eos
         EOS_IntegratedPlatform_Steam_Options steam_platform = { 0 };
         EOS_HIntegratedPlatformOptionsContainer integrated_platform_options_container = nullptr;
         
-        const auto eos_steam_config = config::Config::get<config::SteamConfig>();
+        const auto eos_steam_config = Config::get<SteamConfig>();
 
         std::filesystem::path steam_library_path;
         if (eos_steam_config->try_get_library_path(steam_library_path))
