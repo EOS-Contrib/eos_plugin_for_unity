@@ -109,7 +109,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         protected async override void OnLoggedIn(AuthenticationListener.LoginChangeKind changeType)
         {
-            await RefreshAsync();
+            // Achievements require Epic Game Services to function, which requires a Connect login
+            if (changeType == AuthenticationListener.LoginChangeKind.Connect)
+            {
+                await RefreshAsync();
+            }
         }
 
         protected override void Reset()
