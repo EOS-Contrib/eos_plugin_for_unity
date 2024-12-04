@@ -40,6 +40,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private Queue<string> logCacheList = new Queue<string>();
 
+        /// <summary>
+        /// The <see cref="UIDebugLogText"/> cannot generate a mesh that has more than "65000" vertices.
+        /// Particularly long logged messages can add up to past this value.
+        /// This would result in the log throwing an ArgumentException every time it is updated.
+        /// This value is an approximation of how long of a string a text element can hold.
+        /// </summary>
+        private const int MaximumLogStringLength = 10000;
+
         private bool _dirty = false;
         private string logCache = string.Empty;
         private string textFilter = string.Empty;
@@ -255,9 +263,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             logCacheList.Enqueue(logEntry);
 
-            if(logCacheList.Count > 100)
+            if (logCacheList.Count > 100)
             {
                 logCacheList.Dequeue();
+            }
+
+            // Get the log's current length; if it is larger than our maximum, dequeue things until
+            // we are below the established limit.
+            // If there are 99 tiny log messages and 1 HUGE log message, it might be that you need to
+            // keep dequeuing older messages until there's enough space.
+            if (GetLengthOfLogCache(out int numberOfMessagesToDequeue) > MaximumLogStringLength)
+            {
+                for (int dequeueCount = 0; dequeueCount < numberOfMessagesToDequeue; dequeueCount++)
+                {
+                    logCacheList.Dequeue();
+                }
             }
 
             _dirty = true;
@@ -365,6 +385,34 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void ScrollToBottom()
         {
             ScrollRect.verticalNormalizedPosition = 0;
+        }
+
+        /// <summary>
+        /// Iterates over <see cref="logCacheList"/> and returns the total length of the string.
+        /// </summary>
+        /// <param name="numberOfMessagesToDequeueToReachThreshold">
+        /// The amount of messages that need to be dequeued before the
+        /// total length of the string is under <see cref="MaximumLogStringLength"/>.
+        /// </param>
+        /// <returns>The current length of the text string.</returns>
+        private int GetLengthOfLogCache(out int numberOfMessagesToDequeueToReachThreshold)
+        {
+            int totalLength = 0;
+            numberOfMessagesToDequeueToReachThreshold = 0;
+
+            foreach (string message in logCacheList)
+            {
+                int nextLength = message.Length;
+
+                if (totalLength + nextLength > MaximumLogStringLength)
+                {
+                    numberOfMessagesToDequeueToReachThreshold++;
+                }
+
+                totalLength += nextLength;
+            }
+
+            return totalLength;
         }
     }
 }
