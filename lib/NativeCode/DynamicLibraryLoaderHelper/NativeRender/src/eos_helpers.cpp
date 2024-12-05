@@ -358,7 +358,7 @@ namespace pew::eos
             }
         }
 
-        steam_platform.SteamApiInterfaceVersionsArray = eos_steam_config->get_steam_api_interface_versions_array();
+        steam_platform.SteamApiInterfaceVersionsArray = eos_steam_config->get_steam_api_interface_versions_array().c_str();
 
         const auto size = strlen(steam_platform.SteamApiInterfaceVersionsArray);
 
