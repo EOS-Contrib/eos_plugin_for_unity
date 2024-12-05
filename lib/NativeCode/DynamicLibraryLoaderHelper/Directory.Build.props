@@ -21,5 +21,6 @@
       -->
     <SolutionDirForwardSlashes>$(SolutionDir.Replace('\', '/'))</SolutionDirForwardSlashes>
     <UnityStreamingAssetsDirectory>$(SolutionDirForwardSlashes)../../../Assets/StreamingAssets/</UnityStreamingAssetsDirectory>
+    <OutputUnityAssetsDirectory>$(SolutionDir)..\..\..\Assets\Plugins\Windows\$(NormalizedPlatform)\</OutputUnityAssetsDirectory>
   </PropertyGroup>
 </Project>

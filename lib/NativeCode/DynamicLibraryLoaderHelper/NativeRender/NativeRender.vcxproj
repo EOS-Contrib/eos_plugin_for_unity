@@ -88,10 +88,15 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <!-- Copy just the output .dll file into the appropriate assets directory alongside the aforementioned .dll.meta file.-->
+      <!-- Copy the meta file stored in the solution directory, since it's values have been properly set in such a way that Unity interacts with the DLL in the intended manner. -->
       <Command>
-        @echo Copying "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" to "$(OutputUnityAssetsDirectory)"
-        copy "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" "$(OutputUnityAssetsDirectory)" /Y
+        @echo Copying "$(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta" to "$(OutputUnityAssetsDirectory)"
+        copy $(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta $(OutputUnityAssetsDirectory) /Y
+      </Command>
+      <!-- Copy the output files into the appropriate assets directory alongside the aforementioned .dll.meta file.-->
+      <Command>
+        @echo Copying "$(TargetDir)$(ProjectName)-$(NormalizedPlatform)*" to "$(OutputUnityAssetsDirectory)"
+        copy "$(TargetDir)$(ProjectName)*" "$(OutputUnityAssetsDirectory)" /Y
       </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

@@ -7,3 +7,4 @@ GfxPluginNativeRender-x86.lib.meta
 
 DynamicLibraryLoaderHelper.iobj
 DynamicLibraryLoaderHelper.iobj.meta
+DynamicLibraryLoaderHelper*.lib*

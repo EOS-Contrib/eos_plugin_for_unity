@@ -19,12 +19,4 @@
     <OverlayDllName>EOSOVH-Win32-Shipping.dll</OverlayDllName>
     <SteamApiDll>steam_api.dll</SteamApiDll>
   </PropertyGroup>
-
-  <PropertyGroup>
-  <!-- 
-      Indicates where within the Unity project folder structure the 
-      GfxPluginNativeRender-*.dll file should be placed.
-    -->
-    <OutputUnityAssetsDirectory>$(SolutionDir)..\..\..\Assets\Plugins\Windows\$(NormalizedPlatform)\</OutputUnityAssetsDirectory>
-  </PropertyGroup>
 </Project>
