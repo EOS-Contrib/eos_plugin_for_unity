@@ -71,12 +71,6 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <!-- Copy the meta file stored in the solution directory, since it's values have been properly set in such a way that Unity interacts with the DLL in the intended manner. -->
-      <Command>copy $(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta $(OutputUnityAssetsDirectory) /Y</Command>
-      <!-- Copy just the output .dll file into the appropriate assets directory alongside the aforementioned .dll.meta file.-->
-      <Command>copy "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" "$(OutputUnityAssetsDirectory)" /Y</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <!-- Condition-Specific Definitions for Debug and Release -->
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
@@ -84,6 +78,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <PostBuildEvent>
+      <!-- Copy the meta file stored in the solution directory, since it's values have been properly set in such a way that Unity interacts with the DLL in the intended manner. -->
+      <Command>copy $(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta $(OutputUnityAssetsDirectory) /Y</Command>
+      <!-- Copy just the output .dll file into the appropriate assets directory alongside the aforementioned .dll.meta file.-->
+      <Command>copy "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" "$(OutputUnityAssetsDirectory)" /Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
