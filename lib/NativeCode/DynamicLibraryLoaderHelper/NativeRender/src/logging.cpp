@@ -27,6 +27,7 @@
 
 #include "string_helpers.h"
 #include <unordered_map>
+#include <iostream>
 
 namespace pew::eos::logging
 {

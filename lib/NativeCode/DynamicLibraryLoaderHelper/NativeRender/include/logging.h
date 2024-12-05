@@ -41,6 +41,13 @@ namespace pew::eos::logging
     PEW_EOS_API_FUNC(void) set_mirror_to_stdout(const bool& mirror);
 
     /**
+     * \brief Allows an option to be set that will mirror the log messages to
+     * stdout.
+     * \param mirror Whether to mirror log statements to stdout.
+     */
+    PEW_EOS_API_FUNC(void) set_mirror_to_stdout(const bool& mirror);
+
+    /**
      * @brief Converts an EOS log level to its corresponding string representation.
      *
      * Maps an EOS log level enumeration to a string (e.g., "Fatal", "Error").

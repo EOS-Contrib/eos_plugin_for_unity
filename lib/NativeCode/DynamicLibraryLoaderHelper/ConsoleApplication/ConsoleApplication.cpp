@@ -31,6 +31,7 @@
 #include "include/config_legacy.h"
 #include "include/Config/EOSWrapper.h"
 #include "ConfigurationUtilityBridge.hpp"
+#include "include/logging.h"
 
 #using <ManagedPluginCode.dll>
 #using <ManagedToUnmanagedBridge.dll>
