@@ -83,6 +83,8 @@
     <PreBuildEvent>
       <!-- When debugging, make sure to copy the EOSSDK Dll to the output directory -->
       <Command>copy "$(OutputUnityAssetsDirectory)$(SdkDllName)" "$(TargetDir)" /Y</Command>
+      <!-- Copy just the output .dll file into the appropriate assets directory alongside the aforementioned .dll.meta file.-->
+      <Command>copy "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" "$(OutputUnityAssetsDirectory)" /Y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
