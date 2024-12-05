@@ -82,11 +82,17 @@
     </ClCompile>
     <PreBuildEvent>
       <!-- When debugging, make sure to copy the EOSSDK Dll to the output directory -->
-      <Command>copy "$(OutputUnityAssetsDirectory)$(SdkDllName)" "$(TargetDir)" /Y</Command>
+      <Command>
+        @echo Copying "$(OutputUnityAssetsDirectory)$(SdkDllName)" to "$(TargetDir)"
+        copy "$(OutputUnityAssetsDirectory)$(SdkDllName)" "$(TargetDir)" /Y
+      </Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <!-- Copy just the output .dll file into the appropriate assets directory alongside the aforementioned .dll.meta file.-->
-      <Command>copy "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" "$(OutputUnityAssetsDirectory)" /Y</Command>
+      <Command>
+        @echo Copying "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" to "$(OutputUnityAssetsDirectory)"
+        copy "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" "$(OutputUnityAssetsDirectory)" /Y
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
@@ -103,9 +109,15 @@
     </Link>
     <PostBuildEvent>
       <!-- Copy the meta file stored in the solution directory, since it's values have been properly set in such a way that Unity interacts with the DLL in the intended manner. -->
-      <Command>copy $(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta $(OutputUnityAssetsDirectory) /Y</Command>
+      <Command>
+        @echo Copying "$(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta" to "$(OutputUnityAssetsDirectory)"
+        copy $(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta $(OutputUnityAssetsDirectory) /Y
+      </Command>
       <!-- Copy just the output .dll file into the appropriate assets directory alongside the aforementioned .dll.meta file.-->
-      <Command>copy "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" "$(OutputUnityAssetsDirectory)" /Y</Command>
+      <Command>
+        @echo Copying "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" to "$(OutputUnityAssetsDirectory)"
+        copy "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" "$(OutputUnityAssetsDirectory)" /Y
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <!-- Source Files -->
