@@ -298,7 +298,6 @@ namespace pew::eos
         return s_tempPathBuffer;
     }
 
-
     EOS_Platform_Options get_create_options(const PlatformConfig& platform_config, const ProductConfig& product_config)
     {
         EOS_Platform_Options platform_options = { 0 };
@@ -333,10 +332,9 @@ namespace pew::eos
     {
         auto platform_options = get_create_options(platform_config, product_config);
 
+        // =================== START APPLY RTC OPTIONS =========================
         EOS_Platform_RTCOptions rtc_options = { 0 };
-
         rtc_options.ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
-#if PLATFORM_WINDOWS
         logging::log_inform("setting up rtc");
         std::filesystem::path xaudio2_dll_path = io_helpers::get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
         std::string xaudio2_dll_path_as_string = string_helpers::to_utf8_str(xaudio2_dll_path);
@@ -351,16 +349,13 @@ namespace pew::eos
         }
         rtc_options.PlatformSpecificOptions = &windows_rtc_options;
         platform_options.RTCOptions = &rtc_options;
-#endif
+        // =================== END APPLY RTC OPTIONS ===========================
 
-#if PLATFORM_WINDOWS
-        // Defined here so that the override path lives long enough to be referenced by the create option
-        
+
+        // =================== START APPLY STEAM OPTIONS =======================
         EOS_IntegratedPlatform_Steam_Options steam_platform = { 0 };
         EOS_HIntegratedPlatformOptionsContainer integrated_platform_options_container = nullptr;
-        
         const auto eos_steam_config = Config::get<SteamConfig>();
-
         std::filesystem::path steam_library_path;
         if (eos_steam_config->try_get_library_path(steam_library_path))
         {
@@ -375,7 +370,6 @@ namespace pew::eos
         }
 
         steam_platform.SteamApiInterfaceVersionsArray = eos_steam_config->get_steam_api_interface_versions_array().c_str();
-
         const auto size = strlen(steam_platform.SteamApiInterfaceVersionsArray);
 
         if (size > EOS_INTEGRATEDPLATFORM_STEAM_MAX_STEAMAPIINTERFACEVERSIONSARRAY_SIZE)
@@ -405,15 +399,14 @@ namespace pew::eos
         EOS_IntegratedPlatformOptionsContainer_AddOptions addOptions = { EOS_INTEGRATEDPLATFORMOPTIONSCONTAINER_ADD_API_LATEST };
         addOptions.Options = &steam_integrated_platform_option;
         eos_library_helpers::EOS_IntegratedPlatformOptionsContainer_Add_ptr(integrated_platform_options_container, &addOptions);
-   
-#endif
+        // =================== END APPLY STEAM OPTIONS =========================
 
-        //EOS_Platform_Options_debug_log(platform_options);
+        
         logging::log_inform("Calling EOS_Platform_Create");
         eos_library_helpers::eos_platform_handle = eos_library_helpers::EOS_Platform_Create_ptr(&platform_options);
-        if (integrated_platform_options_container)
+        if (platform_options.IntegratedPlatformOptionsContainerHandle)
         {
-            eos_library_helpers::EOS_IntegratedPlatformOptionsContainer_Release_ptr(integrated_platform_options_container);
+            eos_library_helpers::EOS_IntegratedPlatformOptionsContainer_Release_ptr(platform_options.IntegratedPlatformOptionsContainerHandle);
         }
 
         if (!eos_library_helpers::eos_platform_handle)

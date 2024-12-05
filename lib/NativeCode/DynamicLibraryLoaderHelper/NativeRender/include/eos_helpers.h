@@ -82,6 +82,15 @@ namespace pew::eos
      */
     EOS_InitializeOptions get_initialize_options(const PlatformConfig& platform_config, const ProductConfig& product_config);
 
+    /**
+     * @brief Returns the platform options used to create the EOS SDK as
+     * determined by the platform and product configurations.
+     *
+     * @param platform_config The config for the platform.
+     * @param product_config The config for the product.
+     *
+     * \return The EOS_Platform_Options value used to create the EOS SDK.
+     */
     EOS_Platform_Options get_create_options(const PlatformConfig& platform_config, const ProductConfig& product_config);
 
     /**
