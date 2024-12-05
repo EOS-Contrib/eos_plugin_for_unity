@@ -32,9 +32,11 @@
 #include <codecvt>
 #include <eos_types.h>
 
+#include "../../../include/DLLHContext.h"
 #include "Config/PlatformConfig.hpp"
 #include "Config/ProductConfig.hpp"
 #include "Config/SteamConfig.hpp"
+#include "Config/WindowsConfig.hpp"
 
 /**
   * @brief Retrieves the system cache directory.
@@ -323,42 +325,8 @@ namespace pew::eos
         // =================== END APPLY RTC OPTIONS ===========================
     }
 
-    EOS_Platform_Options get_create_options(const PlatformConfig& platform_config, const ProductConfig& product_config)
+    void apply_steam_settings(EOS_Platform_Options& platform_options)
     {
-        EOS_Platform_Options platform_options = { 0 };
-        platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
-        platform_options.bIsServer = platform_config.is_server;
-        platform_options.Flags = platform_config.platform_options_flags;
-        platform_options.CacheDirectory = GetCacheDirectory();
-
-        platform_options.EncryptionKey = platform_config.client_credentials.encryption_key.c_str();
-
-        platform_options.OverrideCountryCode = platform_config.overrideCountryCode.empty() ? nullptr : platform_config.overrideCountryCode.c_str();
-        platform_options.OverrideLocaleCode = platform_config.overrideLocaleCode.empty() ? nullptr : platform_config.overrideLocaleCode.c_str();
-
-        platform_options.ProductId = product_config.product_id.c_str();
-        platform_options.SandboxId = platform_config.deployment.sandbox.id.c_str();
-        platform_options.DeploymentId = platform_config.deployment.id.c_str();
-        platform_options.ClientCredentials.ClientId = platform_config.client_credentials.client_id.c_str();
-        platform_options.ClientCredentials.ClientSecret = platform_config.client_credentials.client_secret.c_str();
-
-        platform_options.TickBudgetInMilliseconds = platform_config.tick_budget_in_milliseconds;
-
-        if (platform_config.task_network_timeout_seconds > 0)
-        {
-            double task_network_timeout_seconds_dbl = platform_config.task_network_timeout_seconds;
-            platform_options.TaskNetworkTimeoutSeconds = &task_network_timeout_seconds_dbl;
-        }
-
-        apply_rtc_options(platform_options);
-        
-        return platform_options;
-    }
-
-    void eos_create(const PlatformConfig& platform_config, const ProductConfig& product_config)
-    {
-        auto platform_options = get_create_options(platform_config, product_config);
-
         // =================== START APPLY STEAM OPTIONS =======================
         EOS_IntegratedPlatform_Steam_Options steam_platform = { 0 };
         EOS_HIntegratedPlatformOptionsContainer integrated_platform_options_container = nullptr;
@@ -407,10 +375,79 @@ namespace pew::eos
         addOptions.Options = &steam_integrated_platform_option;
         eos_library_helpers::EOS_IntegratedPlatformOptionsContainer_Add_ptr(integrated_platform_options_container, &addOptions);
         // =================== END APPLY STEAM OPTIONS =========================
+    }
 
+    EOS_Platform_Options get_create_options(const PlatformConfig& platform_config, const ProductConfig& product_config)
+    {
+        EOS_Platform_Options platform_options = { 0 };
+        platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
+        platform_options.bIsServer = platform_config.is_server;
+        platform_options.Flags = platform_config.platform_options_flags;
+        platform_options.CacheDirectory = GetCacheDirectory();
+
+        platform_options.EncryptionKey = platform_config.client_credentials.encryption_key.c_str();
+
+        platform_options.OverrideCountryCode = platform_config.overrideCountryCode.empty() ? nullptr : platform_config.overrideCountryCode.c_str();
+        platform_options.OverrideLocaleCode = platform_config.overrideLocaleCode.empty() ? nullptr : platform_config.overrideLocaleCode.c_str();
+
+        platform_options.ProductId = product_config.product_id.c_str();
+        platform_options.SandboxId = platform_config.deployment.sandbox.id.c_str();
+        platform_options.DeploymentId = platform_config.deployment.id.c_str();
+        platform_options.ClientCredentials.ClientId = platform_config.client_credentials.client_id.c_str();
+        platform_options.ClientCredentials.ClientSecret = platform_config.client_credentials.client_secret.c_str();
+
+        platform_options.TickBudgetInMilliseconds = platform_config.tick_budget_in_milliseconds;
+
+        if (platform_config.task_network_timeout_seconds > 0)
+        {
+            double task_network_timeout_seconds_dbl = platform_config.task_network_timeout_seconds;
+            platform_options.TaskNetworkTimeoutSeconds = &task_network_timeout_seconds_dbl;
+        }
+
+        apply_rtc_options(platform_options);
+        apply_steam_settings(platform_options);
+
+        return platform_options;
+    }
+
+    PEW_EOS_API_FUNC(EOS_Platform_Options*) PEW_EOS_Get_CreateOptions()
+    {
+        const auto platform_config = Config::get<WindowsConfig>();
+        const auto product_config = Config::get<ProductConfig>();
+
+        const auto create_options = get_create_options(*platform_config, *product_config);
+
+        // Allocate a new pointer so that it can be returned instead of the
+        // pointer to the object created on the stack above.
+        const auto platform_options_ptr = new EOS_Platform_Options();
+        *platform_options_ptr = create_options;
+
+        return platform_options_ptr;
+    }
+
+    PEW_EOS_API_FUNC(EOS_InitializeOptions*) PEW_EOS_Get_InitializeOptions()
+    {
+        const auto platform_config = Config::get<WindowsConfig>();
+        const auto product_config = Config::get<ProductConfig>();
+
+        const auto initialize_options = get_initialize_options(*platform_config, *product_config);
+
+        // Allocate a new pointer so that it can be returned instead of the
+        // pointer to the object created on the stack above.
+        const auto initialize_options_ptr = new EOS_InitializeOptions();
+        *initialize_options_ptr = initialize_options;
+
+        return initialize_options_ptr;
+    }
+
+    void eos_create(const PlatformConfig& platform_config, const ProductConfig& product_config)
+    {
+        auto platform_options = get_create_options(platform_config, product_config);
         
         logging::log_inform("Calling EOS_Platform_Create");
         eos_library_helpers::eos_platform_handle = eos_library_helpers::EOS_Platform_Create_ptr(&platform_options);
+
+        // If there is an integrated platform options container, make sure that it is freed.
         if (platform_options.IntegratedPlatformOptionsContainerHandle)
         {
             eos_library_helpers::EOS_IntegratedPlatformOptionsContainer_Release_ptr(platform_options.IntegratedPlatformOptionsContainerHandle);

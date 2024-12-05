@@ -83,6 +83,12 @@ namespace pew::eos
     EOS_InitializeOptions get_initialize_options(const PlatformConfig& platform_config, const ProductConfig& product_config);
 
     /**
+     * @brief Returns a pointer to the structure used to initialize the EOS SDK
+     * based on the configuration values.
+     */
+    PEW_EOS_API_FUNC(EOS_InitializeOptions*) PEW_EOS_Get_InitializeOptions();
+
+    /**
      * @brief Returns the platform options used to create the EOS SDK as
      * determined by the platform and product configurations.
      *
@@ -94,11 +100,24 @@ namespace pew::eos
     EOS_Platform_Options get_create_options(const PlatformConfig& platform_config, const ProductConfig& product_config);
 
     /**
+     * @brief Returns a pointer to the structure used to create the EOS SDK
+     * based on the configuration values.
+     */
+    PEW_EOS_API_FUNC(EOS_Platform_Options*) PEW_EOS_Get_CreateOptions();
+
+    /**
      * \brief Apply RTC Options to a given platform_options object.
      * \param platform_options The platform options object to apply the RTC
      * settings to.
      */
     void apply_rtc_options(EOS_Platform_Options& platform_options);
+
+    /**
+     * \brief Apply Steam configuration values to the platform options.
+     * \param platform_options The platform options object to apply the steam
+     * configuration values to.
+     */
+    void apply_steam_settings(EOS_Platform_Options& platform_options);
 
     /**
      * @brief Initializes the EOS SDK with the provided configuration.
