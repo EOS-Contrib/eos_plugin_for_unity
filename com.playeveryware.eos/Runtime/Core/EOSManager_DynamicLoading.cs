@@ -132,7 +132,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 if(LoadedDLLs.ContainsKey(libraryName))
                 {
-                    print("Found existing handle for " + libraryName);
+                    Log("Found existing handle for " + libraryName);
                     return LoadedDLLs[libraryName];
                 }
                 else
@@ -162,7 +162,7 @@ namespace PlayEveryWare.EpicOnlineServices
             static public void LoadDelegatesWithEOSBindingAPI()
             {
 #if EOS_DYNAMIC_BINDINGS
-                print($"Loading EOS binary {EOSBinaryName}");
+                Log($"Loading EOS binary {EOSBinaryName}");
                 var eosLibraryHandle = LoadDynamicLibrary(EOSBinaryName);
 
                 Epic.OnlineServices.Bindings.Hook<DLLHandle>(eosLibraryHandle, (DLLHandle handle, string functionName) => {
