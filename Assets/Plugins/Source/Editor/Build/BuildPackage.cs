@@ -179,7 +179,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             // Validate file paths
             if (!File.Exists(jsonFile))
             {
-                ExportError("JSON file \"" + jsonFile + "\" does not appear to exist.");
+                LogError("JSON file \"" + jsonFile + "\" does not appear to exist.");
             }
 
             // If the output directory does not exist, try and create it.
@@ -219,7 +219,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// Helper method to log and throw fatal errors that may occur during plugin export.
         /// </summary>
         /// <param name="message">The message to log / throw</param>
-        private static void ExportError(string message)
+        private static void LogError(string message)
         {
             Debug.LogError(message);
             throw new BuildFailedException(message);

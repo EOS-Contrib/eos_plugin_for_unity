@@ -40,7 +40,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         //-------------------------------------------------------------------------
         [Conditional("ENABLE_DLLHANDLE_PRINT")]
-        private static void print(string toPrint)
+        private static void Log(string toPrint)
         {
             UnityEngine.Debug.Log(toPrint);
         }
@@ -64,7 +64,7 @@ namespace PlayEveryWare.EpicOnlineServices
             for (int i = pluginPaths.Count - 1; i >= 0; --i)
             {
                 string value = pluginPaths[i];
-                print("print " + value);
+                Log("print " + value);
             }
 
             // Do a validation check after giving the 
@@ -72,7 +72,7 @@ namespace PlayEveryWare.EpicOnlineServices
             for (int i = pluginPaths.Count - 1; i >= 0; --i)
             {
                 string value = pluginPaths[i];
-                print("Evaluating " + value);
+                Log("Evaluating " + value);
                 if (!FileSystemUtility.DirectoryExists(value))
                 {
                     pluginPaths.RemoveAt(i);
@@ -128,7 +128,7 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public static DLLHandle LoadDynamicLibrary(string libraryName)
         {
-            print("Loading Library " + libraryName);
+            Log("Loading Library " + libraryName);
 
             string libraryPath = GetPathForLibrary(libraryName);
 
@@ -137,7 +137,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 return null;
             }
 
-            print("Trying to load with entry " + libraryPath);
+            Log("Trying to load with entry " + libraryPath);
             IntPtr libraryHandle = SystemDynamicLibrary.Instance.LoadLibraryAtPath(libraryPath);
 
             if (IntPtr.Zero == libraryHandle)
@@ -151,7 +151,7 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public DLLHandle(IntPtr intPtr) : base(intPtr, true)
         {
-            print("Creating a dll handle");
+            Log("Creating a dll handle");
             SetHandle(intPtr);
         }
 
@@ -166,7 +166,7 @@ namespace PlayEveryWare.EpicOnlineServices
             bool didUnload = true;
 #if !UNITY_EDITOR
             didUnload = SystemDynamicLibrary.Instance.UnloadLibrary(handle);
-            print("Unloading a Dll with result : " + didUnload);
+            Log("Unloading a Dll with result : " + didUnload);
 #endif
             SetHandle(IntPtr.Zero);
             return didUnload;
@@ -198,7 +198,7 @@ namespace PlayEveryWare.EpicOnlineServices
             Type delegateType, string functionName)
         {
             var aDelegate = LoadFunctionAsDelegate(libraryHandle, delegateType, functionName);
-            //print("Delegate found is : " + aDelegate);
+            //Log("Delegate found is : " + aDelegate);
             var field = clazz.GetField(functionName);
             field.SetValue(null, aDelegate);
         }
@@ -206,7 +206,7 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         static public Delegate LoadFunctionAsDelegate(IntPtr libraryHandle, Type functionType, string functionName)
         {
-            print("Attempt to load " + functionName);
+            Log("Attempt to load " + functionName);
             if (libraryHandle == IntPtr.Zero)
             {
                 throw new Exception("libraryHandle is null");

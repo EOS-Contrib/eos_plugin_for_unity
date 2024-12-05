@@ -65,7 +65,7 @@ namespace pew::eos::config
         }
 
         
-        const char* get_steam_api_interface_versions_array() const
+        std::string get_steam_api_interface_versions_array() const
         {
             // For each element in the array (each of which is a string of an api version information)
             // iterate across each character, and at the end of a string add a null terminator \0
@@ -115,7 +115,7 @@ namespace pew::eos::config
         {
             if (name == "overrideLibraryPath")
             {
-
+              // TODO: Make sure this is applied appropriately.
             }
             else if (name == "steamSDKMajorVersion")
             {
