@@ -298,6 +298,31 @@ namespace pew::eos
         return s_tempPathBuffer;
     }
 
+    void apply_rtc_options(EOS_Platform_Options& platform_options)
+    {
+        // =================== START APPLY RTC OPTIONS =========================
+        const auto rtc_options = std::make_shared<EOS_Platform_RTCOptions>();
+        rtc_options->ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
+        logging::log_inform("setting up rtc");
+        std::filesystem::path xaudio2_dll_path = io_helpers::get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
+        static std::string xaudio2_dll_path_as_string = string_helpers::to_utf8_str(xaudio2_dll_path);
+        const auto windows_rtc_options = std::make_shared<EOS_Windows_RTCOptions>();
+        windows_rtc_options->ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
+        windows_rtc_options->XAudio29DllPath = xaudio2_dll_path_as_string.c_str();
+
+        if (!exists(xaudio2_dll_path))
+        {
+            logging::log_warn("Missing XAudio dll!");
+        }
+        rtc_options->PlatformSpecificOptions = windows_rtc_options.get();
+        platform_options.RTCOptions = rtc_options.get();
+
+        // Store the shared_ptrs in a context to ensure their lifetime
+        static std::shared_ptr<EOS_Platform_RTCOptions> rtc_options_store = rtc_options;
+        static std::shared_ptr<EOS_Windows_RTCOptions> windows_rtc_options_store = windows_rtc_options;
+        // =================== END APPLY RTC OPTIONS ===========================
+    }
+
     EOS_Platform_Options get_create_options(const PlatformConfig& platform_config, const ProductConfig& product_config)
     {
         EOS_Platform_Options platform_options = { 0 };
@@ -325,32 +350,14 @@ namespace pew::eos
             platform_options.TaskNetworkTimeoutSeconds = &task_network_timeout_seconds_dbl;
         }
 
+        apply_rtc_options(platform_options);
+        
         return platform_options;
     }
 
     void eos_create(const PlatformConfig& platform_config, const ProductConfig& product_config)
     {
         auto platform_options = get_create_options(platform_config, product_config);
-
-        // =================== START APPLY RTC OPTIONS =========================
-        EOS_Platform_RTCOptions rtc_options = { 0 };
-        rtc_options.ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
-        logging::log_inform("setting up rtc");
-        std::filesystem::path xaudio2_dll_path = io_helpers::get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
-        std::string xaudio2_dll_path_as_string = string_helpers::to_utf8_str(xaudio2_dll_path);
-        EOS_Windows_RTCOptions windows_rtc_options = { 0 };
-        windows_rtc_options.ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
-        windows_rtc_options.XAudio29DllPath = xaudio2_dll_path_as_string.c_str();
-        logging::log_warn(xaudio2_dll_path_as_string.c_str());
-
-        if (!exists(xaudio2_dll_path))
-        {
-            logging::log_warn("Missing XAudio dll!");
-        }
-        rtc_options.PlatformSpecificOptions = &windows_rtc_options;
-        platform_options.RTCOptions = &rtc_options;
-        // =================== END APPLY RTC OPTIONS ===========================
-
 
         // =================== START APPLY STEAM OPTIONS =======================
         EOS_IntegratedPlatform_Steam_Options steam_platform = { 0 };

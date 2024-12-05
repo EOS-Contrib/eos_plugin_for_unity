@@ -94,6 +94,13 @@ namespace pew::eos
     EOS_Platform_Options get_create_options(const PlatformConfig& platform_config, const ProductConfig& product_config);
 
     /**
+     * \brief Apply RTC Options to a given platform_options object.
+     * \param platform_options The platform options object to apply the RTC
+     * settings to.
+     */
+    void apply_rtc_options(EOS_Platform_Options& platform_options);
+
+    /**
      * @brief Initializes the EOS SDK with the provided configuration.
      *
      * Sets up and initializes the EOS SDK using the provided configuration. Sets log levels and
