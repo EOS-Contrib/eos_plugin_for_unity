@@ -20,7 +20,7 @@ To setup your environment on windows, follow these steps (or you can run the scr
 1. Install the following:
     - [git](https://git-scm.com/downloads)
     - [Unity Hub](https://unity.com/download)
-    - [Visual Studio 2019 Community Edition](https://visualstudio.microsoft.com/vs/older-downloads/)
+    - [Visual Studio 2022 Community Edition](https://visualstudio.microsoft.com/vs/community/)
 
 2. Clone this repository and be sure to also run `git lfs pull` from the root of the repository.
 
