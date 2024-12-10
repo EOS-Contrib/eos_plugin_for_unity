@@ -48,6 +48,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         private const int MaximumLogStringLength = 10000;
 
+        /// <summary>
+        /// Indicates the total number of logs that can be in the cache.
+        /// </summary>
+        private const int MaximumLogsInCache = 100;
+
+        /// <summary>
+        /// Stores the current total string length of all the contents of the
+        /// log cache.
+        /// </summary>
+        private int _currentLogStringLength;
+
         private bool _dirty = false;
         private string logCache = string.Empty;
         private string textFilter = string.Empty;
@@ -261,23 +272,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 logEntry = "<color=" + color + ">" + logEntry + "</color>";
             }
 
-            logCacheList.Enqueue(logEntry);
+            _currentLogStringLength += logEntry.Length;
 
-            if (logCacheList.Count > 100)
+            // While there are items in the log cache list to remove, and while
+            // the current log string length is greater than the maximum string
+            // length allowed, remove items until the string length is within
+            // limits, or there are no more logs to remove from the cache.
+            while (logCacheList.Count != 0 && _currentLogStringLength > MaximumLogStringLength)
             {
-                logCacheList.Dequeue();
+                _currentLogStringLength -= logCacheList.Dequeue().Length;
             }
 
-            // Get the log's current length; if it is larger than our maximum, dequeue things until
-            // we are below the established limit.
-            // If there are 99 tiny log messages and 1 HUGE log message, it might be that you need to
-            // keep dequeuing older messages until there's enough space.
-            if (GetLengthOfLogCache(out int numberOfMessagesToDequeue) > MaximumLogStringLength)
+            // Add the new log entry to the cache list
+            logCacheList.Enqueue(logEntry);
+
+            // If the log cache list has more than the maximum items, than
+            // remove items from the cache and update the current log string
+            // length.
+            if (logCacheList.Count > MaximumLogsInCache)
             {
-                for (int dequeueCount = 0; dequeueCount < numberOfMessagesToDequeue; dequeueCount++)
-                {
-                    logCacheList.Dequeue();
-                }
+                _currentLogStringLength -= logCacheList.Dequeue().Length;
             }
 
             _dirty = true;
@@ -385,34 +399,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void ScrollToBottom()
         {
             ScrollRect.verticalNormalizedPosition = 0;
-        }
-
-        /// <summary>
-        /// Iterates over <see cref="logCacheList"/> and returns the total length of the string.
-        /// </summary>
-        /// <param name="numberOfMessagesToDequeueToReachThreshold">
-        /// The amount of messages that need to be dequeued before the
-        /// total length of the string is under <see cref="MaximumLogStringLength"/>.
-        /// </param>
-        /// <returns>The current length of the text string.</returns>
-        private int GetLengthOfLogCache(out int numberOfMessagesToDequeueToReachThreshold)
-        {
-            int totalLength = 0;
-            numberOfMessagesToDequeueToReachThreshold = 0;
-
-            foreach (string message in logCacheList)
-            {
-                int nextLength = message.Length;
-
-                if (totalLength + nextLength > MaximumLogStringLength)
-                {
-                    numberOfMessagesToDequeueToReachThreshold++;
-                }
-
-                totalLength += nextLength;
-            }
-
-            return totalLength;
         }
     }
 }
