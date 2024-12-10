@@ -272,6 +272,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 logEntry = "<color=" + color + ">" + logEntry + "</color>";
             }
 
+            // Add the length of the new log entry to the length of the total 
+            // log cache contents.
             _currentLogStringLength += logEntry.Length;
 
             // While there are items in the log cache list to remove, and while
