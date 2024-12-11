@@ -129,7 +129,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Indicates whether the SampleMenu requires a user be authenticated
         /// in order to interact with the scene.
         /// </summary>
-        public bool RequiresAuthentication { get; }
+        public bool RequiredLoginInterface { get; }
 
         /// <summary>
         /// Indicates whether the SampleMenu starts out hidden or visible.
@@ -149,12 +149,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Indicates whether the SampleMenu requires a user be authenticated in
         /// order for it to be used. Most of them require authentication.
         /// </param>
-        protected SampleMenu(bool startsHidden = true, bool requiresAuthentication = true)
+        protected SampleMenu(bool startsHidden = true, AuthenticationListener.LoginInterface requiredLoginInterface = AuthenticationListener.LoginInterface.AuthOrConnect)
         {
             StartsHidden = startsHidden;
-            RequiresAuthentication = requiresAuthentication;
+            RequiredLoginInterface = requiresAuthentication;
 
-            Log($"SampleMenu created -> (StartsHidden = {StartsHidden}, RequiresAuthentication = {RequiresAuthentication}).");
+            Log($"SampleMenu created -> (StartsHidden = {StartsHidden}, RequiresAuthentication = {RequiredLoginInterface}).");
         }
 
         /// <summary>

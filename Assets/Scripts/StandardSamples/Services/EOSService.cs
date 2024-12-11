@@ -49,7 +49,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Indicates whether the service needs to have a user authenticated in
         /// order to function properly.
         /// </summary>
-        protected bool RequiresAuthentication { get; }
+        protected AuthenticationListener.LoginInterface RequiredLoginInterface { get; }
 
         /// <summary>
         /// Used to prevent redundant calls to the dispose method.
@@ -59,14 +59,16 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Base constructor for Service managers.
         /// </summary>
-        /// <param name="requiresAuthentication">
+        /// <param name="requiredLoginInterface">
         /// Indicates whether the service manager requires a user to be
         /// authenticated with the Connect Interface in order to function
         /// properly.
+        ///
+        /// By default, implementing services require either auth or connect.
         /// </param>
-        protected EOSService(bool requiresAuthentication = true)
+        protected EOSService(AuthenticationListener.LoginInterface requiredLoginInterface = AuthenticationListener.LoginInterface.AuthOrConnect)
         {
-            RequiresAuthentication = requiresAuthentication;
+            RequiredLoginInterface = requiredLoginInterface;
             AuthenticationListener.Instance.AuthenticationChanged += OnAuthenticationChanged;
             _ = RefreshAsync();
         }
@@ -159,15 +161,22 @@ namespace PlayEveryWare.EpicOnlineServices
 
         }
 
-        private void OnAuthenticationChanged(bool authenticated, AuthenticationListener.LoginChangeKind changeType)
+        private void OnAuthenticationChanged(object sender, AuthenticationListener.AuthenticationChangedEventArgs e)
         {
-            if (authenticated)
+            // If the authentication state change does not match the required
+            // login interfaces for this service, then it can be ignored.
+            if ((RequiredLoginInterface & e.Interface) != RequiredLoginInterface)
             {
-                OnLoggedIn(changeType);
+                return;
+            }
+
+            if (e.Authenticated)
+            {
+                OnLoggedIn();
             }
             else
             {
-                OnLoggedOut(changeType);
+                OnLoggedOut();
             }
         }
 
@@ -175,16 +184,14 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Implement this method to perform tasks when a user authenticates.
         /// By default, there is no action taken.
         /// </summary>
-        /// <param name="changeType">The type of authentication change.</param>
-        protected virtual void OnLoggedIn(AuthenticationListener.LoginChangeKind changeType) { }
+        protected virtual void OnLoggedIn() { }
 
         /// <summary>
         /// If there are tasks that need to be done when logged out, consider
         /// overriding the Reset() function as that is where such things should
         /// be done.
         /// </summary>
-        /// <param name="changeType">The type of authentication change.</param>
-        protected void OnLoggedOut(AuthenticationListener.LoginChangeKind changeType)
+        protected void OnLoggedOut()
         {
             Reset();
         }
@@ -195,10 +202,11 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns></returns>
         public async Task RefreshAsync()
         {
-            // Check to see if authentication is required, if it's not then 
-            // continue. If it is, then make sure a user is authenticated before
-            // refreshing.
-            if (!RequiresAuthentication || (RequiresAuthentication && AuthenticationListener.Instance.IsAuthenticated))
+            // If no authentication interface is required, or if the Required
+            // login interface matches the interfaces authenticated with, then
+            // perform the internal refresh.
+            if (RequiredLoginInterface == AuthenticationListener.LoginInterface.None ||
+                (RequiredLoginInterface & AuthenticationListener.Instance.InterfacesAuthenticatedWith) == RequiredLoginInterface)
             {
                 await InternalRefreshAsync();
             }

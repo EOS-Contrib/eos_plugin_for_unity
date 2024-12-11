@@ -34,42 +34,47 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public class AuthenticationListener: IAuthInterfaceEventListener, IConnectInterfaceEventListener, IDisposable
     {
+        
+
         /// <summary>
-        /// Identifies the kind of authentication change.
+        /// Used to describe the event arguments for when authentication state
+        /// changes.
         /// </summary>
-        public enum LoginChangeKind
+        public class AuthenticationChangedEventArgs : EventArgs
         {
             /// <summary>
-            /// Represents a login change relating to the Auth-login type with EOS.
-            /// A user logged in with the Auth Interface has access to Epic
-            /// Account Services (EAS) operations.
+            /// Whether the action was to authenticate or to de-authenticate
             /// </summary>
-            Auth,
+            public readonly bool Authenticated;
 
             /// <summary>
-            /// Represents a login change relating to the Connect-login type with EOS.
-            /// A user logged in with the Connect Interface has access to all
-            /// EOS Game Services.
-            /// Typically a user will be logged in to Auth and then afterwards
-            /// logged in to Connect.
+            /// The interface with which the authentication operation is taking
+            /// place.
             /// </summary>
-            Connect
-        }
+            public readonly LoginInterface Interface;
 
-        /// <summary>
-        /// Used to describe functions that handle change in authentication
-        /// state.
-        /// </summary>
-        /// <param name="authenticated">
-        /// True if the authentication state has changed to authenticated, False
-        /// otherwise.
-        /// </param>
-        public delegate void AuthenticationChangedEventHandler(bool authenticated, LoginChangeKind changeType);
+            /// <summary>
+            /// Create a new AuthenticationChangedEventArgs object with the
+            /// given parameters.
+            /// </summary>
+            /// <param name="authenticated">
+            /// Whether the authentication or de-authentication is taking place.
+            /// </param>
+            /// <param name="loginInterface">
+            /// The interface with which the authentication operation is taking
+            /// place.
+            /// </param>
+            public AuthenticationChangedEventArgs(bool authenticated, LoginInterface loginInterface)
+            {
+                Authenticated = authenticated;
+                Interface = loginInterface;
+            }
+        }
 
         /// <summary>
         /// Event that triggers when the state of authentication has changed.
         /// </summary>
-        public event AuthenticationChangedEventHandler AuthenticationChanged;
+        public event EventHandler<AuthenticationChangedEventArgs> AuthenticationChanged;
 
         #region Singleton Pattern Implementation
 
@@ -102,20 +107,24 @@ namespace PlayEveryWare.EpicOnlineServices
         
         #endregion
 
-        private bool? _isAuthenticated;
+        /// <summary>
+        /// Stores the current status of authentication - where flags for each
+        /// type of login interface are set if user is authenticated with the
+        /// indicated interface, and not set if the user is not authenticated
+        /// with the indicated interface.
+        /// </summary>
+        private LoginInterface _authenticationStatus = LoginInterface.None;
 
         /// <summary>
         /// Indicates whether the authentication listener has received an
         /// AuthenticationChanged event that indicates a user has been logged
         /// in.
         /// </summary>
-        public bool IsAuthenticated
+        public LoginInterface InterfacesAuthenticatedWith
         {
             get
             {
-                // if _isAuthenticated has no value, then we do not know if
-                // we are authenticated or not, so we should say that we are not
-                return _isAuthenticated.HasValue && _isAuthenticated.Value;
+                return _authenticationStatus;
             }
         }
 
@@ -127,7 +136,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="attemptedState"></param>
         /// <param name="attemptResult"></param>
         /// <param name="changeType">The type of authentication change.</param>
-        private void TriggerAuthenticationChangedEvent(bool attemptedState, Result attemptResult, LoginChangeKind changeType)
+        private void TriggerAuthenticationChangedEvent(bool attemptedState, Result attemptResult, LoginInterface changeType)
         {
             // If the attempt to change the state of authentication did not 
             // succeed, then log a warning and stop.
@@ -137,12 +146,21 @@ namespace PlayEveryWare.EpicOnlineServices
                 return;
             }
 
-            // Keep track of whether the user is authenticated.
-            _isAuthenticated = attemptedState;
+            // Modify the authentication status bit-flag
+            if (attemptedState)
+            {
+                // Bitwise OR to add the type authenticated
+                _authenticationStatus |= (LoginInterface)changeType;
+            }
+            else
+            {
+                // Bitwise AND to remove the type being de-authenticated
+                _authenticationStatus &= ~(LoginInterface)changeType;
+            }
 
             // Trigger the event indicating that the state of authentication for 
             // the user has changed.
-            AuthenticationChanged?.Invoke(attemptedState, changeType);
+            AuthenticationChanged?.Invoke(this, new AuthenticationChangedEventArgs(attemptedState, changeType));
         }
 
         /// <summary>
@@ -153,7 +171,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void OnAuthLogin(LoginCallbackInfo loginCallbackInfo)
         {
-            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, LoginChangeKind.Auth);
+            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, LoginInterface.Auth);
         }
 
         /// <summary>
@@ -164,7 +182,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
         {
-            TriggerAuthenticationChangedEvent(false, logoutCallbackInfo.ResultCode, LoginChangeKind.Auth);
+            TriggerAuthenticationChangedEvent(false, logoutCallbackInfo.ResultCode, LoginInterface.Auth);
         }
 
         /// <summary>
@@ -175,7 +193,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
         {
-            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, LoginChangeKind.Connect);
+            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, LoginInterface.Connect);
         }
 
         /// <summary>
