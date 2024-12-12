@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     // Flags specifically for iOS. Note that labels for the baser
@@ -42,3 +44,5 @@ namespace PlayEveryWare.EpicOnlineServices
         protected IOSConfig() : base(PlatformManager.Platform.iOS) { }
     }
 }
+
+#endif

@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
     using Common;
@@ -1394,3 +1396,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 #endregion
     }
 }
+
+#endif

@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     // Flags specifically for Linux. Note that labels for the baser
@@ -42,3 +44,5 @@ namespace PlayEveryWare.EpicOnlineServices
         protected LinuxConfig() : base(PlatformManager.Platform.Linux) { }
     }
 }
+
+#endif
