@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using Epic.OnlineServices;
@@ -162,3 +164,5 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
     }
 }
+
+#endif

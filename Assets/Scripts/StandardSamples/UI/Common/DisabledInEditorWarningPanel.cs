@@ -20,31 +20,32 @@
  * SOFTWARE.
  */
 
-#if !EOS_DISABLE
-
-namespace PlayEveryWare.EpicOnlineServices.Editor.Config
+namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    using System;
+    using UnityEngine;
 
-    [Serializable]
-    [ConfigGroup("Prebuild Settings")]
-    public class PrebuildConfig : EditorConfig
+    /// <summary>
+    /// Provides a simple utility, where this panel will be displayed
+    /// only if inside a UNITY_EDITOR context. Otherwise, disables
+    /// the <see cref="VisualComponent"/>, and the visual elements underneath.
+    /// </summary>
+    public class DisabledInEditorWarningPanel : MonoBehaviour
     {
         /// <summary>
-        /// Indicates that the application version should be set to the same as
-        /// the value in
-        /// the EOS Configuration for version.
+        /// This object is set to be hidden if not in UNITY_EDITOR,
+        /// and will only be visible inside the editor context.
+        /// This can be an inner game object, or applied to this
+        /// object.
         /// </summary>
-        [ConfigField("Use Unity App Version for the EOS product version", ConfigFieldType.Flag)]
-        public bool useAppVersionAsProductVersion;
+        public GameObject VisualComponent;
 
-        static PrebuildConfig()
+        public void OnEnable()
         {
-            RegisterFactory(() => new PrebuildConfig());
+#if UNITY_EDITOR
+            VisualComponent.SetActive(true);
+#else
+            VisualComponent.SetActive(false);
+#endif
         }
-
-        protected PrebuildConfig() : base("eos_plugin_version_config.json") { }
     }
 }
-
-#endif

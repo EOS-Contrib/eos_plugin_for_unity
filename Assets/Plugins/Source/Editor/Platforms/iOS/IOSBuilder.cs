@@ -22,10 +22,10 @@
 #if !EOS_DISABLE
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
+    using EpicOnlineServices.Utility;
     using System.IO;
     using UnityEditor;
     using UnityEditor.Build.Reporting;
-    using EpicOnlineServices.Utility;
 
     // This conditional is here so that no compiler errors will happen if the
     // Unity Editor is not configured to build for iOS.
