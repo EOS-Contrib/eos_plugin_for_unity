@@ -20,10 +20,14 @@
 * SOFTWARE.
 */
 
+#if !EOS_DISABLE
+
 //#define ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE
 
-// Uncomment the following line to show the old configuration window.
+// Uncomment the following lines to show the old configuration window.
 //#define SHOW_DEPRECATED_SETTINGS_WINDOW
+
+
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
@@ -40,7 +44,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     using UnityEditor;
     using UnityEngine;
     using Utility;
+
     using Config = EpicOnlineServices.Config;
+
     using Random = System.Random;
 
     [Serializable]
@@ -109,42 +115,36 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         private string GenerateEOSGeneratedFile(EOSConfig aEOSConfig)
         {
-            return string.Format(
-                       String.Join("\n", "#define EOS_PRODUCT_NAME \"{0}\"", "#define EOS_PRODUCT_VERSION \"{1}\"",
-                           "#define EOS_SANDBOX_ID \"{2}\"", "#define EOS_PRODUCT_ID \"{3}\"",
-                           "#define EOS_DEPLOYMENT_ID \"{4}\"", "#define EOS_CLIENT_SECRET \"{5}\"",
-                           "#define EOS_CLIENT_ID \"{6}\""), aEOSConfig.productName,
-                       aEOSConfig.productVersion,
-                       aEOSConfig.productID,
-                       aEOSConfig.sandboxID,
-                       aEOSConfig.deploymentID,
-                       aEOSConfig.clientSecret,
-                       aEOSConfig.clientID) +
-                   @"
-_WIN32 || _WIN64
-#define PLATFORM_WINDOWS 1
-#endif
-
-#if _WIN64
-#define PLATFORM_64BITS 1
-#else
-#define PLATFORM_32BITS 1
-#endif
-
-        extern ""C"" __declspec(dllexport) char*  __stdcall GetConfigAsJSONString()
-{
-            return ""{""
-              ""productName:"" EOS_PRODUCT_NAME "",""
-              ""productVersion: "" EOS_PRODUCT_VERSION "",""
-              ""productID: ""  EOS_PRODUCT_ID "",""
-              ""sandboxID: ""  EOS_SANDBOX_ID "",""
-              ""deploymentID: "" EOS_DEPLOYMENT_ID "",""
-              ""clientSecret: ""  EOS_CLIENT_SECRET "",""
-              ""clientID: ""  EOS_CLIENT_ID
-
-           ""}""
-        ;
-        }";
+            return "#define EOS_PRODUCT_NAME \"" + aEOSConfig.productName + "\"\n" +
+                   "#define EOS_PRODUCT_VERSION \"" + aEOSConfig.productVersion + "\"\n" +
+                   "#define EOS_SANDBOX_ID \"" + aEOSConfig.sandboxID + "\"\n" +
+                   "#define EOS_PRODUCT_ID \"" + aEOSConfig.productID + "\"\n" +
+                   "#define EOS_DEPLOYMENT_ID \"" + aEOSConfig.deploymentID + "\"\n" +
+                   "#define EOS_CLIENT_SECRET \"" + aEOSConfig.clientSecret + "\"\n" +
+                   "#define EOS_CLIENT_ID \"" + aEOSConfig.clientID + "\"\n" +
+                   "\n" +
+                   "#if _WIN32 || _WIN64\n" +
+                   "#define PLATFORM_WINDOWS 1\n" +
+                   "#endif\n" +
+                   "\n" +
+                   "#if _WIN64\n" +
+                   "#define PLATFORM_64BITS 1\n" +
+                   "#else\n" +
+                   "#define PLATFORM_32BITS 1\n" +
+                   "#endif\n" +
+                   "\n" +
+                   "extern \"C\" __declspec(dllexport) char* __stdcall GetConfigAsJSONString()\n" +
+                   "{\n" +
+                   "    return \"{\" +\n" +
+                   "           \"\\\"productName:\\\" EOS_PRODUCT_NAME,\" +\n" +
+                   "           \"\\\"productVersion:\\\" EOS_PRODUCT_VERSION,\" +\n" +
+                   "           \"\\\"productID:\\\" EOS_PRODUCT_ID,\" +\n" +
+                   "           \"\\\"sandboxID:\\\" EOS_SANDBOX_ID,\" +\n" +
+                   "           \"\\\"deploymentID:\\\" EOS_DEPLOYMENT_ID,\" +\n" +
+                   "           \"\\\"clientSecret:\\\" EOS_CLIENT_SECRET,\" +\n" +
+                   "           \"\\\"clientID:\\\" EOS_CLIENT_ID\" +\n" +
+                   "           \"}\";\n" +
+                   "}\n";
         }
 
         protected override async Task AsyncSetup()
@@ -467,3 +467,5 @@ _WIN32 || _WIN64
         }
     }
 }
+
+#endif

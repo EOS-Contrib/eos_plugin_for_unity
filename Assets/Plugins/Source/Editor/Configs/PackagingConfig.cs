@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
     using System;
@@ -45,3 +47,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
         protected PackagingConfig() : base("eos_plugin_packaging_config.json") { }
     }
 }
+
+#endif

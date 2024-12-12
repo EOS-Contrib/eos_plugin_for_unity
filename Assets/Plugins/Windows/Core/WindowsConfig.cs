@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
@@ -43,3 +45,5 @@ namespace PlayEveryWare.EpicOnlineServices
         protected WindowsConfig() : base(PlatformManager.Platform.Windows) { }
     }
 }
+
+#endif
