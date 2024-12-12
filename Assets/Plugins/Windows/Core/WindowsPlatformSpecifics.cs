@@ -34,7 +34,7 @@
 
 #if !EOS_DISABLE
 
-#define ENABLE_CONFIGURE_STEAM_FROM_MANAGED
+//#define ENABLE_CONFIGURE_STEAM_FROM_MANAGED
 
 // If standalone windows and not editor, or the windows editor.
 #if (UNITY_STANDALONE_WIN && !UNITY_EDITOR) || UNITY_EDITOR_WIN || EXTERNAL_TO_UNITY
