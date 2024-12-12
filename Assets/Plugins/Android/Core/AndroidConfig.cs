@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     // Flags specifically for Android. Note that labels for the baser
@@ -57,3 +59,5 @@ namespace PlayEveryWare.EpicOnlineServices
         protected AndroidConfig() : base(PlatformManager.Platform.Android) { }
     }
 }
+
+#endif

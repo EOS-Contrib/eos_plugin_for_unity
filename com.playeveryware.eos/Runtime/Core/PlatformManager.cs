@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System.Collections.Generic;
@@ -385,3 +387,5 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 }
+
+#endif

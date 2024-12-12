@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
     using EpicOnlineServices.Utility;
@@ -39,3 +41,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
                     "etc/config/")) { }
     }
 }
+
+#endif
