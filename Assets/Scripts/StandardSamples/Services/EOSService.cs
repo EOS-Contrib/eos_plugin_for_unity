@@ -34,16 +34,10 @@ namespace PlayEveryWare.EpicOnlineServices
     public abstract class EOSService : AuthenticationEventObserver
     {
         /// <summary>
-        /// Describes the function signature for the event that triggers when
-        /// the service has been updated.
-        /// </summary>
-        public delegate void ServiceUpdatedEventHandler();
-
-        /// <summary>
         /// Event that triggers when changes have been made that may require a
         /// user interface update.
         /// </summary>
-        public event ServiceUpdatedEventHandler Updated;
+        public event Action Updated;
 
         /// <summary>
         /// Base constructor for Service managers.
