@@ -2,66 +2,6 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-<<<<<<< HEAD
-## [3.3.4] - 2024-10-28
-
-### Added
-- **Google ID Login Support:** Added the ability to log in using Google ID via the Connect interface. This enhances user authentication options. [Commit: 85d2229e]
-- **SDK Integration Update to 1.16.4:**
-  - Integrated SDK version 1.16.4, updating both managed and native code.
-  - Included new Windows x86 and macOS native binaries for broader platform support.
-- **Authentication Listener Enhancements:**
-  - The Authentication Listener now differentiates between Connect and Auth logins, providing more detailed login change events. [Commit: 5f266df0]
-- **Sample Project Improvements:**
-  - **Selectable State Handler:** Introduced a new handler to improve UI interaction logic within samples. [Commit: 3f300046]
-  - **Tooltips for Player Data Storage:** Added tooltips to enhance usability in the Player Data Storage sample. [Commit: 9250ecc9]
-- **File System Utility Additions:**
-  - Added synchronous functions to `FileSystemUtility` that do not rely on asynchronous counterparts, improving performance in certain contexts. [Commit: 40308f2f]
-- **Switch to Newtonsoft Json Library:**
-  - Replaced Unity's `JsonUtility` with `Newtonsoft.Json` for better JSON serialization/deserialization. [Commit: 2c6d3e5b]
-- **Utility Scripts:**
-  - **Commit Message Printer:** Added a script to print commit messages between the last tag and the current branch. [Commit: 0b715d13]
-  - **Documentation Link Checker:** Introduced a Python script to validate links in markdown files, improving documentation reliability.
-  
-### Fixed
-- **Platform Config Writing:** Fixed issues with saving configurations in `PlatformConfig`, ensuring settings are correctly written. [Commit: e2f0cc91]
-- **SandboxId Null Handling:** Resolved an issue where SandboxId could not be set to null, improving configuration flexibility. [Commit: e056cf16]
-- **Compile Conditionals:** Corrected compile conditionals for config value writing, ensuring proper behavior across different builds. [Commit: eb857c90]
-- **Refresh Token Login:** Fixed the refresh token login process to function as expected. [Commit: 31e912db]
-- **Event Unsubscription:**
-  - Ensured file list updates are unsubscribed after scene changes to prevent memory leaks. [Commit: 3e3c7c28]
-  - Unsubscribed listeners properly upon leaving scenes in samples. [Commit: 5fa65c34]
-- **`EOS_DISABLE` Support:** Adjusted scripts and build processes to respect the `EOS_DISABLE` define, preventing unnecessary executions when the plugin is disabled. [Commit: b7069409]
-- **Native Code Parsing Consistency:** Aligned native code parsing with managed code to maintain consistency and backward compatibility. [Commit: bcb17407]
-- **Configuration Field Fixes:**
-  - Corrected default values and types for various configuration fields.
-  - Fixed issues with enum value conversions in configuration fields.
-- **iOSBuilder Correction:** Fixed `IOSBuilder` to use the correct `FileSystemUtility` class, ensuring proper file operations on iOS. [Commit: 2dbcf873]
-- **Android IO Operations:** Resolved input/output issues on Android devices, ensuring configurations are read and written correctly. [Commit: 1e5c3595]
-- **Version Update in Package Info:** Updated the version number in `EOSPackageInfo` to reflect the new release. [Commit: f899cfb1]
-
-### Changed
-- **User Interface Enhancements:**
-  - Added tooltips to Title Storage and `ProductionEnvironments` fields for better clarity. [Commits: bf212362, 104092af]
-Improved the configuration interface with explicit priorities and reorganized advanced operations for better user experience. [Commits: 1385c613, 8e1af06f]
-- **Configuration System Overhaul:**
-  - Separated product configuration from platform configuration for cleaner setup management. [Commit: 0a2bd1fe]
-  - Continued development on the configuration override system for more flexible configuration handling.
-- **GUI Editor Refinements:** Made several improvements to `GUIEditorUtility` to enhance the editor experience for developers.
-- **Sample Code Refactoring:**
-  - Renamed and refactored sample classes and methods for clarity and better code organization. [Commits: ecc87561, e8497eda, 4026907a]
-  - Adjusted `SelectableStateHandler` to improve logic handling within the manager. [Commit: 568ec64e]
-- **Documentation Updates:**
-  - Added a comprehensive "Full Guide" and made several grammar and spelling corrections.
-  - Fixed broken links and updated references to improve documentation accuracy.
-  - Updated line coverage statistics to reflect current test coverage.
-- **Code Cleanup:**
-  - Removed unnecessary using statements and unreferenced functions.
-  - Restored consistent formatting across various files.
-  - Removed temporary files and logging statements used during debugging.
-### Removals and Deprecations
-- **Obsolete Config Editors:** Removed outdated configuration editors that are no longer in use. [Commit: a2fdd306]
-=======
 ## [3.3.4] - 2024-11-26
 
 ### Changed
@@ -77,7 +17,6 @@ Improved the configuration interface with explicit priorities and reorganized ad
 
 - fix: Add isolated changes that address the Android thread IO issue.
 - fix: Correct usage of FileSystemUtility in the IOSBuilder.
->>>>>>> release-3.3.4
 
 ## [3.3.3] - 2024-09-19
 
