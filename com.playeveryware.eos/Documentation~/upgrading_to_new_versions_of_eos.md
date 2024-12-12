@@ -84,4 +84,4 @@ already moved and handled the change.
 The plugin's `package.json`, and a few other places, mention the version of the EOS SDK being utilized.
 When upgrading, the implementor should update all relevant `package.json` files to mention the newer version of the SDK.
 Inside the `CHANGELOG.md` file, it should be noted when new versions of the SDK are implemented.
-Other documentation mentioning the version should also be updated. At time of writing, that is the [supported platforms documentation](.\supported_platforms.md).
+Other documentation mentioning the version should also be updated. At time of writing, that is the [supported platforms documentation](supported_platforms.md).
