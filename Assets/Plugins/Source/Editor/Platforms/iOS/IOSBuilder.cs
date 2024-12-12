@@ -22,6 +22,7 @@
 #if !EOS_DISABLE
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
+    using EpicOnlineServices.Utility;
     using System.IO;
     using UnityEditor;
     using UnityEditor.Build.Reporting;
