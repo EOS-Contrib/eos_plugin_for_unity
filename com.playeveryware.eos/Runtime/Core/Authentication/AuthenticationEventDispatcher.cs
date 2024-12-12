@@ -30,6 +30,12 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
     using UnityEngine;
 
+    [Obsolete("AuthenticationListener has been deprecated. Please use AuthenticationEventDispatcher instead.", true)]
+    public class AuthenticationListener
+    {
+
+    }
+
     /// <summary>
     /// Used to listen for authentication events from EOSManager.
     /// </summary>
