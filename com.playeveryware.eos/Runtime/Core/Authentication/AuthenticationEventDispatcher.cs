@@ -24,6 +24,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Common;
     using Epic.OnlineServices;
     using Epic.OnlineServices.Auth;
     using System;
@@ -32,45 +33,8 @@ namespace PlayEveryWare.EpicOnlineServices
     /// <summary>
     /// Used to listen for authentication events from EOSManager.
     /// </summary>
-    public class AuthenticationListener: IAuthInterfaceEventListener, IConnectInterfaceEventListener, IDisposable
+    public sealed class AuthenticationEventDispatcher: Disposable, IAuthInterfaceEventListener, IConnectInterfaceEventListener
     {
-        
-
-        /// <summary>
-        /// Used to describe the event arguments for when authentication state
-        /// changes.
-        /// </summary>
-        public class AuthenticationChangedEventArgs : EventArgs
-        {
-            /// <summary>
-            /// Whether the action was to authenticate or to de-authenticate
-            /// </summary>
-            public readonly bool Authenticated;
-
-            /// <summary>
-            /// The interface with which the authentication operation is taking
-            /// place.
-            /// </summary>
-            public readonly LoginInterface Interface;
-
-            /// <summary>
-            /// Create a new AuthenticationChangedEventArgs object with the
-            /// given parameters.
-            /// </summary>
-            /// <param name="authenticated">
-            /// Whether the authentication or de-authentication is taking place.
-            /// </param>
-            /// <param name="loginInterface">
-            /// The interface with which the authentication operation is taking
-            /// place.
-            /// </param>
-            public AuthenticationChangedEventArgs(bool authenticated, LoginInterface loginInterface)
-            {
-                Authenticated = authenticated;
-                Interface = loginInterface;
-            }
-        }
-
         /// <summary>
         /// Event that triggers when the state of authentication has changed.
         /// </summary>
@@ -82,12 +46,12 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Lazy instance for singleton allows for thread-safe interactions with
         /// the AuthenticationListener
         /// </summary>
-        private static readonly Lazy<AuthenticationListener> s_LazyInstance = new(() => new AuthenticationListener());
+        private static readonly Lazy<AuthenticationEventDispatcher> s_LazyInstance = new(() => new AuthenticationEventDispatcher());
 
         /// <summary>
         /// Accessor for the instance.
         /// </summary>
-        public static AuthenticationListener Instance
+        public static AuthenticationEventDispatcher Instance
         {
             get
             {
@@ -98,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Private constructor ensures enforcement of the singleton pattern.
         /// </summary>
-        private AuthenticationListener() 
+        private AuthenticationEventDispatcher() 
         {
             EOSManager.Instance.AddAuthLoginListener(this);
             EOSManager.Instance.AddAuthLogoutListener(this);
@@ -113,18 +77,18 @@ namespace PlayEveryWare.EpicOnlineServices
         /// indicated interface, and not set if the user is not authenticated
         /// with the indicated interface.
         /// </summary>
-        private LoginInterface _authenticationStatus = LoginInterface.None;
+        private LoginInterfaces _authenticatedInterfaces = LoginInterfaces.None;
 
         /// <summary>
         /// Indicates whether the authentication listener has received an
         /// AuthenticationChanged event that indicates a user has been logged
         /// in.
         /// </summary>
-        public LoginInterface InterfacesAuthenticatedWith
+        public LoginInterfaces AuthenticatedInterfaces
         {
             get
             {
-                return _authenticationStatus;
+                return _authenticatedInterfaces;
             }
         }
 
@@ -136,7 +100,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="attemptedState"></param>
         /// <param name="attemptResult"></param>
         /// <param name="changeType">The type of authentication change.</param>
-        private void TriggerAuthenticationChangedEvent(bool attemptedState, Result attemptResult, LoginInterface changeType)
+        private void TriggerAuthenticationChangedEvent(bool attemptedState, Result attemptResult, LoginInterfaces changeType)
         {
             // If the attempt to change the state of authentication did not 
             // succeed, then log a warning and stop.
@@ -150,12 +114,12 @@ namespace PlayEveryWare.EpicOnlineServices
             if (attemptedState)
             {
                 // Bitwise OR to add the type authenticated
-                _authenticationStatus |= (LoginInterface)changeType;
+                _authenticatedInterfaces |= (LoginInterfaces)changeType;
             }
             else
             {
                 // Bitwise AND to remove the type being de-authenticated
-                _authenticationStatus &= ~(LoginInterface)changeType;
+                _authenticatedInterfaces &= ~(LoginInterfaces)changeType;
             }
 
             // Trigger the event indicating that the state of authentication for 
@@ -171,7 +135,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void OnAuthLogin(LoginCallbackInfo loginCallbackInfo)
         {
-            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, LoginInterface.Auth);
+            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, LoginInterfaces.Auth);
         }
 
         /// <summary>
@@ -182,7 +146,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
         {
-            TriggerAuthenticationChangedEvent(false, logoutCallbackInfo.ResultCode, LoginInterface.Auth);
+            TriggerAuthenticationChangedEvent(false, logoutCallbackInfo.ResultCode, LoginInterfaces.Auth);
         }
 
         /// <summary>
@@ -193,18 +157,21 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
         {
-            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, LoginInterface.Connect);
+            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, LoginInterfaces.Connect);
         }
 
-        /// <summary>
-        /// Dispose of the AuthenticationListener, removing it as a listener
-        /// from the various ways that EOSManager keeps track of it.
-        /// </summary>
-        public void Dispose()
+        protected override void DisposeManagedResources()
         {
             EOSManager.Instance.RemoveAuthLoginListener(this);
             EOSManager.Instance.RemoveAuthLogoutListener(this);
             EOSManager.Instance.RemoveConnectLoginListener(this);
+        }
+
+        protected override void DisposeUnmanagedResources()
+        {
+            // Empty definition is here to satisfy requirements of Disposable
+            // abstract class - but this class does not need to dispose of any
+            // unmanaged resources.
         }
     }
 }

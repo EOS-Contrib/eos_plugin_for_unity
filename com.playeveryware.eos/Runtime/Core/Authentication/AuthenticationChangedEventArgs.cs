@@ -27,33 +27,38 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
 
     /// <summary>
-    /// Indicates a login interface or set of interfaces
+    /// Used to describe the event arguments for when authentication state
+    /// changes.
     /// </summary>
-    [Flags]
-    public enum LoginInterface : int
+    public class AuthenticationChangedEventArgs : EventArgs
     {
         /// <summary>
-        /// Indicates that no form of authentication has taken place.
+        /// Whether the action was to authenticate or to de-authenticate
         /// </summary>
-        None = 0,
+        public readonly bool Authenticated;
 
         /// <summary>
-        /// Indicates that authentication has been accomplished with the
-        /// Auth Interface.
+        /// The interface with which the authentication operation is taking
+        /// place.
         /// </summary>
-        Auth = 1 << 0,
+        public readonly LoginInterfaces Interface;
 
         /// <summary>
-        /// Indicates that the authentication has been accomplished with the
-        /// Connect Interface.
+        /// Create a new AuthenticationChangedEventArgs object with the
+        /// given parameters.
         /// </summary>
-        Connect = 1 << 1,
-
-        /// <summary>
-        /// Indicates that the authentication took place with either the
-        /// auth or the connect interface.
-        /// </summary>
-        AuthOrConnect = Auth | Connect
+        /// <param name="authenticated">
+        /// Whether the authentication or de-authentication is taking place.
+        /// </param>
+        /// <param name="loginInterface">
+        /// The interface with which the authentication operation is taking
+        /// place.
+        /// </param>
+        public AuthenticationChangedEventArgs(bool authenticated, LoginInterfaces loginInterface)
+        {
+            Authenticated = authenticated;
+            Interface = loginInterface;
+        }
     }
 }
 

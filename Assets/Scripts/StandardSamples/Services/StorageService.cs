@@ -310,9 +310,5 @@ namespace PlayEveryWare.EpicOnlineServices
 
             return FileTransferResult.ContinueReading;
         }
-
-        protected StorageService() : base(AuthenticationListener.LoginInterface.Connect)
-        {
-        }
     }
 }

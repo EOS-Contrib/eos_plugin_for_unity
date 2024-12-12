@@ -63,11 +63,6 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         private StatsService() { }
 
-        ~StatsService()
-        {
-            Dispose(false);
-        }
-
         #endregion
 
         /// <summary>

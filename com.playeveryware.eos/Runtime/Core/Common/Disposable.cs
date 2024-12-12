@@ -18,17 +18,46 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.Common
 {
-    public abstract class AuthenticationObserver
+    using System;
+
+    public abstract class Disposable : IDisposable
     {
+        private bool _disposed = false;
 
-        protected AuthenticationObserver()
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
 
-        protected abstract void OnLoggedIn();
-        protected abstract void OnLoggedOut();
+            if (disposing)
+            {
+                DisposeManagedResources();
+            }
+
+            DisposeUnmanagedResources();
+
+            _disposed = true;
+        }
+
+        protected abstract void DisposeManagedResources();
+        protected abstract void DisposeUnmanagedResources();
+
+        ~Disposable()
+        {
+            Dispose(false);
+        }
     }
 }
