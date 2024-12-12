@@ -26,7 +26,11 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Collections.Generic;
     using Editor.Config;
     using Editor.Utility;
+
+#if !EOS_DISABLE
     using Epic.OnlineServices.IntegratedPlatform;
+#endif
+
     using Newtonsoft.Json;
     using Utility;
 
@@ -55,6 +59,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Steamworks Interface Versions", ConfigFieldType.TextList, null, 0)]
         public List<string> steamApiInterfaceVersionsArray;
 
+#if !EOS_DISABLE
         /// <summary>
         /// Used to store integrated platform management flags.
         /// </summary>
@@ -82,6 +87,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 integratedPlatformManagementFlags = value;
             }
         }
+#endif
 
         #endregion
 

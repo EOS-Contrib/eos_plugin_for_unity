@@ -24,8 +24,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
     using Common;
 
-
+#if !EOS_DISABLE
     using Epic.OnlineServices.Platform;
+#endif
 
     using EpicOnlineServices.Utility;
     using System;
@@ -271,18 +272,21 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             { typeof(Version), (attr, val, width) => RenderInput(attr, (Version)val, width) },
             { typeof(Guid), (attr, val, width) => RenderInput(attr, (Guid)val, width)},
             { typeof(List<string>), (attr, val, width) => RenderInput(attr, (List<string>)val, width)},
+#if !EOS_DISABLE
             { typeof(EOSClientCredentials), (attr, val, width) => RenderInput(attr, (EOSClientCredentials)val, width) },
             { typeof(SetOfNamed<EOSClientCredentials>), (attr, val, width) => RenderInput(attr, (SetOfNamed<EOSClientCredentials>)val, width) },
             { typeof(WrappedInitializeThreadAffinity), (attr, val, width) => RenderInput(attr, (WrappedInitializeThreadAffinity)val, width) },
-
+#endif
         // Add other specific types as needed
         };
 
         static readonly Dictionary<ConfigFieldType, FieldHandler> FieldHandlers = new()
         {
+#if !EOS_DISABLE
             { ConfigFieldType.SetOfClientCredentials, HandleField<SetOfNamed<EOSClientCredentials>> },
             { ConfigFieldType.ClientCredentials, HandleField<EOSClientCredentials> },
             { ConfigFieldType.WrappedInitializeThreadAffinity, HandleField<WrappedInitializeThreadAffinity> },
+#endif
             { ConfigFieldType.Text, HandleField<string> },
             { ConfigFieldType.FilePath, (target, fieldDetails, getValue, setValue, labelWidth) =>
                 HandleField<string>(target, (FilePathFieldAttribute)fieldDetails, getValue, setValue, labelWidth) },
@@ -308,10 +312,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         private static T RenderInput<T>(ConfigFieldAttribute attribute, T value, float labelWidth)
         {
+#if !EOS_DISABLE
+            // TODO: Determine why this conditional is here - seems oddly
+            // specific
             if (typeof(T) != typeof(WrappedInitializeThreadAffinity))
             {
                 return value;
             }
+#endif
 
             // Create a foldout label with a tooltip
             GUIContent foldoutContent = new(attribute.Label, attribute.ToolTip);
@@ -980,7 +988,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         }
 
 
-
+#if !EOS_DISABLE
         private static SetOfNamed<EOSClientCredentials> RenderInput(ConfigFieldAttribute configFieldAttribute,
             SetOfNamed<EOSClientCredentials> value, float labelWidth)
         {
@@ -1092,6 +1100,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return value;
         }
 
+#endif
         private static Guid RenderInput(ConfigFieldAttribute configFieldDetails, Guid value, float labelWidth)
         {
             return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value,
@@ -1382,6 +1391,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             });
         }
 
-        #endregion
+#endregion
     }
 }
