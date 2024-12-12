@@ -25,16 +25,36 @@ namespace PlayEveryWare.Common
 {
     using System;
 
+    /// <summary>
+    /// Disposable provides a base implementation for the disposal pattern,
+    /// requiring deriving classes to define behavior for disposal of both
+    /// managed and unmanaged resources.
+    /// </summary>
     public abstract class Disposable : IDisposable
     {
+        /// <summary>
+        /// Guards against circular disposal.
+        /// </summary>
         private bool _disposed = false;
 
+        /// <summary>
+        /// Satisfies the IDisposable interface.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Accomplishes the disposal of both managed and unmanaged resources
+        /// as defined in the deriving class' implementation of the
+        /// DisposeManagedResources and DisposeUnmanagedResources functions.
+        /// </summary>
+        /// <param name="disposing">
+        /// Indicates whether disposal is currently taking place. This guards
+        /// against circular disposal.
+        /// </param>
         protected virtual void Dispose(bool disposing)
         {
             if (_disposed)
@@ -44,17 +64,33 @@ namespace PlayEveryWare.Common
 
             if (disposing)
             {
+                // Call deriving class cleanup logic for managed resources.
                 DisposeManagedResources();
             }
 
+            // Call deriving class cleanup logic for unmanaged resources.
             DisposeUnmanagedResources();
 
             _disposed = true;
         }
 
+        /// <summary>
+        /// Deriving classes should implement this function to accomplish thread
+        /// safe (managed) resource disposal.
+        /// </summary>
         protected abstract void DisposeManagedResources();
+
+        /// <summary>
+        /// Deriving classes should implement this function to accomplish the
+        /// disposal of unmanaged (unsafe) resources it may have control over
+        /// the lifetime of.
+        /// </summary>
         protected abstract void DisposeUnmanagedResources();
 
+        /// <summary>
+        /// Explicit definition of the destructor is here to ensure that the
+        /// disposal pattern is followed properly.
+        /// </summary>
         ~Disposable()
         {
             Dispose(false);

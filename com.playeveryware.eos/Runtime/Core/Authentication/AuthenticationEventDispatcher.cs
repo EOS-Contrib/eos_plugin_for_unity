@@ -68,35 +68,23 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Private constructor ensures enforcement of the singleton pattern.
         /// </summary>
-        private AuthenticationEventDispatcher() 
+        private AuthenticationEventDispatcher()
         {
             EOSManager.Instance.AddAuthLoginListener(this);
             EOSManager.Instance.AddAuthLogoutListener(this);
+
+            // TODO: Investigate why there is no AddConnectLogoutListener.
             EOSManager.Instance.AddConnectLoginListener(this);
         }
         
         #endregion
 
         /// <summary>
-        /// Stores the current status of authentication - where flags for each
-        /// type of login interface are set if user is authenticated with the
-        /// indicated interface, and not set if the user is not authenticated
-        /// with the indicated interface.
-        /// </summary>
-        private LoginInterfaces _authenticatedInterfaces = LoginInterfaces.None;
-
-        /// <summary>
         /// Indicates whether the authentication listener has received an
         /// AuthenticationChanged event that indicates a user has been logged
         /// in.
         /// </summary>
-        public LoginInterfaces AuthenticatedInterfaces
-        {
-            get
-            {
-                return _authenticatedInterfaces;
-            }
-        }
+        public LoginInterfaces AuthenticatedInterfaces { get; private set; } = LoginInterfaces.None;
 
         /// <summary>
         /// Based on the given result code, determine if the authentication
@@ -120,12 +108,12 @@ namespace PlayEveryWare.EpicOnlineServices
             if (attemptedState)
             {
                 // Bitwise OR to add the type authenticated
-                _authenticatedInterfaces |= (LoginInterfaces)changeType;
+                AuthenticatedInterfaces |= changeType;
             }
             else
             {
                 // Bitwise AND to remove the type being de-authenticated
-                _authenticatedInterfaces &= ~(LoginInterfaces)changeType;
+                AuthenticatedInterfaces &= ~changeType;
             }
 
             // Trigger the event indicating that the state of authentication for 
@@ -168,15 +156,18 @@ namespace PlayEveryWare.EpicOnlineServices
 
         protected override void DisposeManagedResources()
         {
+            // Remove from list of authentication listeners
             EOSManager.Instance.RemoveAuthLoginListener(this);
             EOSManager.Instance.RemoveAuthLogoutListener(this);
+
+            // TODO: Investigate why there is no RemoveConnectLogoutListener.
             EOSManager.Instance.RemoveConnectLoginListener(this);
         }
 
         protected override void DisposeUnmanagedResources()
         {
             // Empty definition is here to satisfy requirements of Disposable
-            // abstract class - but this class does not need to dispose of any
+            // abstract class - this class does not need to dispose of any
             // unmanaged resources.
         }
     }
