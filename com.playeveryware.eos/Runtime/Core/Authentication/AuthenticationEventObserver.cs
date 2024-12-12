@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Common;
@@ -71,3 +73,5 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 }
+
+#endif
