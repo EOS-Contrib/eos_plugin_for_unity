@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 // When compiled outside of Unity - there are some fields within this file
 // that are never used. This suppresses those warnings - as the fact that they
 // are unused is expected.
@@ -496,4 +498,6 @@ namespace PlayEveryWare.EpicOnlineServices
 // are unused is expected.
 #if EXTERNAL_TO_UNITY
 #pragma warning restore CS0169 // Disable unused field warnings
+#endif
+
 #endif

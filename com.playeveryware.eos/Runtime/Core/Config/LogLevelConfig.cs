@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 using System;
 using System.Collections.Generic;
 
@@ -48,3 +50,5 @@ namespace PlayEveryWare.EpicOnlineServices
         public List<LogCategoryLevelPair> LogCategoryLevelPairs;
     }
 }
+
+#endif

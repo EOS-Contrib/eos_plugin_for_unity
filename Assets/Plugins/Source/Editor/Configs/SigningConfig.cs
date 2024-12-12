@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
@@ -71,3 +73,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
         protected SigningConfig() : base("eos_plugin_signing_config.json") { }
     }
 }
+
+#endif

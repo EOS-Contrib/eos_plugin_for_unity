@@ -19,6 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
     using System;
@@ -38,3 +41,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
         protected AndroidBuildConfig() : base("eos_plugin_android_build_config.json") { }
     }
 }
+
+#endif
