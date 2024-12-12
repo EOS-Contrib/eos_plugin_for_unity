@@ -38,8 +38,6 @@
 
 namespace pew::eos::config
 {
-    
-
     /**
      * \brief Describes the configuration options for a platform that wants to
      * interact with the EOS SDK.

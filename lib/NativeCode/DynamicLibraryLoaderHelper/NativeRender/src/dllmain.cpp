@@ -35,6 +35,7 @@
 #include "io_helpers.h"
 #include "include/Config/EOSWrapper.h"
 #include "include/Config/WindowsConfig.hpp"
+#include "include/Config/SteamConfig.hpp"
 
 using namespace pew::eos;
 using namespace pew::eos::eos_library_helpers;
@@ -138,7 +139,7 @@ PEW_EOS_API_FUNC(void) UnityPluginLoad(void* arg)
 
             const auto product_config = config::Config::get<config::ProductConfig>();
             const auto windows_config = config::Config::get<config::WindowsConfig>();
-
+            
             apply_cli_arguments(*windows_config, *product_config);
 
             eos_init(*windows_config, *product_config);

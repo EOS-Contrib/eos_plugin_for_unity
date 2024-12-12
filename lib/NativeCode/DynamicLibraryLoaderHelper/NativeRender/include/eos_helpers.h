@@ -33,14 +33,16 @@
 
 namespace pew::eos
 {
-    #if PLATFORM_32BITS
-    #pragma comment(linker, "/export:_UnityPluginUnload=_UnityPluginUnload@0")
-    #endif
+    using namespace pew::eos::config;
+
+#if PLATFORM_32BITS
+#pragma comment(linker, "/export:_UnityPluginUnload=_UnityPluginUnload@0")
+#endif
     PEW_EOS_API_FUNC(void) UnityPluginUnload();
 
-    #if PLATFORM_32BITS
-    #pragma comment(linker, "/export:UnityPluginLoad=_UnityPluginLoad@4")
-    #endif
+#if PLATFORM_32BITS
+#pragma comment(linker, "/export:UnityPluginLoad=_UnityPluginLoad@4")
+#endif
     PEW_EOS_API_FUNC(void) UnityPluginLoad(void*);
 
     /**
@@ -72,6 +74,53 @@ namespace pew::eos
     void EOS_Platform_Options_debug_log(const EOS_Platform_Options& platform_options);
 
     /**
+     * @brief Returns the initialize options as determined by the given platform
+     * and product configurations.
+     *
+     * @param platform_config The config for the platform.
+     * @param product_config The config for the product.
+     * \return The EOS_InitializeOptions value used to initialize the EOS SDK.
+     */
+    EOS_InitializeOptions get_initialize_options(const PlatformConfig& platform_config, const ProductConfig& product_config);
+
+    /**
+     * @brief Returns a pointer to the structure used to initialize the EOS SDK
+     * based on the configuration values.
+     */
+    PEW_EOS_API_FUNC(EOS_InitializeOptions*) PEW_EOS_Get_InitializeOptions();
+
+    /**
+     * @brief Returns the platform options used to create the EOS SDK as
+     * determined by the platform and product configurations.
+     *
+     * @param platform_config The config for the platform.
+     * @param product_config The config for the product.
+     *
+     * \return The EOS_Platform_Options value used to create the EOS SDK.
+     */
+    EOS_Platform_Options get_create_options(const PlatformConfig& platform_config, const ProductConfig& product_config);
+
+    /**
+     * @brief Returns a pointer to the structure used to create the EOS SDK
+     * based on the configuration values.
+     */
+    PEW_EOS_API_FUNC(EOS_Platform_Options*) PEW_EOS_Get_CreateOptions();
+
+    /**
+     * \brief Apply RTC Options to a given platform_options object.
+     * \param platform_options The platform options object to apply the RTC
+     * settings to.
+     */
+    void apply_rtc_options(EOS_Platform_Options& platform_options);
+
+    /**
+     * \brief Apply Steam configuration values to the platform options.
+     * \param platform_options The platform options object to apply the steam
+     * configuration values to.
+     */
+    void apply_steam_settings(EOS_Platform_Options& platform_options);
+
+    /**
      * @brief Initializes the EOS SDK with the provided configuration.
      *
      * Sets up and initializes the EOS SDK using the provided configuration. Sets log levels and
@@ -80,7 +129,7 @@ namespace pew::eos
      * @param platform_config The config for the platform.
      * @param product_config The config for the product.
      */
-    void eos_init(const pew::eos::config::PlatformConfig& platform_config, const pew::eos::config::ProductConfig& product_config);
+    void eos_init(const PlatformConfig& platform_config, const ProductConfig& product_config);
 
     /**
      * @brief Creates an EOS platform using the specified configuration.
@@ -91,6 +140,6 @@ namespace pew::eos
      * @param platform_config The config for the platform.
      * @param product_config The config for the product.
      */
-    void eos_create(const pew::eos::config::PlatformConfig& platform_config, const pew::eos::config::ProductConfig& product_config);
+    void eos_create(const PlatformConfig& platform_config, const ProductConfig& product_config);
 }
 #endif
