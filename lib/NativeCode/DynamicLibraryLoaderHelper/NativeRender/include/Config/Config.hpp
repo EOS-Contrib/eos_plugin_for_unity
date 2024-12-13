@@ -170,7 +170,17 @@ namespace pew::eos::config
                 return;
             }
 
-            const std::ifstream file(_file_path);
+            std::ifstream file;
+
+            // Platform-specific handling of file opening
+#ifdef _WIN32
+            // On Windows, use wide-character API for Unicode support
+            file.open(_file_path.wstring(), std::ios::in);
+#else
+            // On Linux/macOS, open the file normally (UTF-8 is native)
+            file.open(_file_path, std::ios::in);
+#endif
+
             if (!file.is_open())
             {
                 logging::log_error("Failed to open existing file: \"" + _file_path.string() + "\"");
