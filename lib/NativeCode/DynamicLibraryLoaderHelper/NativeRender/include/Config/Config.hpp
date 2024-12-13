@@ -59,7 +59,14 @@ namespace pew::eos::config
         template <typename T>
         static std::enable_if_t<std::is_base_of_v<Config, T>, std::unique_ptr<T>> get()
         {
-            // Create the config class
+            // Create the config class. The reason that "new" is used inside
+            // unique_ptr instead of using make_unique is because the
+            // constructor for Config-derived classes is protected and/or
+            // private - so it cannot be called by the internals of make_unique.
+            // This solution maintains all of the benefits of unique_ptr save
+            // one, which is that exceptions that might originate from within
+            // the constructor will not be as elegantly caught as they would if
+            // make_unique was utilized. For our purposes, this is acceptable.
             auto config = std::unique_ptr<T>(new T());
 
             // Read the values from the file
@@ -71,13 +78,19 @@ namespace pew::eos::config
     private:
 
         // Depending on the configuration (debug or release) these are the possible relative paths to the config directory
-        static constexpr std::array<std::string_view, 2> s_possible_config_directories = {
-            // This is the relative path for the config files when in release mode
+        static constexpr std::array<std::string_view, 4> s_possible_config_directories = {
+            // This is the relative path for the config files when in release
+            // mode.
             "../../StreamingAssets/EOS/",
             // This is the relative path for the config files when in debug mode
             // (specifically when the library is loaded in the Build\Debug
             // directory).
             "../../../../../../Assets/StreamingAssets/EOS/",
+            // These particular entries are used to maintain backwards 
+            // compatibility with older versions of the plugin that supported a
+            // different directory structure for the deployed config files.
+            "../../",
+            "./Data/",
         };
 
         static inline std::filesystem::path s_config_directory;
@@ -134,7 +147,7 @@ namespace pew::eos::config
          */
         Config(const std::filesystem::path& file_name)
         {
-            _file_path = std::filesystem::path(get_config_directory()) / file_name;
+            _file_path = get_config_directory() / file_name;
         }
 
         /**
@@ -157,7 +170,17 @@ namespace pew::eos::config
                 return;
             }
 
-            const std::ifstream file(_file_path);
+            std::ifstream file;
+
+            // Platform-specific handling of file opening
+#ifdef _WIN32
+            // On Windows, use wide-character API for Unicode support
+            file.open(_file_path.wstring(), std::ios::in);
+#else
+            // On Linux/macOS, open the file normally (UTF-8 is native)
+            file.open(_file_path, std::ios::in);
+#endif
+
             if (!file.is_open())
             {
                 logging::log_error("Failed to open existing file: \"" + _file_path.string() + "\"");

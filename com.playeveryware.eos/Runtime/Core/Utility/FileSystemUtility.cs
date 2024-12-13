@@ -482,6 +482,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 #endif
 
         #region File Read Functionality
+
         // NOTE: This compile conditional is here because on Android devices
         //       async IO doesn't work well.
 #if !UNITY_ANDROID || UNITY_EDITOR
@@ -521,7 +522,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 throw;
             }
         }
-#endif
 
         /// <summary>
         /// Reads all text from the indicated file.
@@ -543,38 +543,10 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 throw;
             }
 #endif
-
         }
 #endif
 
-        /// <summary>
-        /// Reads all text from the indicated file.
-        /// </summary>
-        /// <param name="path">Filepath to the file to read from.</param>
-        /// <returns>The contents of the file at the indicated path as a string.</returns>
-        public static string ReadAllText(string path)
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-            return AndroidFileIOHelper.ReadAllText(path);
-#else
-            try
-            {
-                return File.ReadAllText(path);
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-                throw;
-            }
-#endif
-
-        }
-
-
-
-
-
-#endregion
+        #endregion
 
         #region Get File System Entries Functionality
 
