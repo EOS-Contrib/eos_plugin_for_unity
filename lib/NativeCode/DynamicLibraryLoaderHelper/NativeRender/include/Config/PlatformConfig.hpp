@@ -215,11 +215,11 @@ namespace pew::eos::config
 
                 while(thread_affinity_iterator)
                 {
-                    auto element = *(thread_affinity_iterator->value);
                     const std::string element_name = thread_affinity_iterator->name->string;
 
-                    if (affinity_map.find(element_name) != affinity_map.end())
+                    if (affinity_map.find(element_name) != affinity_map.end() && thread_affinity_iterator->value != nullptr)
                     {
+                        auto element = *(thread_affinity_iterator->value);
                         *affinity_map[element_name] = parse_number<uint64_t>(element);
                     }
 
