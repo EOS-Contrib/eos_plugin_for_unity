@@ -147,7 +147,7 @@ namespace pew::eos::config
          */
         Config(const std::filesystem::path& file_name)
         {
-            _file_path = std::filesystem::path(get_config_directory()) / file_name;
+            _file_path = get_config_directory() / file_name;
         }
 
         /**
