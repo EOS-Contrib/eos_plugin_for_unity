@@ -482,6 +482,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 #endif
 
         #region File Read Functionality
+
         // NOTE: This compile conditional is here because on Android devices
         //       async IO doesn't work well.
 #if !UNITY_ANDROID || UNITY_EDITOR
@@ -546,11 +547,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         }
 
-
-
-
-
-#endregion
+        #endregion
 
         #region Get File System Entries Functionality
 
