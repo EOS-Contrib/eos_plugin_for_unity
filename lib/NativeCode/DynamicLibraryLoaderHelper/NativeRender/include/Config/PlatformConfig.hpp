@@ -33,8 +33,8 @@
 #include "eos_ui_types.h"
 #include "json_helpers.h"
 #include "ProductionEnvironments.hpp"
-#include "include/Config/ClientCredentials.hpp"
-#include "include/Config/Config.hpp"
+#include "Config/ClientCredentials.hpp"
+#include "Config/Config.hpp"
 
 namespace pew::eos::config
 {

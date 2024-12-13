@@ -13,7 +13,7 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyProductAttribute(L"EOS Plugin for Unity")];
 [assembly:AssemblyCopyrightAttribute(L"Copyright (c)  2024")];
 [assembly:AssemblyTrademarkAttribute(L"")];
-[assembly:AssemblyCultureAttribute(L"en-US")];
+[assembly:AssemblyCultureAttribute(L"")];
 
 [assembly:AssemblyVersionAttribute(L"1.0.*")];
 
