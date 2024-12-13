@@ -59,7 +59,14 @@ namespace pew::eos::config
         template <typename T>
         static std::enable_if_t<std::is_base_of_v<Config, T>, std::unique_ptr<T>> get()
         {
-            // Create the config class
+            // Create the config class. The reason that "new" is used inside
+            // unique_ptr instead of using make_unique is because the
+            // constructor for Config-derived classes is protected and/or
+            // private - so it cannot be called by the internals of make_unique.
+            // This solution maintains all of the benefits of unique_ptr save
+            // one, which is that exceptions that might originate from within
+            // the constructor will not be as elegantly caught as they would if
+            // make_unique was utilized. For our purposes, this is acceptable.
             auto config = std::unique_ptr<T>(new T());
 
             // Read the values from the file
