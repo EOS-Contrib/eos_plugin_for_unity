@@ -78,13 +78,19 @@ namespace pew::eos::config
     private:
 
         // Depending on the configuration (debug or release) these are the possible relative paths to the config directory
-        static constexpr std::array<std::string_view, 2> s_possible_config_directories = {
-            // This is the relative path for the config files when in release mode
+        static constexpr std::array<std::string_view, 4> s_possible_config_directories = {
+            // This is the relative path for the config files when in release
+            // mode.
             "../../StreamingAssets/EOS/",
             // This is the relative path for the config files when in debug mode
             // (specifically when the library is loaded in the Build\Debug
             // directory).
             "../../../../../../Assets/StreamingAssets/EOS/",
+            // These particular entries are used to maintain backwards 
+            // compatibility with older versions of the plugin that supported a
+            // different directory structure for the deployed config files.
+            "../../",
+            "./Data/",
         };
 
         static inline std::filesystem::path s_config_directory;
