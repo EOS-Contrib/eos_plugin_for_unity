@@ -89,11 +89,6 @@
       @echo Copying "$(TargetDir)$(ProjectName)-$(NormalizedPlatform)*" to "$(OutputUnityAssetsDirectory)"
       copy "$(TargetDir)$(ProjectName)*" "$(OutputUnityAssetsDirectory)" /Y
       </Command>
-      <!-- Copy the pdb file from the temp directory. -->
-      <Command>
-      @echo Copying "$(SolutionDir)Build\Temp\$(ProjectName)\$(Configuration)\$(PlatformTarget)\$(ProjectName).pdb" to "$(OutputUnityAssetsDirectory)"
-      copy "$(SolutionDir)Build\Temp\$(ProjectName)\$(Configuration)\$(PlatformTarget)\$(ProjectName).pdb" "$(OutputUnityAssetsDirectory)" /Y
-      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
