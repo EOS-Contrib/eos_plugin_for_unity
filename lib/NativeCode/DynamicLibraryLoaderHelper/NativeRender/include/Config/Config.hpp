@@ -32,10 +32,10 @@
 #include <string>
 
 #include "json.h"
-#include "include/logging.h"
-#include "include/io_helpers.h"
-#include "include/Config/Serializable.hpp"
-#include "include/Config/Version.hpp"
+#include "logging.h"
+#include "io_helpers.h"
+#include "Config/Serializable.hpp"
+#include "Config/Version.hpp"
 
 namespace pew::eos::config
 {
