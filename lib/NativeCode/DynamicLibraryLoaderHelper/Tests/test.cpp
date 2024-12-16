@@ -74,7 +74,12 @@ namespace pew::eos::tests
         const auto managed = msclr::interop::marshal_as<std::string>(str);
         const std::string unmanaged = c_str;
 
-        EXPECT_TRUE(managed == unmanaged) << ConstructMessage(name, unmanaged, managed).c_str();
+        EXPECT_TRUE(managed == unmanaged) << ConstructMessage(name, unmanaged, managed);
+    }
+
+    void CheckEquality(const wchar_t* name, const uint64_t& unmanaged_value, const uint64_t& managed_value)
+    {
+        EXPECT_TRUE(unmanaged_value == managed_value) << ConstructMessage(name, unmanaged_value, managed_value);
     }
 
     /**
@@ -92,18 +97,18 @@ namespace pew::eos::tests
 
         // TODO: Check that neither options objects are nullptr
         CheckEquality(L"ProductName", native_initialize_options.ProductName, managed_platform_initialize_options->ProductName->ToString());
-        //CheckEquality("ProductVersion", native_initialize_options->ProductVersion, managed_platform_initialize_options->ProductVersion->ToString());
+        CheckEquality(L"ProductVersion", native_initialize_options.ProductVersion, managed_platform_initialize_options->ProductVersion->ToString());
 
-        //if (nullptr != native_initialize_options->OverrideThreadAffinity)
-        //{
-            //CheckEquality("OverrideThreadAffinity.NetworkWork", native_initialize_options->OverrideThreadAffinity->NetworkWork, managed_platform_initialize_options->OverrideThreadAffinity.Value.NetworkWork);
-            //CheckEquality("OverrideThreadAffinity.StorageIo", native_initialize_options->OverrideThreadAffinity->StorageIo, managed_platform_initialize_options->OverrideThreadAffinity.Value.StorageIo);
-            //CheckEquality("OverrideThreadAffinity.WebSocketIo", native_initialize_options->OverrideThreadAffinity->WebSocketIo, managed_platform_initialize_options->OverrideThreadAffinity.Value.WebSocketIo);
-            //CheckEquality("OverrideThreadAffinity.P2PIo", native_initialize_options->OverrideThreadAffinity->P2PIo, managed_platform_initialize_options->OverrideThreadAffinity.Value.P2PIo);
-            //CheckEquality("OverrideThreadAffinity.HttpRequestIo", native_initialize_options->OverrideThreadAffinity->HttpRequestIo, managed_platform_initialize_options->OverrideThreadAffinity.Value.HttpRequestIo);
-            //CheckEquality("OverrideThreadAffinity.RTCIo", native_initialize_options->OverrideThreadAffinity->RTCIo, managed_platform_initialize_options->OverrideThreadAffinity.Value.RTCIo);
-            //CheckEquality("OverrideThreadAffinity.EmbeddedOverlayMainThread", native_initialize_options->OverrideThreadAffinity->EmbeddedOverlayMainThread, managed_platform_initialize_options->OverrideThreadAffinity.Value.EmbeddedOverlayMainThread);
-            //CheckEquality("OverrideThreadAffinity.EmbeddedOverlayWorkerThreads", native_initialize_options->OverrideThreadAffinity->EmbeddedOverlayWorkerThreads, managed_platform_initialize_options->OverrideThreadAffinity.Value.EmbeddedOverlayWorkerThreads);
-        //}
+        if (nullptr != native_initialize_options.OverrideThreadAffinity)
+        {
+            CheckEquality(L"OverrideThreadAffinity.NetworkWork", native_initialize_options.OverrideThreadAffinity->NetworkWork, managed_platform_initialize_options->OverrideThreadAffinity.Value.NetworkWork);
+            CheckEquality(L"OverrideThreadAffinity.StorageIo", native_initialize_options.OverrideThreadAffinity->StorageIo, managed_platform_initialize_options->OverrideThreadAffinity.Value.StorageIo);
+            CheckEquality(L"OverrideThreadAffinity.WebSocketIo", native_initialize_options.OverrideThreadAffinity->WebSocketIo, managed_platform_initialize_options->OverrideThreadAffinity.Value.WebSocketIo);
+            CheckEquality(L"OverrideThreadAffinity.P2PIo", native_initialize_options.OverrideThreadAffinity->P2PIo, managed_platform_initialize_options->OverrideThreadAffinity.Value.P2PIo);
+            CheckEquality(L"OverrideThreadAffinity.HttpRequestIo", native_initialize_options.OverrideThreadAffinity->HttpRequestIo, managed_platform_initialize_options->OverrideThreadAffinity.Value.HttpRequestIo);
+            CheckEquality(L"OverrideThreadAffinity.RTCIo", native_initialize_options.OverrideThreadAffinity->RTCIo, managed_platform_initialize_options->OverrideThreadAffinity.Value.RTCIo);
+            CheckEquality(L"OverrideThreadAffinity.EmbeddedOverlayMainThread", native_initialize_options.OverrideThreadAffinity->EmbeddedOverlayMainThread, managed_platform_initialize_options->OverrideThreadAffinity.Value.EmbeddedOverlayMainThread);
+            CheckEquality(L"OverrideThreadAffinity.EmbeddedOverlayWorkerThreads", native_initialize_options.OverrideThreadAffinity->EmbeddedOverlayWorkerThreads, managed_platform_initialize_options->OverrideThreadAffinity.Value.EmbeddedOverlayWorkerThreads);
+        }
     }
 }
