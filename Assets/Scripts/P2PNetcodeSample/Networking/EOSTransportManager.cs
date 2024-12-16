@@ -259,6 +259,37 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
         private const byte ConnectionConfirmationChannel = byte.MaxValue;
 
+        /// <summary>
+        /// Identification handle used for incoming connection requests.
+        /// 
+        /// Subscribed in <see cref="SubscribeToConnectionRequestNotifications"/>,
+        /// cleared in <see cref="UnsubscribeFromConnectionRequestNotifications"/>.
+        /// 
+        /// Primarily held to later unsubscribe and clean up the SDK.
+        /// </summary>
+        private ulong ConnectionRequestNotificationsId = 0;
+
+        /// <summary>
+        /// Identification handle used for outgoing connection requests that
+        /// have been accepted and established.
+        /// 
+        /// Subscribed in <see cref="SubscribeToConnectionRequestNotifications"/>,
+        /// cleared in <see cref="UnsubscribeFromConnectionRequestNotifications"/>.
+        /// 
+        /// Primarily held to later unsubscribe and clean up the SDK.
+        /// </summary>
+        private ulong ConnectionEstablishedNotificationsId = 0;
+
+        /// <summary>
+        /// Identification handle used for notifications about closed connections.
+        /// 
+        /// Subscribed in <see cref="SubscribeToConnectionClosedNotifications"/>,
+        /// cleared in <see cref="UnsubscribeFromConnectionClosedNotifications"/>.
+        /// 
+        /// Primarily held to later unsubscribe and clean up the SDK.
+        /// </summary>
+        private ulong ConnectionClosedNotificationsId = 0;
+
         [System.Diagnostics.Conditional("EOS_TRANSPORTMANAGER_DEBUG")]
         private void Log(string msg)
         {
@@ -1288,9 +1319,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         // (Internal) P2P Connection Event Handling
         //
 
-        private ulong ConnectionRequestNotificationsId = 0;
-        private ulong ConnectionEstablishedNotificationsId = 0;
-
         private void SubscribeToConnectionRequestNotifications()
         {
             AddNotifyPeerConnectionRequestOptions options = new AddNotifyPeerConnectionRequestOptions()
@@ -1341,8 +1369,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 LogError($"EOSTransportManager.OnConnectionRequestNotification: Failed to process connection request notification for socket connection named '{socketName}' with remote peer '{remoteUserId}'...");
             }
         }
-
-        private ulong ConnectionClosedNotificationsId = 0;
 
         private void SubscribeToConnectionClosedNotifications()
         {
