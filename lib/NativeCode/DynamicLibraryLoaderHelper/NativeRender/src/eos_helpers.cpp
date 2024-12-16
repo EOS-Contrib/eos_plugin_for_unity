@@ -405,24 +405,19 @@ namespace pew::eos
         }
 
         apply_rtc_options(platform_options);
-        apply_steam_settings(platform_options);
+        // TODO: Re-enable apply_steam_settings(platform_options);
 
         return platform_options;
     }
 
-    PEW_EOS_API_FUNC(EOS_Platform_Options*) PEW_EOS_Get_CreateOptions()
+    PEW_EOS_API_FUNC(EOS_Platform_Options) PEW_EOS_Get_CreateOptions()
     {
-        const auto platform_config = Config::get<WindowsConfig>();
-        const auto product_config = Config::get<ProductConfig>();
+        static const auto platform_config = Config::get<WindowsConfig>();
+        static const auto product_config = Config::get<ProductConfig>();
 
-        const auto create_options = get_create_options(*platform_config, *product_config);
+        static const auto create_options = get_create_options(*platform_config, *product_config);
 
-        // Allocate a new pointer so that it can be returned instead of the
-        // pointer to the object created on the stack above.
-        const auto platform_options_ptr = new EOS_Platform_Options();
-        *platform_options_ptr = create_options;
-
-        return platform_options_ptr;
+        return create_options;
     }
 
     PEW_EOS_API_FUNC(EOS_InitializeOptions) PEW_EOS_Get_InitializeOptions()

@@ -152,6 +152,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ManagedPluginCode\ManagedPluginCode.csproj">
+      <Project>{b3adeb07-b668-482e-a5aa-9671ce65c5f7}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\ManagedToUnmanagedBridge\ManagedToUnmanagedBridge.vcxproj">
       <Project>{4421f72c-9585-4245-bd8d-fef6ce45c7d6}</Project>
     </ProjectReference>
