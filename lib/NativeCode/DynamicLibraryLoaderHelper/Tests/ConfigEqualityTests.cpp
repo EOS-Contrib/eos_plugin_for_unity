@@ -170,11 +170,12 @@ namespace pew::eos::tests
         InitializeCLR();
         const auto native_initialize_options = PEW_EOS_Get_InitializeOptions();
         const auto managed_platform_initialize_options = ConfigurationUtilityBridge::get_initialize_options();
-        
-        // TODO: Check that neither options objects are nullptr
+
+        // Check the product name and product version for equality.
         CheckEquality(L"ProductName", native_initialize_options.ProductName, managed_platform_initialize_options->ProductName->ToString());
         CheckEquality(L"ProductVersion", native_initialize_options.ProductVersion, managed_platform_initialize_options->ProductVersion->ToString());
 
+        // If the override thread affinity is set, then check equality for each value.
         if (nullptr != native_initialize_options.OverrideThreadAffinity)
         {
             CheckEquality(L"OverrideThreadAffinity.NetworkWork", native_initialize_options.OverrideThreadAffinity->NetworkWork, managed_platform_initialize_options->OverrideThreadAffinity.Value.NetworkWork);
@@ -194,16 +195,30 @@ namespace pew::eos::tests
 
         const auto native_create_options = PEW_EOS_Get_CreateOptions();
         const auto managed_create_options = ConfigurationUtilityBridge::get_windows_options();
-        // TODO: Note that CacheDirectory is different CheckEquality(L"CacheDirectory", native_create_options.CacheDirectory, managed_create_options->CacheDirectory->ToString());
+
+        // TODO: Note that CacheDirectory is different since it is determined differently
+        // CheckEquality(L"CacheDirectory", native_create_options.CacheDirectory, managed_create_options->CacheDirectory->ToString());
+
+        // Check the primary deployment values.
         CheckEquality(L"DeploymentId", native_create_options.DeploymentId, managed_create_options->DeploymentId->ToString());
         CheckEquality(L"SandboxId", native_create_options.SandboxId, managed_create_options->SandboxId->ToString());
-        CheckEquality(L"EncryptionKey", native_create_options.EncryptionKey, managed_create_options->EncryptionKey->ToString());
+
+        // Check the flags.
         CheckEquality(L"Flags", native_create_options.Flags, static_cast<uint64_t>(managed_create_options->Flags));
+
+        // Check the product id.
         CheckEquality(L"ProductId", native_create_options.ProductId, managed_create_options->ProductId->ToString());
+
+        // Check the client credentials and file encryption key.
         CheckEquality(L"ClientId", native_create_options.ClientCredentials.ClientId, managed_create_options->ClientCredentials.ClientId->ToString());
         CheckEquality(L"ClientSecret", native_create_options.ClientCredentials.ClientSecret, managed_create_options->ClientCredentials.ClientSecret->ToString());
+        CheckEquality(L"EncryptionKey", native_create_options.EncryptionKey, managed_create_options->EncryptionKey->ToString());
+
+        // Check the timeout values.
         CheckEquality(L"TickBudgetInMilliseconds", native_create_options.TickBudgetInMilliseconds, managed_create_options->TickBudgetInMilliseconds);
         CheckEquality(L"TaskNetworkTimeoutSeconds", native_create_options.TaskNetworkTimeoutSeconds, managed_create_options->TaskNetworkTimeoutSeconds);
+
+        // Check the deployment parameter indicating whether the deployment is a server or not.
         CheckEquality(L"IsServer", native_create_options.bIsServer, managed_create_options->IsServer);
 
         // TODO: Checking the OverrideCountryCode and OverrideLocaleCode causes a strange error, but since they are not supported in the Unity editor they currently do not need to be tested.
