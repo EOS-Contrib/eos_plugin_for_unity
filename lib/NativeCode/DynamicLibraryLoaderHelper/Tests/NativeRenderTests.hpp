@@ -1,4 +1,6 @@
-﻿/*
+#ifndef NATIVE_RENDER_TESTS_HPP
+#define NATIVE_RENDER_TESTS_HPP
+/*
  * Copyright (c) 2024 PlayEveryWare
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,25 +22,24 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices
-{
-    /// <summary>
-    /// This class is defined here as a stand-in for UnityEngine.Application,
-    /// so that files compiled outside of the Unity Editor that reference that
-    /// class can still be compiled properly.
-    /// </summary>
-    internal static class Application
-    {
-        /// <summary>
-        /// This is the path of the streaming assets directory relative to the
-        /// output directory of this class library.
-        /// </summary>
-        public static readonly string streamingAssetsPath = @"..\..\..\..\..\..\Assets\StreamingAssets\";
+#include "pch.h"
+#include "eos_helpers.h"
 
-        /// <summary>
-        /// For the purposes of this class library, this field member must be
-        /// present - but it's value is not utilized, so it is being left empty.
-        /// </summary>
-        public static readonly string temporaryCachePath = string.Empty;
+namespace pew::eos::tests
+{
+    TEST(NativeRender, NativeRenderGetPlatformInterfaceTest)
+    {
+        // Call the plugin load function.
+        UnityPluginLoad(nullptr);
+
+        // Try to get a handle to the EOS SDK Platform Interface.
+        const auto eos_platform_interface = EOS_GetPlatformInterface();
+
+        // Check to make certain that a non-null pointer was acquired.
+        EXPECT_TRUE(eos_platform_interface != nullptr) << "Could not get platform interface for EOS SDK.";
+
+        // Unload the plugin.
+        UnityPluginUnload();
     }
 }
+#endif
