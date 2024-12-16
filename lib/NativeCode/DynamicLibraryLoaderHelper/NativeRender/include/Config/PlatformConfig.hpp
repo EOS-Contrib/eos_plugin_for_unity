@@ -1,5 +1,5 @@
-#ifndef PLATFORM_CONFIG_H
-#define PLATFORM_CONFIG_H
+#ifndef PLATFORM_CONFIG_HPP
+#define PLATFORM_CONFIG_HPP
 
 /*
  * Copyright (c) 2024 PlayEveryWare
@@ -33,8 +33,8 @@
 #include "eos_ui_types.h"
 #include "json_helpers.h"
 #include "ProductionEnvironments.hpp"
-#include "include/Config/ClientCredentials.hpp"
-#include "include/Config/Config.hpp"
+#include "Config/ClientCredentials.hpp"
+#include "Config/Config.hpp"
 
 namespace pew::eos::config
 {

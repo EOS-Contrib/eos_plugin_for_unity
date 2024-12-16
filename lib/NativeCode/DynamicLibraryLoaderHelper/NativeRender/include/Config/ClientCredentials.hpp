@@ -1,5 +1,5 @@
-#ifndef CLIENT_CREDENTIALS_H
-#define CLIENT_CREDENTIALS_H
+#ifndef CLIENT_CREDENTIALS_HPP
+#define CLIENT_CREDENTIALS_HPP
 
 /*
  * Copyright (c) 2024 PlayEveryWare
