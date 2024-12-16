@@ -1,3 +1,6 @@
+#ifndef CONFIG_EQUALITY_TESTS_HPP
+#define CONFIG_EQUALITY_TESTS_HPP
+
 /*
  * Copyright (c) 2024 PlayEveryWare
  *
@@ -29,7 +32,6 @@
 
 namespace pew::eos::tests
 {
-    
     /**
      * \brief Initialize the Common Language Runtime.
      */
@@ -121,3 +123,5 @@ namespace pew::eos::tests
         */
     }
 }
+
+#endif

@@ -1,3 +1,5 @@
+#ifndef NATIVE_RENDER_TESTS_HPP
+#define NATIVE_RENDER_TESTS_HPP
 /*
  * Copyright (c) 2024 PlayEveryWare
  *
@@ -19,8 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-#include "pch.h"
 
+#include "pch.h"
 #include "eos_helpers.h"
 
 namespace pew::eos::tests
@@ -40,3 +42,4 @@ namespace pew::eos::tests
         UnityPluginUnload();
     }
 }
+#endif
