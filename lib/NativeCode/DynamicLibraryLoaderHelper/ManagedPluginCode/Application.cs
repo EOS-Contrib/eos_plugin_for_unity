@@ -33,7 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// This is the path of the streaming assets directory relative to the
         /// output directory of this class library.
         /// </summary>
-        public static readonly string streamingAssetsPath = @"..\..\..\..\Assets\StreamingAssets\";
+        public static readonly string streamingAssetsPath = @"..\..\..\..\..\..\Assets\StreamingAssets\";
 
         /// <summary>
         /// For the purposes of this class library, this field member must be

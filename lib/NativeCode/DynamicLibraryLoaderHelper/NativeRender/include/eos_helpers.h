@@ -86,7 +86,7 @@ namespace pew::eos
      * @brief Returns a pointer to the structure used to initialize the EOS SDK
      * based on the configuration values.
      */
-    PEW_EOS_API_FUNC(EOS_InitializeOptions*) PEW_EOS_Get_InitializeOptions();
+    PEW_EOS_API_FUNC(EOS_InitializeOptions) PEW_EOS_Get_InitializeOptions();
 
     /**
      * @brief Returns the platform options used to create the EOS SDK as

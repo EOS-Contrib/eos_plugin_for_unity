@@ -425,19 +425,14 @@ namespace pew::eos
         return platform_options_ptr;
     }
 
-    PEW_EOS_API_FUNC(EOS_InitializeOptions*) PEW_EOS_Get_InitializeOptions()
+    PEW_EOS_API_FUNC(EOS_InitializeOptions) PEW_EOS_Get_InitializeOptions()
     {
-        const auto platform_config = Config::get<WindowsConfig>();
-        const auto product_config = Config::get<ProductConfig>();
+        static const auto platform_config = Config::get<WindowsConfig>();
+        static const auto product_config = Config::get<ProductConfig>();
 
-        const auto initialize_options = get_initialize_options(*platform_config, *product_config);
+        static const auto initialize_options = get_initialize_options(*platform_config, *product_config);
 
-        // Allocate a new pointer so that it can be returned instead of the
-        // pointer to the object created on the stack above.
-        const auto initialize_options_ptr = new EOS_InitializeOptions();
-        *initialize_options_ptr = initialize_options;
-
-        return initialize_options_ptr;
+        return initialize_options;
     }
 
     void eos_create(const PlatformConfig& platform_config, const ProductConfig& product_config)
