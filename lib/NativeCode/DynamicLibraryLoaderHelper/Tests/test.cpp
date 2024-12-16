@@ -206,7 +206,7 @@ namespace pew::eos::tests
         CheckEquality(L"TaskNetworkTimeoutSeconds", native_create_options.TaskNetworkTimeoutSeconds, managed_create_options->TaskNetworkTimeoutSeconds);
         CheckEquality(L"IsServer", native_create_options.bIsServer, managed_create_options->IsServer);
 
-        // TODO: Checking the OverrideCountryCode and OverrideLocaleCode causes a strange error
+        // TODO: Checking the OverrideCountryCode and OverrideLocaleCode causes a strange error, but since they are not supported in the Unity editor they currently do not need to be tested.
         //CheckEquality(L"OverrideCountryCode", native_create_options.OverrideCountryCode, managed_create_options->OverrideCountryCode);
         //CheckEquality(L"OverrideLocaleCode", native_create_options.OverrideLocaleCode, managed_create_options->OverrideLocaleCode);
 

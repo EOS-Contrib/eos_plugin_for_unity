@@ -28,8 +28,6 @@ int main()
     pew::eos::logging::set_mirror_to_stdout(true);
     pew::eos::UnityPluginLoad(nullptr);
 
-    auto platform_settings = pew::eos::PEW_EOS_Get_CreateOptions();
-    
     auto eos_platform_interface = pew::eos::EOS_GetPlatformInterface();
 
     pew::eos::UnityPluginUnload();
