@@ -1,5 +1,5 @@
-#ifndef PLATFORM_CONFIG_H
-#define PLATFORM_CONFIG_H
+#ifndef PLATFORM_CONFIG_HPP
+#define PLATFORM_CONFIG_HPP
 
 /*
  * Copyright (c) 2024 PlayEveryWare
