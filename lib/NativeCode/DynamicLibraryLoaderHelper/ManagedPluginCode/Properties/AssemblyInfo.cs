@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("PlayEveryWare, Inc.")]
 [assembly: AssemblyProduct("EOS Plugin for Unity")]
-[assembly: AssemblyCopyright("Copyright ©  2024")]
+[assembly: AssemblyCopyright("Copyright © 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("en-US")]
 
