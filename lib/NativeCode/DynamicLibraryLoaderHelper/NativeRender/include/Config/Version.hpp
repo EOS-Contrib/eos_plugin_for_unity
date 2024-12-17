@@ -34,13 +34,13 @@ namespace pew::eos::config
     {
         int major = 0;
         int minor = 0;
-        int part = 0;
+        int patch = 0;
 
         bool operator<(const Version& other) const
         {
             if (major != other.major) return major < other.major;
             if (minor != other.minor) return minor < other.minor;
-            return part < other.part;
+            return patch < other.patch;
         }
 
         bool operator>(const Version& other) const
@@ -50,7 +50,7 @@ namespace pew::eos::config
 
         bool operator==(const Version& other) const
         {
-            return major == other.major && minor == other.minor && part == other.part;
+            return major == other.major && minor == other.minor && patch == other.patch;
         }
 
         bool operator<=(const Version& other) const
@@ -95,7 +95,7 @@ namespace pew::eos::config
             // Update the output if parsing was successful
             version.major = temp_major;
             version.minor = temp_minor;
-            version.part = temp_part;
+            version.patch = temp_part;
             return true;
         }
     private:
