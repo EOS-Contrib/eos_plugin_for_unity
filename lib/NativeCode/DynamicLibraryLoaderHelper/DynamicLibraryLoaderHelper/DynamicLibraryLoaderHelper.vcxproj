@@ -64,7 +64,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\third_party\eos_sdk\include\;$(SolutionDir)..\include;$(SolutionDir)..\include\windows;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\windows;$(ProjectDir)include;$(SolutionDir)..\third_party\eos_sdk\include\;$(SolutionDir)..\include;$(SolutionDir)..\include\windows;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -100,20 +100,21 @@
   </ItemDefinitionGroup>
   <!-- Source Files -->
   <ItemGroup>
-    <ClInclude Include="..\..\include\DLLHContext.h" />
-    <ClInclude Include="..\..\include\Memory.h" />
-    <ClInclude Include="..\..\include\windows\DLLHContextPlatform.h" />
-    <ClInclude Include="framework.h" />
+    <ClInclude Include="include\DLLHContext.h" />
+    <ClInclude Include="include\DLLHContextPlatform.h" />
+    <ClInclude Include="include\DynamicLibraryLoaderHelper_Win32.h" />
+    <ClInclude Include="include\framework.h" />
+    <ClInclude Include="include\Memory.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\DynamicLibraryLoaderHelper.cpp" />
-    <ClCompile Include="..\..\src\Memory.cpp" />
     <ClCompile Include="..\..\src\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\src\windows\DynamicLibraryLoaderHelper_Win32.cpp" />
-    <ClCompile Include="..\..\src\windows\Memory_WinCRT.cpp" />
+    <ClCompile Include="src\DynamicLibraryLoaderHelper.cpp" />
+    <ClCompile Include="src\DynamicLibraryLoaderHelper_Win32.cpp" />
+    <ClCompile Include="src\Memory.cpp" />
+    <ClCompile Include="src\Memory_WinCRT.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
