@@ -117,7 +117,7 @@ namespace pew::eos::config
                   >>
         static T parse_number(json_value_s& json_value)
         {
-            T number_value;
+            T number_value = 0;
             const auto number = json_value_as_number(&json_value);
 
             if constexpr (std::is_same_v<T, int>)
