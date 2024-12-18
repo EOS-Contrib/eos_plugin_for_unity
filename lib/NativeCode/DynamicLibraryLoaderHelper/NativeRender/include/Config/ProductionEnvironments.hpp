@@ -112,7 +112,7 @@ namespace pew::eos::config
          */
         bool is_deployment_defined(const std::string& deployment_id) const
         {
-            return std::any_of(deployments.begin(), deployments.end(), [deployment_id](const Deployment& d)
+            return std::any_of(deployments.begin(), deployments.end(), [&deployment_id](const Deployment& d)
                 {
                     return d.id == deployment_id;
                 });
@@ -126,7 +126,7 @@ namespace pew::eos::config
          */
         bool is_sandbox_defined(const std::string& sandbox_id) const
         {
-            return std::any_of(sandboxes.begin(), sandboxes.end(), [sandbox_id](const Sandbox& s)
+            return std::any_of(sandboxes.begin(), sandboxes.end(), [&sandbox_id](const Sandbox& s)
                 {
                     return s.id == sandbox_id;
                 });
