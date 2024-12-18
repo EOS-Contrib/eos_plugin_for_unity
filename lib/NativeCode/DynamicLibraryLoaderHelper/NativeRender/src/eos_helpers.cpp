@@ -38,32 +38,31 @@
 #include "Config/SteamConfig.hpp"
 #include "Config/WindowsConfig.hpp"
 
- /**
-   * @brief Retrieves the system cache directory.
-   *
-   * Retrieves the system's temporary directory and converts it to a UTF-8 encoded string.
-   *
-   * @return A pointer to a UTF-8 encoded string containing the system cache directory.
-   *         This pointer is statically allocated, so it should not be freed by the caller.
-   */
-char* GetCacheDirectory();
-
-/**
- * @brief Loads and initializes the Steam API DLL using a string path.
- *
- * Attempts to load the Steam API DLL from the specified path. If the DLL is not already
- * loaded, this function tries to load it and then calls `SteamAPI_Init`.
- *
- * @param steam_dll_filename The string path to the Steam API DLL.
- */
-void eos_call_steam_init(const std::string& steam_dll_filename);
-
 namespace pew::eos
 {
     PEW_EOS_API_FUNC(void*) EOS_GetPlatformInterface()
     {
         return eos_library_helpers::eos_platform_handle;
     }
+
+    /**
+     * @brief Retrieves the system cache directory.
+     *
+     * Retrieves the system's temporary directory and converts it to a UTF-8 encoded string.
+     *
+     * @return Path to the system cache directory.
+     */
+    std::string GetCacheDirectory();
+
+    /**
+     * @brief Loads and initializes the Steam API DLL using a string path.
+     *
+     * Attempts to load the Steam API DLL from the specified path. If the DLL is not already
+     * loaded, this function tries to load it and then calls `SteamAPI_Init`.
+     *
+     * @param steam_dll_filename The string path to the Steam API DLL.
+     */
+    void eos_call_steam_init(const std::string& steam_dll_filename);
 
     void eos_set_loglevel_via_config()
     {
@@ -205,9 +204,7 @@ namespace pew::eos
         if (!exists(steam_dll_path))
         {
             logging::log_warn("Steam DLL provided (\""
-                + steam_dll_path.string() + "\") does not exist; cannot "
-                "initialize steam.");
-            return;
+                + steam_dll_path.string() + "\") does not exist; checking for other options.");
         }
 
         // Get a handle to the steam dll
@@ -321,41 +318,55 @@ namespace pew::eos
         // =================== END APPLY RTC OPTIONS ===========================
     }
 
-    void apply_steam_settings(EOS_Platform_Options& platform_options)
+    void apply_steam_settings(EOS_Platform_Options& platform_options) 
     {
         // =================== START APPLY STEAM OPTIONS =======================
+
+        // This struct is used to guarantee the lifetime of the string field 
+        // members without introducing dangling pointers.
+        struct SteamSettingsContext 
+        {
+            std::string override_library_path;
+            std::string api_interface_versions;
+        };
+
         EOS_IntegratedPlatform_Steam_Options steam_platform = { 0 };
         EOS_HIntegratedPlatformOptionsContainer integrated_platform_options_container = nullptr;
+
+        // Context to manage string lifetimes
+        SteamSettingsContext context;
+
         const auto eos_steam_config = Config::get<SteamConfig>();
         std::filesystem::path steam_library_path;
-        if (eos_steam_config->try_get_library_path(steam_library_path))
+
+        // Configure Steam platform options
+        if (eos_steam_config->try_get_library_path(steam_library_path)) 
         {
             steam_platform.SteamMajorVersion = eos_steam_config->steam_sdk_major_version;
             steam_platform.SteamMinorVersion = eos_steam_config->steam_sdk_minor_version;
 
-            if (eos_steam_config->is_managed_by_application())
-            {
+            if (eos_steam_config->is_managed_by_application()) {
                 eos_call_steam_init(steam_library_path.string());
-                steam_platform.OverrideLibraryPath = steam_library_path.filename().string().c_str();
+                context.override_library_path = steam_library_path.filename().string();
+                steam_platform.OverrideLibraryPath = context.override_library_path.c_str();
             }
         }
 
-        steam_platform.SteamApiInterfaceVersionsArray = eos_steam_config->get_steam_api_interface_versions_array().c_str();
-        const auto size = strlen(steam_platform.SteamApiInterfaceVersionsArray);
+        context.api_interface_versions = eos_steam_config->get_steam_api_interface_versions_array();
+        steam_platform.SteamApiInterfaceVersionsArray = context.api_interface_versions.c_str();
 
-        if (size > EOS_INTEGRATEDPLATFORM_STEAM_MAX_STEAMAPIINTERFACEVERSIONSARRAY_SIZE)
+        const auto size = context.api_interface_versions.size();
+        if (size > EOS_INTEGRATEDPLATFORM_STEAM_MAX_STEAMAPIINTERFACEVERSIONSARRAY_SIZE) 
         {
-            logging::log_error("Size given for SteamApiInterfaceVersionsAsCharArray exceeds the maximum value.");
+            logging::log_error("Steam API interface versions array exceeds maximum allowed size.");
         }
-        else
+        else 
         {
-            // steam_platform needs to have a count of how many bytes the "array" is, stored in SteamApiInterfaceVersionsArrayBytes
-            // This has some fuzzy behavior; if you set it to 0 or count it up properly, there won't be a logged problem
-            // if you put a non-zero amount that is insufficient, there will be an unclear logged error message
             steam_platform.SteamApiInterfaceVersionsArrayBytes = static_cast<uint32_t>(size);
         }
 
-        EOS_IntegratedPlatform_Options steam_integrated_platform_option;
+        // Create and configure integrated platform options
+        EOS_IntegratedPlatform_Options steam_integrated_platform_option = {};
         steam_integrated_platform_option.ApiVersion = EOS_INTEGRATEDPLATFORM_OPTIONS_API_LATEST;
         steam_integrated_platform_option.Type = EOS_IPT_Steam;
         steam_integrated_platform_option.Flags = eos_steam_config->integrated_platform_management_flags;
@@ -363,13 +374,14 @@ namespace pew::eos
 
         steam_platform.ApiVersion = EOS_INTEGRATEDPLATFORM_STEAM_OPTIONS_API_LATEST;
 
+        // Create and add the options container
         EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions options = { EOS_INTEGRATEDPLATFORM_CREATEINTEGRATEDPLATFORMOPTIONSCONTAINER_API_LATEST };
         eos_library_helpers::EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr(&options, &integrated_platform_options_container);
         platform_options.IntegratedPlatformOptionsContainerHandle = integrated_platform_options_container;
 
-        EOS_IntegratedPlatformOptionsContainer_AddOptions addOptions = { EOS_INTEGRATEDPLATFORMOPTIONSCONTAINER_ADD_API_LATEST };
-        addOptions.Options = &steam_integrated_platform_option;
-        eos_library_helpers::EOS_IntegratedPlatformOptionsContainer_Add_ptr(integrated_platform_options_container, &addOptions);
+        EOS_IntegratedPlatformOptionsContainer_AddOptions add_options = { EOS_INTEGRATEDPLATFORMOPTIONSCONTAINER_ADD_API_LATEST };
+        add_options.Options = &steam_integrated_platform_option;
+        eos_library_helpers::EOS_IntegratedPlatformOptionsContainer_Add_ptr(integrated_platform_options_container, &add_options);
         // =================== END APPLY STEAM OPTIONS =========================
     }
 

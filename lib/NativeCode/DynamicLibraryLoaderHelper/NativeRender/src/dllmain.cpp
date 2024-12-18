@@ -85,6 +85,20 @@ static void apply_cli_arguments(config::PlatformConfig& platform_config, const c
     }
 }
 
+/**
+ * @brief This helper function determines whether the library is being
+ *        included by the ConsoleApplication project within the solution.
+ */
+bool IsConsoleApp()
+{
+    char processName[MAX_PATH] = { 0 };
+    GetModuleFileNameA(NULL, processName, MAX_PATH);
+    std::string name(processName);
+    // This should be set to the output target name of the ConsoleApplication 
+    // project.
+    return name.find("ConsoleApplication") != std::string::npos;
+}
+
 // Called by unity on load. It kicks off the work to load the DLL for Overlay
 #if PLATFORM_32BITS
 #pragma comment(linker, "/export:UnityPluginLoad=_UnityPluginLoad@4")
@@ -92,7 +106,7 @@ static void apply_cli_arguments(config::PlatformConfig& platform_config, const c
 PEW_EOS_API_FUNC(void) UnityPluginLoad(void* arg)
 {
 #if _DEBUG
-    if (!IsDebuggerPresent())
+    if (!IsDebuggerPresent() && !IsConsoleApp())
     {
         logging::show_log_as_dialog("You may attach a debugger to the DLL");
     }
