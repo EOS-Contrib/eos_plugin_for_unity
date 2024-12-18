@@ -140,9 +140,21 @@ namespace pew::eos
         logging::log_inform(output.str().c_str());
     }
 
-    EOS_InitializeOptions get_initialize_options(const PlatformConfig& platform_config, const ProductConfig& product_config)
+    EOS_InitializeOptions get_initialize_options(
+        const PlatformConfig& platform_config, 
+        const ProductConfig& product_config,
+        int reserved_values[2],
+        EOS_Initialize_ThreadAffinity& override_thread_affinity) 
     {
-        static int reserved[2] = { 1, 1 };
+        // Populate the reserved array
+        reserved_values[0] = 1;
+        reserved_values[1] = 1;
+
+        // Populate the thread affinity from the platform configuration
+        override_thread_affinity = platform_config.thread_affinity;
+        override_thread_affinity.ApiVersion = EOS_INITIALIZE_THREADAFFINITY_API_LATEST;
+
+        // Construct and populate the initialize options structure
         EOS_InitializeOptions sdk_initialize_options = {};
         sdk_initialize_options.ApiVersion = EOS_INITIALIZE_API_LATEST;
         sdk_initialize_options.AllocateMemoryFunction = nullptr;
@@ -150,21 +162,20 @@ namespace pew::eos
         sdk_initialize_options.ReleaseMemoryFunction = nullptr;
         sdk_initialize_options.ProductName = product_config.product_name.c_str();
         sdk_initialize_options.ProductVersion = product_config.product_version.c_str();
-        sdk_initialize_options.Reserved = reserved;
+        sdk_initialize_options.Reserved = reserved_values;
         sdk_initialize_options.SystemInitializeOptions = nullptr;
-
-        static EOS_Initialize_ThreadAffinity overrideThreadAffinity;
-        overrideThreadAffinity.ApiVersion = EOS_INITIALIZE_THREADAFFINITY_API_LATEST;
-        overrideThreadAffinity = platform_config.thread_affinity;
-
-        sdk_initialize_options.OverrideThreadAffinity = &overrideThreadAffinity;
+        sdk_initialize_options.OverrideThreadAffinity = &override_thread_affinity;
 
         return sdk_initialize_options;
     }
 
     void eos_init(const PlatformConfig& platform_config, const ProductConfig& product_config)
     {
-        auto sdk_initialization_options = get_initialize_options(platform_config, product_config);
+        // Allocate the required resources
+        int reserved_values[2];
+        EOS_Initialize_ThreadAffinity override_thread_affinity;
+        
+        auto sdk_initialization_options = get_initialize_options(platform_config, product_config, reserved_values, override_thread_affinity);
 
         logging::log_inform("call EOS_Initialize");
         EOS_EResult InitResult = eos_library_helpers::EOS_Initialize_ptr(&sdk_initialization_options);
@@ -276,46 +287,37 @@ namespace pew::eos
         }
     }
 
-    char* GetCacheDirectory()
+    std::string GetCacheDirectory() 
     {
-        static char* s_tempPathBuffer = NULL;
+        WCHAR tmp_buffer = 0;
+        DWORD buffer_size = GetTempPathW(1, &tmp_buffer) + 1;
+        WCHAR* lpTempPathBuffer = (TCHAR*)malloc(buffer_size * sizeof(TCHAR));
+        GetTempPathW(buffer_size, lpTempPathBuffer);
 
-        if (s_tempPathBuffer == NULL)
-        {
-            WCHAR tmp_buffer = 0;
-            DWORD buffer_size = GetTempPathW(1, &tmp_buffer) + 1;
-            WCHAR* lpTempPathBuffer = (TCHAR*)malloc(buffer_size * sizeof(TCHAR));
-            GetTempPathW(buffer_size, lpTempPathBuffer);
+        std::string tempPathBuffer = string_helpers::create_utf8_str_from_wide_str(lpTempPathBuffer);
+        free(lpTempPathBuffer);
 
-            s_tempPathBuffer = string_helpers::create_utf8_str_from_wide_str(lpTempPathBuffer);
-            free(lpTempPathBuffer);
-        }
-
-        return s_tempPathBuffer;
+        return tempPathBuffer;
     }
 
-    void apply_rtc_options(EOS_Platform_Options& platform_options)
+    void apply_rtc_options(EOS_Platform_Options& platform_options,
+        std::shared_ptr<EOS_Platform_RTCOptions> rtc_options,
+        std::shared_ptr<EOS_Windows_RTCOptions> windows_rtc_options) 
     {
         // =================== START APPLY RTC OPTIONS =========================
-        const auto rtc_options = std::make_shared<EOS_Platform_RTCOptions>();
         rtc_options->ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
+        windows_rtc_options->ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
+
         logging::log_inform("setting up rtc");
         std::filesystem::path xaudio2_dll_path = io_helpers::get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
-        static std::string xaudio2_dll_path_as_string = string_helpers::to_utf8_str(xaudio2_dll_path);
-        const auto windows_rtc_options = std::make_shared<EOS_Windows_RTCOptions>();
-        windows_rtc_options->ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
-        windows_rtc_options->XAudio29DllPath = xaudio2_dll_path_as_string.c_str();
+        windows_rtc_options->XAudio29DllPath = string_helpers::to_utf8_str(xaudio2_dll_path).c_str();
 
-        if (!exists(xaudio2_dll_path))
-        {
+        if (!exists(xaudio2_dll_path)) {
             logging::log_warn("Missing XAudio dll!");
         }
+
         rtc_options->PlatformSpecificOptions = windows_rtc_options.get();
         platform_options.RTCOptions = rtc_options.get();
-
-        // Store the shared_ptrs in a context to ensure their lifetime
-        static std::shared_ptr<EOS_Platform_RTCOptions> rtc_options_store = rtc_options;
-        static std::shared_ptr<EOS_Windows_RTCOptions> windows_rtc_options_store = windows_rtc_options;
         // =================== END APPLY RTC OPTIONS ===========================
     }
 
@@ -377,7 +379,10 @@ namespace pew::eos
         platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
         platform_options.bIsServer = platform_config.is_server;
         platform_options.Flags = platform_config.platform_options_flags;
-        platform_options.CacheDirectory = GetCacheDirectory();
+
+        // Get the cache directory
+        std::string cacheDirectory = GetCacheDirectory();
+        platform_options.CacheDirectory = cacheDirectory.c_str();
 
         platform_options.EncryptionKey = platform_config.client_credentials.encryption_key.c_str();
 
@@ -398,7 +403,11 @@ namespace pew::eos
             platform_options.TaskNetworkTimeoutSeconds = &task_network_timeout_seconds_dbl;
         }
 
-        apply_rtc_options(platform_options);
+        // Before calling apply_rtc_options, initialize dependencies
+        auto rtc_options = std::make_shared<EOS_Platform_RTCOptions>();
+        auto windows_rtc_options = std::make_shared<EOS_Windows_RTCOptions>();
+        apply_rtc_options(platform_options, rtc_options, windows_rtc_options);
+
         apply_steam_settings(platform_options);
 
         return platform_options;
@@ -423,7 +432,11 @@ namespace pew::eos
         static const auto platform_config = Config::get<WindowsConfig>();
         static const auto product_config = Config::get<ProductConfig>();
 
-        static const auto initialize_options = get_initialize_options(*platform_config, *product_config);
+        // Allocate the required resources
+        int reserved_values[2];
+        EOS_Initialize_ThreadAffinity override_thread_affinity;
+
+        static const auto initialize_options = get_initialize_options(*platform_config, *product_config, reserved_values, override_thread_affinity);
 
         return initialize_options;
     }
