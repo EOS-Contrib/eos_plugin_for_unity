@@ -225,12 +225,6 @@ namespace pew::eos
             // use load_library_at_path to load the dll - because _it_ uses the
             // LoadLibrary method, different from the GetModuleHandleA functions
             // used above.
-            //
-            // TODO: This seems very confusing and incorrect - it seems that all
-            //       functionality above this line should be included into the
-            //       "load_library_at_path" method - that way every time a
-            //       library load is attempted, both methods (GetModuleHandleA
-            //       and LoadLibrary) can be used if one of them fails.
             if (steam_dll_handle == nullptr)
             {
                 steam_dll_handle = eos_library_helpers::load_library_at_path(steam_dll_path);
