@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     // This compile conditional is here so that when EOS is disabled, nothing is
@@ -540,3 +542,5 @@ namespace PlayEveryWare.EpicOnlineServices
         #endregion
     }
 }
+
+#endif
