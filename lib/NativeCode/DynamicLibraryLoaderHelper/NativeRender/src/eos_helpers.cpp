@@ -404,35 +404,30 @@ namespace pew::eos
         return platform_options;
     }
 
-    PEW_EOS_API_FUNC(EOS_Platform_Options*) PEW_EOS_Get_CreateOptions()
+    // NOTE: This compile conditional is here because these functions are only 
+    //       utilized to test the compatibility between native and managed 
+    //       components of the plugin to guarantee their equivalency.
+#if _DEBUG
+    PEW_EOS_API_FUNC(EOS_Platform_Options) PEW_EOS_Get_CreateOptions()
     {
-        const auto platform_config = Config::get<WindowsConfig>();
-        const auto product_config = Config::get<ProductConfig>();
+        static const auto platform_config = Config::get<WindowsConfig>();
+        static const auto product_config = Config::get<ProductConfig>();
 
-        const auto create_options = get_create_options(*platform_config, *product_config);
+        static const auto create_options = get_create_options(*platform_config, *product_config);
 
-        // Allocate a new pointer so that it can be returned instead of the
-        // pointer to the object created on the stack above.
-        const auto platform_options_ptr = new EOS_Platform_Options();
-        *platform_options_ptr = create_options;
-
-        return platform_options_ptr;
+        return create_options;
     }
 
-    PEW_EOS_API_FUNC(EOS_InitializeOptions*) PEW_EOS_Get_InitializeOptions()
+    PEW_EOS_API_FUNC(EOS_InitializeOptions) PEW_EOS_Get_InitializeOptions()
     {
-        const auto platform_config = Config::get<WindowsConfig>();
-        const auto product_config = Config::get<ProductConfig>();
+        static const auto platform_config = Config::get<WindowsConfig>();
+        static const auto product_config = Config::get<ProductConfig>();
 
-        const auto initialize_options = get_initialize_options(*platform_config, *product_config);
+        static const auto initialize_options = get_initialize_options(*platform_config, *product_config);
 
-        // Allocate a new pointer so that it can be returned instead of the
-        // pointer to the object created on the stack above.
-        const auto initialize_options_ptr = new EOS_InitializeOptions();
-        *initialize_options_ptr = initialize_options;
-
-        return initialize_options_ptr;
+        return initialize_options;
     }
+#endif
 
     void eos_create(const PlatformConfig& platform_config, const ProductConfig& product_config)
     {

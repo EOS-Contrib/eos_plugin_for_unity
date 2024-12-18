@@ -82,11 +82,22 @@ namespace pew::eos
      */
     EOS_InitializeOptions get_initialize_options(const PlatformConfig& platform_config, const ProductConfig& product_config);
 
+    // NOTE: This compile conditional is here because these functions are only 
+    //       utilized to test the compatibility between native and managed 
+    //       components of the plugin to guarantee their equivalency.
+#if _DEBUG
     /**
-     * @brief Returns a pointer to the structure used to initialize the EOS SDK
-     * based on the configuration values.
+     * @brief Returns the structure used to initialize the EOS SDK based on the
+     *        configuration values stored in JSON.
      */
-    PEW_EOS_API_FUNC(EOS_InitializeOptions*) PEW_EOS_Get_InitializeOptions();
+    PEW_EOS_API_FUNC(EOS_InitializeOptions) PEW_EOS_Get_InitializeOptions();
+
+    /**
+     * @brief Returns the structure used to create the EOS SDK based on the 
+     *        configuration values stored in JSON.
+     */
+    PEW_EOS_API_FUNC(EOS_Platform_Options) PEW_EOS_Get_CreateOptions();
+#endif
 
     /**
      * @brief Returns the platform options used to create the EOS SDK as
@@ -98,12 +109,6 @@ namespace pew::eos
      * \return The EOS_Platform_Options value used to create the EOS SDK.
      */
     EOS_Platform_Options get_create_options(const PlatformConfig& platform_config, const ProductConfig& product_config);
-
-    /**
-     * @brief Returns a pointer to the structure used to create the EOS SDK
-     * based on the configuration values.
-     */
-    PEW_EOS_API_FUNC(EOS_Platform_Options*) PEW_EOS_Get_CreateOptions();
 
     /**
      * \brief Apply RTC Options to a given platform_options object.
