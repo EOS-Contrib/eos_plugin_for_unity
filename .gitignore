@@ -160,3 +160,7 @@ Assets/Plugins/Source/Editor/obj/
 *_BackUpThisFolder_ButDontShipItWithYourGame*
 *_BurstDebugInformation_DoNotShip*
 Assets/InitTestScene*
+
+CMakeFiles/*
+CMakeCache.txt
+*.bak
