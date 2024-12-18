@@ -23,6 +23,7 @@
  */
 
 #pragma once
+#include "Windows/eos_Windows.h"
 #include "PEW_EOS_Defines.h"
 #include <eos_types.h>
 
@@ -80,13 +81,28 @@ namespace pew::eos
      * @param product_config The config for the product.
      * \return The EOS_InitializeOptions value used to initialize the EOS SDK.
      */
-    EOS_InitializeOptions get_initialize_options(const PlatformConfig& platform_config, const ProductConfig& product_config);
+    EOS_InitializeOptions get_initialize_options(
+        const PlatformConfig& platform_config,
+        const ProductConfig& product_config,
+        int reserved_values[2],
+        EOS_Initialize_ThreadAffinity& override_thread_affinity);
 
+    // NOTE: This compile conditional is here because these functions are only 
+    //       utilized to test the compatibility between native and managed 
+    //       components of the plugin to guarantee their equivalency.
+#if _DEBUG
     /**
-     * @brief Returns a pointer to the structure used to initialize the EOS SDK
-     * based on the configuration values.
+     * @brief Returns the structure used to initialize the EOS SDK based on the
+     *        configuration values stored in JSON.
      */
     PEW_EOS_API_FUNC(EOS_InitializeOptions) PEW_EOS_Get_InitializeOptions();
+
+    /**
+     * @brief Returns the structure used to create the EOS SDK based on the 
+     *        configuration values stored in JSON.
+     */
+    PEW_EOS_API_FUNC(EOS_Platform_Options) PEW_EOS_Get_CreateOptions();
+#endif
 
     /**
      * @brief Returns the platform options used to create the EOS SDK as
@@ -100,17 +116,13 @@ namespace pew::eos
     EOS_Platform_Options get_create_options(const PlatformConfig& platform_config, const ProductConfig& product_config);
 
     /**
-     * @brief Returns a pointer to the structure used to create the EOS SDK
-     * based on the configuration values.
-     */
-    PEW_EOS_API_FUNC(EOS_Platform_Options) PEW_EOS_Get_CreateOptions();
-
-    /**
      * \brief Apply RTC Options to a given platform_options object.
      * \param platform_options The platform options object to apply the RTC
      * settings to.
      */
-    void apply_rtc_options(EOS_Platform_Options& platform_options);
+    void apply_rtc_options(EOS_Platform_Options& platform_options,
+        std::shared_ptr<EOS_Platform_RTCOptions> rtc_options,
+        std::shared_ptr<EOS_Windows_RTCOptions> windows_rtc_options);
 
     /**
      * \brief Apply Steam configuration values to the platform options.
