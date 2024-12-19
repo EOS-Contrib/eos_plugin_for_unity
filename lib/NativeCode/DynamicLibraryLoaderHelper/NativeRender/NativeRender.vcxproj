@@ -127,7 +127,6 @@
   </ItemDefinitionGroup>
   <!-- Source Files -->
   <ItemGroup>
-    <ClInclude Include="HelperFunctions.hpp" />
     <ClInclude Include="include\Config\ClientCredentials.hpp" />
     <ClInclude Include="include\Config\Config.hpp" />
     <ClInclude Include="include\Config\EnumMappings.h" />

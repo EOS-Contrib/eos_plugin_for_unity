@@ -31,7 +31,7 @@ namespace pew::eos::config
 {
     struct WindowsConfig final : PlatformConfig
     {
-        ~WindowsConfig() override = default;
+        ~WindowsConfig() = default;
 
         const char* get_cache_directory() const override
         {
@@ -48,7 +48,45 @@ namespace pew::eos::config
 
             return s_cache_directory.c_str();
         }
+
+        void set_platform_specific_rtc_options() const override
+        {
+            if (s_rtc_options == nullptr)
+            {
+                get_platform_rtc_options();
+                return;
+            }
+
+            if (s_rtc_options->PlatformSpecificOptions == nullptr)
+            {
+                s_platform_specific_rtc_options = new EOS_Windows_RTCOptions();
+
+                const auto windows_rtc_options = reinterpret_cast<EOS_Windows_RTCOptions*>(s_platform_specific_rtc_options);
+
+                windows_rtc_options->ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
+
+                const auto xaudio2_dll_path = absolute(io_helpers::get_path_relative_to_current_module(XAUDIO2_DLL_NAME));
+
+                if (!exists(xaudio2_dll_path))
+                {
+                    logging::log_warn("Missing XAudio dll!");
+                }
+
+                size_t len = xaudio2_dll_path.string().size() + 1;
+                s_xaudio2_dll_path = std::unique_ptr<char[]>(new char[len]);
+
+                strcpy_s(s_xaudio2_dll_path.get(), len, xaudio2_dll_path.string().c_str());
+
+                windows_rtc_options->XAudio29DllPath = s_xaudio2_dll_path.get();
+
+                s_rtc_options->PlatformSpecificOptions = s_platform_specific_rtc_options;
+            }
+        }
+
     private:
+
+        static inline std::unique_ptr<char[]> s_xaudio2_dll_path;
+
         explicit WindowsConfig() : PlatformConfig("eos_windows_config.json") 
         {
             get_cache_directory();

@@ -116,15 +116,6 @@ namespace pew::eos
     EOS_Platform_Options get_create_options(const PlatformConfig& platform_config, const ProductConfig& product_config);
 
     /**
-     * \brief Apply RTC Options to a given platform_options object.
-     * \param platform_options The platform options object to apply the RTC
-     * settings to.
-     */
-    void apply_rtc_options(EOS_Platform_Options& platform_options,
-        std::shared_ptr<EOS_Platform_RTCOptions> rtc_options,
-        std::shared_ptr<EOS_Windows_RTCOptions> windows_rtc_options);
-
-    /**
      * \brief Apply Steam configuration values to the platform options.
      * \param platform_options The platform options object to apply the steam
      * configuration values to.

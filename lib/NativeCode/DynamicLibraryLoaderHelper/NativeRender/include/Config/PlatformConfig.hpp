@@ -51,6 +51,11 @@ namespace pew::eos::config
         static inline std::string s_cache_directory;
 
         /**
+         * \brief Used to statically store the platform specific rtc options once it they been determined.
+         */
+        static inline void* s_platform_specific_rtc_options;
+
+        /**
         * \brief The deployment for the platform.
         */
         ProductionEnvironments::Deployment deployment;
@@ -144,7 +149,27 @@ namespace pew::eos::config
 
         virtual const char* get_cache_directory() const = 0;
 
+        virtual void set_platform_specific_rtc_options() const = 0;
+
+        EOS_Platform_RTCOptions* get_platform_rtc_options() const
+        {
+            if (s_rtc_options == nullptr)
+            {
+                s_rtc_options = new EOS_Platform_RTCOptions();
+                s_rtc_options->ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
+                set_platform_specific_rtc_options();
+            }
+            
+            return s_rtc_options;
+        }
+
     protected:
+
+        /**
+         * \brief Used to statically store the rtc options once it has been determined.
+         */
+        static inline EOS_Platform_RTCOptions* s_rtc_options;
+
         explicit PlatformConfig(const char* file_name) : Config(file_name),
              is_server(false),
              platform_options_flags(0),
@@ -262,7 +287,16 @@ namespace pew::eos::config
         }
 
         friend struct Config;
-        virtual ~PlatformConfig() = default;
+        virtual ~PlatformConfig()
+        {
+            // Free the dynamically allocated memory for the platform specific RTC options.
+            if (s_platform_specific_rtc_options)
+                delete s_platform_specific_rtc_options;
+
+            // Free the dynamically allocated memory for the rtc options
+            if (s_rtc_options != nullptr)
+                delete s_rtc_options;
+        };
     };
 }
 

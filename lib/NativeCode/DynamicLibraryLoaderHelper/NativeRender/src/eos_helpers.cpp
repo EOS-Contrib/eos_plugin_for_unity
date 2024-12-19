@@ -37,8 +37,6 @@
 #include "Config/ProductConfig.hpp"
 #include "Config/SteamConfig.hpp"
 #include "Config/WindowsConfig.hpp"
-#include <HelperFunctions.hpp>
-using namespace pew::common;
 
 namespace pew::eos
 {
@@ -277,27 +275,6 @@ namespace pew::eos
         }
     }
 
-    void apply_rtc_options(EOS_Platform_Options& platform_options,
-        std::shared_ptr<EOS_Platform_RTCOptions> rtc_options,
-        std::shared_ptr<EOS_Windows_RTCOptions> windows_rtc_options) 
-    {
-        // =================== START APPLY RTC OPTIONS =========================
-        rtc_options->ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
-        windows_rtc_options->ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
-
-        logging::log_inform("setting up rtc");
-        std::filesystem::path xaudio2_dll_path = io_helpers::get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
-        windows_rtc_options->XAudio29DllPath = string_helpers::to_utf8_str(xaudio2_dll_path).c_str();
-
-        if (!exists(xaudio2_dll_path)) {
-            logging::log_warn("Missing XAudio dll!");
-        }
-
-        rtc_options->PlatformSpecificOptions = windows_rtc_options.get();
-        platform_options.RTCOptions = rtc_options.get();
-        // =================== END APPLY RTC OPTIONS ===========================
-    }
-
     void apply_steam_settings(EOS_Platform_Options& platform_options) 
     {
         // =================== START APPLY STEAM OPTIONS =======================
@@ -394,10 +371,7 @@ namespace pew::eos
             platform_options.TaskNetworkTimeoutSeconds = &task_network_timeout_seconds_dbl;
         }
 
-        // Before calling apply_rtc_options, initialize dependencies
-        auto rtc_options = std::make_shared<EOS_Platform_RTCOptions>();
-        auto windows_rtc_options = std::make_shared<EOS_Windows_RTCOptions>();
-        apply_rtc_options(platform_options, rtc_options, windows_rtc_options);
+        platform_options.RTCOptions = platform_config.get_platform_rtc_options();
 
         apply_steam_settings(platform_options);
 
