@@ -16,6 +16,9 @@
     <Filter Include="Header Files\Config">
       <UniqueIdentifier>{5aafc329-e650-4bf8-97f2-29ba2d2229dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Common">
+      <UniqueIdentifier>{b25676c5-7393-40bf-ad38-00762519884f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -78,6 +81,9 @@
     </ClInclude>
     <ClInclude Include="include\Config\EnumMappings.h">
       <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="HelperFunctions.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

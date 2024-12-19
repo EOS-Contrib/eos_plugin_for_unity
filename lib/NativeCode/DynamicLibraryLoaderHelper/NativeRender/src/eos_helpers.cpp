@@ -37,6 +37,8 @@
 #include "Config/ProductConfig.hpp"
 #include "Config/SteamConfig.hpp"
 #include "Config/WindowsConfig.hpp"
+#include <HelperFunctions.hpp>
+using namespace pew::common;
 
 namespace pew::eos
 {
@@ -44,16 +46,7 @@ namespace pew::eos
     {
         return eos_library_helpers::eos_platform_handle;
     }
-
-    /**
-     * @brief Retrieves the system cache directory.
-     *
-     * Retrieves the system's temporary directory and converts it to a UTF-8 encoded string.
-     *
-     * @return Path to the system cache directory.
-     */
-    std::string GetCacheDirectory();
-
+    
     /**
      * @brief Loads and initializes the Steam API DLL using a string path.
      *
@@ -284,19 +277,6 @@ namespace pew::eos
         }
     }
 
-    std::string GetCacheDirectory() 
-    {
-        WCHAR tmp_buffer = 0;
-        DWORD buffer_size = GetTempPathW(1, &tmp_buffer) + 1;
-        WCHAR* lpTempPathBuffer = (TCHAR*)malloc(buffer_size * sizeof(TCHAR));
-        GetTempPathW(buffer_size, lpTempPathBuffer);
-
-        std::string tempPathBuffer = string_helpers::create_utf8_str_from_wide_str(lpTempPathBuffer);
-        free(lpTempPathBuffer);
-
-        return tempPathBuffer;
-    }
-
     void apply_rtc_options(EOS_Platform_Options& platform_options,
         std::shared_ptr<EOS_Platform_RTCOptions> rtc_options,
         std::shared_ptr<EOS_Windows_RTCOptions> windows_rtc_options) 
@@ -393,8 +373,7 @@ namespace pew::eos
         platform_options.Flags = platform_config.platform_options_flags;
 
         // Get the cache directory
-        std::string cacheDirectory = GetCacheDirectory();
-        platform_options.CacheDirectory = cacheDirectory.c_str();
+        platform_options.CacheDirectory = platform_config.get_cache_directory();
 
         platform_options.EncryptionKey = platform_config.client_credentials.encryption_key.c_str();
 

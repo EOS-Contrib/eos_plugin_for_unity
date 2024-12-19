@@ -46,6 +46,11 @@ namespace pew::eos::config
     {
     public:
         /**
+         * \brief Used to statically store the cache directory once it has been determined.
+         */
+        static inline std::string s_cache_directory;
+
+        /**
         * \brief The deployment for the platform.
         */
         ProductionEnvironments::Deployment deployment;
@@ -136,6 +141,8 @@ namespace pew::eos::config
          * the user to edit. TODO: Expose property in Unity project.
          */
         std::string overrideLocaleCode;
+
+        virtual const char* get_cache_directory() const = 0;
 
     protected:
         explicit PlatformConfig(const char* file_name) : Config(file_name),

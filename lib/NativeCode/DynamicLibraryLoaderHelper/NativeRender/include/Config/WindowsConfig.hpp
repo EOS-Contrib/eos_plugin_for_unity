@@ -33,8 +33,26 @@ namespace pew::eos::config
     {
         ~WindowsConfig() override = default;
 
+        const char* get_cache_directory() const override
+        {
+            if (s_cache_directory.empty())
+            {
+                WCHAR tmp_buffer = 0;
+                DWORD buffer_size = GetTempPathW(1, &tmp_buffer) + 1;
+                WCHAR* lpTempPathBuffer = (TCHAR*)malloc(buffer_size * sizeof(TCHAR));
+                GetTempPathW(buffer_size, lpTempPathBuffer);
+
+                s_cache_directory = string_helpers::create_utf8_str_from_wide_str(lpTempPathBuffer);
+                free(lpTempPathBuffer);
+            }
+
+            return s_cache_directory.c_str();
+        }
     private:
-        explicit WindowsConfig() : PlatformConfig("eos_windows_config.json") {}
+        explicit WindowsConfig() : PlatformConfig("eos_windows_config.json") 
+        {
+            get_cache_directory();
+        }
         // Makes the WindowsConfig constructor accessible to the Config class.
         friend struct Config;
     };
