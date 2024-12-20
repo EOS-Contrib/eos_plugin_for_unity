@@ -45,11 +45,7 @@ namespace pew::eos::config
     struct PlatformConfig : Config
     {
     public:
-        /**
-         * \brief Used to statically store the cache directory once it has been determined.
-         */
-        static inline std::string s_cache_directory;
-
+        
         /**
          * \brief Used to statically store the platform specific rtc options once it they been determined.
          */
@@ -164,6 +160,12 @@ namespace pew::eos::config
         }
 
     protected:
+        /**
+         * \brief Used to store the cache directory once it has been determined.
+         */
+        std::string cache_directory;
+
+        virtual void set_cache_directory() = 0;
 
         /**
          * \brief Used to statically store the rtc options once it has been determined.
@@ -180,6 +182,7 @@ namespace pew::eos::config
              initial_button_delay_for_overlay(0),
              repeat_button_delay_for_overlay(0)
         {
+            initialize();
         }
 
         void parse_json_element(const std::string& name, json_value_s& value) override
@@ -287,6 +290,7 @@ namespace pew::eos::config
         }
 
         friend struct Config;
+
         virtual ~PlatformConfig()
         {
             // Free the dynamically allocated memory for the platform specific RTC options.
@@ -297,6 +301,13 @@ namespace pew::eos::config
             if (s_rtc_options != nullptr)
                 delete s_rtc_options;
         };
+
+    private:
+
+        void initialize()
+        {
+            set_cache_directory();
+        }
     };
 }
 

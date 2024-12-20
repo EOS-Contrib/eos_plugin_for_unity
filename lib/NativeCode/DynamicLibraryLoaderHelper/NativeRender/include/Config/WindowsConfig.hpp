@@ -33,20 +33,23 @@ namespace pew::eos::config
     {
         ~WindowsConfig() = default;
 
-        const char* get_cache_directory() const override
+        void set_cache_directory() override
         {
-            if (s_cache_directory.empty())
+            if (cache_directory.empty())
             {
                 WCHAR tmp_buffer = 0;
                 DWORD buffer_size = GetTempPathW(1, &tmp_buffer) + 1;
                 WCHAR* lpTempPathBuffer = (TCHAR*)malloc(buffer_size * sizeof(TCHAR));
                 GetTempPathW(buffer_size, lpTempPathBuffer);
 
-                s_cache_directory = string_helpers::create_utf8_str_from_wide_str(lpTempPathBuffer);
+                cache_directory = string_helpers::create_utf8_str_from_wide_str(lpTempPathBuffer);
                 free(lpTempPathBuffer);
             }
+        }
 
-            return s_cache_directory.c_str();
+        const char* get_cache_directory() const override
+        {
+            return cache_directory.c_str();
         }
 
         void set_platform_specific_rtc_options() const override
