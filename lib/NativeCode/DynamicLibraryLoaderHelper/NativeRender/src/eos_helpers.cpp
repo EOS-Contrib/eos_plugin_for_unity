@@ -44,16 +44,7 @@ namespace pew::eos
     {
         return eos_library_helpers::eos_platform_handle;
     }
-
-    /**
-     * @brief Retrieves the system cache directory.
-     *
-     * Retrieves the system's temporary directory and converts it to a UTF-8 encoded string.
-     *
-     * @return Path to the system cache directory.
-     */
-    std::string GetCacheDirectory();
-
+    
     /**
      * @brief Loads and initializes the Steam API DLL using a string path.
      *
@@ -284,40 +275,6 @@ namespace pew::eos
         }
     }
 
-    std::string GetCacheDirectory() 
-    {
-        WCHAR tmp_buffer = 0;
-        DWORD buffer_size = GetTempPathW(1, &tmp_buffer) + 1;
-        WCHAR* lpTempPathBuffer = (TCHAR*)malloc(buffer_size * sizeof(TCHAR));
-        GetTempPathW(buffer_size, lpTempPathBuffer);
-
-        std::string tempPathBuffer = string_helpers::create_utf8_str_from_wide_str(lpTempPathBuffer);
-        free(lpTempPathBuffer);
-
-        return tempPathBuffer;
-    }
-
-    void apply_rtc_options(EOS_Platform_Options& platform_options,
-        std::shared_ptr<EOS_Platform_RTCOptions> rtc_options,
-        std::shared_ptr<EOS_Windows_RTCOptions> windows_rtc_options) 
-    {
-        // =================== START APPLY RTC OPTIONS =========================
-        rtc_options->ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
-        windows_rtc_options->ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
-
-        logging::log_inform("setting up rtc");
-        std::filesystem::path xaudio2_dll_path = io_helpers::get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
-        windows_rtc_options->XAudio29DllPath = string_helpers::to_utf8_str(xaudio2_dll_path).c_str();
-
-        if (!exists(xaudio2_dll_path)) {
-            logging::log_warn("Missing XAudio dll!");
-        }
-
-        rtc_options->PlatformSpecificOptions = windows_rtc_options.get();
-        platform_options.RTCOptions = rtc_options.get();
-        // =================== END APPLY RTC OPTIONS ===========================
-    }
-
     void apply_steam_settings(EOS_Platform_Options& platform_options) 
     {
         // =================== START APPLY STEAM OPTIONS =======================
@@ -393,8 +350,7 @@ namespace pew::eos
         platform_options.Flags = platform_config.platform_options_flags;
 
         // Get the cache directory
-        std::string cacheDirectory = GetCacheDirectory();
-        platform_options.CacheDirectory = cacheDirectory.c_str();
+        platform_options.CacheDirectory = platform_config.get_cache_directory();
 
         platform_options.EncryptionKey = platform_config.client_credentials.encryption_key.c_str();
 
@@ -415,12 +371,9 @@ namespace pew::eos
             platform_options.TaskNetworkTimeoutSeconds = &task_network_timeout_seconds_dbl;
         }
 
-        // Before calling apply_rtc_options, initialize dependencies
-        auto rtc_options = std::make_shared<EOS_Platform_RTCOptions>();
-        auto windows_rtc_options = std::make_shared<EOS_Windows_RTCOptions>();
-        apply_rtc_options(platform_options, rtc_options, windows_rtc_options);
+        platform_options.RTCOptions = platform_config.get_platform_rtc_options();
 
-        apply_steam_settings(platform_options);
+        // TODO-STEAM: enable apply_steam_settings(platform_options);
 
         return platform_options;
     }
