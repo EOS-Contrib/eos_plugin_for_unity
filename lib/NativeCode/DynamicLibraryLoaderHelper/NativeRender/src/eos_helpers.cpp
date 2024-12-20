@@ -373,7 +373,7 @@ namespace pew::eos
 
         platform_options.RTCOptions = platform_config.get_platform_rtc_options();
 
-        apply_steam_settings(platform_options);
+        // TODO-STEAM: enable apply_steam_settings(platform_options);
 
         return platform_options;
     }
