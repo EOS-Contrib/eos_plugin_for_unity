@@ -143,20 +143,14 @@ namespace pew::eos::config
          */
         std::string overrideLocaleCode;
 
-        virtual const char* get_cache_directory() const = 0;
-
-        virtual void set_platform_specific_rtc_options() const = 0;
+        const char* get_cache_directory() const
+        {
+            return cache_directory.c_str();
+        }
 
         EOS_Platform_RTCOptions* get_platform_rtc_options() const
         {
-            if (s_rtc_options == nullptr)
-            {
-                s_rtc_options = new EOS_Platform_RTCOptions();
-                s_rtc_options->ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
-                set_platform_specific_rtc_options();
-            }
-            
-            return s_rtc_options;
+            return rtc_options;
         }
 
     protected:
@@ -167,10 +161,12 @@ namespace pew::eos::config
 
         virtual void set_cache_directory() = 0;
 
+        virtual void set_platform_specific_rtc_options() const = 0;
+
         /**
-         * \brief Used to statically store the rtc options once it has been determined.
+         * \brief Used to store the rtc options once it has been determined.
          */
-        static inline EOS_Platform_RTCOptions* s_rtc_options;
+        EOS_Platform_RTCOptions* rtc_options;
 
         explicit PlatformConfig(const char* file_name) : Config(file_name),
              is_server(false),
@@ -298,11 +294,21 @@ namespace pew::eos::config
                 delete s_platform_specific_rtc_options;
 
             // Free the dynamically allocated memory for the rtc options
-            if (s_rtc_options != nullptr)
-                delete s_rtc_options;
+            if (rtc_options != nullptr)
+                delete rtc_options;
         };
 
     private:
+
+        void set_platform_rtc_options()
+        {
+            if (rtc_options == nullptr)
+            {
+                rtc_options = new EOS_Platform_RTCOptions();
+                rtc_options->ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
+                set_platform_specific_rtc_options();
+            }
+        }
 
         void initialize()
         {

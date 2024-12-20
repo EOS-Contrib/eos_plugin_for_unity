@@ -47,20 +47,15 @@ namespace pew::eos::config
             }
         }
 
-        const char* get_cache_directory() const override
-        {
-            return cache_directory.c_str();
-        }
-
         void set_platform_specific_rtc_options() const override
         {
-            if (s_rtc_options == nullptr)
+            if (rtc_options == nullptr)
             {
-                get_platform_rtc_options();
+                logging::log_error("Attempting to set platform specific rtc options, but rtc options are null.");
                 return;
             }
 
-            if (s_rtc_options->PlatformSpecificOptions == nullptr)
+            if (rtc_options->PlatformSpecificOptions == nullptr)
             {
                 s_platform_specific_rtc_options = new EOS_Windows_RTCOptions();
 
@@ -82,7 +77,7 @@ namespace pew::eos::config
 
                 windows_rtc_options->XAudio29DllPath = s_xaudio2_dll_path.get();
 
-                s_rtc_options->PlatformSpecificOptions = s_platform_specific_rtc_options;
+                rtc_options->PlatformSpecificOptions = s_platform_specific_rtc_options;
             }
         }
 
