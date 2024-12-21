@@ -367,8 +367,8 @@ namespace pew::eos
 
         if (platform_config.task_network_timeout_seconds > 0)
         {
-            double task_network_timeout_seconds_dbl = platform_config.task_network_timeout_seconds;
-            platform_options.TaskNetworkTimeoutSeconds = &task_network_timeout_seconds_dbl;
+            // Make sure this gets deleted
+            platform_options.TaskNetworkTimeoutSeconds = new double(platform_config.task_network_timeout_seconds);
         }
 
         platform_options.RTCOptions = platform_config.get_platform_rtc_options().get();
@@ -388,6 +388,9 @@ namespace pew::eos
         static const auto product_config = Config::get<ProductConfig>();
 
         static const auto create_options = get_create_options(*platform_config, *product_config);
+
+        // delete the one allocation
+        delete create_options.TaskNetworkTimeoutSeconds;
 
         return create_options;
     }
@@ -428,5 +431,8 @@ namespace pew::eos
         {
             logging::log_inform("Successfully created the EOS SDK Platform.");
         }
+
+        // Delete the one allocation
+        delete platform_options.TaskNetworkTimeoutSeconds;
     }
 }
