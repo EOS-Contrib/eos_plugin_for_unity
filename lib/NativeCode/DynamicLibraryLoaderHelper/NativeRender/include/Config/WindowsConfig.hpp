@@ -31,7 +31,7 @@ namespace pew::eos::config
 {
     struct WindowsConfig final : PlatformConfig
     {
-        ~WindowsConfig() override
+        ~WindowsConfig()
         {
             delete static_cast<EOS_Windows_RTCOptions*>(platform_specific_rtc_options);
         }
@@ -90,7 +90,9 @@ namespace pew::eos::config
 
         explicit WindowsConfig() : PlatformConfig("eos_windows_config.json") 
         {
+            initialize();
         }
+
         // Makes the WindowsConfig constructor accessible to the Config class.
         friend struct Config;
     };

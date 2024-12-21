@@ -371,7 +371,7 @@ namespace pew::eos
             platform_options.TaskNetworkTimeoutSeconds = &task_network_timeout_seconds_dbl;
         }
 
-        platform_options.RTCOptions = platform_config.get_platform_rtc_options();
+        platform_options.RTCOptions = platform_config.get_platform_rtc_options().get();
 
         // TODO-STEAM: enable apply_steam_settings(platform_options);
 

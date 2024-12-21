@@ -141,7 +141,7 @@ namespace pew::eos::config
             return cache_directory.c_str();
         }
 
-        EOS_Platform_RTCOptions* get_platform_rtc_options() const
+        std::shared_ptr<EOS_Platform_RTCOptions> get_platform_rtc_options() const
         {
             return rtc_options;
         }
@@ -164,7 +164,7 @@ namespace pew::eos::config
         /**
          * \brief Used to store the rtc options once it has been determined.
          */
-        EOS_Platform_RTCOptions* rtc_options;
+        std::shared_ptr<EOS_Platform_RTCOptions> rtc_options;
 
         explicit PlatformConfig(const char* file_name) : Config(file_name),
              is_server(false),
@@ -176,7 +176,6 @@ namespace pew::eos::config
              initial_button_delay_for_overlay(0),
              repeat_button_delay_for_overlay(0)
         {
-            initialize();
         }
 
         void parse_json_element(const std::string& name, json_value_s& value) override
@@ -285,11 +284,11 @@ namespace pew::eos::config
 
         friend struct Config;
 
-        virtual ~PlatformConfig()
+        void initialize()
         {
-            // Free the dynamically allocated memory for the rtc options
-            delete rtc_options;
-        };
+            set_platform_rtc_options();
+            set_cache_directory();
+        }
 
     private:
 
@@ -297,16 +296,10 @@ namespace pew::eos::config
         {
             if (rtc_options == nullptr)
             {
-                rtc_options = new EOS_Platform_RTCOptions();
+                rtc_options = std::make_shared<EOS_Platform_RTCOptions>();
                 rtc_options->ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
                 set_platform_specific_rtc_options();
             }
-        }
-
-        void initialize()
-        {
-            set_platform_rtc_options();
-            set_cache_directory();
         }
     };
 }
