@@ -31,37 +31,38 @@ namespace pew::eos::config
 {
     struct WindowsConfig final : PlatformConfig
     {
-        ~WindowsConfig() = default;
-
-        const char* get_cache_directory() const override
+        ~WindowsConfig()
         {
-            if (s_cache_directory.empty())
+            delete static_cast<EOS_Windows_RTCOptions*>(platform_specific_rtc_options);
+        }
+
+        void set_cache_directory() override
+        {
+            if (cache_directory.empty())
             {
                 WCHAR tmp_buffer = 0;
                 DWORD buffer_size = GetTempPathW(1, &tmp_buffer) + 1;
                 WCHAR* lpTempPathBuffer = (TCHAR*)malloc(buffer_size * sizeof(TCHAR));
                 GetTempPathW(buffer_size, lpTempPathBuffer);
 
-                s_cache_directory = string_helpers::create_utf8_str_from_wide_str(lpTempPathBuffer);
+                cache_directory = string_helpers::create_utf8_str_from_wide_str(lpTempPathBuffer);
                 free(lpTempPathBuffer);
             }
-
-            return s_cache_directory.c_str();
         }
 
-        void set_platform_specific_rtc_options() const override
+        void set_platform_specific_rtc_options() override
         {
-            if (s_rtc_options == nullptr)
+            if (rtc_options == nullptr)
             {
-                get_platform_rtc_options();
+                logging::log_error("Attempting to set platform specific rtc options, but rtc options are null.");
                 return;
             }
 
-            if (s_rtc_options->PlatformSpecificOptions == nullptr)
+            if (rtc_options->PlatformSpecificOptions == nullptr)
             {
-                s_platform_specific_rtc_options = new EOS_Windows_RTCOptions();
+                platform_specific_rtc_options = new EOS_Windows_RTCOptions();
 
-                const auto windows_rtc_options = reinterpret_cast<EOS_Windows_RTCOptions*>(s_platform_specific_rtc_options);
+                const auto windows_rtc_options = static_cast<EOS_Windows_RTCOptions*>(platform_specific_rtc_options);
 
                 windows_rtc_options->ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
 
@@ -73,24 +74,25 @@ namespace pew::eos::config
                 }
 
                 size_t len = xaudio2_dll_path.string().size() + 1;
-                s_xaudio2_dll_path = std::unique_ptr<char[]>(new char[len]);
+                _xaudio2_dll_path = std::shared_ptr<char[]>(new char[len]);
 
-                strcpy_s(s_xaudio2_dll_path.get(), len, xaudio2_dll_path.string().c_str());
+                strcpy_s(_xaudio2_dll_path.get(), len, xaudio2_dll_path.string().c_str());
 
-                windows_rtc_options->XAudio29DllPath = s_xaudio2_dll_path.get();
+                windows_rtc_options->XAudio29DllPath = _xaudio2_dll_path.get();
 
-                s_rtc_options->PlatformSpecificOptions = s_platform_specific_rtc_options;
+                rtc_options->PlatformSpecificOptions = platform_specific_rtc_options;
             }
         }
 
     private:
 
-        static inline std::unique_ptr<char[]> s_xaudio2_dll_path;
+        std::shared_ptr<char[]> _xaudio2_dll_path;
 
         explicit WindowsConfig() : PlatformConfig("eos_windows_config.json") 
         {
-            get_cache_directory();
+            initialize();
         }
+
         // Makes the WindowsConfig constructor accessible to the Config class.
         friend struct Config;
     };

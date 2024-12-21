@@ -44,17 +44,6 @@ namespace pew::eos::config
      */
     struct PlatformConfig : Config
     {
-    public:
-        /**
-         * \brief Used to statically store the cache directory once it has been determined.
-         */
-        static inline std::string s_cache_directory;
-
-        /**
-         * \brief Used to statically store the platform specific rtc options once it they been determined.
-         */
-        static inline void* s_platform_specific_rtc_options;
-
         /**
         * \brief The deployment for the platform.
         */
@@ -147,28 +136,35 @@ namespace pew::eos::config
          */
         std::string overrideLocaleCode;
 
-        virtual const char* get_cache_directory() const = 0;
-
-        virtual void set_platform_specific_rtc_options() const = 0;
-
-        EOS_Platform_RTCOptions* get_platform_rtc_options() const
+        const char* get_cache_directory() const
         {
-            if (s_rtc_options == nullptr)
-            {
-                s_rtc_options = new EOS_Platform_RTCOptions();
-                s_rtc_options->ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
-                set_platform_specific_rtc_options();
-            }
-            
-            return s_rtc_options;
+            return cache_directory.c_str();
+        }
+
+        std::shared_ptr<EOS_Platform_RTCOptions> get_platform_rtc_options() const
+        {
+            return rtc_options;
         }
 
     protected:
+        /**
+         * \brief Used to store the cache directory once it has been determined.
+         */
+        std::string cache_directory;
 
         /**
-         * \brief Used to statically store the rtc options once it has been determined.
+         * \brief Used to statically store the platform specific rtc options once they have been determined.
          */
-        static inline EOS_Platform_RTCOptions* s_rtc_options;
+        void* platform_specific_rtc_options;
+
+        virtual void set_cache_directory() = 0;
+
+        virtual void set_platform_specific_rtc_options() = 0;
+
+        /**
+         * \brief Used to store the rtc options once it has been determined.
+         */
+        std::shared_ptr<EOS_Platform_RTCOptions> rtc_options;
 
         explicit PlatformConfig(const char* file_name) : Config(file_name),
              is_server(false),
@@ -287,16 +283,24 @@ namespace pew::eos::config
         }
 
         friend struct Config;
-        virtual ~PlatformConfig()
-        {
-            // Free the dynamically allocated memory for the platform specific RTC options.
-            if (s_platform_specific_rtc_options)
-                delete s_platform_specific_rtc_options;
 
-            // Free the dynamically allocated memory for the rtc options
-            if (s_rtc_options != nullptr)
-                delete s_rtc_options;
-        };
+        void initialize()
+        {
+            set_platform_rtc_options();
+            set_cache_directory();
+        }
+
+    private:
+
+        void set_platform_rtc_options()
+        {
+            if (rtc_options == nullptr)
+            {
+                rtc_options = std::make_shared<EOS_Platform_RTCOptions>();
+                rtc_options->ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
+                set_platform_specific_rtc_options();
+            }
+        }
     };
 }
 
