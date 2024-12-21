@@ -91,6 +91,7 @@ namespace pew::eos::config
                 // Parse environments
                 auto parsed_environments = ProductionEnvironments();
                 parsed_environments.from_json(value);
+                environments = parsed_environments;
             }
         }
     };
