@@ -1,3 +1,6 @@
+#ifndef CLIENT_CREDENTIALS_HPP
+#define CLIENT_CREDENTIALS_HPP
+
 /*
  * Copyright (c) 2024 PlayEveryWare
  *
@@ -20,15 +23,45 @@
  * SOFTWARE.
  */
 
-#include "include/eos_helpers.h"
-#include "include/logging.h"
+#pragma once
 
-int main()
+#include <string>
+
+#include "Serializable.hpp"
+
+namespace pew::eos::config
 {
-    pew::eos::logging::set_mirror_to_stdout(true);
-    pew::eos::UnityPluginLoad(nullptr);
+    /**
+     * \brief Extends EOS_Platform_ClientCredentials to include the encryption
+     * key value.
+     */
+    struct ClientCredentials final : Serializable
+    {
+        std::string client_id;
+        std::string client_secret;
+        std::string encryption_key;
 
-    auto eos_platform_interface = pew::eos::EOS_GetPlatformInterface();
+    protected:
+        void parse_json_element(const std::string& name, json_value_s& value) override
+        {
+            if (name == "Value")
+            {
+                from_json(value);
+            }
+            else if (name == "ClientId")
+            {
+                client_id = json_value_as_string(&value)->string;
+            }
+            else if (name == "ClientSecret")
+            {
+                client_secret = json_value_as_string(&value)->string;
+            }
+            else if (name == "EncryptionKey")
+            {
+                encryption_key = json_value_as_string(&value)->string;
+            }
+        }
 
-    pew::eos::UnityPluginUnload();
+    };
 }
+#endif

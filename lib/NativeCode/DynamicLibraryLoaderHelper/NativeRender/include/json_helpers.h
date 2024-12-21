@@ -23,19 +23,12 @@
  */
 
 #pragma once
+#include <filesystem>
 #include <map>
 #include <vector>
 
 #include "json.h"
 #include "string_helpers.h"
-
-namespace std
-{
-    namespace filesystem
-    {
-        class path;
-    }
-}
 
 namespace pew::eos::json_helpers
 {
@@ -151,6 +144,6 @@ namespace pew::eos::json_helpers
      *
      * @note The caller is responsible for handling and freeing the parsed JSON structure as needed.
      */
-    json_value_s* read_config_json_as_json_from_path(std::filesystem::path path_to_config_json);
+    json_value_s* read_config_json_as_json_from_path(const std::filesystem::path& path_to_config_json);
 }
 #endif

@@ -101,7 +101,7 @@ namespace pew::eos::string_helpers
     }
 
     // wide_str must be null terminated if wide_str_len is passed
-    bool copy_to_utf8_str_from_wide_str(char* RESTRICT utf8_str, size_t utf8_str_len, const wchar_t* RESTRICT wide_str, int wide_str_len)
+    bool copy_to_utf8_str_from_wide_str(char* utf8_str, size_t utf8_str_len, const wchar_t* wide_str, int wide_str_len)
     {
         if (utf8_str_len > INT_MAX)
         {

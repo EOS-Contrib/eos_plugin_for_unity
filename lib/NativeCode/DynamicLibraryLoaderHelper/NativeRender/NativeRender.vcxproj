@@ -80,6 +80,25 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>PEW_EOS_EXPORT;OVERLAY_DLL_NAME="$(OverlayDllName)";STEAM_API_DLL="$(SteamApiDll)";SDK_DLL_NAME="$(SdkDllName)";CONFIG_DIRECTORY="$(ConfigDirectory)";_DEBUG;NATIVERENDER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <PreBuildEvent>
+      <!-- When debugging, make sure to copy the EOSSDK Dll to the output directory -->
+      <Command>
+        @echo Copying "$(OutputUnityAssetsDirectory)$(SdkDllName)" to "$(TargetDir)"
+        copy "$(OutputUnityAssetsDirectory)$(SdkDllName)" "$(TargetDir)" /Y
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <!-- Copy the meta file stored in the solution directory, since it's values have been properly set in such a way that Unity interacts with the DLL in the intended manner. -->
+      <Command>
+        @echo Copying "$(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta" to "$(OutputUnityAssetsDirectory)"
+        copy $(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta $(OutputUnityAssetsDirectory) /Y
+      </Command>
+      <!-- Copy the output files into the appropriate assets directory alongside the aforementioned .dll.meta file.-->
+      <Command>
+        @echo Copying "$(TargetDir)$(ProjectName)-$(NormalizedPlatform)*" to "$(OutputUnityAssetsDirectory)"
+        copy "$(TargetDir)$(ProjectName)*" "$(OutputUnityAssetsDirectory)" /Y
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
@@ -95,13 +114,29 @@
     </Link>
     <PostBuildEvent>
       <!-- Copy the meta file stored in the solution directory, since it's values have been properly set in such a way that Unity interacts with the DLL in the intended manner. -->
-      <Command>copy $(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta $(OutputUnityAssetsDirectory) /Y</Command>
+      <Command>
+        @echo Copying "$(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta" to "$(OutputUnityAssetsDirectory)"
+        copy $(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta $(OutputUnityAssetsDirectory) /Y
+      </Command>
       <!-- Copy just the output .dll file into the appropriate assets directory alongside the aforementioned .dll.meta file.-->
-      <Command>copy "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" "$(OutputUnityAssetsDirectory)" /Y</Command>
+      <Command>
+        @echo Copying "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" to "$(OutputUnityAssetsDirectory)"
+        copy "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" "$(OutputUnityAssetsDirectory)" /Y
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <!-- Source Files -->
   <ItemGroup>
+    <ClInclude Include="include\Config\ClientCredentials.hpp" />
+    <ClInclude Include="include\Config\Config.hpp" />
+    <ClInclude Include="include\Config\EnumMappings.h" />
+    <ClInclude Include="include\Config\PlatformConfig.hpp" />
+    <ClInclude Include="include\Config\ProductConfig.hpp" />
+    <ClInclude Include="include\Config\ProductionEnvironments.hpp" />
+    <ClInclude Include="include\Config\Serializable.hpp" />
+    <ClInclude Include="include\Config\SteamConfig.hpp" />
+    <ClInclude Include="include\Config\Version.hpp" />
+    <ClInclude Include="include\Config\WindowsConfig.hpp" />
     <ClInclude Include="include\config_legacy.h" />
     <ClInclude Include="include\eos_helpers.h" />
     <ClInclude Include="include\eos_library_helpers.h" />
