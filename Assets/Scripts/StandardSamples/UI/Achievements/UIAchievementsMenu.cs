@@ -292,9 +292,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 "Id: {0}\nUnlocked Display Name: {1}\nUnlocked Description: {2}\nLocked Display Name: {3}\nLocked Description: {4}\nHidden: {5}\n",
                 definition.AchievementId, definition.UnlockedDisplayName, definition.UnlockedDescription, definition.LockedDisplayName, definition.LockedDescription, definition.IsHidden);
 
-            foreach (StatThresholds st in definition.StatThresholds)
+            if (definition.StatThresholds != null)
             {
-                selectedDescription += string.Format("Stat Thresholds: '{0}': {1}\n", st.Name, st.Threshold);
+                foreach (StatThresholds st in definition.StatThresholds)
+                {
+                    selectedDescription += string.Format("Stat Thresholds: '{0}': {1}\n", st.Name, st.Threshold);
+                }
             }
 
             definitionsDescription.text = selectedDescription;
