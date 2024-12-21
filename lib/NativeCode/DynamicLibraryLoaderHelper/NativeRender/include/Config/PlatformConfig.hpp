@@ -44,13 +44,6 @@ namespace pew::eos::config
      */
     struct PlatformConfig : Config
     {
-    public:
-        
-        /**
-         * \brief Used to statically store the platform specific rtc options once it they been determined.
-         */
-        static inline void* s_platform_specific_rtc_options;
-
         /**
         * \brief The deployment for the platform.
         */
@@ -159,9 +152,14 @@ namespace pew::eos::config
          */
         std::string cache_directory;
 
+        /**
+         * \brief Used to statically store the platform specific rtc options once they have been determined.
+         */
+        void* platform_specific_rtc_options;
+
         virtual void set_cache_directory() = 0;
 
-        virtual void set_platform_specific_rtc_options() const = 0;
+        virtual void set_platform_specific_rtc_options() = 0;
 
         /**
          * \brief Used to store the rtc options once it has been determined.
@@ -289,13 +287,8 @@ namespace pew::eos::config
 
         virtual ~PlatformConfig()
         {
-            // Free the dynamically allocated memory for the platform specific RTC options.
-            if (s_platform_specific_rtc_options)
-                delete s_platform_specific_rtc_options;
-
             // Free the dynamically allocated memory for the rtc options
-            if (rtc_options != nullptr)
-                delete rtc_options;
+            delete rtc_options;
         };
 
     private:
@@ -312,6 +305,7 @@ namespace pew::eos::config
 
         void initialize()
         {
+            set_platform_rtc_options();
             set_cache_directory();
         }
     };
