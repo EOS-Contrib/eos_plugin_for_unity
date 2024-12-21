@@ -40,7 +40,7 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         "Steamworks SDK",
     })]
-    public class SteamConfig : EditorConfig
+    public class SteamConfig : Config
     {
         #region These fields are referenced by the native code 
 
@@ -102,7 +102,7 @@ namespace PlayEveryWare.EpicOnlineServices
             RegisterFactory(() => new SteamConfig());
         }
 
-        protected SteamConfig() : base("eos_plugin_steam_config.json")
+        protected SteamConfig() : base("eos_steam_config.json")
         {
             UpdateFromSteamworksNET = () =>
             {
