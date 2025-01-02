@@ -147,7 +147,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             // Set the product name, version, and override thread affinity
             initOptions.options.ProductName = productConfig.ProductName;
             initOptions.options.ProductVersion = productConfig.ProductVersion;
-            initOptions.options.OverrideThreadAffinity = platformConfig.threadAffinity.Unwrap();
+            initOptions.options.OverrideThreadAffinity = platformConfig.threadAffinity?.Unwrap();
 
             initOptions.options.AllocateMemoryFunction = IntPtr.Zero;
             initOptions.options.ReallocateMemoryFunction = IntPtr.Zero;
