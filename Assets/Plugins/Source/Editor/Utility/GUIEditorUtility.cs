@@ -823,8 +823,26 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 list.DoLayoutList();
             }
             else
-            {
-                // TODO here
+            {                
+                // If there are no items in the list, then the user needs to add an entry
+                // before they can start modifying.
+                EditorGUILayout.BeginHorizontal();
+
+                Rect rect = EditorGUILayout.GetControlRect();
+                rect.height = EditorGUIUtility.singleLineHeight;
+
+                // Render the "+" button to add a new item
+                if (GUILayout.Button("+", GUILayout.Width(24)))
+                {
+                    addNewItemFn();
+                }
+
+                if (!string.IsNullOrEmpty(helpUrl))
+                {
+                    RenderHelpIcon(helpUrl);
+                }
+
+                EditorGUILayout.EndHorizontal();
             }
         }
 
