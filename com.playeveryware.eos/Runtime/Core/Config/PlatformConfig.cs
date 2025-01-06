@@ -416,7 +416,7 @@ namespace PlayEveryWare.EpicOnlineServices
             integratedPlatformManagementFlags |= mainNonOverrideableConfig.integratedPlatformManagementFlags;
 
             ProductConfig productConfig = Get<ProductConfig>();
-            string compDeploymentString = mainNonOverrideableConfig.deploymentID.ToLower();
+            string compDeploymentString = mainNonOverrideableConfig.deploymentID?.ToLower();
 
             foreach(Named<Deployment> dep in productConfig.Environments.Deployments)
             {
