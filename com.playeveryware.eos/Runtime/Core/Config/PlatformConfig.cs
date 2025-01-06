@@ -419,8 +419,8 @@ namespace PlayEveryWare.EpicOnlineServices
             string compDeploymentString = mainNonOverrideableConfig.deploymentID?.ToLower();
 
             foreach(Named<Deployment> dep in productConfig.Environments.Deployments)
-            {
-                if (!compDeploymentString.Equals(dep.Value.DeploymentId.ToString("N").ToLowerInvariant()))
+            
+                if (!string.IsNullOrEmpty(compDeploymentString) && !compDeploymentString.Equals(dep.Value.DeploymentId.ToString("N").ToLowerInvariant()))
                 {
                     continue;
                 }
