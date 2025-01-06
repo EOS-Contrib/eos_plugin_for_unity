@@ -77,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             platformConfig.platformOptionsFlags.Unwrap();
 #endif
 
-            if (!platformConfig.clientCredentials.IsEncryptionKeyValid())
+            if (platformConfig.clientCredentials == null || platformConfig.clientCredentials.IsEncryptionKeyValid() == false)
             {
                 Debug.LogError("The encryption key used for the selected client credentials is invalid. Please see your platform configuration.");
             }
