@@ -1804,10 +1804,6 @@ namespace PlayEveryWare.EpicOnlineServices
             s_EOSManagerInstance = this;
             DontDestroyOnLoad(this.gameObject);
 
-#if UNITY_PS5 && !UNITY_EDITOR
-            EOSPSNManagerPS5.EnsurePS5Initialized();
-#endif
-
             Instance.Init(this);
         }
 
