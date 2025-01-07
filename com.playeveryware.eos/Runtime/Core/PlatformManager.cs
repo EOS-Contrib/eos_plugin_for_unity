@@ -87,7 +87,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-#if !INCLUDE_RESTRICTED_PLATFORMS
+
         /// <summary>
         /// Private collection to store information about each platform.
         /// </summary>
@@ -95,18 +95,24 @@ namespace PlayEveryWare.EpicOnlineServices
             new Dictionary<Platform, PlatformInfo>()
             {
 #if !EXTERNAL_TO_UNITY
-                { Platform.Android, PlatformInfo.Create<AndroidConfig>("Android", "eos_android_config.json", null,     "Android")},
-                { Platform.iOS,     PlatformInfo.Create<IOSConfig>    ("iOS",     "eos_ios_config.json",     null,     "iPhone") },
-                { Platform.Linux,   PlatformInfo.Create<LinuxConfig>  ("Linux",   "eos_linux_config.json",   ".so",    "Standalone") },
-                { Platform.macOS,   PlatformInfo.Create<MacOSConfig>  ("macOS",   "eos_macos_config.json",   ".dylib", "Standalone") },
+                { Platform.Android,     PlatformInfo.Create<AndroidConfig>     ("Android",       "eos_android_config.json", null,     "Android")},
+                { Platform.iOS,         PlatformInfo.Create<IOSConfig>         ("iOS",           "eos_ios_config.json",     null,     "iPhone") },
+                { Platform.Linux,       PlatformInfo.Create<LinuxConfig>       ("Linux",         "eos_linux_config.json",   ".so",    "Standalone") },
+                { Platform.macOS,       PlatformInfo.Create<MacOSConfig>       ("macOS",         "eos_macos_config.json",   ".dylib", "Standalone") },
+#if INCLUDE_RESTRICTED_PLATFORMS
+                { Platform.XboxOne,     PlatformInfo.Create<XboxOneConfig>     ("Xbox One",      "eos_xb1_config.json",     null,     "XboxOne") },
+                { Platform.XboxSeriesX, PlatformInfo.Create<XboxSeriesXConfig> ("Xbox Series X", "eos_xsx_config.json",     null,     "XboxOne") },
+                { Platform.PS4,         PlatformInfo.Create<PS4Config>         ("PlayStation 4", "eos_ps4_config.json",     null,     "PS4") },
+                { Platform.PS5,         PlatformInfo.Create<PS5Config>         ("PlayStation 5", "eos_ps5_config.json",     null,     "PS5") },
+                { Platform.Switch,      PlatformInfo.Create<SwitchConfig>      ("Switch",        "eos_switch_config.json",  ".a",     "Switch") },
 #endif
-                { Platform.Windows, PlatformInfo.Create<WindowsConfig>("Windows", "eos_windows_config.json", ".dll",   "Standalone") },
+#endif
+                { Platform.Windows,     PlatformInfo.Create<WindowsConfig>     ("Windows",       "eos_windows_config.json", ".dll",   "Standalone") },
             };
-#endif
 
-                /// <summary>
-                /// Backing value for the CurrentPlatform property.
-                /// </summary>
+        /// <summary>
+        /// Backing value for the CurrentPlatform property.
+        /// </summary>
         private static Platform s_CurrentPlatform;
 
         /// <summary>
