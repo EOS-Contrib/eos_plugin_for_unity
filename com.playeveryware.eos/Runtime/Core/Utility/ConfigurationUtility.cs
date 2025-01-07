@@ -77,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             platformConfig.platformOptionsFlags.Unwrap();
 #endif
 
-            if (!platformConfig.clientCredentials.IsEncryptionKeyValid())
+            if (platformConfig.clientCredentials == null || platformConfig.clientCredentials.IsEncryptionKeyValid() == false)
             {
                 Debug.LogError("The encryption key used for the selected client credentials is invalid. Please see your platform configuration.");
             }
@@ -147,7 +147,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             // Set the product name, version, and override thread affinity
             initOptions.options.ProductName = productConfig.ProductName;
             initOptions.options.ProductVersion = productConfig.ProductVersion;
-            initOptions.options.OverrideThreadAffinity = platformConfig.threadAffinity.Unwrap();
+            initOptions.options.OverrideThreadAffinity = platformConfig.threadAffinity?.Unwrap();
 
             initOptions.options.AllocateMemoryFunction = IntPtr.Zero;
             initOptions.options.ReallocateMemoryFunction = IntPtr.Zero;
