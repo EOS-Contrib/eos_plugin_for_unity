@@ -49,11 +49,6 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         Connect = 1 << 1,
 
-        /// <summary>
-        /// Indicates that the authentication took place with either the
-        /// auth or the connect interface.
-        /// </summary>
-        AuthOrConnect = Auth | Connect
     }
 }
 

@@ -25,14 +25,15 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Common;
+    using System.Linq;
 
     public abstract class AuthenticationEventObserver : Disposable
     {
         protected bool NeedsAuthentication { get; private set; }
 
-        protected LoginInterfaces ObservedLoginInterfaces { get; }
+        protected LoginInterfaces[] ObservedLoginInterfaces { get; }
 
-        protected AuthenticationEventObserver(LoginInterfaces observedLoginInterfaces)
+        protected AuthenticationEventObserver(params LoginInterfaces[] observedLoginInterfaces)
         {
             ObservedLoginInterfaces = observedLoginInterfaces;
 
@@ -45,7 +46,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // If the the interface for the authentication event does not 
             // match the login interfaces that should be observed, then stop
             // processing the event.
-            if ((ObservedLoginInterfaces & args.Interface) != ObservedLoginInterfaces)
+            if (ObservedLoginInterfaces.Contains(args.Interface))
             {
                 return;
             }
