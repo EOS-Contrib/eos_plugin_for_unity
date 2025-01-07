@@ -416,11 +416,11 @@ namespace PlayEveryWare.EpicOnlineServices
             integratedPlatformManagementFlags |= mainNonOverrideableConfig.integratedPlatformManagementFlags;
 
             ProductConfig productConfig = Get<ProductConfig>();
-            string compDeploymentString = mainNonOverrideableConfig.deploymentID.ToLower();
+            string compDeploymentString = mainNonOverrideableConfig.deploymentID?.ToLower();
 
             foreach(Named<Deployment> dep in productConfig.Environments.Deployments)
             {
-                if (!compDeploymentString.Equals(dep.Value.DeploymentId.ToString("N").ToLowerInvariant()))
+                if (!string.IsNullOrEmpty(compDeploymentString) && !compDeploymentString.Equals(dep.Value.DeploymentId.ToString("N").ToLowerInvariant()))
                 {
                     continue;
                 }
