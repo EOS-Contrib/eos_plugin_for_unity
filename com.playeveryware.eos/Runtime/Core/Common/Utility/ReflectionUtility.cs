@@ -20,15 +20,35 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
+namespace PlayEveryWare.Common.Utility
 {
     using System.Collections.Generic;
     using System;
     using System.Linq;
     using System.Reflection;
+    using PlayEveryWare.EpicOnlineServices;
+    using System.Runtime.CompilerServices;
 
     public static class ReflectionUtility
     {
+        /// <summary>
+        /// Calls the static constructors on all classes that derive from the 
+        /// given type.
+        /// </summary>
+        /// <param name="baseType">
+        /// The type for which to call static constructors on.
+        /// </param>
+        public static void CallStaticConstructorsOnDerivingClasses<TBase>()
+        {
+            var types = Assembly.GetExecutingAssembly().GetTypes()
+            .Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(TBase)));
+
+            foreach (var type in types)
+            {
+                RuntimeHelpers.RunClassConstructor(type.TypeHandle);
+            }
+        }
+
         public static List<object> CreateInstancesOfDerivedGenericClasses(Type genericBaseType)
         {
             if (!genericBaseType.IsGenericTypeDefinition || !genericBaseType.IsAbstract)
