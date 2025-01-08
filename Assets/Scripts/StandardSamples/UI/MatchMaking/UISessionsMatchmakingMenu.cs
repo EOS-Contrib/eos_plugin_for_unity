@@ -258,7 +258,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             session.Attributes.Add(attribute);
 
-            GetEOSSessionsManager.CreateSession(session, UIOnSessionCreated);
+            GetEOSSessionsManager.CreateSession(session, UIOnSessionCreated, this.PresenceVal.isOn);
         }
 
         private void UIOnSessionCreated(SessionsManagerCreateSessionCallbackInfo info)
