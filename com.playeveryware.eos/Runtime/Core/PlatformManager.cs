@@ -29,14 +29,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
 #if UNITY_EDITOR
     using UnityEditor;
+    using PlayEveryWare.Common.Utility;
 #endif
 
 #if !EXTERNAL_TO_UNITY
     using UnityEngine;
 #endif
     using Utility;
-    using PlayEveryWare.Common.Utility;
-
+    
     public static partial class PlatformManager
     {
         /// <summary>
