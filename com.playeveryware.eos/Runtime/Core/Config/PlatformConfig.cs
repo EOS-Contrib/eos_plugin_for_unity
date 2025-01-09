@@ -464,7 +464,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 // The user will have to set one directly.
                 Debug.LogWarning($"The previous config did not explicitly define " +
                     $"a deployment for this platform, and there are more than " +
-                    $"one available deployments. You must sset the Deployment in" +
+                    $"one available deployments. You must set the Deployment in" +
                     $"the EOS Configuration window for this platform.");
             }
 
