@@ -82,7 +82,7 @@
     </ClCompile>
     <PreBuildEvent>
       <!-- Execute the prebuild powershell command -->
-      <Command>powershell -NoProfile -ExecutionPolicy Bypass -File "$(ProjectDir)scripts\prebuild.ps1" -Configuration "$(Configuration)" -NormalizedPlatform "$(NormalizedPlatform)" -OutputUnityAssetsDirectory "$(OutputUnityAssetsDirectory)" -EOS_SDK_DLL_NAME "$(EOS_SDK_DLL_NAME)" -STEAM_API_DLL_NAME "$(STEAM_API_DLL_NAME)" -TargetDir $(TargetDir) -SteamLibraryDirectory "$(SteamLibraryDirectory)" -SolutionDir "$(SolutionDir)"</Command>
+      <Command>powershell -NoProfile -ExecutionPolicy Bypass -File "$(ProjectDir)scripts\prebuild.ps1" -Configuration "$(Configuration)" -OutputUnityAssetsDirectory "$(OutputUnityAssetsDirectory)" -EOS_SDK_DLL_NAME "$(EOS_SDK_DLL_NAME)" -STEAM_API_DLL_NAME "$(STEAM_API_DLL_NAME)" -TargetDir $(TargetDir) -SteamLibraryDirectory "$(SteamLibraryDirectory)" -SolutionDir "$(SolutionDir)"</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <!-- Copy the meta file stored in the solution directory, since it's values have been properly set in such a way that Unity interacts with the DLL in the intended manner. -->
