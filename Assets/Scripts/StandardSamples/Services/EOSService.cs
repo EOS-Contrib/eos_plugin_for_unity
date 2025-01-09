@@ -46,16 +46,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Indicates the login interface required for the service to operate.
         /// By default, implementing services require either auth or connect.
         /// </param>
-        protected EOSService(params LoginInterfaces[] acceptedLoginInterfaces) : base(acceptedLoginInterfaces)
+        protected EOSService(LoginInterfaces acceptedLoginInterfaces = LoginInterfaces.Connect | LoginInterfaces.Auth) : base(acceptedLoginInterfaces)
         {
             _ = RefreshAsync();
         }
-
-        /// <summary>
-        /// Base constructor for services. Defaults to accepting connect or 
-        /// auth interfaces for authentication.
-        /// </summary>
-        protected EOSService() : this(LoginInterfaces.Connect, LoginInterfaces.Auth) { }
 
         protected override void DisposeUnmanagedResources()
         {

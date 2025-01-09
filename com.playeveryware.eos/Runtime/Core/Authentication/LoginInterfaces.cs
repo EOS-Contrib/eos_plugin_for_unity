@@ -48,8 +48,28 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Connect Interface.
         /// </summary>
         Connect = 1 << 1,
-
     }
+
+    public static class LoginInterfacesExtensions
+    {
+        /// <summary>
+        /// Checks if the current instance contains the specified LoginInterfaces value.
+        /// </summary>
+        /// <param name="current">The current LoginInterfaces instance.</param>
+        /// <param name="value">The LoginInterfaces value to check.</param>
+        /// <returns>True if the current instance contains the specified value; otherwise, false.</returns>
+        public static bool Contains(this LoginInterfaces current, LoginInterfaces value)
+        {
+            // Special handling for None
+            if (value == LoginInterfaces.None)
+            {
+                return current == LoginInterfaces.None;
+            }
+
+            return (current & value) == value;
+        }
+    }
+
 }
 
 #endif

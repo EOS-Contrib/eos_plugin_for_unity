@@ -25,17 +25,20 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Common;
-    using System.Linq;
 
+    /// <summary>
+    /// This class is used to observe authentication events, providing a 
+    /// mechanism to respond to them.
+    /// </summary>
     public abstract class AuthenticationEventObserver : Disposable
     {
         protected bool NeedsAuthentication { get; private set; }
 
-        protected LoginInterfaces[] ObservedLoginInterfaces { get; }
+        protected LoginInterfaces ObservedLoginInterface { get; }
 
-        protected AuthenticationEventObserver(params LoginInterfaces[] observedLoginInterfaces)
+        protected AuthenticationEventObserver(LoginInterfaces observedLoginInterfaces)
         {
-            ObservedLoginInterfaces = observedLoginInterfaces;
+            ObservedLoginInterface = observedLoginInterfaces;
 
             // Subscribe to the authentication change event
             AuthenticationEventDispatcher.Instance.AuthenticationChanged += ObserveAuthenticationChange;
@@ -46,7 +49,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // If the the interface for the authentication event does not 
             // match the login interfaces that should be observed, then stop
             // processing the event.
-            if (ObservedLoginInterfaces.Contains(args.Interface))
+            if (ObservedLoginInterface.Contains(args.Interface))
             {
                 return;
             }
