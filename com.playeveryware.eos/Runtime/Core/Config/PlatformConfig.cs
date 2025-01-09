@@ -541,7 +541,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 "migration was successful.");
         }
 
-        public virtual Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags GetDefaultIntegratedPlatformManagementFlags()
+        public virtual IntegratedPlatformManagementFlags GetDefaultIntegratedPlatformManagementFlags()
         {
             return IntegratedPlatformManagementFlags.Disabled;
         }
