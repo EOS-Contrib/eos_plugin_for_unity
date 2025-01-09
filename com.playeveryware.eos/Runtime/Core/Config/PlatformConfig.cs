@@ -412,8 +412,15 @@ namespace PlayEveryWare.EpicOnlineServices
 
             MigratePlatformFlags(overrideValuesFromFieldMember, mainNonOverrideableConfig);
 
-            integratedPlatformManagementFlags = IntegratedPlatformManagementFlags.Disabled;
-            integratedPlatformManagementFlags |= mainNonOverrideableConfig.integratedPlatformManagementFlags;
+            // If there are no Integrated Platform Management Flags in the original config, apply a set of default per-platform IMPFs
+            if ((int)mainNonOverrideableConfig.integratedPlatformManagementFlags == 0 || mainNonOverrideableConfig.integratedPlatformManagementFlags == IntegratedPlatformManagementFlags.Disabled)
+            {
+                integratedPlatformManagementFlags = GetDefaultIntegratedPlatformManagementFlags();
+            }
+            else
+            {
+                integratedPlatformManagementFlags = mainNonOverrideableConfig.integratedPlatformManagementFlags;
+            }
 
             ProductConfig productConfig = Get<ProductConfig>();
             string compDeploymentString = mainNonOverrideableConfig.deploymentID?.ToLower();
@@ -533,7 +540,12 @@ namespace PlayEveryWare.EpicOnlineServices
                 "Plugin -> EOS Configuration to make sure that the " +
                 "migration was successful.");
         }
-        
+
+        public virtual Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags GetDefaultIntegratedPlatformManagementFlags()
+        {
+            return IntegratedPlatformManagementFlags.Disabled;
+        }
+
 
 #endif
 
