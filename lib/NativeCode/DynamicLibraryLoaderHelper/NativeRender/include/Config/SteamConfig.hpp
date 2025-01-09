@@ -114,11 +114,16 @@ namespace pew::eos::config
         {
             if (name == "overrideLibraryPath")
             {
-              const char* path = json_value_as_string(&value)->string;
-              if (!string_helpers::is_empty_or_whitespace(path))
-              {
-                  _library_path = path;
-              }
+                const auto override_library_path_element = json_value_as_string(&value);
+                if (override_library_path_element == nullptr)
+                {
+                    return;
+                }
+                const char* path = override_library_path_element->string;
+                if (!string_helpers::is_empty_or_whitespace(path))
+                {
+                    _library_path = path;
+                }
             }
             else if (name == "steamSDKMajorVersion")
             {

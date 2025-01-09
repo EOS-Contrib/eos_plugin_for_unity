@@ -81,17 +81,8 @@
       <PreprocessorDefinitions>PEW_EOS_EXPORT;OVERLAY_DLL_NAME="$(OverlayDllName)";STEAM_API_DLL="$(SteamApiDll)";SDK_DLL_NAME="$(SdkDllName)";CONFIG_DIRECTORY="$(ConfigDirectory)";_DEBUG;NATIVERENDER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PreBuildEvent>
-      <!-- When debugging, make sure to copy the EOSSDK Dll to the output directory -->
-      <Command>
-@echo Copying "$(OutputUnityAssetsDirectory)$(SdkDllName)" to "$(TargetDir)"
-copy "$(OutputUnityAssetsDirectory)$(SdkDllName)" "$(TargetDir)" /Y
-
-@echo Copying "$(SteamLibraryDirectory)steam_api*.dll" to "$(TargetDir)"
-powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Get-ChildItem -Path '$(SteamLibraryDirectory)steam_api*.dll' -Recurse | Copy-Item -Destination '$(TargetDir)' -Force } catch { Write-Error $_; exit 1 }"
-
-@echo Copying "$(SolutionDirForwardSlashes)../../../steam_appid.txt" "$(TargetDir)"
-xcopy "$(SolutionDirForwardSlashes)../../../steam_appid.txt" "$(TargetDir)" /Y
-</Command>
+      <!-- Execute the prebuild powershell command -->
+      <Command>powershell -NoProfile -ExecutionPolicy Bypass -File "$(ProjectDir)scripts\prebuild.ps1" -Configuration "$(Configuration)" -NormalizedPlatform "$(NormalizedPlatform)" -OutputUnityAssetsDirectory "$(OutputUnityAssetsDirectory)" -EOS_SDK_DLL_NAME "$(EOS_SDK_DLL_NAME)" -STEAM_API_DLL_NAME "$(STEAM_API_DLL_NAME)" -TargetDir $(TargetDir) -SteamLibraryDirectory "$(SteamLibraryDirectory)" -SolutionDir "$(SolutionDir)"</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <!-- Copy the meta file stored in the solution directory, since it's values have been properly set in such a way that Unity interacts with the DLL in the intended manner. -->
