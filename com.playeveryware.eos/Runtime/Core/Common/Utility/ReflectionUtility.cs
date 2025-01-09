@@ -22,11 +22,11 @@
 
 namespace PlayEveryWare.Common.Utility
 {
+#if UNITY_EDITOR
     using System.Collections.Generic;
     using System;
     using System.Linq;
     using System.Reflection;
-    using PlayEveryWare.EpicOnlineServices;
     using System.Runtime.CompilerServices;
 
     public static class ReflectionUtility
@@ -85,6 +85,6 @@ namespace PlayEveryWare.Common.Utility
 
             return instances;
         }
-
     }
+#endif
 }
