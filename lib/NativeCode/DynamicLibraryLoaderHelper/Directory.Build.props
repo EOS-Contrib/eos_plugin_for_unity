@@ -21,6 +21,7 @@
       -->
     <SolutionDirForwardSlashes>$(SolutionDir.Replace('\', '/'))</SolutionDirForwardSlashes>
     <UnityStreamingAssetsDirectory>$(SolutionDirForwardSlashes)../../../Assets/StreamingAssets/</UnityStreamingAssetsDirectory>
-    <OutputUnityAssetsDirectory>$(SolutionDir)..\..\..\Assets\Plugins\Windows\$(NormalizedPlatform)\</OutputUnityAssetsDirectory>
+    <SteamLibraryDirectory>$(SolutionDirForwardSlashes)../../../Library/PackageCache/com.rlabrecque.steamworks.net*/Plugins/</SteamLibraryDirectory>
+    <OutputUnityAssetsDirectory>$(SolutionDirForwardSlashes)../../../Assets/Plugins/Windows/$(NormalizedPlatform)/</OutputUnityAssetsDirectory>
   </PropertyGroup>
 </Project>

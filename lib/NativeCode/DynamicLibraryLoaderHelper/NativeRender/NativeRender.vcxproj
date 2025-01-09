@@ -83,21 +83,23 @@
     <PreBuildEvent>
       <!-- When debugging, make sure to copy the EOSSDK Dll to the output directory -->
       <Command>
-        @echo Copying "$(OutputUnityAssetsDirectory)$(SdkDllName)" to "$(TargetDir)"
-        copy "$(OutputUnityAssetsDirectory)$(SdkDllName)" "$(TargetDir)" /Y
-      </Command>
+@echo Copying "$(OutputUnityAssetsDirectory)$(SdkDllName)" to "$(TargetDir)"
+copy "$(OutputUnityAssetsDirectory)$(SdkDllName)" "$(TargetDir)" /Y
+
+@echo Copying "$(SteamLibraryDirectory)steam_api*.dll" to "$(TargetDir)"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Get-ChildItem -Path '$(SteamLibraryDirectory)steam_api*.dll' -Recurse | Copy-Item -Destination '$(TargetDir)' -Force } catch { Write-Error $_; exit 1 }"
+
+@echo Copying "$(SolutionDirForwardSlashes)../../../steam_appid.txt" "$(TargetDir)"
+xcopy "$(SolutionDirForwardSlashes)../../../steam_appid.txt" "$(TargetDir)" /Y
+</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <!-- Copy the meta file stored in the solution directory, since it's values have been properly set in such a way that Unity interacts with the DLL in the intended manner. -->
-      <Command>
-        @echo Copying "$(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta" to "$(OutputUnityAssetsDirectory)"
-        copy $(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta $(OutputUnityAssetsDirectory) /Y
-      </Command>
+      <Command>@echo Copying "$(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta" to "$(OutputUnityAssetsDirectory)"
+copy $(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta $(OutputUnityAssetsDirectory) /Y</Command>
       <!-- Copy the output files into the appropriate assets directory alongside the aforementioned .dll.meta file.-->
-      <Command>
-        @echo Copying "$(TargetDir)$(ProjectName)-$(NormalizedPlatform)*" to "$(OutputUnityAssetsDirectory)"
-        copy "$(TargetDir)$(ProjectName)*" "$(OutputUnityAssetsDirectory)" /Y
-      </Command>
+      <Command>@echo Copying "$(TargetDir)$(ProjectName)-$(NormalizedPlatform)*" to "$(OutputUnityAssetsDirectory)"
+copy "$(TargetDir)$(ProjectName)*" "$(OutputUnityAssetsDirectory)" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">

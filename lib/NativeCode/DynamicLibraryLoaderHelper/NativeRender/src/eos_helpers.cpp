@@ -250,11 +250,11 @@ namespace pew::eos
 
         // Get a pointer to the SteamAPI_Init function within the steam
         // library.
-        const auto SteamAPI_Init = pew::eos::eos_library_helpers::load_function_with_name<SteamAPI_Init_t>(steam_dll_handle, "SteamAPI_Init");
+        const auto SteamAPI_Init_Fn = pew::eos::eos_library_helpers::load_function_with_name<SteamAPI_Init_t>(steam_dll_handle, "SteamAPI_InitSafe");
 
         // If the SteamAPI_Init function pointer is null, then it was not
         // correctly retrieved from the steam library. Log an error and stop
-        if (SteamAPI_Init == nullptr)
+        if (SteamAPI_Init_Fn == nullptr)
         {
             logging::log_error(
                 "Could not load a pointer to the SteamAPI_Init "
@@ -262,7 +262,7 @@ namespace pew::eos
             return;
         }
 
-        if (SteamAPI_Init())
+        if (SteamAPI_Init_Fn())
         {
             logging::log_inform("SteamAPI_Init returned true. "
                 "Steam has been initialized.");
@@ -373,7 +373,7 @@ namespace pew::eos
 
         platform_options.RTCOptions = platform_config.get_platform_rtc_options().get();
 
-        // TODO-STEAM: enable apply_steam_settings(platform_options);
+        apply_steam_settings(platform_options);
 
         return platform_options;
     }

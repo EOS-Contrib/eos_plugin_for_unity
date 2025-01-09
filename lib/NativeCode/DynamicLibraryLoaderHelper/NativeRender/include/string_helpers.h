@@ -146,5 +146,12 @@ namespace pew::eos::string_helpers
      * @return A UTF-8 encoded `std::string` representation of the path.
      */
     std::string to_utf8_str(const std::filesystem::path& path);
+
+    /**
+     * @brief Determines if a given C string is either empty or contains only whitespace characters.
+     * @param str The string to check.
+     * @return True if the string is empty or contains only whitespace characters.
+     */
+    bool is_empty_or_whitespace(const char* str);
 }
 #endif

@@ -107,15 +107,18 @@ namespace pew::eos::config
             steam_sdk_major_version(0),
             steam_sdk_minor_version(0)
         {
-            // TODO: Restore STEAM_SDK_DLL_NAME
-            //_library_path = common::get_path_relative_to_current_module(STEAM_SDK_DLL_NAME);
+            _library_path = io_helpers::get_path_relative_to_current_module(STEAM_SDK_DLL_NAME);
         }
 
         void parse_json_element(const std::string& name, json_value_s& value) override
         {
             if (name == "overrideLibraryPath")
             {
-              // TODO: Make sure this is applied appropriately.
+              const char* path = json_value_as_string(&value)->string;
+              if (!string_helpers::is_empty_or_whitespace(path))
+              {
+                  _library_path = path;
+              }
             }
             else if (name == "steamSDKMajorVersion")
             {
