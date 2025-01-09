@@ -412,32 +412,118 @@ namespace PlayEveryWare.EpicOnlineServices
 
             MigratePlatformFlags(overrideValuesFromFieldMember, mainNonOverrideableConfig);
 
-            integratedPlatformManagementFlags = IntegratedPlatformManagementFlags.Disabled;
-            integratedPlatformManagementFlags |= mainNonOverrideableConfig.integratedPlatformManagementFlags;
+            // If there are no Integrated Platform Management Flags in the original config, apply a set of default per-platform IMPFs
+            if ((int)mainNonOverrideableConfig.integratedPlatformManagementFlags == 0 || mainNonOverrideableConfig.integratedPlatformManagementFlags == IntegratedPlatformManagementFlags.Disabled)
+            {
+                integratedPlatformManagementFlags = GetDefaultIntegratedPlatformManagementFlags();
+            }
+            else
+            {
+                integratedPlatformManagementFlags = mainNonOverrideableConfig.integratedPlatformManagementFlags;
+            }
 
             ProductConfig productConfig = Get<ProductConfig>();
             string compDeploymentString = mainNonOverrideableConfig.deploymentID?.ToLower();
 
-            foreach(Named<Deployment> dep in productConfig.Environments.Deployments)
+            // If the compDeploymentString is explicitly set, then seek that out and use it
+            if (!string.IsNullOrEmpty(compDeploymentString))
             {
-                if (!string.IsNullOrEmpty(compDeploymentString) && !compDeploymentString.Equals(dep.Value.DeploymentId.ToString("N").ToLowerInvariant()))
+                Deployment? foundDeployment = null;
+
+                foreach (Named<Deployment> dep in productConfig.Environments.Deployments)
                 {
-                    continue;
+                    if (!compDeploymentString.Equals(dep.Value.DeploymentId.ToString("N").ToLowerInvariant()))
+                    {
+                        continue;
+                    }
+
+                    foundDeployment = dep.Value;
+                    break;
                 }
 
-                deployment = dep.Value;
-                break;
+                // If we didn't find a matching deployment, log about it
+                if (foundDeployment.HasValue)
+                {
+                    deployment = foundDeployment.Value;
+                }
+                else
+                {
+                    Debug.LogWarning($"The previous config explicitly identified "
+                        + $"'{compDeploymentString}' as the Deployment GUID, but "
+                        + "could not find a deployment with that id in the config. "
+                        + "You must set the Deployment in the EOS Configuration window.");
+                }
+            }
+            else if (productConfig.Environments.Deployments.Count == 1)
+            {
+                // If compDeploymentString wasn't explicitly set, and there was exactly
+                // one defined deployment, then intuitively use that.
+
+                deployment = productConfig.Environments.Deployments[0].Value;
+                Debug.Log($"The previous config did not explicitly define a " +
+                    $"deployment. There was one defined deployment, automatically " +
+                    $"selecting deployment name '{productConfig.Environments.Deployments[0].Name}' " +
+                    $"with id '{deployment.DeploymentId}'.");
+            }
+            else
+            {
+                // If there are multiple deployments, we can't auto select one.
+                // The user will have to set one directly.
+                Debug.LogWarning($"The previous config did not explicitly define " +
+                    $"a deployment for this platform, and there are more than " +
+                    $"one available deployments. You must set the Deployment in" +
+                    $"the EOS Configuration window for this platform.");
             }
 
-            foreach (Named<EOSClientCredentials> creds in productConfig.Clients)
+            string compClientString = mainNonOverrideableConfig.clientID?.ToLowerInvariant();
+            // If the compClientString is explicitly set, then seek that out and use it
+            if (!string.IsNullOrEmpty(compClientString))
             {
-                if (!creds.Value.ClientId.Equals(mainNonOverrideableConfig.clientID))
+                EOSClientCredentials foundCredentials = null;
+
+                foreach (Named<EOSClientCredentials> creds in productConfig.Clients)
                 {
-                    continue;
+                    if (!compClientString.Equals(creds.Value.ClientId.ToLowerInvariant()))
+                    {
+                        continue;
+                    }
+
+                    foundCredentials = creds.Value;
+                    break;
                 }
 
-                clientCredentials = creds.Value;
-                break;
+                // If we didn't find a matching deployment, log about it
+                if (foundCredentials != null)
+                {
+                    clientCredentials = foundCredentials;
+                }
+                else
+                {
+                    Debug.LogWarning($"The previous config explicitly identified "
+                        + $"'{compClientString}' as the Client ID, but "
+                        + "could not find client credentials with that id in the config. "
+                        + "You must set the Client Credentials in the EOS Configuration window.");
+                }
+            }
+            else if (productConfig.Clients.Count == 1)
+            {
+                // If compClientString wasn't explicitly set, and there was exactly
+                // one defined client credential, then intuitively use that.
+
+                clientCredentials = productConfig.Clients[0].Value;
+                Debug.Log($"The previous config did not explicitly define " +
+                    $"client credentials. There was one defined client credential, automatically " +
+                    $"selecting client credential name '{productConfig.Clients[0].Name}' " +
+                    $"with id '{clientCredentials.ClientId}'.");
+            }
+            else
+            {
+                // If there are multiple deployments, we can't auto select one.
+                // The user will have to set one directly.
+                Debug.LogWarning($"The previous config did not explicitly define " +
+                    $"client credentials for this platform, and there are more than " +
+                    $"one available client credentials. You must set the " +
+                    $"Client Credentials in the EOS Configuration window for this platform.");
             }
         }
 
@@ -533,7 +619,12 @@ namespace PlayEveryWare.EpicOnlineServices
                 "Plugin -> EOS Configuration to make sure that the " +
                 "migration was successful.");
         }
-        
+
+        public virtual IntegratedPlatformManagementFlags GetDefaultIntegratedPlatformManagementFlags()
+        {
+            return IntegratedPlatformManagementFlags.Disabled;
+        }
+
 
 #endif
 
