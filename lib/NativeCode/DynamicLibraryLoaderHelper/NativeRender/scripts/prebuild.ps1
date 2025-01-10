@@ -21,10 +21,13 @@ if ($Configuration -eq "Debug")
   )
 
   $filesToCopy | ForEach-Object {
+    if (-Not(Test-Path -LiteralPath $_)) {
+      Write-Host ("WARNING: Could not copy file '{0}' because it does not exist. This might not be a problem." -f $_);
+      continue
+    }
+
     $itemBeingCopied = Get-Item $_;
-
     Write-Host ('Copying file "{0}" to "{1}".' -f $itemBeingCopied.FullName, $TargetDir);
-
     Copy-Item -LiteralPath $itemBeingCopied.FullName -Destination $TargetDir -Force;
   }
 }
