@@ -44,7 +44,17 @@ namespace pew::eos
     {
         return eos_library_helpers::eos_platform_handle;
     }
-    
+
+    typedef bool(__cdecl* SteamAPI_Init_t)();
+
+    /**
+     * @brief Initializes the steam api using the given function name.
+     * @param steam_dll_handle Pointer to the steam dll 
+     * @param function_name The name of the function to initialize with.
+     * @return True if the steam api was initialized, false otherwise.
+     */
+    static bool initialize_steam_api(void* steam_dll_handle, const std::string& function_name);
+
     /**
      * @brief Loads and initializes the Steam API DLL using a string path.
      *
@@ -245,35 +255,41 @@ namespace pew::eos
             "attempting to load a pointer to the SteamAPI_Init function from "
             "within it.");
 
-        // TODO: Typedef should be moved outside the scope of the function?
-        typedef bool(__cdecl* SteamAPI_Init_t)();
+        // Usage
+        if (!initialize_steam_api(steam_dll_handle, "SteamAPI_InitSafe"))
+        {
+            // Retry with "SteamAPI_Init" if "SteamAPI_InitSafe" fails.
+            initialize_steam_api(steam_dll_handle, "SteamAPI_Init");
+        }
+    }
 
-        // Get a pointer to the SteamAPI_Init function within the steam
-        // library.
-        const auto SteamAPI_Init_Fn = pew::eos::eos_library_helpers::load_function_with_name<SteamAPI_Init_t>(steam_dll_handle, "SteamAPI_InitSafe");
+    static bool initialize_steam_api(void* steam_dll_handle, const std::string& function_name)
+    {
+        // Get a pointer to the specified SteamAPI_Init function within the steam library.
+        const auto SteamAPI_Init_Fn = pew::eos::eos_library_helpers::load_function_with_name<SteamAPI_Init_t>(steam_dll_handle, function_name.c_str());
 
-        // If the SteamAPI_Init function pointer is null, then it was not
-        // correctly retrieved from the steam library. Log an error and stop
+        // If the function pointer is null, log an error and return false.
         if (SteamAPI_Init_Fn == nullptr)
         {
             logging::log_error(
-                "Could not load a pointer to the SteamAPI_Init "
-                "function within the loaded steam library handle.");
-            return;
+                "Could not load a pointer to the " + function_name +
+                " function within the loaded steam library handle.");
+            return false;
         }
 
+        // Attempt to initialize Steam and log the result.
         if (SteamAPI_Init_Fn())
         {
-            logging::log_inform("SteamAPI_Init returned true. "
-                "Steam has been initialized.");
+            logging::log_inform(function_name + " returned true. Steam has been initialized.");
+            return true;
         }
         else
         {
-            logging::log_error(
-                "SteamAPI_Init returned false. Steam was not able "
-                "to be initialized.");
+            logging::log_error(function_name + " returned false. Steam was not able to be initialized.");
+            return false;
         }
     }
+    
 
     void apply_steam_settings(EOS_Platform_Options& platform_options) 
     {
