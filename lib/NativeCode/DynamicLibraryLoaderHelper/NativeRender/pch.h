@@ -33,6 +33,12 @@
 #include "eos_sdk.h"
 #include "Windows/eos_Windows.h"
 
+#if _WIN64
+#define STEAM_SDK_DLL_NAME "steam_api64.dll"
+#elif _WIN32
+#define STEAM_SDK_DLL_NAME "steam_api.dll"
+#endif
+
 #define SHOW_DIALOG_BOX_ON_WARN 0
 #define ENABLE_DLL_BASED_EOS_CONFIG 1
 #define XAUDIO2_DLL_NAME "xaudio2_9redist.dll"

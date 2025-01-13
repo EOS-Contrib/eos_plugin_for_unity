@@ -47,14 +47,15 @@ namespace pew::eos
         return eos_library_helpers::eos_platform_handle;
     }
 
+    typedef bool(__cdecl* SteamAPI_Init_t)();
+
     /**
-     * @brief Retrieves the system cache directory.
-     *
-     * Retrieves the system's temporary directory and converts it to a UTF-8 encoded string.
-     *
-     * @return Path to the system cache directory.
+     * @brief Initializes the steam api using the given function name.
+     * @param steam_dll_handle Pointer to the steam dll 
+     * @param function_name The name of the function to initialize with.
+     * @return True if the steam api was initialized, false otherwise.
      */
-    std::string GetCacheDirectory();
+    static bool initialize_steam_api(void* steam_dll_handle, const std::string& function_name);
 
     /**
      * @brief Loads and initializes the Steam API DLL using a string path.
@@ -256,69 +257,41 @@ namespace pew::eos
             "attempting to load a pointer to the SteamAPI_Init function from "
             "within it.");
 
-        // TODO: Typedef should be moved outside the scope of the function?
-        typedef bool(__cdecl* SteamAPI_Init_t)();
+        // Usage
+        if (!initialize_steam_api(steam_dll_handle, "SteamAPI_InitSafe"))
+        {
+            // Retry with "SteamAPI_Init" if "SteamAPI_InitSafe" fails.
+            initialize_steam_api(steam_dll_handle, "SteamAPI_Init");
+        }
+    }
 
-        // Get a pointer to the SteamAPI_Init function within the steam
-        // library.
-        const auto SteamAPI_Init = pew::eos::eos_library_helpers::load_function_with_name<SteamAPI_Init_t>(steam_dll_handle, "SteamAPI_Init");
+    static bool initialize_steam_api(void* steam_dll_handle, const std::string& function_name)
+    {
+        // Get a pointer to the specified SteamAPI_Init function within the steam library.
+        const auto SteamAPI_Init_Fn = pew::eos::eos_library_helpers::load_function_with_name<SteamAPI_Init_t>(steam_dll_handle, function_name.c_str());
 
-        // If the SteamAPI_Init function pointer is null, then it was not
-        // correctly retrieved from the steam library. Log an error and stop
-        if (SteamAPI_Init == nullptr)
+        // If the function pointer is null, log an error and return false.
+        if (SteamAPI_Init_Fn == nullptr)
         {
             logging::log_error(
-                "Could not load a pointer to the SteamAPI_Init "
-                "function within the loaded steam library handle.");
-            return;
+                "Could not load a pointer to the " + function_name +
+                " function within the loaded steam library handle.");
+            return false;
         }
 
-        if (SteamAPI_Init())
+        // Attempt to initialize Steam and log the result.
+        if (SteamAPI_Init_Fn())
         {
-            logging::log_inform("SteamAPI_Init returned true. "
-                "Steam has been initialized.");
+            logging::log_inform(function_name + " returned true. Steam has been initialized.");
+            return true;
         }
         else
         {
-            logging::log_error(
-                "SteamAPI_Init returned false. Steam was not able "
-                "to be initialized.");
+            logging::log_error(function_name + " returned false. Steam was not able to be initialized.");
+            return false;
         }
     }
-
-    std::string GetCacheDirectory() 
-    {
-        WCHAR tmp_buffer = 0;
-        DWORD buffer_size = GetTempPathW(1, &tmp_buffer) + 1;
-        WCHAR* lpTempPathBuffer = (TCHAR*)malloc(buffer_size * sizeof(TCHAR));
-        GetTempPathW(buffer_size, lpTempPathBuffer);
-
-        std::string tempPathBuffer = string_helpers::create_utf8_str_from_wide_str(lpTempPathBuffer);
-        free(lpTempPathBuffer);
-
-        return tempPathBuffer;
-    }
-
-    void apply_rtc_options(EOS_Platform_Options& platform_options,
-        std::shared_ptr<EOS_Platform_RTCOptions> rtc_options,
-        std::shared_ptr<EOS_Windows_RTCOptions> windows_rtc_options) 
-    {
-        // =================== START APPLY RTC OPTIONS =========================
-        rtc_options->ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
-        windows_rtc_options->ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
-
-        logging::log_inform("setting up rtc");
-        std::filesystem::path xaudio2_dll_path = io_helpers::get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
-        windows_rtc_options->XAudio29DllPath = string_helpers::to_utf8_str(xaudio2_dll_path).c_str();
-
-        if (!exists(xaudio2_dll_path)) {
-            logging::log_warn("Missing XAudio dll!");
-        }
-
-        rtc_options->PlatformSpecificOptions = windows_rtc_options.get();
-        platform_options.RTCOptions = rtc_options.get();
-        // =================== END APPLY RTC OPTIONS ===========================
-    }
+    
 
     void apply_steam_settings(EOS_Platform_Options& platform_options) 
     {
@@ -395,8 +368,7 @@ namespace pew::eos
         platform_options.Flags = platform_config.platform_options_flags;
 
         // Get the cache directory
-        std::string cacheDirectory = GetCacheDirectory();
-        platform_options.CacheDirectory = cacheDirectory.c_str();
+        platform_options.CacheDirectory = platform_config.get_cache_directory();
 
         platform_options.EncryptionKey = platform_config.client_credentials.encryption_key.c_str();
 
@@ -413,14 +385,11 @@ namespace pew::eos
 
         if (platform_config.task_network_timeout_seconds > 0)
         {
-            double task_network_timeout_seconds_dbl = platform_config.task_network_timeout_seconds;
-            platform_options.TaskNetworkTimeoutSeconds = &task_network_timeout_seconds_dbl;
+            // Make sure this gets deleted
+            platform_options.TaskNetworkTimeoutSeconds = new double(platform_config.task_network_timeout_seconds);
         }
 
-        // Before calling apply_rtc_options, initialize dependencies
-        auto rtc_options = std::make_shared<EOS_Platform_RTCOptions>();
-        auto windows_rtc_options = std::make_shared<EOS_Windows_RTCOptions>();
-        apply_rtc_options(platform_options, rtc_options, windows_rtc_options);
+        platform_options.RTCOptions = platform_config.get_platform_rtc_options().get();
 
         apply_steam_settings(platform_options);
 
@@ -437,6 +406,9 @@ namespace pew::eos
         static const auto product_config = Config::get<ProductConfig>();
 
         static const auto create_options = get_create_options(*platform_config, *product_config);
+
+        // delete the one allocation
+        delete create_options.TaskNetworkTimeoutSeconds;
 
         return create_options;
     }
@@ -477,5 +449,8 @@ namespace pew::eos
         {
             logging::log_inform("Successfully created the EOS SDK Platform.");
         }
+
+        // Delete the one allocation
+        delete platform_options.TaskNetworkTimeoutSeconds;
     }
 }
