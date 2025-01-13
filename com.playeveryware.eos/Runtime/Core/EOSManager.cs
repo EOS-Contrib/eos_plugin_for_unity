@@ -188,13 +188,13 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Actions that need to be executed on the main thread.
         /// Lazy allocated in <see cref="DispatchAsync"/>.
         /// </summary>
-        static private List<Action> s_enqueuedTasks;
+        private static List<Action> s_enqueuedTasks;
 
         /// <summary>
         /// Locak object used for <see cref="s_enqueuedTasks"/>, such that it can
         /// be executed thread-safe way.
         /// </summary>
-        static private System.Object s_enqueuedTasksLock = new System.Object();
+        private static System.Object s_enqueuedTasksLock = new System.Object();
         //private static List
 
         //-------------------------------------------------------------------------
@@ -1958,7 +1958,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Enqueues an Action to be executed on the main thread.
         /// </summary>
         /// <param name="action">Action to execute.</param>
-        static public void DispatchAsync(Action action)
+        public static void DispatchAsync(Action action)
         {
             lock (s_enqueuedTasksLock)
             {
@@ -1971,9 +1971,9 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-        static private void ExecuteQueuedMainThreadTasks()
+        private static void ExecuteQueuedMainThreadTasks()
         {
-            // Lock the enqued tasks list, and hold refrence to the enqueued tasks.
+            // Lock the enqued tasks list, and hold reference to the enqueued tasks.
             // This is done so that the foreach loop doesn't potentially go "forever"
             // if a given action in the queue happens to generate a list of tasks that 
             // also generate a list of task. The s_enqueuedTasks list is also nulled out
