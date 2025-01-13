@@ -29,13 +29,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
 #if UNITY_EDITOR
     using UnityEditor;
+    using PlayEveryWare.Common.Utility;
 #endif
 
 #if !EXTERNAL_TO_UNITY
     using UnityEngine;
 #endif
     using Utility;
-
+    
     public static partial class PlatformManager
     {
         /// <summary>
@@ -87,26 +88,14 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-#if !INCLUDE_RESTRICTED_PLATFORMS
         /// <summary>
         /// Private collection to store information about each platform.
         /// </summary>
-        private static readonly IDictionary<Platform, PlatformInfo> PlatformInformation =
-            new Dictionary<Platform, PlatformInfo>()
-            {
-#if !EXTERNAL_TO_UNITY
-                { Platform.Android, PlatformInfo.Create<AndroidConfig>("Android", "eos_android_config.json", null,     "Android")},
-                { Platform.iOS,     PlatformInfo.Create<IOSConfig>    ("iOS",     "eos_ios_config.json",     null,     "iPhone") },
-                { Platform.Linux,   PlatformInfo.Create<LinuxConfig>  ("Linux",   "eos_linux_config.json",   ".so",    "Standalone") },
-                { Platform.macOS,   PlatformInfo.Create<MacOSConfig>  ("macOS",   "eos_macos_config.json",   ".dylib", "Standalone") },
-#endif
-                { Platform.Windows, PlatformInfo.Create<WindowsConfig>("Windows", "eos_windows_config.json", ".dll",   "Standalone") },
-            };
-#endif
+        private static IDictionary<Platform, PlatformInfo> PlatformInformation = new Dictionary<Platform, PlatformInfo>();
 
-                /// <summary>
-                /// Backing value for the CurrentPlatform property.
-                /// </summary>
+        /// <summary>
+        /// Backing value for the CurrentPlatform property.
+        /// </summary>
         private static Platform s_CurrentPlatform;
 
         /// <summary>
@@ -139,8 +128,41 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
+        /// <summary>
+        /// To be accessible to the platform manager, the static constructors 
+        /// for each platform config need to be executed, this function ensures
+        /// that happens.
+        /// </summary>
+        private static void InitializePlatformConfigs()
+        {
+            // This compile conditional is here because in the editor, it is
+            // acceptable to use reflection to make sure all the
+            // PlatformConfigs have their static constructors executed.
+#if UNITY_EDITOR
+            ReflectionUtility.CallStaticConstructorsOnDerivingClasses<PlatformConfig>();
+#endif
+
+#if !EXTERNAL_TO_UNITY
+            PlatformInformation.Add(Platform.Android, PlatformInfo.Create<AndroidConfig>("Android", "eos_android_config.json", null, "Android"));
+            PlatformInformation.Add(Platform.iOS, PlatformInfo.Create<IOSConfig>("iOS", "eos_ios_config.json", null, "iPhone"));
+            PlatformInformation.Add(Platform.Linux, PlatformInfo.Create<LinuxConfig>("Linux", "eos_linux_config.json", ".so", "Standalone"));
+            PlatformInformation.Add(Platform.macOS, PlatformInfo.Create<MacOSConfig>("macOS", "eos_macos_config.json", ".dylib", "Standalone"));
+#endif
+            PlatformInformation.Add(Platform.Windows, PlatformInfo.Create<WindowsConfig>("Windows", "eos_windows_config.json", ".dll", "Standalone"));
+        }
+
+        /// <summary>
+        /// This partial method is defined here so that a partial class
+        /// definition can provide implementation that initializes other
+        /// platform configs.
+        /// </summary>
+        static partial void InitializeProprietaryPlatformConfigs();
+
         static PlatformManager()
         {
+            InitializePlatformConfigs();
+            InitializeProprietaryPlatformConfigs();
+
             // If external to unity, then we know that the current platform
             // is Windows.
 #if EXTERNAL_TO_UNITY

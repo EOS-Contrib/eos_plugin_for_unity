@@ -141,7 +141,9 @@ namespace PlayEveryWare.EpicOnlineServices
             ProductName = config.productName;
             ProductVersion = config.productVersion;
 
-            if (!Guid.TryParse(config.productID, out ProductId))
+            // Attempt to parse the productID, and log a message if it cannot be parsed
+            // Do not log a message if the productID is empty, and could not possibly migrate
+            if (!string.IsNullOrWhiteSpace(config.productID) && !Guid.TryParse(config.productID, out ProductId))
             {
                 Debug.LogWarning("Could not parse product ID.");
             }
@@ -151,13 +153,24 @@ namespace PlayEveryWare.EpicOnlineServices
         {
 #if !EOS_DISABLE
             // Import the old config client stuff
-            Clients.Add(new EOSClientCredentials(config.clientID, config.clientSecret,
-                config.encryptionKey));
+            // Some amount of these values should be provided, though encryptionKey is optional
+            if (!string.IsNullOrWhiteSpace(config.clientID) && !string.IsNullOrWhiteSpace(config.clientSecret))
+            {
+                Clients.Add(new EOSClientCredentials(config.clientID, config.clientSecret,
+                    config.encryptionKey));
+            }
 #endif
         }
 
         private void MigrateSandboxAndDeployment(PreviousEOSConfig config)
         {
+            // Check to see if the sandbox and deployment id were configured in the previous config
+            if (string.IsNullOrWhiteSpace(config.sandboxID) || string.IsNullOrEmpty(config.deploymentID))
+            {
+                // One of them is empty, we can't possibly add this deployment
+                return;
+            }
+
             // Import explicitly set sandbox and deployment
             SandboxId sandboxId = new()
             {
@@ -181,6 +194,13 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private void MigrateSandboxAndDeploymentOverrides(PreviousEOSConfig config)
         {
+            // If the sandboxDeploymentOverrides didn't parse, they were likely missing
+            // Only migrate values if they are present
+            if (config.sandboxDeploymentOverrides == null)
+            {
+                return;
+            }
+
             // Import each of the overrides
             foreach (var overrideValues in config.sandboxDeploymentOverrides)
             {
