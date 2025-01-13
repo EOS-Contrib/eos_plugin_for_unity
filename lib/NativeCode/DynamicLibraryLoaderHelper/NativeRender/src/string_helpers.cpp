@@ -151,4 +151,22 @@ namespace pew::eos::string_helpers
     {
         return to_utf8_str(path.native());
     }
+
+    bool is_empty_or_whitespace(const char* str)
+    {
+        if (str == nullptr) 
+        {
+            return true; // Treat null as empty
+        }
+
+        while (*str != '\0') 
+        {
+            if (!std::isspace(static_cast<unsigned char>(*str))) 
+            {
+                return false; // Found a non-whitespace character
+            }
+            ++str;
+        }
+        return true; // All characters were whitespace or the string was empty
+    }
 }
