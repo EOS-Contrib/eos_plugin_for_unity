@@ -26,8 +26,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
     using UnityEngine;
     using UnityEngine.EventSystems;
     using UnityEngine.UI;
+
+#if !EOS_DISABLE
     using Epic.OnlineServices;
     using Epic.OnlineServices.Presence;
+#endif
 
 #if ENABLE_INPUT_SYSTEM
     using UnityEngine.InputSystem;
@@ -259,6 +262,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
         public override void OnFriendInteractButtonClicked(FriendData friendData)
         {
+#if !EOS_DISABLE
             var joinInfo = JsonUtility.FromJson<P2PTransportPresenceData>(friendData.Presence.JoinInfo);
             if (joinInfo.IsValid())
             {
@@ -276,10 +280,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             {
                 Debug.LogError("UIP2PTransportMenu (OnFriendInteractButtonClicked): invalid join info");
             }
+#endif
         }
 
         public void StartHostOnClick()
         {
+#if !EOS_DISABLE
             if (isHost)
             {
                 Debug.LogError("UIP2PTransportMenu (StartHostOnClick): already hosting");
@@ -297,8 +303,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             {
                 Debug.LogError("UIP2PTransportMenu (StartHostOnClick): failed to start host");
             }
+#endif
         }
 
+#if !EOS_DISABLE
         private void SetJoinInfo(ProductUserId serverUserId)
         {
             var joinData = new P2PTransportPresenceData()
@@ -311,6 +319,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             EOSSessionsManager.SetJoinInfo(joinString);
         }
+#endif
 
         public void DisconnectOnClick()
         {
@@ -365,6 +374,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
         }
 
+#if !EOS_DISABLE
         private void OnJoinGameAccepted(ref JoinGameAcceptedCallbackInfo data)
         {
             var joinData = JsonUtility.FromJson<P2PTransportPresenceData>(data.JoinInfo);
@@ -378,6 +388,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 Debug.LogError("UIP2PTransportMenu (OnJoinGameAccepted): invalid join info");
             }
         }
+#endif
 
         private void OnDisconnect(ulong _)
         {
@@ -389,6 +400,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             NetworkSamplePlayer.UnregisterDisconnectCallback(OnDisconnect);
         }
 
+#if !EOS_DISABLE
         private void JoinGame(ProductUserId hostId)
         {
             if (hostId.IsValid())
@@ -412,9 +424,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 Debug.LogError("UIP2PTransportMenu (JoinGame): invalid server user id");
             }
         }
+#endif
 
         private void AddJoinListener()
         {
+#if !EOS_DISABLE
             var presenceInterface = EOSManager.Instance.GetEOSPresenceInterface();
             if (presenceInterface == null)
             {
@@ -422,6 +436,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
             var options = new AddNotifyJoinGameAcceptedOptions();
             joinGameAcceptedNotifyHandle = presenceInterface.AddNotifyJoinGameAccepted(ref options, null, OnJoinGameAccepted);
+#endif
         }
 
         private void RemoveJoinListener()
@@ -461,7 +476,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             AddJoinListener();
 
             NetworkSamplePlayer.DisplayNameContainer = DisplayNameContainer;
+
+#if !EOS_DISABLE
             NetworkSamplePlayer.DisplayNameSetter = SetDisplayNameText;
+#endif
         }
 
         protected override void OnDestroy()
@@ -474,6 +492,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             NetworkSamplePlayer.DestoryNetworkManager();
         }
 
+#if !EOS_DISABLE
         private void SetDisplayNameText(Text displayNameUI, EpicAccountId userId)
         {
             var userInfoManager = EOSManager.Instance.GetOrCreateManager<EOSUserInfoManager>();
@@ -496,5 +515,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 });
             }
         }
+#endif
     }
 }
