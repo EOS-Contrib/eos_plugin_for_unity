@@ -84,7 +84,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 Gamepad.current?.bButton.wasPressedThisFrame == true;
         }
 
-        public void Update()
+        public override void Update()
         {
             if (controllingCharacter)
             {
