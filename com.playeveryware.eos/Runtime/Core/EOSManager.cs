@@ -491,14 +491,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     });
             }
 
-            //-------------------------------------------------------------------------
-            // NOTE: on some platforms the EOS platform is init'd by a native dynamic library. In
-            // those cases, this code will early out.
-            public void Init(IEOSCoroutineOwner coroutineOwner)
-            {
-                Init(coroutineOwner, EOSPackageInfo.ConfigFileName);
-            }
-
             private void ConfigureCommandLineOptions()
             {
                 // TODO: Make more complete the support for command line arguments.
@@ -536,7 +528,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
             }
 
-            private void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
+            private void Init(IEOSCoroutineOwner coroutineOwner, string configFileName = null)
             {
                 if (GetEOSPlatformInterface() != null)
                 {
