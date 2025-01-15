@@ -261,6 +261,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 { BuildTarget.PS4,                 Platform.PS4         },
                 { BuildTarget.PS5,                 Platform.PS5         },
                 { BuildTarget.Switch,              Platform.Switch      },
+                { BuildTarget.StandaloneOSX,       Platform.macOS       },
                 { BuildTarget.StandaloneWindows,   Platform.Windows     },
                 { BuildTarget.StandaloneWindows64, Platform.Windows     },
             };
