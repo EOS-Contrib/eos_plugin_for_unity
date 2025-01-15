@@ -528,7 +528,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
             }
 
-            private void Init(IEOSCoroutineOwner coroutineOwner, string configFileName = null)
+            public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName = null)
             {
                 if (GetEOSPlatformInterface() != null)
                 {
