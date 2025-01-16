@@ -61,7 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices
             Any = Unknown | Windows | Android | XboxOne | XboxSeriesX | iOS | Linux | macOS | PS4 | PS5 | Switch | Steam
         }
 
-        private readonly struct PlatformInfo
+        internal readonly struct PlatformInfo
         {
             public string FullName { get;  }
             public string ConfigFileName { get; }
@@ -91,7 +91,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Private collection to store information about each platform.
         /// </summary>
-        private static IDictionary<Platform, PlatformInfo> PlatformInformation = new Dictionary<Platform, PlatformInfo>();
+        internal static IDictionary<Platform, PlatformInfo> PlatformInformation = new Dictionary<Platform, PlatformInfo>();
 
         /// <summary>
         /// Backing value for the CurrentPlatform property.
@@ -406,7 +406,12 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Full name of platform.</returns>
         public static string GetFullName(Platform platform)
         {
-            return PlatformInformation[platform].FullName;
+            if (PlatformInformation.TryGetValue(platform, out PlatformInfo value))
+            {
+                return value.FullName;
+            }
+
+            return platform.ToString();
         }
     }
 }
