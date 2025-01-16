@@ -22,21 +22,23 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Tests.Config
 {
-    using Epic.OnlineServices.Platform;
     using NUnit.Framework;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using static PlayEveryWare.EpicOnlineServices.EOSConfig;
-    using Config = EpicOnlineServices.Config;
 
     public class EOSConfigTests
     {
+        // This warning suppression is here because with EOSConfig being obsolete,
+        // it will generate a warning. Because EOSConfig still exists for the 
+        // purposes of migration, it is important that the tests remain intact.
+#pragma warning disable CS0618 // Type or member is obsolete
+
         [Test]
         public void ProductName_MustNotBeEmpty()
         {
+
             EOSConfig config = EOSConfig.Get<EOSConfig>();
+
             config.productName = string.Empty;
 
             if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
@@ -49,6 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 failingAttributes,
                 NonEmptyStringFieldValidatorAttribute.FieldIsEmptyMessage),
                 "There should be a failure of the expected type and message.");
+
         }
 
         [Test]
@@ -306,6 +309,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 GUIDFieldValidatorAttribute.NotAGuidMessage),
                 "There should be a failure of the expected type and message.");
         }
+
+#pragma warning restore CS0618 // Type or member is obsolete
 
         /// <summary>
         /// Determines if the provided list of failures contains an expected failure
