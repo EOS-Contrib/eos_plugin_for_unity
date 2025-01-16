@@ -409,6 +409,8 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
+        #region Reading
+
         // NOTE: This compile conditional is here because Async IO does not work
         //       well on Android.
 #if !UNITY_ANDROID || UNITY_EDITOR
@@ -425,6 +427,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 _lastReadJsonString = await FileSystemUtility.ReadAllTextAsync(FilePath);
                 JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
+                OnReadCompleted();
             }
         }
 #endif
@@ -442,11 +445,24 @@ namespace PlayEveryWare.EpicOnlineServices
 
             _lastReadJsonString = FileSystemUtility.ReadAllText(FilePath);
             JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
+            OnReadCompleted();
         }
+
+        protected virtual void OnReadCompleted()
+        {
+            // Optionally override for deriving classes. Default behavior is to 
+            // take no action.
+        }
+
+        #endregion
 
         /// <summary>
         /// Determines if the config file exists, and if it does not, and the
         /// editor is running, then create the file.
+        /// TODO: Consider whether this function should be removed - there is
+        ///       no equivalent function for non-async contexts - and the
+        ///       difference in implementation between async and non-async could
+        ///       lead to confusion later on.
         /// </summary>
         /// <returns>Task.</returns>
         private async Task EnsureConfigFileExistsAsync()
@@ -467,6 +483,8 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
             }
         }
+
+        #region Writing
 
         // Functions declared below should only ever be utilized in the editor.
         // They are so divided to guarantee separation of concerns.
@@ -492,6 +510,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 return;
 
             await FileSystemUtility.WriteFileAsync(FilePath, json);
+            OnWriteCompleted();
         }
 
         /// <summary>
@@ -513,7 +532,16 @@ namespace PlayEveryWare.EpicOnlineServices
                 return;
 
             FileSystemUtility.WriteFile(FilePath, json);
+            OnWriteCompleted();
         }
+
+        protected virtual void OnWriteCompleted()
+        {
+            // Optionally override for deriving classes. Default behavior is to 
+            // take no action.
+        }
+
+#endregion
 
         /// <summary>
         /// Determines whether the values in the Config have their
