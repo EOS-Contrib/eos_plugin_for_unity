@@ -51,6 +51,25 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         /// <summary>
+        /// Indicates whether there is at least one complete deployment defined.
+        /// </summary>
+        public bool IsDeploymentDefined
+        {
+            get
+            {
+                foreach (var deployment in Deployments)
+                {
+                    if (deployment.Value.IsComplete)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Removes a Sandbox from the Production Environment.
         /// </summary>
         /// <param name="sandbox">
