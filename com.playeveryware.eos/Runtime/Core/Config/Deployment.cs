@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Newtonsoft.Json;
     using Utility;
     using System;
 
@@ -42,6 +43,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// deployment is completely defined if neither the sandbox id nor the
         /// deployment id are empty.
         /// </summary>
+        [JsonIgnore]
         public readonly bool IsComplete
         {
             get

@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Newtonsoft.Json;
     using System.Text.RegularExpressions;
     using System;
 
@@ -76,6 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// value is equal to the string value for an empty Guid with the dashes
         /// removed.
         /// </summary>
+        [JsonIgnore]
         public readonly bool IsEmpty
         {
             get
