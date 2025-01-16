@@ -753,6 +753,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             ReorderableList.ElementHeightCallbackDelegate elementHeightCallback = null)
             where T : IEquatable<T>, new()
         {
+            // If there are no items in the set of named, then add one so that
+            // the user interface displays properly
+            if (value.Count == 0)
+            {
+                value.Add();
+            }
+
             List<Named<T>> items = value.ToList();
 
             // If there is only one item, then only render one set of inputs
@@ -821,28 +828,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 }
 
                 list.DoLayoutList();
-            }
-            else
-            {                
-                // If there are no items in the list, then the user needs to add an entry
-                // before they can start modifying.
-                EditorGUILayout.BeginHorizontal();
-
-                Rect rect = EditorGUILayout.GetControlRect();
-                rect.height = EditorGUIUtility.singleLineHeight;
-
-                // Render the "+" button to add a new item
-                if (GUILayout.Button("+", GUILayout.Width(24)))
-                {
-                    addNewItemFn();
-                }
-
-                if (!string.IsNullOrEmpty(helpUrl))
-                {
-                    RenderHelpIcon(helpUrl);
-                }
-
-                EditorGUILayout.EndHorizontal();
             }
         }
 
