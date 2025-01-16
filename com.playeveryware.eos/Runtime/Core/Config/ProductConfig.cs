@@ -102,6 +102,14 @@ namespace PlayEveryWare.EpicOnlineServices
             "exist within the Epic Dev Portal.", 1)]
         public ProductionEnvironments Environments = new();
 
+        /// <summary>
+        /// This field member is used to determine when deployments are first
+        /// defined by the user. This determination is used to trigger the
+        /// process of setting the default deployment for the platforms.
+        /// </summary>
+        [JsonIgnore]
+        private bool _deploymentDefined;
+
         static ProductConfig()
         {
             RegisterFactory(() => new ProductConfig());
@@ -113,6 +121,56 @@ namespace PlayEveryWare.EpicOnlineServices
         }
         
         protected ProductConfig() : base("eos_product_config.json") { }
+
+        protected override void OnReadCompleted()
+        {
+            // This tracks whether there is a single deployment defined.
+            _deploymentDefined = Environments.IsDeploymentDefined;
+        }
+
+        // This compile conditional is here because the OnWriteCompleted method
+        // is only defined in the editor - so it can only be overriden if in the
+        // editor.
+#if UNITY_EDITOR
+
+        protected override void OnWriteCompleted()
+        {
+            // If when the config was last read there was a deployment defined,
+            // or there is not now one defined - then there is no need to try
+            // and set the deployment values for each platform config.
+            if (_deploymentDefined || !Environments.IsDeploymentDefined)
+            {
+                return;
+            }
+
+            // Select the first defined deployment as the deployment to set
+            // platform configs to use.
+            Named<Deployment> deploymentToSetPlatformsTo = Environments.Deployments[0];
+
+            // For each platform for which configuration can be done
+            foreach (var platform in PlatformManager.ConfigurablePlatforms)
+            {
+                // If the PlatformConfig could not be retrieved, continue to the
+                // next.
+                if (!PlatformManager.TryGetConfig(platform, out PlatformConfig config))
+                {
+                    continue;
+                }
+
+                // Set the deployment.
+                config.deployment = deploymentToSetPlatformsTo.Value;
+
+                // Tell the user
+                Debug.Log($"Deployment for platform " +
+                          $"\"{config.Platform}\" has been defaulted to " +
+                          $"{deploymentToSetPlatformsTo}.");
+
+                // Save the config
+                config.Write();
+            }
+        }
+
+#endif
 
         #region Functionality to migrate from old configuration to new
 
