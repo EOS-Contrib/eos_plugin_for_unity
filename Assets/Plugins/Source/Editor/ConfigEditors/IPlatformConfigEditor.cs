@@ -36,6 +36,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </returns>
         bool IsPlatformAvailable();
 
+        void SetDeployment(Deployment deployment);
+
+        PlatformManager.Platform GetPlatform();
+
         Texture GetPlatformIconTexture();
     }
 }
