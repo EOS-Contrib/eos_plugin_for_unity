@@ -125,8 +125,10 @@ namespace pew::eos::io_helpers
             if (match != nullptr)
             {
                 // extract the value.
+                // The argument should have started with "-" and continued with "=",
+                // so it needs to be substringed the length of the match plus these two characters
                 std::string arg_value;
-                arg_value = argument.substr(match->length());
+                arg_value = argument.substr(match->length() + 2);
 
                 if (!arg_value.empty())
                 {
