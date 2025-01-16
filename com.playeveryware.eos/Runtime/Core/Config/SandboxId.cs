@@ -70,6 +70,21 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
+        /// <summary>
+        /// Indicates whether the sandbox id is empty. A sandbox id is empty if
+        /// either the underlying value is null or empty, or if the underlying
+        /// value is equal to the string value for an empty Guid with the dashes
+        /// removed.
+        /// </summary>
+        public readonly bool IsEmpty
+        {
+            get
+            {
+                return String.IsNullOrEmpty(_value) || 
+                       Guid.Empty.ToString().Replace("-", "").Equals(_value);
+            }
+        }
+
         public readonly bool Equals(SandboxId other)
         {
             return _value == other._value;

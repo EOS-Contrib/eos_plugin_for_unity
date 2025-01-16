@@ -31,6 +31,19 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public Guid DeploymentId;
 
+        /// <summary>
+        /// Indicates whether a deployment is completely defined or not. A
+        /// deployment is completely defined if neither the sandbox id nor the
+        /// deployment id are empty.
+        /// </summary>
+        public readonly bool IsComplete
+        {
+            get
+            {
+                return !DeploymentId.Equals(Guid.Empty) && !SandboxId.IsEmpty;
+            }
+        }
+
         public bool Equals(Deployment other)
         {
             return SandboxId.Equals(other.SandboxId) && DeploymentId.Equals(other.DeploymentId);
