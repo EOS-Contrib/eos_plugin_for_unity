@@ -22,13 +22,19 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using PlayEveryWare.EpicOnlineServices.Utility;
+    using Utility;
     using System;
 
     public struct Deployment : IEquatable<Deployment>
     {
+        /// <summary>
+        /// The SandboxId for the deployment.
+        /// </summary>
         public SandboxId SandboxId;
 
+        /// <summary>
+        /// The DeploymentId.
+        /// </summary>
         public Guid DeploymentId;
 
         /// <summary>
@@ -57,6 +63,11 @@ namespace PlayEveryWare.EpicOnlineServices
         public override int GetHashCode()
         {
             return HashUtility.Combine(SandboxId, DeploymentId);
+        }
+
+        public override string ToString()
+        {
+            return $"DeploymentId: {DeploymentId.ToString("N").ToLower()}, SandboxId: {SandboxId}";
         }
     }
 
