@@ -110,6 +110,25 @@ namespace PlayEveryWare.EpicOnlineServices
         [JsonIgnore]
         private bool _deploymentDefined;
 
+        /// <summary>
+        /// Used to store information about what platform configs have been
+        /// updated.
+        /// </summary>
+        public sealed class PlatformConfigsDeploymentUpdatedEventArgs : EventArgs
+        {
+            /// <summary>
+            /// A list of all the platform configs that have been updated.
+            /// </summary>
+            public readonly IEnumerable<PlatformManager.Platform> PlatformConfigsUpdated;
+
+            public PlatformConfigsDeploymentUpdatedEventArgs(IEnumerable<PlatformManager.Platform> platformConfigsUpdated)
+            {
+                PlatformConfigsUpdated = platformConfigsUpdated;
+            }
+        }
+
+        public static event EventHandler<PlatformConfigsDeploymentUpdatedEventArgs> PlatformConfigsDeploymentUpdatedEvent;
+
         static ProductConfig()
         {
             RegisterFactory(() => new ProductConfig());
@@ -147,6 +166,8 @@ namespace PlayEveryWare.EpicOnlineServices
             // platform configs to use.
             Named<Deployment> deploymentToSetPlatformsTo = Environments.Deployments[0];
 
+            List<PlatformManager.Platform> platformConfigsUpdated = new();
+
             // For each platform for which configuration can be done
             foreach (var platform in PlatformManager.ConfigurablePlatforms)
             {
@@ -156,6 +177,16 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     continue;
                 }
+
+                // If the config already has a completely defined deployment,
+                // then do not override, and move to the next platform config
+                if (config.deployment.IsComplete)
+                {
+                    continue;
+                }
+
+                // Add to the list of platform configs that have been updated
+                platformConfigsUpdated.Add(platform);
 
                 // Set the deployment.
                 config.deployment = deploymentToSetPlatformsTo.Value;
@@ -167,6 +198,13 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 // Save the config
                 config.Write();
+            }
+
+            // If at least one platform config was updated as a result, trigger
+            // the event that indicates as much
+            if (platformConfigsUpdated.Count > 0)
+            {
+                PlatformConfigsDeploymentUpdatedEvent?.Invoke(this, new PlatformConfigsDeploymentUpdatedEventArgs(platformConfigsUpdated));
             }
         }
 

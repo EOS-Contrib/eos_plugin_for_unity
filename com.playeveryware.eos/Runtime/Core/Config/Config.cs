@@ -541,7 +541,9 @@ namespace PlayEveryWare.EpicOnlineServices
             // take no action.
         }
 
-#endregion
+#endif
+
+        #endregion
 
         /// <summary>
         /// Determines whether the values in the Config have their
@@ -554,7 +556,6 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             return IsDefault(this);
         }
-
 
         /// <summary>
         /// Returns member-wise clone of configuration data
@@ -811,6 +812,4 @@ namespace PlayEveryWare.EpicOnlineServices
 #pragma warning restore CS0414
 // Field is never assigned to, and will always have its default value.
 #pragma warning restore CS0649
-#endif
-
 #endif
