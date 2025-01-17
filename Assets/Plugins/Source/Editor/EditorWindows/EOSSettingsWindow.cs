@@ -42,7 +42,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     /// Creates the view for showing the eos plugin editor config values.
     /// </summary>
     [Serializable]
-    public class NEW_EOSSettingsWindow : EOSEditorWindow
+    public class EOSSettingsWindow : EOSEditorWindow
     {
         /// <summary>
         /// The editor for the product information that is shared across all
@@ -83,12 +83,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             fixedHeight = 40
         };
 
-        public NEW_EOSSettingsWindow() : base("EOS Configuration") { }
+        public EOSSettingsWindow() : base("EOS Configuration") { }
 
         [MenuItem("EOS Plugin/EOS Configuration", priority = 1)]
         public static void ShowWindow()
         {
-            var window = GetWindow<NEW_EOSSettingsWindow>();
+            var window = GetWindow<EOSSettingsWindow>();
             window.SetIsEmbedded(false);
         }
 
@@ -176,12 +176,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         private async void Save()
         {
             // Save the product config editor
-            await _productConfigEditor.Save();
+            _productConfigEditor.Save();
 
             // Save each of the platform config editors.
             foreach (IConfigEditor editor in _platformConfigEditors)
             {
-                await editor.Save();
+                await editor.SaveAsync();
             }
         }
     }
