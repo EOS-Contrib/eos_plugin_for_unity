@@ -57,7 +57,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Editor
 
             if (GUILayout.Button("Save", GUILayout.Width(100)))
             {
-                await _testConfigEditor.Save();
+                await _testConfigEditor.SaveAsync();
             }
         }
     }

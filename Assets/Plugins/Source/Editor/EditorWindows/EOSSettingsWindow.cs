@@ -173,15 +173,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             }
         }
 
-        private async void Save()
+        private void Save()
         {
             // Save the product config editor
-            await _productConfigEditor.Save();
+            _productConfigEditor.Save();
 
             // Save each of the platform config editors.
             foreach (IConfigEditor editor in _platformConfigEditors)
             {
-                await editor.Save();
+                editor.Save();
             }
         }
     }

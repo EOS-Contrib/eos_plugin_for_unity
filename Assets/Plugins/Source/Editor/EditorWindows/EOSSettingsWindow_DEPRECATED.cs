@@ -204,7 +204,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
             foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
-                await platformSpecificConfigEditor.Save(usePrettyFormat);
+                await platformSpecificConfigEditor.SaveAsync(usePrettyFormat);
             }
 
 #if ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE

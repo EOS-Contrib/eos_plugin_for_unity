@@ -179,7 +179,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             Task.Run(LoadAsync).GetAwaiter().GetResult();
         }
 
-        public async Task Save(bool prettyPrint = true)
+        public void Save(bool prettyPrint = true)
+        {
+            config.Write(prettyPrint);
+        }
+
+        public async Task SaveAsync(bool prettyPrint = true)
         {
             await config.WriteAsync(prettyPrint);
         }
