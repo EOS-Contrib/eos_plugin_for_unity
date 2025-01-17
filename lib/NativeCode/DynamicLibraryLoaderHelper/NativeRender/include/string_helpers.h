@@ -25,11 +25,7 @@
 #pragma once
 #include <string>
 #include <vector>
-
-namespace std::filesystem
-{
-    class path;
-}
+#include <filesystem>
 
 namespace pew::eos::string_helpers
 {
@@ -94,7 +90,7 @@ namespace pew::eos::string_helpers
      *
      * @note `wide_str` must be null-terminated if `wide_str_len` is set to -1.
      */
-    bool copy_to_utf8_str_from_wide_str(char* RESTRICT utf8_str, size_t utf8_str_len, const wchar_t* RESTRICT wide_str, int wide_str_len);
+    bool copy_to_utf8_str_from_wide_str(char* utf8_str, size_t utf8_str_len, const wchar_t* wide_str, int wide_str_len);
 
     /**
      * @brief Creates a UTF-8 encoded string from a wide character string.
@@ -150,5 +146,12 @@ namespace pew::eos::string_helpers
      * @return A UTF-8 encoded `std::string` representation of the path.
      */
     std::string to_utf8_str(const std::filesystem::path& path);
+
+    /**
+     * @brief Determines if a given C string is either empty or contains only whitespace characters.
+     * @param str The string to check.
+     * @return True if the string is empty or contains only whitespace characters.
+     */
+    bool is_empty_or_whitespace(const char* str);
 }
 #endif

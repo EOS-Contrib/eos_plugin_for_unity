@@ -23,6 +23,8 @@
 #include <pch.h>
 #include "logging.h"
 #include <eos_logging.h>
+#include <iostream>
+
 #include "string_helpers.h"
 #include <unordered_map>
 #include <iostream>

@@ -101,7 +101,7 @@ namespace pew::eos::string_helpers
     }
 
     // wide_str must be null terminated if wide_str_len is passed
-    bool copy_to_utf8_str_from_wide_str(char* RESTRICT utf8_str, size_t utf8_str_len, const wchar_t* RESTRICT wide_str, int wide_str_len)
+    bool copy_to_utf8_str_from_wide_str(char* utf8_str, size_t utf8_str_len, const wchar_t* wide_str, int wide_str_len)
     {
         if (utf8_str_len > INT_MAX)
         {
@@ -150,5 +150,23 @@ namespace pew::eos::string_helpers
     std::string to_utf8_str(const std::filesystem::path& path)
     {
         return to_utf8_str(path.native());
+    }
+
+    bool is_empty_or_whitespace(const char* str)
+    {
+        if (str == nullptr) 
+        {
+            return true; // Treat null as empty
+        }
+
+        while (*str != '\0') 
+        {
+            if (!std::isspace(static_cast<unsigned char>(*str))) 
+            {
+                return false; // Found a non-whitespace character
+            }
+            ++str;
+        }
+        return true; // All characters were whitespace or the string was empty
     }
 }

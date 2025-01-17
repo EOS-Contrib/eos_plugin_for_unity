@@ -46,37 +46,6 @@ struct json_value_s;
 namespace pew::eos::config_legacy
 {
     /**
-     * \brief
-     * Maps string values to values defined by the EOS SDK regarding platform
-     * creation.
-     */
-    static const std::map<std::string, int> PLATFORM_CREATION_FLAGS_STRINGS_TO_ENUM = {
-        {"EOS_PF_LOADING_IN_EDITOR",                          EOS_PF_LOADING_IN_EDITOR},
-        {"LoadingInEditor",                                   EOS_PF_LOADING_IN_EDITOR},
-
-        {"EOS_PF_DISABLE_OVERLAY",                            EOS_PF_DISABLE_OVERLAY},
-        {"DisableOverlay",                                    EOS_PF_DISABLE_OVERLAY},
-
-        {"EOS_PF_DISABLE_SOCIAL_OVERLAY",                     EOS_PF_DISABLE_SOCIAL_OVERLAY},
-        {"DisableSocialOverlay",                              EOS_PF_DISABLE_SOCIAL_OVERLAY},
-
-        {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9",                EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9},
-        {"WindowsEnableOverlayD3D9",                          EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9},
-
-        {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10",               EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10},
-        {"WindowsEnableOverlayD3D10",                         EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10},
-
-        {"EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL",              EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL},
-        {"WindowsEnableOverlayOpengl",                        EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL},
-
-        {"EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING", EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING},
-        {"ConsoleEnableOverlayAutomaticUnloading",            EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING},
-
-        {"EOS_PF_RESERVED1",                                  EOS_PF_RESERVED1},
-        {"Reserved1",                                         EOS_PF_RESERVED1}
-    };
-
-    /**
      * \brief Maps string values to values within the
      * EOS_EIntegratedPlatformManagementFlags enum.
      */
@@ -125,60 +94,6 @@ namespace pew::eos::config_legacy
      * returns the configuration data as a JSON-formatted string.
      */
     typedef const char* (*GetConfigAsJSONString_t)();
-
-    /**
-     * @brief Represents a sandbox deployment override configuration.
-     *
-     * Contains the sandbox ID and the corresponding deployment ID to override the default sandbox
-     * deployment configuration.
-     */
-    struct SandboxDeploymentOverride
-    {
-        std::string sandboxID;
-        std::string deploymentID;
-    };
-
-
-    /**
-     * @brief Holds EOS platform configuration settings.
-     *
-     * This structure defines various configuration parameters for the EOS platform, including
-     * product details, sandbox information, client credentials, thread affinities, and platform
-     * options.
-     */
-    struct EOSConfig
-    {
-        std::string productName;
-        std::string productVersion;
-
-        std::string productID;
-        std::string sandboxID;
-        std::string deploymentID;
-        std::vector<SandboxDeploymentOverride> sandboxDeploymentOverrides;
-
-        std::string clientSecret;
-        std::string clientID;
-        std::string encryptionKey;
-
-        std::string overrideCountryCode;
-        std::string overrideLocaleCode;
-
-        // this is called platformOptionsFlags in C#
-        uint64_t flags = 0;
-
-        uint32_t tickBudgetInMilliseconds = 0;
-        double taskNetworkTimeoutSeconds = 0.0;
-
-        uint64_t ThreadAffinity_networkWork = 0;
-        uint64_t ThreadAffinity_storageIO = 0;
-        uint64_t ThreadAffinity_webSocketIO = 0;
-        uint64_t ThreadAffinity_P2PIO = 0;
-        uint64_t ThreadAffinity_HTTPRequestIO = 0;
-        uint64_t ThreadAffinity_RTCIO = 0;
-
-        bool isServer = false;
-
-    };
 
     /**
      * @brief Holds configuration for log levels and categories.
@@ -239,10 +154,12 @@ namespace pew::eos::config_legacy
      * @param config_filename The name of the configuration file.
      * @return The path to the EOS service configuration file.
      */
-    std::filesystem::path get_path_for_eos_service_config(std::string config_filename);
+    std::filesystem::path get_path_for_eos_service_config(const std::string& config_filename);
 
     /**
      * @brief Reads a JSON configuration from a DLL.
+     *
+     * TODO: This is no longer supported, it should be removed.
      *
      * Attempts to load configuration data from a DLL. The function retrieves the
      * JSON configuration string from the DLL, parses it, and returns the parsed JSON object.
@@ -250,12 +167,6 @@ namespace pew::eos::config_legacy
      * @return A pointer to a `json_value_s` representing the configuration data, or `nullptr` if loading fails.
      */
     json_value_s* read_config_json_from_dll();
-
-    /**
-     * \brief Parses an EOS configuration object from a JSON structure.
-     * \return An `EOSConfig` object populated with settings from the JSON structure.
-     */
-    CONFIG_API bool try_get_eos_config(EOSConfig& config);
 
     /**
      * @brief Collects integrated platform management flags from a JSON element.

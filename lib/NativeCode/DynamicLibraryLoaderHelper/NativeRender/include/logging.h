@@ -38,6 +38,8 @@ namespace pew::eos::logging
 {
     typedef void (*log_flush_function_t)(const char* str);
 
+    PEW_EOS_API_FUNC(void) set_mirror_to_stdout(const bool& mirror);
+
     /**
      * \brief Allows an option to be set that will mirror the log messages to
      * stdout.

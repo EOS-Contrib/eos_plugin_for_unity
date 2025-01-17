@@ -184,11 +184,12 @@ namespace PlayEveryWare.EpicOnlineServices
             Type underlyingType = Enum.GetUnderlyingType(typeof(TEnum));
             object value = Convert.ChangeType(token, underlyingType);
 
-            object lowestValue = EnumUtility<TEnum>.GetLowest();
+            TEnum lowestEnumValue = EnumUtility<TEnum>.GetLowest();
+            object lowestUnderlyingValue = Convert.ChangeType(lowestEnumValue, underlyingType);
 
-            if (Comparer<object>.Default.Compare(value, lowestValue) < 0)
+            if (Comparer<object>.Default.Compare(value, lowestUnderlyingValue) < 0)
             {
-                value = lowestValue;
+                value = lowestUnderlyingValue;
             }
 
             return (TEnum)value;
