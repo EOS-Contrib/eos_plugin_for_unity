@@ -155,7 +155,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             foreach (var configurationSectionEditor in configEditors)
             {
-                configurationSectionEditor.Save();
+                configurationSectionEditor.SaveAsync();
             }
 
             AssetDatabase.SaveAssets();

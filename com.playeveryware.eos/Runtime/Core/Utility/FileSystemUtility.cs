@@ -511,9 +511,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             try
             {
 #if NET_STANDARD_2_0
-                return await File.ReadAllTextAsync(path);
+                await using FileStream fileStream = new(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using StreamReader reader = new(fileStream);
+                string content = await reader.ReadToEndAsync();
+                return content;
 #else
-                return await Task.Run(() => File.ReadAllText(path));
+                return await Task.Run(() => ReadAllText(path));
 #endif
             }
             catch (Exception e)
@@ -535,9 +538,13 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 #else
             try
             {
-                return File.ReadAllText(path);
+                // Open the file with explicit FileStream and sharing options
+                using FileStream fileStream = new(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using StreamReader reader = new(fileStream);
+                string content = reader.ReadToEnd();
+                return content;
             }
-            catch (Exception e)
+            catch (IOException e)
             {
                 Debug.LogException(e);
                 throw;
