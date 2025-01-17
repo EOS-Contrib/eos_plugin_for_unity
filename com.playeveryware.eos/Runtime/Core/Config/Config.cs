@@ -465,7 +465,7 @@ namespace PlayEveryWare.EpicOnlineServices
         ///       lead to confusion later on.
         /// </summary>
         /// <returns>Task.</returns>
-        private async Task EnsureConfigFileExistsAsync()
+        protected virtual async Task EnsureConfigFileExistsAsync()
         {
             bool fileExists = await FileSystemUtility.FileExistsAsync(FilePath);
 

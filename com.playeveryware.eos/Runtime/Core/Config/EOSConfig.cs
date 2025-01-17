@@ -48,6 +48,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Text.RegularExpressions;
     using Newtonsoft.Json;
     using PlayEveryWare.EpicOnlineServices.Utility;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the default deployment ID to use when a given sandbox ID is
@@ -74,6 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices
         "Thread Affinity & Tick Budgets",
         "Overlay Options"
     }, false)]
+    [Obsolete("EOSConfig is obsolete. It has been replaced by PlatformConfig and ProductConfig. It remains here for migration purposes.")]
     public class EOSConfig : Config
     {
         static EOSConfig()
@@ -95,6 +97,18 @@ namespace PlayEveryWare.EpicOnlineServices
             // never migrated. Non-obsolete code makes exclusive use of the new
             // classes.
             return false;
+        }
+
+        /// <summary>
+        /// Override the function that writes a config file if it doesn't exist,
+        /// because now that EOSConfig is obsolete, we do not want an empty file
+        /// being generated automatically - it would inevitably lead to some
+        /// confusion.
+        /// </summary>
+        /// <returns>Returns a completed task.</returns>
+        protected override Task EnsureConfigFileExistsAsync()
+        {
+            return Task.CompletedTask;
         }
 
         #region Product Information
