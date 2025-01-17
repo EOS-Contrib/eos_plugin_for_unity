@@ -152,6 +152,17 @@ namespace PlayEveryWare.EpicOnlineServices
         // editor.
 #if UNITY_EDITOR
 
+        protected override void BeforeWrite()
+        {
+            // If there is one deployment, and one sandbox, then make sure they
+            // are linked to each other.
+            // But only do this if they have been newly added
+            if (!_deploymentDefined && Environments.Deployments.Count ==1 && Environments.Sandboxes.Count == 1)
+            {
+                Environments.Deployments[0].Value.SandboxId = Environments.Sandboxes[0].Value;
+            }
+        }
+
         protected override void OnWriteCompleted()
         {
             // If when the config was last read there was a deployment defined,

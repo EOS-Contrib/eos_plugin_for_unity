@@ -499,6 +499,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task</returns>
         public virtual async Task WriteAsync(bool prettyPrint = true)
         {
+            BeforeWrite();
+
             // Set the schema version to the current before writing.
             schemaVersion = CURRENT_SCHEMA_VERSION;
 
@@ -521,6 +523,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public virtual void Write(bool prettyPrint = true)
         {
+            BeforeWrite();
+
             // Set the schema version to the current before writing.
             schemaVersion = CURRENT_SCHEMA_VERSION;
 
@@ -533,6 +537,12 @@ namespace PlayEveryWare.EpicOnlineServices
 
             FileSystemUtility.WriteFile(FilePath, json);
             OnWriteCompleted();
+        }
+
+        protected virtual void BeforeWrite()
+        {
+            // Optionally override this function in a deriving class. Default
+            // behavior is to take no action.
         }
 
         protected virtual void OnWriteCompleted()

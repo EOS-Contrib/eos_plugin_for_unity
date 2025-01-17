@@ -83,6 +83,15 @@ namespace PlayEveryWare.EpicOnlineServices
                 !s_invalidEncryptionKeyRegex.Match(encryptionKey).Success;
         }
 
+        public bool IsComplete
+        {
+            get
+            {
+                // TODO: Provide more comprehensive data validation (see Epic documentation for requirements)
+                return !string.IsNullOrWhiteSpace(ClientId) && !string.IsNullOrWhiteSpace(ClientSecret);
+            }
+        }
+
         /// <summary>
         /// Determines whether the encryption key for the credentials is valid.
         /// </summary>
