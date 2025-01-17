@@ -216,6 +216,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             // Save the product config editor
             await _productConfigEditor.Save();
 
+            // reload the product config editor
+            await _productConfigEditor.LoadAsync();
+
             // Save each of the platform config editors.
             foreach (IConfigEditor editor in _platformConfigEditors)
             {
