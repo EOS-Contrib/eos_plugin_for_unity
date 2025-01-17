@@ -24,7 +24,9 @@ jobs:
       - name: Extract EOS SDK version from DLL
         id: extract_version
         run: |
+          python - <<EOF
           import pefile
+
           dll_path = 'Assets/Plugins/Windows/x64/EOSSDK-Win64-Shipping.dll'
           pe = pefile.PE(dll_path)
           file_info = None
@@ -36,9 +38,11 @@ jobs:
 
           version = file_info.get(b'ProductVersion', b'Unknown').decode('utf-8')
           print(f"::set-output name=eos_version::{version}")
+          EOF
 
       - name: Debug new package.json description
         run: |
+          python - <<EOF
           import json
 
           package_json_path = 'com.playeveryware.eos/package.json'
@@ -48,10 +52,11 @@ jobs:
           eos_version = "${{ steps.extract_version.outputs.eos_version }}"
           description = data.get("description", "")
 
-          updated_description = '\n'.join([
+          updated_description = '\\n'.join([
               line if not line.startswith("EOS SDK ") else f"EOS SDK {eos_version}"
               for line in description.splitlines()
           ])
 
           print("Updated package.json description:")
           print(updated_description)
+          EOF
