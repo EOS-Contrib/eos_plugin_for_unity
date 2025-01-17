@@ -22,7 +22,7 @@
 
 // Uncomment the following line to see all platforms, even ones that are not
 // available
-#define DEBUG_SHOW_UNAVAILABLE_PLATFORMS
+//#define DEBUG_SHOW_UNAVAILABLE_PLATFORMS
 
 #if !EOS_DISABLE
 
