@@ -224,6 +224,13 @@ namespace pew::eos::config
             }
             else if (name == "threadAffinity")
             {
+                if (value.payload == 0)
+                {
+                    // A payload of 0 means that threadAffinity should be null
+                    // Don't set it in this case
+                    return;
+                }
+
                 const auto thread_affinity_json_object = *static_cast<json_object_s*>(value.payload);
                 auto thread_affinity_iterator = thread_affinity_json_object.start;
 
