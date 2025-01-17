@@ -173,7 +173,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             }
         }
 
-        private async void Save()
+        private void Save()
         {
             // Save the product config editor
             _productConfigEditor.Save();
