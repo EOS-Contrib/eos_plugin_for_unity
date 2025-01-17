@@ -19,20 +19,22 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pywin32
+          pip install pefile
 
       - name: Extract EOS SDK version from DLL
         id: extract_version
         run: |
-          import win32api
-          import sys
-          import json
-
+          import pefile
           dll_path = 'Assets/Plugins/Windows/x64/EOSSDK-Win64-Shipping.dll'
-          info = win32api.GetFileVersionInfo(dll_path, '\\')
-          ms = info['FileVersionMS']
-          ls = info['FileVersionLS']
-          version = f"{(ms >> 16) & 0xffff}.{ms & 0xffff}.{(ls >> 16) & 0xffff}.{ls & 0xffff}"
+          pe = pefile.PE(dll_path)
+          file_info = None
+
+          for entry in pe.FileInfo:
+              if entry.Key == b'StringFileInfo':
+                  file_info = entry.StringTable[0].entries
+                  break
+
+          version = file_info.get(b'ProductVersion', b'Unknown').decode('utf-8')
           print(f"::set-output name=eos_version::{version}")
 
       - name: Debug new package.json description
