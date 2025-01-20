@@ -51,6 +51,33 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         /// <summary>
+        /// Tries to retrieve the first defined named deployment.
+        /// </summary>
+        /// <param name="deployment">
+        /// The first named deployment that has been determined to be defined.
+        /// </param>
+        /// <returns>
+        /// True if there was a defined named deployment found, false otherwise.
+        /// </returns>
+        public bool TryGetFirstDefinedNamedDeployment(out Named<Deployment> deployment)
+        {
+            deployment = null;
+
+            // Go through the deployments
+            foreach (var dep in Deployments)
+            {
+                // If the deployment is complete then stop
+                if (dep.Value.IsComplete)
+                {
+                    deployment = dep;
+                    break;
+                }
+            }
+
+            return (deployment != null);
+        }
+
+        /// <summary>
         /// Removes a Sandbox from the Production Environment.
         /// </summary>
         /// <param name="sandbox">

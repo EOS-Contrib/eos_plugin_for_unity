@@ -94,6 +94,43 @@ namespace PlayEveryWare.EpicOnlineServices
         internal static IDictionary<Platform, PlatformInfo> PlatformInformation = new Dictionary<Platform, PlatformInfo>();
 
         /// <summary>
+        /// Returns a list of platforms for which configuration values can be
+        /// set.
+        /// </summary>
+        public static IEnumerable<Platform> ConfigurablePlatforms
+        {
+            get
+            {
+                return PlatformInformation.Keys;
+            }
+        }
+
+        /// <summary>
+        /// Tries to retrieve an instance of the platform config for the
+        /// indicated platform.
+        /// </summary>
+        /// <param name="platform">
+        /// The platform to get the config for.
+        /// </param>
+        /// <param name="platformConfig">
+        /// The PlatformConfig for the indicated platform.
+        /// </param>
+        /// <returns>
+        /// True if a PlatformConfig instance was retrieved, false otherwise.
+        /// </returns>
+        public static bool TryGetConfig(Platform platform, out PlatformConfig platformConfig)
+        {
+            platformConfig = null;
+            if (!PlatformInformation.TryGetValue(platform, out PlatformInfo info))
+            {
+                return false;
+            }
+
+            platformConfig = info.GetConfigFunction();
+            return true;
+        }
+
+        /// <summary>
         /// Backing value for the CurrentPlatform property.
         /// </summary>
         private static Platform s_CurrentPlatform;

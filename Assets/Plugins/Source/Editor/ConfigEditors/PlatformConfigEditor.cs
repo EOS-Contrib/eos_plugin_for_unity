@@ -54,6 +54,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             return PlatformManager.GetPlatformIcon(config.Platform);
         }
 
+        public void SetDeployment(Deployment deployment)
+        {
+            config.deployment = deployment;
+        }
+
+        public PlatformManager.Platform GetPlatform()
+        {
+            return config.Platform;
+        }
+
         public override sealed void RenderContents()
         {
             GUIEditorUtility.RenderInputs(ref config);

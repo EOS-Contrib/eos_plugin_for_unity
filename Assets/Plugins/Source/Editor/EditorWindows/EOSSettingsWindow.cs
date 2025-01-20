@@ -34,7 +34,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     using PlayEveryWare.EpicOnlineServices.Utility;
     using System;
 	using System.Collections.Generic;
-	using System.Threading.Tasks;
+    using System.Linq;
+    using System.Threading.Tasks;
 	using UnityEditor;
     using UnityEngine;
 
@@ -54,7 +55,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// <summary>
         /// Stores the config editors for each of the platforms.
         /// </summary>
-        private readonly IList<IConfigEditor> _platformConfigEditors = new List<IConfigEditor>();
+        private readonly IList<IPlatformConfigEditor> _platformConfigEditors = new List<IPlatformConfigEditor>();
 
         /// <summary>
         /// Contains the GUIContent that represents the set of tabs that contain
@@ -92,10 +93,47 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             window.SetIsEmbedded(false);
         }
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            ProductConfig.PlatformConfigsDeploymentUpdatedEvent += ReloadDeploymentSettingsForPlatformConfigEditors;
+        }
+
+        protected override void OnDestroy()
+        {
+            ProductConfig.PlatformConfigsDeploymentUpdatedEvent -= ReloadDeploymentSettingsForPlatformConfigEditors;
+            base.OnDestroy();
+        }
+
+        private void ReloadDeploymentSettingsForPlatformConfigEditors(object sender, ProductConfig.PlatformConfigsDeploymentUpdatedEventArgs e)
+        {
+            // For each of the platform config editors
+            foreach (IPlatformConfigEditor platformConfigEditor in _platformConfigEditors)
+            {
+                // If the platform config was not one of the ones updated, then skip it.
+                if (!e.PlatformConfigsUpdated.Contains(platformConfigEditor.GetPlatform()))
+                {
+                    continue;
+                }
+
+                // If the platform config could not be read from disk
+                if (!PlatformManager.TryGetConfig(platformConfigEditor.GetPlatform(),
+                        out PlatformConfig platformConfigFromDisk))
+                {
+                    // TODO: Log warning?
+                    continue;
+                }
+
+                // Update the deployment for the cached instance of the config
+                // within the PlatformConfigEditor.
+                platformConfigEditor.SetDeployment(platformConfigFromDisk.deployment);
+            }
+        }
+
         protected override async Task AsyncSetup()
         {
             await _productConfigEditor.LoadAsync();
-
+            
             List<GUIContent> tabContents = new();
             int tabIndex = 0;
             foreach (PlatformManager.Platform platform in Enum.GetValues(typeof(PlatformManager.Platform)))
@@ -177,6 +215,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             // Save the product config editor
             _productConfigEditor.Save();
+
+            // reload the product config editor
+            _productConfigEditor.Load();
 
             // Save each of the platform config editors.
             foreach (IConfigEditor editor in _platformConfigEditors)

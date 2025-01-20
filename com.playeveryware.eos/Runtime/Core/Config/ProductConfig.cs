@@ -102,6 +102,33 @@ namespace PlayEveryWare.EpicOnlineServices
             "exist within the Epic Dev Portal.", 1)]
         public ProductionEnvironments Environments = new();
 
+        /// <summary>
+        /// This field member is used to determine when deployments are first
+        /// defined by the user. This determination is used to trigger the
+        /// process of setting the default deployment for the platforms.
+        /// </summary>
+        [JsonIgnore]
+        private bool _deploymentDefinedWhenLoaded;
+
+        /// <summary>
+        /// Used to store information about what platform configs have been
+        /// updated.
+        /// </summary>
+        public sealed class PlatformConfigsDeploymentUpdatedEventArgs : EventArgs
+        {
+            /// <summary>
+            /// A list of all the platform configs that have been updated.
+            /// </summary>
+            public readonly IEnumerable<PlatformManager.Platform> PlatformConfigsUpdated;
+
+            public PlatformConfigsDeploymentUpdatedEventArgs(IEnumerable<PlatformManager.Platform> platformConfigsUpdated)
+            {
+                PlatformConfigsUpdated = platformConfigsUpdated;
+            }
+        }
+
+        public static event EventHandler<PlatformConfigsDeploymentUpdatedEventArgs> PlatformConfigsDeploymentUpdatedEvent;
+
         static ProductConfig()
         {
             RegisterFactory(() => new ProductConfig());
@@ -113,6 +140,88 @@ namespace PlayEveryWare.EpicOnlineServices
         }
         
         protected ProductConfig() : base("eos_product_config.json") { }
+
+        protected override void OnReadCompleted()
+        {
+            // This tracks whether there is a single deployment defined. The
+            // out parameter is discarded because it is not needed at this 
+            // juncture.
+            _deploymentDefinedWhenLoaded = Environments.TryGetFirstDefinedNamedDeployment(out _);
+        }
+
+        // This compile conditional is here because the OnWriteCompleted method
+        // is only defined in the editor - so it can only be overriden if in the
+        // editor.
+#if UNITY_EDITOR
+
+        protected override void BeforeWrite()
+        {
+            // If there is one deployment, and one sandbox, then make sure they
+            // are linked to each other if the sandbox is not empty.
+            // But only do this if they have been newly added
+            if (!_deploymentDefinedWhenLoaded && Environments.Deployments.Count ==1 && Environments.Sandboxes.Count == 1 && !Environments.Sandboxes[0].Value.IsEmpty)
+            {
+                Environments.Deployments[0].Value.SandboxId = Environments.Sandboxes[0].Value;
+            }
+        }
+
+        protected override void OnWriteCompleted()
+        {
+            bool definedDeploymentExists =
+                Environments.TryGetFirstDefinedNamedDeployment(out Named<Deployment> deploymentToSetPlatformsTo);
+
+            // If when the config was last read there was a deployment defined,
+            // or there is not now one defined - then there is no need to try
+            // and set the deployment values for each platform config.
+            if (_deploymentDefinedWhenLoaded || 
+                !definedDeploymentExists)
+            {
+                return;
+            }
+
+            List<PlatformManager.Platform> platformConfigsUpdated = new();
+
+            // For each platform for which configuration can be done
+            foreach (var platform in PlatformManager.ConfigurablePlatforms)
+            {
+                // If the PlatformConfig could not be retrieved, continue to the
+                // next.
+                if (!PlatformManager.TryGetConfig(platform, out PlatformConfig config))
+                {
+                    continue;
+                }
+
+                // If the config already has a completely defined deployment,
+                // then do not override, and move to the next platform config
+                if (config.deployment.IsComplete)
+                {
+                    continue;
+                }
+
+                // Add to the list of platform configs that have been updated
+                platformConfigsUpdated.Add(platform);
+
+                // Set the deployment.
+                config.deployment = deploymentToSetPlatformsTo.Value;
+
+                // Tell the user
+                Debug.Log($"Deployment for platform " +
+                          $"\"{config.Platform}\" has been defaulted to " +
+                          $"{deploymentToSetPlatformsTo}.");
+
+                // Save the config
+                config.Write();
+            }
+
+            // If at least one platform config was updated as a result, trigger
+            // the event that indicates as much
+            if (platformConfigsUpdated.Count > 0)
+            {
+                PlatformConfigsDeploymentUpdatedEvent?.Invoke(this, new PlatformConfigsDeploymentUpdatedEventArgs(platformConfigsUpdated));
+            }
+        }
+
+#endif
 
         #region Functionality to migrate from old configuration to new
 

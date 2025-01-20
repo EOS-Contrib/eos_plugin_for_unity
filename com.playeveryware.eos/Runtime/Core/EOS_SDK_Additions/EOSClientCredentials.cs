@@ -26,7 +26,7 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Newtonsoft.Json;
-    using PlayEveryWare.EpicOnlineServices.Utility;
+    using Utility;
     using System;
     using System.Security.Cryptography;
     using System.Text.RegularExpressions;
@@ -81,6 +81,16 @@ namespace PlayEveryWare.EpicOnlineServices
                 encryptionKey.Length == 64 &&
                 //key is all hex characters
                 !s_invalidEncryptionKeyRegex.Match(encryptionKey).Success;
+        }
+
+        [JsonIgnore]
+        public bool IsComplete
+        {
+            get
+            {
+                // TODO: Provide more comprehensive data validation (see Epic documentation for requirements)
+                return !string.IsNullOrWhiteSpace(ClientId) && !string.IsNullOrWhiteSpace(ClientSecret);
+            }
         }
 
         /// <summary>
