@@ -975,9 +975,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     }
 
                     item.Value.Value = RenderFieldWithHint(
-                        EditorGUI.TextField,
+                        EditorGUI.DelayedTextField,
                         new Rect(currentX, rect.y, remainingWidth - 10f, rect.height),
-                        string.IsNullOrEmpty,
+                        SandboxId.IsNullOrEmpty,
                         item.Value.Value,
                         "Sandbox Id");
                 },

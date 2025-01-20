@@ -46,29 +46,53 @@ namespace PlayEveryWare.EpicOnlineServices
                     return;
                 }
 
-                if (!Guid.TryParse(value, out _))
+                // Store previous value
+                string previousValue = _value;
+
+                // Set the value, and test for validity
+                _value = value.ToLower();
+
+                // If the newly set value is valid, stop here.
+                if (IsValid())
                 {
-                    if (!Regex.IsMatch(value, PreProductionEnvironmentRegex))
-                    {
-                        throw new ArgumentException(
-                            "Value for SandboxId must either be " +
-                            "parseable to a Guid, or it must start with a " +
-                            "lowercase 'p', followed by a dash and thirty " +
-                            "letter characters.");
-                    }
-                }
-                else
-                {
-                    // If the Guid was correctly parsed, then considering that
-                    // the EOS SDK prefers SandboxId to be lowercase without
-                    // dashes, do this just to be sure.
-                    value = value.Replace("-", "");
+                    return;
                 }
 
-                // Whether the value was correctly matched to the regex or it
-                // was a Guid, it still should be lowercase.
-                _value = value.ToLower();
+                // Otherwise, log a warning and return the value to what it was
+                // before an attempt was made to change it.
+                // TODO: Figure out how to have this manifest in the editor 
+                //       window instead of just the log.
+                string logMessage = $"Invalid SandboxId: \"{_value}\".";
+
+                // If the previous value wasn't null, then inform the user that
+                // the value is being restored to the previous.
+                if (previousValue != null)
+                {
+                    logMessage += $"Restoring to previous value of \"{previousValue}\".";
+                }
+
+                // Actually log the composed message.
+                UnityEngine.Debug.LogWarning(logMessage);
+
+                _value = previousValue;
             }
+        }
+
+        public bool IsValid()
+        {
+            return Guid.TryParse(_value, out _) || 
+                   Regex.IsMatch(_value, PreProductionEnvironmentRegex);
+        }
+
+        public static bool IsNullOrEmpty(string sandboxString)
+        {
+            return String.IsNullOrEmpty(sandboxString) || 
+                   Guid.Empty.ToString("N").Equals(sandboxString);
+        }
+
+        public static bool IsNullOrEmpty(SandboxId sandboxId)
+        {
+            return IsNullOrEmpty(sandboxId._value);
         }
 
         /// <summary>
@@ -84,8 +108,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             get
             {
-                return String.IsNullOrEmpty(_value) || 
-                       Guid.Empty.ToString("N").Equals(_value);
+                return IsNullOrEmpty(this);
             }
         }
 
