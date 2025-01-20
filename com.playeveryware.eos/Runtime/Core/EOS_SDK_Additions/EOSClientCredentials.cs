@@ -26,7 +26,7 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Newtonsoft.Json;
-    using PlayEveryWare.EpicOnlineServices.Utility;
+    using Utility;
     using System;
     using System.Security.Cryptography;
     using System.Text.RegularExpressions;
@@ -83,6 +83,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 !s_invalidEncryptionKeyRegex.Match(encryptionKey).Success;
         }
 
+        [JsonIgnore]
         public bool IsComplete
         {
             get
