@@ -83,7 +83,7 @@ namespace PlayEveryWare.EpicOnlineServices
             get
             {
                 return String.IsNullOrEmpty(_value) || 
-                       Guid.Empty.ToString().Replace("-", "").Equals(_value);
+                       Guid.Empty.ToString("N").Equals(_value);
             }
         }
 
