@@ -74,7 +74,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
             }
 
-            return (deployment == null);
+            return (deployment != null);
         }
 
         /// <summary>
