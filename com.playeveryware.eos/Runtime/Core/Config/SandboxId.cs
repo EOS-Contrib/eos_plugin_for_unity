@@ -76,6 +76,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// either the underlying value is null or empty, or if the underlying
         /// value is equal to the string value for an empty Guid with the dashes
         /// removed.
+        /// TODO: Utilize this property when applying the SandboxId to the EOS
+        ///       SDK during initialization.
         /// </summary>
         [JsonIgnore]
         public readonly bool IsEmpty
