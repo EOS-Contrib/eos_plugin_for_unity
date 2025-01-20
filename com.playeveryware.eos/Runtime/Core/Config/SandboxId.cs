@@ -39,6 +39,12 @@ namespace PlayEveryWare.EpicOnlineServices
             }
             set
             {
+                // Skip logic if value has not changed
+                if (value == _value || (string.IsNullOrEmpty(_value) && string.IsNullOrEmpty(value)))
+                {
+                    return;
+                }
+
                 // allow null value
                 if (value == null)
                 {
