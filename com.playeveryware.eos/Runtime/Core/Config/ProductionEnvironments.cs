@@ -51,22 +51,30 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         /// <summary>
-        /// Indicates whether there is at least one complete deployment defined.
+        /// Tries to retrieve the first defined named deployment.
         /// </summary>
-        public bool IsDeploymentDefined
+        /// <param name="deployment">
+        /// The first named deployment that has been determined to be defined.
+        /// </param>
+        /// <returns>
+        /// True if there was a defined named deployment found, false otherwise.
+        /// </returns>
+        public bool TryGetFirstDefinedNamedDeployment(out Named<Deployment> deployment)
         {
-            get
-            {
-                foreach (var deployment in Deployments)
-                {
-                    if (deployment.Value.IsComplete)
-                    {
-                        return true;
-                    }
-                }
+            deployment = null;
 
-                return false;
+            // Go through the deployments
+            foreach (var dep in Deployments)
+            {
+                // If the deployment is complete then stop
+                if (dep.Value.IsComplete)
+                {
+                    deployment = dep;
+                    break;
+                }
             }
+
+            return (deployment == null);
         }
 
         /// <summary>

@@ -108,7 +108,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// process of setting the default deployment for the platforms.
         /// </summary>
         [JsonIgnore]
-        private bool _deploymentDefined;
+        private bool _deploymentDefinedWhenLoaded;
 
         /// <summary>
         /// Used to store information about what platform configs have been
@@ -143,8 +143,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
         protected override void OnReadCompleted()
         {
-            // This tracks whether there is a single deployment defined.
-            _deploymentDefined = Environments.IsDeploymentDefined;
+            // This tracks whether there is a single deployment defined. The
+            // out parameter is discarded because it is not needed at this 
+            // juncture.
+            _deploymentDefinedWhenLoaded = Environments.TryGetFirstDefinedNamedDeployment(out _);
         }
 
         // This compile conditional is here because the OnWriteCompleted method
@@ -157,7 +159,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // If there is one deployment, and one sandbox, then make sure they
             // are linked to each other if the sandbox is not empty.
             // But only do this if they have been newly added
-            if (!_deploymentDefined && Environments.Deployments.Count ==1 && Environments.Sandboxes.Count == 1 && !Environments.Sandboxes[0].Value.IsEmpty)
+            if (!_deploymentDefinedWhenLoaded && Environments.Deployments.Count ==1 && Environments.Sandboxes.Count == 1 && !Environments.Sandboxes[0].Value.IsEmpty)
             {
                 Environments.Deployments[0].Value.SandboxId = Environments.Sandboxes[0].Value;
             }
@@ -165,17 +167,17 @@ namespace PlayEveryWare.EpicOnlineServices
 
         protected override void OnWriteCompleted()
         {
+            bool definedDeploymentExists =
+                Environments.TryGetFirstDefinedNamedDeployment(out Named<Deployment> deploymentToSetPlatformsTo);
+
             // If when the config was last read there was a deployment defined,
             // or there is not now one defined - then there is no need to try
             // and set the deployment values for each platform config.
-            if (_deploymentDefined || !Environments.IsDeploymentDefined)
+            if (_deploymentDefinedWhenLoaded || 
+                !definedDeploymentExists)
             {
                 return;
             }
-
-            // Select the first defined deployment as the deployment to set
-            // platform configs to use.
-            Named<Deployment> deploymentToSetPlatformsTo = Environments.Deployments[0];
 
             List<PlatformManager.Platform> platformConfigsUpdated = new();
 
