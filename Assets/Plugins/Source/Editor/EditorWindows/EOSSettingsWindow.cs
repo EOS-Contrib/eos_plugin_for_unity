@@ -200,7 +200,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 if (newlySelectedTabIndex != _selectedTab)
                 {
                     _selectedTab = newlySelectedTabIndex;
-                    Debug.Log($"Selected config tab changed to {_selectedTab}.");
                 }
 
                 GUILayout.Space(30);
