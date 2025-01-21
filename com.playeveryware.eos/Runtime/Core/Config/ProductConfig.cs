@@ -296,7 +296,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 // If the config already has a completely defined set of client
                 // credentials, then do not override, and move to the next
                 // platform config.
-                if (config.clientCredentials.IsComplete)
+                if (config.clientCredentials != null && config.clientCredentials.IsComplete)
                 {
                     continue;
                 }
