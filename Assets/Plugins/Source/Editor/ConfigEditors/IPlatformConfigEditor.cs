@@ -36,6 +36,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </returns>
         bool IsPlatformAvailable();
 
+        void SetClientCredentials(EOSClientCredentials credentials);
+        
         void SetDeployment(Deployment deployment);
 
         PlatformManager.Platform GetPlatform();

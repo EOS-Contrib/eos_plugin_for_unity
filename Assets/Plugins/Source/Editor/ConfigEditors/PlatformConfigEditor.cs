@@ -59,6 +59,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             config.deployment = deployment;
         }
 
+        public void SetClientCredentials(EOSClientCredentials credentials)
+        {
+            config.clientCredentials = credentials;
+        }
+
         public PlatformManager.Platform GetPlatform()
         {
             return config.Platform;

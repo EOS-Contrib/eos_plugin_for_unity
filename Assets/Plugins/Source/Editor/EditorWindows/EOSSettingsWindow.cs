@@ -96,16 +96,54 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         protected override void OnEnable()
         {
             base.OnEnable();
-            ProductConfig.PlatformConfigsDeploymentUpdatedEvent += ReloadDeploymentSettingsForPlatformConfigEditors;
+            ProductConfig.DeploymentsUpdatedEvent += ReloadDeploymentSettingsForPlatformConfigEditors;
         }
 
         protected override void OnDestroy()
         {
-            ProductConfig.PlatformConfigsDeploymentUpdatedEvent -= ReloadDeploymentSettingsForPlatformConfigEditors;
+            ProductConfig.DeploymentsUpdatedEvent -= ReloadDeploymentSettingsForPlatformConfigEditors;
             base.OnDestroy();
         }
 
-        private void ReloadDeploymentSettingsForPlatformConfigEditors(object sender, ProductConfig.PlatformConfigsDeploymentUpdatedEventArgs e)
+        // TODO: Refactor to reduce massive overlap between this function and 
+        //       the older ReloadDeploymentSettingsForPlatformConfigEditors
+        //       function.
+        //       The Observable pattern would be appropriate - but 
+        //       such a change would constitute a not insignificant change, and
+        //       should be avoided until there is a time to properly review it.
+        private void ReloadClientCredentialsForPlatformConfigEditors(object sender,
+            ProductConfig.PlatformConfigsUpdatedEventArgs e)
+        {
+            // For each of the platform config editors
+            foreach (IPlatformConfigEditor platformConfigEditor in _platformConfigEditors)
+            {
+                // If the platform config was not one of the ones updated, then skip it.
+                if (!e.PlatformConfigsUpdated.Contains(platformConfigEditor.GetPlatform()))
+                {
+                    continue;
+                }
+
+                // If the platform config could not be read from disk
+                if (!PlatformManager.TryGetConfig(platformConfigEditor.GetPlatform(),
+                        out PlatformConfig platformConfigFromDisk))
+                {
+                    // TODO: Log warning?
+                    continue;
+                }
+
+                // Update the client credentials for the cached instance of the
+                // config within the PlatformConfigEditor.
+                platformConfigEditor.SetClientCredentials(platformConfigFromDisk.clientCredentials);
+            }
+        }
+
+        // TODO: Refactor to reduce massive overlap between this function and 
+        //       the more recently introduced
+        //       ReloadClientCredentialsForPlatformConfigEditors function.
+        //       The Observable pattern would be appropriate - but 
+        //       such a change would constitute a not insignificant change, and
+        //       should be avoided until there is a time to properly review it.
+        private void ReloadDeploymentSettingsForPlatformConfigEditors(object sender, ProductConfig.PlatformConfigsUpdatedEventArgs e)
         {
             // For each of the platform config editors
             foreach (IPlatformConfigEditor platformConfigEditor in _platformConfigEditors)
