@@ -266,6 +266,46 @@ namespace PlayEveryWare.EpicOnlineServices
             Platform = platform;
         }
 
+        protected override void OnReadCompleted()
+        {
+            base.OnReadCompleted();
+
+            // If the deployment and client credentials are complete, there is
+            // nothing to do.
+            if (deployment.IsComplete && clientCredentials.IsComplete)
+            {
+                return;
+            }
+
+            ProductConfig productConfig = Get<ProductConfig>();
+            bool valuesImported = false;
+
+            if (!deployment.IsComplete && 
+                productConfig.Environments.TryGetFirstDefinedNamedDeployment(out Named<Deployment> namedDeployment))
+            {
+                deployment = namedDeployment.Value;
+                Debug.Log($"Platform {Platform} has no defined deployment, " +
+                          $"so one was selected: {namedDeployment}.");
+                valuesImported = true;
+            }
+
+            if (!clientCredentials.IsComplete &&
+                productConfig.TryGetFirstCompleteNamedClientCredentials(
+                    out Named<EOSClientCredentials> namedCredentials))
+            {
+                clientCredentials = namedCredentials.Value;
+                Debug.Log($"Platform {Platform} has no defined client " +
+                          $"credentials, so one was selected: " +
+                          $"{namedCredentials}.");
+                valuesImported = true;
+            }
+
+            if (valuesImported)
+            {
+                Write();
+            }
+        }
+
         #region Logic for Migrating Override Values from Previous Structure
 
         // This warning is suppressed because while EOSConfig is marked as 
