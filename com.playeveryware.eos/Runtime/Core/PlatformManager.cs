@@ -159,11 +159,41 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
                 else
                 {
+                    // Note that s_CurrentPlatform is not set in this context - making sure it's only set once.
+                    // TODO: Investigate whether this has unintended consequences - where setting the value is
+                    //       expected.
                     Debug.Log($"CurrentPlatform has already been assigned as {GetFullName(s_CurrentPlatform)}.");
                 }
 
             }
         }
+
+        /// <summary>
+        /// Backing value for the CurrentTargetedPlatform property.
+        /// </summary>
+        private static Platform s_CurrentTargetedPlatform;
+
+        // This compile conditional is here because this property is only 
+        // meaningful in the context of the Unity Editor running.
+#if UNITY_EDITOR
+        /// <summary>
+        /// Used to indicate what platform is currently being targeted for
+        /// compilation. Used primarily to select the appropriate platform in
+        /// config editors.
+        /// </summary>
+        public static Platform CurrentTargetedPlatform
+        {
+            get
+            {
+                if (!TryGetPlatform(EditorUserBuildSettings.activeBuildTarget, out Platform targetedPlatform))
+                {
+                    return Platform.Unknown;
+                }
+
+                return targetedPlatform;
+            }
+        }
+#endif
 
         /// <summary>
         /// To be accessible to the platform manager, the static constructors 
@@ -205,15 +235,9 @@ namespace PlayEveryWare.EpicOnlineServices
 #if EXTERNAL_TO_UNITY
             CurrentPlatform = Platform.Windows;
 #else
-            // If the Unity Editor is currently running, then the "active"
-            // Platform is whatever the current build target is.
-#if UNITY_EDITOR
-            if (TryGetPlatform(EditorUserBuildSettings.activeBuildTarget, out Platform platform))
-#else
             // If the Unity editor is _not_ currently running, then the "active"
             // platform is whatever the runtime application says it is
             if (TryGetPlatform(Application.platform, out Platform platform))
-#endif
             {
                 CurrentPlatform = platform;
             }
