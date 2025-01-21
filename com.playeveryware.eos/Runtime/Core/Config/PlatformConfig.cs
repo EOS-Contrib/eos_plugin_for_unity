@@ -300,10 +300,14 @@ namespace PlayEveryWare.EpicOnlineServices
                 valuesImported = true;
             }
 
+            // This compile conditional is here because writing configs to disk
+            // is only allowed within the context of the unity editor.
+#if UNITY_EDITOR
             if (valuesImported)
             {
                 Write();
             }
+#endif
         }
 
         #region Logic for Migrating Override Values from Previous Structure
