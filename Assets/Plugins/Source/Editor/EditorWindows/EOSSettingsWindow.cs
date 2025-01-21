@@ -97,11 +97,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             base.OnEnable();
             ProductConfig.DeploymentsUpdatedEvent += ReloadDeploymentSettingsForPlatformConfigEditors;
+            ProductConfig.ClientCredentialsUpdatedEvent += ReloadClientCredentialsForPlatformConfigEditors;
         }
 
         protected override void OnDestroy()
         {
             ProductConfig.DeploymentsUpdatedEvent -= ReloadDeploymentSettingsForPlatformConfigEditors;
+            ProductConfig.ClientCredentialsUpdatedEvent -= ReloadClientCredentialsForPlatformConfigEditors;
             base.OnDestroy();
         }
 
