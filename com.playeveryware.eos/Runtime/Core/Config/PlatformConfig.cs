@@ -266,6 +266,14 @@ namespace PlayEveryWare.EpicOnlineServices
             Platform = platform;
         }
 
+        protected override void OnReadCompleted()
+        {
+            base.OnReadCompleted();
+
+            // If thread affinity is null then instantiate it.
+            threadAffinity = new();
+        }
+
         #region Logic for Migrating Override Values from Previous Structure
 
         // This warning is suppressed because while EOSConfig is marked as 
