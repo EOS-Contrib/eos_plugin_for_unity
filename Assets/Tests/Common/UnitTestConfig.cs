@@ -22,15 +22,15 @@
 
 #if !EOS_DISABLE
 
-namespace PlayEveryWare.EpicOnlineServices.Tests
+namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
-    using EpicOnlineServices.Editor;
-    using EpicOnlineServices.Editor.Config;
+    using EpicOnlineServices.Utility;
     using System;
+    using Config = EpicOnlineServices.Config;
 
     [Serializable]
     [ConfigGroup("EOS Unit Test Configuration")]
-    public partial class UnitTestConfig : EditorConfig
+    public partial class UnitTestConfig : Config
     {
         /// <summary>
         /// The IP address of the machine running the EOS_DevAuthTool.
@@ -56,7 +56,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         /// </summary>
         public bool Enable;
 
-        protected UnitTestConfig() : base("eos_automated_test_config.json") { }
+        protected UnitTestConfig() : base(
+            "eos_automated_test_config.json",
+            FileSystemUtility.CombinePaths(
+                FileSystemUtility.GetProjectPath(),
+                "etc/config/")) { }
 
         static UnitTestConfig()
         {

@@ -27,6 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
     using Epic.OnlineServices;
     using Epic.OnlineServices.Auth;
     using NUnit.Framework;
+    using PlayEveryWare.EpicOnlineServices.Editor.Config;
     using UnityEngine;
     using UnityEngine.TestTools;
 

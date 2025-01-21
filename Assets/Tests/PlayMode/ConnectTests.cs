@@ -25,6 +25,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Connect
     using Epic.OnlineServices;
     using Epic.OnlineServices.Achievements;
     using Epic.OnlineServices.Stats;
+    using EpicOnlineServices.Editor.Config;
     using NUnit.Framework;
     using System.Collections;
     using UnityEngine;
