@@ -25,7 +25,6 @@
 namespace PlayEveryWare.EpicOnlineServices.Tests.Editor
 {
     using EpicOnlineServices.Editor;
-    using EpicOnlineServices.Editor.Config;
     using EpicOnlineServices.Editor.Windows;
     using System.Threading.Tasks;
     using UnityEditor;

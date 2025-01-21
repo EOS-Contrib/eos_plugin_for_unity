@@ -22,11 +22,11 @@
 
 #if !EOS_DISABLE
 
-namespace PlayEveryWare.EpicOnlineServices.Editor.Config
+namespace PlayEveryWare.EpicOnlineServices.Tests
 {
-    using EpicOnlineServices.Utility;
+    using Utility;
     using System;
-    using Config = EpicOnlineServices.Config;
+    using Config = Config;
 
     [Serializable]
     [ConfigGroup("EOS Unit Test Configuration")]
