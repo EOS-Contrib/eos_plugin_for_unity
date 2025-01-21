@@ -138,15 +138,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             int tabIndex = 0;
             foreach (PlatformManager.Platform platform in Enum.GetValues(typeof(PlatformManager.Platform)))
             {
-                // This makes sure that the currently selected tab (upon first loading the window) is always the current platform.
-                if (_selectedTab != -1 || platform == PlatformManager.CurrentPlatform)
-                {
-                    _selectedTab = tabIndex;
-                }
-
                 if (!PlatformManager.TryGetConfigType(platform, out Type configType) || null == configType)
                 {
                     continue;
+                }
+
+                // This makes sure that the currently selected tab (upon first loading the window) is always the current platform.
+                if (_selectedTab == -1 && platform == PlatformManager.CurrentTargetedPlatform)
+                {
+                    _selectedTab = tabIndex;
                 }
 
                 Type constructedType =
@@ -162,17 +162,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 // Do not add the platform if it is not currently available.
                 if (!editor.IsPlatformAvailable())
                 {
-                    // We only increment the tab index if the editor has been
-                    // added to the tabs.
-                    tabIndex++;
                     continue;
                 }
 #endif
 
+                tabIndex++;
+
                 _platformConfigEditors.Add(editor);
 
                 tabContents.Add(new GUIContent($" {editor.GetLabelText()}", editor.GetPlatformIconTexture()));
-
             }
 
             // If (for some reason) a default platform was not selected, then
@@ -197,7 +195,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
             if (_platformTabs != null && _platformConfigEditors.Count != 0)
             {
-                _selectedTab = GUILayout.Toolbar(_selectedTab, _platformTabs, TAB_STYLE);
+                var newlySelectedTabIndex = GUILayout.Toolbar(_selectedTab, _platformTabs, TAB_STYLE);
+
+                if (newlySelectedTabIndex != _selectedTab)
+                {
+                    _selectedTab = newlySelectedTabIndex;
+                    Debug.Log($"Selected config tab changed to {_selectedTab}.");
+                }
+
                 GUILayout.Space(30);
 
                 _ = _platformConfigEditors[_selectedTab].RenderAsync();
