@@ -491,11 +491,11 @@ namespace PlayEveryWare.EpicOnlineServices
                     });
             }
 
-            private void ConfigureCommandLineOptions()
+            private void ApplyCommandLineArguments()
             {
                 // TODO: Make more complete the support for command line arguments.
-                var epicArgs = GetCommandLineArgsFromEpicLauncher();
-
+                EpicLauncherArgs epicArgs = GetCommandLineArgsFromEpicLauncher();
+                
                 if (string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
                 {
                     return;
@@ -560,7 +560,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 InitializeLogLevels();
 #endif
 
-                ConfigureCommandLineOptions();
+                ApplyCommandLineArguments();
 
                 Result initResult = InitializePlatformInterface();
 
