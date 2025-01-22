@@ -23,17 +23,13 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Tests
 {
-    using EpicOnlineServices.Editor.Utility;
     using System.Collections.Generic;
     using System.IO;
     using System.Xml.Linq;
 
     using System;
     using System.Linq;
-    using UnityEditor;
     using UnityEngine;
-    using Utility;
-    using JsonUtility = Utility.JsonUtility;
 
     /// <summary>
     /// This class consolidates any code coverage history data output from the
