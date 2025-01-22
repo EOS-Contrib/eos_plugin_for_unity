@@ -272,7 +272,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // If the deployment and client credentials are complete, there is
             // nothing to do.
-            if (deployment.IsComplete && clientCredentials.IsComplete)
+            if (deployment.IsComplete && clientCredentials is { IsComplete: true })
             {
                 return;
             }
@@ -289,7 +289,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 valuesImported = true;
             }
 
-            if (!clientCredentials.IsComplete &&
+            if (clientCredentials is not { IsComplete: true } &&
                 productConfig.TryGetFirstCompleteNamedClientCredentials(
                     out Named<EOSClientCredentials> namedCredentials))
             {
