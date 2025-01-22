@@ -78,7 +78,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using Extensions;
     using System.Diagnostics;
     using System.Globalization;
-    using System.IO.Pipes;
     using UnityEngine.Assertions;
     using AddNotifyLoginStatusChangedOptions = Epic.OnlineServices.Auth.AddNotifyLoginStatusChangedOptions;
     using Credentials = Epic.OnlineServices.Auth.Credentials;
