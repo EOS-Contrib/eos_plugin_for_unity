@@ -558,7 +558,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     //       on whether the Guid is a valid Guid. This
                     //       implementation has been written to provide
                     //       verisimilitude with the native implementation on
-                    //       Windows. Regardless - a warning is  logged here -
+                    //       Windows. Regardless - a warning is logged here -
                     //       despite the fact that it could be arguably be
                     //       logged as an error.
                     if (!Guid.TryParse(epicArgs.epicDeploymentID, out Guid deploymentFromCommandLine))
