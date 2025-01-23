@@ -101,6 +101,13 @@ namespace PlayEveryWare.EpicOnlineServices
             return IsNullOrEmpty(sandboxId._value);
         }
 
+        public static SandboxId FromString(string sandboxString)
+        {
+            SandboxId retVal = default;
+            retVal.Value = sandboxString;
+            return retVal;
+        }
+
         /// <summary>
         /// Indicates whether the sandbox id is empty. A sandbox id is empty if
         /// either the underlying value is null or empty, or if the underlying
