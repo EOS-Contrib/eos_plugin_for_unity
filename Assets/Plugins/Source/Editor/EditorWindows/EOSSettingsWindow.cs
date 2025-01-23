@@ -235,12 +235,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
             if (_platformTabs != null && _platformConfigEditors.Count != 0)
             {
-                var newlySelectedTabIndex = GUILayout.Toolbar(_selectedTab, _platformTabs, TAB_STYLE);
-
-                if (newlySelectedTabIndex != _selectedTab)
-                {
-                    _selectedTab = newlySelectedTabIndex;
-                }
+                _selectedTab = GUILayout.Toolbar(_selectedTab, _platformTabs, TAB_STYLE);
 
                 GUILayout.Space(30);
 
