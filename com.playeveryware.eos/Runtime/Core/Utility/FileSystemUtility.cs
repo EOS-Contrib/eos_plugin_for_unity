@@ -504,6 +504,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 throw;
             }
         }
+#endif
 
         /// <summary>
         /// Reads all text from the indicated file.
@@ -530,7 +531,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
 #endif
         }
-#endif
 
         #endregion
 
