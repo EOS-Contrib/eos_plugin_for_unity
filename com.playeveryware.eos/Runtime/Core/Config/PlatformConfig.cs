@@ -270,6 +270,44 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             base.OnReadCompleted();
 
+            // If the deployment and client credentials are complete, there is
+            // nothing to do.
+            if (deployment.IsComplete && clientCredentials is { IsComplete: true })
+            {
+                return;
+            }
+
+            ProductConfig productConfig = Get<ProductConfig>();
+            bool valuesImported = false;
+
+            if (!deployment.IsComplete && 
+                productConfig.Environments.TryGetFirstDefinedNamedDeployment(out Named<Deployment> namedDeployment))
+            {
+                deployment = namedDeployment.Value;
+                Debug.Log($"Platform {Platform} has no defined deployment, " +
+                          $"so one was selected: {namedDeployment}.");
+                valuesImported = true;
+            }
+
+            if (clientCredentials is not { IsComplete: true } &&
+                productConfig.TryGetFirstCompleteNamedClientCredentials(
+                    out Named<EOSClientCredentials> namedCredentials))
+            {
+                clientCredentials = namedCredentials.Value;
+                Debug.Log($"Platform {Platform} has no defined client " +
+                          $"credentials, so one was selected: " +
+                          $"{namedCredentials}.");
+                valuesImported = true;
+            }
+
+            // This compile conditional is here because writing configs to disk
+            // is only allowed within the context of the unity editor.
+#if UNITY_EDITOR
+            if (valuesImported)
+            {
+                Write();
+            }
+#endif
             // If thread affinity is null then instantiate it.
             threadAffinity ??= new();
         }
