@@ -308,6 +308,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 Write();
             }
 #endif
+            // If thread affinity is null then instantiate it.
+            threadAffinity ??= new();
         }
 
         #region Logic for Migrating Override Values from Previous Structure

@@ -53,7 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     /// <summary>
     /// Utility class used for a variety of File tasks.
     /// </summary>
-    internal static class FileSystemUtility
+    public static class FileSystemUtility
     {
         // This compile conditional exists because the following functions 
         // make use of the System.Linq namespace which is undesirable to use
@@ -417,27 +417,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
         }
 
-        /// <summary>
-        /// Returns the root of the Unity project.
-        /// </summary>
-        /// <returns>Fully-qualified file path to the root of the Unity project.</returns>
-        public static string GetProjectPath()
-        {
-            // Assuming the current directory is within the project (e.g., in the Editor or during Play mode)
-            string assetsPath = CombinePaths(Directory.GetCurrentDirectory(), "Assets");
-
-            // Ensure the Assets folder exists at the expected location
-            if (DirectoryExists(assetsPath))
-            {
-                // Move up one directory from Assets to get the root directory of the project
-                return Path.GetFullPath(CombinePaths(assetsPath, ".."));
-            }
-
-            // If running in a different context or the assumption is wrong, handle accordingly
-            throw new DirectoryNotFoundException("Unable to locate the Assets folder from the current directory.");
-        }
-
-
         #region Line Ending Manipulations
 
         public static void ConvertDosToUnixLineEndings(string filename)
@@ -771,7 +750,27 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             return await Task.FromResult(exists);
         }
 
-#endregion
+        #endregion
+
+        /// <summary>
+        /// Returns the root of the Unity project.
+        /// </summary>
+        /// <returns>Fully-qualified file path to the root of the Unity project.</returns>
+        public static string GetProjectPath()
+        {
+            // Assuming the current directory is within the project (e.g., in the Editor or during Play mode)
+            string assetsPath = CombinePaths(Directory.GetCurrentDirectory(), "Assets");
+
+            // Ensure the Assets folder exists at the expected location
+            if (DirectoryExists(assetsPath))
+            {
+                // Move up one directory from Assets to get the root directory of the project
+                return Path.GetFullPath(CombinePaths(assetsPath, ".."));
+            }
+
+            // If running in a different context or the assumption is wrong, handle accordingly
+            throw new DirectoryNotFoundException("Unable to locate the Assets folder from the current directory.");
+        }
 
         public static void NormalizePath(ref string path)
         {
