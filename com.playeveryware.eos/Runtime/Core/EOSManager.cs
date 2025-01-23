@@ -549,6 +549,7 @@ namespace PlayEveryWare.EpicOnlineServices
                         {
                             Debug.Log($"{namedDeployment} selected as deployment.");
                             deploymentDefined = true;
+                            break;
                         }
                     }
 
