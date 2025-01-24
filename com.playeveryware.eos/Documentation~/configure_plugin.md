@@ -4,14 +4,13 @@
 
 To function, the plugin needs some information from your EOS project. Be sure to read the Epic Documentation on [getting started](https://dev.epicgames.com/docs/epic-account-services/getting-started?sessionInvalidated=true) with Epic Online Services.
 
-### Open your Unity project with the integrated EOS Unity Plugin. 
-### In the Unity editor, Open ```EOS Plugin -> EOS Configuration```.
+## In the Unity editor, Open ```EOS Plugin -> EOS Configuration```.
 
 ![EOS Config Menu](/com.playeveryware.eos/Documentation~/images/dev-portal-configuration-editor-menu.png)
 
 ![EOS Configuration](/com.playeveryware.eos/Documentation~/images/eos_configuration.png)
 
-### Set product settings from Epic Developer Portal
+## Set product settings from Epic Developer Portal
 
 From the [Developer Portal](https://dev.epicgames.com/portal/), inside your game's `Product Settings` page, copy the configuration values listed below, and paste them into the similarly named fields in the editor tool window pictured above:
 
@@ -38,9 +37,9 @@ There are two other fields in the configuration editor.
 > Click the "Generate" button to create a random key, if you haven't already configured an encryption key in the EOS portal. You can then add the generated key to the [Developer Portal](https://dev.epicgames.com/portal/).
 > The Encryption Key is Used for Player Data Storage and Title Storage, if you do not plan to use these features in your project or the samples (and don't want to create an Encryption Key) then the field can be left blank.
 
-Click `Save All Changes`.
+**Click `Save All Changes`.**
 
-### Add EOS functionality to your game scene
+## Add EOS functionality to your game scene
 
 Navigate to `Packages/Epic Online Services for Unity/Runtime` via the `Project` window.
 
