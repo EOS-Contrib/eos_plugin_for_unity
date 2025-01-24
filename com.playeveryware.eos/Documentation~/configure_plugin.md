@@ -9,12 +9,12 @@ To function, the plugin needs some information from your EOS project. Be sure to
 
     ![EOS Config Menu](/com.playeveryware.eos/Documentation~/images/dev-portal-configuration-editor-menu.png)
 
-    ![EOS Config UI](/com.playeveryware.eos/Documentation~/images/eosconfig_ui.gif)
+    ![EOS Configuration](/com.playeveryware.eos/Documentation~/images/eos_configuration.png)
 
 3) From the [Developer Portal](https://dev.epicgames.com/portal/), inside your game's `Product Settings` page, copy the configuration values listed below, and paste them into the similarly named fields in the editor tool window pictured above:
 
-     > [!NOTE]
-     > For more detailed information, check out Epic's Documentation on [Creating the Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface#creating-the-platform-interface).
+> [!NOTE]
+> For more detailed information, check out Epic's Documentation on [Creating the Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface#creating-the-platform-interface).
 
     * ProductName
     * [ProductID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=ProductId)
@@ -27,15 +27,14 @@ There are two other fields in the configuration editor.
 
 `ProductVersion` is a free-form numeric field, and can use any number.
 
-    > [!WARNING]
-	> The `ProductVersion` field needs to have some value inside it; it cannot be left empty.
-	> Only use numeric values for the `ProductVersion` field. Do not include text such as "V1.0".
+> [!WARNING]
+> The `ProductVersion` field needs to have some value inside it; it cannot be left empty.
 	
 `EncryptionKey` is used to encrypt uploads to the `Player Data Storage` and `Title Data Storage` EOS features. This value should be consistently used whenever uploading or downloading files from these Data Storages.
 
-    > [!NOTE]
-    > Click the "Generate" button to create a random key, if you haven't already configured an encryption key in the EOS portal. You can then add the generated key to the [Developer Portal](https://dev.epicgames.com/portal/).
-    > The Encryption Key is Used for Player Data Storage and Title Storage, if you do not plan to use these features in your project or the samples (and don't want to create an Encryption Key) then the field can be left blank.
+> [!NOTE]
+> Click the "Generate" button to create a random key, if you haven't already configured an encryption key in the EOS portal. You can then add the generated key to the [Developer Portal](https://dev.epicgames.com/portal/).
+> The Encryption Key is Used for Player Data Storage and Title Storage, if you do not plan to use these features in your project or the samples (and don't want to create an Encryption Key) then the field can be left blank.
 
 4) Click `Save All Changes`.
 
