@@ -26,9 +26,8 @@
 
 // Uncomment the following lines to show the old configuration window.
 //#define SHOW_DEPRECATED_SETTINGS_WINDOW
-
-
-
+/*
+ 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
 #if !EOS_DISABLE
@@ -467,5 +466,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         }
     }
 }
-
+*/
 #endif
