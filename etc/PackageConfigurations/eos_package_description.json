@@ -57,7 +57,8 @@
       {"src": "Assets/Readme/*.txt",                                "dest": "Samples~/Samples/StandardSamples/Readme/" },
 
       {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api\\.dll"   },                 
-      {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api64\\.dll" }
+      {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api64\\.dll" },
+      {"ignore_regex": "EOSUnitTestSettingsWindow"                   }
   ],
   "blacklist": [
       "*.png"
