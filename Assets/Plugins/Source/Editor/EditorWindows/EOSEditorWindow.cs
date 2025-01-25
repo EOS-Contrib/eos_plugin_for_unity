@@ -126,7 +126,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// <summary>
         /// String value for the title of the window.
         /// </summary>
-        public string WindowTitle { get; protected set; }
+        public string WindowTitle { get; }
 
         protected virtual void OnEnable()
         {

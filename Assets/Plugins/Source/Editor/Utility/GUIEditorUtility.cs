@@ -1068,14 +1068,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                         new Rect(renderCursorX, rect.y, keyButtonWidth, rect.height),
                         keyButtonContent))
                     {
-                        ClientCredentialsEncryptionKeyWindow.Show(item.Value.EncryptionKey, 
+                        EncryptionKeyWindow.Show(item.Value.EncryptionKey, 
                             result =>
                             {
                                 item.Value.EncryptionKey = result;
-                            },
-                            "Client Credentials Encryption Key", 
-                            "Enter the encryption key for these client credentials here:"
-                            );
+                            }
+                        );
                     }
                     
                     
