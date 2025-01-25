@@ -103,6 +103,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// </summary>
         protected static Font MonoFont;
 
+        protected EOSEditorWindow(bool needsInitialization) : this("")
+        {
+            _initialized = !needsInitialization;
+        }
+
         protected EOSEditorWindow(string windowTitle, float minimumHeight = 50f, float minimumWidth = 50f,
             string preferencesOverrideKey = null)
         {
@@ -120,7 +125,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// <summary>
         /// String value for the title of the window.
         /// </summary>
-        public string WindowTitle { get; }
+        public string WindowTitle { get; protected set; }
 
         protected virtual void OnEnable()
         {
@@ -128,7 +133,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             EditorApplication.update += CheckForInitialized;
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             EditorApplication.update -= CheckForInitialized;
         }
@@ -136,7 +141,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// <summary>
         /// Checks to see if the windows has been initialized.
         /// </summary>
-        private void CheckForInitialized()
+        protected void CheckForInitialized()
         {
             if (!_initializeTask.IsCompleted || _initialized)
             {
@@ -246,7 +251,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// <summary>
         /// Called by Unity to render the window. Should not be overridden by deriving classes.
         /// </summary>
-        public void OnGUI()
+        public virtual void OnGUI()
         {
             // don't do anything if not initialized
             if (!_initialized)
