@@ -142,7 +142,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// <summary>
         /// Checks to see if the windows has been initialized.
         /// </summary>
-        protected void CheckForInitialized()
+        private void CheckForInitialized()
         {
             if (!_initializeTask.IsCompleted || _initialized)
             {
@@ -252,7 +252,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// <summary>
         /// Called by Unity to render the window. Should not be overridden by deriving classes.
         /// </summary>
-        public virtual void OnGUI()
+        public void OnGUI()
         {
             // don't do anything if not initialized
             if (!_initialized)
@@ -299,7 +299,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             Teardown();
         }
 
-
         /// <summary>
         /// Determines if the size of the window needs to be updated, and if it does, adjusts it. 
         /// </summary>
@@ -325,7 +324,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
             // Using the calculated minimum height, apply the aspect ratio to determine minimum width
             float minWidth = minHeight / aspectRatio + (2 * Padding);
-            minWidth = Math.Max(Math.Max(minWidth, AbsoluteMinimumWindowWidth), lastRect.width + lastRect.position.x);
+            minWidth = Math.Max(minWidth, AbsoluteMinimumWindowWidth);
 
             // Only change the window size if the calculated size has changed
             if (!(Math.Abs(minHeight - this.minSize.y) > tolerance) &&
@@ -337,7 +336,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             // Set the height to be the new minimumHeight
             Rect currentPosition = position;
             currentPosition.height = minHeight;
-            currentPosition.width = minWidth;
 
             position = currentPosition;
 
