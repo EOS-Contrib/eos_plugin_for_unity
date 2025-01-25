@@ -103,12 +103,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// </summary>
         protected static Font MonoFont;
 
-        protected EOSEditorWindow(bool needsInitialization) : this("")
-        {
-            _initialized = !needsInitialization;
-        }
-
-        protected EOSEditorWindow(string windowTitle, float minimumHeight = 50f, float minimumWidth = 50f,
+        protected EOSEditorWindow(
+            string windowTitle, 
+            float minimumHeight = 50f, 
+            float minimumWidth = 50f,
+            bool needsInitialization = true,
             string preferencesOverrideKey = null)
         {
             // Set the preferences key either to the full name of the deriving type, or the provided override value.
@@ -118,6 +117,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
             AbsoluteMinimumWindowHeight = minimumHeight;
             AbsoluteMinimumWindowWidth = minimumWidth;
+
+            _initialized = !needsInitialization;
 
             WindowTitle = windowTitle;
         }
@@ -298,6 +299,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             Teardown();
         }
 
+
         /// <summary>
         /// Determines if the size of the window needs to be updated, and if it does, adjusts it. 
         /// </summary>
@@ -323,7 +325,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
             // Using the calculated minimum height, apply the aspect ratio to determine minimum width
             float minWidth = minHeight / aspectRatio + (2 * Padding);
-            minWidth = Math.Max(minWidth, AbsoluteMinimumWindowWidth);
+            minWidth = Math.Max(Math.Max(minWidth, AbsoluteMinimumWindowWidth), lastRect.width + lastRect.position.x);
 
             // Only change the window size if the calculated size has changed
             if (!(Math.Abs(minHeight - this.minSize.y) > tolerance) &&
@@ -335,6 +337,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             // Set the height to be the new minimumHeight
             Rect currentPosition = position;
             currentPosition.height = minHeight;
+            currentPosition.width = minWidth;
 
             position = currentPosition;
 

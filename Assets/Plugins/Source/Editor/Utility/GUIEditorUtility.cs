@@ -1072,11 +1072,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                             result =>
                             {
                                 item.Value.EncryptionKey = result;
-                            }, 
-                            toValidate =>
-                            {
-                                return EOSClientCredentials.IsEncryptionKeyValid(toValidate);
-                            }, 
+                            },
                             "Client Credentials Encryption Key", 
                             "Enter the encryption key for these client credentials here:"
                             );
