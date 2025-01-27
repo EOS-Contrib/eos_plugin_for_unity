@@ -20,8 +20,11 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
+    using Common;
     using Config;
     using System.Collections.Generic;
     using System.IO;
@@ -66,7 +69,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// need to execute first in-order to register themselves as builders
         /// for their respective platforms.
         /// </summary>
-        public int callbackOrder => 1;
+        public int callbackOrder => 0;
 
         /// <summary>
         /// Stores the targets for which the builder can be used.
@@ -241,19 +244,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// </summary>
         private static async void AutoSetProductVersion()
         {
-            var eosConfig = await Config.GetAsync<EOSConfig>();
-            var prebuildConfig = await Config.GetAsync<PrebuildConfig>();
-            var previousProdVer = eosConfig.productVersion;
+            PrebuildConfig prebuildConfig = await Config.GetAsync<PrebuildConfig>();
+            ProductConfig productConfig = Config.Get<ProductConfig>();
 
-            if (prebuildConfig.useAppVersionAsProductVersion)
+            // If the product version is set by config, or if it already equals the product config, stop here.
+            if (!prebuildConfig.useAppVersionAsProductVersion || productConfig.ProductVersion == Application.version)
             {
-                eosConfig.productVersion = Application.version;
+                return;
             }
 
-            if (previousProdVer != eosConfig.productVersion)
-            {
-                await eosConfig.WriteAsync(true);
-            }
+            // Otherwise, set the new product version and write the config.
+            productConfig.ProductVersion = Application.version;
+            await productConfig.WriteAsync();
         }
 
         /// <summary>
@@ -315,3 +317,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         }
     }
 }
+
+#endif

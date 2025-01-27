@@ -20,12 +20,13 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 using System;
 using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    [Serializable]
     public class LogCategoryLevelPair
     {
         public string Category;
@@ -38,15 +39,16 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 
-    [Serializable]
     public class LogLevelConfig : Config
     {
         static LogLevelConfig()
         {
             RegisterFactory(() => new LogLevelConfig());
         }
-        public LogLevelConfig() : base("log_level_config.json") { }
+        protected LogLevelConfig() : base("log_level_config.json") { }
 
         public List<LogCategoryLevelPair> LogCategoryLevelPairs;
     }
 }
+
+#endif

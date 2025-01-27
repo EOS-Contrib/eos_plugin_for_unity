@@ -26,6 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.UI;
+    using static PlayEveryWare.EpicOnlineServices.Samples.SelectableStateHandler;
     using JsonUtility = Utility.JsonUtility;
 
     [Serializable]
@@ -222,6 +223,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             currentSelectedFile = string.Empty;
             CurrentFileNameText.text = "*No File Selected*";
+
+            SelectableStateHandler.NotifySelectableUpdate();
         }
 
         private void FileListOnClick(string fileName)
@@ -240,6 +243,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UpdateRemoteView(fileName);
             currentInventory = null;
             LocalViewText.text = "*** Click Download button to create a local copy to modify ***";
+
+            SelectableStateHandler.NotifySelectableUpdate();
         }
 
         private void UpdateRemoteView(string fileName)
@@ -289,19 +294,37 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LocalViewText.text = JsonUtility.ToJson(currentInventory, true);
         }
 
-        public override void Show()
+        protected override void ShowInternal()
         {
-            base.Show();
             UpdateFileListUI();
             PlayerDataStorageService.Instance.OnFileListUpdated += UpdateFileListUI;
         }
 
-        public override void Hide()
+        protected override void HideInternal()
         {
-            base.Hide();
-
             currentSelectedFile = string.Empty;
             currentInventory = null;
+            PlayerDataStorageService.Instance.OnFileListUpdated -= UpdateFileListUI;
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            PlayerDataStorageService.Instance.OnFileListUpdated -= UpdateFileListUI;
+        }
+
+        public void NeedSelectedFileHandler(SelectableStateHandler toUpdate)
+        {
+            const string NeedToSelectAFileFirst = "Need to select a file first";
+
+            if (string.IsNullOrEmpty(currentSelectedFile))
+            {
+                toUpdate.State = new InteractableState(false, NeedToSelectAFileFirst);
+            }
+            else
+            {
+                toUpdate.State = new InteractableState(true);
+            }
         }
     }
 }

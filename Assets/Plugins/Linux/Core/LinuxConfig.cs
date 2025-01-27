@@ -20,12 +20,20 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using System;
-
-    // Flags specifically for Linux
-    [Serializable]
+    // Flags specifically for Linux. Note that labels for the baser
+    // PlatformConfig need to be specified here.
+    [ConfigGroup("Linux Config", new[]
+    {
+        "Linux-Specific Options",
+        "Deployment",
+        "Flags",
+        "Tick Budgets",
+        "Overlay Options"
+    }, false)]
     public class LinuxConfig : PlatformConfig
     {
         static LinuxConfig()
@@ -36,3 +44,5 @@ namespace PlayEveryWare.EpicOnlineServices
         protected LinuxConfig() : base(PlatformManager.Platform.Linux) { }
     }
 }
+
+#endif

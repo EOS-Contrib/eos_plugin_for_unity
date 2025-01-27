@@ -25,14 +25,17 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("com.playeveryware.eos-Editor")]
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
-    using Extensions;
+    using Common.Extensions;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
 
     // This compile conditional exists to ensure that the UnityEngine.Networking
     // namespace is included when not in editor and when the platform is 
@@ -50,7 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     /// <summary>
     /// Utility class used for a variety of File tasks.
     /// </summary>
-    internal static class FileSystemUtility
+    public static class FileSystemUtility
     {
         // This compile conditional exists because the following functions 
         // make use of the System.Linq namespace which is undesirable to use
@@ -414,27 +417,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
         }
 
-        /// <summary>
-        /// Returns the root of the Unity project.
-        /// </summary>
-        /// <returns>Fully-qualified file path to the root of the Unity project.</returns>
-        public static string GetProjectPath()
-        {
-            // Assuming the current directory is within the project (e.g., in the Editor or during Play mode)
-            string assetsPath = CombinePaths(Directory.GetCurrentDirectory(), "Assets");
-
-            // Ensure the Assets folder exists at the expected location
-            if (DirectoryExists(assetsPath))
-            {
-                // Move up one directory from Assets to get the root directory of the project
-                return Path.GetFullPath(CombinePaths(assetsPath, ".."));
-            }
-
-            // If running in a different context or the assumption is wrong, handle accordingly
-            throw new DirectoryNotFoundException("Unable to locate the Assets folder from the current directory.");
-        }
-
-
         #region Line Ending Manipulations
 
         public static void ConvertDosToUnixLineEndings(string filename)
@@ -479,6 +461,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 #endif
 
         #region File Read Functionality
+
         // NOTE: This compile conditional is here because on Android devices
         //       async IO doesn't work well.
 #if !UNITY_ANDROID || UNITY_EDITOR
@@ -506,7 +489,14 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         {
             try
             {
-                return await File.ReadAllTextAsync(path);
+#if NET_STANDARD_2_0
+                await using FileStream fileStream = new(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using StreamReader reader = new(fileStream);
+                string content = await reader.ReadToEndAsync();
+                return content;
+#else
+                return await Task.Run(() => ReadAllText(path));
+#endif
             }
             catch (Exception e)
             {
@@ -528,18 +518,19 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 #else
             try
             {
-                return File.ReadAllText(path);
+                // Open the file with explicit FileStream and sharing options
+                using FileStream fileStream = new(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using StreamReader reader = new(fileStream);
+                string content = reader.ReadToEnd();
+                return content;
             }
-            catch (Exception e)
+            catch (IOException e)
             {
                 Debug.LogException(e);
                 throw;
             }
 #endif
-
         }
-
-
 
         #endregion
 
@@ -655,7 +646,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 CreateDirectory(file.Directory);
             }
 
+#if !EXTERNAL_TO_UNITY
             await using StreamWriter writer = new(filePath);
+#else
+            using StreamWriter writer = new(filePath);
+#endif
+
             await writer.WriteAsync(content);
         }
 
@@ -679,7 +675,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
         }
 
-        #endregion
+#endregion
 
         #region Directory and File Exists functionality
 
@@ -713,9 +709,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             {
                 exists = File.Exists(path);
             }
+#endif
 
             return exists;
-#endif
         }
 
         public static async Task<bool> DirectoryExistsAsync(string path)
@@ -755,6 +751,26 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 
         #endregion
+
+        /// <summary>
+        /// Returns the root of the Unity project.
+        /// </summary>
+        /// <returns>Fully-qualified file path to the root of the Unity project.</returns>
+        public static string GetProjectPath()
+        {
+            // Assuming the current directory is within the project (e.g., in the Editor or during Play mode)
+            string assetsPath = CombinePaths(Directory.GetCurrentDirectory(), "Assets");
+
+            // Ensure the Assets folder exists at the expected location
+            if (DirectoryExists(assetsPath))
+            {
+                // Move up one directory from Assets to get the root directory of the project
+                return Path.GetFullPath(CombinePaths(assetsPath, ".."));
+            }
+
+            // If running in a different context or the assumption is wrong, handle accordingly
+            throw new DirectoryNotFoundException("Unable to locate the Assets folder from the current directory.");
+        }
 
         public static void NormalizePath(ref string path)
         {

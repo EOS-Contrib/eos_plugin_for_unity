@@ -20,12 +20,20 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using System;
-
-    // Flags specifically for iOS
-    [Serializable]
+    // Flags specifically for iOS. Note that labels for the baser
+    // PlatformConfig need to be specified here.
+    [ConfigGroup("EOS Config", new[]
+    {
+        "iOS-Specific Options",
+        "Deployment",
+        "Flags",
+        "Tick Budgets",
+        "Overlay Options"
+    }, false)]
     public class IOSConfig : PlatformConfig
     {
         static IOSConfig()
@@ -36,3 +44,5 @@ namespace PlayEveryWare.EpicOnlineServices
         protected IOSConfig() : base(PlatformManager.Platform.iOS) { }
     }
 }
+
+#endif

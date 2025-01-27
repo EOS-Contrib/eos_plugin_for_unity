@@ -20,12 +20,21 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
 
     // Flags specifically for Windows
-    [Serializable]
+    [ConfigGroup("Windows Config", new[]
+    {
+        "Windows-Specific Options",
+        "Deployment",
+        "Flags",
+        "Tick Budgets",
+        "Overlay Options"
+    }, false)]
     public class WindowsConfig : PlatformConfig
     {
         static WindowsConfig()
@@ -36,3 +45,5 @@ namespace PlayEveryWare.EpicOnlineServices
         protected WindowsConfig() : base(PlatformManager.Platform.Windows) { }
     }
 }
+
+#endif

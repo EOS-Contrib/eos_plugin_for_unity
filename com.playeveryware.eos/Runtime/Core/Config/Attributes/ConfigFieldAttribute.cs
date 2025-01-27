@@ -20,13 +20,15 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
 
-    [AttributeUsage(AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class ConfigFieldAttribute : Attribute
-    {   
+    {
         /// <summary>
         /// The label for the config field.
         /// </summary>
@@ -35,13 +37,15 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// The tooltip to display when the user hovers a mouse over the label.
         /// </summary>
-        public string ToolTip { get; }
+        public string ToolTip { get; set; }
 
         /// <summary>
-        /// The group that that config field belongs to (helps to cluster config
+        /// The group that config field belongs to (helps to cluster config
         /// fields into meaningful groups).
         /// </summary>
         public int Group { get; }
+
+        public string HelpURL { get; }
 
         /// <summary>
         /// The type of the field - used to inform how to render input controls
@@ -49,12 +53,31 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public ConfigFieldType FieldType { get; }
 
+        /// <summary>
+        /// Indicates what platforms the config field is valid for.
+        /// </summary>
+        public PlatformManager.Platform PlatformsEnabledOn { get; }
+
         public ConfigFieldAttribute(
-            string label, 
-            ConfigFieldType type, 
-            string tooltip = null, 
-            int group = -1)
+            PlatformManager.Platform enabledOn,
+            string label,
+            ConfigFieldType type,
+            string tooltip = null,
+            int group = -1,
+            string helpUrl = null) : this(label, type, tooltip, group, helpUrl)
         {
+            PlatformsEnabledOn = enabledOn;
+        }
+
+        public ConfigFieldAttribute(
+            string label,
+            ConfigFieldType type,
+            string tooltip = null,
+            int group = -1,
+            string helpUrl = null)
+        {
+            PlatformsEnabledOn = PlatformManager.Platform.Any;
+            HelpURL = helpUrl;
             Label = label;
             ToolTip = tooltip;
             Group = group;
@@ -62,3 +85,5 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 }
+
+#endif

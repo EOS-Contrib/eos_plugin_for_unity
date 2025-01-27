@@ -20,8 +20,12 @@
 * SOFTWARE.
 */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
+    using UnityEngine;
+
     // Interface for allowing adding additional config files to the Config editor
     public interface IPlatformConfigEditor : IConfigEditor
     {
@@ -33,5 +37,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// True if the platform can be targetted by the Unity Editor.
         /// </returns>
         bool IsPlatformAvailable();
+
+        void SetClientCredentials(EOSClientCredentials credentials);
+        
+        void SetDeployment(Deployment deployment);
+
+        PlatformManager.Platform GetPlatform();
+
+        Texture GetPlatformIconTexture();
     }
 }
+
+#endif

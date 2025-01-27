@@ -52,9 +52,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         public const ulong InvalidClientId = ulong.MaxValue;
 
         // Client ID Maps (locally persistent)
-        private ulong NextClientId = 1; // (ServerClientId is 0, so we start at 1)
-        private Dictionary<ulong, ProductUserId> ClientIdToUserId = null;
-        private Dictionary<ProductUserId, ulong> UserIdToClientId = null;
+        private ulong NextTransportId = 1; // (ServerClientId is 0, so we start at 1)
+        private Dictionary<ulong, ProductUserId> TransportIdToUserId = null;
+        private Dictionary<ProductUserId, ulong> UserIdToTransportId = null;
 
 
         // True if we're the Server, else we're a Client
@@ -81,7 +81,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 #endif
         /// <summary>
         /// A constant `clientId` that represents the server.
-        /// When this value is found in methods such as `Send`, it should be treated as a placeholder that means "the server".
+        /// When this value is found in methods such as `Send`, it should be 
+        /// treated as a placeholder that means "the server".
+        /// 
+        /// While most things inside EOSTransport have some nuanced difference
+        /// between a 'client id' and a 'transport id', this ServerClientId is
+        /// a special constant value. Both the client id and transport id of
+        /// the server will always be this value.
         /// </summary>
         public override ulong ServerClientId => 0;
 
@@ -97,19 +103,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         private Queue<Tuple<ProductUserId, ulong, bool>> ConnectedDisconnectedUserEvents = null;
 
         [System.Diagnostics.Conditional("EOS_TRANSPORT_DEBUG")]
-        private void print(string msg)
+        private void Log(string msg)
         {
             Debug.Log(msg);
         }
 
         [System.Diagnostics.Conditional("EOS_TRANSPORT_DEBUG")]
-        private void printWarning(string msg)
+        private void LogWarning(string msg)
         {
             Debug.LogWarning(msg);
         }
 
         [System.Diagnostics.Conditional("EOS_TRANSPORT_DEBUG")]
-        private void printError(string msg)
+        private void LogError(string msg)
         {
             Debug.LogError(msg);
         }
@@ -117,7 +123,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// <summary>
         /// Send a payload to the specified clientId, data and channelName.
         /// </summary>
-        /// <param name="clientId">The clientId to send to.</param>
+        /// <param name="clientId">
+        /// The transport id to send to.
+        /// 
+        /// This function maintains the parameter name 'clientId' because of its
+        /// base class, but this should be provided an associated transport id,
+        /// not the client's client id.
+        /// </param>
         /// <param name="payload">The data to send.</param>
         /// <param name="networkDelivery">The delivery type (QoS) to send data with.</param>
         public override void Send(ulong clientId, ArraySegment<byte> payload, NetworkDelivery networkDelivery)
@@ -126,7 +138,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             ProductUserId userId = GetUserId(clientId);
 
-            print($"EOSP2PTransport.Send: [ClientId='{clientId}', UserId='{userId}', PayloadBytes='{payload.Count}', SendTimeSec='{Time.realtimeSinceStartup}']");
+            Log($"EOSP2PTransport.Send: [ClientId='{clientId}', UserId='{userId}', PayloadBytes='{payload.Count}', SendTimeSec='{Time.realtimeSinceStartup}']");
 
             Epic.OnlineServices.P2P.PacketReliability reliability = Epic.OnlineServices.P2P.PacketReliability.ReliableOrdered;
             if (networkDelivery == NetworkDelivery.Unreliable)
@@ -146,7 +158,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             {
                 if (reliability != Epic.OnlineServices.P2P.PacketReliability.ReliableOrdered)
                 {
-                    printError($"EOSP2PTransport.Send: Unable to send payload - The payload size ({payload.Count} bytes) exceeds the maxmimum packet size supported by EOS P2P ({EOSTransportManager.MaxPacketSize} bytes).");
+                    LogError($"EOSP2PTransport.Send: Unable to send payload - The payload size ({payload.Count} bytes) exceeds the maxmimum packet size supported by EOS P2P ({EOSTransportManager.MaxPacketSize} bytes).");
                     return;
                 }
             }
@@ -157,7 +169,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// <summary>
         /// Polls for incoming events, with an extra output parameter to report the precise time the event was received.
         /// </summary>
-        /// <param name="clientId">The clientId this event is for.</param>
+        /// <param name="clientId">
+        /// The transportId this event is for.
+        /// 
+        /// This function maintains the parameter name 'clientId' because of its
+        /// base class, but this should be provided an associated transport id,
+        /// not the client's client id.
+        /// </param>
         /// <param name="payload">The incoming data payload.</param>
         /// <param name="receiveTime">The time the event was received, as reported by Time.realtimeSinceStartup.</param>
         /// <returns>Returns the event type.</returns>
@@ -178,7 +196,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 payload = new ArraySegment<byte>();
                 receiveTime = Time.realtimeSinceStartup;
                 NetworkEvent networkEventType = evntIsConnectionEvent ? NetworkEvent.Connect : NetworkEvent.Disconnect;
-                print($"EOSP2PTransport.PollEvent: [{networkEventType}, ClientId='{clientId}', UserId='{evntUserId}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
+                Log($"EOSP2PTransport.PollEvent: [{networkEventType}, ClientId='{clientId}', UserId='{evntUserId}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
                 return networkEventType;
             }
 
@@ -187,10 +205,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             {
                 Debug.Assert(socketName == P2PSocketName);
 
-                clientId = GetClientId(userId);
+                clientId = GetTransportId(userId);
                 payload = new ArraySegment<byte>(packet);
                 receiveTime = Time.realtimeSinceStartup;
-                print($"EOSP2PTransport.PollEvent: [{NetworkEvent.Data}, ClientId='{clientId}', UserId='{userId}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
+                Log($"EOSP2PTransport.PollEvent: [{NetworkEvent.Data}, ClientId='{clientId}', UserId='{userId}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
                 return NetworkEvent.Data;
             }
 
@@ -198,7 +216,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             clientId = InvalidClientId;
             payload = new ArraySegment<byte>();
             receiveTime = 0;
-            print("EOSP2PTransport.PollEvent: []");
+            Log("EOSP2PTransport.PollEvent: []");
             return NetworkEvent.Nothing;
         }
 
@@ -215,7 +233,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 #endif
             if (ServerUserIdToConnectTo == null)
             {
-                print("EOSP2PTransport.StartClient: No ServerUserIDToConnectTo set!");
+                Log("EOSP2PTransport.StartClient: No ServerUserIDToConnectTo set!");
                 return false;
             }
 
@@ -235,17 +253,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 // Attempt to connect to the server hosted by ServerUserId - was the request successfully initiated?
                 if (result = P2PManager.OpenConnection(ServerUserId, P2PSocketName))
                 {
-                    print($"EOSP2PTransport.StartClient: Successful Client start up - REQUESTED outgoing '{P2PSocketName}' socket connection with Server UserId Server UserId='{ServerUserId}'.");
+                    Log($"EOSP2PTransport.StartClient: Successful Client start up - REQUESTED outgoing '{P2PSocketName}' socket connection with Server UserId Server UserId='{ServerUserId}'.");
                     result = true;
                 }
                 else
                 {
-                    printError($"EOSP2PTransport.StartClient: Failed Client start up - Unable to initiate a connect request with Server UserId='{ServerUserId}'.");
+                    LogError($"EOSP2PTransport.StartClient: Failed Client start up - Unable to initiate a connect request with Server UserId='{ServerUserId}'.");
                 }
             }
             else
             {
-                printError("EOSP2PTransport.StartClient: Failed Client start up - 'ServerUserIdToConnectTo' is null or invalid."
+                LogError("EOSP2PTransport.StartClient: Failed Client start up - 'ServerUserIdToConnectTo' is null or invalid."
                     + " Please set a valid EOS ProductUserId of the Server host this Client should try connecting to in the 'ServerUserIdToConnectTo' property before calling StartClient"
                     + $" (ServerUserIdToConnectTo='{ServerUserIdToConnectTo}').");
             }
@@ -259,7 +277,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         public override bool StartServer()
         {
             Debug.Assert(IsInitialized);
-            print($"EOSP2PTransport.StartServer: Entering Server mode with EOS UserId='{OurUserId}'.");
+            Log($"EOSP2PTransport.StartServer: Entering Server mode with EOS UserId='{OurUserId}'.");
 #if UNITY_EDITOR
             ServerUserIDForCopying = OurUserId.ToString();
 #endif
@@ -273,7 +291,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// <summary>
         /// Disconnects a client from the server.
         /// </summary>
-        /// <param name="clientId">The clientId to disconnect.</param>
+        /// <param name="clientId">
+        /// The transport id to disconnect.
+        /// 
+        /// This should be the transport id of the target user, not their client
+        /// id in Network Manager.
+        /// </param>
         public override void DisconnectRemoteClient(ulong clientId)
         {
             Debug.Assert(IsInitialized);
@@ -281,7 +304,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             ProductUserId userId = GetUserId(clientId);
 
-            print($"EOSP2PTransport.DisconnectRemoteClient: Disconnecting ClientId='{clientId}' (UserId='{userId}') from our Server.");
+            Log($"EOSP2PTransport.DisconnectRemoteClient: Disconnecting ClientId='{clientId}' (UserId='{userId}') from our Server.");
             P2PManager.CloseConnection(userId, P2PSocketName, true);
         }
 
@@ -293,7 +316,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             Debug.Assert(IsInitialized);
             Debug.Assert(IsServer == false);
 
-            print($"EOSP2PTransport.DisconnectLocalClient: Disconnecting our Client from the Server (UserId='{ServerUserId}').");
+            Log($"EOSP2PTransport.DisconnectLocalClient: Disconnecting our Client from the Server (UserId='{ServerUserId}').");
             P2PManager.CloseConnection(ServerUserId, P2PSocketName, true);
         }
 
@@ -301,7 +324,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// Gets the round trip time for a specific client.
         /// This method is optional, and not currently implemented in this case.
         /// </summary>
-        /// <param name="clientId">The clientId to get the RTT from.</param>
+        /// <param name="clientId">
+        /// The transport id to get the RTT from.
+        /// 
+        /// This should be the transport id of the target user, not their client
+        /// id in Network Manager.
+        /// </param>
         /// <returns><c>0</c></returns>
         public override ulong GetCurrentRtt(ulong clientId)
         {
@@ -327,7 +355,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         public override void Shutdown()
         {
             Debug.Assert(IsInitialized);
-            print("EOSP2PTransport.Shutdown: Shutting down Epic Online Services Peer-2-Peer NetworkTransport.");
+            Log("EOSP2PTransport.Shutdown: Shutting down Epic Online Services Peer-2-Peer NetworkTransport.");
             IsInitialized = false;
 
             // Shutdown EOS Peer-2-Peer Manager
@@ -344,8 +372,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             ConnectedDisconnectedUserEvents = null;
 
             // Clear ID maps
-            ClientIdToUserId = null;
-            UserIdToClientId = null;
+            TransportIdToUserId = null;
+            UserIdToTransportId = null;
 
             // Clear Server UserId target
             ServerUserId = null;
@@ -357,19 +385,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         public override void Initialize(NetworkManager networkManager)
         {
             Debug.Assert(IsInitialized == false);
-            print("EOSP2PTransport.Initialize: Initializing Epic Online Services Peer-2-Peer NetworkTransport.");
+            Log("EOSP2PTransport.Initialize: Initializing Epic Online Services Peer-2-Peer NetworkTransport.");
 
             // EOSManager should already be initialized and exist by this point
             if (EOSManager.Instance == null)
             {
-                printError("EOSP2PTransport.Initialize: Unable to initialize - EOSManager singleton is null (has the EOSManager component been added to an object in your initial scene?)");
+                LogError("EOSP2PTransport.Initialize: Unable to initialize - EOSManager singleton is null (has the EOSManager component been added to an object in your initial scene?)");
                 return;
             }
 
             // Create ID maps
-            NextClientId = 1; // Reset local client ID assignment counter
-            ClientIdToUserId = new Dictionary<ulong, ProductUserId>();
-            UserIdToClientId = new Dictionary<ProductUserId, ulong>();
+            NextTransportId = 1; // Reset local client ID assignment counter
+            TransportIdToUserId = new Dictionary<ulong, ProductUserId>();
+            UserIdToTransportId = new Dictionary<ProductUserId, ulong>();
 
             // Create user connects/disconnects event cache
             ConnectedDisconnectedUserEvents = new Queue<Tuple<ProductUserId, ulong, bool>>();
@@ -391,7 +419,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             P2PManager.OnConnectionClosedCb = OnConnectionClosedCallback;
             if (P2PManager.Initialize() == false)
             {
-                printError("EOSP2PTransport.Initialize: Unable to initialize - EOSP2PManager failed to initialize.");
+                LogError("EOSP2PTransport.Initialize: Unable to initialize - EOSP2PManager failed to initialize.");
                 P2PManager.OnIncomingConnectionRequestedCb = null;
                 P2PManager.OnConnectionOpenedCb = null;
                 P2PManager.OnConnectionClosedCb = null;
@@ -416,7 +444,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             {
                 if (data.ResultCode == Result.Success)
                 {
-                    print("Logout Successful. [" + data.ResultCode + "]");
+                    Log("Logout Successful. [" + data.ResultCode + "]");
                     GameStateManager.ChangeScene("MainMenu", false);
                 }
             });
@@ -436,13 +464,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             if (IsServer && socketName == P2PSocketName)
             {
                 // Accept connection request
-                print($"EOSP2PTransport.OnIncomingConnectionRequestedCallback: ACCEPTING incoming '{socketName}' socket connection request from UserId='{userId}'.");
+                Log($"EOSP2PTransport.OnIncomingConnectionRequestedCallback: ACCEPTING incoming '{socketName}' socket connection request from UserId='{userId}'.");
                 P2PManager.OpenConnection(userId, socketName);
             }
             else
             {
                 // Reject connection request
-                print($"EOSP2PTransport.OnIncomingConnectionRequestedCallback: REJECTING incoming '{socketName}' socket connection request from UserId='{userId}'.");
+                Log($"EOSP2PTransport.OnIncomingConnectionRequestedCallback: REJECTING incoming '{socketName}' socket connection request from UserId='{userId}'.");
                 P2PManager.CloseConnection(userId, socketName);
             }
         }
@@ -456,23 +484,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         {
             Debug.Assert(IsInitialized);
 
-            print($"EOSP2PTransport.OnConnectionOpenedCallback: '{socketName}' socket connection OPENED with UserId='{userId}'.");
+            Log($"EOSP2PTransport.OnConnectionOpenedCallback: '{socketName}' socket connection OPENED with UserId='{userId}'.");
             if (socketName == P2PSocketName)
             {
                 if (IsServer)
                 {
                     // We don't have this client in our map yet? (ie. We haven't seen them before)
-                    if (UserIdToClientId.ContainsKey(userId) == false)
+                    if (UserIdToTransportId.ContainsKey(userId) == false)
                     {
                         // Add client ID mapping
-                        ulong newClientId = NextClientId++; // Generate new client ID (locally unique, incremental)
-                        ClientIdToUserId.Add(newClientId, userId);
-                        UserIdToClientId.Add(userId, newClientId);
+                        ulong newClientId = NextTransportId++; // Generate new client ID (locally unique, incremental)
+                        TransportIdToUserId.Add(newClientId, userId);
+                        UserIdToTransportId.Add(userId, newClientId);
                     }
                 }
 
                 // Get mapped client ID
-                ulong clientId = GetClientId(userId);
+                ulong clientId = GetTransportId(userId);
 
                 // Cache user connection event, will be returned in a later PollEvent call
                 ConnectedDisconnectedUserEvents.Enqueue(new Tuple<ProductUserId, ulong, bool>(userId, clientId, true));
@@ -492,18 +520,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         {
             Debug.Assert(IsInitialized);
 
-            print($"EOSP2PTransport.OnConnectionClosedCallback: '{socketName}' socket connection CLOSED with UserId='{userId}'.");
+            Log($"EOSP2PTransport.OnConnectionClosedCallback: '{socketName}' socket connection CLOSED with UserId='{userId}'.");
             if (socketName == P2PSocketName)
             {
                 // We're the Server?
                 if (IsServer)
                 {
                     // We should have seen this client before in a prior call to OnConnectionOpenedCallback
-                    Debug.Assert(UserIdToClientId.ContainsKey(userId) == true);
+                    Debug.Assert(UserIdToTransportId.ContainsKey(userId) == true);
                 }
 
                 // Get mapped client ID
-                ulong clientId = GetClientId(userId);
+                ulong clientId = GetTransportId(userId);
 
                 // NOTE: For simplicity of event processing order and ID lookups we will simply allow the client ID map
                 // to continually grow as we don't expect to receive an unreasonable number (>10k) of unique
@@ -522,26 +550,72 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
         }
 
-        // Returns the ProductUserId corresponding to a given ClientId
-        private ProductUserId GetUserId(ulong clientId)
+        /// <summary>
+        /// Gets the ProductUserId for an associated transportId.
+        /// 
+        /// As only a Server is able to know about clients, calling this 
+        /// function from a client will always return <see cref="ServerUserId"/>.
+        /// </summary>
+        /// <param name="transportId">
+        /// The transport id of the user to look up.
+        /// Note that this is not the same as the "client id" inside 
+        /// NetworkManager. <see cref="GetTransportId(ProductUserId)"/>
+        /// </param>
+        /// <returns>The product user associated with the transport.</returns>
+        public ProductUserId GetUserId(ulong transportId)
         {
             Debug.Assert(IsInitialized);
 
             // We're a Client?
             if (IsServer == false)
             {
-                Debug.AssertFormat(clientId == ServerClientId, "EOSP2PTransport.GetUserId: Unexpected ClientId='{0}' given - We're a Client so we should only be dealing with the Server by definition (Server ClientId='{1}').",
-                                   clientId, ServerClientId);
+                Debug.AssertFormat(transportId == ServerClientId, "EOSP2PTransport.GetUserId: Unexpected ClientId='{0}' given - We're a Client so we should only be dealing with the Server by definition (Server ClientId='{1}').",
+                                   transportId, ServerClientId);
                 return ServerUserId;
             }
             else
             {
-                return ClientIdToUserId[clientId];
+                return TransportIdToUserId[transportId];
             }
         }
 
-        // Returns the ClientId corresponding to a given ProductUserId
-        private ulong GetClientId(ProductUserId userId)
+        /// <summary>
+        /// Gets the TransportId for an associated ProductUserId.
+        /// 
+        /// As only a Server is able to know about clients, calling this 
+        /// function from a client will always return 
+        /// <see cref="ServerClientId"/>.
+        /// 
+        /// The term 'client id' and 'transport id' are related, but not exactly
+        /// the same. When a new client connects to a host,
+        /// <see cref="NetworkManager"/> assigns that user a client id. The
+        /// assigned <see cref="NetworkTransport"/> (which is this class) is
+        /// responsible for identifying when a user joins, and assigning them
+        /// a transport id. NetworkManager and EOSTransport independently
+        /// assign these ids, and while they might coincide they are not
+        /// guaranteed to be the same. For example; if a user starts a client,
+        /// they might have a transport id that is the same as their client id.
+        /// But if they leave and return, EOSTransport will reuse the same
+        /// transport id, while NetworkManager will use a new client id.
+        /// 
+        /// Most NetworkManager functions take in a client id. If it needs to
+        /// do something relating to the NetworkTransport, it will use an
+        /// internal lookup table to translate from the client id to transport
+        /// id, and then run the NetworkTransport function. Whenever 
+        /// NetworkManager calls into  NetworkTransport, it is always going to 
+        /// provide a transport id, even if the parameter name in the transport
+        /// is 'clientId'.
+        /// 
+        /// In order to manage clients, this function can be used to map from
+        /// ProductUserId to transport id. That transport id can then be used
+        /// to call public functions inside EOSTransport, which will usually
+        /// ripple up to NetworkManager to handle client id information. When
+        /// EOSTransport calls NetworkManager to run code, the NetworkManager
+        /// will usually translate the transport id back in to a client id.
+        /// </summary>
+        /// <param name="userId">The EOS Product User to lookup.</param>
+        /// <returns>The transport id associated with the user.</returns>
+        public ulong GetTransportId(ProductUserId userId)
         {
             Debug.Assert(IsInitialized);
 
@@ -554,7 +628,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
             else
             {
-                return UserIdToClientId[userId];
+                return UserIdToTransportId[userId];
             }
         }
     }

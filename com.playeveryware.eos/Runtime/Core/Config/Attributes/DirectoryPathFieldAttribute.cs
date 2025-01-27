@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
@@ -35,5 +37,6 @@ namespace PlayEveryWare.EpicOnlineServices
             string label, string tooltip = null, int group = -1) : 
             base(label, ConfigFieldType.DirectoryPath, tooltip, group) { }
     }
-
 }
+
+#endif

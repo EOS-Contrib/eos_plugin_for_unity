@@ -50,7 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private static GCHandle SteamOptionsGCHandle;
 
-        public LinuxPlatformSpecifics() : base(PlatformManager.Platform.Linux, ".so") { }
+        public LinuxPlatformSpecifics() : base(PlatformManager.Platform.Linux) { }
 
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

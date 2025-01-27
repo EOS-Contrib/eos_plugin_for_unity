@@ -57,7 +57,7 @@ new plugin can be generated.
 These steps are for upgrading the EOS SDK as a maintainer of the repo.
 There is a tool that one can use install new versions of the SDK, located under
 
-`Tools -> EOS Plugin -> Install EOS Zip`
+`EOS Plugin -> Install EOS Zip`
 
 It requires a JSON description file to direct it where to put the files in the zip,
 and a zip file that contains the SDK. The latest version of the SDK can be downloaded from
@@ -65,3 +65,23 @@ the EOS Developer Portal.
 
 After being installed via the Tool, update the repo [readme](/com.playeveryware.eos/README.md) to ensure it lists the correct version
 and that any links on the readme are up to date.
+
+## Read the Release Notes While Upgrading
+Epic publishes Release Notes with each new version of the EOS SDK.
+The Release Notes can be read either on the Epic Games Developer Portal,
+or in the [documentation's EOS SDK Release Notes page](https://dev.epicgames.com/docs/epic-online-services/release-notes).
+
+Epic will call out *Breaking changes* in the Release Notes.
+These may indicate actions that are required for your upgrade, such as new API requirements,
+changed function names, or permission changes that require configuration in the portal.
+
+Some changes only affect the `C` level, and are already handled in other released SDK folders.
+For example, the `1.16.4` integration had a breaking change where `eos_[PLATFORM]_types.h` moved
+definitions to `eos_common.h`. In the `C#` SDK for this release, Epic's generated C# files
+already moved and handled the change.
+
+## Update EOS SDK Package Information
+The plugin's `package.json`, and a few other places, mention the version of the EOS SDK being utilized.
+When upgrading, the implementor should update all relevant `package.json` files to mention the newer version of the SDK.
+Inside the `CHANGELOG.md` file, it should be noted when new versions of the SDK are implemented.
+Other documentation mentioning the version should also be updated. At time of writing, that is the [supported platforms documentation](supported_platforms.md).

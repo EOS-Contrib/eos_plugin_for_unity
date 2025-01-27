@@ -54,51 +54,57 @@ namespace Epic.OnlineServices
 	// platform support.
 	public static partial class Config
 	{
-	// This conditional (added by PlayEveryWare) is here (in conjunction with 
-	// the class it is contained within being marked as "partial") so that 
-	// other platforms can be supported by adding to this code-base another 
-	// part of the partial class that sets the LibraryName differently 
-	// depending on the presence of other scripting defines that indicate 
-	// available functionality on other platforms.
-	#if EOS_PLATFORM_WINDOWS_32 || EOS_PLATFORM_WINDOWS_64 || EOS_PLATFORM_OSX || EOS_PLATFORM_LINUX || EOS_PLATFORM_IOS || EOS_PLATFORM_ANDROID
+        // This conditional (added by PlayEveryWare) is here (in conjunction with 
+        // the class it is contained within being marked as "partial") so that 
+        // other platforms can be supported by adding to this code-base another 
+        // part of the partial class that sets the LibraryName differently 
+        // depending on the presence of other scripting defines that indicate 
+        // available functionality on other platforms.
+#if EOS_PLATFORM_WINDOWS_32 || EOS_PLATFORM_WINDOWS_64 || EOS_PLATFORM_OSX || EOS_PLATFORM_LINUX || EOS_PLATFORM_IOS || EOS_PLATFORM_ANDROID
 		public const string LibraryName =
-		#if EOS_PLATFORM_WINDOWS_32 && EOS_UNITY
+#if EOS_PLATFORM_WINDOWS_32 && EOS_UNITY
 			"EOSSDK-Win32-Shipping"
-		#elif EOS_PLATFORM_WINDOWS_32
+#elif EOS_PLATFORM_WINDOWS_32
 			"EOSSDK-Win32-Shipping.dll"
 
-		#elif EOS_PLATFORM_WINDOWS_64 && EOS_UNITY
+#elif EOS_PLATFORM_WINDOWS_64 && EOS_UNITY
 			"EOSSDK-Win64-Shipping"
-		#elif EOS_PLATFORM_WINDOWS_64
+#elif EOS_PLATFORM_WINDOWS_64
 			"EOSSDK-Win64-Shipping.dll"
 
-		#elif EOS_PLATFORM_OSX && EOS_UNITY
+#elif EOS_PLATFORM_OSX && EOS_UNITY
 			"libEOSSDK-Mac-Shipping"
-		#elif EOS_PLATFORM_OSX
+#elif EOS_PLATFORM_OSX
 			"libEOSSDK-Mac-Shipping.dylib"
 
-		#elif EOS_PLATFORM_LINUX && EOS_UNITY
+#elif EOS_PLATFORM_LINUX && EOS_UNITY
 			"libEOSSDK-Linux-Shipping"
-		#elif EOS_PLATFORM_LINUX
+#elif EOS_PLATFORM_LINUX
 			"libEOSSDK-Linux-Shipping.so"
 
-		#elif EOS_PLATFORM_IOS && EOS_UNITY && EOS_EDITOR
+#elif EOS_PLATFORM_IOS && EOS_UNITY && EOS_EDITOR
 			"EOSSDK"
-		#elif EOS_PLATFORM_IOS
+#elif EOS_PLATFORM_IOS
 			"EOSSDK.framework/EOSSDK"
 
-		#elif EOS_PLATFORM_ANDROID
+#elif EOS_PLATFORM_ANDROID
 			"EOSSDK"
 
-		#else
-			#error Unable to determine the name of the EOSSDK library. Ensure you have set the correct EOS compilation symbol for the current platform, such as EOS_PLATFORM_WINDOWS_32 or EOS_PLATFORM_WINDOWS_64, so that the correct EOSSDK library can be targeted.
+#else
+#error Unable to determine the name of the EOSSDK library. Ensure you have set the correct EOS compilation symbol for the current platform, such as EOS_PLATFORM_WINDOWS_32 or EOS_PLATFORM_WINDOWS_64, so that the correct EOSSDK library can be targeted.
 			"EOSSDK-UnknownPlatform-Shipping"
 
-		#endif
+#endif
 		;
-	#endif
-	// PEW: End modify
-		public const CallingConvention LibraryCallingConvention =
+#elif EXTERNAL_TO_UNITY
+#if PLATFORM_64
+        public const string LibraryName = "EOSSDK-Win64-Shipping.dll";
+#else
+        public const string LibraryName = "EOSSDK-Win32-Shipping.dll";
+#endif
+#endif
+        // PEW: End modify
+        public const CallingConvention LibraryCallingConvention =
 		#if EOS_PLATFORM_WINDOWS_32
 			CallingConvention.StdCall
 		#else

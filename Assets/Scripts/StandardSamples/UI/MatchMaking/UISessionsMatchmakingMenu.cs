@@ -258,7 +258,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             session.Attributes.Add(attribute);
 
-            GetEOSSessionsManager.CreateSession(session, UIOnSessionCreated);
+            GetEOSSessionsManager.CreateSession(session, UIOnSessionCreated, this.PresenceVal.isOn);
         }
 
         private void UIOnSessionCreated(SessionsManagerCreateSessionCallbackInfo info)
@@ -369,9 +369,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             GetEOSSessionsManager.DeclineLobbyInvite();
         }
 
-        public override void Show()
+        protected override void ShowInternal()
         {
-            base.Show();
             GetEOSSessionsManager.OnLoggedIn();
             GetEOSSessionsManager.OnPresenceChange.AddListener(SetDirtyFlagAction);
 
@@ -379,9 +378,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.SetLogLevel(Epic.OnlineServices.Logging.LogCategory.Sessions, Epic.OnlineServices.Logging.LogLevel.Verbose);
         }
 
-        public override void Hide()
+        protected override void HideInternal()
         {
-            base.Hide();
             if (GetEOSSessionsManager.IsUserLoggedIn)//check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
             {
                 GetEOSSessionsManager.OnPresenceChange.RemoveListener(SetDirtyFlagAction);

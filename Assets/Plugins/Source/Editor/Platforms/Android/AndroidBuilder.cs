@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     using Config;
@@ -344,7 +346,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
         private static void ConfigureEOSDependentLibrary()
         {
-            string clientIDAsLower = Config.Get<EOSConfig>().clientID.ToLower();
+            string clientIDAsLower = PlatformManager.GetPlatformConfig().clientCredentials.ClientId.ToLower();
 
             var pathToEOSValuesConfig = GetAndroidEOSValuesConfigPath();
             var currentEOSValuesConfigAsXML = new System.Xml.XmlDocument();
@@ -399,3 +401,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         }
     }
 }
+
+#endif

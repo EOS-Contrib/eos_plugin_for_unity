@@ -20,19 +20,18 @@
 * SOFTWARE.
 */
 
-using System.Collections.Generic;
-using UnityEngine;
-using System.IO;
-using System;
-using System.Text.RegularExpressions;
-
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
+    using Common.Extensions;
     using Editor.Build;
-    using Extensions;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
+    using UnityEngine;
 
     internal class PackageFileUtility
     {
@@ -143,7 +142,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         private static IEnumerable<FileInfoMatchingResult> FindMatchingFiles(string root, string currentWorkingDir, SrcDestPair pair)
         {
             IEnumerable<string> collectedFiles;
-            
+
             string searchPattern = pair.src;
             string path = root;
 
@@ -288,7 +287,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             // Copy the files
             await FileSystemUtility.CopyFilesAsync(copyOperations, cancellationToken, progress);
-            
+
             // Execute callback
             postProcessCallback?.Invoke(destination);
         }

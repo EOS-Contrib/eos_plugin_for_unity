@@ -22,10 +22,10 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Tests.Extensions
 {
+    using Common.Extensions;
     using NUnit.Framework;
     using System;
     using System.IO;
-    using PlayEveryWare.EpicOnlineServices.Extensions;
     using System.Collections.Generic;
 
     [TestFixture]

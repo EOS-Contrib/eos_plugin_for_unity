@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Tests.Editor
 {
     using EpicOnlineServices.Editor;
@@ -37,7 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Editor
 
         public EOSUnitTestSettingsWindow() : base("EOS Unit Test Configuration") { }
 
-        [MenuItem("Tools/EOS Plugin/Advanced/Unit Test Configuration")]
+        [MenuItem("EOS Plugin/Advanced/Unit Test Configuration")]
         public static void OpenUnitTestSettingsWindow()
         {
             GetWindow<EOSUnitTestSettingsWindow>();
@@ -55,8 +57,9 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Editor
 
             if (GUILayout.Button("Save", GUILayout.Width(100)))
             {
-                await _testConfigEditor.Save();
+                await _testConfigEditor.SaveAsync();
             }
         }
     }
 }
+#endif

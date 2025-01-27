@@ -22,8 +22,8 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Tests.Extensions
 {
+    using Common.Extensions;
     using NUnit.Framework;
-    using PlayEveryWare.EpicOnlineServices.Extensions;
     using System.Collections.Generic;
     using System.Linq;
 

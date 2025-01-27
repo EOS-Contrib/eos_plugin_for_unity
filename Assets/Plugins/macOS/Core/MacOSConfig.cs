@@ -20,12 +20,21 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
 
     // Flags specifically for macOS
-    [Serializable]
+    [ConfigGroup("MacOS Config", new[]
+    {
+        "MacOS-Specific Options",
+        "Deployment",
+        "Flags",
+        "Tick Budgets",
+        "Overlay Options"
+    }, false)]
     public class MacOSConfig : PlatformConfig
     {
         static MacOSConfig()
@@ -36,3 +45,5 @@ namespace PlayEveryWare.EpicOnlineServices
         protected MacOSConfig() : base(PlatformManager.Platform.macOS) { }
     }
 }
+
+#endif

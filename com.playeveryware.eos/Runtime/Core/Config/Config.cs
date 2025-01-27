@@ -8,7 +8,7 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in 
+ * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -20,13 +20,34 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
+// When compiled outside of Unity - there are some fields within this file
+// that are never used. This suppresses those warnings - as the fact that they
+// are unused is expected.
+#if EXTERNAL_TO_UNITY
+// Field is never used
+#pragma warning disable CS0169
+// Field is assigned but its value is never used
+#pragma warning disable CS0414
+// Field is never assigned to, and will always have its default value.
+#pragma warning disable CS0649
+#endif
+
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Common;
+    using Newtonsoft.Json;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+#if UNITY_EDITOR
     using UnityEditor;
+#endif
+
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
@@ -39,7 +60,6 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Represents a set of configuration data for use by the EOS Plugin for
     /// Unity
     /// </summary>
-    [Serializable]
     public abstract class Config
 #if UNITY_EDITOR
         : ICloneable
@@ -84,6 +104,25 @@ namespace PlayEveryWare.EpicOnlineServices
         private readonly bool _allowDefaultIfFileNotFound;
 
         /// <summary>
+        /// This is the _most recent_, and _current_ version of the JSON schema
+        /// that is utilized. In this context, "schema" does not mean an actual
+        /// JSON schema as defined by RFC 8927, but is used to mean, "the
+        /// version and structure of JSON that this plugin currently writes
+        /// configuration values in. If anything related to Config changes the
+        /// format or way it writes JSON, code should be added to migrate the
+        /// functionality, and this version should be incremented.
+        /// </summary>
+        private static readonly Version CURRENT_SCHEMA_VERSION = new(1, 0);
+
+        /// <summary>
+        /// Stores the version for the schema used to write the JSON file that
+        /// this config is backed by. If null, then the file is from before
+        /// the schemas were being versioned.
+        /// </summary>
+        [JsonProperty]
+        private Version schemaVersion;
+
+        /// <summary>
         /// Instantiate a new config based on the file at the given filename -
         /// in a default directory.
         /// </summary>
@@ -97,8 +136,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         protected Config(string filename, bool allowDefault = false) :
             this(filename, FileSystemUtility.CombinePaths(
-                Application.streamingAssetsPath, "EOS"), allowDefault)
-        { }
+                Application.streamingAssetsPath, "EOS"), allowDefault) { }
 
         /// <summary>
         /// Instantiates a new config based on the file at the given file and
@@ -123,6 +161,85 @@ namespace PlayEveryWare.EpicOnlineServices
             Filename = filename;
             Directory = directory;
             _allowDefaultIfFileNotFound = allowDefault;
+        }
+
+        // This compile conditional is here because async writing is not allowed
+        // on the Android platform.
+#if !UNITY_ANDROID || UNITY_EDITOR
+        /// <summary>
+        /// Performs migration of the config values and writes the result
+        /// asynchronously to disk.
+        /// </summary>
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        private async Task MigrateConfigIfNeededAsync()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+        {
+            MigrateConfigIfNeededInternal();
+#if UNITY_EDITOR
+            await WriteAsync();
+#endif
+        }
+#endif
+
+        /// <summary>
+        /// Synchronously migrates the config if it is needed.
+        /// </summary>
+        private void MigrateConfigIfNeeded()
+        {
+            MigrateConfigIfNeededInternal();
+#if UNITY_EDITOR
+            Write();
+#endif
+        }
+
+        /// <summary>
+        /// Helper function to perform the components of MigrateConfigIfNeeded
+        /// functions that are common to both async and non-async contexts.
+        /// </summary>
+        private void MigrateConfigIfNeededInternal()
+        {
+            if (!NeedsMigration())
+            {
+                return;
+            }
+
+            MigrateConfig();
+        }
+
+        /// <summary>
+        /// This function checks to see if the JSON needs to be migrated.
+        /// </summary>
+        /// <returns>
+        /// True if the config needs to be migrated, false otherwise.
+        /// </returns>
+        protected virtual bool NeedsMigration()
+        {
+            if (schemaVersion == null)
+            {
+                return true;
+            }
+
+            if (VersionUtility.AreVersionsEqual(schemaVersion, CURRENT_SCHEMA_VERSION))
+            {
+                return false;
+            }
+
+            Debug.LogWarning(
+                $"Config file with schemaVersion \"{CURRENT_SCHEMA_VERSION}\"" +
+                " has been read into memory, and needs to be migrated to " +
+                $"schemaVersion \"{CURRENT_SCHEMA_VERSION}\".");
+
+            return true;
+        }
+
+        /// <summary>
+        /// Implement this function in deriving classes to do any additional
+        /// work on a Config after it has been retrieved and before it is
+        /// returned by the Get or GetAsync functions.
+        /// </summary>
+        protected virtual void MigrateConfig()
+        {
+            // Default implementation is to do nothing.
         }
 
         /// <summary>
@@ -208,6 +325,15 @@ namespace PlayEveryWare.EpicOnlineServices
             // Use the factory method to create the config.
             T instance = (T)factory();
 
+            // This compile conditional is here because write should only happen
+            // within the unity editor context.
+#if UNITY_EDITOR
+            if (!await FileSystemUtility.FileExistsAsync(instance.FilePath) && instance._allowDefaultIfFileNotFound)
+            {
+                await instance.WriteAsync();
+            }
+#endif
+
             // Asynchronously read config values from the corresponding file.
             await instance.ReadAsync();
 
@@ -215,6 +341,8 @@ namespace PlayEveryWare.EpicOnlineServices
             // Cache the newly created config with its values having been read.
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
+
+            await instance.MigrateConfigIfNeededAsync();
 
             // Return the config being retrieved.
             return instance;
@@ -245,6 +373,15 @@ namespace PlayEveryWare.EpicOnlineServices
             // Use the factory method to create the config.
             T instance = (T)factory();
 
+// This compile conditional is here because write should only happen
+// within the unity editor context.
+#if UNITY_EDITOR
+            if (!FileSystemUtility.FileExists(instance.FilePath) && instance._allowDefaultIfFileNotFound)
+            {
+                instance.Write();
+            }
+#endif
+
             // Synchronously read config values from the corresponding file.
             instance.Read();
 
@@ -252,6 +389,8 @@ namespace PlayEveryWare.EpicOnlineServices
             // Cache the newly created config with its values having been read.
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
+
+            instance.MigrateConfigIfNeeded();
 
             // Return the config being retrieved.
             return instance;
@@ -261,6 +400,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Returns the fully-qualified path to the file that holds the
         /// configuration values.
         /// </summary>
+        [JsonIgnore]
         public string FilePath
         {
             get
@@ -268,6 +408,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 return FileSystemUtility.CombinePaths(Directory, Filename);
             }
         }
+
+        #region Reading
 
         // NOTE: This compile conditional is here because Async IO does not work
         //       well on Android.
@@ -285,6 +427,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 _lastReadJsonString = await FileSystemUtility.ReadAllTextAsync(FilePath);
                 JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
+                OnReadCompleted();
             }
         }
 #endif
@@ -302,14 +445,27 @@ namespace PlayEveryWare.EpicOnlineServices
 
             _lastReadJsonString = FileSystemUtility.ReadAllText(FilePath);
             JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
+            OnReadCompleted();
         }
+
+        protected virtual void OnReadCompleted()
+        {
+            // Optionally override for deriving classes. Default behavior is to 
+            // take no action.
+        }
+
+        #endregion
 
         /// <summary>
         /// Determines if the config file exists, and if it does not, and the
         /// editor is running, then create the file.
+        /// TODO: Consider whether this function should be removed - there is
+        ///       no equivalent function for non-async contexts - and the
+        ///       difference in implementation between async and non-async could
+        ///       lead to confusion later on.
         /// </summary>
         /// <returns>Task.</returns>
-        private async Task EnsureConfigFileExistsAsync()
+        protected virtual async Task EnsureConfigFileExistsAsync()
         {
             bool fileExists = await FileSystemUtility.FileExistsAsync(FilePath);
 
@@ -328,53 +484,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-        /// <summary>
-        /// This delegate describes the signature of a function that can be used
-        /// to convert a list of strings into a single enum value.
-        /// </summary>
-        /// <typeparam name="TEnum">
-        /// The type of enum to convert the list of strings to a value of.
-        /// </typeparam>
-        /// <param name="stringFlags">
-        /// Strings to convert into an enum value.
-        /// </param>
-        /// <param name="result">
-        /// The enum value that results from performing a bitwise OR operation
-        /// on the list of enum values that result from converting each item in
-        /// the provided list of strings to an enum value of the indicated type.
-        /// </param>
-        /// <returns>
-        /// True if the parsing of flags was successful, false otherwise.
-        /// </returns>
-        protected delegate bool TryParseEnumDelegate<TEnum>(IList<string>
-            stringFlags, out TEnum result) where TEnum : struct, Enum;
-
-        /// <summary>
-        /// Private static wrapper to handle converting a list of strings into
-        /// a single enum value.
-        /// </summary>
-        /// <typeparam name="TEnum">
-        /// The type of enum to convert the list of strings into.
-        /// </typeparam>
-        /// <param name="stringFlags">
-        /// The list of strings to convert into a single enum value.
-        /// </param>
-        /// <param name="parseEnumFn">
-        /// The function used to convert the list of strings into a single enum
-        /// value.
-        /// </param>
-        /// <returns>A single enum value that is the result of a bitwise OR
-        /// operation between the enum values that result from parsing each of
-        /// the items in a list into the indicated enum type value.
-        /// </returns>
-        protected static TEnum StringsToEnum<TEnum>(
-            IList<string> stringFlags,
-            TryParseEnumDelegate<TEnum> parseEnumFn)
-            where TEnum : struct, Enum
-        {
-            _ = parseEnumFn(stringFlags, out TEnum result);
-            return result;
-        }
+        #region Writing
 
         // Functions declared below should only ever be utilized in the editor.
         // They are so divided to guarantee separation of concerns.
@@ -386,14 +496,14 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="prettyPrint">
         /// Whether to output "pretty" JSON to the file.
         /// </param>
-        /// <param name="updateAssetDatabase">
-        /// Indicates whether to update the asset database after writing.
-        /// </param>
         /// <returns>Task</returns>
-        public virtual async Task WriteAsync(
-            bool prettyPrint = true,
-            bool updateAssetDatabase = true)
+        public virtual async Task WriteAsync(bool prettyPrint = true)
         {
+            BeforeWrite();
+
+            // Set the schema version to the current before writing.
+            schemaVersion = CURRENT_SCHEMA_VERSION;
+
             var json = JsonUtility.ToJson(this, prettyPrint);
 
             // If the json hasn't changed since it was last read, then
@@ -402,6 +512,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 return;
 
             await FileSystemUtility.WriteFileAsync(FilePath, json);
+            OnWriteCompleted();
         }
 
         /// <summary>
@@ -410,13 +521,13 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="prettyPrint">
         /// Whether to output "pretty" JSON to the file.
         /// </param>
-        /// <param name="updateAssetDatabase">
-        /// Indicates whether to update the asset database after writing.
-        /// </param>
-        public virtual void Write(
-            bool prettyPrint = true,
-            bool updateAssetDatabase = true)
+        public virtual void Write(bool prettyPrint = true)
         {
+            BeforeWrite();
+
+            // Set the schema version to the current before writing.
+            schemaVersion = CURRENT_SCHEMA_VERSION;
+
             var json = JsonUtility.ToJson(this, prettyPrint);
 
             // If the json hasn't changed since it was last read, then
@@ -425,13 +536,24 @@ namespace PlayEveryWare.EpicOnlineServices
                 return;
 
             FileSystemUtility.WriteFile(FilePath, json);
-
-            if (updateAssetDatabase)
-            {
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            }
+            OnWriteCompleted();
         }
+
+        protected virtual void BeforeWrite()
+        {
+            // Optionally override this function in a deriving class. Default
+            // behavior is to take no action.
+        }
+
+        protected virtual void OnWriteCompleted()
+        {
+            // Optionally override for deriving classes. Default behavior is to 
+            // take no action.
+        }
+
+#endif
+
+        #endregion
 
         /// <summary>
         /// Determines whether the values in the Config have their
@@ -444,7 +566,6 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             return IsDefault(this);
         }
-
 
         /// <summary>
         /// Returns member-wise clone of configuration data
@@ -687,7 +808,20 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #endregion
 
-#endif
     }
-
 }
+
+
+// When compiled outside of Unity - there are some fields within this file
+// that are never used. This suppresses those warnings - as the fact that they
+// are unused is expected.
+#if EXTERNAL_TO_UNITY
+// Field is never used
+#pragma warning restore CS0169
+// Field is assigned but its value is never used
+#pragma warning restore CS0414
+// Field is never assigned to, and will always have its default value.
+#pragma warning restore CS0649
+#endif
+
+#endif

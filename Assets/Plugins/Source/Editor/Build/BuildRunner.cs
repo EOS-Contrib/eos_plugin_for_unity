@@ -20,9 +20,11 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
-    using Config;
+    using PlayEveryWare.EpicOnlineServices;
     using Utility;
     using UnityEditor.Build;
     using UnityEditor.Build.Reporting;
@@ -64,10 +66,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// <param name="report">The pre-process build report.</param>
         public void OnPreprocessBuild(BuildReport report)
         {
-            // Set the current platform that is being built against
-            if (PlatformManager.TryGetPlatform(report.summary.platform, out PlatformManager.Platform platform))
+            if (ScriptingDefineUtility.IsEOSDisabled(report))
             {
-                PlatformManager.CurrentPlatform = platform;
+                return;
             }
 
             // Run the static builder's prebuild.
@@ -76,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 #if !DISABLESTEAMWORKS
             // If we're using Steamworks, then look at the user's Steam configuration file
             // If the "steamApiInterfaceVersionsArray" is empty, try to set it for the user
-            SteamConfig config = SteamConfig.Get<SteamConfig>();
+            SteamConfig config = Config.Get<SteamConfig>();
             if (config != null && (config.steamApiInterfaceVersionsArray == null || config.steamApiInterfaceVersionsArray.Count == 0))
             {
                 config.steamApiInterfaceVersionsArray = SteamworksUtility.GetSteamInterfaceVersions();
@@ -88,7 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 else
                 {
                     UnityEngine.Debug.Log($"BuildRunner: This project is using Steamworks, but has not yet configured the steamApiInterfaceVersionsArray. The builder has automatically configured this field and will now try to save the value.");
-                    config.Write(true, false);
+                    config.Write(true);
                 }
             }
 #endif
@@ -101,8 +102,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// <param name="report">The report from the post-process build.</param>
         public void OnPostprocessBuild(BuildReport report)
         {
+            if (ScriptingDefineUtility.IsEOSDisabled(report))
+            {
+                return;
+            }
+
             // Run the static builder's postbuild
             s_builder?.PostBuild(report);
         }
     }
 }
+
+#endif

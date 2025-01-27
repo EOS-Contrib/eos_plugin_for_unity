@@ -1,24 +1,33 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
-* 
-* Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files (the "Software"), to deal
-* in the Software without restriction, including without limitation the rights
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the Software is
-* furnished to do so, subject to the following conditions:
-* 
-* The above copyright notice and this permission notice shall be included in all
-* copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-* SOFTWARE.
-*/
+ * Copyright (c) 2021 PlayEveryWare
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+#if !EOS_DISABLE
+
+// When compiled outside of Unity - there are some fields within this file
+// that are never used. This suppresses those warnings - as the fact that they
+// are unused is expected.
+#if EXTERNAL_TO_UNITY
+#pragma warning disable CS0169 // Disable unused field warnings
+#endif
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -33,28 +42,31 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
     using System;
     using System.Collections.Generic;
+#if !EXTERNAL_TO_UNITY
     using UnityEngine;
+#endif
     using System.Text.RegularExpressions;
-    using Extensions;
-    
+    using Newtonsoft.Json;
     using PlayEveryWare.EpicOnlineServices.Utility;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the default deployment ID to use when a given sandbox ID is
     /// active.
     /// </summary>
-    [Serializable]
     public class SandboxDeploymentOverride
     {
+        [SandboxIDFieldValidator]
         public string sandboxID;
+
+        [GUIDFieldValidator]
         public string deploymentID;
     }
 
     /// <summary>
     /// Represents the EOS Configuration used for initializing EOS SDK.
     /// </summary>
-    [Serializable]
-    [ConfigGroup("EOS Config", new []
+    [ConfigGroup("EOS Config", new[]
     {
         "Product Information",
         "Deployment",
@@ -63,16 +75,41 @@ namespace PlayEveryWare.EpicOnlineServices
         "Thread Affinity & Tick Budgets",
         "Overlay Options"
     }, false)]
+    [Obsolete("EOSConfig is obsolete. It has been replaced by PlatformConfig and ProductConfig. It remains here for migration purposes.")]
     public class EOSConfig : Config
     {
         static EOSConfig()
         {
-            InvalidEncryptionKeyRegex = new Regex("[^0-9a-fA-F]");
             RegisterFactory(() => new EOSConfig());
         }
 
-        protected EOSConfig() : base("EpicOnlineServicesConfig.json") 
+        protected EOSConfig() : base("EpicOnlineServicesConfig.json")
         { }
+
+        protected override bool NeedsMigration()
+        {
+            // Because EOSConfig is becoming obsolete, it should never
+            // be "migrated", but left-as-is.
+            //
+            // To be clear - migration _from_ EOSConfig *does* take place, but 
+            // it is considered in those cases that the new config classes are
+            // the ones being migrated - the EOSConfig _itself_ is therefore 
+            // never migrated. Non-obsolete code makes exclusive use of the new
+            // classes.
+            return false;
+        }
+
+        /// <summary>
+        /// Override the function that writes a config file if it doesn't exist,
+        /// because now that EOSConfig is obsolete, we do not want an empty file
+        /// being generated automatically - it would inevitably lead to some
+        /// confusion.
+        /// </summary>
+        /// <returns>Returns a completed task.</returns>
+        protected override Task EnsureConfigFileExistsAsync()
+        {
+            return Task.CompletedTask;
+        }
 
         #region Product Information
 
@@ -82,6 +119,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Product Name", ConfigFieldType.Text,
             "Product name defined in the Development Portal.", 0)]
+        [NonEmptyStringFieldValidator]
         public string productName;
 
         /// <summary>
@@ -89,6 +127,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Product Version", ConfigFieldType.Text,
             "Version of the product.", 0)]
+        [NonEmptyStringFieldValidator]
         public string productVersion;
 
         /// <summary>
@@ -97,6 +136,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Product Id", ConfigFieldType.Text,
             "Product Id defined in the Development Portal.", 0)]
+        [GUIDFieldValidator]
         public string productID;
 
         #endregion
@@ -107,8 +147,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Sandbox Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Sandbox Id", ConfigFieldType.Text, 
+        [ConfigField("Sandbox Id", ConfigFieldType.Text,
             "Sandbox Id to use.", 1)]
+        [SandboxIDFieldValidator]
         public string sandboxID;
 
         /// <summary>
@@ -117,24 +158,26 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Deployment Id", ConfigFieldType.Text,
             "Deployment Id to use.", 1)]
+        [GUIDFieldValidator]
         public string deploymentID;
 
         /// <summary>
         /// SandboxDeploymentOverride pairs used to override Deployment ID when
         /// a given Sandbox ID is used.
         /// </summary>
-        [ConfigField("Sandbox Deployment Overrides", 
-            ConfigFieldType.TextList, 
+        [ConfigField("Sandbox Deployment Overrides",
+            ConfigFieldType.TextList,
             "Deployment Id to use.", 1)]
+        [ExpandField]
         public List<SandboxDeploymentOverride> sandboxDeploymentOverrides;
 
         /// <summary>
         /// Set to 'true' if the application is a dedicated game server.
         /// </summary>
-        [ConfigField("Is Server", 
-            ConfigFieldType.Flag, 
+        [ConfigField("Is Server",
+            ConfigFieldType.Flag,
             "Indicates whether the application is a dedicated game " +
-            "server.", 
+            "server.",
             1)]
         public bool isServer;
 
@@ -147,7 +190,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
         [ConfigField("Client Secret", ConfigFieldType.Text,
-            "Client Secret defined in the Development Portal.", 
+            "Client Secret defined in the Development Portal.",
             2)]
         public string clientSecret;
 
@@ -156,7 +199,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
         [ConfigField("Client Id", ConfigFieldType.Text,
-            "Client Id defined in the Development Portal.", 
+            "Client Id defined in the Development Portal.",
             2)]
         public string clientID;
 
@@ -174,7 +217,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// pressed.
         /// </summary>
         [ConfigField("Generate Key", ConfigFieldType.Button,
-            "Click to generate an encryption key.", 
+            "Click to generate an encryption key.",
             2)]
         private Action GenerateKeyButtonAction;
 
@@ -182,23 +225,27 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #region Flags
 
+#if !EOS_DISABLE
         /// <summary>
         /// Flags; used to initialize the EOS platform.
         /// </summary>
-        [ConfigField("Platform Options", 
+        [ConfigField("Platform Options",
             ConfigFieldType.TextList,
-            "Platform option flags", 
+            "Platform option flags",
             3)]
-        public List<string> platformOptionsFlags;
+        [JsonConverter(typeof(ListOfStringsToPlatformFlags))]
+        public WrappedPlatformFlags platformOptionsFlags;
 
         /// <summary>
         /// Flags; used to set user auth when logging in.
         /// </summary>
-        [ConfigField("Auth Scope Options", 
-            ConfigFieldType.TextList, 
-            "Platform option flags", 
+        [ConfigField("Auth Scope Options",
+            ConfigFieldType.TextList,
+            "Platform option flags",
             3)]
-        public List<string> authScopeOptionsFlags;
+        [JsonConverter(typeof(ListOfStringsToAuthScopeFlags))]
+        public AuthScopeFlags authScopeOptionsFlags;
+#endif
 
         #endregion
 
@@ -208,10 +255,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Tick Budget; used to define the maximum amount of execution time the
         /// EOS SDK can use each frame.
         /// </summary>
-        [ConfigField("Tick Budget (ms)", 
-            ConfigFieldType.Uint, 
+        [ConfigField("Tick Budget (ms)",
+            ConfigFieldType.Uint,
             "Used to define the maximum amount of execution time the " +
-            "EOS SDK can use each frame.", 
+            "EOS SDK can use each frame.",
             3)]
         public uint tickBudgetInMilliseconds;
 
@@ -226,8 +273,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <see cref="NetworkStatus.Online"/>.
         /// <seealso cref="PlatformInterface.GetNetworkStatus"/>
         /// </summary>
-        [ConfigField("Network Timeout Seconds", 
-            ConfigFieldType.Double, 
+        [ConfigField("Network Timeout Seconds",
+            ConfigFieldType.Double,
             "Indicates the maximum number of seconds that EOS SDK " +
             "will allow network calls to run before failing with EOS_TimedOut.",
             3)]
@@ -237,59 +284,65 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Network Work Affinity; specifies thread affinity for network
         /// management that is not IO.
         /// </summary>
-        [ConfigField("Network Work", ConfigFieldType.Text,
+        [ConfigField("Network Work", ConfigFieldType.Ulong,
             "Specifies affinity for threads that manage network tasks " +
-            "that are not IO related.", 
+            "that are not IO related.",
             3)]
-        public string ThreadAffinity_networkWork;
+        [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+        public ulong? ThreadAffinity_networkWork;
 
         /// <summary>
         /// Storage IO Affinity; specifies affinity for threads that will
         /// interact with a storage device.
         /// </summary>
-        [ConfigField("Storage IO", ConfigFieldType.Text,
-            "Specifies affinity for threads that generate storage IO.", 
+        [ConfigField("Storage IO", ConfigFieldType.Ulong,
+            "Specifies affinity for threads that generate storage IO.",
             3)]
-        public string ThreadAffinity_storageIO;
+        [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+        public ulong? ThreadAffinity_storageIO;
 
         /// <summary>
         /// Web Socket IO Affinity; specifies affinity for threads that generate
         /// web socket IO.
         /// </summary>
-        [ConfigField("Web Socket IO", ConfigFieldType.Text,
+        [ConfigField("Web Socket IO", ConfigFieldType.Ulong,
             "Specifies affinity for threads that generate web socket " +
             "IO.", 3)]
-        public string ThreadAffinity_webSocketIO;
+        [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+        public ulong? ThreadAffinity_webSocketIO;
 
         /// <summary>
         /// P2P IO Affinity; specifies affinity for any thread that will
         /// generate IO related to P2P traffic and management.
         /// </summary>
-        [ConfigField("P2P IO", ConfigFieldType.Text,
+        [ConfigField("P2P IO", ConfigFieldType.Ulong,
             "Specifies affinity for any thread that will generate IO " +
-            "related to P2P traffic and management.", 
+            "related to P2P traffic and management.",
             3)]
-        public string ThreadAffinity_P2PIO;
+        [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+        public ulong? ThreadAffinity_P2PIO;
 
         /// <summary>
         /// HTTP Request IO Affinity; specifies affinity for any thread that
         /// will generate http request IO.
         /// </summary>
-        [ConfigField("HTTP Request IO", ConfigFieldType.Text,
+        [ConfigField("HTTP Request IO", ConfigFieldType.Ulong,
             "Specifies the affinity for any thread that will generate " +
-            "HTTP request IO.", 
+            "HTTP request IO.",
             3)]
-        public string ThreadAffinity_HTTPRequestIO;
+        [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+        public ulong? ThreadAffinity_HTTPRequestIO;
 
         /// <summary>
         /// RTC IO Affinity&lt;/c&gt; specifies affinity for any thread that
         /// will generate IO related to RTC traffic and management.
         /// </summary>
-        [ConfigField("RTC IO", ConfigFieldType.Text,
+        [ConfigField("RTC IO", ConfigFieldType.Ulong,
             "Specifies the affinity for any thread that will generate " +
-            "IO related to RTC traffic and management.", 
+            "IO related to RTC traffic and management.",
             3)]
-        public string ThreadAffinity_RTCIO;
+        [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+        public ulong? ThreadAffinity_RTCIO;
 
         #endregion
 
@@ -301,8 +354,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// handle showing the overlay. This doesn't always mean input makes it
         /// to the EOS SDK.
         /// </summary>
-        [ConfigField("Always Send Input to Overlay", 
-            ConfigFieldType.Flag, 
+        [ConfigField("Always Send Input to Overlay",
+            ConfigFieldType.Flag,
             "If true, the plugin will always send input to the " +
             "overlay from the C# side to native, and handle showing the " +
             "overlay. This doesn't always mean input makes it to the EOS SDK.",
@@ -312,10 +365,11 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Initial Button Delay.
         /// </summary>
-        [ConfigField("Initial Button Delay", ConfigFieldType.Text,
+        [ConfigField("Initial Button Delay", ConfigFieldType.Float,
             "Initial Button Delay (if not set, whatever the default " +
             "is will be used).", 4)]
-        public string initialButtonDelayForOverlay;
+        [JsonConverter(typeof(StringToTypeConverter<float>))]
+        public float? initialButtonDelayForOverlay;
 
         /// <summary>
         /// Repeat button delay for overlay.
@@ -323,21 +377,12 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Repeat Button Delay", ConfigFieldType.Text,
             "Repeat button delay for the overlay. If not set, " +
             "whatever the default is will be used.", 4)]
-        public string repeatButtonDelayForOverlay;
+        [JsonConverter(typeof(StringToTypeConverter<float>))]
+        public float? repeatButtonDelayForOverlay;
 
-        /// <summary>
-        /// HACK: send force send input without delay&lt;/c&gt;If true, the
-        /// native plugin will always send input received directly to the SDK.
-        /// If set to false, the plugin will attempt to delay the input to
-        /// mitigate CPU spikes caused by spamming the SDK.
-        /// </summary>
-        [ConfigField("Send input without delay", 
-            ConfigFieldType.Flag, 
-            "Workaround to force send input without any delay. If " +
-            "true, the native plugin will always send input receive directly " +
-            "to the SDK.", 4)]
-        public bool hackForceSendInputDirectlyToSDK;
-
+        // This compile conditional is here so that when EOS is disabled, in the
+        // Epic namespace is referenced.
+#if !EOS_DISABLE
         /// <summary>
         /// When this combination of buttons is pressed on a controller, the
         /// social overlay will toggle on.
@@ -345,50 +390,38 @@ namespace PlayEveryWare.EpicOnlineServices
         /// use that value if this configuration field is null, empty, or contains
         /// only <see cref="InputStateButtonFlags.None"/>.
         /// </summary>
-        public List<string> toggleFriendsButtonCombination = new List<string>() {
-#if !EOS_DISABLE
-            InputStateButtonFlags.SpecialLeft.ToString() 
+        [JsonConverter(typeof(ListOfStringsToInputStateButtonFlags))]
+        public InputStateButtonFlags toggleFriendsButtonCombination = InputStateButtonFlags.SpecialLeft;
 #endif
-        };
 
-#endregion
-
-        public static Regex InvalidEncryptionKeyRegex;
-        
-        private static bool IsEncryptionKeyValid(string key)
-        {
-            return
-                //key not null
-                key != null &&
-                //key is 64 characters
-                key.Length == 64 &&
-                //key is all hex characters
-                !InvalidEncryptionKeyRegex.Match(key).Success;
-        }
+        #endregion
 
         /// <summary>
         /// Override the default sandbox and deployment id. Uses the sandboxId
         /// as a key to determine the corresponding deploymentId that has been
         /// set by the user in the configuration window.
         /// </summary>
-        /// <param name="sandboxId">The sandbox id to use.</param>
-        public void SetDeployment(string sandboxId)
+        /// <param name="launcherSandboxId">The sandbox id to use.</param>
+        public void SetDeployment(string launcherSandboxId)
         {
             // Confirm that the sandboxId is stored in the list of overrides
-            if (!TryGetDeployment(sandboxDeploymentOverrides, sandboxId,
+            if (TryGetDeployment(sandboxDeploymentOverrides, launcherSandboxId,
                     out SandboxDeploymentOverride overridePair))
             {
-                Debug.LogError($"The given sandboxId \"{sandboxId}\" could not be found in the configured list of deployment override values.");
-                return;
+                Debug.Log($"Sandbox ID overridden to: \"{overridePair.sandboxID}\".");
+                Debug.Log($"Deployment ID overridden to: \"{overridePair.deploymentID}\".");
+
+                // Override the sandbox and deployment Ids
+                sandboxID = overridePair.sandboxID;
+                deploymentID = overridePair.deploymentID;
             }
-
-            Debug.Log($"Sandbox ID overridden to: \"{overridePair.sandboxID}\".");
-            Debug.Log($"Deployment ID overridden to: \"{overridePair.deploymentID}\".");
-
-            // Override the sandbox and deployment Ids
-            sandboxID = overridePair.sandboxID;
-            deploymentID = overridePair.deploymentID;
-
+            else 
+            {
+                if (sandboxID != launcherSandboxId) 
+                {
+                    throw new Exception($"The launcher sandboxId \"{launcherSandboxId}\" does not have a corresponding deploymentId configured.");
+                }
+            }
             // TODO: This will trigger a need to re-validate the config values
         }
 
@@ -432,45 +465,6 @@ namespace PlayEveryWare.EpicOnlineServices
 #if !EOS_DISABLE
 
         /// <summary>
-        /// Returns a single PlatformFlags enum value that results from a
-        /// bitwise OR operation of all the platformOptionsFlags flags on this
-        /// config.
-        /// </summary>
-        /// <returns>A PlatformFlags enum value.</returns>
-        public PlatformFlags GetPlatformFlags()
-        {
-            return StringsToEnum<PlatformFlags>(
-                platformOptionsFlags,
-                PlatformFlagsExtensions.TryParse);
-        }
-
-        /// <summary>
-        /// Returns a single AuthScopeFlags enum value that results from a
-        /// bitwise OR operation of all the authScopeOptionsFlags flags on this
-        /// config.
-        /// </summary>
-        /// <returns>An AuthScopeFlags enum value.</returns>
-        public AuthScopeFlags GetAuthScopeFlags()
-        {
-            return StringsToEnum<AuthScopeFlags>(
-                authScopeOptionsFlags, 
-                AuthScopeFlagsExtensions.TryParse);
-        }
-
-        /// <summary>
-        /// Returns a single InputStateButtonFlags enum value that results from a
-        /// bitwise OR operation of all the <seealso cref="toggleFriendsButtonCombination"/> flags on this
-        /// config.
-        /// </summary>
-        /// <returns>An InputStateButtonFlags enum value.</returns>
-        public InputStateButtonFlags GetToggleFriendsButtonCombinationFlags()
-        {
-            return StringsToEnum<InputStateButtonFlags>(
-                toggleFriendsButtonCombination,
-                (IList<string> stringFlags, out InputStateButtonFlags result) => EnumUtility<InputStateButtonFlags>.TryParse(stringFlags, null, out result));
-        }
-
-        /// <summary>
         /// Given a reference to an InitializeThreadAffinity struct, set the
         /// member fields contained within to match the values of this config.
         /// </summary>
@@ -479,24 +473,45 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void ConfigureOverrideThreadAffinity(ref InitializeThreadAffinity affinity)
         {
-            affinity.NetworkWork = ThreadAffinity_networkWork.ToUlong();
-            affinity.StorageIo = ThreadAffinity_storageIO.ToUlong();
-            affinity.WebSocketIo = ThreadAffinity_webSocketIO.ToUlong();
-            affinity.P2PIo = ThreadAffinity_P2PIO.ToUlong();
-            affinity.HttpRequestIo = ThreadAffinity_HTTPRequestIO.ToUlong();
-            affinity.RTCIo = ThreadAffinity_RTCIO.ToUlong();
+            if (ThreadAffinity_HTTPRequestIO.HasValue)
+            {
+                affinity.HttpRequestIo = ThreadAffinity_HTTPRequestIO.Value;
+            }
+
+            if (ThreadAffinity_P2PIO.HasValue)
+            {
+                affinity.P2PIo = ThreadAffinity_P2PIO.Value;
+            }
+
+            if (ThreadAffinity_RTCIO.HasValue)
+            {
+                affinity.RTCIo = ThreadAffinity_RTCIO.Value;
+            }
+
+            if (ThreadAffinity_networkWork.HasValue)
+            {
+                affinity.NetworkWork = ThreadAffinity_networkWork.Value;
+            }
+
+            if (ThreadAffinity_storageIO.HasValue)
+            {
+                affinity.StorageIo = ThreadAffinity_storageIO.Value;
+            }
+
+            if (ThreadAffinity_webSocketIO.HasValue)
+            {
+                affinity.WebSocketIo = ThreadAffinity_webSocketIO.Value;
+            }
         }
 #endif
-
-        /// <summary>
-        /// Determines whether the encryption key for the config is valid.
-        /// </summary>
-        /// <returns>
-        /// True if the encryption key is valid, false otherwise.
-        /// </returns>
-        public bool IsEncryptionKeyValid()
-        {
-            return IsEncryptionKeyValid(encryptionKey);
-        }
     }
 }
+
+// When compiled outside of Unity - there are some fields within this file
+// that are never used. This suppresses those warnings - as the fact that they
+// are unused is expected.
+#if EXTERNAL_TO_UNITY
+#pragma warning restore CS0169 // Disable unused field warnings
+#endif
+
+#endif

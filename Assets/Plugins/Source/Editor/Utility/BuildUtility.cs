@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 // TODO: Make sure to enclose this properly in scripting defines so that it is only enabled for Windows platforms.
 //       Alternatively, implement it so that it behaves as expected on a Linux machine (ie running the Makefile
 //       natively.
@@ -779,3 +781,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
     }
 }
+
+#endif

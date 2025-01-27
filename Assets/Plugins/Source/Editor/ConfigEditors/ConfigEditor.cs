@@ -1,30 +1,30 @@
 /*
-* Copyright (c) 2024 PlayEveryWare
-* 
-* Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files (the "Software"), to deal
-* in the Software without restriction, including without limitation the rights
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the Software is
-* furnished to do so, subject to the following conditions:
-* 
-* The above copyright notice and this permission notice shall be included in all
-* copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-* SOFTWARE.
-*/
+ * Copyright (c) 2024 PlayEveryWare
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+#if !EOS_DISABLE
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
     using UnityEditor;
     using UnityEditor.AnimatedValues;
@@ -41,7 +41,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     /// The type of config that this editor is responsible for providing an
     /// interface to edit for.
     /// </typeparam>
-    public class ConfigEditor<T> : IConfigEditor where T : 
+    public class ConfigEditor<T> : IConfigEditor where T :
         EpicOnlineServices.Config
     {
         /// <summary>
@@ -94,7 +94,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// collapsed.
         /// </param>
         public ConfigEditor(
-            UnityAction repaintFn = null, 
+            UnityAction repaintFn = null,
             bool startsExpanded = false)
         {
             _expanded = startsExpanded;
@@ -104,7 +104,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
             if (null != attribute)
             {
-                _collapsible = attribute.Collapsible;   
+                _collapsible = attribute.Collapsible;
                 _labelText = attribute.Label;
                 _groupLabels = attribute.GroupLabels;
             }
@@ -158,116 +158,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             handler?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Use reflection to retrieve a collection of fields that have been
-        /// assigned custom ConfigFieldAttribute attributes, grouping by group,
-        /// and sorting by group.
-        /// </summary>
-        /// <returns>A collection of config fields.</returns>
-        private static IOrderedEnumerable<IGrouping<int, (FieldInfo FieldInfo, ConfigFieldAttribute FieldDetails)>> GetFieldsByGroup()
-        {
-            return typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance)
-                .Where(field => field.GetCustomAttribute<ConfigFieldAttribute>() != null)
-                .Select(info => (info, info.GetCustomAttribute<ConfigFieldAttribute>()))
-                .GroupBy(r => r.Item2.Group)
-                .OrderBy(group => group.Key);
-        }
-
-        /// <summary>
-        /// Using a collection of FieldInfo and ConfigFieldAttribute classes,
-        /// representing the fields in a Config, determine which field in a
-        /// given group is the longest, and return that length.
-        /// </summary>
-        /// <param name="group">
-        /// A group of fields that have ConfigFieldAttribute and the same group
-        /// number.
-        /// </param>
-        /// <returns>
-        /// The length of the longest label to create 
-        /// </returns>
-        private static float GetMaximumLabelWidth(IEnumerable<(FieldInfo, ConfigFieldAttribute)> group)
-        {
-            GUIStyle labelStyle = new(GUI.skin.label);
-
-            float maxWidth = 0f;
-            foreach (var field in group)
-            {
-                string labelText = field.Item2.Label;
-
-                Vector2 labelSize = labelStyle.CalcSize(new GUIContent(labelText));
-                if (maxWidth < labelSize.x)
-                {
-                    maxWidth = labelSize.x;
-                }
-            }
-
-            return maxWidth;
-        }
-
-        /// <summary>
-        /// Render the config fields for the config that has been set to edit.
-        /// </summary>
-        /// <exception cref="NotImplementedException">
-        /// Thrown for types that are not yet implemented.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown for types that are not yet implemented, and not accounted for
-        /// in the switch statement.
-        /// </exception>
-        protected void RenderConfigFields()
-        {
-            foreach (var fieldGroup in GetFieldsByGroup())
-            {
-                float labelWidth = GetMaximumLabelWidth(fieldGroup);
-
-                // If there is a label for the field group, then display it.
-                if (0 >= fieldGroup.Key && _groupLabels?.Length > fieldGroup.Key)
-                {
-                    GUILayout.Label(_groupLabels[fieldGroup.Key], EditorStyles.boldLabel);
-                }
-
-                foreach (var field in fieldGroup)
-                {
-                    switch (field.FieldDetails.FieldType)
-                    {
-                        case ConfigFieldType.Text:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (string)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.FilePath:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails as FilePathFieldAttribute, (string)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.Flag:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (bool)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.DirectoryPath:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails as DirectoryPathFieldAttribute, (string)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.Ulong:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (ulong)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.Double:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (double)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.TextList:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (List<string>)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.Uint:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (uint)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.Button:
-                            if (GUILayout.Button(field.FieldDetails.Label) && 
-                                field.FieldInfo.GetValue(config) is Action onClick)
-                            {
-                                onClick();
-                            }
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                }
-            }
-        }
-
         public string GetLabelText()
         {
             return _labelText;
@@ -289,7 +179,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             Task.Run(LoadAsync).GetAwaiter().GetResult();
         }
 
-        public async Task Save(bool prettyPrint)
+        public void Save(bool prettyPrint = true)
+        {
+            config.Write(prettyPrint);
+        }
+
+        public async Task SaveAsync(bool prettyPrint = true)
         {
             await config.WriteAsync(prettyPrint);
         }
@@ -302,8 +197,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             }
             else
             {
-                GUILayout.Label(GetLabelText(), EditorStyles.boldLabel);
-                RenderConfigFields();
+                GUIEditorUtility.RenderSectionHeader(GetLabelText());
+                GUIEditorUtility.RenderInputs(ref config);
             }
         }
 
@@ -338,7 +233,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                 if (EditorGUILayout.BeginFadeGroup(_animExpanded.faded))
                 {
                     EditorGUILayout.BeginVertical(GUI.skin.box);
-                    RenderConfigFields();
+                    GUIEditorUtility.RenderInputs(ref config);
                     EditorGUILayout.EndVertical();
                 }
                 EditorGUILayout.EndFadeGroup();
@@ -363,3 +258,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         }
     }
 }
+
+#endif

@@ -62,6 +62,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         protected override void Awake()
         {
+            // Hide the Achievement Locked / Unlocked icons at the start,
+            // only making them active after we've fetched images for them.
+            // Otherwise, there will appear to be white squares in the sample.
+            achievementLockedIcon.gameObject.SetActive(false);
+            achievementUnlockedIcon.gameObject.SetActive(false);
+
             base.Awake();
             AchievementsService.Instance.Updated += OnAchievementDataUpdated;
         }
@@ -212,6 +218,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             var achievementData = achievementDataList[i];
             var definition = achievementData.Definition;
+
+            // Set both icons to be hidden
+            achievementLockedIcon.gameObject.SetActive(false);
+            achievementUnlockedIcon.gameObject.SetActive(false);
+
+            // Asynchronously retrieve the icons and set the textures
+            // DisplayPlayerAchievement then will set the appropriate icon to be visible
             achievementUnlockedIcon.texture = await AchievementsService.Instance.GetAchievementUnlockedIconTexture(definition.AchievementId);
             achievementLockedIcon.texture = await AchievementsService.Instance.GetAchievementLockedIconTexture(definition.AchievementId);
 
@@ -279,9 +292,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 "Id: {0}\nUnlocked Display Name: {1}\nUnlocked Description: {2}\nLocked Display Name: {3}\nLocked Description: {4}\nHidden: {5}\n",
                 definition.AchievementId, definition.UnlockedDisplayName, definition.UnlockedDescription, definition.LockedDisplayName, definition.LockedDescription, definition.IsHidden);
 
-            foreach (StatThresholds st in definition.StatThresholds)
+            if (definition.StatThresholds != null)
             {
-                selectedDescription += string.Format("Stat Thresholds: '{0}': {1}\n", st.Name, st.Threshold);
+                foreach (StatThresholds st in definition.StatThresholds)
+                {
+                    selectedDescription += string.Format("Stat Thresholds: '{0}': {1}\n", st.Name, st.Threshold);
+                }
             }
 
             definitionsDescription.text = selectedDescription;

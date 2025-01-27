@@ -56,7 +56,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [DllImport("UnityHelpers_Android")]
         private static extern JavaVM UnityHelpers_GetJavaVM();
 
-        public AndroidPlatformSpecifics() : base(PlatformManager.Platform.Android, ".so") { }
+        public AndroidPlatformSpecifics() : base(PlatformManager.Platform.Android) { }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
@@ -109,7 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         //-------------------------------------------------------------------------
         [Conditional("ENABLE_DEBUG_EOSMANAGERANDROID")]
-        static void print(string toPrint)
+        static void Log(string toPrint)
         {
             UnityEngine.Debug.Log(toPrint);
         }

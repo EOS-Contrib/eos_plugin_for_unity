@@ -20,20 +20,18 @@
 * SOFTWARE.
 */
 
-using System;
-using System.IO;
-using UnityEditor;
-using UnityEngine;
-using System.Collections.Generic;
+#if !EOS_DISABLE
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using System;
+    using System.IO;
+    using UnityEditor;
+    using UnityEngine;
+    using System.Collections.Generic;
     using Config;
     using System.Linq;
     using System.Threading.Tasks;
-    using UnityEditor.AnimatedValues;
-    using Utility;
-    using Config = EpicOnlineServices.Config;
 
     /// <summary>
     /// Creates the view for showing the eos plugin editor config values.
@@ -64,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             return provider;
         }
 
-        [MenuItem("Tools/EOS Plugin/Plugin Configuration")]
+        [MenuItem("EOS Plugin/Plugin Configuration", priority = 2)]
         public static void ShowWindow()
         {
             var window = GetWindow<EOSPluginSettingsWindow>();
@@ -157,7 +155,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             foreach (var configurationSectionEditor in configEditors)
             {
-                configurationSectionEditor.Save();
+                configurationSectionEditor.SaveAsync();
             }
 
             AssetDatabase.SaveAssets();
@@ -165,3 +163,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         }
     }
 }
+
+#endif

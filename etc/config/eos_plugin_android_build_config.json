@@ -1,3 +1,4 @@
 {
-    "DynamicallyLinkEOSLibrary": false
+  "DynamicallyLinkEOSLibrary": false,
+  "schemaVersion": "1.0"
 }

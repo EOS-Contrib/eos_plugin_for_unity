@@ -1,27 +1,30 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
-* 
-* Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files (the "Software"), to deal
-* in the Software without restriction, including without limitation the rights
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the Software is
-* furnished to do so, subject to the following conditions:
-* 
-* The above copyright notice and this permission notice shall be included in all
-* copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-* SOFTWARE.
-*/
+ * Copyright (c) 2021 PlayEveryWare
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+#if !EOS_DISABLE
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
+    using Common.Extensions;
     using UnityEditor.Build.Reporting;
     using UnityEditor;
     using UnityEngine;
@@ -365,17 +368,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             string fileContents = reader.ReadToEnd();
             reader.Close();
 
-            EOSConfig eosConfig = Config.Get<EOSConfig>();
+            ProductConfig productConfig = Config.Get<ProductConfig>();
+            PlatformConfig platformConfig = PlatformManager.GetPlatformConfig();
 
             var sb = new System.Text.StringBuilder(fileContents);
 
             sb.Replace("<UnityProductName>", Application.productName);
             sb.Replace("<ExeName>", buildExeName);
             sb.Replace("<ExeNameNoExt>", Path.GetFileNameWithoutExtension(buildExeName));
-            sb.Replace("<ProductName>", eosConfig.productName);
-            sb.Replace("<ProductID>", eosConfig.productID);
-            sb.Replace("<SandboxID>", eosConfig.sandboxID);
-            sb.Replace("<DeploymentID>", eosConfig.deploymentID);
+            sb.Replace("<ProductName>", productConfig.ProductName);
+            sb.Replace("<ProductID>", productConfig.ProductId.ToString("N").ToLowerInvariant());
+            sb.Replace("<SandboxID>", platformConfig.deployment.SandboxId.ToString());
+            sb.Replace("<DeploymentID>", platformConfig.deployment.DeploymentId.ToString("N").ToLowerInvariant());
 
             fileContents = sb.ToString();
 
@@ -420,7 +424,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
                 if (!string.IsNullOrWhiteSpace(toolPath))
                 {
-                    var productId = (Config.Get<EOSConfig>()).productID;
+                    var productId = Config.Get<ProductConfig>().ProductId.ToString("N").ToLowerInvariant();
                     GenerateIntegrityCert(report, toolPath, productId,
                         toolsConfig.pathToEACPrivateKey, toolsConfig.pathToEACCertificate, cfgPath);
                 }
@@ -428,3 +432,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         }
     }
 }
+
+#endif

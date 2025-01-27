@@ -1,0 +1,33 @@
+<Project>
+  <PropertyGroup>
+    <!-- 
+      Across different contexts and different conditions WITHIN THIS PROJECT, 
+      "Win32" and "x86" are used somewhat interchangeably. For the purposes of 
+      the native component of the plugin, Win32 is considered to be x86 and 
+      should be placed in the corresponding directory along with other x86 
+      binaries.
+
+      Therefore NormalizedPlatform is introduced here to appropriately 
+      translate.
+      -->
+    <NormalizedPlatform Condition="'$(PlatformTarget)' == 'x86' or '$(PlatformTarget)' == 'Win32'">x86</NormalizedPlatform>
+    <NormalizedPlatform Condition="'$(PlatformTarget)' == 'x64'">x64</NormalizedPlatform>
+    <NormalizedPlatform Condition="'$(Platform)' == 'x86' or '$(Platform)' == 'Win32'">x86</NormalizedPlatform>
+    <NormalizedPlatform Condition="'$(Platform)' == 'x64'">x64</NormalizedPlatform>
+    
+    <EOS_SDK_DLL_NAME Condition="'$(NormalizedPlatform)' == 'x64'">EOSSDK-Win64-Shipping.dll</EOS_SDK_DLL_NAME>
+    <STEAM_API_DLL_NAME Condition="'$(NormalizedPlatform)' == 'x64'">steam_api64.dll</STEAM_API_DLL_NAME>
+
+    <EOS_SDK_DLL_NAME Condition="'$(NormalizedPlatform)' == 'x86'">EOSSDK-Win32-Shipping.dll</EOS_SDK_DLL_NAME>
+    <STEAM_API_DLL_NAME Condition="'$(NormalizedPlatform)' == 'x86'">steam_api.dll</STEAM_API_DLL_NAME>
+
+      <!-- 
+      Define a property with the SolutionDir path but with backslashes replaced 
+      by forward slashes 
+      -->
+    <SolutionDirForwardSlashes>$(SolutionDir.Replace('\', '/'))</SolutionDirForwardSlashes>
+    <UnityStreamingAssetsDirectory>$(SolutionDirForwardSlashes)../../../Assets/StreamingAssets/</UnityStreamingAssetsDirectory>
+    <SteamLibraryDirectory>$(SolutionDirForwardSlashes)../../../Library/PackageCache/com.rlabrecque.steamworks.net*/Plugins/</SteamLibraryDirectory>
+    <OutputUnityAssetsDirectory>$(SolutionDirForwardSlashes)../../../Assets/Plugins/Windows/$(NormalizedPlatform)/</OutputUnityAssetsDirectory>
+  </PropertyGroup>
+</Project>
