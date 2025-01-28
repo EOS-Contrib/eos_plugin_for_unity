@@ -542,7 +542,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         public static float MeasureLabelWidth(int characters)
         {
-            return MeasureLabelWidth(new string('0', characters));
+            return MeasureLabelWidth(new string('M', characters));
         }
 
         public static float MeasureLabelWidth(string label)
