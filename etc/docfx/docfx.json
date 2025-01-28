@@ -5,18 +5,27 @@
         {
           "src": "../../Assets/",
           "files": [
-              "**.cs"
+              "**/*.cs"
+          ]
+        },
+        {
+          "src": "../../com.playeveryware.eos/",
+          "files": [
+            "**/*.cs"
+          ]
+        },
+        {
+          "files": [
+            "filter.yml"
           ]
         }
       ],
       "dest": "api",
       "filter": "filter.yml",
       "disableGitFeatures": false,
-      "disableDefaultFilter": true,
       "ignoreErrors":true,
-      "allowCompilationErrors": true,
       "properties": {
-        "DefineConstants":"EOS_DISABLE;EOS_DYNAMIC_BINDINGS"
+        "DefineConstants":"EOS_DYNAMIC_BINDINGS"
       }
     }
   ],
@@ -32,6 +41,7 @@
       {
         "files": [
           "toc.yml",
+          "**/*.yml",
           "*.md"
         ]
       }
@@ -55,7 +65,9 @@
       }
     ],
     "dest": "_site",
-    "globalMetadataFiles": [],
+    "globalMetadataFiles": [
+      "filter.yml"
+    ],
     "fileMetadataFiles": [],
     "template": [
       "default",

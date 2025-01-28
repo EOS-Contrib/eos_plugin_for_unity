@@ -1,5 +1,3 @@
-<a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/stable/com.playeveryware.eos/README.md"><img src="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/stable/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif?raw=true" alt="Lobby Screenshot" width="5%"/></a>
-
 <div align="center"> <img src="https://github.com/PlayEveryWare/eos_plugin_for_unity/raw/stable/com.playeveryware.eos/Documentation~/images/EOSPluginLogo.png" alt="PlayEveryWare EOS Plugin for Unity" /> </div>
 
 <br />

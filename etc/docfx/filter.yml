@@ -5,3 +5,6 @@ apiRules:
 - exclude:
     uidRegex: ^Epic\.
     type: Namespace
+- exclude:
+    uidRegex: .+Tests*
+    type: Namespace
