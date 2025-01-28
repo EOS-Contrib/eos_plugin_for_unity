@@ -491,52 +491,102 @@ namespace PlayEveryWare.EpicOnlineServices
                     });
             }
 
-            //-------------------------------------------------------------------------
-            // NOTE: on some platforms the EOS platform is init'd by a native dynamic library. In
-            // those cases, this code will early out.
-            public void Init(IEOSCoroutineOwner coroutineOwner)
+            /// <summary>
+            /// This function applies any command line arguments that may have
+            /// been provided to the application from the Epic Games Launcher.
+            /// </summary>
+            private void ApplyCommandLineArguments()
             {
-                Init(coroutineOwner, EOSPackageInfo.ConfigFileName);
-            }
+                EpicLauncherArgs epicArgs = GetCommandLineArgsFromEpicLauncher();
 
-            private void ConfigureCommandLineOptions()
-            {
-                // TODO: Make more complete the support for command line arguments.
-                var epicArgs = GetCommandLineArgsFromEpicLauncher();
-
-                if (string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
+                // If neither the sandbox id nor the deployment id have been specified on the command line, the application of the arguments can stop here.
+                if (string.IsNullOrEmpty(epicArgs.epicSandboxID) && string.IsNullOrEmpty(epicArgs.epicDeploymentID))
                 {
                     return;
                 }
 
-                var definedProductionEnvironments = Config.Get<ProductConfig>().Environments;
-                bool sandboxOverridden = false;
-                foreach (Named<SandboxId> sandbox in definedProductionEnvironments.Sandboxes)
+                ProductConfig productConfig = Config.Get<ProductConfig>();
+
+                if (!string.IsNullOrEmpty(epicArgs.epicSandboxID))
                 {
-                    if (sandbox.Value.ToString() != epicArgs.epicSandboxID.ToLower())
+                    bool sandboxDefined = false;
+                    SandboxId sandboxFromCommandLine = SandboxId.FromString(epicArgs.epicSandboxID);
+                    foreach (var namedSandbox in productConfig.Environments.Sandboxes)
                     {
-                        continue;
+                        if (namedSandbox.Value.Equals(sandboxFromCommandLine))
+                        {
+                            Debug.Log($"{namedSandbox} selected as sandbox.");
+                            sandboxDefined = true;
+                            break;
+                        }
                     }
 
-                    PlatformManager.GetPlatformConfig().deployment.SandboxId = sandbox.Value;
-                    sandboxOverridden = true;
-                    Debug.Log($"SandboxID was overridden to be \"{sandbox.Value}\" by a command line parameter.");
-                    break;
+                    PlatformManager.GetPlatformConfig().deployment.SandboxId = sandboxFromCommandLine;
+
+                    if (!sandboxDefined)
+                    {
+                        Debug.LogWarning(
+                            $"Sandbox Id \"{sandboxFromCommandLine}\" was " +
+                            $"provided on the command line, but was not " +
+                            $"found in the product config. Attempting to use " +
+                            $"it regardless.");
+                    }
                 }
 
-                if (!sandboxOverridden)
+                if (!string.IsNullOrEmpty(epicArgs.epicDeploymentID))
                 {
-                    Debug.LogWarning(
-                        $"The SandboxID " +
-                        $"\"{epicArgs.epicSandboxID}\" specified by " +
-                        $"command line argument is not a valid id. " +
-                        $"Defaulting to SandboxID " +
-                        $"\"{PlatformManager.GetPlatformConfig().deployment.SandboxId}\" " +
-                        $"defined in the configuration.");
+                    bool deploymentDefined = false;
+
+                    foreach (var namedDeployment in productConfig.Environments.Deployments)
+                    {
+                        // Check for equality regardless of case - and
+                        // regardless of whether the dashes are included in the
+                        // Guid for the purposes of comparison.
+                        if (namedDeployment.Value.DeploymentId.ToString().Equals(epicArgs.epicDeploymentID,
+                                StringComparison.OrdinalIgnoreCase) ||
+                            namedDeployment.Value.DeploymentId.ToString("N").Equals(epicArgs.epicDeploymentID,
+                                StringComparison.OrdinalIgnoreCase))
+                        {
+                            Debug.Log($"{namedDeployment} selected as deployment.");
+                            deploymentDefined = true;
+                            break;
+                        }
+                    }
+
+                    // NOTE: An empty guid is known to cause the EOS SDK to fail
+                    //       to initialize - however in the native code when
+                    //       this same operation is done, no check is performed
+                    //       on whether the Guid is a valid Guid. This
+                    //       implementation has been written to provide
+                    //       verisimilitude with the native implementation on
+                    //       Windows. Regardless - a warning is logged here -
+                    //       despite the fact that it could be arguably be
+                    //       logged as an error.
+                    if (!Guid.TryParse(epicArgs.epicDeploymentID, out Guid deploymentFromCommandLine))
+                    {
+                        Debug.LogWarning(
+                            $"ERROR: Invalid Guid " +
+                            $"\"{epicArgs.epicDeploymentID}\" for Deployment " +
+                            $"Id was provided on the command line. EOS SDK " +
+                            $"will almost certainly fail to initialize.");
+
+                        deploymentFromCommandLine = Guid.Empty;
+                    }
+
+                    PlatformManager.GetPlatformConfig().deployment.DeploymentId = deploymentFromCommandLine;
+
+                    if (!deploymentFromCommandLine.Equals(Guid.Empty) && !deploymentDefined)
+                    {
+                        Debug.LogWarning(
+                            $"Deployment \"{deploymentFromCommandLine}\" was " +
+                            $"provided on the command line, but was not " +
+                            $"found in the product config. Attempting to use " +
+                            $"it regardless.");
+                    }
                 }
             }
 
-            private void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
+            public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName = null)
             {
                 if (GetEOSPlatformInterface() != null)
                 {
@@ -568,7 +618,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 InitializeLogLevels();
 #endif
 
-                ConfigureCommandLineOptions();
+                ApplyCommandLineArguments();
 
                 Result initResult = InitializePlatformInterface();
 
