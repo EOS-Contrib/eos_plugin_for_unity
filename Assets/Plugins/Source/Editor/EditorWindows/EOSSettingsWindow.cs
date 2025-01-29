@@ -22,7 +22,7 @@
 
 // Uncomment the following line to see all platforms, even ones that are not
 // available
-#define DEBUG_SHOW_UNAVAILABLE_PLATFORMS
+//#define DEBUG_SHOW_UNAVAILABLE_PLATFORMS
 
 #if !EOS_DISABLE
 
@@ -34,7 +34,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     using PlayEveryWare.EpicOnlineServices.Utility;
     using System;
 	using System.Collections.Generic;
-	using System.Threading.Tasks;
+    using System.Linq;
+    using System.Threading.Tasks;
 	using UnityEditor;
     using UnityEngine;
 
@@ -42,7 +43,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     /// Creates the view for showing the eos plugin editor config values.
     /// </summary>
     [Serializable]
-    public class NEW_EOSSettingsWindow : EOSEditorWindow
+    public class EOSSettingsWindow : EOSEditorWindow
     {
         /// <summary>
         /// The editor for the product information that is shared across all
@@ -54,7 +55,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// <summary>
         /// Stores the config editors for each of the platforms.
         /// </summary>
-        private readonly IList<IConfigEditor> _platformConfigEditors = new List<IConfigEditor>();
+        private readonly IList<IPlatformConfigEditor> _platformConfigEditors = new List<IPlatformConfigEditor>();
 
         /// <summary>
         /// Contains the GUIContent that represents the set of tabs that contain
@@ -83,32 +84,109 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             fixedHeight = 40
         };
 
-        public NEW_EOSSettingsWindow() : base("EOS Configuration") { }
+        public EOSSettingsWindow() : base("EOS Configuration") { }
 
         [MenuItem("EOS Plugin/EOS Configuration", priority = 1)]
         public static void ShowWindow()
         {
-            var window = GetWindow<NEW_EOSSettingsWindow>();
+            var window = GetWindow<EOSSettingsWindow>();
             window.SetIsEmbedded(false);
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            ProductConfig.DeploymentsUpdatedEvent += ReloadDeploymentSettingsForPlatformConfigEditors;
+            ProductConfig.ClientCredentialsUpdatedEvent += ReloadClientCredentialsForPlatformConfigEditors;
+        }
+
+        protected override void OnDestroy()
+        {
+            ProductConfig.DeploymentsUpdatedEvent -= ReloadDeploymentSettingsForPlatformConfigEditors;
+            ProductConfig.ClientCredentialsUpdatedEvent -= ReloadClientCredentialsForPlatformConfigEditors;
+            base.OnDestroy();
+        }
+
+        // TODO: Refactor to reduce massive overlap between this function and 
+        //       the older ReloadDeploymentSettingsForPlatformConfigEditors
+        //       function.
+        //       The Observable pattern would be appropriate - but 
+        //       such a change would constitute a not insignificant change, and
+        //       should be avoided until there is a time to properly review it.
+        private void ReloadClientCredentialsForPlatformConfigEditors(object sender,
+            ProductConfig.PlatformConfigsUpdatedEventArgs e)
+        {
+            // For each of the platform config editors
+            foreach (IPlatformConfigEditor platformConfigEditor in _platformConfigEditors)
+            {
+                // If the platform config was not one of the ones updated, then skip it.
+                if (!e.PlatformConfigsUpdated.Contains(platformConfigEditor.GetPlatform()))
+                {
+                    continue;
+                }
+
+                // If the platform config could not be read from disk
+                if (!PlatformManager.TryGetConfig(platformConfigEditor.GetPlatform(),
+                        out PlatformConfig platformConfigFromDisk))
+                {
+                    // TODO: Log warning?
+                    continue;
+                }
+
+                // Update the client credentials for the cached instance of the
+                // config within the PlatformConfigEditor.
+                platformConfigEditor.SetClientCredentials(platformConfigFromDisk.clientCredentials);
+            }
+        }
+
+        // TODO: Refactor to reduce massive overlap between this function and 
+        //       the more recently introduced
+        //       ReloadClientCredentialsForPlatformConfigEditors function.
+        //       The Observable pattern would be appropriate - but 
+        //       such a change would constitute a not insignificant change, and
+        //       should be avoided until there is a time to properly review it.
+        private void ReloadDeploymentSettingsForPlatformConfigEditors(object sender, ProductConfig.PlatformConfigsUpdatedEventArgs e)
+        {
+            // For each of the platform config editors
+            foreach (IPlatformConfigEditor platformConfigEditor in _platformConfigEditors)
+            {
+                // If the platform config was not one of the ones updated, then skip it.
+                if (!e.PlatformConfigsUpdated.Contains(platformConfigEditor.GetPlatform()))
+                {
+                    continue;
+                }
+
+                // If the platform config could not be read from disk
+                if (!PlatformManager.TryGetConfig(platformConfigEditor.GetPlatform(),
+                        out PlatformConfig platformConfigFromDisk))
+                {
+                    // TODO: Log warning?
+                    continue;
+                }
+
+                // Update the deployment for the cached instance of the config
+                // within the PlatformConfigEditor.
+                platformConfigEditor.SetDeployment(platformConfigFromDisk.deployment);
+            }
         }
 
         protected override async Task AsyncSetup()
         {
             await _productConfigEditor.LoadAsync();
-
+            
             List<GUIContent> tabContents = new();
             int tabIndex = 0;
             foreach (PlatformManager.Platform platform in Enum.GetValues(typeof(PlatformManager.Platform)))
             {
-                // This makes sure that the currently selected tab (upon first loading the window) is always the current platform.
-                if (_selectedTab != -1 || platform == PlatformManager.CurrentPlatform)
-                {
-                    _selectedTab = tabIndex;
-                }
-
                 if (!PlatformManager.TryGetConfigType(platform, out Type configType) || null == configType)
                 {
                     continue;
+                }
+
+                // This makes sure that the currently selected tab (upon first loading the window) is always the current platform.
+                if (_selectedTab == -1 && platform == PlatformManager.CurrentTargetedPlatform)
+                {
+                    _selectedTab = tabIndex;
                 }
 
                 Type constructedType =
@@ -124,17 +202,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 // Do not add the platform if it is not currently available.
                 if (!editor.IsPlatformAvailable())
                 {
-                    // We only increment the tab index if the editor has been
-                    // added to the tabs.
-                    tabIndex++;
                     continue;
                 }
 #endif
 
+                tabIndex++;
+
                 _platformConfigEditors.Add(editor);
 
                 tabContents.Add(new GUIContent($" {editor.GetLabelText()}", editor.GetPlatformIconTexture()));
-
             }
 
             // If (for some reason) a default platform was not selected, then
@@ -160,6 +236,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             if (_platformTabs != null && _platformConfigEditors.Count != 0)
             {
                 _selectedTab = GUILayout.Toolbar(_selectedTab, _platformTabs, TAB_STYLE);
+
                 GUILayout.Space(30);
 
                 _ = _platformConfigEditors[_selectedTab].RenderAsync();
@@ -173,15 +250,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             }
         }
 
-        private async void Save()
+        private void Save()
         {
             // Save the product config editor
-            await _productConfigEditor.Save();
+            _productConfigEditor.Save();
+
+            // reload the product config editor
+            _productConfigEditor.Load();
 
             // Save each of the platform config editors.
             foreach (IConfigEditor editor in _platformConfigEditors)
             {
-                await editor.Save();
+                editor.Save();
             }
         }
     }

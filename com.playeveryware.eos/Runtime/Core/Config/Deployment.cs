@@ -22,14 +22,35 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using PlayEveryWare.EpicOnlineServices.Utility;
+    using Newtonsoft.Json;
+    using Utility;
     using System;
 
     public struct Deployment : IEquatable<Deployment>
     {
+        /// <summary>
+        /// The SandboxId for the deployment.
+        /// </summary>
         public SandboxId SandboxId;
 
+        /// <summary>
+        /// The DeploymentId.
+        /// </summary>
         public Guid DeploymentId;
+
+        /// <summary>
+        /// Indicates whether a deployment is completely defined or not. A
+        /// deployment is completely defined if neither the sandbox id nor the
+        /// deployment id are empty.
+        /// </summary>
+        [JsonIgnore]
+        public readonly bool IsComplete
+        {
+            get
+            {
+                return !DeploymentId.Equals(Guid.Empty) && !SandboxId.IsEmpty;
+            }
+        }
 
         public bool Equals(Deployment other)
         {
@@ -44,6 +65,11 @@ namespace PlayEveryWare.EpicOnlineServices
         public override int GetHashCode()
         {
             return HashUtility.Combine(SandboxId, DeploymentId);
+        }
+
+        public override string ToString()
+        {
+            return $"DeploymentId: {DeploymentId.ToString("N").ToLower()}, SandboxId: {SandboxId}";
         }
     }
 

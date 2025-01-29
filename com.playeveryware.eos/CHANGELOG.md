@@ -2,6 +2,52 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.5] - 2025-01-23
+
+## Changelog
+
+### Changed
+- **Configuration System Overhaul**  
+  - The plugin now uses a new configuration system, moving away from the older `EOSConfig` in favor of `ProductConfig` and multiple `PlatformConfig` files.  
+  - Marked `EOSConfig` as obsolete and introduced better default and migration paths for platform-specific settings.  
+  - Refactored large portions of the native code into clearer modules (`Config`, `PlatformManager`, `SteamConfig`, etc.), reducing duplication and improving maintainability.  
+  - Upgraded to Visual Studio 2022 for building native binaries.
+
+- **Editor & Build Process Improvements**  
+  - Refined editor windows and build scripts to better handle new config files and to auto-select defaults for newly defined platforms.  
+  - Moved many internal extension/helper classes into a “Common” area to simplify namespace usage and reduce redundancy.  
+  - Improved logging structure and behavior (including concurrency handling) in native and managed code.  
+  - Updated Unity package definitions and reorganized project files for more consistent UPM compatibility.
+
+### Added
+- **Managed & Native Bridge Utilities**  
+  - New `ManagedToUnmanagedBridge` library to facilitate deeper integration between managed C# code and native C++ components.  
+  - Introduced a `ConsoleApplication` project in the native solution, used for testing or demonstrating plugin behavior outside of Unity.
+
+- **Configuration Lifecycle Hooks & Auto-Selection**  
+  - Added a `BeforeWrite` hook in `ProductConfig` (and corresponding override logic) so the first sandbox and deployments can be automatically associated.  
+  - New “auto selection” features for client credentials, deployments, and platform defaults, improving the “first time user” experience for new projects.  
+  - Implemented `OnWriteCompleted` overrides in `ProductConfig` to reflect platform config changes immediately in the editor UI.
+
+- **Quality-of-Life Features**  
+  - Added support for additional platforms (e.g., `StandaloneOSX`) and integrated missing platform checks in the plugin’s internal platform manager.  
+  - Included new null-safe logic and fallback calls for Steam integration (e.g., retry with `SteamAPI_Init` if `SteamAPI_InitSafe` fails).  
+  - Enhanced doc tooling, including link-checking scripts and improved project documentation.
+
+### Fixed
+- **Command-Line & Credential Handling**  
+  - Corrected the implementation of command-line arguments passed from the Epic Games Launcher to ensure proper usage in native code.  
+  - Fixed null-check logic in client credential handling—particularly around newly introduced auto-selection paths and default deployments.
+
+- **Concurrency & Race Condition Bugs**  
+  - Addressed competing file read/write issues in editor windows by consolidating asynchronous calls and removing race conditions.  
+  - Removed or tightened up redundant `using` statements, compile conditionals, and shared references that led to sporadic compile or runtime warnings.
+
+- **Various Stability & Compatibility Issues**  
+  - Resolved lingering null-safety bugs (thread affinity, achievements, presence checks) throughout the plugin.  
+  - Fixed or removed outdated references to older configuration files (`EpicOnlineServicesConfig.json`), ensuring the new configuration paths are used cleanly.  
+  - Eliminated memory-leak and dangling-pointer issues in native code related to steam integration and the new config approach.
+
 ## [3.3.4] - 2024-11-26
 
 ### Changed
