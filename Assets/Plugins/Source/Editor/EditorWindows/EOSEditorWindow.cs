@@ -122,7 +122,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// </summary>
         public string WindowTitle { get; }
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             _initializeTask = Initialize();
             EditorApplication.update += CheckForInitialized;
@@ -288,7 +288,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             }
         }
 
-        public void OnDestroy()
+        protected virtual void OnDestroy()
         {
             Teardown();
         }

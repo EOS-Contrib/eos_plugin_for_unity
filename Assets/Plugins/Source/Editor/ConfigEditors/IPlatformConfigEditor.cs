@@ -20,6 +20,8 @@
 * SOFTWARE.
 */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
     using UnityEngine;
@@ -36,6 +38,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </returns>
         bool IsPlatformAvailable();
 
+        void SetClientCredentials(EOSClientCredentials credentials);
+        
+        void SetDeployment(Deployment deployment);
+
+        PlatformManager.Platform GetPlatform();
+
         Texture GetPlatformIconTexture();
     }
 }
+
+#endif

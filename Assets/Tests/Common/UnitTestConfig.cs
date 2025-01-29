@@ -24,13 +24,13 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Tests
 {
-    using EpicOnlineServices.Editor;
-    using EpicOnlineServices.Editor.Config;
+    using Utility;
     using System;
+    using Config = Config;
 
     [Serializable]
     [ConfigGroup("EOS Unit Test Configuration")]
-    public partial class UnitTestConfig : EditorConfig
+    public partial class UnitTestConfig : Config
     {
         /// <summary>
         /// The IP address of the machine running the EOS_DevAuthTool.
@@ -56,7 +56,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         /// </summary>
         public bool Enable;
 
-        protected UnitTestConfig() : base("eos_automated_test_config.json") { }
+        protected UnitTestConfig() : base(
+            "eos_automated_test_config.json",
+            FileSystemUtility.CombinePaths(
+                FileSystemUtility.GetProjectPath(),
+                "etc/config/")) { }
 
         static UnitTestConfig()
         {
