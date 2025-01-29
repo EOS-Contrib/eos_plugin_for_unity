@@ -192,19 +192,20 @@ namespace PlayEveryWare.EpicOnlineServices
             object lowestUnderlyingValue = Convert.ChangeType(lowestEnumValue, underlyingType);
             object highestUnderlyingValue = Convert.ChangeType(highestEnumValue, underlyingType);
 
+            TEnum finalEnumValue;
+
             // Ensure value is within range
-            if (Comparer<object>.Default.Compare(value, lowestUnderlyingValue) < 0)
+            if (Comparer<object>.Default.Compare(value, lowestUnderlyingValue) < 0 || Comparer<object>.Default.Compare(value, highestUnderlyingValue) > 0)
             {
-                UnityEngine.Debug.LogWarning($"Value {value} is out of range for {nameof(TEnum)}, setting to lowest value in enum \"{lowestEnumValue}\".");
-                value = lowestUnderlyingValue;
+                UnityEngine.Debug.LogWarning($"Value {value} is out of range for {nameof(TEnum)}, setting to 0.");
+                finalEnumValue = (TEnum)Enum.ToObject(typeof(TEnum), 0);
             }
-            else if (Comparer<object>.Default.Compare(value, highestUnderlyingValue) > 0)
+            else
             {
-                UnityEngine.Debug.LogWarning($"Value {value} is out of range for {nameof(TEnum)}, setting to highest value in enum \"{highestEnumValue}\".");
-                value = highestUnderlyingValue;
+                finalEnumValue = (TEnum)value;
             }
 
-            return (TEnum)Enum.ToObject(typeof(TEnum), value);
+            return finalEnumValue;
         }
 
         /// <summary>
