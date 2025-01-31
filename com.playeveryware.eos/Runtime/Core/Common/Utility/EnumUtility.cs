@@ -248,23 +248,45 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// Gets the lowest value in an enum type.
         /// </summary>
         /// <returns>
-        /// The lowest type within an enum. If the enum is empty, default is
-        /// returned.
+        /// The lowest value within an enum. If the enum is empty, default is returned.
         /// </returns>
         public static TEnum GetLowest()
         {
-            object lowest = null;
+            return GetExtreme((current, extreme) => Comparer<object>.Default.Compare(current, extreme) < 0);
+        }
+
+        /// <summary>
+        /// Gets the highest value in an enum type.
+        /// </summary>
+        /// <returns>
+        /// The highest value within an enum. If the enum is empty, default is returned.
+        /// </returns>
+        public static TEnum GetHighest()
+        {
+            return GetExtreme((current, extreme) => Comparer<object>.Default.Compare(current, extreme) > 0);
+        }
+
+        /// <summary>
+        /// Private helper method to determine the extreme (lowest or highest) value in an enum.
+        /// </summary>
+        /// <param name="comparison">A comparison delegate to determine the extreme value.</param>
+        /// <returns>
+        /// The extreme value within an enum. If the enum is empty, default is returned.
+        /// </returns>
+        private static TEnum GetExtreme(Func<object, object, bool> comparison)
+        {
+            object extreme = null;
             foreach (var value in Enum.GetValues(typeof(TEnum)))
             {
-                if (lowest == null || Comparer<object>.Default.Compare(value, lowest) < 0)
+                if (extreme == null || comparison(value, extreme))
                 {
-                    lowest = value;
+                    extreme = value;
                 }
             }
 
-            if (lowest != null)
+            if (extreme != null)
             {
-                return (TEnum)Enum.ToObject(typeof(TEnum), lowest);
+                return (TEnum)Enum.ToObject(typeof(TEnum), extreme);
             }
 
             return default;
