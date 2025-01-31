@@ -1,0 +1,55 @@
+name: Update EOS SDK Version in package.json
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pywin32
+
+      - name: Extract EOS SDK version from DLL
+        id: extract_version
+        run: |
+          import win32api
+          import sys
+          import json
+
+          dll_path = 'Assets/Plugins/Windows/x64/EOSSDK-Win64-Shipping.dll'
+          info = win32api.GetFileVersionInfo(dll_path, '\\')
+          ms = info['FileVersionMS']
+          ls = info['FileVersionLS']
+          version = f"{(ms >> 16) & 0xffff}.{ms & 0xffff}.{(ls >> 16) & 0xffff}.{ls & 0xffff}"
+          print(f"::set-output name=eos_version::{version}")
+
+      - name: Debug new package.json description
+        run: |
+          import json
+
+          package_json_path = 'com.playeveryware.eos/package.json'
+          with open(package_json_path, 'r') as file:
+              data = json.load(file)
+
+          eos_version = "${{ steps.extract_version.outputs.eos_version }}"
+          description = data.get("description", "")
+
+          updated_description = '\n'.join([
+              line if not line.startswith("EOS SDK ") else f"EOS SDK {eos_version}"
+              for line in description.splitlines()
+          ])
+
+          print("Updated package.json description:")
+          print(updated_description)

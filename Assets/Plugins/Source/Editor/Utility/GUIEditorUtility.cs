@@ -753,6 +753,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             ReorderableList.ElementHeightCallbackDelegate elementHeightCallback = null)
             where T : IEquatable<T>, new()
         {
+            // If there are no items in the set of named, then add one so that
+            // the user interface displays properly
+            if (value.Count == 0)
+            {
+                value.Add();
+            }
+
             List<Named<T>> items = value.ToList();
 
             // If there is only one item, then only render one set of inputs
@@ -821,28 +828,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 }
 
                 list.DoLayoutList();
-            }
-            else
-            {                
-                // If there are no items in the list, then the user needs to add an entry
-                // before they can start modifying.
-                EditorGUILayout.BeginHorizontal();
-
-                Rect rect = EditorGUILayout.GetControlRect();
-                rect.height = EditorGUIUtility.singleLineHeight;
-
-                // Render the "+" button to add a new item
-                if (GUILayout.Button("+", GUILayout.Width(24)))
-                {
-                    addNewItemFn();
-                }
-
-                if (!string.IsNullOrEmpty(helpUrl))
-                {
-                    RenderHelpIcon(helpUrl);
-                }
-
-                EditorGUILayout.EndHorizontal();
             }
         }
 
@@ -990,9 +975,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     }
 
                     item.Value.Value = RenderFieldWithHint(
-                        EditorGUI.TextField,
+                        EditorGUI.DelayedTextField,
                         new Rect(currentX, rect.y, remainingWidth - 10f, rect.height),
-                        string.IsNullOrEmpty,
+                        SandboxId.IsNullOrEmpty,
                         item.Value.Value,
                         "Sandbox Id");
                 },
@@ -1094,6 +1079,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 int currentIndex = 0;
                 foreach (Named<EOSClientCredentials> cred in credentials)
                 {
+                    // Do not display incomplete client credentials as options
+                    // for selection
+                    if (!cred.Value.IsComplete)
+                    {
+                        continue;
+                    }
+
                     if (cred.Value.Equals(value))
                     {
                         selectedIndex = currentIndex;
@@ -1104,10 +1096,21 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     currentIndex++;
                 }
 
+                string additionalTooltip = "";
+                // If there are no credentials to select, then disable the popup.
+                if (credentialsLabels.Count == 0)
+                {
+                    additionalTooltip =
+                        "\nTo select a client credential for this platform, you must first add a valid one above.";
+                    GUI.enabled = false;
+                }
+
                 int newIndex = EditorGUILayout.Popup(
-                    CreateGUIContent(configFieldAttribute.Label, configFieldAttribute.ToolTip),
+                    CreateGUIContent(configFieldAttribute.Label, configFieldAttribute.ToolTip + additionalTooltip),
                     selectedIndex,
                     credentialsLabels.ToArray());
+
+                GUI.enabled = true;
 
                 return (newIndex >= 0 && newIndex < credentials.Count) ? credentials[newIndex].Value : value;
             });
@@ -1170,6 +1173,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 int currentIndex = 0;
                 foreach (Named<Deployment> deployment in deployments)
                 {
+                    // Do not display incomplete deployments as options for
+                    // selection.
+                    if (!deployment.Value.IsComplete)
+                    {
+                        continue;
+                    }
+
                     if (value.DeploymentId == deployment.Value.DeploymentId)
                         selectedIndex = currentIndex;
 
@@ -1178,10 +1188,22 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     currentIndex++;
                 }
 
+                // If there are no deployments to select, don't enable the 
+                // popup.
+                string additionalTooltip = "";
+                if (deploymentLabels.Count == 0)
+                {
+                    additionalTooltip = "\nTo select a deployment, you must define a valid one above.";
+                    GUI.enabled = false;
+                }
+
                 int newIndex = EditorGUILayout.Popup(
-                    CreateGUIContent(configFieldAttribute.Label, configFieldAttribute.ToolTip),
+                    CreateGUIContent(configFieldAttribute.Label, configFieldAttribute.ToolTip + additionalTooltip),
                     selectedIndex,
                     deploymentLabels.ToArray());
+
+                // Re-enable the GUI
+                GUI.enabled = true;
 
                 return (newIndex >= 0 && newIndex < deployments.Count) ? deployments[newIndex].Value : value;
             });

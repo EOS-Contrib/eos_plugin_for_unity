@@ -24,8 +24,6 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     public static class EOSPackageInfo
     {
-        public static readonly string ConfigFileName = "EpicOnlineServicesConfig.json";
-
         /*
          * TODO:
          *
@@ -35,7 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices
          * not involve editing source code files.
          */
       
-        public const string Version = "3.3.4";
+        public const string Version = "3.3.5";
 
         public const string PackageName = "com.playeveryware.eos";
     }
