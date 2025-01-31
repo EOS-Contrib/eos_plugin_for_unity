@@ -35,7 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         public string ClientId;
         public string ClientSecret;
-        public string EncryptionKey { get; private set; }
+        public string EncryptionKey { get; set; }
 
         private static readonly Regex s_invalidEncryptionKeyRegex;
 
@@ -46,12 +46,17 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public EOSClientCredentials()
         {
+            EncryptionKey = GenerateEncryptionKey();
+        }
+
+        public static string GenerateEncryptionKey()
+        {
             // Randomly generate a 32 byte hex key
             byte[] randomBytes = new byte[32];
             using RandomNumberGenerator rng = RandomNumberGenerator.Create();
             rng.GetBytes(randomBytes);
 
-            EncryptionKey = BitConverter.ToString(randomBytes).Replace(
+            return BitConverter.ToString(randomBytes).Replace(
                 "-", string.Empty);
         }
 

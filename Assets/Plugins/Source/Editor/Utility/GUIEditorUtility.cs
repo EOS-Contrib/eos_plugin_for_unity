@@ -31,6 +31,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 #endif
 
     using EpicOnlineServices.Utility;
+    using PlayEveryWare.EpicOnlineServices.Editor.Windows;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -539,6 +540,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return MeasureLabelWidth(longestString);
         }
 
+        public static float MeasureLabelWidth(int characters)
+        {
+            return MeasureLabelWidth(new string('M', characters));
+        }
+
         public static float MeasureLabelWidth(string label)
         {
             return new GUIStyle(GUI.skin.label).CalcSize(new GUIContent(label)).x;
@@ -1004,9 +1010,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 "Enter your client information here as it appears in the Epic Dev Portal.",
                 "https://dev.epicgames.com/docs/dev-portal/product-management#clients",
                 clientCredentialsCopy,
-                (rect, item, nameAsLabel) =>
+                (rect, item, nameAsLabel) => // Things function renders input for a EOSClientCredential item.
                 {
-                    float remainingWidth = rect.width;
+                    float remainingWidth = rect.width - 5f;
                     float firstFieldWidth = (rect.width - 5f) * 0.18f;
 
                     if (nameAsLabel)
@@ -1034,25 +1040,43 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
                     item.Value ??= new();
 
+                    const float keyButtonWidth = 40f;
                     float clientFieldWidth = remainingWidth * 0.34f;
-                    float clientIdFieldX = rect.x + firstFieldWidth + 5f;
-                    remainingWidth -= clientFieldWidth;
+                    float renderCursorX = rect.x + firstFieldWidth + 5f;
+                    remainingWidth -= clientFieldWidth - 10f + keyButtonWidth;
 
                     item.Value.ClientId = RenderFieldWithHint(
                         EditorGUI.TextField,
-                        new Rect(clientIdFieldX, rect.y, clientFieldWidth, rect.height),
+                        new Rect(renderCursorX, rect.y, clientFieldWidth, rect.height),
                         string.IsNullOrEmpty,
                         item.Value.ClientId,
                         "Client ID"
                     );
 
+                    renderCursorX += clientFieldWidth + 5f;
                     item.Value.ClientSecret = RenderFieldWithHint(
                         EditorGUI.TextField,
-                        new Rect(rect.x + firstFieldWidth + 5f + clientFieldWidth + 5f, rect.y, remainingWidth - 10f,
+                        new Rect(renderCursorX, rect.y, remainingWidth - 20f,
                             rect.height),
                         string.IsNullOrEmpty,
                         item.Value.ClientSecret,
                         "Client Secret");
+
+                    GUIContent keyButtonContent = CreateGUIContent("Key", "Click to view or edit encryption key for client credentials");
+                    renderCursorX += remainingWidth - 20f + 5f;
+                    if (GUI.Button(
+                        new Rect(renderCursorX, rect.y, keyButtonWidth, rect.height),
+                        keyButtonContent))
+                    {
+                        EncryptionKeyWindow.Show(item.Value.EncryptionKey, 
+                            result =>
+                            {
+                                item.Value.EncryptionKey = result;
+                            }
+                        );
+                    }
+                    
+                    
                 },
                 () => clientCredentialsCopy.Add(),
                 (item) =>
