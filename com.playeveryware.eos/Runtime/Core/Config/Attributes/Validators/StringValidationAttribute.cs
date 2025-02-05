@@ -31,7 +31,7 @@ namespace PlayEveryWare.EpicOnlineServices
     [AttributeUsage(AttributeTargets.Field)]
     public abstract class StringValidationAttribute : FieldValidatorAttribute
     {
-        public override bool FieldValueIsValid(
+        public override sealed bool FieldValueIsValid(
             object value, 
             out string errorMessage)
         {
