@@ -66,7 +66,7 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType.Text,
             "Use this to indicate to the EOS SDK your game version.",
             0, "https://dev.epicgames.com/docs/api-ref/structs/eos-initialize-options")]
-        [RegexValidation("^[A-Za-z0-9._ !?()+=:-]+$\r\n", "Product version must consist of only the following characters: A-Z, a-z, 0-9, dot, underscore, space, exclamation mark, question mark, sign, hyphen, parenthesis, plus, minus, or colon characters.")]
+        [RegexValidation("^[A-Za-z0-9._ !?()+=:-]+$", "Product version must consist of only the following characters: A-Z, a-z, 0-9, dot, underscore, space, exclamation mark, question mark, sign, hyphen, parenthesis, plus, minus, or colon characters.")]
         [LengthValidation(1, EOS_INITIALIZEOPTIONS_PRODUCTVERSION_MAX_LENGTH)]
         public string ProductVersion;
 
