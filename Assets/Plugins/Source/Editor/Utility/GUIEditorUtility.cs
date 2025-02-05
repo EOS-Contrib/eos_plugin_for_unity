@@ -38,7 +38,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
     using System.Reflection;
     using System.Text;
     using UnityEditor;
-    using UnityEditor.VersionControl;
     using UnityEditorInternal;
     using UnityEngine;
     using Config = EpicOnlineServices.Config;
@@ -55,7 +54,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// </summary>
         private static readonly GUIStyle HINT_STYLE = new(GUI.skin.label)
         {
-            normal = new GUIStyleState() { textColor = UnityEngine.Color.gray },
+            normal = new GUIStyleState() { textColor = Color.gray },
             fontStyle = FontStyle.Italic
         };
 
@@ -254,14 +253,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             var members = fields.Cast<MemberInfo>().Concat(properties.Cast<MemberInfo>());
 
-            var groupedMembers = members
+            return members
                 .Where(member => member.GetCustomAttribute<ConfigFieldAttribute>() != null)
                 .Select(member => (MemberInfo: member, FieldDetails: member.GetCustomAttribute<ConfigFieldAttribute>(),
                     FieldValidators: member.GetCustomAttributes<FieldValidatorAttribute>()))
                 .GroupBy(r => r.FieldDetails.Group)
                 .OrderBy(group => group.Key);
-
-            return groupedMembers;
         }
 
         delegate object RenderInputDelegate(ConfigFieldAttribute attribute, object value, float labelWidth);
@@ -1423,7 +1420,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
 
             isValid = false;
-            EditorGUILayout.HelpBox(errorMessageBuilder.ToString(), MessageType.Error);
+            EditorGUILayout.HelpBox(errorMessageBuilder.ToString(), MessageType.Warning);
         }
 
         private static T InputRendererWrapper<T>(string label, string toolTip, float labelWidth, T value, IEnumerable<FieldValidatorAttribute> validators, InputRendererDelegate<T> renderFn, string helpURL = null)
@@ -1438,6 +1435,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 Color previousBackgroundColor = GUI.backgroundColor;
                 if (!isCurrentValueValid)
                 {
+                    // This sets the background color for the input field that
+                    // is about to be rendered to red - further highlighting the
+                    // field that has invalid values.
                     GUI.backgroundColor = Color.red;
                 }
 

@@ -40,6 +40,11 @@ namespace PlayEveryWare.EpicOnlineServices
     [ConfigGroup("Product Configuration", new[] { "", "Deployment Configuration" }, false)]
     public class ProductConfig : Config
     {
+        /// <summary>
+        /// This is the maximum allowed length for the product version field
+        /// according to the EOS SDK documentation. The name of this field was
+        /// selected to mirror the one that exists within the EOS SDK itself.
+        /// </summary>
         private const int EOS_INITIALIZEOPTIONS_PRODUCTVERSION_MAX_LENGTH = 64;
 
         /// <summary>

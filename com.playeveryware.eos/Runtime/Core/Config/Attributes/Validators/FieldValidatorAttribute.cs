@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 PlayEveryWare
+ * Copyright (c) 2024 PlayEveryWare
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,14 @@
  * SOFTWARE.
  */
 
-#if !EOS_DISABLE
-
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
+    using System.Reflection;
 
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
     public abstract class FieldValidatorAttribute : Attribute
     {
         public abstract bool FieldValueIsValid(object value, out string errorMessage);
     }
 }
-
-#endif
