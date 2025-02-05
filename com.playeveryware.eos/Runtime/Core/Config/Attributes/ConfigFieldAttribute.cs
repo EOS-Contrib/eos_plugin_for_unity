@@ -25,6 +25,7 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
+    using System.Collections.Generic;
 
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class ConfigFieldAttribute : Attribute
@@ -57,6 +58,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Indicates what platforms the config field is valid for.
         /// </summary>
         public PlatformManager.Platform PlatformsEnabledOn { get; }
+
+        public IEnumerable<FieldValidatorAttribute> Validators { get; set; }
 
         public ConfigFieldAttribute(
             PlatformManager.Platform enabledOn,
