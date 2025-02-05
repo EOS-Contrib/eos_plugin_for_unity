@@ -25,6 +25,12 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
+
+    /// <summary>
+    /// Used to describe a validation attribute that validates the length of a
+    /// string value.
+    /// TODO: Replace NonEmptyStringValidatorAttribute with this attribute.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
     public class LengthValidationAttribute : StringValidationAttribute
     {
@@ -54,7 +60,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public override bool ValidateStringField(string value, out string errorMessage)
         {
-            if (value.Length < _minLength)
+            // If the minimum length is set and greater than 0, then fail if
+            // string is either null or is too short.
+            if (_minLength is > 0 && value == null || value.Length < _minLength)
             {
                 errorMessage = $"String must be at least {_minLength.Value} characters long.";
                 return false;

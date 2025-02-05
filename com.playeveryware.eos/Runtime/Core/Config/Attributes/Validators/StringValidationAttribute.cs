@@ -23,29 +23,47 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
-    using UnityEngine;
 
+    /// <summary>
+    /// Used to describe a validation attribute that operates on a string data
+    /// type.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
-
-    public abstract class StringValidationAttribute : ValidationAttribute
+    public abstract class StringValidationAttribute : FieldValidatorAttribute
     {
-
-        public override bool Validate(object value, out string errorMessage)
+        public override bool FieldValueIsValid(
+            object value, 
+            out string errorMessage)
         {
-            // Check to make sure the value is of the correct type.
-            // This should really only fail if the editor for the config was improperly implemented,
-            // so it's appropriate to log an error here.
-            if (value is not string strValue)
+            // Check to make sure the value is actually a string.
+            if (value is string strValue)
             {
-                errorMessage = "Invalid value type provided for field.";
-                Debug.LogError(
-                    $"There was likely a problem with how the currently open configuration window was implemented. Please reach out to the support team for assistance.");
-                return false;
+                return ValidateStringField(strValue, out errorMessage);
             }
 
-            return ValidateStringField(strValue, out errorMessage);
+            // If this point is reached, it is because the attribute was
+            // improperly applied to a field member that is not of type string,
+            // therefore an invalid argument exception should be thrown.
+            throw new ArgumentException(
+                $"{nameof(StringValidationAttribute)} cannot be " +
+                $"applied to a field member whose type is not string.");
         }
 
-        public abstract bool ValidateStringField(string toValidate, out string errorMessage);
+        /// <summary>
+        /// Implement this function in deriving attributes to accomplish the
+        /// validation of the string value.
+        /// </summary>
+        /// <param name="toValidate">
+        /// The string value to be validated.
+        /// </param>
+        /// <param name="errorMessage">
+        /// The error message to use if validation fails.
+        /// </param>
+        /// <returns>
+        /// True if the string value is valid, false otherwise.
+        /// </returns>
+        public abstract bool ValidateStringField(
+            string toValidate, 
+            out string errorMessage);
     }
 }

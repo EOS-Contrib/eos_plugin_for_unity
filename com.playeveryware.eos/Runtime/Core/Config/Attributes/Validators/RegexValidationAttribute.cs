@@ -25,19 +25,44 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
-    using UnityEngine;
     using System.Text.RegularExpressions;
 
+    /// <summary>
+    /// ValidationAttribute used to make sure a string field matches a given
+    /// regex.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
     public class RegexValidationAttribute : StringValidationAttribute
     {
+        /// <summary>
+        /// The pattern that the value must match to pass.
+        /// </summary>
         private readonly string _validRegexPattern;
+
+        /// <summary>
+        /// The error message to return if the regex pattern match fails.
+        /// </summary>
         private readonly string _customErrorMessage;
 
+        /// <summary>
+        /// Default value of the error message is set to describe the regex.
+        /// </summary>
+        /// <param name="validRegexPattern">The pattern to match.</param>
         public RegexValidationAttribute(string validRegexPattern) : 
             this(validRegexPattern, $"Value must satisfy the following regex: {validRegexPattern}")
         { }
 
+        /// <summary>
+        /// Determine the parameters for validating a string value with a given
+        /// regex pattern.
+        /// </summary>
+        /// <param name="validRegexPattern">
+        /// The pattern to check the value against for validation.
+        /// </param>
+        /// <param name="customErrorMessage">
+        /// The error message should explain in plain language the meaning of
+        /// the regex pattern being utilized for validation.
+        /// </param>
         public RegexValidationAttribute(string validRegexPattern, string customErrorMessage)
         {
             _validRegexPattern = validRegexPattern;
