@@ -27,14 +27,11 @@ jobs:
           UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        
+        with:
+          buildMethod: Packages.Rider.Editor.RiderScriptEditor.SyncSolution
+
       - name: List Generated Files (Debugging)
         run: ls -la
-
-      
-      - name: Generate Solution Files
-        run: |
-          unity-editor -batchmode -quit -nographics -logFile -executeMethod UnityEditor.SyncVS.SyncSolution
 
       - name: Upload Solution Files
         uses: actions/upload-artifact@v4
