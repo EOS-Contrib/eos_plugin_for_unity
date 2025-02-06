@@ -1,6 +1,10 @@
 name: C# Linter
 
 on:
+  push:
+    branches:
+      - feat/cs-linter-action
+      
   workflow_dispatch:  # Allows manual execution via GitHub CLI
 
 jobs:
