@@ -1,0 +1,40 @@
+name: C# Linter
+
+on:
+  workflow_dispatch:  # Allows manual execution via GitHub CLI
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x  # Adjust as needed
+
+      - name: Find C# files in target directories (excluding EOS_SDK)
+        id: find-files
+        run: |
+          CS_FILES=$(find Assets com.playeveryware.eos -type f -name "*.cs" ! -path "com.playeveryware.eos/Runtime/EOS_SDK/*" | tr '\n' ' ')
+          echo "Found C# files:"
+          echo "$CS_FILES"
+          echo "FILES=$CS_FILES" >> $GITHUB_ENV
+
+      - name: Run Roslyn Analyzers on Selected C# Files
+        if: env.FILES != ''
+        continue-on-error: true  # Allow warnings but don’t fail the workflow
+        run: |
+          for file in $FILES; do
+            echo "Analyzing $file"
+            dotnet build --no-restore /warnaserror- /p:AnalysisLevel=latest "$file"
+          done
+
+      - name: Post Warnings as PR Comments
+        if: env.FILES != ''
+        uses: mshick/add-pr-comment@v2
+        with:
+          message: "⚠️ Code analysis found warnings in this PR. While these are not blocking, consider addressing them for better code quality. 🚀"
