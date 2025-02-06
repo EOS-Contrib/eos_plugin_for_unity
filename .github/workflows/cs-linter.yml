@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - feat/cs-linter-action
-      
+
   workflow_dispatch:  # Allows manual execution via GitHub CLI
 
 jobs:
@@ -37,8 +37,8 @@ jobs:
             dotnet build --no-restore /warnaserror- /p:AnalysisLevel=latest "$file"
           done
 
-      - name: Post Warnings as PR Comments
+      - name: Print Lint Warnings
         if: env.FILES != ''
-        uses: mshick/add-pr-comment@v2
-        with:
-          message: "⚠️ Code analysis found warnings in this PR. While these are not blocking, consider addressing them for better code quality. 🚀"
+        run: |
+          echo "⚠️ Lint warnings detected:"
+          cat lint_warnings.log || echo "No warnings found!"
