@@ -5,7 +5,7 @@ on:
     branches:
       - main
   workflow_dispatch:
-
+  
 jobs:
   setup-unity:
     runs-on: ubuntu-latest
@@ -27,8 +27,8 @@ jobs:
 
       - name: Install Unity via Unity Hub CLI
         run: |
-          unity-hub --headless install
-          unity-hub -- --headless install --version 2022.3.15f1
+          unity-hub --no-sandbox --headless install
+          unity-hub --no-sandbox -- --headless install --version 2022.3.15f1
 
       - name: Verify Unity Installation
         run: |
