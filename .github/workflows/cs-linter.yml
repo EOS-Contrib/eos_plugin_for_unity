@@ -24,7 +24,7 @@ jobs:
           buildMethod: Packages.Rider.Editor.RiderScriptEditor.SyncSolution
 
       - name: List Generated Files (Debugging)
-        run: ls -la
+        run: pwd; ls -la
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
