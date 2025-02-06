@@ -14,14 +14,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Cache Library Folder
-        uses: actions/cache@v3
-        with:
-          path: Library
-          key: Library-${{ runner.os }}-${{ github.sha }}
-          restore-keys: |
-            Library-${{ runner.os }}-
-
       - name: Build project
         uses: game-ci/unity-builder@v4
         env:
@@ -31,11 +23,8 @@ jobs:
         with:
           buildMethod: Packages.Rider.Editor.RiderScriptEditor.SyncSolution
 
-      - name: Upload Solution Files
-        uses: actions/upload-artifact@v4
-        with:
-          name: UnitySolution
-          path: "*.sln"
+      - name: List Generated Files (Debugging)
+        run: ls -la
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -67,7 +56,7 @@ jobs:
         run: |
           for file in $FILES; do
             echo "🔍 Running analyzers on $file"
-            dotnet format style --verify-no-changes --include "$file" --severity info --no-restore --verbosity diagnostic .\eos_plugin_for_unity.sln 2>&1 | tee -a lint_warnings.log
+            dotnet format style --verify-no-changes --include "$file" --severity info --no-restore --verbosity diagnostic "eos_plugin_for_unity.sln" 2>&1 | tee -a lint_warnings.log
           done
 
       - name: Print Lint Warnings
