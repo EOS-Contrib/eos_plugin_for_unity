@@ -34,7 +34,7 @@ jobs:
         run: |
           for file in $FILES; do
             echo "Analyzing $file"
-            dotnet build --no-restore /warnaserror- /p:AnalysisLevel=latest "$file"
+            dotnet build --no-restore /warnaserror /p:AnalysisLevel=latest "$file"
           done
 
       - name: Print Lint Warnings
