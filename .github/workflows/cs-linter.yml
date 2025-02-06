@@ -1,6 +1,9 @@
-name: C# Linter for Targeted Directories
+name: C# Linter for Unity Project
 
 on:
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:  # Allows manual execution via GitHub CLI
 
 jobs:
@@ -16,25 +19,35 @@ jobs:
         with:
           dotnet-version: 8.0.x  # Adjust as needed
 
-      - name: Find C# files in target directories (excluding EOS_SDK)
-        id: find-files
+      - name: Get C# Files (Changed in PR or All for Manual Runs)
+        id: get-files
         run: |
-          CS_FILES=$(find Assets com.playeveryware.eos -type f -name "*.cs" ! -path "com.playeveryware.eos/Runtime/EOS_SDK/*" | tr '\n' ' ')
-          echo "Found C# files:"
-          echo "$CS_FILES"
-          echo "FILES=$CS_FILES" >> $GITHUB_ENV
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "🔎 Detecting changed C# files in PR..."
+            FILES=$(git diff --name-only origin/main...HEAD | grep '\.cs$' || true)
+          else
+            echo "🟢 Manual run detected! Running on ALL C# files..."
+            FILES=$(find Assets com.playeveryware.eos -type f -name "*.cs" ! -path "*/EOS_SDK/*" | tr '\n' ' ')
+          fi
+          
+          if [ -z "$FILES" ]; then
+            echo "✅ No C# files to analyze!"
+            exit 0
+          fi
+          
+          echo "Files to analyze:"
+          echo "$FILES"
+          echo "FILES=$FILES" >> $GITHUB_ENV
 
-      - name: Run Roslyn Analyzers on Selected C# Files
-        if: env.FILES != ''
+      - name: Run Roslyn Analyzers Using `dotnet format`
         continue-on-error: true  # Allow warnings but don’t fail the workflow
         run: |
           for file in $FILES; do
-            echo "🔍 Analyzing $file"
-            dotnet build --no-restore -p:TreatWarningsAsErrors=false "$file" 2>&1 | tee -a lint_warnings.log
+            echo "🔍 Running analyzers on $file"
+            dotnet format analyze "$file" --severity info 2>&1 | tee -a lint_warnings.log
           done
 
       - name: Print Lint Warnings
-        if: env.FILES != ''
         run: |
           echo "⚠️ Lint warnings detected:"
-          cat lint_warnings.log || echo "No warnings found!"
+          cat lint_warnings.log || echo "✅ No warnings found!"
