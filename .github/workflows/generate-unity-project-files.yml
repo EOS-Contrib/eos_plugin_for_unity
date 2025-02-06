@@ -1,0 +1,38 @@
+name: Generate Unity Solution
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  generate-solution:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache Library Folder
+        uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            Library-${{ runner.os }}-
+
+      - name: Install Unity
+        uses: game-ci/unity-activate@v2
+        with:
+          unityVersion: 2022.3.10f1  # Set your Unity version
+          personalLicense: ${{ secrets.UNITY_LICENSE }}
+
+      - name: Generate Solution Files
+        run: |
+          unity-editor -batchmode -quit -nographics -logFile -executeMethod UnityEditor.SyncVS.SyncSolution
+
+      - name: Upload Solution Files
+        uses: actions/upload-artifact@v3
+        with:
+          name: UnitySolution
+          path: "*.sln"
