@@ -9,6 +9,21 @@ guidelines_style = 1px dotted 40ff0000
 # C# files
 [*.cs]
 
+# Enable all .NET analyzer rules
+dotnet_analyzer_diagnostic.severity = warning
+
+# Enable all code quality rules (CA####)
+dotnet_code_quality.CA*.severity = warning
+
+# Enable all style and maintainability rules (IDE####)
+dotnet_diagnostic.IDE*.severity = warning
+
+# Enable Unity-specific analyzers (if used)
+dotnet_diagnostic.UNT*.severity = warning
+
+# Enable compiler warnings (CS####)
+dotnet_diagnostic.CS*.severity = warning
+
 #### Core EditorConfig Options ####
 
 # Indentation and spacing
