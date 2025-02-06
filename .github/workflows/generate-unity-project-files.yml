@@ -1,7 +1,7 @@
 name: Generate Unity Solution
 
 on:
-  pull_request:
+  push:
     branches:
       - feat/cs-linter-action
   workflow_dispatch:
