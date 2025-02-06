@@ -56,7 +56,7 @@ jobs:
         run: |
           for file in $FILES; do
             echo "🔍 Running analyzers on $file"
-            dotnet format style --verify-no-changes --include "$file" --severity info --no-restore --verbosity diagnostic "eos_plugin_for_unity.sln" 2>&1 | tee -a lint_warnings.log
+            dotnet format style --verify-no-changes --include "$file" --severity info --no-restore --verbosity diagnostic "workspace.sln" 2>&1 | tee -a lint_warnings.log
           done
 
       - name: Print Lint Warnings
