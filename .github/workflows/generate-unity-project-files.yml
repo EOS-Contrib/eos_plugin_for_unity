@@ -5,7 +5,7 @@ on:
     branches:
       - main
   workflow_dispatch:
-  
+
 jobs:
   setup-unity:
     runs-on: ubuntu-latest
@@ -14,25 +14,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install FUSE for AppImage
-        run: |
-          sudo apt update
-          sudo apt install -y libfuse2
-
-      - name: Download and Install Unity Hub
-        run: |
-          wget https://public-cdn.cloud.unity3d.com/hub/prod/UnityHub.AppImage -O UnityHub.AppImage
-          chmod +x UnityHub.AppImage
-          sudo mv UnityHub.AppImage /usr/local/bin/unity-hub
-
-      - name: Install Unity via Unity Hub CLI
-        run: |
-          unity-hub --no-sandbox --headless install
-          unity-hub --no-sandbox -- --headless install --version 2022.3.15f1
-
-      - name: Verify Unity Installation
-        run: |
-          /opt/unity/Editor/Unity --version
+      - name: Install Unity Editor
+        uses: game-ci/unity-setup@v2
+        with:
+          unityVersion: 2021.3.16f1
+          allowDirtyBuild: true
+          installLinuxIL2CPP: false
 
       - name: Generate Solution and Project Files
         run: |
