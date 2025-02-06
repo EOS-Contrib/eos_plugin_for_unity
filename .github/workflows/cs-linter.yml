@@ -14,6 +14,29 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Cache Library Folder
+        uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            Library-${{ runner.os }}-
+
+      - name: Build project
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          buildMethod: Packages.Rider.Editor.RiderScriptEditor.SyncSolution
+
+      - name: Upload Solution Files
+        uses: actions/upload-artifact@v4
+        with:
+          name: UnitySolution
+          path: "*.sln"
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
@@ -39,11 +62,13 @@ jobs:
           echo "$FILES"
           echo "FILES=$FILES" >> $GITHUB_ENV
 
-      - name: Run Roslyn Analyzers Using `dotnet build`
+      - name: Run Roslyn Analyzers Using `dotnet format`
         continue-on-error: true  # Allow warnings but don’t fail the workflow
         run: |
-          echo "🔍 Running analyzers on detected C# files..."
-          dotnet build --no-restore -warnaserror -p:AnalysisLevel=latest 2>&1 | tee lint_warnings.log
+          for file in $FILES; do
+            echo "🔍 Running analyzers on $file"
+            dotnet format style --verify-no-changes --include "$file" --severity info --no-restore --verbosity diagnostic .\eos_plugin_for_unity.sln 2>&1 | tee -a lint_warnings.log
+          done
 
       - name: Print Lint Warnings
         run: |
