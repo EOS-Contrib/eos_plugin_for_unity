@@ -1,10 +1,6 @@
-name: C# Linter
+name: C# Linter for Targeted Directories
 
 on:
-  push:
-    branches:
-      - feat/cs-linter-action
-
   workflow_dispatch:  # Allows manual execution via GitHub CLI
 
 jobs:
@@ -33,8 +29,8 @@ jobs:
         continue-on-error: true  # Allow warnings but don’t fail the workflow
         run: |
           for file in $FILES; do
-            echo "Analyzing $file"
-            dotnet build --no-restore /warnaserror /p:AnalysisLevel=latest "$file"
+            echo "🔍 Analyzing $file"
+            dotnet build --no-restore -p:TreatWarningsAsErrors=false "$file" 2>&1 | tee -a lint_warnings.log
           done
 
       - name: Print Lint Warnings
