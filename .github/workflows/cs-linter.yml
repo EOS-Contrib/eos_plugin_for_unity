@@ -39,13 +39,11 @@ jobs:
           echo "$FILES"
           echo "FILES=$FILES" >> $GITHUB_ENV
 
-      - name: Run Roslyn Analyzers Using `dotnet format`
+      - name: Run Roslyn Analyzers Using `dotnet build`
         continue-on-error: true  # Allow warnings but don’t fail the workflow
         run: |
-          for file in $FILES; do
-            echo "🔍 Running analyzers on $file"
-            dotnet format analyze "$file" --severity info 2>&1 | tee -a lint_warnings.log
-          done
+          echo "🔍 Running analyzers on detected C# files..."
+          dotnet build --no-restore -warnaserror -p:AnalysisLevel=latest 2>&1 | tee lint_warnings.log
 
       - name: Print Lint Warnings
         run: |
