@@ -36,10 +36,10 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "🔎 Detecting changed C# files in PR..."
-            FILES=$(git diff --name-only origin/main...HEAD | grep '\.cs$' || true)
+            FILES=$(git diff --name-only origin/main...HEAD -- "*.cs" || true)
           else
             echo "🟢 Manual run detected! Running on ALL C# files..."
-            FILES=$(find Assets com.playeveryware.eos -type f -name "*.cs" ! -path "*/EOS_SDK/*" | tr '\n' ' ')
+            FILES=$(find Assets com.playeveryware.eos -type f -name "*.cs" ! -path "*/EOS_SDK/*" || true)
           fi
           
           if [ -z "$FILES" ]; then
@@ -47,17 +47,17 @@ jobs:
             exit 0
           fi
           
-          echo "Files to analyze:"
-          echo "$FILES"
-          echo "FILES=$FILES" >> $GITHUB_ENV
+          # Convert newline-separated list into a comma-separated list
+          FILES_CSV=$(echo "$FILES" | tr '\n' ',' | sed 's/,$//')
+
+          echo "Files to analyze: $FILES_CSV"
+          echo "FILES=$FILES_CSV" >> $GITHUB_ENV
 
       - name: Run Roslyn Analyzers Using `dotnet format`
         continue-on-error: true  # Allow warnings but don’t fail the workflow
         run: |
-          for file in $FILES; do
-            echo "🔍 Running analyzers on $file"
-            dotnet format style --verify-no-changes --include "$file" --severity info --no-restore --verbosity diagnostic "workspace.sln" 2>&1 | tee -a lint_warnings.log
-          done
+          echo "🔍 Running analyzers on multiple files..."
+          dotnet format style --verify-no-changes --include "$FILES" --severity info --no-restore --verbosity diagnostic "workspace.sln" 2>&1 | tee -a lint_warnings.log
 
       - name: Print Lint Warnings
         run: |
