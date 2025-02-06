@@ -27,8 +27,52 @@ jobs:
           UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        with:
-          buildMethod: UnityEditor.SyncVS.SyncSolution
+
+      - name: Find Unity Editor
+        run: |
+          set -e
+
+          # Common Unity Editor locations when using game-ci
+          POSSIBLE_LOCATIONS=(
+            "/opt/unity-editor/Editor/Unity"
+            "/opt/unity/Editor/Unity"
+            "/opt/Unity/Editor/Unity"
+            "/usr/bin/unity-editor"
+            "$HOME/Unity/Hub/Editor"  # If Unity Hub is present
+          )
+
+          # Search for the Unity executable
+          UNITY_PATH=""
+          for path in "${POSSIBLE_LOCATIONS[@]}"; do
+            if [[ -x "$path" ]]; then
+              UNITY_PATH="$path"
+              break
+            fi
+          done
+
+          # If Unity was installed via Unity Hub, find the latest installed version
+          if [[ -d "$HOME/Unity/Hub/Editor" && -z "$UNITY_PATH" ]]; then
+            UNITY_PATH=$(find "$HOME/Unity/Hub/Editor" -maxdepth 2 -name "Unity" -type f -executable | sort -V | tail -n 1)
+          fi
+
+          # Output the result
+          if [[ -z "$UNITY_PATH" ]]; then
+            echo "Unity Editor not found!" >&2
+            exit 1
+          else
+            echo "Unity Editor found at: $UNITY_PATH"
+            echo "UNITY_PATH=$UNITY_PATH" >> $GITHUB_ENV
+          fi
+
+
+      - name: Generate Solution Files
+        run: |
+          unity-editor -batchmode -quit -nographics -logFile -executeMethod UnityEditor.SyncVS.SyncSolution
+
+
+
+      - name: List Generated Files (Debugging)
+        run: ls -la
         
       - name: Upload Solution Files
         uses: actions/upload-artifact@v4
