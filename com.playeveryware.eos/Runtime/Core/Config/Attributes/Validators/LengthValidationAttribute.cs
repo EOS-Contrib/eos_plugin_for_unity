@@ -62,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             // If the minimum length is set and greater than 0, then fail if
             // string is either null or is too short.
-            if (_minLength is > 0 && value == null || value.Length < _minLength)
+            if ((_minLength is > 0 && value == null) || value.Length < _minLength)
             {
                 errorMessage = $"String must be at least {_minLength.Value} characters long.";
                 return false;
