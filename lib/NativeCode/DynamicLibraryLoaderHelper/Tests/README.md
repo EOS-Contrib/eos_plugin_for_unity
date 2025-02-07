@@ -1,0 +1,3 @@
+# Native Unit Tests - HON
+
+This project is a introductory suite of unit tests using the Google Test Framework that validate the equality of implementations surrounding EOS SDK initialization between the managed and unmanaged components of the plugin. It leverages `ManagedPluginCode` and `ManagedToUnmanagedBridge` to confirm that the EOS SDK initialization that takes place in the `NativeRender` project is identical to the initialization that takes place in the managed plugin.
