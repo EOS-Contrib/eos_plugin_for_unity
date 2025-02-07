@@ -61,7 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices
             Any = Unknown | Windows | Android | XboxOne | XboxSeriesX | iOS | Linux | macOS | PS4 | PS5 | Switch | Steam
         }
 
-        private readonly struct PlatformInfo
+        internal readonly struct PlatformInfo
         {
             public string FullName { get;  }
             public string ConfigFileName { get; }
@@ -91,7 +91,44 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Private collection to store information about each platform.
         /// </summary>
-        private static IDictionary<Platform, PlatformInfo> PlatformInformation = new Dictionary<Platform, PlatformInfo>();
+        internal static IDictionary<Platform, PlatformInfo> PlatformInformation = new Dictionary<Platform, PlatformInfo>();
+
+        /// <summary>
+        /// Returns a list of platforms for which configuration values can be
+        /// set.
+        /// </summary>
+        public static IEnumerable<Platform> ConfigurablePlatforms
+        {
+            get
+            {
+                return PlatformInformation.Keys;
+            }
+        }
+
+        /// <summary>
+        /// Tries to retrieve an instance of the platform config for the
+        /// indicated platform.
+        /// </summary>
+        /// <param name="platform">
+        /// The platform to get the config for.
+        /// </param>
+        /// <param name="platformConfig">
+        /// The PlatformConfig for the indicated platform.
+        /// </param>
+        /// <returns>
+        /// True if a PlatformConfig instance was retrieved, false otherwise.
+        /// </returns>
+        public static bool TryGetConfig(Platform platform, out PlatformConfig platformConfig)
+        {
+            platformConfig = null;
+            if (!PlatformInformation.TryGetValue(platform, out PlatformInfo info))
+            {
+                return false;
+            }
+
+            platformConfig = info.GetConfigFunction();
+            return true;
+        }
 
         /// <summary>
         /// Backing value for the CurrentPlatform property.
@@ -122,11 +159,41 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
                 else
                 {
+                    // Note that s_CurrentPlatform is not set in this context - making sure it's only set once.
+                    // TODO: Investigate whether this has unintended consequences - where setting the value is
+                    //       expected.
                     Debug.Log($"CurrentPlatform has already been assigned as {GetFullName(s_CurrentPlatform)}.");
                 }
 
             }
         }
+
+        /// <summary>
+        /// Backing value for the CurrentTargetedPlatform property.
+        /// </summary>
+        private static Platform s_CurrentTargetedPlatform;
+
+        // This compile conditional is here because this property is only 
+        // meaningful in the context of the Unity Editor running.
+#if UNITY_EDITOR
+        /// <summary>
+        /// Used to indicate what platform is currently being targeted for
+        /// compilation. Used primarily to select the appropriate platform in
+        /// config editors.
+        /// </summary>
+        public static Platform CurrentTargetedPlatform
+        {
+            get
+            {
+                if (!TryGetPlatform(EditorUserBuildSettings.activeBuildTarget, out Platform targetedPlatform))
+                {
+                    return Platform.Unknown;
+                }
+
+                return targetedPlatform;
+            }
+        }
+#endif
 
         /// <summary>
         /// To be accessible to the platform manager, the static constructors 
@@ -168,15 +235,9 @@ namespace PlayEveryWare.EpicOnlineServices
 #if EXTERNAL_TO_UNITY
             CurrentPlatform = Platform.Windows;
 #else
-            // If the Unity Editor is currently running, then the "active"
-            // Platform is whatever the current build target is.
-#if UNITY_EDITOR
-            if (TryGetPlatform(EditorUserBuildSettings.activeBuildTarget, out Platform platform))
-#else
             // If the Unity editor is _not_ currently running, then the "active"
             // platform is whatever the runtime application says it is
             if (TryGetPlatform(Application.platform, out Platform platform))
-#endif
             {
                 CurrentPlatform = platform;
             }
@@ -261,6 +322,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 { BuildTarget.PS4,                 Platform.PS4         },
                 { BuildTarget.PS5,                 Platform.PS5         },
                 { BuildTarget.Switch,              Platform.Switch      },
+                { BuildTarget.StandaloneOSX,       Platform.macOS       },
                 { BuildTarget.StandaloneWindows,   Platform.Windows     },
                 { BuildTarget.StandaloneWindows64, Platform.Windows     },
             };
@@ -405,7 +467,12 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Full name of platform.</returns>
         public static string GetFullName(Platform platform)
         {
-            return PlatformInformation[platform].FullName;
+            if (PlatformInformation.TryGetValue(platform, out PlatformInfo value))
+            {
+                return value.FullName;
+            }
+
+            return platform.ToString();
         }
     }
 }
