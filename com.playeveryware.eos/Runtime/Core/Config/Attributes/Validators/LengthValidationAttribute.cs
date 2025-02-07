@@ -68,7 +68,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 return false;
             }
 
-            if (value.Length > _maxLength)
+            if (_maxLength.HasValue && value.Length > _maxLength)
             {
                 errorMessage = $"String must be no more than {_maxLength.Value} characters long.";
                 return false;
