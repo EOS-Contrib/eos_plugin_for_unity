@@ -36,6 +36,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using Utility;
 
     // This compile conditional is here so that when EOS is disabled, nothing is
@@ -184,15 +185,27 @@ namespace PlayEveryWare.EpicOnlineServices
             Type underlyingType = Enum.GetUnderlyingType(typeof(TEnum));
             object value = Convert.ChangeType(token, underlyingType);
 
+            // Get the lowest and highest values
             TEnum lowestEnumValue = EnumUtility<TEnum>.GetLowest();
-            object lowestUnderlyingValue = Convert.ChangeType(lowestEnumValue, underlyingType);
+            TEnum highestEnumValue = EnumUtility<TEnum>.GetHighest();
 
-            if (Comparer<object>.Default.Compare(value, lowestUnderlyingValue) < 0)
+            object lowestUnderlyingValue = Convert.ChangeType(lowestEnumValue, underlyingType);
+            object highestUnderlyingValue = Convert.ChangeType(highestEnumValue, underlyingType);
+
+            TEnum finalEnumValue;
+
+            // Ensure value is within range
+            if (Comparer<object>.Default.Compare(value, lowestUnderlyingValue) < 0 || Comparer<object>.Default.Compare(value, highestUnderlyingValue) > 0)
             {
-                value = lowestUnderlyingValue;
+                UnityEngine.Debug.LogWarning($"Value {value} is out of range for {nameof(TEnum)}, setting to 0.");
+                finalEnumValue = (TEnum)Enum.ToObject(typeof(TEnum), 0);
+            }
+            else
+            {
+                finalEnumValue = (TEnum)value;
             }
 
-            return (TEnum)value;
+            return finalEnumValue;
         }
 
         /// <summary>

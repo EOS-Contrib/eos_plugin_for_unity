@@ -33,7 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices
          * not involve editing source code files.
          */
       
-        public const string Version = "3.3.5";
+        public const string Version = "3.3.6";
 
         public const string PackageName = "com.playeveryware.eos";
     }
