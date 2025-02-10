@@ -184,6 +184,17 @@ namespace PlayEveryWare.EpicOnlineServices
         static private bool s_isConstrained = true;
         static public bool ApplicationIsConstrained { get => s_isConstrained; }
 
+        /// <summary>
+        /// Actions that need to be executed on the main thread.
+        /// Lazy allocated in <see cref="DispatchAsync"/>.
+        /// </summary>
+        private static List<Action> s_enqueuedTasks;
+
+        /// <summary>
+        /// Locak object used for <see cref="s_enqueuedTasks"/>, such that it can
+        /// be executed thread-safe way.
+        /// </summary>
+        private static System.Object s_enqueuedTasksLock = new System.Object();
         //private static List
 
         //-------------------------------------------------------------------------
@@ -1553,6 +1564,7 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             public void Tick()
             {
+                ExecuteQueuedMainThreadTasks();
                 if (GetEOSPlatformInterface() != null)
                 {
                     // Poll for any application constrained state change that didn't
@@ -1940,6 +1952,47 @@ namespace PlayEveryWare.EpicOnlineServices
         void IEOSCoroutineOwner.StartCoroutine(IEnumerator routine)
         {
             base.StartCoroutine(routine);
+        }
+
+        /// <summary>
+        /// Enqueues an Action to be executed on the main thread.
+        /// </summary>
+        /// <param name="action">Action to execute.</param>
+        public static void DispatchAsync(Action action)
+        {
+            lock (s_enqueuedTasksLock)
+            {
+                // Lazy allocate the queue
+                if (s_enqueuedTasks == null)
+                {
+                    s_enqueuedTasks = new List<Action>();
+                }
+                s_enqueuedTasks.Add(action);
+            }
+        }
+
+        private static void ExecuteQueuedMainThreadTasks()
+        {
+            // Lock the enqued tasks list, and hold reference to the enqueued tasks.
+            // This is done so that the foreach loop doesn't potentially go "forever"
+            // if a given action in the queue happens to generate a list of tasks that 
+            // also generate a list of task. The s_enqueuedTasks list is also nulled out
+            // because we only allocate the list if we need to queue up new tasks. See DispatchSync
+            List<Action> actionsToRun;
+            lock (s_enqueuedTasksLock)
+            {
+                actionsToRun = s_enqueuedTasks;
+                s_enqueuedTasks = null;
+                if (actionsToRun == null)
+                {
+                    return;
+                }
+            }
+
+            foreach (Action action in actionsToRun)
+            {
+                action.Invoke();
+            }
         }
     }
 }

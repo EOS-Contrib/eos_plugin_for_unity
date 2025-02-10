@@ -103,7 +103,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// </summary>
         protected static Font MonoFont;
 
-        protected EOSEditorWindow(string windowTitle, float minimumHeight = 50f, float minimumWidth = 50f,
+        protected EOSEditorWindow(
+            string windowTitle, 
+            float minimumHeight = 50f, 
+            float minimumWidth = 50f,
+            bool needsInitialization = true,
             string preferencesOverrideKey = null)
         {
             // Set the preferences key either to the full name of the deriving type, or the provided override value.
@@ -113,6 +117,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
             AbsoluteMinimumWindowHeight = minimumHeight;
             AbsoluteMinimumWindowWidth = minimumWidth;
+
+            _initialized = !needsInitialization;
 
             WindowTitle = windowTitle;
         }
@@ -128,7 +134,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             EditorApplication.update += CheckForInitialized;
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             EditorApplication.update -= CheckForInitialized;
         }
