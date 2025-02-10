@@ -31,11 +31,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 #endif
 
     using EpicOnlineServices.Utility;
+    using PlayEveryWare.EpicOnlineServices.Editor.Windows;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
+    using System.Text;
     using UnityEditor;
     using UnityEditorInternal;
     using UnityEngine;
@@ -245,7 +247,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 .OrderBy(group => group.Key);
         }
 
-        private static IOrderedEnumerable<IGrouping<int, (MemberInfo MemberInfo, ConfigFieldAttribute FieldDetails)>> GetMembersByGroup<T>()
+        private static IOrderedEnumerable<IGrouping<int, (MemberInfo MemberInfo, ConfigFieldAttribute FieldDetails, IEnumerable<FieldValidatorAttribute> FieldValidators)>> GetMembersByGroup<T>()
         {
             var fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance);
             var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -254,7 +256,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             return members
                 .Where(member => member.GetCustomAttribute<ConfigFieldAttribute>() != null)
-                .Select(member => (MemberInfo: member, FieldDetails: member.GetCustomAttribute<ConfigFieldAttribute>()))
+                .Select(member => (MemberInfo: member, FieldDetails: member.GetCustomAttribute<ConfigFieldAttribute>(),
+                    FieldValidators: member.GetCustomAttributes<FieldValidatorAttribute>()))
                 .GroupBy(r => r.FieldDetails.Group)
                 .OrderBy(group => group.Key);
         }
@@ -271,7 +274,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             { typeof(float), (attr, val, width) => RenderInput(attr, (float)val, width) },
             { typeof(double), (attr, val, width) => RenderInput(attr, (double)val, width) },
             { typeof(bool), (attr, val, width) => RenderInput(attr, (bool)val, width) },
-            { typeof(Version), (attr, val, width) => RenderInput(attr, (Version)val, width) },
             { typeof(Guid), (attr, val, width) => RenderInput(attr, (Guid)val, width)},
             { typeof(List<string>), (attr, val, width) => RenderInput(attr, (List<string>)val, width)},
 #if !EOS_DISABLE
@@ -500,6 +502,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     {
                         continue; // Skip if MemberInfo is neither FieldInfo nor PropertyInfo
                     }
+                    
+                    // Assign the validators
+                    member.FieldDetails.Validators = member.FieldValidators;
 
                     // Use the handler from the dictionary
                     if (FieldHandlers.TryGetValue(member.FieldDetails.FieldType, out var handler))
@@ -537,6 +542,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
 
             return MeasureLabelWidth(longestString);
+        }
+
+        public static float MeasureLabelWidth(int characters)
+        {
+            return MeasureLabelWidth(new string('M', characters));
         }
 
         public static float MeasureLabelWidth(string label)
@@ -1004,9 +1014,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 "Enter your client information here as it appears in the Epic Dev Portal.",
                 "https://dev.epicgames.com/docs/dev-portal/product-management#clients",
                 clientCredentialsCopy,
-                (rect, item, nameAsLabel) =>
+                (rect, item, nameAsLabel) => // Things function renders input for a EOSClientCredential item.
                 {
-                    float remainingWidth = rect.width;
+                    float remainingWidth = rect.width - 5f;
                     float firstFieldWidth = (rect.width - 5f) * 0.18f;
 
                     if (nameAsLabel)
@@ -1034,25 +1044,43 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
                     item.Value ??= new();
 
+                    const float keyButtonWidth = 40f;
                     float clientFieldWidth = remainingWidth * 0.34f;
-                    float clientIdFieldX = rect.x + firstFieldWidth + 5f;
-                    remainingWidth -= clientFieldWidth;
+                    float renderCursorX = rect.x + firstFieldWidth + 5f;
+                    remainingWidth -= clientFieldWidth - 10f + keyButtonWidth;
 
                     item.Value.ClientId = RenderFieldWithHint(
                         EditorGUI.TextField,
-                        new Rect(clientIdFieldX, rect.y, clientFieldWidth, rect.height),
+                        new Rect(renderCursorX, rect.y, clientFieldWidth, rect.height),
                         string.IsNullOrEmpty,
                         item.Value.ClientId,
                         "Client ID"
                     );
 
+                    renderCursorX += clientFieldWidth + 5f;
                     item.Value.ClientSecret = RenderFieldWithHint(
                         EditorGUI.TextField,
-                        new Rect(rect.x + firstFieldWidth + 5f + clientFieldWidth + 5f, rect.y, remainingWidth - 10f,
+                        new Rect(renderCursorX, rect.y, remainingWidth - 20f,
                             rect.height),
                         string.IsNullOrEmpty,
                         item.Value.ClientSecret,
                         "Client Secret");
+
+                    GUIContent keyButtonContent = CreateGUIContent("Key", "Click to view or edit encryption key for client credentials");
+                    renderCursorX += remainingWidth - 20f + 5f;
+                    if (GUI.Button(
+                        new Rect(renderCursorX, rect.y, keyButtonWidth, rect.height),
+                        keyButtonContent))
+                    {
+                        EncryptionKeyWindow.Show(item.Value.EncryptionKey, 
+                            result =>
+                            {
+                                item.Value.EncryptionKey = result;
+                            }
+                        );
+                    }
+                    
+                    
                 },
                 () => clientCredentialsCopy.Add(),
                 (item) =>
@@ -1126,7 +1154,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 #endif
         private static Guid RenderInput(ConfigFieldAttribute configFieldDetails, Guid value, float labelWidth)
         {
-            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value,
+            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, configFieldDetails.Validators,
                 GuidField);
         }
 
@@ -1212,21 +1240,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         public static TEnum RenderEnumInput<TEnum>(ConfigFieldAttribute configFieldAttribute, TEnum value, float labelWidth) where TEnum : Enum
         {
             return InputRendererWrapper(configFieldAttribute.Label, configFieldAttribute.ToolTip, labelWidth, value,
-                EnumFlagsField, configFieldAttribute.HelpURL);
+                configFieldAttribute.Validators, EnumFlagsField, configFieldAttribute.HelpURL);
         }
 
         private static TEnum EnumFlagsField<TEnum>(GUIContent label, TEnum value, params GUILayoutOption[] options) where TEnum : Enum
         {
             return (TEnum)EditorGUILayout.EnumFlagsField(label, value, options);
-        }
-        private static Version RenderInput(ConfigFieldAttribute configFieldAttribute, Version value, float labelWidth)
-        {
-            return RenderInput(value, configFieldAttribute.Label, configFieldAttribute.ToolTip, labelWidth);
-        }
-
-        public static Version RenderInput(Version value, string label, string tooltip, float labelWidth)
-        {
-            return InputRendererWrapper(label, tooltip, labelWidth, value, VersionField);
         }
 
         public static ProductionEnvironments RenderInput(ConfigFieldAttribute configFieldAttribute,
@@ -1306,7 +1325,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             EditorGUILayout.BeginHorizontal();
 
-            string filePath = InputRendererWrapper(configFieldAttributeDetails.Label, value, labelWidth, tooltip, EditorGUILayout.TextField, configFieldAttributeDetails.HelpURL);
+            string filePath = InputRendererWrapper(configFieldAttributeDetails.Label, value, labelWidth, tooltip, configFieldAttributeDetails.Validators, EditorGUILayout.TextField, configFieldAttributeDetails.HelpURL);
 
             if (GUILayout.Button("Select", GUILayout.MaxWidth(MAXIMUM_BUTTON_WIDTH)))
             {
@@ -1327,7 +1346,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             EditorGUILayout.BeginHorizontal();
 
-            string filePath = InputRendererWrapper(configFieldAttributeDetails.Label, value, labelWidth, tooltip, EditorGUILayout.TextField, configFieldAttributeDetails.HelpURL);
+            string filePath = InputRendererWrapper(configFieldAttributeDetails.Label, value, labelWidth, tooltip, configFieldAttributeDetails.Validators, EditorGUILayout.TextField, configFieldAttributeDetails.HelpURL);
 
             if (GUILayout.Button("Select", GUILayout.MaxWidth(MAXIMUM_BUTTON_WIDTH)))
             {
@@ -1347,17 +1366,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         public static double RenderInput(ConfigFieldAttribute configFieldDetails, double value, float labelWidth)
         {
-            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, EditorGUILayout.DoubleField, configFieldDetails.HelpURL);
+            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, configFieldDetails.Validators, EditorGUILayout.DoubleField, configFieldDetails.HelpURL);
         }
 
         public static float RenderInput(ConfigFieldAttribute configFieldDetails, float value, float labelWidth)
         {
-            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, EditorGUILayout.FloatField, configFieldDetails.HelpURL);
+            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, configFieldDetails.Validators, EditorGUILayout.FloatField, configFieldDetails.HelpURL);
         }
 
         public static string RenderInput(ConfigFieldAttribute configFieldDetails, string value, float labelWidth)
         {
-            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, EditorGUILayout.TextField, configFieldDetails.HelpURL);
+            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, configFieldDetails.Validators, EditorGUILayout.TextField, configFieldDetails.HelpURL);
         }
 
         public static ulong RenderInput(ConfigFieldAttribute configFieldDetails, ulong value, float labelWidth)
@@ -1365,17 +1384,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             _ = SafeTranslatorUtility.TryConvert(value, out long temp);
 
             long longValue = InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth,
-                temp, EditorGUILayout.LongField);
-
-            return SafeTranslatorUtility.TryConvert(longValue, out ulong newValue) ? newValue : value;
-        }
-
-        private static ulong RenderInput(string label, string tooltip, ulong value, float labelWidth)
-        {
-            _ = SafeTranslatorUtility.TryConvert(value, out long temp);
-
-            long longValue = InputRendererWrapper(label, tooltip, labelWidth,
-                temp, EditorGUILayout.LongField);
+                temp, configFieldDetails.Validators, EditorGUILayout.LongField);
 
             return SafeTranslatorUtility.TryConvert(longValue, out ulong newValue) ? newValue : value;
         }
@@ -1384,7 +1393,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             _ = SafeTranslatorUtility.TryConvert(value, out int temp);
 
-            int intValue = InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, temp,
+            int intValue = InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, temp, configFieldDetails.Validators,
                 EditorGUILayout.IntField);
 
             return SafeTranslatorUtility.TryConvert(intValue, out uint newValue) ? newValue : value;
@@ -1394,10 +1403,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             return InputRendererWrapper(
                 configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth,
-                value, EditorGUILayout.Toggle);
+                value, configFieldDetails.Validators, EditorGUILayout.Toggle);
         }
 
-        public delegate T TestDelegate<T>(GUIContent label, T value, params GUILayoutOption[] options);
+        public delegate T InputRendererDelegate<T>(GUIContent label, T value, params GUILayoutOption[] options);
 
         private static T InputRendererWithAlignedLabel<T>(float labelWidth, Func<T> renderFn)
         {
@@ -1412,10 +1421,50 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return newValue;
         }
 
-        private static T InputRendererWrapper<T>(string label, string toolTip, float labelWidth, T value, TestDelegate<T> renderFn, string helpURL = null)
+        private static void RunValidators(IEnumerable<FieldValidatorAttribute> validators, object value, out bool isValid)
+        {
+            isValid = true;
+            StringBuilder errorMessageBuilder = new();
+            foreach (var validator in validators)
+            {
+                // If field is valid then go to the next validator.
+                if (validator.FieldValueIsValid(value, out string errorMessage))
+                {
+                    continue;
+                }
+
+                // Otherwise append message from the validator.
+                errorMessageBuilder.AppendLine(errorMessage);
+            }
+
+            // If there are no error messages, then stop here
+            if (errorMessageBuilder.Length == 0)
+            {
+                return;
+            }
+
+            isValid = false;
+            EditorGUILayout.HelpBox(errorMessageBuilder.ToString(), MessageType.Warning);
+        }
+
+        private static T InputRendererWrapper<T>(string label, string toolTip, float labelWidth, T value, IEnumerable<FieldValidatorAttribute> validators, InputRendererDelegate<T> renderFn, string helpURL = null)
         {
             return InputRendererWithAlignedLabel(labelWidth, () =>
             {
+                // Run validators for the config field.
+                RunValidators(validators, value, out bool isCurrentValueValid);
+                
+                // Store the previous background color so that it can be
+                // restored if need be.
+                Color previousBackgroundColor = GUI.backgroundColor;
+                if (!isCurrentValueValid)
+                {
+                    // This sets the background color for the input field that
+                    // is about to be rendered to red - further highlighting the
+                    // field that has invalid values.
+                    GUI.backgroundColor = Color.red;
+                }
+
                 if (!string.IsNullOrEmpty(helpURL))
                 {
                     EditorGUILayout.BeginHorizontal();
@@ -1428,6 +1477,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     RenderHelpIcon(helpURL);
                     EditorGUILayout.EndHorizontal();
                 }
+
+                // Restore the background color that was set before the field
+                // was rendered.
+                GUI.backgroundColor = previousBackgroundColor;
 
                 return newValue;
             });

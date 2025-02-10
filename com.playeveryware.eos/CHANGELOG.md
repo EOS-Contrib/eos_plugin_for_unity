@@ -2,6 +2,16 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.6] - 2025-02-03
+
+### Added
+
+- feat: Enable display and edit of encryption key for client credentials.
+
+### Fixed
+
+- fix: Allow enum values to be cast to eitehr highest or lowest value. Correct implementation to default to 0 if there is no named value in range.
+
 ## [3.3.5] - 2025-01-23
 
 ## Changelog

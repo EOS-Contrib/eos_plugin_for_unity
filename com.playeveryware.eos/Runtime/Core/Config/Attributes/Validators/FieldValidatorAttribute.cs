@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2024 PlayEveryWare
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,23 +22,12 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    /// <summary>
-    /// This class is defined here as a stand-in for UnityEngine.Application,
-    /// so that files compiled outside of the Unity Editor that reference that
-    /// class can still be compiled properly.
-    /// </summary>
-    internal static class Application
-    {
-        /// <summary>
-        /// This is the path of the streaming assets directory relative to the
-        /// output directory of this class library.
-        /// </summary>
-        public static readonly string streamingAssetsPath = @"..\..\..\..\..\..\Assets\StreamingAssets\";
+    using System;
+    using System.Reflection;
 
-        /// <summary>
-        /// For the purposes of this class library, this field member must be
-        /// present - but it's value is not utilized, so it is being left empty.
-        /// </summary>
-        public static readonly string temporaryCachePath = string.Empty;
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
+    public abstract class FieldValidatorAttribute : Attribute
+    {
+        public abstract bool FieldValueIsValid(object value, out string errorMessage);
     }
 }

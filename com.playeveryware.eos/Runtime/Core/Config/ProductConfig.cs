@@ -41,6 +41,13 @@ namespace PlayEveryWare.EpicOnlineServices
     public class ProductConfig : Config
     {
         /// <summary>
+        /// This is the maximum allowed length for the product version field
+        /// according to the EOS SDK documentation. The name of this field was
+        /// selected to mirror the one that exists within the EOS SDK itself.
+        /// </summary>
+        private const int EOS_INITIALIZEOPTIONS_PRODUCTVERSION_MAX_LENGTH = 64;
+
+        /// <summary>
         /// The product ID is a unique GUID labeled "Product ID" in the Epic
         /// Developer Portal. The name for this value can be set to anything -
         /// it is used as a label for user interface purposes - and is allowed
@@ -63,7 +70,9 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Version",
             ConfigFieldType.Text,
             "Use this to indicate to the EOS SDK your game version.",
-            0)]
+            0, "https://dev.epicgames.com/docs/api-ref/structs/eos-initialize-options")]
+        [RegexValidation("^[A-Za-z0-9._ !?()+:-]+$", "Product version must consist of only the following characters: A-Z, a-z, 0-9, dot, underscore, space, exclamation mark, question mark, sign, hyphen, parenthesis, plus, minus, or colon characters.")]
+        [LengthValidation(1, EOS_INITIALIZEOPTIONS_PRODUCTVERSION_MAX_LENGTH)]
         public string ProductVersion;
 
         /// <summary>
