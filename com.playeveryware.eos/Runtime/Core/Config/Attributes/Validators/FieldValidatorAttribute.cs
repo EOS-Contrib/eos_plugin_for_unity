@@ -25,10 +25,9 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
     using System.Reflection;
 
-    [AttributeUsage(AttributeTargets.Field)]
-
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
     public abstract class FieldValidatorAttribute : Attribute
     {
-        public abstract bool FieldValueIsValid(object toValidate, out string configurationProblemMessage);
+        public abstract bool FieldValueIsValid(object value, out string errorMessage);
     }
 }

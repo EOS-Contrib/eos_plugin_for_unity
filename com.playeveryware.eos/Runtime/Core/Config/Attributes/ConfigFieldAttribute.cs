@@ -25,6 +25,7 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
+    using System.Collections.Generic;
 
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class ConfigFieldAttribute : Attribute
@@ -58,15 +59,22 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public PlatformManager.Platform PlatformsEnabledOn { get; }
 
+        public IEnumerable<FieldValidatorAttribute> Validators { get; set; }
+
         public ConfigFieldAttribute(
             PlatformManager.Platform enabledOn,
             string label,
             ConfigFieldType type,
             string tooltip = null,
             int group = -1,
-            string helpUrl = null) : this(label, type, tooltip, group, helpUrl)
+            string helpUrl = null)
         {
             PlatformsEnabledOn = enabledOn;
+            Label = label;
+            FieldType = type;
+            ToolTip = tooltip;
+            Group = group;
+            HelpURL = helpUrl;
         }
 
         public ConfigFieldAttribute(
@@ -74,15 +82,8 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType type,
             string tooltip = null,
             int group = -1,
-            string helpUrl = null)
-        {
-            PlatformsEnabledOn = PlatformManager.Platform.Any;
-            HelpURL = helpUrl;
-            Label = label;
-            ToolTip = tooltip;
-            Group = group;
-            FieldType = type;
-        }
+            string helpUrl = null) : this(PlatformManager.Platform.Any, label, type, tooltip, group, helpUrl)
+        { }
     }
 }
 
