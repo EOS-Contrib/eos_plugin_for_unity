@@ -146,10 +146,18 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
+#if EXTERNAL_TO_UNITY
+#pragma warning disable CS0067
+#endif
+
         public static event EventHandler<PlatformConfigsUpdatedEventArgs> DeploymentsUpdatedEvent;
 
         public static event EventHandler<PlatformConfigsUpdatedEventArgs>
             ClientCredentialsUpdatedEvent;
+
+#if EXTERNAL_TO_UNITY
+#pragma warning restore CS0067
+#endif
 
         static ProductConfig()
         {

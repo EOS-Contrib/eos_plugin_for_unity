@@ -197,7 +197,9 @@ namespace PlayEveryWare.EpicOnlineServices
             // Ensure value is within range
             if (Comparer<object>.Default.Compare(value, lowestUnderlyingValue) < 0 || Comparer<object>.Default.Compare(value, highestUnderlyingValue) > 0)
             {
+#if !EXTERNAL_TO_UNITY
                 UnityEngine.Debug.LogWarning($"Value {value} is out of range for {nameof(TEnum)}, setting to 0.");
+#endif
                 finalEnumValue = (TEnum)Enum.ToObject(typeof(TEnum), 0);
             }
             else
