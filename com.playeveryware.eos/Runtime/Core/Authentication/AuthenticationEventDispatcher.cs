@@ -24,52 +24,27 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Common;
     using Epic.OnlineServices;
     using Epic.OnlineServices.Auth;
     using System;
     using UnityEngine;
 
+    [Obsolete("AuthenticationListener has been deprecated. Please use AuthenticationEventDispatcher instead.", true)]
+    public class AuthenticationListener
+    {
+
+    }
+
     /// <summary>
     /// Used to listen for authentication events from EOSManager.
     /// </summary>
-    public class AuthenticationListener: IAuthInterfaceEventListener, IConnectInterfaceEventListener, IDisposable
+    public sealed class AuthenticationEventDispatcher: Disposable, IAuthInterfaceEventListener, IConnectInterfaceEventListener
     {
-        /// <summary>
-        /// Identifies the kind of authentication change.
-        /// </summary>
-        public enum LoginChangeKind
-        {
-            /// <summary>
-            /// Represents a login change relating to the Auth-login type with EOS.
-            /// A user logged in with the Auth Interface has access to Epic
-            /// Account Services (EAS) operations.
-            /// </summary>
-            Auth,
-
-            /// <summary>
-            /// Represents a login change relating to the Connect-login type with EOS.
-            /// A user logged in with the Connect Interface has access to all
-            /// EOS Game Services.
-            /// Typically a user will be logged in to Auth and then afterwards
-            /// logged in to Connect.
-            /// </summary>
-            Connect
-        }
-
-        /// <summary>
-        /// Used to describe functions that handle change in authentication
-        /// state.
-        /// </summary>
-        /// <param name="authenticated">
-        /// True if the authentication state has changed to authenticated, False
-        /// otherwise.
-        /// </param>
-        public delegate void AuthenticationChangedEventHandler(bool authenticated, LoginChangeKind changeType);
-
         /// <summary>
         /// Event that triggers when the state of authentication has changed.
         /// </summary>
-        public event AuthenticationChangedEventHandler AuthenticationChanged;
+        public event EventHandler<AuthenticationChangedEventArgs> AuthenticationChanged;
 
         #region Singleton Pattern Implementation
 
@@ -77,12 +52,12 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Lazy instance for singleton allows for thread-safe interactions with
         /// the AuthenticationListener
         /// </summary>
-        private static readonly Lazy<AuthenticationListener> s_LazyInstance = new(() => new AuthenticationListener());
+        private static readonly Lazy<AuthenticationEventDispatcher> s_LazyInstance = new(() => new AuthenticationEventDispatcher());
 
         /// <summary>
         /// Accessor for the instance.
         /// </summary>
-        public static AuthenticationListener Instance
+        public static AuthenticationEventDispatcher Instance
         {
             get
             {
@@ -93,31 +68,23 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Private constructor ensures enforcement of the singleton pattern.
         /// </summary>
-        private AuthenticationListener() 
+        private AuthenticationEventDispatcher()
         {
             EOSManager.Instance.AddAuthLoginListener(this);
             EOSManager.Instance.AddAuthLogoutListener(this);
+
+            // TODO: Investigate why there is no AddConnectLogoutListener.
             EOSManager.Instance.AddConnectLoginListener(this);
         }
         
         #endregion
-
-        private bool? _isAuthenticated;
 
         /// <summary>
         /// Indicates whether the authentication listener has received an
         /// AuthenticationChanged event that indicates a user has been logged
         /// in.
         /// </summary>
-        public bool IsAuthenticated
-        {
-            get
-            {
-                // if _isAuthenticated has no value, then we do not know if
-                // we are authenticated or not, so we should say that we are not
-                return _isAuthenticated.HasValue && _isAuthenticated.Value;
-            }
-        }
+        public LoginInterfaces AuthenticatedInterfaces { get; private set; } = LoginInterfaces.None;
 
         /// <summary>
         /// Based on the given result code, determine if the authentication
@@ -127,7 +94,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="attemptedState"></param>
         /// <param name="attemptResult"></param>
         /// <param name="changeType">The type of authentication change.</param>
-        private void TriggerAuthenticationChangedEvent(bool attemptedState, Result attemptResult, LoginChangeKind changeType)
+        private void TriggerAuthenticationChangedEvent(bool attemptedState, Result attemptResult, LoginInterfaces changeType)
         {
             // If the attempt to change the state of authentication did not 
             // succeed, then log a warning and stop.
@@ -137,12 +104,21 @@ namespace PlayEveryWare.EpicOnlineServices
                 return;
             }
 
-            // Keep track of whether the user is authenticated.
-            _isAuthenticated = attemptedState;
+            // Modify the authentication status bit-flag
+            if (attemptedState)
+            {
+                // Bitwise OR to add the type authenticated
+                AuthenticatedInterfaces |= changeType;
+            }
+            else
+            {
+                // Bitwise AND to remove the type being de-authenticated
+                AuthenticatedInterfaces &= ~changeType;
+            }
 
             // Trigger the event indicating that the state of authentication for 
             // the user has changed.
-            AuthenticationChanged?.Invoke(attemptedState, changeType);
+            AuthenticationChanged?.Invoke(this, new AuthenticationChangedEventArgs(attemptedState, changeType));
         }
 
         /// <summary>
@@ -153,7 +129,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void OnAuthLogin(LoginCallbackInfo loginCallbackInfo)
         {
-            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, LoginChangeKind.Auth);
+            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, LoginInterfaces.Auth);
         }
 
         /// <summary>
@@ -164,7 +140,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
         {
-            TriggerAuthenticationChangedEvent(false, logoutCallbackInfo.ResultCode, LoginChangeKind.Auth);
+            TriggerAuthenticationChangedEvent(false, logoutCallbackInfo.ResultCode, LoginInterfaces.Auth);
         }
 
         /// <summary>
@@ -175,18 +151,24 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
         {
-            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, LoginChangeKind.Connect);
+            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, LoginInterfaces.Connect);
         }
 
-        /// <summary>
-        /// Dispose of the AuthenticationListener, removing it as a listener
-        /// from the various ways that EOSManager keeps track of it.
-        /// </summary>
-        public void Dispose()
+        protected override void DisposeManagedResources()
         {
+            // Remove from list of authentication listeners
             EOSManager.Instance.RemoveAuthLoginListener(this);
             EOSManager.Instance.RemoveAuthLogoutListener(this);
+
+            // TODO: Investigate why there is no RemoveConnectLogoutListener.
             EOSManager.Instance.RemoveConnectLoginListener(this);
+        }
+
+        protected override void DisposeUnmanagedResources()
+        {
+            // Empty definition is here to satisfy requirements of Disposable
+            // abstract class - this class does not need to dispose of any
+            // unmanaged resources.
         }
     }
 }

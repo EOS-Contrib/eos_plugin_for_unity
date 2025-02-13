@@ -24,7 +24,6 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    using Epic.OnlineServices;
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using UnityEngine;
@@ -47,7 +46,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         protected bool IsDirty { get; private set; } = true;
 
-        protected SampleMenuWithFriends(bool startsHidden = true) : base(startsHidden, true) { }
+        protected SampleMenuWithFriends(bool startsHidden = true) : base(startsHidden) { }
 
         public virtual FriendInteractionState GetFriendInteractionState(FriendData friendData)
         {
@@ -94,7 +93,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Editable within the Unity Editor, it should be set to the control
         /// which should have focus when the SampleMenu first becomes visible.
         /// </summary>
-        [Header("Controller")] 
+        [Header("Controller")]
         public GameObject UIFirstSelected;
 
         /// <summary>
@@ -126,12 +125,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>
-        /// Indicates whether the SampleMenu requires a user be authenticated
-        /// in order to interact with the scene.
-        /// </summary>
-        public bool RequiresAuthentication { get; }
-
-        /// <summary>
         /// Indicates whether the SampleMenu starts out hidden or visible.
         /// NOTE: This Property might be something that can be removed, it
         ///       exists primarily to maintain functionality of current scenes.
@@ -145,36 +138,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Indicates whether the SampleMenu should be visible or hidden when it
         /// launches. Most of them should be hidden.
         /// </param>
-        /// <param name="requiresAuthentication">
-        /// Indicates whether the SampleMenu requires a user be authenticated in
-        /// order for it to be used. Most of them require authentication.
-        /// </param>
-        protected SampleMenu(bool startsHidden = true, bool requiresAuthentication = true)
+        protected SampleMenu(bool startsHidden = true)
         {
             StartsHidden = startsHidden;
-            RequiresAuthentication = requiresAuthentication;
 
-            Log($"SampleMenu created -> (StartsHidden = {StartsHidden}, RequiresAuthentication = {RequiresAuthentication}).");
-        }
-
-        /// <summary>
-        /// Function that handles change in authentication.
-        /// </summary>
-        /// <param name="authenticated">
-        /// True if the state has changed to authenticated, false otherwise.
-        /// </param>
-        /// <param name="authenticationChangeType">
-        /// What kind of authentication change this is.</param>
-        private void OnAuthenticationChanged(bool authenticated, AuthenticationListener.LoginChangeKind authenticationChangeType)
-        {
-            if (authenticated || !RequiresAuthentication)
-            {
-                Show();
-            }
-            else
-            {
-                Hide();
-            }
+            Log($"SampleMenu created -> (StartsHidden = {StartsHidden}).");
         }
 
         /// <summary>
@@ -182,9 +150,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         protected virtual void Awake()
         {
-            // When awake is called, subscribe to the authentication change
-            // event on AuthenticationListener.
-            AuthenticationListener.Instance.AuthenticationChanged += OnAuthenticationChanged;
         }
 
         /// <summary>
@@ -192,9 +157,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         protected virtual void OnDestroy()
         {
-            // When OnDestroy is called, remove the subscription from the 
-            // AuthenticationChanged event.
-            AuthenticationListener.Instance.AuthenticationChanged -= OnAuthenticationChanged;
         }
 
         /// <summary>
@@ -225,18 +187,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void Show()
         {
             Log($"Show() started");
-
-            if (RequiresAuthentication)
-            {
-                ProductUserId user = EOSManager.Instance.GetProductUserId();
-                if (user == null || !user.IsValid())
-                {
-                    Log($"This SampleMenu requires authentication, and the user " +
-                        "has not set a ProductUserId yet. Will not set this " +
-                        "sample to visible until OnAuthenticationChanged.");
-                    return;
-                }
-            }
 
             // Don't do anything if already showing.
             if (!Hidden) return;

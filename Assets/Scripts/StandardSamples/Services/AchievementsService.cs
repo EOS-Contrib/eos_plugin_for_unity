@@ -107,7 +107,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return buffer;
         }
 
-        protected async override void OnLoggedIn(AuthenticationListener.LoginChangeKind changeType)
+        protected async override void OnLoggedIn()
         {
             await RefreshAsync();
         }

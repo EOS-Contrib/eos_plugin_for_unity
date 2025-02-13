@@ -63,11 +63,6 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         private StatsService() { }
 
-        ~StatsService()
-        {
-            Dispose(false);
-        }
-
         #endregion
 
         /// <summary>
@@ -94,7 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices
             UnityEngine.Debug.Log(toPrint);
         }
 
-        protected async override void OnLoggedIn(AuthenticationListener.LoginChangeKind changeType)
+        protected async override void OnLoggedIn()
         {
             if (TryGetProductUserId(out ProductUserId userId))
             {

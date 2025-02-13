@@ -31,88 +31,39 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Contains implementation of common functionality between different
     /// EOS Service managers (Currently AchievementsService and StatsService).
     /// </summary>
-    public abstract class EOSService : IDisposable
+    public abstract class EOSService : AuthenticationEventObserver
     {
-        /// <summary>
-        /// Describes the function signature for the event that triggers when
-        /// the service has been updated.
-        /// </summary>
-        public delegate void ServiceUpdatedEventHandler();
-
         /// <summary>
         /// Event that triggers when changes have been made that may require a
         /// user interface update.
         /// </summary>
-        public event ServiceUpdatedEventHandler Updated;
+        public event Action Updated;
 
         /// <summary>
-        /// Indicates whether the service needs to have a user authenticated in
-        /// order to function properly.
+        /// Base constructor for services.
         /// </summary>
-        protected bool RequiresAuthentication { get; }
-
-        /// <summary>
-        /// Used to prevent redundant calls to the dispose method.
-        /// </summary>
-        private bool _disposed = false;
-
-        /// <summary>
-        /// Base constructor for Service managers.
-        /// </summary>
-        /// <param name="requiresAuthentication">
-        /// Indicates whether the service manager requires a user to be
-        /// authenticated with the Connect Interface in order to function
-        /// properly.
+        /// <param name="requiredLoginInterfaces">
+        /// Indicates the login interface required for the service to operate.
+        /// By default, implementing services require either auth or connect.
         /// </param>
-        protected EOSService(bool requiresAuthentication = true)
+        protected EOSService(LoginInterfaces acceptedLoginInterfaces = LoginInterfaces.Connect | LoginInterfaces.Auth) : base(acceptedLoginInterfaces)
         {
-            RequiresAuthentication = requiresAuthentication;
-            AuthenticationListener.Instance.AuthenticationChanged += OnAuthenticationChanged;
             _ = RefreshAsync();
         }
 
-        /// <summary>
-        /// Dispose function makes sure that the manager is removed from the
-        /// collection of connect login listeners.
-        /// </summary>
-        public void Dispose()
+        protected override void DisposeUnmanagedResources()
         {
-            Dispose(true);
+            Reset();
 
-            // Prevent collection until the dispose pattern is followed.
-            GC.SuppressFinalize(this);
+            // Call the base implementation.
+            base.DisposeUnmanagedResources();
         }
 
-        /// <summary>
-        /// Protected implementation of Dispose pattern. If this method is
-        /// overridden in implementing classes, this base implementation should
-        /// be called at the end of the overridden implementation.
-        /// </summary>
-        /// <param name="disposing">
-        /// Indicates that disposing is taking place.
-        /// </param>
-        protected virtual void Dispose(bool disposing)
+        protected override void DisposeManagedResources()
         {
-            // If already disposed, then do nothing (this prevents the disposal
-            // pattern from becoming circular).
-            if (_disposed)
-            {
-                return;
-            }
-
-            if (disposing)
-            {
-                Reset(); // Always call the Reset function first when disposing.
-
-                // NOTE: Dispose of managed resources here.
-
-                // Unsubscribe from the authentication changed event
-                AuthenticationListener.Instance.AuthenticationChanged -= OnAuthenticationChanged;
-            }
-
-            // NOTE: Free unmanaged resources here, and set large fields to null.
-
-            _disposed = true;
+            // Default behavior is to take no action. Empty implementation is 
+            // added here because currently there are no implementing classes
+            // that need to define bespoke behavior.
         }
 
         /// <summary>
@@ -159,32 +110,18 @@ namespace PlayEveryWare.EpicOnlineServices
 
         }
 
-        private void OnAuthenticationChanged(bool authenticated, AuthenticationListener.LoginChangeKind changeType)
-        {
-            if (authenticated)
-            {
-                OnLoggedIn(changeType);
-            }
-            else
-            {
-                OnLoggedOut(changeType);
-            }
-        }
-
         /// <summary>
         /// Implement this method to perform tasks when a user authenticates.
         /// By default, there is no action taken.
         /// </summary>
-        /// <param name="changeType">The type of authentication change.</param>
-        protected virtual void OnLoggedIn(AuthenticationListener.LoginChangeKind changeType) { }
+        protected override void OnLoggedIn() { }
 
         /// <summary>
         /// If there are tasks that need to be done when logged out, consider
         /// overriding the Reset() function as that is where such things should
         /// be done.
         /// </summary>
-        /// <param name="changeType">The type of authentication change.</param>
-        protected void OnLoggedOut(AuthenticationListener.LoginChangeKind changeType)
+        protected override void OnLoggedOut()
         {
             Reset();
         }
@@ -195,13 +132,13 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns></returns>
         public async Task RefreshAsync()
         {
-            // Check to see if authentication is required, if it's not then 
-            // continue. If it is, then make sure a user is authenticated before
-            // refreshing.
-            if (!RequiresAuthentication || (RequiresAuthentication && AuthenticationListener.Instance.IsAuthenticated))
+            // If authentication is needed then do not refresh.
+            if (NeedsAuthentication)
             {
-                await InternalRefreshAsync();
+                return;
             }
+
+            await InternalRefreshAsync();
         }
         
         /// <summary>
