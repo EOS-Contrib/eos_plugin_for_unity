@@ -88,6 +88,18 @@ EOS_ENUM(EOS_EEcomItemType,
 	EOS_EIT_Other = 2
 );
 
+/**
+ * An enumeration defining the possible orientation for the checkout page. This will be used on mobile.
+ */
+EOS_ENUM(EOS_ECheckoutOrientation,
+	/** Current orientation will be used */
+	EOS_ECO_Default = 0,
+	/** Portrait orientation */
+	EOS_ECO_Portrait = 1,
+	/** Landscape orientation */
+	EOS_ECO_Landscape = 2
+);
+
 /** The most recent version of the EOS_Ecom_Entitlement struct. */
 #define EOS_ECOM_ENTITLEMENT_API_LATEST 2
 
@@ -514,7 +526,7 @@ EOS_STRUCT(EOS_Ecom_QueryOwnershipTokenCallbackInfo, (
 EOS_DECLARE_CALLBACK(EOS_Ecom_OnQueryOwnershipTokenCallback, const EOS_Ecom_QueryOwnershipTokenCallbackInfo* Data);
 
 /** The most recent version of the EOS_Ecom_QueryEntitlements API. */
-#define EOS_ECOM_QUERYENTITLEMENTS_API_LATEST 2
+#define EOS_ECOM_QUERYENTITLEMENTS_API_LATEST 3
 
 /**
  * The maximum number of entitlements that may be queried in a single QueryEntitlements API call.
@@ -535,6 +547,8 @@ EOS_STRUCT(EOS_Ecom_QueryEntitlementsOptions, (
 	uint32_t EntitlementNameCount;
 	/** If true, Entitlements that have been redeemed will be included in the results. */
 	EOS_Bool bIncludeRedeemed;
+	/** If not provided then the SandboxId is used as the catalog namespace */
+	const char* OverrideCatalogNamespace;
 ));
 
 /**
@@ -629,7 +643,7 @@ EOS_DECLARE_CALLBACK(EOS_Ecom_OnQueryOffersCallback, const EOS_Ecom_QueryOffersC
 
 
 /** The most recent version of the EOS_Ecom_Checkout API. */
-#define EOS_ECOM_CHECKOUT_API_LATEST 1
+#define EOS_ECOM_CHECKOUT_API_LATEST 2
 
 /** The maximum number of entries in a single checkout. */
 #define EOS_ECOM_CHECKOUT_MAX_ENTRIES 10
@@ -650,6 +664,13 @@ EOS_STRUCT(EOS_Ecom_CheckoutOptions, (
 	uint32_t EntryCount;
 	/** An array of EOS_Ecom_CheckoutEntry elements, each containing the details of a single offer */
 	const EOS_Ecom_CheckoutEntry* Entries;
+	/**
+	 * Preferred device orientation, specifies Default, Portrait or Landscape.
+	 * This is used only on mobile platforms currently.
+	 * SDK can use it to optimize how the Checkout page should be displayed.
+	 * Please check the mobile SDK documentation for additional required setup.
+	 */
+	EOS_ECheckoutOrientation PreferredOrientation;
 ));
 
 /**

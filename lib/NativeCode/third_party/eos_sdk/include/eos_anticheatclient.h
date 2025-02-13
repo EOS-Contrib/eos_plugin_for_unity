@@ -159,6 +159,16 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_EndSession(EOS_HAntiCheatClien
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_PollStatus(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_PollStatusOptions* Options, EOS_EAntiCheatClientViolationType* OutViolationType, char* OutMessage);
 
 /**
+ * This function is reserved for future use and must not be called.
+ *
+ * @param Options Structure containing input data.
+ * @param OutValue Reserved.
+ *
+ * @return EOS_NotImplemented - Always
+ */
+EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_Reserved01(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_Reserved01Options* Options, int32_t* OutValue);
+
+/**
  * Optional. Adds an integrity catalog and certificate pair from outside the game directory,
  * for example to support mods that load from elsewhere.
  * Mode: All

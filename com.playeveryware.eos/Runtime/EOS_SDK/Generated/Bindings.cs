@@ -110,6 +110,7 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_RemoveNotifyMessageToServerName = "EOS_AntiCheatClient_RemoveNotifyMessageToServer";
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerActionRequiredName = "EOS_AntiCheatClient_RemoveNotifyPeerActionRequired";
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedName = "EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged";
+		private const string EOS_AntiCheatClient_Reserved01Name = "EOS_AntiCheatClient_Reserved01";
 		private const string EOS_AntiCheatClient_UnprotectMessageName = "EOS_AntiCheatClient_UnprotectMessage";
 		private const string EOS_AntiCheatClient_UnregisterPeerName = "EOS_AntiCheatClient_UnregisterPeer";
 		private const string EOS_AntiCheatServer_AddNotifyClientActionRequiredName = "EOS_AntiCheatServer_AddNotifyClientActionRequired";
@@ -366,8 +367,10 @@ namespace Epic.OnlineServices
 		private const string EOS_Lobby_IsRTCRoomConnectedName = "EOS_Lobby_IsRTCRoomConnected";
 		private const string EOS_Lobby_JoinLobbyName = "EOS_Lobby_JoinLobby";
 		private const string EOS_Lobby_JoinLobbyByIdName = "EOS_Lobby_JoinLobbyById";
+		private const string EOS_Lobby_JoinRTCRoomName = "EOS_Lobby_JoinRTCRoom";
 		private const string EOS_Lobby_KickMemberName = "EOS_Lobby_KickMember";
 		private const string EOS_Lobby_LeaveLobbyName = "EOS_Lobby_LeaveLobby";
+		private const string EOS_Lobby_LeaveRTCRoomName = "EOS_Lobby_LeaveRTCRoom";
 		private const string EOS_Lobby_ParseConnectStringName = "EOS_Lobby_ParseConnectString";
 		private const string EOS_Lobby_PromoteMemberName = "EOS_Lobby_PromoteMember";
 		private const string EOS_Lobby_QueryInvitesName = "EOS_Lobby_QueryInvites";
@@ -736,6 +739,7 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_RemoveNotifyMessageToServerName = "_EOS_AntiCheatClient_RemoveNotifyMessageToServer";
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerActionRequiredName = "_EOS_AntiCheatClient_RemoveNotifyPeerActionRequired";
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedName = "_EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged";
+		private const string EOS_AntiCheatClient_Reserved01Name = "_EOS_AntiCheatClient_Reserved01";
 		private const string EOS_AntiCheatClient_UnprotectMessageName = "_EOS_AntiCheatClient_UnprotectMessage";
 		private const string EOS_AntiCheatClient_UnregisterPeerName = "_EOS_AntiCheatClient_UnregisterPeer";
 		private const string EOS_AntiCheatServer_AddNotifyClientActionRequiredName = "_EOS_AntiCheatServer_AddNotifyClientActionRequired";
@@ -992,8 +996,10 @@ namespace Epic.OnlineServices
 		private const string EOS_Lobby_IsRTCRoomConnectedName = "_EOS_Lobby_IsRTCRoomConnected";
 		private const string EOS_Lobby_JoinLobbyName = "_EOS_Lobby_JoinLobby";
 		private const string EOS_Lobby_JoinLobbyByIdName = "_EOS_Lobby_JoinLobbyById";
+		private const string EOS_Lobby_JoinRTCRoomName = "_EOS_Lobby_JoinRTCRoom";
 		private const string EOS_Lobby_KickMemberName = "_EOS_Lobby_KickMember";
 		private const string EOS_Lobby_LeaveLobbyName = "_EOS_Lobby_LeaveLobby";
+		private const string EOS_Lobby_LeaveRTCRoomName = "_EOS_Lobby_LeaveRTCRoom";
 		private const string EOS_Lobby_ParseConnectStringName = "_EOS_Lobby_ParseConnectString";
 		private const string EOS_Lobby_PromoteMemberName = "_EOS_Lobby_PromoteMember";
 		private const string EOS_Lobby_QueryInvitesName = "_EOS_Lobby_QueryInvites";
@@ -1362,6 +1368,7 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_RemoveNotifyMessageToServerName = "_EOS_AntiCheatClient_RemoveNotifyMessageToServer@12";
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerActionRequiredName = "_EOS_AntiCheatClient_RemoveNotifyPeerActionRequired@12";
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedName = "_EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged@12";
+		private const string EOS_AntiCheatClient_Reserved01Name = "_EOS_AntiCheatClient_Reserved01@12";
 		private const string EOS_AntiCheatClient_UnprotectMessageName = "_EOS_AntiCheatClient_UnprotectMessage@16";
 		private const string EOS_AntiCheatClient_UnregisterPeerName = "_EOS_AntiCheatClient_UnregisterPeer@8";
 		private const string EOS_AntiCheatServer_AddNotifyClientActionRequiredName = "_EOS_AntiCheatServer_AddNotifyClientActionRequired@16";
@@ -1618,8 +1625,10 @@ namespace Epic.OnlineServices
 		private const string EOS_Lobby_IsRTCRoomConnectedName = "_EOS_Lobby_IsRTCRoomConnected@12";
 		private const string EOS_Lobby_JoinLobbyName = "_EOS_Lobby_JoinLobby@16";
 		private const string EOS_Lobby_JoinLobbyByIdName = "_EOS_Lobby_JoinLobbyById@16";
+		private const string EOS_Lobby_JoinRTCRoomName = "_EOS_Lobby_JoinRTCRoom@16";
 		private const string EOS_Lobby_KickMemberName = "_EOS_Lobby_KickMember@16";
 		private const string EOS_Lobby_LeaveLobbyName = "_EOS_Lobby_LeaveLobby@16";
+		private const string EOS_Lobby_LeaveRTCRoomName = "_EOS_Lobby_LeaveRTCRoom@16";
 		private const string EOS_Lobby_ParseConnectStringName = "_EOS_Lobby_ParseConnectString@16";
 		private const string EOS_Lobby_PromoteMemberName = "_EOS_Lobby_PromoteMember@16";
 		private const string EOS_Lobby_QueryInvitesName = "_EOS_Lobby_QueryInvites@16";
@@ -2131,6 +2140,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedName);
 			EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged = (EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_Reserved01Name);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_Reserved01Name);
+			EOS_AntiCheatClient_Reserved01 = (EOS_AntiCheatClient_Reserved01Delegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_Reserved01Delegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_UnprotectMessageName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_UnprotectMessageName);
@@ -3156,6 +3169,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_JoinLobbyByIdName);
 			EOS_Lobby_JoinLobbyById = (EOS_Lobby_JoinLobbyByIdDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_JoinLobbyByIdDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Lobby_JoinRTCRoomName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_JoinRTCRoomName);
+			EOS_Lobby_JoinRTCRoom = (EOS_Lobby_JoinRTCRoomDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_JoinRTCRoomDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Lobby_KickMemberName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_KickMemberName);
 			EOS_Lobby_KickMember = (EOS_Lobby_KickMemberDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_KickMemberDelegate));
@@ -3163,6 +3180,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Lobby_LeaveLobbyName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_LeaveLobbyName);
 			EOS_Lobby_LeaveLobby = (EOS_Lobby_LeaveLobbyDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_LeaveLobbyDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Lobby_LeaveRTCRoomName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_LeaveRTCRoomName);
+			EOS_Lobby_LeaveRTCRoom = (EOS_Lobby_LeaveRTCRoomDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_LeaveRTCRoomDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Lobby_ParseConnectStringName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_ParseConnectStringName);
@@ -4497,6 +4518,7 @@ namespace Epic.OnlineServices
 			EOS_AntiCheatClient_RemoveNotifyMessageToServer = null;
 			EOS_AntiCheatClient_RemoveNotifyPeerActionRequired = null;
 			EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged = null;
+			EOS_AntiCheatClient_Reserved01 = null;
 			EOS_AntiCheatClient_UnprotectMessage = null;
 			EOS_AntiCheatClient_UnregisterPeer = null;
 			EOS_AntiCheatServer_AddNotifyClientActionRequired = null;
@@ -4753,8 +4775,10 @@ namespace Epic.OnlineServices
 			EOS_Lobby_IsRTCRoomConnected = null;
 			EOS_Lobby_JoinLobby = null;
 			EOS_Lobby_JoinLobbyById = null;
+			EOS_Lobby_JoinRTCRoom = null;
 			EOS_Lobby_KickMember = null;
 			EOS_Lobby_LeaveLobby = null;
+			EOS_Lobby_LeaveRTCRoom = null;
 			EOS_Lobby_ParseConnectString = null;
 			EOS_Lobby_PromoteMember = null;
 			EOS_Lobby_QueryInvites = null;
@@ -5258,6 +5282,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedDelegate(System.IntPtr handle, ulong notificationId);
 		internal static EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedDelegate EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_AntiCheatClient_Reserved01Delegate(System.IntPtr handle, ref AntiCheatClient.Reserved01OptionsInternal options, ref int outValue);
+		internal static EOS_AntiCheatClient_Reserved01Delegate EOS_AntiCheatClient_Reserved01;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_AntiCheatClient_UnprotectMessageDelegate(System.IntPtr handle, ref AntiCheatClient.UnprotectMessageOptionsInternal options, System.IntPtr outBuffer, ref uint outBytesWritten);
@@ -6284,12 +6312,20 @@ namespace Epic.OnlineServices
 		internal static EOS_Lobby_JoinLobbyByIdDelegate EOS_Lobby_JoinLobbyById;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Lobby_JoinRTCRoomDelegate(System.IntPtr handle, ref Lobby.JoinRTCRoomOptionsInternal options, System.IntPtr clientData, Lobby.OnJoinRTCRoomCallbackInternal completionDelegate);
+		internal static EOS_Lobby_JoinRTCRoomDelegate EOS_Lobby_JoinRTCRoom;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Lobby_KickMemberDelegate(System.IntPtr handle, ref Lobby.KickMemberOptionsInternal options, System.IntPtr clientData, Lobby.OnKickMemberCallbackInternal completionDelegate);
 		internal static EOS_Lobby_KickMemberDelegate EOS_Lobby_KickMember;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Lobby_LeaveLobbyDelegate(System.IntPtr handle, ref Lobby.LeaveLobbyOptionsInternal options, System.IntPtr clientData, Lobby.OnLeaveLobbyCallbackInternal completionDelegate);
 		internal static EOS_Lobby_LeaveLobbyDelegate EOS_Lobby_LeaveLobby;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Lobby_LeaveRTCRoomDelegate(System.IntPtr handle, ref Lobby.LeaveRTCRoomOptionsInternal options, System.IntPtr clientData, Lobby.OnLeaveRTCRoomCallbackInternal completionDelegate);
+		internal static EOS_Lobby_LeaveRTCRoomDelegate EOS_Lobby_LeaveRTCRoom;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_Lobby_ParseConnectStringDelegate(System.IntPtr handle, ref Lobby.ParseConnectStringOptionsInternal options, System.IntPtr outBuffer, ref uint inOutBufferLength);
@@ -7707,6 +7743,9 @@ namespace Epic.OnlineServices
 		internal static extern void EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged(System.IntPtr handle, ulong notificationId);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_AntiCheatClient_Reserved01(System.IntPtr handle, ref AntiCheatClient.Reserved01OptionsInternal options, ref int outValue);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_AntiCheatClient_UnprotectMessage(System.IntPtr handle, ref AntiCheatClient.UnprotectMessageOptionsInternal options, System.IntPtr outBuffer, ref uint outBytesWritten);
 
 		[DllImport(Config.LibraryName)]
@@ -8475,10 +8514,16 @@ namespace Epic.OnlineServices
 		internal static extern void EOS_Lobby_JoinLobbyById(System.IntPtr handle, ref Lobby.JoinLobbyByIdOptionsInternal options, System.IntPtr clientData, Lobby.OnJoinLobbyByIdCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Lobby_JoinRTCRoom(System.IntPtr handle, ref Lobby.JoinRTCRoomOptionsInternal options, System.IntPtr clientData, Lobby.OnJoinRTCRoomCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Lobby_KickMember(System.IntPtr handle, ref Lobby.KickMemberOptionsInternal options, System.IntPtr clientData, Lobby.OnKickMemberCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Lobby_LeaveLobby(System.IntPtr handle, ref Lobby.LeaveLobbyOptionsInternal options, System.IntPtr clientData, Lobby.OnLeaveLobbyCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Lobby_LeaveRTCRoom(System.IntPtr handle, ref Lobby.LeaveRTCRoomOptionsInternal options, System.IntPtr clientData, Lobby.OnLeaveRTCRoomCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_Lobby_ParseConnectString(System.IntPtr handle, ref Lobby.ParseConnectStringOptionsInternal options, System.IntPtr outBuffer, ref uint inOutBufferLength);

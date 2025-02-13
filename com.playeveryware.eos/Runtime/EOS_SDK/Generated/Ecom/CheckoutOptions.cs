@@ -22,6 +22,14 @@ namespace Epic.OnlineServices.Ecom
 		/// An array of <see cref="CheckoutEntry" /> elements, each containing the details of a single offer
 		/// </summary>
 		public CheckoutEntry[] Entries { get; set; }
+
+		/// <summary>
+		/// Preferred device orientation, specifies Default, Portrait or Landscape.
+		/// This is used only on mobile platforms currently.
+		/// SDK can use it to optimize how the Checkout page should be displayed.
+		/// Please check the mobile SDK documentation for additional required setup.
+		/// </summary>
+		public CheckoutOrientation PreferredOrientation { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -32,6 +40,7 @@ namespace Epic.OnlineServices.Ecom
 		private System.IntPtr m_OverrideCatalogNamespace;
 		private uint m_EntryCount;
 		private System.IntPtr m_Entries;
+		private CheckoutOrientation m_PreferredOrientation;
 
 		public EpicAccountId LocalUserId
 		{
@@ -57,12 +66,21 @@ namespace Epic.OnlineServices.Ecom
 			}
 		}
 
+		public CheckoutOrientation PreferredOrientation
+		{
+			set
+			{
+				m_PreferredOrientation = value;
+			}
+		}
+
 		public void Set(ref CheckoutOptions other)
 		{
 			m_ApiVersion = EcomInterface.CheckoutApiLatest;
 			LocalUserId = other.LocalUserId;
 			OverrideCatalogNamespace = other.OverrideCatalogNamespace;
 			Entries = other.Entries;
+			PreferredOrientation = other.PreferredOrientation;
 		}
 
 		public void Set(ref CheckoutOptions? other)
@@ -73,6 +91,7 @@ namespace Epic.OnlineServices.Ecom
 				LocalUserId = other.Value.LocalUserId;
 				OverrideCatalogNamespace = other.Value.OverrideCatalogNamespace;
 				Entries = other.Value.Entries;
+				PreferredOrientation = other.Value.PreferredOrientation;
 			}
 		}
 
