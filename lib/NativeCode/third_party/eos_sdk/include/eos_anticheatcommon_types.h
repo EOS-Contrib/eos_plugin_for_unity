@@ -326,7 +326,7 @@ EOS_STRUCT(EOS_AntiCheatCommon_RegisterEventOptions, (
 	const char* EventName;
 	/** Type of the custom event */
 	EOS_EAntiCheatCommonEventType EventType;
-	/** Number of parameters described in ParamDefs. Must be <= EOS_ANTICHEATCOMMON_REGISTEREVENT_MAX_PARAMDEFSCOUNT. */
+	/** Number of parameters described in ParamDefs. Must be equal to or less than EOS_ANTICHEATCOMMON_REGISTEREVENT_MAX_PARAMDEFSCOUNT. */
 	uint32_t ParamDefsCount;
 	/** Pointer to an array of EOS_AntiCheatCommon_RegisterEventParamDef with ParamDefsCount elements */
 	const EOS_AntiCheatCommon_RegisterEventParamDef* ParamDefs;

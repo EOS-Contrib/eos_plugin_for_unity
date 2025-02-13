@@ -41,6 +41,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// The Product User ID for the remote user who is being registered.
 		/// </summary>
 		public ProductUserId UserId { get; set; }
+
+		/// <summary>
+		/// Reserved for future use. Must be set to 0.
+		/// </summary>
+		public int Reserved01 { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -53,6 +58,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		private System.IntPtr m_AccountId_DEPRECATED;
 		private System.IntPtr m_IpAddress;
 		private System.IntPtr m_UserId;
+		private int m_Reserved01;
 
 		public System.IntPtr ClientHandle
 		{
@@ -102,6 +108,14 @@ namespace Epic.OnlineServices.AntiCheatServer
 			}
 		}
 
+		public int Reserved01
+		{
+			set
+			{
+				m_Reserved01 = value;
+			}
+		}
+
 		public void Set(ref RegisterClientOptions other)
 		{
 			m_ApiVersion = AntiCheatServerInterface.RegisterclientApiLatest;
@@ -111,6 +125,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 			AccountId_DEPRECATED = other.AccountId_DEPRECATED;
 			IpAddress = other.IpAddress;
 			UserId = other.UserId;
+			Reserved01 = other.Reserved01;
 		}
 
 		public void Set(ref RegisterClientOptions? other)
@@ -124,6 +139,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 				AccountId_DEPRECATED = other.Value.AccountId_DEPRECATED;
 				IpAddress = other.Value.IpAddress;
 				UserId = other.Value.UserId;
+				Reserved01 = other.Value.Reserved01;
 			}
 		}
 
