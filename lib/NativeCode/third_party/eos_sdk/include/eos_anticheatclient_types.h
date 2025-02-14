@@ -181,6 +181,12 @@ EOS_STRUCT(EOS_AntiCheatClient_EndSessionOptions, (
 	int32_t ApiVersion;
 ));
 
+#define EOS_ANTICHEATCLIENT_RESERVED01_API_LATEST 1
+EOS_STRUCT(EOS_AntiCheatClient_Reserved01Options, (
+	/** API Version: Set this to EOS_ANTICHEATCLIENT_RESERVED01_API_LATEST. */
+	int32_t ApiVersion;
+));
+
 #define EOS_ANTICHEATCLIENT_ADDEXTERNALINTEGRITYCATALOG_API_LATEST 1
 EOS_STRUCT(EOS_AntiCheatClient_AddExternalIntegrityCatalogOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_ADDEXTERNALINTEGRITYCATALOG_API_LATEST. */

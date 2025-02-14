@@ -41,7 +41,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 
 		public const int ReceivemessagefromclientApiLatest = 1;
 
-		public const int RegisterclientApiLatest = 2;
+		public const int RegisterclientApiLatest = 3;
 
 		public const int SetclientnetworkstateApiLatest = 1;
 

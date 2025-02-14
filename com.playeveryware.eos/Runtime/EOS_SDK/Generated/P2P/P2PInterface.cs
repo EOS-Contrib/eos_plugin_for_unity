@@ -235,7 +235,7 @@ namespace Epic.OnlineServices.P2P
 		/// <summary>
 		/// Listen for when a connection is established. This is fired when we first connect to a peer, when we reconnect to a peer after a connection interruption,
 		/// and when our underlying network connection type changes (for example, from a direct connection to relay, or vice versa). Network Connection Type changes
-		/// will always be broadcast with a <see cref="ConnectionEstablishedType.Reconnection" /> connection type, even if the connection was not interrupted.
+		/// will always be broadcast with a <see cref="ConnectionEstablishedType.Reconnection" /> connection type, even if the connection was not interrupted. If the network status changes from offline to online, you must call this function again.
 		/// <seealso cref="AddNotifyPeerConnectionInterrupted" />
 		/// <seealso cref="AddNotifyPeerConnectionClosed" />
 		/// <seealso cref="RemoveNotifyPeerConnectionEstablished" />
@@ -301,7 +301,7 @@ namespace Epic.OnlineServices.P2P
 
 		/// <summary>
 		/// Listen for incoming connection requests on a particular Socket ID, or optionally all Socket IDs. The bound function
-		/// will only be called if the connection has not already been accepted.
+		/// will only be called if the connection has not already been accepted. If the network status changes from offline to online, you must call this function again.
 		/// <seealso cref="RemoveNotifyPeerConnectionRequest" />
 		/// </summary>
 		/// <param name="options">Information about who would like notifications, and (optionally) only for a specific socket</param>

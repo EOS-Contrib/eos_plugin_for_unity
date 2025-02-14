@@ -85,6 +85,13 @@ EOS_ENUM(EOS_ELobbyMemberStatus,
 	/** The lobby has been closed and user has been removed */
 	EOS_LMS_CLOSED = 5
 );
+/** Defines the type of action to take against RTC room when joining a lobby */
+EOS_ENUM(EOS_ELobbyRTCRoomJoinActionType,
+	/** Join RTC Room as soon as user joins the lobby */
+	EOS_LRRJAT_AutomaticJoin = 0,
+	/** Do not join RTC Room when joining the lobby. User must manually call Join RTC Room */
+	EOS_LRRJAT_ManualJoin = 1
+);
 
 #define EOS_LOBBYDETAILS_INFO_API_LATEST 3
 
@@ -159,7 +166,7 @@ EOS_STRUCT(EOS_Lobby_LocalRTCOptions, (
 ));
 
 /** The most recent version of the EOS_Lobby_CreateLobby API. */
-#define EOS_LOBBY_CREATELOBBY_API_LATEST 9
+#define EOS_LOBBY_CREATELOBBY_API_LATEST 10
 
 /**
  * Input parameters for the EOS_Lobby_CreateLobby function.
@@ -247,6 +254,11 @@ EOS_STRUCT(EOS_Lobby_CreateLobbyOptions, (
 	* the platform of the lobby owner.
 	*/
 	EOS_Bool bCrossplayOptOut;
+	/**
+	* If bEnableRTCRoom is true, this value indicates the action to take against the RTC Room when joining the lobby. This may be used 
+	* to indicate the RTCRoom should be joined immediately or manually at a later time.
+	*/
+	EOS_ELobbyRTCRoomJoinActionType RTCRoomJoinActionType;
 ));
 
 /**
@@ -302,7 +314,7 @@ EOS_DECLARE_CALLBACK(EOS_Lobby_OnDestroyLobbyCallback, const EOS_Lobby_DestroyLo
 
 
 /** The most recent version of the EOS_Lobby_JoinLobby API. */
-#define EOS_LOBBY_JOINLOBBY_API_LATEST 4
+#define EOS_LOBBY_JOINLOBBY_API_LATEST 5
 
 /**
  * Input parameters for the EOS_Lobby_JoinLobby function.
@@ -341,6 +353,11 @@ EOS_STRUCT(EOS_Lobby_JoinLobbyOptions, (
 	* will be treated as allowing crossplay.
 	*/
 	EOS_Bool bCrossplayOptOut;
+	/**
+	* For lobbies with the RTC Room feature enabled, this value indicates the action to take against the RTC Room when joining the lobby. This may be used
+	* to indicate the RTCRoom should be joined immediately or manually at a later time.
+	*/
+	EOS_ELobbyRTCRoomJoinActionType RTCRoomJoinActionType;
 ));
 
 /**
@@ -362,7 +379,7 @@ EOS_STRUCT(EOS_Lobby_JoinLobbyCallbackInfo, (
 EOS_DECLARE_CALLBACK(EOS_Lobby_OnJoinLobbyCallback, const EOS_Lobby_JoinLobbyCallbackInfo* Data);
 
 /** The most recent version of the EOS_Lobby_JoinLobbyById API. */
-#define EOS_LOBBY_JOINLOBBYBYID_API_LATEST 2
+#define EOS_LOBBY_JOINLOBBYBYID_API_LATEST 3
 
 /**
  * Input parameters for the EOS_Lobby_JoinLobbyById function.
@@ -401,6 +418,11 @@ EOS_STRUCT(EOS_Lobby_JoinLobbyByIdOptions, (
 	* will be treated as allowing crossplay.
 	*/
 	EOS_Bool bCrossplayOptOut;
+	/**
+	* For lobbies with the RTC Room feature enabled, this value indicates the action to take against the RTC Room when joining the lobby. This may be used 
+	* to indicate the RTCRoom should be joined immediately or manually at a later time.
+	*/
+	EOS_ELobbyRTCRoomJoinActionType RTCRoomJoinActionType;
 ));
 
 /**
@@ -499,6 +521,75 @@ EOS_STRUCT(EOS_Lobby_UpdateLobbyCallbackInfo, (
  * @param Data A EOS_Lobby_UpdateLobby CallbackInfo containing the output information and result
  */
 EOS_DECLARE_CALLBACK(EOS_Lobby_OnUpdateLobbyCallback, const EOS_Lobby_UpdateLobbyCallbackInfo* Data);
+
+/** The most recent version of the EOS_Lobby_JoinRTCRoom API. */
+#define EOS_LOBBY_JOINRTCROOM_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_Lobby_JoinRTCRoom function.
+ */
+EOS_STRUCT(EOS_Lobby_JoinRTCRoomOptions, (
+	/** API Version: Set this to EOS_LOBBY_JOINRTCROOM_API_LATEST. */
+	int32_t ApiVersion;
+	/** The ID of the lobby to join the RTC Room of */
+	EOS_LobbyId LobbyId;
+	/** The Product User ID of the local user in the lobby */
+	EOS_ProductUserId LocalUserId;
+	/**
+	 * Allows the local application to set local audio options for the RTC Room if it is enabled. 
+	 * Only updates audio options when explicitly set; does not provide defaults.
+	 */
+	const EOS_Lobby_LocalRTCOptions* LocalRTCOptions;
+));
+
+/**
+ * Output parameters for the EOS_Lobby_JoinRTCRoom function.
+ */
+EOS_STRUCT(EOS_Lobby_JoinRTCRoomCallbackInfo, (
+	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
+	EOS_EResult ResultCode;
+	/** Context that was passed into EOS_Lobby_JoinRTCRoom */
+	void* ClientData;
+	/** The ID of the lobby */
+	EOS_LobbyId LobbyId;
+));
+
+/**
+* Function prototype definition for callbacks passed to EOS_Lobby_JoinRTCRoom
+* @param Data A EOS_Lobby_JoinRTCRoom CallbackInfo containing the output information and result
+*/
+EOS_DECLARE_CALLBACK(EOS_Lobby_OnJoinRTCRoomCallback, const EOS_Lobby_JoinRTCRoomCallbackInfo* Data);
+/** The most recent version of the  EOS_Lobby_LeaveRTCRoom API. */
+#define EOS_LOBBY_LEAVERTCROOM_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_Lobby_LeaveRTCRoom function.
+ */
+EOS_STRUCT(EOS_Lobby_LeaveRTCRoomOptions, (
+	/** API Version: Set this to EOS_LOBBY_LEAVERTCROOM_API_LATEST. */
+	int32_t ApiVersion;
+	/** The ID of the lobby owning the RTC Room to leave */
+	EOS_LobbyId LobbyId;
+	/** The Product User ID of the local user in the lobby */
+	EOS_ProductUserId LocalUserId;
+));
+/**
+ * Output parameters for the EOS_Lobby_LeaveRTCRoom function.
+ */
+EOS_STRUCT(EOS_Lobby_LeaveRTCRoomCallbackInfo, (
+	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
+	EOS_EResult ResultCode;
+	/** Context that was passed into EOS_Lobby_LeaveRTCRoom */
+	void* ClientData;
+	/** The ID of the lobby */
+	EOS_LobbyId LobbyId;
+));
+
+/**
+ * Function prototype definition for callbacks passed to EOS_Lobby_LeaveRTCRoom
+ * @param Data A EOS_Lobby_LeaveRTCRoom CallbackInfo containing the output information and result
+ */
+EOS_DECLARE_CALLBACK(EOS_Lobby_OnLeaveRTCRoomCallback, const EOS_Lobby_LeaveRTCRoomCallbackInfo* Data);
 
 /** The most recent version of the EOS_Lobby_PromoteMember API. */
 #define EOS_LOBBY_PROMOTEMEMBER_API_LATEST 1
