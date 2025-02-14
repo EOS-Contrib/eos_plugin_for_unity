@@ -470,7 +470,7 @@ using Steamworks;
 
                     // Calls this method again, indicating it as a retry
                     // GetSessionTicket will notice the ticket has been set to invalid, and will try to acquire a new one
-                    StartConnectLoginWithSteamSessionTicket(onLoginCallback, retryAttemptNumber: retryAttemptNumber++);
+                    StartConnectLoginWithSteamSessionTicket(onLoginCallback, retryAttemptNumber: ++retryAttemptNumber);
                 }
                 else
                 {
@@ -512,7 +512,7 @@ using Steamworks;
                             encryptedAppTicket = null;
 
                             // Intentionally not calling the onLoginCallback, letting the next attempt call it
-                            StartConnectLoginWithSteamAppTicket(onLoginCallback, retryAttemptNumber: retryAttemptNumber++);
+                            StartConnectLoginWithSteamAppTicket(onLoginCallback, retryAttemptNumber: ++retryAttemptNumber);
                         }
                         else if (callbackInfo.ResultCode != Epic.OnlineServices.Result.Success)
                         {
