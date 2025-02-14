@@ -18,7 +18,7 @@ EOS_ENUM(EOS_ELoginCredentialType,
 	/**
 	 * Login using account email address and password.
 	 *
-	 * @note Use of this login method is restricted and cannot be used in general.
+	 * Note: This login method is restricted to Epic Games internal use only. Do not use.
 	 */
 	EOS_LCT_Password = 0,
 	/**
