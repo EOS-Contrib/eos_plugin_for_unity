@@ -51,7 +51,7 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// The most recent version of the <see cref="Checkout" /> API.
 		/// </summary>
-		public const int CheckoutApiLatest = 1;
+		public const int CheckoutApiLatest = 2;
 
 		/// <summary>
 		/// The maximum number of entries in a single checkout.
@@ -201,7 +201,7 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// The most recent version of the <see cref="QueryEntitlements" /> API.
 		/// </summary>
-		public const int QueryentitlementsApiLatest = 2;
+		public const int QueryentitlementsApiLatest = 3;
 
 		/// <summary>
 		/// The maximum number of entitlements that may be queried in a single QueryEntitlements API call.
