@@ -82,7 +82,7 @@ namespace Epic.OnlineServices.Platform
 		public IntegratedPlatform.IntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle { get; set; }
 
 		/// <summary>
-		/// Pointer to EOS_<Platform>_SystemSpecificOptions. This structure will be located in <Platform>/eos_<Platform>.h
+		/// Pointer to EOS_"PLATFORM_NAME"_SystemSpecificOptions. This structure will be located in "PLATFORM_NAME"/eos_"PLATFORM_NAME".h
 		/// </summary>
 		public System.IntPtr SystemSpecificOptions { get; set; }
 

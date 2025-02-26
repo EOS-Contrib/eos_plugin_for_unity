@@ -46,8 +46,8 @@ EOS_STRUCT(EOS_Platform_RTCOptions, (
 	/**
 	 * This field is for platform specific initialization if any.
 	 *
-	 * If provided then the structure will be located in <System>/eos_<System>.h.
-	 * The structure will be named EOS_<System>_RTCOptions.
+	 * If provided then the structure will be located in "PLATFORM_NAME"/eos_"PLATFORM_NAME".h.
+	 * The structure will be named EOS_"PLATFORM_NAME"_RTCOptions.
 	 */
 	void* PlatformSpecificOptions;
 	/** Configures RTC behavior upon entering to any background application statuses */
@@ -131,7 +131,7 @@ EOS_STRUCT(EOS_Platform_Options, (
 	 * When set to NULL, the EOS Integrated Platform behavior for the host platform will be disabled.
 	 */
 	EOS_HIntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle;
-	/** Pointer to EOS_<Platform>_SystemSpecificOptions. This structure will be located in <Platform>/eos_<Platform>.h */
+	/** Pointer to EOS_"PLATFORM_NAME"_SystemSpecificOptions. This structure will be located in "PLATFORM_NAME"/eos_"PLATFORM_NAME".h */
 	const void* SystemSpecificOptions;
 	/** 
 	 * Number of seconds for a task to wait for the network to become available before timing out with an EOS_TimedOut error.

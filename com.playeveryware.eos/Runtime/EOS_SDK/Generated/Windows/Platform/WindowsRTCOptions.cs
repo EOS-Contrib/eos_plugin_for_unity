@@ -11,8 +11,8 @@ namespace Epic.OnlineServices.Platform
 		/// <summary>
 		/// This field is for platform specific initialization if any.
 		/// 
-		/// If provided then the structure will be located in <System>/eos_<System>.h.
-		/// The structure will be named EOS_<System>_RTCOptions.
+		/// If provided then the structure will be located in "PLATFORM_NAME"/eos_"PLATFORM_NAME".h.
+		/// The structure will be named EOS_"PLATFORM_NAME"_RTCOptions.
 		/// </summary>
 		public WindowsRTCOptionsPlatformSpecificOptions? PlatformSpecificOptions { get; set; }
 

@@ -47,11 +47,11 @@ namespace Epic.OnlineServices
 		/// </summary>
 		Notanyof = 8,
 		/// <summary>
-		/// This one value is a part of a collection
+		/// This one value is a part of a collection. Supported in <see cref="Sessions.SessionSearch.SetParameter" /> only.
 		/// </summary>
 		Oneof = 9,
 		/// <summary>
-		/// This one value is NOT part of a collection
+		/// This one value is NOT part of a collection. Supported in <see cref="Sessions.SessionSearch.SetParameter" /> only.
 		/// </summary>
 		Notoneof = 10,
 		/// <summary>
