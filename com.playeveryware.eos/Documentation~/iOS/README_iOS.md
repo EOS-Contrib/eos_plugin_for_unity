@@ -48,4 +48,8 @@ You can follow the standard <a href="/com.playeveryware.eos/README.md#configurin
 
 # FAQ
 
-See [frequently_asked_questions.md](/com.playeveryware.eos/Documentation~/frequently_asked_questions.md).
+## My game crashes in the iOS simulator on start with `DllNotFoundException: Unable to load DLL 'EOSSDK.framework/EOSSDK'.
+This is a known issue; at this time, the iOS Simulator does not work with the EOS SDK.
+
+
+For additional questions, see [frequently_asked_questions.md](/com.playeveryware.eos/Documentation~/frequently_asked_questions.md).
