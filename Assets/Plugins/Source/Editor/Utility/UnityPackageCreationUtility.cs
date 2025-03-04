@@ -131,7 +131,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             await PackageFileUtility.CopyFilesToDirectory(outputPath, filesToCopy, progress, cancellationToken);
         }
 
-        private static async Task CreateUPMTarball(string outputPath, string json_file,
+        public static async Task CreateUPMTarball(string outputPath, string json_file,
             IProgress<FileSystemUtility.CopyFileProgressInfo> progress, CancellationToken cancellationToken)
         {
             if (!FileSystemUtility.TryGetTempDirectory(out string tempOutput))

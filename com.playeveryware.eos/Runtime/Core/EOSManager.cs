@@ -1946,14 +1946,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 EOSSingleton.Log($"{nameof(EOSManager)} ({nameof(OnApplicationQuitting)}): Application is quitting. {nameof(ShouldShutdownOnApplicationQuit)} is false, so this manager will not shut down the EOS SDK.");
             }
         }
-#endif
 
-        //-------------------------------------------------------------------------
-        void IEOSCoroutineOwner.StartCoroutine(IEnumerator routine)
-        {
-            base.StartCoroutine(routine);
-        }
-
+        
         /// <summary>
         /// Enqueues an Action to be executed on the main thread.
         /// </summary>
@@ -1993,6 +1987,13 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 action.Invoke();
             }
+        }
+#endif
+
+        //-------------------------------------------------------------------------
+        void IEOSCoroutineOwner.StartCoroutine(IEnumerator routine)
+        {
+            base.StartCoroutine(routine);
         }
     }
 }

@@ -669,11 +669,12 @@ namespace PlayEveryWare.EpicOnlineServices
             return thisMembers.SequenceEqual(otherMembers);
         }
 
+#if !EXTERNAL_TO_UNITY
         public override int GetHashCode()
         {
             return HashCode.Combine(IteratePropertiesAndFields(this));
         }
-
+#endif
         public static bool operator ==(Config left, Config right)
         {
             if (ReferenceEquals(left, right))
@@ -694,7 +695,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return !(left == right);
         }
 
-        #endregion
+#endregion
 
         #region Reflection utility functions
 
@@ -753,12 +754,15 @@ namespace PlayEveryWare.EpicOnlineServices
                 return a.MemberValue == b.MemberValue;
             }
 
+#if !EXTERNAL_TO_UNITY
             public int GetHashCode(MemberInfo memberInfo)
             {
                 return HashCode.Combine(
                     memberInfo.MemberType,
                     memberInfo.MemberValue);
             }
+#endif
+
         }
 
         /// <summary>
@@ -806,7 +810,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-        #endregion
+#endregion
 
     }
 }

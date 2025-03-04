@@ -98,26 +98,35 @@
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\ExpandFieldAttribute.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\ExpandFieldAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\FieldValidator.cs">
-      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\FieldValidator.cs</Link>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\Validators\FieldValidator.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\Validators\FieldValidator.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\FieldValidatorAttribute.cs">
-      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\FieldValidatorAttribute.cs</Link>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\Validators\FieldValidatorAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\Validators\FieldValidatorAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\FilePathFieldAttribute.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\FilePathFieldAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\GUIDFieldValidatorAttribute.cs">
-      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\GUIDFieldValidatorAttribute.cs</Link>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\Validators\GUIDFieldValidatorAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\Validators\GUIDFieldValidatorAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\NonEmptyStringFieldValidatorAttribute.cs">
-      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\NonEmptyStringFieldValidatorAttribute.cs</Link>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\Validators\LengthValidationAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\Validators\LengthValidationAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\Validators\RegexValidationAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\Validators\RegexValidationAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\Validators\StringValidationAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\Validators\StringValidationAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\Validators\NonEmptyStringFieldValidatorAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\Validators\NonEmptyStringFieldValidatorAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\PlatformDependentConfigFieldAttribute.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\PlatformDependentConfigFieldAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\SandboxIDFieldValidatorAttribute.cs">
-      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\SandboxIDFieldValidatorAttribute.cs</Link>
+    <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Attributes\Validators\SandboxIDFieldValidatorAttribute.cs">
+      <Link>com.playeveryware.eos\Runtime\Core\Config\Attributes\Validators\SandboxIDFieldValidatorAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\com.playeveryware.eos\Runtime\Core\Config\Config.cs">
       <Link>com.playeveryware.eos\Runtime\Core\Config\Config.cs</Link>
