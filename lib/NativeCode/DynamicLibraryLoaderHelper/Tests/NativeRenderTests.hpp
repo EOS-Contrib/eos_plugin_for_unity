@@ -1,3 +1,5 @@
+#ifndef NATIVE_RENDER_TESTS_HPP
+#define NATIVE_RENDER_TESTS_HPP
 /*
  * Copyright (c) 2024 PlayEveryWare
  *
@@ -20,15 +22,24 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices
+#include "pch.h"
+#include "eos_helpers.h"
+
+namespace pew::eos::tests
 {
-    using System;
-    using System.Reflection;
-
-    [AttributeUsage(AttributeTargets.Field)]
-
-    public abstract class FieldValidatorAttribute : Attribute
+    TEST(NativeRender, NativeRenderGetPlatformInterfaceTest)
     {
-        public abstract bool FieldValueIsValid(object toValidate, out string configurationProblemMessage);
+        // Call the plugin load function.
+        UnityPluginLoad(nullptr);
+
+        // Try to get a handle to the EOS SDK Platform Interface.
+        const auto eos_platform_interface = EOS_GetPlatformInterface();
+
+        // Check to make certain that a non-null pointer was acquired.
+        EXPECT_TRUE(eos_platform_interface != nullptr) << "Could not get platform interface for EOS SDK.";
+
+        // Unload the plugin.
+        UnityPluginUnload();
     }
 }
+#endif

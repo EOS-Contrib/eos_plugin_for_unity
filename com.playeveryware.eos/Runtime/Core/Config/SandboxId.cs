@@ -77,8 +77,10 @@ namespace PlayEveryWare.EpicOnlineServices
                     logMessage += $"Restoring to previous value of \"{previousValue}\".";
                 }
 
+#if !EXTERNAL_TO_UNITY
                 // Actually log the composed message.
                 UnityEngine.Debug.LogWarning(logMessage);
+#endif
 
                 _value = previousValue;
             }

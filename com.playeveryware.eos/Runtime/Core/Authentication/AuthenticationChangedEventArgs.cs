@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2024 PlayEveryWare
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,25 +20,46 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using System;
+
     /// <summary>
-    /// This class is defined here as a stand-in for UnityEngine.Application,
-    /// so that files compiled outside of the Unity Editor that reference that
-    /// class can still be compiled properly.
+    /// Used to describe the event arguments for when authentication state
+    /// changes.
     /// </summary>
-    internal static class Application
+    public class AuthenticationChangedEventArgs : EventArgs
     {
         /// <summary>
-        /// This is the path of the streaming assets directory relative to the
-        /// output directory of this class library.
+        /// Whether the action was to authenticate or to de-authenticate
         /// </summary>
-        public static readonly string streamingAssetsPath = @"..\..\..\..\..\..\Assets\StreamingAssets\";
+        public readonly bool Authenticated;
 
         /// <summary>
-        /// For the purposes of this class library, this field member must be
-        /// present - but it's value is not utilized, so it is being left empty.
+        /// The interface with which the authentication operation is taking
+        /// place.
         /// </summary>
-        public static readonly string temporaryCachePath = string.Empty;
+        public readonly LoginInterfaces Interface;
+
+        /// <summary>
+        /// Create a new AuthenticationChangedEventArgs object with the
+        /// given parameters.
+        /// </summary>
+        /// <param name="authenticated">
+        /// Whether the authentication or de-authentication is taking place.
+        /// </param>
+        /// <param name="loginInterface">
+        /// The interface with which the authentication operation is taking
+        /// place.
+        /// </param>
+        public AuthenticationChangedEventArgs(bool authenticated, LoginInterfaces loginInterface)
+        {
+            Authenticated = authenticated;
+            Interface = loginInterface;
+        }
     }
 }
+
+#endif

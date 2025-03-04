@@ -117,6 +117,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             public bool IsValid = false;
 
             /// <summary>
+            /// A callback that runs after this particular connection has become fully opened properly.
+            /// Alternatively, listeners can subscribe to <see cref="EOSTransportManager.OnConnectionOpenedCb"/>.
+            /// </summary>
+            public OnConnectionOpenedCallback AfterConnectionCallback = null;
+
+            /// <summary>
             /// Creates a Connection with no initial information.
             /// </summary>
             public Connection() { }
@@ -252,6 +258,37 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         private static readonly byte[] ConnectionConfirmationPacket = Encoding.ASCII.GetBytes("READY");
 
         private const byte ConnectionConfirmationChannel = byte.MaxValue;
+
+        /// <summary>
+        /// Identification handle used for incoming connection requests.
+        /// 
+        /// Subscribed in <see cref="SubscribeToConnectionRequestNotifications"/>,
+        /// cleared in <see cref="UnsubscribeFromConnectionRequestNotifications"/>.
+        /// 
+        /// Primarily held to later unsubscribe and clean up the SDK.
+        /// </summary>
+        private ulong ConnectionRequestNotificationsId = 0;
+
+        /// <summary>
+        /// Identification handle used for outgoing connection requests that
+        /// have been accepted and established.
+        /// 
+        /// Subscribed in <see cref="SubscribeToConnectionRequestNotifications"/>,
+        /// cleared in <see cref="UnsubscribeFromConnectionRequestNotifications"/>.
+        /// 
+        /// Primarily held to later unsubscribe and clean up the SDK.
+        /// </summary>
+        private ulong ConnectionEstablishedNotificationsId = 0;
+
+        /// <summary>
+        /// Identification handle used for notifications about closed connections.
+        /// 
+        /// Subscribed in <see cref="SubscribeToConnectionClosedNotifications"/>,
+        /// cleared in <see cref="UnsubscribeFromConnectionClosedNotifications"/>.
+        /// 
+        /// Primarily held to later unsubscribe and clean up the SDK.
+        /// </summary>
+        private ulong ConnectionClosedNotificationsId = 0;
 
         [System.Diagnostics.Conditional("EOS_TRANSPORTMANAGER_DEBUG")]
         private void Log(string msg)
@@ -596,14 +633,50 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// </summary>
         /// <param name="remoteUserId">The id of the remote peer to open a connection with.</param>
         /// <param name="socketName">The name of the socket to open the connection on.</param>
+        /// <param name="afterConnectionOpenedCallback">
+        /// Action to run in after the connection is established.
+        /// This is stored in the associated Connection object.
+        /// Optional.
+        /// </param>
         /// <returns><c>true</c> if a connection was requested, a pending connection request was successfully accepted, or the connection has already been locally opened (this case will log a warning), otherwise <c>false</c>.</returns>
-        public bool OpenConnection(ProductUserId remoteUserId, string socketName)
+        public bool OpenConnection(ProductUserId remoteUserId, string socketName, OnConnectionOpenedCallback afterConnectionOpenedCallback = null)
         {
+            // To open an outgoing connection, we require an incoming connection
+            Log($"EOSTransportManager.OpenConnection: Attempting to locally open (incoming) socket connection named '{socketName}' with remote peer '{remoteUserId}'...");
+            if (!Internal_StartOpenIncomingConnection(remoteUserId, socketName, out Connection connection))
+            {
+                // Failed to create an associated connection
+                return false;
+            }
+
+            connection.AfterConnectionCallback = afterConnectionOpenedCallback;
+
+            // Now prompt the creation of an outgoing connection
             Log($"EOSTransportManager.OpenConnection: Attempting to locally open (outgoing) socket connection named '{socketName}' with remote peer '{remoteUserId}'...");
-            return Internal_OpenConnection(remoteUserId, socketName, true, out Connection _);
+            Internal_ContinueOpenOutgoingConnection(remoteUserId, socketName);
+            return true;
         }
 
-        private bool Internal_OpenConnection(ProductUserId remoteUserId, string socketName, bool openOutgoing, out Connection connection)
+        /// <summary>
+        /// Synchronously opens an incoming connection.
+        /// If there is already an existing <see cref="Connection"/> to the provided combination of <paramref name="remoteUserId"/> and <paramref name="socketName"/>,
+        /// it will be output in <paramref name="connection"/>. Otherwise, this function will create a new Connection.
+        /// This function is run by both hosts and clients.
+        /// </summary>
+        /// <param name="remoteUserId">The remote user to connect to.</param>
+        /// <param name="socketName">
+        /// The socket name to connect to.
+        /// Must be a specific socket name, cannot use null as a wild card.
+        /// </param>
+        /// <param name="connection">
+        /// The connection that describes the connection between this user and the target user,
+        /// on the provided socket name.
+        /// </param>
+        /// <returns>
+        /// Returns true if a connection was able to be created.
+        /// Otherwise will return false, and <paramref name="connection"/> should not be used.
+        /// </returns>
+        private bool Internal_StartOpenIncomingConnection(ProductUserId remoteUserId, string socketName, out Connection connection)
         {
             connection = null;
 
@@ -666,95 +739,53 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                     return true;
                 }
 
-                // Trying to open in the outgoing direction?
-                if (openOutgoing)
+                if (connection.OpenedIncoming)
                 {
-                    // Already did?
-                    if (connection.OpenedOutgoing)
-                    {
-                        // Nothing left to do
-                        LogWarning($"EOSTransportManager.Internal_OpenConnection: Already have a locally opened socket connection named '{socketName}' with remote peer '{remoteUserId}'. Now we're just awaiting a response to our connect request.");
-                        return true;
-                    }
-
-                    // This pre-existing connection should be a pending incoming connection (ie. awaiting this outgoing open call)
-                    Debug.Assert(connection.IsPendingIncoming);
-                }
-                // Trying to open in the incoming direction?
-                else
-                {
-                    // Already did?
-                    if (connection.OpenedIncoming)
-                    {
-                        // Nothing left to do
-                        LogWarning($"EOSTransportManager.Internal_OpenConnection: Already have a remotely opened socket connection named '{socketName}' with remote peer '{remoteUserId}'. Now we just need to respond to their connect request.");
-                        return true;
-                    }
-
-                    // This pre-existing connection should be a pending outgoing connection (ie. awaiting this incoming open call)
-                    Debug.Assert(connection.IsPendingOutgoing);
-                }
-            }
-
-            // Trying to open in the outgoing direction?
-            if (openOutgoing)
-            {
-                // Accept/request connection with remote peer on this socket name
-                var options = new AcceptConnectionOptions()
-                {
-                    LocalUserId = LocalUserId,
-                    RemoteUserId = remoteUserId,
-                    SocketId = connection.SocketId,
-                };
-
-                // Note: By design P2PInterface.AcceptConnection performs an outgoing connection request if there isn't already a pending connection request to accept
-                Result result = P2PHandle.AcceptConnection(ref options);
-                if (result != Result.Success)
-                {
-                    LogError($"EOSTransportManager.Internal_OpenConnection: Failed to open remote peer connection - P2PInterface.AcceptConnection error result '{result}'.");
-
-                    // We just added this connection? (it would still be invalid at this point)
-                    if (connection.IsValid == false)
-                    {
-                        // Undo adding it
-                        connections.Remove(connection);
-                    }
-                    connection = null;
-
-                    return false;
+                    // Nothing left to do
+                    LogWarning($"EOSTransportManager.Internal_OpenConnection: Already have a remotely opened socket connection named '{socketName}' with remote peer '{remoteUserId}'. Now we just need to respond to their connect request.");
+                    return true;
                 }
             }
 
             // Validate connection
             connection.IsValid = true;
 
-            // Trying to open in the outgoing direction?
-            if (openOutgoing)
-            {
-                // Connection has now been opened from our local perspective (outgoing)
-                connection.OpenedOutgoing = true;
-                Debug.Assert(connection.IsPendingOutgoing || connection.IsFullyOpened);
-            }
-            // Trying to open in the incoming direction?
-            else
-            {
-                // Connection has now been opened from their remote perspective (incoming)
-                connection.OpenedIncoming = true;
-                Debug.Assert(connection.IsPendingIncoming || connection.IsFullyOpened);
-            }
+            connection.OpenedIncoming = true;
 
-            // Connection is now considered fully open?
-            if (connection.IsFullyOpened)
-            {
-                // Send a confirmation packet to let the remote peer know we're fully connected and ready to send/receive application data
-                SendPacket(remoteUserId, connection.SocketName, ConnectionConfirmationPacket, ConnectionConfirmationChannel, true);
-            }
-
-            // Handle connection open (user callback, etc.) if appropriate to do so
-            TryHandleConnectionOpened(remoteUserId, socketName, connection);
-
-            // Success
+            // The connection should certainly either be fully open, or should be still pending the outgoing connection
+            Debug.Assert(connection.IsPendingOutgoing || connection.IsFullyOpened);
             return true;
+        }
+
+        private void Internal_ContinueOpenOutgoingConnection(ProductUserId remoteUserId, string socketName)
+        {
+            if (!Internal_StartOpenIncomingConnection(remoteUserId, socketName, out Connection connection))
+            {
+                LogWarning($"EOSTransportManager (Internal_ContinueOpenOutgoingConnection): Failed to associate a connection with this user. {nameof(remoteUserId)} '{remoteUserId.ToString()}', {nameof(socketName)} '{socketName}'");
+                return;
+            }
+
+            // Accept/request connection with remote peer on this socket name
+            var options = new AcceptConnectionOptions()
+            {
+                LocalUserId = LocalUserId,
+                RemoteUserId = remoteUserId,
+                SocketId = connection.SocketId,
+            };
+
+            // This AcceptConnection call *can be instantenous* if this is instance is the owner of the connection,
+            // but the user being connected to will always require real time to finish accepting the connection
+            // The following result only holds if EOS was able to consider opening the connection,
+            // not that it has finished accepting the socket.
+            // The method that handles this being complete is OnConnectionEstablishedNotification
+            Result result = P2PHandle.AcceptConnection(ref options);
+
+            if (result != Result.Success)
+            {
+                LogError($"EOSTransportManager.Internal_OpenConnection: Failed to open remote peer connection - P2PInterface.AcceptConnection error result '{result}'.");
+                connection.IsValid = false;
+                return;
+            }
         }
 
         /// <summary>
@@ -942,9 +973,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             if (connection.IsFullyOpened)
             {
                 // We should handle this event?
-                if (OnConnectionOpenedCb != null && connection.ConnectionOpenedHandled == false)
+                if (connection.ConnectionOpenedHandled == false)
                 {
-                    OnConnectionOpenedCb(remoteUserId, socketName);
+                    // Run the global callback handler, that can apply for any connection
+                    if (OnConnectionOpenedCb != null)
+                    {
+                        OnConnectionOpenedCb(remoteUserId, socketName);
+                    }
+
+                    // Run the callback handler associated with this specific connection
+                    if (connection.AfterConnectionCallback != null)
+                    {
+                        connection.AfterConnectionCallback.Invoke(remoteUserId, socketName);
+                    }
                 }
 
                 // Handled in this context means we gave the user the opportunity to handle this event at the appropriate time
@@ -1205,7 +1246,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                     {
                         // They've accepted our connection, so we're no longer pending
                         Log($"EOSTransportManager.TryReceivePacket: Attempting to remotely open (incoming) socket connection named '{socketName}' with remote peer '{remoteUserId}'...");
-                        bool success = Internal_OpenConnection(remoteUserId, socketName, false, out _);
+                        bool success = Internal_StartOpenIncomingConnection(remoteUserId, socketName, out _);
 
                         // Our connection should now be considered fully open
                         Debug.Assert(success && connection.IsFullyOpened);
@@ -1278,8 +1319,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         // (Internal) P2P Connection Event Handling
         //
 
-        private ulong ConnectionRequestNotificationsId = 0;
-
         private void SubscribeToConnectionRequestNotifications()
         {
             AddNotifyPeerConnectionRequestOptions options = new AddNotifyPeerConnectionRequestOptions()
@@ -1289,11 +1328,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             };
 
             ConnectionRequestNotificationsId = P2PHandle.AddNotifyPeerConnectionRequest(ref options, null, OnConnectionRequestNotification);
+
+            AddNotifyPeerConnectionEstablishedOptions establishedOptions = new AddNotifyPeerConnectionEstablishedOptions()
+            {
+                LocalUserId = LocalUserId,
+                SocketId = null // Notify us about all connection established notifications regardless of socket name.
+            };
+
+            ConnectionEstablishedNotificationsId = P2PHandle.AddNotifyPeerConnectionEstablished(ref establishedOptions, null, OnConnectionEstablishedNotification);
         }
         private void UnsubscribeFromConnectionRequestNotifications()
         {
             P2PHandle?.RemoveNotifyPeerConnectionRequest(ConnectionRequestNotificationsId);
+            P2PHandle?.RemoveNotifyPeerConnectionEstablished(ConnectionEstablishedNotificationsId);
         }
+
         private void OnConnectionRequestNotification(ref OnIncomingConnectionRequestInfo data)
         {
             // Sanity check
@@ -1304,7 +1353,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             // Get/add the connection internally from the incoming direction
             Log($"EOSTransportManager.OnConnectionRequestNotification: Attempting to remotely open (incoming) socket connection named '{socketName}' with remote peer '{remoteUserId}'...");
-            bool success = Internal_OpenConnection(remoteUserId, socketName, false, out Connection connection);
+            bool success = Internal_StartOpenIncomingConnection(remoteUserId, socketName, out Connection connection);
 
             // Successfully found/added? And is now awaiting our connect accept response?
             if (success && connection.IsPendingIncoming)
@@ -1320,8 +1369,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 LogError($"EOSTransportManager.OnConnectionRequestNotification: Failed to process connection request notification for socket connection named '{socketName}' with remote peer '{remoteUserId}'...");
             }
         }
-
-        private ulong ConnectionClosedNotificationsId = 0;
 
         private void SubscribeToConnectionClosedNotifications()
         {
@@ -1347,6 +1394,59 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             // Force close (from incoming direction)
             CloseConnection(remoteUserId, socketName, true);
+        }
+
+        private void OnConnectionEstablishedNotification(ref OnPeerConnectionEstablishedInfo data)
+        {
+            // Sanity check
+            Debug.Assert(data.LocalUserId == LocalUserId);
+
+            var socketName = data.SocketId?.SocketName;
+            var remoteUserId = data.RemoteUserId;
+
+            // If we're establishing a connection, but no incoming connection was made yet, open an incoming connection
+            // This will also result in creating the connection to use
+
+            bool shouldCreateIncomingConnection = false;
+            Connection connection = null;
+
+            if (!Connections.TryGetValue(remoteUserId, out List<Connection> foundConnections))
+            {
+                shouldCreateIncomingConnection = true;
+            }
+            else
+            {
+                connection = foundConnections.Find(x => x.SocketName == socketName);
+                if (connection == null)
+                {
+                    shouldCreateIncomingConnection = true;
+                }
+            }
+
+            // There isn't an existing connection, so depend on Internal_OpenConnection to create one
+            if (shouldCreateIncomingConnection)
+            {
+                if (!Internal_StartOpenIncomingConnection(remoteUserId, socketName, out connection))
+                {
+                    return;
+                }
+            }
+
+            // Connection has now been opened from our perspective (outgoing)
+            connection.OpenedOutgoing = true;
+            Debug.Assert(connection.OpenedOutgoing || connection.IsFullyOpened);
+
+            // Connection is now considered fully open?
+            // This check should be done after fully opening incoming and also after fully opening outgoing
+            // This scenario covers the possibility the final piece was opening the outgoing
+            if (connection.IsFullyOpened)
+            {
+                // Send a confirmation packet to let the remote peer know we're fully connected and ready to send/receive application data
+                SendPacket(remoteUserId, connection.SocketName, ConnectionConfirmationPacket, ConnectionConfirmationChannel, true);
+
+                // Handle connection open (user callback, etc.) if appropriate to do so
+                TryHandleConnectionOpened(remoteUserId, socketName, connection);
+            }
         }
 
         public bool StartHost()

@@ -16,9 +16,10 @@ The following document outlines the two methods with which you can add the plugi
     ![Unity Add Git Package](/com.playeveryware.eos/Documentation~/images/unity_package_git.gif)
 
 4. Select `Add Package from Git URL`.
-6. Paste in `git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git`.
-7. After the package has finished installing, [import the samples](/com.playeveryware.eos/Documentation~/samples.md).
-8. Finally, [Configure the Plugin](/com.playeveryware.eos/Documentation~/configure_plugin.md).
+6. Paste in `https://github.com/PlayEveryWare/eos_plugin_for_unity_upm.git`.
+7. **Optional:** To target a specific version, append the version tag found in the [releases](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases), such as `#v3.3.6`.  For example: `https://github.com/PlayEveryWare/eos_plugin_for_unity_upm.git#v3.3.6`.
+8. After the package has finished installing, [import the samples](/com.playeveryware.eos/Documentation~/samples.md).
+9. Finally, [Configure the Plugin](/com.playeveryware.eos/Documentation~/configure_plugin.md).
 
 > [!NOTE]
 > For additional details, see the [Unity Documentation for adding a UPM via Git URL](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-giturl.html).
