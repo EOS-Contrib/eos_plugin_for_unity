@@ -66,7 +66,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                 return false;
             }
 #else
-            return false;
+            return await Task.FromResult(false);
 #endif
         }
 
