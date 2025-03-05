@@ -12,19 +12,10 @@
                                                         
       {"src": "Assets/Plugins/Source/Editor/*",                     "dest": "Editor/"               },
       {"src": "Assets/Plugins/Source/Editor/Build/*",               "dest": "Editor/Build/"         },
-      {"src": "Assets/Plugins/Source/Editor/ConfigEditors/*",       "dest": "Editor/ConfigEditors/" },
       {"src": "Assets/Plugins/Source/Editor/Configs/*",             "dest": "Editor/Configs/"       },
       {"src": "Assets/Plugins/Source/Editor/EditorWindows/*",       "dest": "Editor/EditorWindows/" },
                                      
       {"src": "Assets/Plugins/Source/Editor/Utility/*",             "dest": "Editor/Utility/",  "recursive": true },
-                                    
-      {"src": "Assets/Plugins/Source/Editor/Platforms/*",           "dest": "Editor/Platforms/"            },
-      {"src": "Assets/Plugins/Source/Editor/Platforms/Android/",    "dest": "Editor/Platforms/Android/"    },
-      {"src": "Assets/Plugins/Source/Editor/Platforms/iOS/",        "dest": "Editor/Platforms/iOS/"        },
-      {"src": "Assets/Plugins/Source/Editor/Platforms/Linux/",      "dest": "Editor/Platforms/Linux/"      },
-      {"src": "Assets/Plugins/Source/Editor/Platforms/macOS/",      "dest": "Editor/Platforms/macOS/"      },
-      {"src": "Assets/Plugins/Source/Editor/Platforms/Standalone/", "dest": "Editor/Platforms/Standalone/" },
-      {"src": "Assets/Plugins/Source/Editor/Platforms/Windows/",    "dest": "Editor/Platforms/Windows/"    },
                                     
       {"src": "Assets/Plugins/Windows/*",                           "dest": "Runtime/Windows/", "recursive": true },
       {"src": "Assets/Plugins/Linux/*",                             "dest": "Runtime/Linux/",   "recursive": true },
@@ -56,6 +47,8 @@
 
       {"src": "Assets/Readme/*.txt",                                "dest": "Samples~/Samples/StandardSamples/Readme/" },
 
+      {"ignore_regex": "com\\.playeveryware\\.eos-Editor\\.asmref"},
+      {"ignore_regex": "Assets/Plugins/Source/Editor/*.asmref.meta"},
       {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api\\.dll"   },                 
       {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api64\\.dll" },
       {"ignore_regex": "EOSUnitTestSettingsWindow"                   }
