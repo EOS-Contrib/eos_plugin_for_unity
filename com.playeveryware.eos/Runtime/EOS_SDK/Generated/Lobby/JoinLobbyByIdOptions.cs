@@ -46,6 +46,12 @@ namespace Epic.OnlineServices.Lobby
 		/// will be treated as allowing crossplay.
 		/// </summary>
 		public bool CrossplayOptOut { get; set; }
+
+		/// <summary>
+		/// For lobbies with the RTC Room feature enabled, this value indicates the action to take against the RTC Room when joining the lobby. This may be used
+		/// to indicate the RTCRoom should be joined immediately or manually at a later time.
+		/// </summary>
+		public LobbyRTCRoomJoinActionType RTCRoomJoinActionType { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -57,6 +63,7 @@ namespace Epic.OnlineServices.Lobby
 		private int m_PresenceEnabled;
 		private System.IntPtr m_LocalRTCOptions;
 		private int m_CrossplayOptOut;
+		private LobbyRTCRoomJoinActionType m_RTCRoomJoinActionType;
 
 		public Utf8String LobbyId
 		{
@@ -98,6 +105,14 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
+		public LobbyRTCRoomJoinActionType RTCRoomJoinActionType
+		{
+			set
+			{
+				m_RTCRoomJoinActionType = value;
+			}
+		}
+
 		public void Set(ref JoinLobbyByIdOptions other)
 		{
 			m_ApiVersion = LobbyInterface.JoinlobbybyidApiLatest;
@@ -106,6 +121,7 @@ namespace Epic.OnlineServices.Lobby
 			PresenceEnabled = other.PresenceEnabled;
 			LocalRTCOptions = other.LocalRTCOptions;
 			CrossplayOptOut = other.CrossplayOptOut;
+			RTCRoomJoinActionType = other.RTCRoomJoinActionType;
 		}
 
 		public void Set(ref JoinLobbyByIdOptions? other)
@@ -118,6 +134,7 @@ namespace Epic.OnlineServices.Lobby
 				PresenceEnabled = other.Value.PresenceEnabled;
 				LocalRTCOptions = other.Value.LocalRTCOptions;
 				CrossplayOptOut = other.Value.CrossplayOptOut;
+				RTCRoomJoinActionType = other.Value.RTCRoomJoinActionType;
 			}
 		}
 

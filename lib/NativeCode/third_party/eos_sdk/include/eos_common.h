@@ -273,9 +273,9 @@ EOS_ENUM(EOS_EComparisonOp,
 	EOS_CO_ANYOF = 7,
 	/** Value stored on the lobby/session may NOT be any from a specified list */
 	EOS_CO_NOTANYOF = 8,
-	/** This one value is a part of a collection */
+	/** This one value is a part of a collection. Supported in EOS_SessionSearch_SetParameter only. */
 	EOS_CO_ONEOF = 9,
-	/** This one value is NOT part of a collection */
+	/** This one value is NOT part of a collection. Supported in EOS_SessionSearch_SetParameter only. */
 	EOS_CO_NOTONEOF = 10,
 	/** This value is a CASE SENSITIVE substring of an attribute stored on the lobby/session */
 	EOS_CO_CONTAINS = 11

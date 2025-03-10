@@ -554,6 +554,7 @@ namespace Epic.OnlineServices.Achievements
 
 		/// <summary>
 		/// Query for a list of achievements for a specific player, including progress towards completion for each achievement.
+		/// Note: By default, this query will not return locked hidden achievements. To return all achievements, call <see cref="QueryDefinitions" /> first.
 		/// When the Social Overlay is enabled then this will be called automatically. The Social Overlay is enabled by default (see EOS_PF_DISABLE_SOCIAL_OVERLAY).
 		/// </summary>
 		/// <param name="options">Structure containing information about the player whose achievements we're retrieving.</param>

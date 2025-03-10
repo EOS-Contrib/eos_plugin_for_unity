@@ -20,6 +20,8 @@
 * SOFTWARE.
 */
 
+#if !EOS_DISABLE
+
 using UnityEngine;
 using UnityEditor;
 
@@ -258,3 +260,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         }
     }
 }
+
+#endif

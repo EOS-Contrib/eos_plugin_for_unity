@@ -22,6 +22,11 @@ namespace Epic.OnlineServices.Ecom
 		/// If true, Entitlements that have been redeemed will be included in the results.
 		/// </summary>
 		public bool IncludeRedeemed { get; set; }
+
+		/// <summary>
+		/// If not provided then the SandboxId is used as the catalog namespace
+		/// </summary>
+		public Utf8String OverrideCatalogNamespace { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -32,6 +37,7 @@ namespace Epic.OnlineServices.Ecom
 		private System.IntPtr m_EntitlementNames;
 		private uint m_EntitlementNameCount;
 		private int m_IncludeRedeemed;
+		private System.IntPtr m_OverrideCatalogNamespace;
 
 		public EpicAccountId LocalUserId
 		{
@@ -57,12 +63,21 @@ namespace Epic.OnlineServices.Ecom
 			}
 		}
 
+		public Utf8String OverrideCatalogNamespace
+		{
+			set
+			{
+				Helper.Set(value, ref m_OverrideCatalogNamespace);
+			}
+		}
+
 		public void Set(ref QueryEntitlementsOptions other)
 		{
 			m_ApiVersion = EcomInterface.QueryentitlementsApiLatest;
 			LocalUserId = other.LocalUserId;
 			EntitlementNames = other.EntitlementNames;
 			IncludeRedeemed = other.IncludeRedeemed;
+			OverrideCatalogNamespace = other.OverrideCatalogNamespace;
 		}
 
 		public void Set(ref QueryEntitlementsOptions? other)
@@ -73,6 +88,7 @@ namespace Epic.OnlineServices.Ecom
 				LocalUserId = other.Value.LocalUserId;
 				EntitlementNames = other.Value.EntitlementNames;
 				IncludeRedeemed = other.Value.IncludeRedeemed;
+				OverrideCatalogNamespace = other.Value.OverrideCatalogNamespace;
 			}
 		}
 
@@ -80,6 +96,7 @@ namespace Epic.OnlineServices.Ecom
 		{
 			Helper.Dispose(ref m_LocalUserId);
 			Helper.Dispose(ref m_EntitlementNames);
+			Helper.Dispose(ref m_OverrideCatalogNamespace);
 		}
 	}
 }
