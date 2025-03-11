@@ -14,7 +14,7 @@
 
 The EOS Plugin for Unity brings the free services from Epic that connect players across all platforms and all stores to Unity in an easy-to-use package. Find more information on what services Epic Online Services encompasses at [https://dev.epicgames.com/en-US/services](https://dev.epicgames.com/en-US/services) and read the developer documentation at [https://dev.epicgames.com/docs/epic-online-services](https://dev.epicgames.com/docs/epic-online-services).
 
-This repository contains the source code for development of the [EOS Plugin for Unity (UPM Package)](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm).
+This repository contains the source code for development of the [EOS Plugin for Unity (UPM Package)](https://github.com/EOS-Contrib/eos_plugin_for_unity_upm).
 
 Out of the box, this project demonstrates (through a collection of sample scenes) each feature of the Epic Online Services SDK[^1]. The sample scenes (coupled with accompanying documentation) can be used to get an idea of how you can implement the online features you want in your game.
 
