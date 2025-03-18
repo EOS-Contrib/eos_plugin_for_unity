@@ -158,7 +158,7 @@ For more information on the use of the Encryption Key, see [Epic's documentation
 ## Starting to Use the Samples
 
 At this moment your game is set up to utilize the EOS Plugin for Unity.
-The samples are documented [in the EOS Plugin for Unity Walkthrough documentation](https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/stable/com.playeveryware.eos/Documentation~/Walkthrough.md), which leads to individual Scene walk throughs.
+The samples are documented [in the EOS Plugin for Unity Walkthrough documentation](https://github.com/EOS-Contrib/eos_plugin_for_unity/blob/stable/com.playeveryware.eos/Documentation~/Walkthrough.md), which leads to individual Scene walk throughs.
 Assuming your Client Policy is set up to be permissive, consider validating the plugin inclusion by using [the Lobbies Sample](/com.playeveryware.eos/Documentation~/scene_walkthrough/lobbies_walkthrough.md).
 Open the Lobbies sample in the scene, and start running the game. Note if there are any errors in the logs from the EOS SDK Plugin.
 

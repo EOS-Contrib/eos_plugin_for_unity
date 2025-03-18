@@ -75,7 +75,7 @@ It is important that you have the latest version of `git` installed, so that you
 > Simply installing `git` via apt is not sufficient.
 
 ```bash
-git clone git@github.com:PlayEveryWare/eos_plugin_for_unity_restricted
+git clone git@github.com:EOS-Contrib/eos_plugin_for_unity_restricted
 ```
 
 It is important that you follow the command format above instead of using something like [`https://github.com`](https://github.com), because it will otherwise fail. The format guarantees that the SSH protocol is used.
