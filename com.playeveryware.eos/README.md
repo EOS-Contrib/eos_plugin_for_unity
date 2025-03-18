@@ -16,7 +16,7 @@
 
 The PlayEveryWare EOS Plugin for Unity brings the free services from Epic that connect players across all platforms and all stores to Unity in an easy-to-use package. Find more information on what services Epic Online Services encompasses, see here: [https://dev.epicgames.com/en-US/services](https://dev.epicgames.com/en-US/services) and to read the developer documentation on those services, see here: [https://dev.epicgames.com/docs/epic-online-services](https://dev.epicgames.com/docs/epic-online-services).
 
-This repository contains the source code for development and serves as a destination for support for the [PlayEveryWare EOS Plugin for Unity (UPM Package)](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm).
+This repository contains the source code for development and serves as a destination for support for the [PlayEveryWare EOS Plugin for Unity (UPM Package)](https://github.com/EOS-Contrib/eos_plugin_for_unity_upm).
 
 Out of the box, this project demonstrates (through a collection of sample scenes) each feature of the Epic Online Services SDK[^1]. The sample scenes (coupled with accompanying documentation) can be used to get an idea of how you can implement all the online features you want in your game!
 
@@ -111,7 +111,7 @@ Once imported into your project, be sure to [Configure the Plugin](/com.playever
 
 PlayEveryWare EOS Plugin for Unity documentation can be found here on GitHub.
 
-For issues related to integration or usage of the EOS Unity plugin, please create a `New Issue` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab.
+For issues related to integration or usage of the EOS Unity plugin, please create a `New Issue` under the [Issues](https://github.com/EOS-Contrib/eos_plugin_for_unity/issues) tab.
 
 For issues related to Epic Online Services SDK, Epic Dev Portal or for general EOS SDK information, see the [Epic Online Services Community Support](https://eoshelp.epicgames.com/).
 
@@ -119,7 +119,7 @@ Detailed descriptions and usage for EOS SDK Interfaces can be found on [Epic's d
 
 For issues of a confidential nature (for instance for support using this Plugin on restricted console platforms), please reach out to us directly at [eos-support@playeveryware.com](mailto:playeos-support@playeveryware.com).
 
-If it is _at all_ unclear to you where to go for support - do not hesitate to open a `New Issue` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab, and we will make certain that you are properly (and promptly) assisted :)
+If it is _at all_ unclear to you where to go for support - do not hesitate to open a `New Issue` under the [Issues](https://github.com/EOS-Contrib/eos_plugin_for_unity/issues) tab, and we will make certain that you are properly (and promptly) assisted :)
 
 # Contributor Notes
 
@@ -135,4 +135,4 @@ For issues of API Level compatibility, please read our [document](/com.playevery
 
 For more FAQs see [Frequently Asked Questions](/com.playeveryware.eos/Documentation~/frequently_asked_questions.md).
 
-If you have any outstanding questions, please bring them up in the [Discussions](https://github.com/PlayEveryWare/eos_plugin_for_unity/discussions) tab.
+If you have any outstanding questions, please bring them up in the [Discussions](https://github.com/EOS-Contrib/eos_plugin_for_unity/discussions) tab.
