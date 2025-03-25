@@ -16,7 +16,7 @@ The following document outlines the two methods with which you can add the plugi
     ![Unity Add Git Package](/com.playeveryware.eos/Documentation~/images/unity_package_git.gif)
 
 4. Select `Add Package from Git URL`.
-6. Paste in `git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git`.
+6. Paste in `git@github.com:EOS-Contrib/eos_plugin_for_unity_upm.git`.
 7. After the package has finished installing, [import the samples](/com.playeveryware.eos/Documentation~/samples.md).
 8. Finally, [Configure the Plugin](/com.playeveryware.eos/Documentation~/configure_plugin.md).
 
@@ -25,7 +25,7 @@ The following document outlines the two methods with which you can add the plugi
 
 ## Adding the package from a tarball
 
-1. Download the latest release UPM tarball, `"com.playeveryware.eos-[version].tgz"` ([Releases](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases)).
+1. Download the latest release UPM tarball, `"com.playeveryware.eos-[version].tgz"` ([Releases](https://github.com/EOS-Contrib/eos_plugin_for_unity/releases)).
 
     > [!WARNING]
     > Do *not* attempt to create a tarball yourself from the source, unless you know what you are doing with respect to [Git LFS](https://docs.github.com/en/repositories/working-with-files/managing-large-files/configuring-git-large-file-storage).
