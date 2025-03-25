@@ -7,7 +7,7 @@ export default {
     iconlinks: [
         {
             icon: 'github',
-            href: 'https://github.com/PlayEveryWare/eos_plugin_for_unity',
+            href: 'https://github.com/EOS-Contrib/eos_plugin_for_unity',
             title: 'GitHub'
         }
     ]

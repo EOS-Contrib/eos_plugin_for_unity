@@ -5,10 +5,10 @@
   href: api/
 
 - name: Source Repository
-  href: https://github.com/PlayEveryWare/eos_plugin_for_unity
+  href: https://github.com/EOS-Contrib/eos_plugin_for_unity
   
 - name: UPM Packages
-  href: https://github.com/PlayEveryWare/eos_plugin_for_unity_upm
+  href: https://github.com/EOS-Contrib/eos_plugin_for_unity_upm
 
 - name: Support Issues
-  href: https://github.com/PlayEveryWare/eos_plugin_for_unity/issues
+  href: https://github.com/EOS-Contrib/eos_plugin_for_unity/issues
