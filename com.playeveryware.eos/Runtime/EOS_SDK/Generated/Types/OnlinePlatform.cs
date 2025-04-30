@@ -7,11 +7,17 @@ namespace Epic.OnlineServices.Types
 	{
 		public const int OptEpic = 100;
 
+		public const int OptNintendo = 2000;
+
+		public const int OptPsn = 1000;
+
 		public const int OptSteam = 4000;
 
 		/// <summary>
 		/// This type is used to distinguish between different online platforms.
 		/// </summary>
 		public const int OptUnknown = 0;
+
+		public const int OptXbl = 3000;
 	}
 }
