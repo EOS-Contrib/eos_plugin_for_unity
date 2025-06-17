@@ -184,17 +184,7 @@ namespace PlayEveryWare.EpicOnlineServices
         static private bool s_isConstrained = true;
         static public bool ApplicationIsConstrained { get => s_isConstrained; }
 
-        /// <summary>
-        /// Actions that need to be executed on the main thread.
-        /// Lazy allocated in <see cref="DispatchAsync"/>.
-        /// </summary>
-        private static List<Action> s_enqueuedTasks;
 
-        /// <summary>
-        /// Locak object used for <see cref="s_enqueuedTasks"/>, such that it can
-        /// be executed thread-safe way.
-        /// </summary>
-        private static System.Object s_enqueuedTasksLock = new System.Object();
         //private static List
 
         //-------------------------------------------------------------------------
@@ -1843,6 +1833,18 @@ namespace PlayEveryWare.EpicOnlineServices
                 return s_instance;
             }
         }
+
+        /// <summary>
+        /// Actions that need to be executed on the main thread.
+        /// Lazy allocated in <see cref="DispatchAsync"/>.
+        /// </summary>
+        private static List<Action> s_enqueuedTasks;
+
+        /// <summary>
+        /// Locak object used for <see cref="s_enqueuedTasks"/>, such that it can
+        /// be executed thread-safe way.
+        /// </summary>
+        private static System.Object s_enqueuedTasksLock = new System.Object();
 
 #if !EOS_DISABLE
         //-------------------------------------------------------------------------
