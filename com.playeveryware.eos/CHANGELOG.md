@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - update to EOS SDK 1.17.0- HF
 
-## [3.3.6] - 2025-02-03
+
 ## [4.0.0] - 2025-02-14
 
 ### Changed
