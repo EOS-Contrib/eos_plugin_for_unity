@@ -54,20 +54,10 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices
 {
-	// PEW: Start Modify
-	// The partial attribute (added by PlayEveryWare) is the least intrusive
-	// means by which the following class can be expanded to support additional
-	// platforms. By making the class partial, supplementary partial
-	// class definition files can be added to the codebase that will expand
-	// platform support.
+	
 	public static partial class Config
 	{
-	// This conditional (added by PlayEveryWare) is here (in conjunction with 
-	// the class it is contained within being marked as "partial") so that 
-	// other platforms can be supported by adding to this code-base another 
-	// part of the partial class that sets the LibraryName differently 
-	// depending on the presence of other scripting defines that indicate 
-	// available functionality on other platforms.
+
 	#if EOS_PLATFORM_WINDOWS_32 || EOS_PLATFORM_WINDOWS_64 || EOS_PLATFORM_OSX || EOS_PLATFORM_LINUX || EOS_PLATFORM_IOS || EOS_PLATFORM_ANDROID
 		public const string LibraryName =
 		#if EOS_PLATFORM_WINDOWS_32 && EOS_UNITY
