@@ -48,12 +48,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// </param>
         public static void Show(string input, Action<string> onSubmitCallback)
         {
-            ScheduleShow<EncryptionKeyWindow>(
-                input,
-                onSubmitCallback,
-                EOSClientCredentials.IsEncryptionKeyValid,
-                "Enter the encryption key for these client credentials here:",
-                "Invalid encryption key. Encryption key must be 64 characters long and contain only alphanumeric characters.");
+#if !EOS_DISABLE
+    ScheduleShow<EncryptionKeyWindow>(
+        input,
+        onSubmitCallback,
+        EOSClientCredentials.IsEncryptionKeyValid,
+        "Enter the encryption key for these client credentials here:",
+        "Invalid encryption key. Encryption key must be 64 characters long and contain only alphanumeric characters.");
+#else
+            Debug.LogWarning("EOS SDK is disabled. Encryption key window is not available.");
+#endif
         }
 
         /// <summary>
@@ -63,16 +67,25 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             GUILayout.BeginHorizontal();
 
-            _input = GUILayout.TextField(_input, GUILayout.Width(GUIEditorUtility.MeasureLabelWidth(64)), GUILayout.Height(20));
+            _input = GUILayout.TextField(
+                _input,
+                GUILayout.Width(EditorStyles.label.CalcSize(new GUIContent("Encryption Key")).x),
+                GUILayout.Height(20));
 
             GUILayout.Space(5f);
 
-            if (GUILayout.Button(
-                new GUIContent(EditorGUIUtility.IconContent("Refresh").image,
-                "Click here to generate a new encryption key."), GUILayout.Height(20), GUILayout.Width(50)))
-            {
-                _input = EOSClientCredentials.GenerateEncryptionKey();
-            }
+#if !EOS_DISABLE
+    if (GUILayout.Button(
+        new GUIContent(EditorGUIUtility.IconContent("Refresh").image,
+        "Click here to generate a new encryption key."),
+        GUILayout.Height(20), GUILayout.Width(50)))
+    {
+        _input = EOSClientCredentials.GenerateEncryptionKey();
+    }
+#else
+            GUILayout.Label("EOS SDK is disabled.");
+#endif
+
             GUILayout.EndHorizontal();
         }
     }

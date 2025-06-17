@@ -189,9 +189,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             bool shouldClose = false;
 
             // Render the prompt text
-            EditorGUILayout.LabelField(_inputPrompt, GUILayout.Width(
-                GUIEditorUtility.MeasureLabelWidth(_inputPrompt))
-            );
+            EditorGUILayout.LabelField(_inputPrompt, GUILayout.Width(EditorStyles.label.CalcSize(new GUIContent(_inputPrompt)).x));
 
             // Display error if it needs to be displayed.
             if (_showError)
