@@ -439,7 +439,7 @@ EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerTickOptions, (
 ));
 
 #define EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_API_LATEST 2
-#define EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_WEAPONNAME_MAX_LENGTH 16
+#define EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_WEAPONNAME_MAX_LENGTH 32
 EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerUseWeaponData, (
 	/** Locally unique value used in RegisterClient/RegisterPeer */
 	EOS_AntiCheatCommon_ClientHandle PlayerHandle;

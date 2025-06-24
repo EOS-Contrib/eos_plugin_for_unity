@@ -35,7 +35,7 @@ namespace Epic.OnlineServices.P2P
 				var outPeerIdAddress = System.IntPtr.Zero;
 				outChannel = Helper.GetDefault<byte>();
 				outBytesWritten = 0;
-				var funcResult = Bindings.EOS_P2P_ReceivePacket(InnerHandle, ref optionsInternal, ref outPeerIdAddress, outSocketIdAddr, ref outChannel, outDataAddress, ref outBytesWritten);
+				var funcResult = Bindings.EOS_P2P_ReceivePacket(InnerHandle, ref optionsInternal, out outPeerIdAddress, outSocketIdAddr, out outChannel, outDataAddress, out outBytesWritten);
 
 				if (outPeerId == null)
 				{

@@ -64,7 +64,7 @@ namespace Epic.OnlineServices.P2P
 
 		public ReceivePacketOptionsInternal(ref ReceivePacketOptions other)
 		{
-			m_ApiVersion = P2PInterface.ReceivepacketApiLatest;
+			m_ApiVersion = P2PInterface.RECEIVEPACKET_API_LATEST;
 			m_RequestedChannel = IntPtr.Zero;
 			if (other.RequestedChannel.HasValue)
 			{

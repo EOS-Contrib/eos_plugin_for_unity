@@ -57,7 +57,7 @@ namespace Epic.OnlineServices.P2P
 
 		public void Set(ref GetNextReceivedPacketSizeOptions other)
 		{
-			m_ApiVersion = P2PInterface.GetnextreceivedpacketsizeApiLatest;
+			m_ApiVersion = P2PInterface.GETNEXTRECEIVEDPACKETSIZE_API_LATEST;
 			m_LocalUserId = other.LocalUserId.InnerHandle;
 			m_RequestedChannel = IntPtr.Zero;
 			if (other.RequestedChannel.HasValue)
@@ -70,7 +70,7 @@ namespace Epic.OnlineServices.P2P
 		{
 			if (other.HasValue)
 			{
-				m_ApiVersion = P2PInterface.GetnextreceivedpacketsizeApiLatest;
+				m_ApiVersion = P2PInterface.GETNEXTRECEIVEDPACKETSIZE_API_LATEST;
 				m_LocalUserId = other.Value.LocalUserId.InnerHandle;
 				m_RequestedChannel = IntPtr.Zero;
 				if (other.Value.RequestedChannel.HasValue)

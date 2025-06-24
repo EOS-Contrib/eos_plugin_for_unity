@@ -50,7 +50,7 @@ EOS_ENUM(EOS_EAntiCheatClientViolationType,
 	EOS_ACCVT_ForbiddenToolDetected = 11,
 	/** An internal anti-cheat integrity check failed */
 	EOS_ACCVT_InternalAntiCheatViolation = 12,
-	/** Integrity checks on messages between the game client and game server failed */
+	/** Integrity checks on messages between the game client and game server, or between peers, failed */
 	EOS_ACCVT_CorruptedNetworkMessageFlow = 13,
 	/** The game is running inside a disallowed virtual machine */
 	EOS_ACCVT_VirtualMachineNotAllowed = 14,
