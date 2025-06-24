@@ -125,7 +125,7 @@ namespace Epic.OnlineServices.Platform
 		{
 			set
 			{
-				Helper.Set<AndroidInitializeOptionsSystemInitializeOptions, AndroidInitializeOptionsSystemInitializeOptionsInternal>(ref value, ref m_SystemInitializeOptions);
+				Helper.Set<AndroidInitializeOptionsSystemInitializeOptions, AndroidInitializeOptionsSystemInitializeOptionsInternal>( value, ref m_SystemInitializeOptions);
 			}
 		}
 
@@ -133,13 +133,13 @@ namespace Epic.OnlineServices.Platform
 		{
 			set
 			{
-				Helper.Set<InitializeThreadAffinity, InitializeThreadAffinityInternal>(ref value, ref m_OverrideThreadAffinity);
+				Helper.Set<InitializeThreadAffinity, InitializeThreadAffinityInternal>( value, ref m_OverrideThreadAffinity);
 			}
 		}
 
 		public void Set(ref AndroidInitializeOptions other)
 		{
-			m_ApiVersion = PlatformInterface.InitializeApiLatest;
+			m_ApiVersion = PlatformInterface.INITIALIZE_API_LATEST;
 			AllocateMemoryFunction = other.AllocateMemoryFunction;
 			ReallocateMemoryFunction = other.ReallocateMemoryFunction;
 			ReleaseMemoryFunction = other.ReleaseMemoryFunction;
@@ -155,7 +155,7 @@ namespace Epic.OnlineServices.Platform
 		{
 			if (other.HasValue)
 			{
-				m_ApiVersion = PlatformInterface.InitializeApiLatest;
+				m_ApiVersion = PlatformInterface.INITIALIZE_API_LATEST;
 				AllocateMemoryFunction = other.Value.AllocateMemoryFunction;
 				ReallocateMemoryFunction = other.Value.ReallocateMemoryFunction;
 				ReleaseMemoryFunction = other.Value.ReleaseMemoryFunction;

@@ -1,22 +1,72 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+using Epic.OnlineServices.UI;
 using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices
 {
 	public sealed partial class Helper
 	{
-		internal static void Set<T>(ref T from, ref T to)
+		internal static void Set<T>(T from, ref T? to)
 			where T : struct
 		{
 			to = from;
 		}
 
+		internal static void Set<T>(T? from, ref T to)
+			where T : struct
+		{
+			to = default;
+
+			if (from.HasValue)
+			{
+				to = from.Value;
+			}
+		}
+
+		internal static void Set<T>(T? from, ref T? to)
+			where T : struct
+		{
+			to = from;
+		}
+
+		internal static void Set(bool? from, ref int to)
+		{
+			to = default;
+
+			if (from.HasValue)
+			{
+				Convert(from.Value, out to);
+			}
+		}
+
+		internal static void Set<T>(T from, ref IntPtr to)
+			where T : struct
+        {
+            Dispose(ref to);
+
+            to = AddAllocation(Marshal.SizeOf(typeof(T)), from);
+			Marshal.StructureToPtr(from, to, false);
+		}
+
+		internal static void Set<T>(T? from, ref IntPtr to)
+			where T : struct
+		{
+			Dispose(ref to);
+
+			if (from.HasValue)
+			{
+				to = AddAllocation(Marshal.SizeOf(typeof(T)), from);
+				Marshal.StructureToPtr(from.Value, to, false);
+			}
+		}
+
 		internal static void Set(object from, ref IntPtr to)
 		{
-			RemoveClientData(to);
-			to = AddClientData(from);
+			Dispose(ref to);
+			AddCallback(out to, from);
 		}
 
 		internal static void Set(Utf8String from, ref IntPtr to)
@@ -30,13 +80,6 @@ namespace Epic.OnlineServices
 			Convert(from, out to);
 		}
 
-		internal static void Set<T>(T? from, ref IntPtr to)
-			where T : struct
-		{
-			Dispose(ref to);
-			to = AddAllocation(Marshal.SizeOf(typeof(T)), from);
-		}
-
 		internal static void Set<T>(T[] from, ref IntPtr to, bool isArrayItemAllocated)
 		{
 			Dispose(ref to);
@@ -45,35 +88,21 @@ namespace Epic.OnlineServices
 
 		internal static void Set(ArraySegment<byte> from, ref IntPtr to, out uint arrayLength)
 		{
+			Dispose(ref to);
 			to = AddPinnedBuffer(from);
 			Get(from, out arrayLength);
 		}
 
-		internal static void Set<T>(T[] from, ref IntPtr to)
-		{
-			Set(from, ref to, !typeof(T).IsValueType);
-		}
-
-		internal static void Set<T>(T[] from, ref IntPtr to, bool isArrayItemAllocated, out int arrayLength)
+		internal static void Set<T>(T[] from, ref IntPtr to, out int arrayLength, bool isArrayItemAllocated)
 		{
 			Set(from, ref to, isArrayItemAllocated);
 			Get(from, out arrayLength);
 		}
 
-		internal static void Set<T>(T[] from, ref IntPtr to, bool isArrayItemAllocated, out uint arrayLength)
+		internal static void Set<T>(T[] from, ref IntPtr to, out uint arrayLength, bool isArrayItemAllocated)
 		{
 			Set(from, ref to, isArrayItemAllocated);
 			Get(from, out arrayLength);
-		}
-
-		internal static void Set<T>(T[] from, ref IntPtr to, out int arrayLength)
-		{
-			Set(from, ref to, !typeof(T).IsValueType, out arrayLength);
-		}
-
-		internal static void Set<T>(T[] from, ref IntPtr to, out uint arrayLength)
-		{
-			Set(from, ref to, !typeof(T).IsValueType, out arrayLength);
 		}
 
 		internal static void Set(DateTimeOffset? from, ref long to)
@@ -86,141 +115,102 @@ namespace Epic.OnlineServices
 			Convert(from, out to);
 		}
 
-		internal static void Set(string from, ref byte[] to, int stringLength)
+		internal static void Set(Utf8String from, ref byte[] to, int stringLength)
 		{
 			Convert(from, out to, stringLength);
 		}
+       
 
-		internal static void Set<T, TEnum>(T from, ref T to, TEnum fromEnum, ref TEnum toEnum, IDisposable disposable = null)
-		{
-			if (from != null)
-			{
-				Dispose(ref disposable);
-
-				to = from;
-				toEnum = fromEnum;
-			}
-		}
-
-		internal static void Set<TFrom, TEnum, TTo>(ref TFrom from, ref TTo to, TEnum fromEnum, ref TEnum toEnum, IDisposable disposable = null)
-			where TFrom : struct
-			where TTo : struct, ISettable<TFrom>
-		{
-			Dispose(ref disposable);
-
-			Set(ref from, ref to);
-			toEnum = fromEnum;
-		}
-
-		internal static void Set<T, TEnum>(T? from, ref T to, TEnum fromEnum, ref TEnum toEnum, IDisposable disposable = null)
-			where T : struct
-		{
-			if (from != null)
-			{
-				Dispose(ref disposable);
-
-				T value = from.Value;
-				Set<T>(ref value, ref to);
-				toEnum = fromEnum;
-			}
-		}
-
-		internal static void Set<TEnum>(Handle from, ref IntPtr to, TEnum fromEnum, ref TEnum toEnum, IDisposable disposable = null)
-		{
-			if (from != null)
-			{
-				Dispose(ref to);
-				Dispose(ref disposable);
-
-				Set(from, ref to);
-				toEnum = fromEnum;
-			}
-		}
-
-		internal static void Set<TEnum>(Utf8String from, ref IntPtr to, TEnum fromEnum, ref TEnum toEnum, IDisposable disposable = null)
-		{
-			if (from != null)
-			{
-				Dispose(ref to);
-				Dispose(ref disposable);
-
-				Set(from, ref to);
-				toEnum = fromEnum;
-			}
-		}
-
-		internal static void Set<TEnum>(bool? from, ref int to, TEnum fromEnum, ref TEnum toEnum, IDisposable disposable = null)
-		{
-			if (from != null)
-			{
-				Dispose(ref disposable);
-
-				Set(from.Value, ref to);
-				toEnum = fromEnum;
-			}
-		}
-
-		internal static void Set<TFrom, TIntermediate>(ref TFrom from, ref IntPtr to)
-			where TFrom : struct
-			where TIntermediate : struct, ISettable<TFrom>
-		{
-			TIntermediate intermediate = new TIntermediate();
-			intermediate.Set(ref from);
-
-			Dispose(ref to);
-			to = AddAllocation(Marshal.SizeOf(typeof(TIntermediate)), intermediate);
-		}
-
-		internal static void Set<TFrom, TIntermediate>(ref TFrom? from, ref IntPtr to)
-			where TFrom : struct
-			where TIntermediate : struct, ISettable<TFrom>
-		{
-			Dispose(ref to);
-
-			if (!from.HasValue)
-			{
-				return;
-			}
-
-			TIntermediate intermediate = default(TIntermediate);
-			TFrom sourceValue = from.Value;
-			intermediate.Set(ref sourceValue);
-
-			to = AddAllocation(Marshal.SizeOf(typeof(TIntermediate)), intermediate);
-		}
-
-		internal static void Set<TFrom, TTo>(ref TFrom from, ref TTo to)
-			where TFrom : struct
-			where TTo : struct, ISettable<TFrom>
+        internal static void Set<TPublic, TInternal>(ref TPublic from, ref TInternal to)
+			where TPublic : struct
+			where TInternal : struct, ISettable<TPublic>
 		{
 			to.Set(ref from);
 		}
 
-		internal static void Set<TFrom, TIntermediate>(ref TFrom[] from, ref IntPtr to, out int arrayLength)
-			where TFrom : struct
-			where TIntermediate : struct, ISettable<TFrom>
+		internal static void Set<TPublic, TInternal>(TPublic? from, ref IntPtr to)
+			where TPublic : struct
+			where TInternal : struct, ISettable<TPublic>
 		{
+			Dispose(ref to);
+			to = default;
+
+			if (from.HasValue)
+			{
+				TInternal toInternal = default;
+				var fromValue = from.Value;
+				toInternal.Set(ref fromValue);
+				to = AddAllocation(Marshal.SizeOf(typeof(TInternal)), toInternal);
+			}
+		}
+
+		internal static void Set<TPublic, TInternal>(TPublic? from, ref TInternal to)
+			where TPublic : struct
+			where TInternal : struct, ISettable<TPublic>
+		{
+			Dispose(ref to);
+			to = default;
+
+			if (from.HasValue)
+			{
+				var fromValue = from.Value;
+				to.Set(ref fromValue);
+			}
+		}
+
+		internal static void Set(Utf8String[] from, ref IntPtr to, out int arrayLength, bool isArrayItemAllocated)
+		{
+			Dispose(ref to);
+
+			to = AddAllocation(from, isArrayItemAllocated);
+			Get(from, out arrayLength);
+		}
+
+		internal static void Set(Utf8String[] from, ref IntPtr to, out uint arrayLength, bool isArrayItemAllocated)
+		{
+			int arrayLengthIntermediate;
+			Set(from, ref to, out arrayLengthIntermediate, isArrayItemAllocated);
+			arrayLength = (uint)arrayLengthIntermediate;
+		}
+
+		internal static void Set<TPublic, TInternal>(TPublic from, ref IntPtr to)
+			where TPublic : struct
+			where TInternal : struct, ISettable<TPublic>
+		{
+			Dispose(ref to);
+
+			TInternal toInternal = default;
+			toInternal.Set(ref from);
+
+			to = AddAllocation(Marshal.SizeOf(typeof(TInternal)), toInternal);
+		}
+
+		internal static void Set<TPublic, TInternal>(TPublic[] from, ref IntPtr to, out int arrayLength, bool isArrayItemAllocated)
+			where TPublic : struct
+			where TInternal : struct, ISettable<TPublic>
+		{
+			Dispose(ref to);
 			arrayLength = 0;
 
 			if (from != null)
 			{
-				TIntermediate[] intermediate = new TIntermediate[from.Length];
+				TInternal[] toInternal = new TInternal[from.Length];
 				for (int index = 0; index < from.Length; ++index)
 				{
-					intermediate[index].Set(ref from[index]);
+					toInternal[index].Set(ref from[index]);
 				}
 
-				Set(intermediate, ref to);
+				Set(toInternal, ref to, isArrayItemAllocated);
 				Get(from, out arrayLength);
 			}
 		}
 
-		internal static void Set<TFrom, TIntermediate>(ref TFrom[] from, ref IntPtr to, out uint arrayLength)
-			where TFrom : struct
-			where TIntermediate : struct, ISettable<TFrom>
+		internal static void Set<TPublic, TInternal>(TPublic[] from, ref IntPtr to, out uint arrayLength, bool isArrayItemAllocated)
+			where TPublic : struct
+			where TInternal : struct, ISettable<TPublic>
 		{
 			int arrayLengthIntermediate;
-			Set<TFrom, TIntermediate>(ref from, ref to, out arrayLengthIntermediate);
+			Set<TPublic, TInternal>(from, ref to, out arrayLengthIntermediate, isArrayItemAllocated);
 			arrayLength = (uint)arrayLengthIntermediate;
 		}
 	}

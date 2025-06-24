@@ -10,31 +10,48 @@ namespace Epic.OnlineServices
 		/// <summary>
 		/// Adds a callback to the wrapper.
 		/// </summary>
-		/// <param name="clientDataAddress">The generated client data address.</param>
+		/// <param name="clientDataPointer">The generated client data pointer.</param>
 		/// <param name="clientData">The client data of the callback.</param>
-		/// <param name="publicDelegate">The public delegate of the callback.</param>
-		/// <param name="privateDelegate">The private delegate of the callback.</param>
-		/// <param name="structDelegates">Any delegates passed in with input structs.</param>
-		internal static void AddCallback(out IntPtr clientDataAddress, object clientData, Delegate publicDelegate, Delegate privateDelegate, params Delegate[] structDelegates)
+		/// <param name="delegates">The delegates to add.</param>
+		internal static void AddCallback(out IntPtr clientDataPointer, object clientData, params Delegate[] delegates)
+		{
+			clientDataPointer = AddClientData(clientData);
+
+			lock (s_Callbacks)
+			{
+				s_Callbacks.Add(clientDataPointer, new DelegateHolder(delegates));
+			}
+		}
+
+		/// <summary>
+		/// Adds a callback to the wrapper with an existing client data pointer.
+		/// </summary>
+		/// <param name="clientDataPointer">The client data pointer.</param>
+		/// <param name="delegates">The delegates to add.</param>
+		internal static void AddCallback(IntPtr clientDataPointer, params Delegate[] delegates)
 		{
 			lock (s_Callbacks)
 			{
-				clientDataAddress = AddClientData(clientData);
-				s_Callbacks.Add(clientDataAddress, new DelegateHolder(publicDelegate, privateDelegate, structDelegates));
+				DelegateHolder delegateHolder;
+				if (s_Callbacks.TryGetValue(clientDataPointer, out delegateHolder))
+				{
+					delegateHolder.Delegates.AddRange(delegates.Where(d => d != null));
+				}
 			}
 		}
 
 		/// <summary>
 		/// Removes a callback from the wrapper.
 		/// </summary>
-		/// <param name="clientDataAddress">The client data address of the callback.</param>
-		private static void RemoveCallback(IntPtr clientDataAddress)
+		/// <param name="clientDataPointer">The client data pointer of the callback.</param>
+		internal static void RemoveCallback(IntPtr clientDataPointer)
 		{
 			lock (s_Callbacks)
 			{
-				s_Callbacks.Remove(clientDataAddress);
-				RemoveClientData(clientDataAddress);
+				s_Callbacks.Remove(clientDataPointer);
 			}
+
+			RemoveClientData(clientDataPointer);
 		}
 
 		/// <summary>
@@ -52,17 +69,17 @@ namespace Epic.OnlineServices
 			where TCallback : class
 			where TCallbackInfo : struct, ICallbackInfo
 		{
-			IntPtr clientDataAddress;
-			Get(ref callbackInfoInternal, out callbackInfo, out clientDataAddress);
+			IntPtr clientDataPointer;
+			Get(ref callbackInfoInternal, out callbackInfo, out clientDataPointer);
 
 			callback = null;
 
 			lock (s_Callbacks)
 			{
 				DelegateHolder delegateHolder;
-				if (s_Callbacks.TryGetValue(clientDataAddress, out delegateHolder))
+				if (s_Callbacks.TryGetValue(clientDataPointer, out delegateHolder))
 				{
-					callback = delegateHolder.Public as TCallback;
+					callback = delegateHolder.Delegates.FirstOrDefault(d => d.GetType() == typeof(TCallback)) as TCallback;
 					return callback != null;
 				}
 			}
@@ -86,33 +103,36 @@ namespace Epic.OnlineServices
 			where TCallback : class
 			where TCallbackInfo : struct, ICallbackInfo
 		{
-			IntPtr clientDataAddress;
-			Get(ref callbackInfoInternal, out callbackInfo, out clientDataAddress);
+			IntPtr clientDataPointer;
+			Get(ref callbackInfoInternal, out callbackInfo, out clientDataPointer);
 
 			callback = null;
+			ulong? notificationId = null;
 
 			lock (s_Callbacks)
 			{
 				DelegateHolder delegateHolder;
-				if (s_Callbacks.TryGetValue(clientDataAddress, out delegateHolder))
+				if (s_Callbacks.TryGetValue(clientDataPointer, out delegateHolder))
 				{
-					callback = delegateHolder.Public as TCallback;
-					if (callback != null)
-					{
-						// If this delegate was added with an AddNotify, we should only ever remove it on RemoveNotify.
-						if (delegateHolder.NotificationId.HasValue)
-						{
-						}
-
-						// If the operation is complete, it's safe to remove.
-						else if (callbackInfo.GetResultCode().HasValue && Common.IsOperationComplete(callbackInfo.GetResultCode().Value))
-						{
-							RemoveCallback(clientDataAddress);
-						}
-
-						return true;
-					}
+					callback = delegateHolder.Delegates.FirstOrDefault(d => d.GetType() == typeof(TCallback)) as TCallback;
+					notificationId = delegateHolder.NotificationId;
 				}
+			}
+
+			if (callback != null)
+			{
+				// If this delegate was added with an AddNotify, we should only ever remove it on RemoveNotify.
+				if (notificationId.HasValue)
+				{
+				}
+
+				// If the operation is complete, it's safe to remove.
+				else if (callbackInfo.GetResultCode().HasValue && Common.IsOperationComplete(callbackInfo.GetResultCode().Value))
+				{
+					RemoveCallback(clientDataPointer);
+				}
+
+				return true;
 			}
 
 			return false;
@@ -133,16 +153,16 @@ namespace Epic.OnlineServices
 			where TCallback : class
 			where TCallbackInfo : struct
 		{
-			IntPtr clientDataAddress;
-			Get(ref callbackInfoInternal, out callbackInfo, out clientDataAddress);
+			IntPtr clientDataPointer;
+			Get(ref callbackInfoInternal, out callbackInfo, out clientDataPointer);
 
 			callback = null;
 			lock (s_Callbacks)
 			{
 				DelegateHolder delegateHolder;
-				if (s_Callbacks.TryGetValue(clientDataAddress, out delegateHolder))
+				if (s_Callbacks.TryGetValue(clientDataPointer, out delegateHolder))
 				{
-					callback = delegateHolder.StructDelegates.FirstOrDefault(structDelegate => structDelegate.GetType() == typeof(TCallback)) as TCallback;
+					callback = delegateHolder.Delegates.FirstOrDefault(d => d.GetType() == typeof(TCallback)) as TCallback;
 					if (callback != null)
 					{
 						return true;
@@ -159,11 +179,14 @@ namespace Epic.OnlineServices
 		/// <param name="notificationId">The notification id associated with the callback.</param>
 		internal static void RemoveCallbackByNotificationId(ulong notificationId)
 		{
+			IntPtr clientDataPointer = IntPtr.Zero;
+
 			lock (s_Callbacks)
 			{
-				var clientDataAddress = s_Callbacks.SingleOrDefault(pair => pair.Value.NotificationId.HasValue && pair.Value.NotificationId == notificationId);
-				RemoveCallback(clientDataAddress.Key);
+				clientDataPointer = s_Callbacks.SingleOrDefault(pair => pair.Value.NotificationId.HasValue && pair.Value.NotificationId == notificationId).Key;
 			}
+
+			RemoveCallback(clientDataPointer);
 		}
 
 		/// <summary>
@@ -172,12 +195,12 @@ namespace Epic.OnlineServices
 		/// <param name="key">The key of the callback.</param>
 		/// <param name="publicDelegate">The public delegate of the callback.</param>
 		/// <param name="privateDelegate">The private delegate of the callback</param>
-		internal static void AddStaticCallback(string key, Delegate publicDelegate, Delegate privateDelegate)
+		internal static void AddStaticCallback(string key, params Delegate[] delegates)
 		{
 			lock (s_StaticCallbacks)
 			{
 				s_StaticCallbacks.Remove(key);
-				s_StaticCallbacks.Add(key, new DelegateHolder(publicDelegate, privateDelegate));
+				s_StaticCallbacks.Add(key, new DelegateHolder(delegates));
 			}
 		}
 
@@ -198,7 +221,7 @@ namespace Epic.OnlineServices
 				DelegateHolder delegateHolder;
 				if (s_StaticCallbacks.TryGetValue(key, out delegateHolder))
 				{
-					callback = delegateHolder.Public as TCallback;
+					callback = delegateHolder.Delegates.FirstOrDefault(d => d.GetType() == typeof(TCallback)) as TCallback;
 					if (callback != null)
 					{
 						return true;
@@ -210,22 +233,22 @@ namespace Epic.OnlineServices
 		}
 
 		/// <summary>
-		/// Assigns a notification id to a callback by client data address associated with the callback.
+		/// Assigns a notification id to a callback by client data pointer associated with the callback.
 		/// </summary>
 		/// <param name="clientDataAddress">The client data address associated with the callback.</param>
 		/// <param name="notificationId">The notification id to assign.</param>
-		internal static void AssignNotificationIdToCallback(IntPtr clientDataAddress, ulong notificationId)
+		internal static void AssignNotificationIdToCallback(IntPtr clientDataPointer, ulong notificationId)
 		{
 			if (notificationId == 0)
 			{
-				RemoveCallback(clientDataAddress);
+				RemoveCallback(clientDataPointer);
 				return;
 			}
 
 			lock (s_Callbacks)
 			{
 				DelegateHolder delegateHolder;
-				if (s_Callbacks.TryGetValue(clientDataAddress, out delegateHolder))
+				if (s_Callbacks.TryGetValue(clientDataPointer, out delegateHolder))
 				{
 					delegateHolder.NotificationId = notificationId;
 				}
@@ -236,41 +259,41 @@ namespace Epic.OnlineServices
 		/// Adds client data to the wrapper.
 		/// </summary>
 		/// <param name="clientData">The client data to add.</param>
-		/// <returns>The address of the added client data.</returns>
+		/// <returns>The pointer of the added client data.</returns>
 		private static IntPtr AddClientData(object clientData)
 		{
 			lock (s_ClientDatas)
 			{
 				long clientDataId = ++s_LastClientDataId;
-				IntPtr clientDataAddress = new IntPtr(clientDataId);
-				s_ClientDatas.Add(clientDataAddress, clientData);
-				return clientDataAddress;
+				IntPtr clientDataPointer = new IntPtr(clientDataId);
+				s_ClientDatas.Add(clientDataPointer, clientData);
+				return clientDataPointer;
 			}
 		}
 
 		/// <summary>
 		/// Removes a client data from the wrapper.
 		/// </summary>
-		/// <param name="clientDataAddress">The address of the client data to remove.</param>
-		private static void RemoveClientData(IntPtr clientDataAddress)
+		/// <param name="clientDataPointer">The pointer of the client data to remove.</param>
+		private static void RemoveClientData(IntPtr clientDataPointer)
 		{
 			lock (s_ClientDatas)
 			{
-				s_ClientDatas.Remove(clientDataAddress);
+				s_ClientDatas.Remove(clientDataPointer);
 			}
 		}
 
 		/// <summary>
-		/// Gets client data by its address.
+		/// Gets client data by its pointer.
 		/// </summary>
-		/// <param name="clientDataAddress">The address of the client data.</param>
-		/// <returns>Th client data associated with the address.</returns>
-		private static object GetClientData(IntPtr clientDataAddress)
+		/// <param name="clientDataPointer">The pointer of the client data.</param>
+		/// <returns>Th client data associated with the pointer.</returns>
+		private static object GetClientData(IntPtr clientDataPointer)
 		{
 			lock (s_ClientDatas)
 			{
 				object clientData;
-				s_ClientDatas.TryGetValue(clientDataAddress, out clientData);
+				s_ClientDatas.TryGetValue(clientDataPointer, out clientData);
 				return clientData;
 			}
 		}

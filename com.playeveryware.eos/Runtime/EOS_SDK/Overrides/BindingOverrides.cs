@@ -67,9 +67,9 @@ namespace Epic.OnlineServices
 	{
 
 #if EOS_DYNAMIC_BINDINGS
-		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-		internal delegate Result EOS_P2P_ReceivePacketDelegate(System.IntPtr handle, ref P2P.ReceivePacketOptionsInternal options, ref System.IntPtr outPeerId, System.IntPtr outSocketId, ref byte outChannel, System.IntPtr outData, ref uint outBytesWritten);
-		internal static EOS_P2P_ReceivePacketDelegate EOS_P2P_ReceivePacket;
+		//[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		//internal delegate Result EOS_P2P_ReceivePacketDelegate(System.IntPtr handle, ref P2P.ReceivePacketOptionsInternal options, ref System.IntPtr outPeerId, System.IntPtr outSocketId, ref byte outChannel, System.IntPtr outData, ref uint outBytesWritten);
+		//internal static EOS_P2P_ReceivePacketDelegate EOS_P2P_ReceivePacket;
 #endif
 
 #if !EOS_DYNAMIC_BINDINGS

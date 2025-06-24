@@ -68,7 +68,7 @@ namespace Epic.OnlineServices.P2P
 			}
 		}
 
-		internal void Set(ref SocketIdInternal other)
+		internal void Set(ref SocketId other)
 		{
 			SocketName = other.SocketName;
 		}
@@ -125,7 +125,7 @@ namespace Epic.OnlineServices.P2P
 			{
 				m_AllBytes = new byte[TotalSizeInBytes];
 				m_SwapBuffer = new byte[TotalSizeInBytes - ApiVersionLength];
-				Array.Copy(BitConverter.GetBytes(P2PInterface.SocketidApiLatest), 0, m_AllBytes, 0, sizeof(int));
+				Array.Copy(BitConverter.GetBytes(P2PInterface.SOCKETID_API_LATEST), 0, m_AllBytes, 0, sizeof(int));
 			}
 		}
 

@@ -81,7 +81,7 @@ namespace Epic.OnlineServices.P2P
 
 		public void Set(ref SendPacketOptions other)
 		{
-			m_ApiVersion = P2PInterface.SendpacketApiLatest;
+			m_ApiVersion = P2PInterface.SENDPACKET_API_LATEST;
 			LocalUserId = other.LocalUserId;
 			RemoteUserId = other.RemoteUserId;
 
@@ -102,7 +102,7 @@ namespace Epic.OnlineServices.P2P
 		{
 			if (other.HasValue)
 			{
-				m_ApiVersion = P2PInterface.SendpacketApiLatest;
+				m_ApiVersion = P2PInterface.SENDPACKET_API_LATEST;
 				LocalUserId = other.Value.LocalUserId;
 				RemoteUserId = other.Value.RemoteUserId;
 
