@@ -103,7 +103,7 @@ namespace Epic.OnlineServices
 #endif
 
 #if EOS_DYNAMIC_BINDINGS
-		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate Result EOS_InitializeDelegate(ref Platform.AndroidInitializeOptionsInternal options);
 		internal static EOS_InitializeDelegate EOS_Initialize;
 #endif
