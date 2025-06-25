@@ -109,7 +109,7 @@ namespace Epic.OnlineServices
 #endif
 
 #if !EOS_DYNAMIC_BINDINGS
-		[DllImport(Config.LibraryName)]
+		[DllImport(Common.LIBRARY_NAME)]
 		internal static extern Result EOS_Initialize(ref Platform.AndroidInitializeOptionsInternal options);
 #endif
 	}
