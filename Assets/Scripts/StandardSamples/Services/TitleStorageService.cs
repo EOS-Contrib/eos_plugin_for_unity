@@ -199,9 +199,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             return ReceiveData(data.Filename, data.DataChunk, data.TotalFileSizeBytes) switch
             {
-                FileTransferResult.FailRequest => ReadResult.RrFailrequest,
-                FileTransferResult.CancelRequest => ReadResult.RrCancelrequest,
-                FileTransferResult.ContinueReading => ReadResult.RrContinuereading,
+                FileTransferResult.FailRequest => ReadResult.RrFailRequest,
+                FileTransferResult.CancelRequest => ReadResult.RrCancelRequest,
+                FileTransferResult.ContinueReading => ReadResult.RrContinueReading,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

@@ -40,6 +40,12 @@ EOS_ENUM(EOS_ERTCParticipantStatus,
  */
 #define EOS_RTC_JOINROOMFLAGS_ENABLE_DATACHANNEL 0x04
 
+ /**
+  * The flag is reserved for future use.
+  *
+  * @see EOS_RTC_JoinRoomOptions::Flags
+  */
+#define EOS_RTC_JOINROOMFLAGS_RESERVED_VOICE_FEATURE 0x08
 
 /**
  * This struct is used to call EOS_RTC_JoinRoom.

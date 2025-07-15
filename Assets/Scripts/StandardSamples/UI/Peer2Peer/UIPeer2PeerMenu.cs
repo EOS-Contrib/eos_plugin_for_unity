@@ -169,6 +169,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 CurrentChatUserText.text = currentChatDisplayName;
 
                 ChatWindow.SetActive(true);
+                Peer2PeerManager.Initialize();
+                Peer2PeerManager.SendTrigger(currentChatProductUserId);
             }
             else
             {
@@ -206,6 +208,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 CurrentChatUserText.text = currentChatDisplayName;
 
                 ChatWindow.SetActive(true);
+                Peer2PeerManager.SendTrigger(productUserId);
             }
             else
             {

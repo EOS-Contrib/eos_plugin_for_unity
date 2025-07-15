@@ -94,7 +94,7 @@ EOS_STRUCT(EOS_P2P_SendPacketOptions, (
 	const void* Data;
 	/** If false and we do not already have an established connection to the peer, this data will be dropped */
 	EOS_Bool bAllowDelayedDelivery;
-	/** Setting to control the delivery reliability of this packet */
+	/** Sets the reliability of the delivery of this packet. The reliability can be `EOS_PR_UnreliableUnordered`, `EOS_PR_ReliableUnordered`, or `EOS_PR_ReliableOrdered`. */
 	EOS_EPacketReliability Reliability;
 	/**
 	 * If set to EOS_TRUE, EOS_P2P_SendPacket will not automatically establish a connection with the RemoteUserId and will require explicit calls to

@@ -122,10 +122,10 @@ EOS_STRUCT(EOS_LobbyDetails_Info, (
 	EOS_Bool bRejoinAfterKickRequiresInvite;
 	/** If true, this lobby will be associated with the local user's presence information. */
 	EOS_Bool bPresenceEnabled;
-	/** 
-	 * Array of platform IDs indicating the player platforms allowed to register with the session. Platform IDs are
-	 * found in the EOS header file, e.g. EOS_OPT_Epic. For some platforms, the value will be in the EOS Platform specific
-	 * header file. If null, the lobby will be unrestricted.
+	/**
+	 * Array of platform IDs indicating the player platforms allowed to register with the lobby. Platform IDs are
+	 * found in the EOS header file (eos_common.h) and use the format 'EOS_OPT_<PlatformName>'. For some platforms 
+	 * the value will be in the EOS Platform specific header file. If null, the lobby will be unrestricted.
 	 */
 	const uint32_t* AllowedPlatformIds;
 	/** Number of platform IDs in the array */
@@ -135,7 +135,7 @@ EOS_STRUCT(EOS_LobbyDetails_Info, (
 EOS_DECLARE_FUNC(void) EOS_LobbyDetails_Info_Release(EOS_LobbyDetails_Info* LobbyDetailsInfo);
 
 /** The most recent version of the EOS_Lobby_LocalRTCOptions structure. */
-#define EOS_LOBBY_LOCALRTCOPTIONS_API_LATEST 1
+#define EOS_LOBBY_LOCALRTCOPTIONS_API_LATEST 2
 
 /**
  * Input parameters to use with Lobby RTC Rooms.
@@ -163,6 +163,10 @@ EOS_STRUCT(EOS_Lobby_LocalRTCOptions, (
 	 * The default value is EOS_FALSE if this struct is not specified.
 	 */
 	EOS_Bool bLocalAudioDeviceInputStartsMuted;
+	/**
+	* Reserved field, should be nullptr by default
+	*/
+	void* Reserved;
 ));
 
 /** The most recent version of the EOS_Lobby_CreateLobby API. */
@@ -1181,11 +1185,11 @@ EOS_STRUCT(EOS_Lobby_AddNotifyRTCRoomConnectionChangedOptions, (
 	int32_t ApiVersion;
 	/** The ID of the lobby to receive RTC Room connection change notifications for
 	 * This is deprecated and no longer needed. The notification is raised for any LobbyId or LocalUserId. If any filtering is required, the callback struct (EOS_Lobby_RTCRoomConnectionChangedCallbackInfo) has both a LobbyId and LocalUserId field.
-	 */
+	 **/
 	EOS_LobbyId LobbyId_DEPRECATED;
 	/** The Product User ID of the local user in the lobby
 	 * This is deprecated and no longer needed. The notification is raised for any LobbyId or LocalUserId. If any filtering is required, the callback struct (EOS_Lobby_RTCRoomConnectionChangedCallbackInfo) has both a LobbyId and LocalUserId field.
-	 */
+	 **/
 	EOS_ProductUserId LocalUserId_DEPRECATED;
 ));
 
@@ -1424,10 +1428,10 @@ EOS_STRUCT(EOS_LobbyModification_RemoveMemberAttributeOptions, (
 EOS_STRUCT(EOS_LobbyModification_SetAllowedPlatformIdsOptions, (
 	/** API Version: Set this to EOS_LOBBYMODIFICATION_SETALLOWEDPLATFORMIDS_API_LATEST. */
 	int32_t ApiVersion;
-	/** 
-	 * Array of platform IDs indicating the player platforms allowed to register with the session. Platform IDs are 
-	 * found in the EOS header file, e.g. EOS_OPT_Epic. For some platforms, the value will be in the EOS Platform specific
-	 * header file. If null, the lobby will be unrestricted.
+	/**
+	 * Array of platform IDs indicating the player platforms allowed to register with the lobby. Platform IDs are
+	 * found in the EOS header file (eos_common.h) and use the format 'EOS_OPT_<PlatformName>'. For some platforms
+	 * the value will be in the EOS Platform specific header file. If null, the lobby will be unrestricted.
 	 */
 	const uint32_t* AllowedPlatformIds;
 	/** Number of platform IDs in the array */
