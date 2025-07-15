@@ -127,10 +127,6 @@ namespace Epic.OnlineServices
 			to = from.Count;
 		}
 
-        //internal static void Set<T1, T2>(ref T1? value, ref IntPtr m_OverrideThreadAffinity)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         /// <summary>
         /// Converts from an <see cref="ArraySegment{T}" /> to an <see cref="uint" />.

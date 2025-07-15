@@ -99,6 +99,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private Dictionary<ProductUserId, PeerConnectionAppState> connectionStates = new();
 
+    private string Request = "hreq";
+    private string Acknowledgement = "hack";
+     private string Ping = "ping";
+
 #if UNITY_EDITOR
         void OnPlayModeChanged(UnityEditor.PlayModeStateChange modeChange)
         {
@@ -360,14 +364,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 string message = System.Text.Encoding.UTF8.GetString(data);
                 // --- Handshake protocol ---
-                if (message == "hreq")
+                if (message == Request)
                 {
                     SendHandshakeAck(peerId);
                     connectionStates[peerId] = PeerConnectionAppState.FullyConnected;
                     Debug.Log($"Received handshake request from {peerId}. Sending ack and setting FullyConnected.");
                     return null;
                 }
-                else if (message == "hack")
+                else if (message == Acknowledgement)
                 {
                     connectionStates[peerId] = PeerConnectionAppState.FullyConnected;
                     Debug.Log($"Received handshake ack from {peerId}. Connection is now FullyConnected.");
@@ -415,7 +419,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                     return peerId;
                 }
-                else if (message == "ping")
+                else if (message == Ping)
                 {
                     Debug.Log($"EOS P2PNAT HandleReceivedMessages: received ping from {peerId}, ignoring.");
                     return null;
