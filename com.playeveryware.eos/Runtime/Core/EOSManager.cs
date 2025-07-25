@@ -916,56 +916,160 @@ namespace PlayEveryWare.EpicOnlineServices
                     }
                 }
 
+                ref string paramRef = ref epicLauncherArgs.authLogin;
+                bool initPrevParam = false;
+
                 foreach (string argument in Environment.GetCommandLineArgs())
                 {
-                    if (argument.StartsWith("-AUTH_LOGIN="))
+                    if (initPrevParam)
                     {
-                        ConfigureEpicArgument(argument, ref epicLauncherArgs.authLogin);
+                        paramRef = argument;
+                        initPrevParam = false;
                     }
-                    else if (argument.StartsWith("-AUTH_PASSWORD="))
+                    else if (argument.StartsWith("-AUTH_LOGIN"))
                     {
-                        ConfigureEpicArgument(argument, ref epicLauncherArgs.authPassword);
+                        if (argument.StartsWith("-AUTH_LOGIN="))
+                        {
+                            ConfigureEpicArgument(argument, ref epicLauncherArgs.authLogin);
+                        }
+                        else if (argument.Equals("-AUTH_LOGIN"))
+                        {
+                            paramRef = ref epicLauncherArgs.authLogin;
+                            initPrevParam = true;
+                        }
                     }
-                    else if (argument.StartsWith("-AUTH_TYPE="))
+                    else if (argument.StartsWith("-AUTH_PASSWORD"))
                     {
-                        ConfigureEpicArgument(argument, ref epicLauncherArgs.authType);
+                        if (argument.StartsWith("-AUTH_PASSWORD="))
+                        {
+                            ConfigureEpicArgument(argument, ref epicLauncherArgs.authPassword);
+                        }
+                        else if (argument.Equals("-AUTH_PASSWORD"))
+                        {
+                            paramRef = ref epicLauncherArgs.authPassword;
+                            initPrevParam = true;
+                        }
                     }
-                    else if (argument.StartsWith("-epicapp="))
+                    else if (argument.StartsWith("-AUTH_TYPE"))
                     {
-                        ConfigureEpicArgument(argument, ref epicLauncherArgs.epicApp);
+                        if (argument.StartsWith("-AUTH_TYPE="))
+                        {
+                            ConfigureEpicArgument(argument, ref epicLauncherArgs.authType);
+                        }
+                        else if (argument.Equals("-AUTH_TYPE"))
+                        {
+                            paramRef = ref epicLauncherArgs.authType;
+                            initPrevParam = true;
+                        }
                     }
-                    else if (argument.StartsWith("-epicenv="))
+                    else if (argument.StartsWith("-epicapp"))
                     {
-                        ConfigureEpicArgument(argument, ref epicLauncherArgs.epicEnv);
+                        if (argument.StartsWith("-epicapp="))
+                        {
+                            ConfigureEpicArgument(argument, ref epicLauncherArgs.epicApp);
+                        }
+                        else if (argument.Equals("-epicapp"))
+                        {
+                            paramRef = ref epicLauncherArgs.epicApp;
+                            initPrevParam = true;
+                        }
                     }
-                    else if (argument.StartsWith("-epicusername="))
+                    else if (argument.StartsWith("-epicenv"))
                     {
-                        ConfigureEpicArgument(argument, ref epicLauncherArgs.epicUsername);
+                        if (argument.StartsWith("-epicenv="))
+                        {
+                            ConfigureEpicArgument(argument, ref epicLauncherArgs.epicDeploymentID);
+                        }
+                        else if (argument.Equals("-epicenv"))
+                        {
+                            paramRef = ref epicLauncherArgs.epicDeploymentID;
+                            initPrevParam = true;
+                        }
                     }
-                    else if (argument.StartsWith("-epicuserid="))
+                    else if (argument.StartsWith("-epicusername"))
                     {
-                        ConfigureEpicArgument(argument, ref epicLauncherArgs.epicUserID);
+                        if (argument.StartsWith("-epicusername="))
+                        {
+                            ConfigureEpicArgument(argument, ref epicLauncherArgs.epicUsername);
+                        }
+                        else if (argument.Equals("-epicusername"))
+                        {
+                            paramRef = ref epicLauncherArgs.epicUsername;
+                            initPrevParam = true;
+                        }
                     }
-                    else if (argument.StartsWith("-epiclocale="))
+                    else if (argument.StartsWith("-epicuserid"))
                     {
-                        ConfigureEpicArgument(argument, ref epicLauncherArgs.epicLocale);
+                        if (argument.StartsWith("-epicuserid="))
+                        {
+                            ConfigureEpicArgument(argument, ref epicLauncherArgs.epicUserID);
+                        }
+                        else if (argument.Equals("-epicuserid"))
+                        {
+                            paramRef = ref epicLauncherArgs.epicUserID;
+                            initPrevParam = true;
+                        }
                     }
-                    else if (argument.StartsWith("-epicsandboxid="))
+                    else if (argument.StartsWith("-epiclocale"))
                     {
-                        ConfigureEpicArgument(argument, ref epicLauncherArgs.epicSandboxID);
+                        if (argument.StartsWith("-epiclocale="))
+                        {
+                            ConfigureEpicArgument(argument, ref epicLauncherArgs.epicLocale);
+                        }
+                        else if (argument.Equals("-epiclocale"))
+                        {
+                            paramRef = ref epicLauncherArgs.epicLocale;
+                            initPrevParam = true;
+                        }
+                    }
+                    else if (argument.StartsWith("-epicsandboxid"))
+                    {
+                        if (argument.StartsWith("-epicsandboxid="))
+                        {
+                            ConfigureEpicArgument(argument, ref epicLauncherArgs.epicSandboxID);
+                        }
+                        else if (argument.Equals("-epicsandboxid"))
+                        {
+                            paramRef = ref epicLauncherArgs.epicSandboxID;
+                            initPrevParam = true;
+                        }
                     }
                     //support custom args for overriding sandbox or deployment
-                    else if (argument.StartsWith("-eossandboxid="))
+                    else if (argument.StartsWith("-eossandboxid"))
                     {
-                        ConfigureEpicArgument(argument, ref epicLauncherArgs.epicSandboxID);
+                        if (argument.StartsWith("-eossandboxid="))
+                        {
+                            ConfigureEpicArgument(argument, ref epicLauncherArgs.epicSandboxID);
+                        }
+                        else if (argument.Equals("-eossandboxid"))
+                        {
+                            paramRef = ref epicLauncherArgs.epicSandboxID;
+                            initPrevParam = true;
+                        }
                     }
-                    else if (argument.StartsWith("-eosdeploymentid="))
+                    else if (argument.StartsWith("-eosdeploymentid"))
                     {
-                        ConfigureEpicArgument(argument, ref epicLauncherArgs.epicDeploymentID);
+                        if (argument.StartsWith("-epicdeploymentid="))
+                        {
+                            ConfigureEpicArgument(argument, ref epicLauncherArgs.epicDeploymentID);
+                        }
+                        else if (argument.Equals("-epicdeploymentid"))
+                        {
+                            paramRef = ref epicLauncherArgs.epicDeploymentID;
+                            initPrevParam = true;
+                        }
                     }
-                    else if (argument.StartsWith("-epicdeploymentid="))
+                    else if (argument.StartsWith("-epicdeploymentid"))
                     {
-                        ConfigureEpicArgument(argument, ref epicLauncherArgs.epicDeploymentID);
+                        if (argument.StartsWith("-epicdeploymentid="))
+                        {
+                            ConfigureEpicArgument(argument, ref epicLauncherArgs.epicDeploymentID);
+                        }
+                        else if(argument.Equals("-epicdeploymentid"))
+                        {
+                            paramRef = ref epicLauncherArgs.epicDeploymentID;
+                            initPrevParam = true;
+                        }
                     }
                 }
 
