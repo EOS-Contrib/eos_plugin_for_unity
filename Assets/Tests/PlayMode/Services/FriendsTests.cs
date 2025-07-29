@@ -119,13 +119,13 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Friends
         {
             AddNotifyFriendsUpdateOptions updateOptions = new();
             ulong notificationId = _friendsInterface.AddNotifyFriendsUpdate(ref updateOptions, null, (ref OnFriendsUpdateInfo x) => { });
-            Assert.AreNotEqual(Common.INVALID_NOTIFICATIONID, notificationId, "Could not subscribe to friends update.");
+            Assert.AreNotEqual(Common.InvalidNotificationid, notificationId, "Could not subscribe to friends update.");
 
             _friendsInterface.RemoveNotifyFriendsUpdate(notificationId);
 
             AddNotifyOnPresenceChangedOptions changedOptions = new();
             ulong presenceNotificationId = _presenceInterface.AddNotifyOnPresenceChanged(ref changedOptions, null, (ref PresenceChangedCallbackInfo x) => { });
-            Assert.AreNotEqual(Common.INVALID_NOTIFICATIONID, presenceNotificationId, "Could not subscribe to friends presence change.");
+            Assert.AreNotEqual(Common.InvalidNotificationid, presenceNotificationId, "Could not subscribe to friends presence change.");
 
             _presenceInterface.RemoveNotifyOnPresenceChanged(presenceNotificationId);
         }

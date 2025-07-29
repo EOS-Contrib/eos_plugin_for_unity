@@ -6,12 +6,13 @@ namespace Epic.OnlineServices
 {
 	internal interface ICallbackInfo
 	{
-		object GetClientData();
+		object ClientData { get; }
+
 		Result? GetResultCode();
 	}
 
 	internal interface ICallbackInfoInternal
 	{
-		IntPtr ClientDataPointer { get; }
+		IntPtr ClientDataAddress { get; }
 	}
 }
