@@ -4,6 +4,12 @@
 #include "eos_rtc_audio_types.h"
 
 /**
+ * The RTC Audio Interface. This is used to manage Audio specific RTC features
+ *
+ * @see EOS_RTC_GetAudioInterface
+ */
+
+/**
  * Use this function to push a new audio buffer to be sent to the participants of a room.
  *
  * This should only be used if Manual Audio Input was enabled locally for the specified room.

@@ -817,7 +817,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             var addNotifyFriendsUpdateOptions = new AddNotifyFriendsUpdateOptions();
             ulong notificationId = FriendsHandle.AddNotifyFriendsUpdate(ref addNotifyFriendsUpdateOptions, null, OnFriendsUpdateCallbackHandler);
 
-            if(notificationId == Common.INVALID_NOTIFICATIONID)
+            if(notificationId == Common.InvalidNotificationid)
             {
                 Debug.LogError("Friends (SubscribeToFriendUpdates): Could not subscribe to friend update notifications.");
             }
@@ -830,7 +830,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             var addNotifyOnPresenceChangedOptions = new AddNotifyOnPresenceChangedOptions();
             ulong presenceNotificationId = PresenceHandle.AddNotifyOnPresenceChanged(ref addNotifyOnPresenceChangedOptions , null, OnPresenceChangedCallbackHandler);
 
-            if(presenceNotificationId == Common.INVALID_NOTIFICATIONID)
+            if(presenceNotificationId == Common.InvalidNotificationid)
             {
                 Debug.LogError("Friends (SubscribeToFriendUpdates): Could not subscribe to presence changed notifications.");
             }
