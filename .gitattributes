@@ -31,3 +31,5 @@
 *.asset             merge=unityyamlmerge eol=lf
 *.meta              merge=unityyamlmerge eol=lf
 *.controller        merge=unityyamlmerge eol=lf
+etc/PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/_CodeSignature/CodeResources text eol=lf
+etc/PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/Info text eol=lf
