@@ -68,7 +68,7 @@ namespace Epic.OnlineServices
 	public static partial class Bindings
 	{
 #if EOS_DYNAMIC_BINDINGS_NAME_TYPE1
-		private const string EOS_Achievements_AddNotifyAchievementsUnlockedName = "EOS_Achievements_AddNotifyAchievementsUnlocked";
+        private const string EOS_Achievements_AddNotifyAchievementsUnlockedName = "EOS_Achievements_AddNotifyAchievementsUnlocked";
 		private const string EOS_Achievements_AddNotifyAchievementsUnlockedV2Name = "EOS_Achievements_AddNotifyAchievementsUnlockedV2";
 		private const string EOS_Achievements_CopyAchievementDefinitionByAchievementIdName = "EOS_Achievements_CopyAchievementDefinitionByAchievementId";
 		private const string EOS_Achievements_CopyAchievementDefinitionByIndexName = "EOS_Achievements_CopyAchievementDefinitionByIndex";
@@ -695,7 +695,7 @@ namespace Epic.OnlineServices
 		private const string EOS_UserInfo_ReleaseName = "EOS_UserInfo_Release";
 #endif
 #if EOS_DYNAMIC_BINDINGS_NAME_TYPE2
-		private const string EOS_Achievements_AddNotifyAchievementsUnlockedName = "_EOS_Achievements_AddNotifyAchievementsUnlocked";
+        private const string EOS_Achievements_AddNotifyAchievementsUnlockedName = "_EOS_Achievements_AddNotifyAchievementsUnlocked";
 		private const string EOS_Achievements_AddNotifyAchievementsUnlockedV2Name = "_EOS_Achievements_AddNotifyAchievementsUnlockedV2";
 		private const string EOS_Achievements_CopyAchievementDefinitionByAchievementIdName = "_EOS_Achievements_CopyAchievementDefinitionByAchievementId";
 		private const string EOS_Achievements_CopyAchievementDefinitionByIndexName = "_EOS_Achievements_CopyAchievementDefinitionByIndex";
@@ -1950,12 +1950,12 @@ namespace Epic.OnlineServices
 #endif
 
 #if EOS_DYNAMIC_BINDINGS
-		/// <summary>
-		/// Hooks dynamic bindings.
-		/// </summary>
-		/// <param name="libraryHandle">A handle to the library to find functions in. The type is platform dependent, but would typically be an <see cref="IntPtr"/>.</param>
-		/// <param name="getFunctionPointer">A delegate that takes a library handle and function name, and returns an <see cref="IntPtr"/> which is a pointer to the function within the library.</param>
-		public static void Hook<TLibraryHandle>(TLibraryHandle libraryHandle, Func<TLibraryHandle, string, IntPtr> getFunctionPointer)
+        /// <summary>
+        /// Hooks dynamic bindings.
+        /// </summary>
+        /// <param name="libraryHandle">A handle to the library to find functions in. The type is platform dependent, but would typically be an <see cref="IntPtr"/>.</param>
+        /// <param name="getFunctionPointer">A delegate that takes a library handle and function name, and returns an <see cref="IntPtr"/> which is a pointer to the function within the library.</param>
+        public static void Hook<TLibraryHandle>(TLibraryHandle libraryHandle, Func<TLibraryHandle, string, IntPtr> getFunctionPointer)
 		{
 			IntPtr functionPointer;
 
@@ -2139,11 +2139,11 @@ namespace Epic.OnlineServices
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedName);
 			EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged = (EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedDelegate));
 #if EOS_DYNAMIC_BINDINGS_NAME_TYPE3 || EOS_DYNAMIC_BINDINGS_NAME_TYPE1
-			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_Reserved01Name);
+            functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_Reserved01Name);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_Reserved01Name);
 			EOS_AntiCheatClient_Reserved01 = (EOS_AntiCheatClient_Reserved01Delegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_Reserved01Delegate));
 #endif
-			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_UnprotectMessageName);
+            functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_UnprotectMessageName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_UnprotectMessageName);
 			EOS_AntiCheatClient_UnprotectMessage = (EOS_AntiCheatClient_UnprotectMessageDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_UnprotectMessageDelegate));
 
@@ -5093,7 +5093,7 @@ namespace Epic.OnlineServices
 		}
 #endif
 #if EOS_DYNAMIC_BINDINGS
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+        [UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate ulong EOS_Achievements_AddNotifyAchievementsUnlockedDelegate(IntPtr handle, ref Achievements.AddNotifyAchievementsUnlockedOptionsInternal options, IntPtr clientData, Achievements.OnAchievementsUnlockedCallbackInternal notificationFn);
 		internal static EOS_Achievements_AddNotifyAchievementsUnlockedDelegate EOS_Achievements_AddNotifyAchievementsUnlocked;
 
@@ -9469,5 +9469,5 @@ namespace Epic.OnlineServices
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UserInfo_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern void EOS_UserInfo_Release(IntPtr userInfo);
 #endif
-	}
+    }
 }
