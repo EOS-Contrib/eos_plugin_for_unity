@@ -119,9 +119,8 @@ namespace Epic.OnlineServices
 		{
 			Convert(from, out to, stringLength);
 		}
-       
 
-        internal static void Set<TPublic, TInternal>(ref TPublic from, ref TInternal to)
+		internal static void Set<TPublic, TInternal>(ref TPublic from, ref TInternal to)
 			where TPublic : struct
 			where TInternal : struct, ISettable<TPublic>
 		{

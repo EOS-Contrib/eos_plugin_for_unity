@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Version
 	{
 		public static readonly Utf8String COMPANY_NAME = "Epic Games, Inc.";
 		public static readonly Utf8String COPYRIGHT_STRING = "Copyright Epic Games, Inc. All Rights Reserved.";
-		public const int HOTFIX = 0;
+		public const int HOTFIX = 3;
 		public const int MAJOR = 1;
 		public const int MINOR = 17;
 		public const int PATCH = 1;
