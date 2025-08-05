@@ -7,13 +7,13 @@
 #pragma pack(push, 8)
 
 /** Handle to the lobby interface */
-EXTERN_C typedef struct EOS_LobbyHandle* EOS_HLobby;
+EOS_EXTERN_C typedef struct EOS_LobbyHandle* EOS_HLobby;
 /** Handle to a lobby modification object */
-EXTERN_C typedef struct EOS_LobbyModificationHandle* EOS_HLobbyModification;
+EOS_EXTERN_C typedef struct EOS_LobbyModificationHandle* EOS_HLobbyModification;
 /** Handle to a single lobby */
-EXTERN_C typedef struct EOS_LobbyDetailsHandle* EOS_HLobbyDetails;
+EOS_EXTERN_C typedef struct EOS_LobbyDetailsHandle* EOS_HLobbyDetails;
 /** Handle to the calls responsible for creating a search object */
-EXTERN_C typedef struct EOS_LobbySearchHandle* EOS_HLobbySearch;
+EOS_EXTERN_C typedef struct EOS_LobbySearchHandle* EOS_HLobbySearch;
 
 EOS_DECLARE_FUNC(void) EOS_LobbyModification_Release(EOS_HLobbyModification LobbyModificationHandle);
 
@@ -36,7 +36,7 @@ EOS_DECLARE_FUNC(void) EOS_LobbyDetails_Release(EOS_HLobbyDetails LobbyHandle);
 EOS_DECLARE_FUNC(void) EOS_LobbySearch_Release(EOS_HLobbySearch LobbySearchHandle);
 
 /** All lobbies are referenced by a unique lobby ID */
-EXTERN_C typedef const char* EOS_LobbyId;
+EOS_EXTERN_C typedef const char* EOS_LobbyId;
 
 #define EOS_LOBBY_MAX_LOBBIES 16
 #define EOS_LOBBY_MAX_LOBBY_MEMBERS 64
@@ -85,6 +85,13 @@ EOS_ENUM(EOS_ELobbyMemberStatus,
 	/** The lobby has been closed and user has been removed */
 	EOS_LMS_CLOSED = 5
 );
+/** Defines the type of action to take against RTC room when joining a lobby */
+EOS_ENUM(EOS_ELobbyRTCRoomJoinActionType,
+	/** Join RTC Room as soon as user joins the lobby */
+	EOS_LRRJAT_AutomaticJoin = 0,
+	/** Do not join RTC Room when joining the lobby. User must manually call Join RTC Room */
+	EOS_LRRJAT_ManualJoin = 1
+);
 
 #define EOS_LOBBYDETAILS_INFO_API_LATEST 3
 
@@ -115,10 +122,10 @@ EOS_STRUCT(EOS_LobbyDetails_Info, (
 	EOS_Bool bRejoinAfterKickRequiresInvite;
 	/** If true, this lobby will be associated with the local user's presence information. */
 	EOS_Bool bPresenceEnabled;
-	/** 
-	 * Array of platform IDs indicating the player platforms allowed to register with the session. Platform IDs are
-	 * found in the EOS header file, e.g. EOS_OPT_Epic. For some platforms, the value will be in the EOS Platform specific
-	 * header file. If null, the lobby will be unrestricted.
+	/**
+	 * Array of platform IDs indicating the player platforms allowed to register with the lobby. Platform IDs are
+	 * found in the EOS header file (eos_common.h) and use the format 'EOS_OPT_<PlatformName>'. For some platforms 
+	 * the value will be in the EOS Platform specific header file. If null, the lobby will be unrestricted.
 	 */
 	const uint32_t* AllowedPlatformIds;
 	/** Number of platform IDs in the array */
@@ -128,7 +135,7 @@ EOS_STRUCT(EOS_LobbyDetails_Info, (
 EOS_DECLARE_FUNC(void) EOS_LobbyDetails_Info_Release(EOS_LobbyDetails_Info* LobbyDetailsInfo);
 
 /** The most recent version of the EOS_Lobby_LocalRTCOptions structure. */
-#define EOS_LOBBY_LOCALRTCOPTIONS_API_LATEST 1
+#define EOS_LOBBY_LOCALRTCOPTIONS_API_LATEST 2
 
 /**
  * Input parameters to use with Lobby RTC Rooms.
@@ -156,10 +163,14 @@ EOS_STRUCT(EOS_Lobby_LocalRTCOptions, (
 	 * The default value is EOS_FALSE if this struct is not specified.
 	 */
 	EOS_Bool bLocalAudioDeviceInputStartsMuted;
+	/**
+	* Reserved field, should be nullptr by default
+	*/
+	void* Reserved;
 ));
 
 /** The most recent version of the EOS_Lobby_CreateLobby API. */
-#define EOS_LOBBY_CREATELOBBY_API_LATEST 9
+#define EOS_LOBBY_CREATELOBBY_API_LATEST 10
 
 /**
  * Input parameters for the EOS_Lobby_CreateLobby function.
@@ -247,6 +258,11 @@ EOS_STRUCT(EOS_Lobby_CreateLobbyOptions, (
 	* the platform of the lobby owner.
 	*/
 	EOS_Bool bCrossplayOptOut;
+	/**
+	* If bEnableRTCRoom is true, this value indicates the action to take against the RTC Room when joining the lobby. This may be used 
+	* to indicate the RTCRoom should be joined immediately or manually at a later time.
+	*/
+	EOS_ELobbyRTCRoomJoinActionType RTCRoomJoinActionType;
 ));
 
 /**
@@ -302,7 +318,7 @@ EOS_DECLARE_CALLBACK(EOS_Lobby_OnDestroyLobbyCallback, const EOS_Lobby_DestroyLo
 
 
 /** The most recent version of the EOS_Lobby_JoinLobby API. */
-#define EOS_LOBBY_JOINLOBBY_API_LATEST 4
+#define EOS_LOBBY_JOINLOBBY_API_LATEST 5
 
 /**
  * Input parameters for the EOS_Lobby_JoinLobby function.
@@ -341,6 +357,11 @@ EOS_STRUCT(EOS_Lobby_JoinLobbyOptions, (
 	* will be treated as allowing crossplay.
 	*/
 	EOS_Bool bCrossplayOptOut;
+	/**
+	* For lobbies with the RTC Room feature enabled, this value indicates the action to take against the RTC Room when joining the lobby. This may be used
+	* to indicate the RTCRoom should be joined immediately or manually at a later time.
+	*/
+	EOS_ELobbyRTCRoomJoinActionType RTCRoomJoinActionType;
 ));
 
 /**
@@ -362,7 +383,7 @@ EOS_STRUCT(EOS_Lobby_JoinLobbyCallbackInfo, (
 EOS_DECLARE_CALLBACK(EOS_Lobby_OnJoinLobbyCallback, const EOS_Lobby_JoinLobbyCallbackInfo* Data);
 
 /** The most recent version of the EOS_Lobby_JoinLobbyById API. */
-#define EOS_LOBBY_JOINLOBBYBYID_API_LATEST 2
+#define EOS_LOBBY_JOINLOBBYBYID_API_LATEST 3
 
 /**
  * Input parameters for the EOS_Lobby_JoinLobbyById function.
@@ -401,6 +422,11 @@ EOS_STRUCT(EOS_Lobby_JoinLobbyByIdOptions, (
 	* will be treated as allowing crossplay.
 	*/
 	EOS_Bool bCrossplayOptOut;
+	/**
+	* For lobbies with the RTC Room feature enabled, this value indicates the action to take against the RTC Room when joining the lobby. This may be used 
+	* to indicate the RTCRoom should be joined immediately or manually at a later time.
+	*/
+	EOS_ELobbyRTCRoomJoinActionType RTCRoomJoinActionType;
 ));
 
 /**
@@ -499,6 +525,75 @@ EOS_STRUCT(EOS_Lobby_UpdateLobbyCallbackInfo, (
  * @param Data A EOS_Lobby_UpdateLobby CallbackInfo containing the output information and result
  */
 EOS_DECLARE_CALLBACK(EOS_Lobby_OnUpdateLobbyCallback, const EOS_Lobby_UpdateLobbyCallbackInfo* Data);
+
+/** The most recent version of the EOS_Lobby_JoinRTCRoom API. */
+#define EOS_LOBBY_JOINRTCROOM_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_Lobby_JoinRTCRoom function.
+ */
+EOS_STRUCT(EOS_Lobby_JoinRTCRoomOptions, (
+	/** API Version: Set this to EOS_LOBBY_JOINRTCROOM_API_LATEST. */
+	int32_t ApiVersion;
+	/** The ID of the lobby to join the RTC Room of */
+	EOS_LobbyId LobbyId;
+	/** The Product User ID of the local user in the lobby */
+	EOS_ProductUserId LocalUserId;
+	/**
+	 * Allows the local application to set local audio options for the RTC Room if it is enabled. 
+	 * Only updates audio options when explicitly set; does not provide defaults.
+	 */
+	const EOS_Lobby_LocalRTCOptions* LocalRTCOptions;
+));
+
+/**
+ * Output parameters for the EOS_Lobby_JoinRTCRoom function.
+ */
+EOS_STRUCT(EOS_Lobby_JoinRTCRoomCallbackInfo, (
+	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
+	EOS_EResult ResultCode;
+	/** Context that was passed into EOS_Lobby_JoinRTCRoom */
+	void* ClientData;
+	/** The ID of the lobby */
+	EOS_LobbyId LobbyId;
+));
+
+/**
+* Function prototype definition for callbacks passed to EOS_Lobby_JoinRTCRoom
+* @param Data A EOS_Lobby_JoinRTCRoom CallbackInfo containing the output information and result
+*/
+EOS_DECLARE_CALLBACK(EOS_Lobby_OnJoinRTCRoomCallback, const EOS_Lobby_JoinRTCRoomCallbackInfo* Data);
+/** The most recent version of the  EOS_Lobby_LeaveRTCRoom API. */
+#define EOS_LOBBY_LEAVERTCROOM_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_Lobby_LeaveRTCRoom function.
+ */
+EOS_STRUCT(EOS_Lobby_LeaveRTCRoomOptions, (
+	/** API Version: Set this to EOS_LOBBY_LEAVERTCROOM_API_LATEST. */
+	int32_t ApiVersion;
+	/** The ID of the lobby owning the RTC Room to leave */
+	EOS_LobbyId LobbyId;
+	/** The Product User ID of the local user in the lobby */
+	EOS_ProductUserId LocalUserId;
+));
+/**
+ * Output parameters for the EOS_Lobby_LeaveRTCRoom function.
+ */
+EOS_STRUCT(EOS_Lobby_LeaveRTCRoomCallbackInfo, (
+	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
+	EOS_EResult ResultCode;
+	/** Context that was passed into EOS_Lobby_LeaveRTCRoom */
+	void* ClientData;
+	/** The ID of the lobby */
+	EOS_LobbyId LobbyId;
+));
+
+/**
+ * Function prototype definition for callbacks passed to EOS_Lobby_LeaveRTCRoom
+ * @param Data A EOS_Lobby_LeaveRTCRoom CallbackInfo containing the output information and result
+ */
+EOS_DECLARE_CALLBACK(EOS_Lobby_OnLeaveRTCRoomCallback, const EOS_Lobby_LeaveRTCRoomCallbackInfo* Data);
 
 /** The most recent version of the EOS_Lobby_PromoteMember API. */
 #define EOS_LOBBY_PROMOTEMEMBER_API_LATEST 1
@@ -1090,11 +1185,11 @@ EOS_STRUCT(EOS_Lobby_AddNotifyRTCRoomConnectionChangedOptions, (
 	int32_t ApiVersion;
 	/** The ID of the lobby to receive RTC Room connection change notifications for
 	 * This is deprecated and no longer needed. The notification is raised for any LobbyId or LocalUserId. If any filtering is required, the callback struct (EOS_Lobby_RTCRoomConnectionChangedCallbackInfo) has both a LobbyId and LocalUserId field.
-	 */
+	 **/
 	EOS_LobbyId LobbyId_DEPRECATED;
 	/** The Product User ID of the local user in the lobby
 	 * This is deprecated and no longer needed. The notification is raised for any LobbyId or LocalUserId. If any filtering is required, the callback struct (EOS_Lobby_RTCRoomConnectionChangedCallbackInfo) has both a LobbyId and LocalUserId field.
-	 */
+	 **/
 	EOS_ProductUserId LocalUserId_DEPRECATED;
 ));
 
@@ -1333,10 +1428,10 @@ EOS_STRUCT(EOS_LobbyModification_RemoveMemberAttributeOptions, (
 EOS_STRUCT(EOS_LobbyModification_SetAllowedPlatformIdsOptions, (
 	/** API Version: Set this to EOS_LOBBYMODIFICATION_SETALLOWEDPLATFORMIDS_API_LATEST. */
 	int32_t ApiVersion;
-	/** 
-	 * Array of platform IDs indicating the player platforms allowed to register with the session. Platform IDs are 
-	 * found in the EOS header file, e.g. EOS_OPT_Epic. For some platforms, the value will be in the EOS Platform specific
-	 * header file. If null, the lobby will be unrestricted.
+	/**
+	 * Array of platform IDs indicating the player platforms allowed to register with the lobby. Platform IDs are
+	 * found in the EOS header file (eos_common.h) and use the format 'EOS_OPT_<PlatformName>'. For some platforms
+	 * the value will be in the EOS Platform specific header file. If null, the lobby will be unrestricted.
 	 */
 	const uint32_t* AllowedPlatformIds;
 	/** Number of platform IDs in the array */

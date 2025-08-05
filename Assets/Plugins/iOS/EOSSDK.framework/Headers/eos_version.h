@@ -1,14 +1,15 @@
-
 // Copyright Epic Games, Inc. All Rights Reserved.
+// THIS FILE WAS GENERATED AT 2025-08-01T20:16:09.5684126Z. DO NOT EDIT DIRECTLY.
 
 #pragma once
 
 // These numbers define the banner SDK version, and are the most significant numbers when ordering two engine versions (that is, a 4.12.* version is always
 // newer than a 4.11.* version, regardless of the changelist that it was built with)
 #define EOS_MAJOR_VERSION	1
-#define EOS_MINOR_VERSION	16
-#define EOS_PATCH_VERSION	3
- 
+#define EOS_MINOR_VERSION	17
+#define EOS_PATCH_VERSION	1
+#define EOS_HOTFIX_VERSION	3
+
 // Macros for encoding strings
 #define EOS_VERSION_STRINGIFY_2(x) #x
 #define EOS_VERSION_STRINGIFY(x) EOS_VERSION_STRINGIFY_2(x)
@@ -22,7 +23,8 @@
 #define EOS_VERSION_STRING_BASE                  \
 	EOS_VERSION_STRINGIFY(EOS_MAJOR_VERSION) "." \
 	EOS_VERSION_STRINGIFY(EOS_MINOR_VERSION) "." \
-	EOS_VERSION_STRINGIFY(EOS_PATCH_VERSION)
+	EOS_VERSION_STRINGIFY(EOS_PATCH_VERSION) "." \
+	EOS_VERSION_STRINGIFY(EOS_HOTFIX_VERSION)
 
 #if defined(BUILT_FROM_CHANGELIST)
 #define EOS_VERSION_STRING_AFTERCL               \
@@ -48,7 +50,7 @@
 
 /**
  * Get the version of the compiled EOSSDK binary
- * MAJOR.MINOR.PATCH-CHANGELIST#-PLATFORMSDKVERSION
+ * MAJOR.MINOR.PATCH.HOTFIX-CHANGELIST#-PLATFORMSDKVERSION
  * 
  * It is the version available at runtime
  * It should match the version of the headers being used

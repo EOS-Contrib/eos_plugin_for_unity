@@ -67,6 +67,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Achievements_CopyAchievementDefinitionV2ByAchi
 
 /**
  * Query for a list of achievements for a specific player, including progress towards completion for each achievement.
+ * Note: By default, this query will not return locked hidden achievements. To return all achievements, call EOS_Achievements_QueryDefinitions first.
  *
  * @note When the Social Overlay is enabled then this will be called automatically.  The Social Overlay is enabled by default (see EOS_PF_DISABLE_SOCIAL_OVERLAY).
  *
