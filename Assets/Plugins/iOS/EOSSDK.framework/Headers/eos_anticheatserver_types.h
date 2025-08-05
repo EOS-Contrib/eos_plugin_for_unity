@@ -7,7 +7,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_AntiCheatServerHandle* EOS_HAntiCheatServer;
+EOS_EXTERN_C typedef struct EOS_AntiCheatServerHandle* EOS_HAntiCheatServer;
 
 /**
  * Maximum size of an individual message provided through EOS_AntiCheatServer_OnMessageToClientCallback.
@@ -85,7 +85,7 @@ EOS_STRUCT(EOS_AntiCheatServer_EndSessionOptions, (
 	int32_t ApiVersion;
 ));
 
-#define EOS_ANTICHEATSERVER_REGISTERCLIENT_API_LATEST 2
+#define EOS_ANTICHEATSERVER_REGISTERCLIENT_API_LATEST 3
 EOS_STRUCT(EOS_AntiCheatServer_RegisterClientOptions, (
 	/** API Version: Set this to EOS_ANTICHEATSERVER_REGISTERCLIENT_API_LATEST. */
 	int32_t ApiVersion;
@@ -112,6 +112,8 @@ EOS_STRUCT(EOS_AntiCheatServer_RegisterClientOptions, (
 	const char* IpAddress;
 	/** The Product User ID for the remote user who is being registered. */
 	EOS_ProductUserId UserId;
+	/** Reserved for future use. Must be set to 0. */
+	int32_t Reserved01;
 ));
 
 #define EOS_ANTICHEATSERVER_UNREGISTERCLIENT_API_LATEST 1

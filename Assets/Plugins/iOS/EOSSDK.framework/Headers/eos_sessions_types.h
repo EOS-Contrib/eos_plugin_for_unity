@@ -8,15 +8,15 @@
 #pragma pack(push, 8)
 
 /** Handle to the sessions interface */
-EXTERN_C typedef struct EOS_SessionsHandle* EOS_HSessions;
+EOS_EXTERN_C typedef struct EOS_SessionsHandle* EOS_HSessions;
 /** Handle to the calls responsible for creating/updating sessions */
-EXTERN_C typedef struct EOS_SessionModificationHandle* EOS_HSessionModification;
+EOS_EXTERN_C typedef struct EOS_SessionModificationHandle* EOS_HSessionModification;
 /** Handle to a single named session that exists locally */
-EXTERN_C typedef struct EOS_ActiveSessionHandle* EOS_HActiveSession;
+EOS_EXTERN_C typedef struct EOS_ActiveSessionHandle* EOS_HActiveSession;
 /** Handle to a single session that may be part of a named session, search result, or invite */
-EXTERN_C typedef struct EOS_SessionDetailsHandle* EOS_HSessionDetails;
+EOS_EXTERN_C typedef struct EOS_SessionDetailsHandle* EOS_HSessionDetails;
 /** Handle to the calls responsible for creating a search object */
-EXTERN_C typedef struct EOS_SessionSearchHandle* EOS_HSessionSearch;
+EOS_EXTERN_C typedef struct EOS_SessionSearchHandle* EOS_HSessionSearch;
 
 /**
  * Release the memory associated with session modification.
@@ -160,8 +160,8 @@ EOS_STRUCT(EOS_Sessions_CreateSessionModificationOptions, (
 	EOS_Bool bSanctionsEnabled;
 	/** 
 	 * Array of platform IDs indicating the player platforms allowed to register with the session. Platform IDs are
-	 * found in the EOS header file, e.g. EOS_OPT_Epic. For some platforms, the value will be in the EOS Platform specific
-	 * header file. If null, the session will be unrestricted.
+	 * found in the EOS header file (eos_common.h) and use the format 'EOS_OPT_<PlatformName>'. For some platforms
+	 * the value will be in the EOS Platform specific header file. If null, the session will be unrestricted.
 	 */
 	const uint32_t* AllowedPlatformIds;
 	/** Number of platform IDs in the array */
