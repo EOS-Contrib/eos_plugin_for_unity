@@ -210,5 +210,9 @@ namespace Epic.OnlineServices
 			from.Get(out to);
 			clientDataPointer = from.ClientDataPointer;
 		}
+		 internal static T GetDefault<T>()
+        {
+            return default;
+        }
 	}
 }
