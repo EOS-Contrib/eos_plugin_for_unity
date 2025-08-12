@@ -65,7 +65,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
 #if EOS_DYNAMIC_BINDINGS || UNITY_EDITOR
             // TODO: This code does not appear to do anything...
-            const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
+            const string EOSBinaryName = Epic.OnlineServices.Common.LIBRARY_NAME;
             var eosLibraryHandle = EOSManager.EOSSingleton.LoadDynamicLibrary(EOSBinaryName);
 #endif
         }

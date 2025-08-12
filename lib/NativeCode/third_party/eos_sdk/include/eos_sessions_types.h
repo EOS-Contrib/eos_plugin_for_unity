@@ -160,8 +160,8 @@ EOS_STRUCT(EOS_Sessions_CreateSessionModificationOptions, (
 	EOS_Bool bSanctionsEnabled;
 	/** 
 	 * Array of platform IDs indicating the player platforms allowed to register with the session. Platform IDs are
-	 * found in the EOS header file, e.g. EOS_OPT_Epic. For some platforms, the value will be in the EOS Platform specific
-	 * header file. If null, the session will be unrestricted.
+	 * found in the EOS header file (eos_common.h) and use the format 'EOS_OPT_<PlatformName>'. For some platforms
+	 * the value will be in the EOS Platform specific header file. If null, the session will be unrestricted.
 	 */
 	const uint32_t* AllowedPlatformIds;
 	/** Number of platform IDs in the array */

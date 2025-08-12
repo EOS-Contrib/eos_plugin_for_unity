@@ -95,7 +95,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             // In the editor, EOS needs to be dynamically bound.
 #if EOS_DYNAMIC_BINDINGS || UNITY_EDITOR
-            const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
+            const string EOSBinaryName = Epic.OnlineServices.Common.LIBRARY_NAME;
             var eosLibraryHandle = EOSManager.EOSSingleton.LoadDynamicLibrary(EOSBinaryName);
             Epic.OnlineServices.WindowsBindings.Hook<DLLHandle>(eosLibraryHandle, (DLLHandle handle, string functionName) => {
                 return handle.LoadFunctionAsIntPtr(functionName);

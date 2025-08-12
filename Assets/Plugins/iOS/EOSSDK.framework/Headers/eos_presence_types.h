@@ -7,8 +7,8 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_PresenceHandle* EOS_HPresence;
-EXTERN_C typedef struct EOS_PresenceModificationHandle* EOS_HPresenceModification;
+EOS_EXTERN_C typedef struct EOS_PresenceHandle* EOS_HPresence;
+EOS_EXTERN_C typedef struct EOS_PresenceModificationHandle* EOS_HPresenceModification;
 
 /**
  * Presence Status states of a user
@@ -68,7 +68,7 @@ EOS_STRUCT(EOS_Presence_Info, (
 	const char* ProductVersion;
 	/** The platform of that the user is logged in from */
 	const char* Platform;
-	/** The rich-text of the user */
+	/** Rich text of the user. */
 	const char* RichText;
 	/** The count of records available */
 	int32_t RecordsCount;
@@ -199,6 +199,9 @@ EOS_STRUCT(EOS_Presence_SetPresenceCallbackInfo, (
 	void* ClientData;
 	/** The Epic Account ID of the local user that had their presence set */
 	EOS_EpicAccountId LocalUserId;
+	/** Result code for the Rich presence operation. EOS_Success is returned if the Rich presence was successfully set, other code indicates an error.
+	 */
+	EOS_EResult RichPresenceResultCode;
 ));
 
 /**
