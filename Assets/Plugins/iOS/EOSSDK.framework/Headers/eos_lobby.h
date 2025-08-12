@@ -473,6 +473,42 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Lobby_CopyLobbyDetailsHandle(EOS_HLobby Handle
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Lobby_GetRTCRoomName(EOS_HLobby Handle, const EOS_Lobby_GetRTCRoomNameOptions* Options, char* OutBuffer, uint32_t* InOutBufferLength);
 
 /**
+ * Joins the RTC room associated with a specific lobby a local user belongs to.
+ *
+ * This function will only succeed when called on a lobby that has the RTC Room feature enabled.
+ * Clients may check if the RTC Room feature is enabled by inspecting the value of EOS_LobbyDetails_Info::bRTCRoomEnabled.
+ *
+ * @param Options Structure containing information about which lobby a local user should join the RTC Room for
+ * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
+ * @param CompletionDelegate A callback that is fired when the join RTC Room operation completes, either successfully or in error
+ *
+ * @return EOS_Success if creation completes succesfully
+ *         EOS_NotFound if the lobby does not exist
+ *         EOS_Disabled if the lobby exists, but did not have the RTC Room feature enabled when created
+ *         EOS_InvalidParameters if you pass a null pointer on invalid length for any of the parameters
+ *         EOS_NoChange if call does not affect the state of the RTC Room
+ *         EOS_InvalidState if call to join is made when RTC Room state is not disconnected/disconnecting
+ */
+EOS_DECLARE_FUNC(void) EOS_Lobby_JoinRTCRoom(EOS_HLobby Handle, const EOS_Lobby_JoinRTCRoomOptions* Options, void* ClientData, const EOS_Lobby_OnJoinRTCRoomCallback CompletionDelegate);
+
+/**
+ * Leaves the RTC room associated with a specific lobby a local user belongs to.
+ *
+ * This function will only succeed when called on a lobby that has the RTC Room feature enabled.
+ * Clients may check if the RTC Room feature is enabled by inspecting the value of EOS_LobbyDetails_Info::bRTCRoomEnabled.
+ *
+ * @param Options Structure containing information about which lobby a local user should leave the RTC Room for
+ * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
+ * @param CompletionDelegate A callback that is fired when the join RTC Room operation completes, either successfully or in error
+ * @return EOS_Success if creation completes succesfully
+ *         EOS_NotFound if the lobby does not exist
+ *         EOS_Disabled if the lobby exists, but did not have the RTC Room feature enabled when created
+ *         EOS_InvalidParameters if you pass a null pointer on invalid length for any of the parameters
+ *         EOS_NoChange if call does not affect the state of the RTC Room
+ */
+EOS_DECLARE_FUNC(void) EOS_Lobby_LeaveRTCRoom(EOS_HLobby Handle, const EOS_Lobby_LeaveRTCRoomOptions* Options, void* ClientData, const EOS_Lobby_OnLeaveRTCRoomCallback CompletionDelegate);
+
+/**
  * Get the current connection status of the RTC Room for a lobby.
  *
  * The RTC Room connection status is independent of the lobby connection status, however the lobby system will attempt to keep

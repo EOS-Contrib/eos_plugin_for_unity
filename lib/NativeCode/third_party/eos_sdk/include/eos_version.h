@@ -1,5 +1,5 @@
-
 // Copyright Epic Games, Inc. All Rights Reserved.
+// THIS FILE WAS GENERATED AT 2025-08-01T20:16:09.5684126Z. DO NOT EDIT DIRECTLY.
 
 #pragma once
 
@@ -7,8 +7,9 @@
 // newer than a 4.11.* version, regardless of the changelist that it was built with)
 #define EOS_MAJOR_VERSION	1
 #define EOS_MINOR_VERSION	17
-#define EOS_PATCH_VERSION	0
- 
+#define EOS_PATCH_VERSION	1
+#define EOS_HOTFIX_VERSION	3
+
 // Macros for encoding strings
 #define EOS_VERSION_STRINGIFY_2(x) #x
 #define EOS_VERSION_STRINGIFY(x) EOS_VERSION_STRINGIFY_2(x)
@@ -19,10 +20,11 @@
 #define EOS_PRODUCT_NAME "Epic Online Services SDK"
 #define EOS_PRODUCT_IDENTIFIER "Epic Online Services SDK"
 
-#define EOS_VERSION_STRING_BASE                  		\
-	EOS_VERSION_STRINGIFY(EOS_MAJOR_VERSION) "." 		\
-	EOS_VERSION_STRINGIFY(EOS_MINOR_VERSION) "." 		\
-	EOS_VERSION_STRINGIFY(EOS_PATCH_VERSION)
+#define EOS_VERSION_STRING_BASE                  \
+	EOS_VERSION_STRINGIFY(EOS_MAJOR_VERSION) "." \
+	EOS_VERSION_STRINGIFY(EOS_MINOR_VERSION) "." \
+	EOS_VERSION_STRINGIFY(EOS_PATCH_VERSION) "." \
+	EOS_VERSION_STRINGIFY(EOS_HOTFIX_VERSION)
 
 #if defined(BUILT_FROM_CHANGELIST)
 #define EOS_VERSION_STRING_AFTERCL               \
@@ -48,7 +50,7 @@
 
 /**
  * Get the version of the compiled EOSSDK binary
- * MAJOR.MINOR.PATCH-CHANGELIST#-PLATFORMSDKVERSION
+ * MAJOR.MINOR.PATCH.HOTFIX-CHANGELIST#-PLATFORMSDKVERSION
  * 
  * It is the version available at runtime
  * It should match the version of the headers being used

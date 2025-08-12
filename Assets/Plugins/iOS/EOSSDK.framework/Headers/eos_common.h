@@ -145,7 +145,7 @@ EOS_DECLARE_FUNC(EOS_ProductUserId) EOS_ProductUserId_FromString(const char* Pro
 #define EOS_PRODUCTUSERID_MAX_LENGTH 32
 
 /** Handle to an existing registered notification (0 is an invalid handle) */
-EXTERN_C typedef uint64_t EOS_NotificationId;
+EOS_EXTERN_C typedef uint64_t EOS_NotificationId;
 
 /** An invalid notification ID */
 #define EOS_INVALID_NOTIFICATIONID ((EOS_NotificationId)0)
@@ -249,39 +249,53 @@ typedef EOS_EAttributeType EOS_ESessionAttributeType;
 typedef EOS_EAttributeType EOS_ELobbyAttributeType;
 
 /**
- * All comparison operators associated with parameters in a search query
+ * All comparison operators associated with attributes.
  *
  * @see EOS_LobbySearch_SetParameter
  * @see EOS_SessionSearch_SetParameter
  */
 EOS_ENUM(EOS_EComparisonOp,
-	/** Value must equal the one stored on the lobby/session */
+	/** Value must equal the one stored in the attribute */
 	EOS_CO_EQUAL = 0,
-	/** Value must not equal the one stored on the lobby/session */
+	/** Value must not equal the one stored in the attribute */
 	EOS_CO_NOTEQUAL = 1,
-	/** Value must be strictly greater than the one stored on the lobby/session */
+	/** Value must be strictly greater than the one stored in the attribute */
 	EOS_CO_GREATERTHAN = 2,
-	/** Value must be greater than or equal to the one stored on the lobby/session */
+	/** Value must be greater than or equal to the one stored in the attribute */
 	EOS_CO_GREATERTHANOREQUAL = 3,
-	/** Value must be strictly less than the one stored on the lobby/session */
+	/** Value must be strictly less than the one stored in the attribute */
 	EOS_CO_LESSTHAN = 4,
-	/** Value must be less than or equal to the one stored on the lobby/session */
+	/** Value must be less than or equal to the one stored in the attribute */
 	EOS_CO_LESSTHANOREQUAL = 5,
 	/** Prefer values nearest the one specified ie. abs(SearchValue-SessionValue) closest to 0 */
 	EOS_CO_DISTANCE = 6,
-	/** Value stored on the lobby/session may be any from a specified list */
+	/** Value stored in the attribute may be any from a specified list */
 	EOS_CO_ANYOF = 7,
-	/** Value stored on the lobby/session may NOT be any from a specified list */
+	/** Value stored in the attribute may NOT be any from a specified list */
 	EOS_CO_NOTANYOF = 8,
-	/** This one value is a part of a collection */
+	/** This one value is a part of a collection. Supported in EOS_SessionSearch_SetParameter only. */
 	EOS_CO_ONEOF = 9,
-	/** This one value is NOT part of a collection */
+	/** This one value is NOT part of a collection. Supported in EOS_SessionSearch_SetParameter only. */
 	EOS_CO_NOTONEOF = 10,
-	/** This value is a CASE SENSITIVE substring of an attribute stored on the lobby/session */
-	EOS_CO_CONTAINS = 11
+	/** This value is a CASE SENSITIVE substring of an attribute */
+	EOS_CO_CONTAINS = 11,
+	/** This value is a regex match of an attribute */
+	EOS_CO_REGEXMATCH = 12,
+	/** This array or string value's size must be equal to the one stored in the attribute */
+	EOS_CO_SIZE = 13
 );
 
 typedef EOS_EComparisonOp EOS_EOnlineComparisonOp;
+
+/**
+ * The EOS Logical Combine Operator.
+ */
+EOS_ENUM(EOS_ELogicalCombineOp,
+	/** The AND operator used to logically combine comparison operations. */
+	EOS_LCO_AND,
+	/** The OR operator used to logically combine comparison operations. */
+	EOS_LCO_OR
+);
 
 /**
  * All supported external account providers
@@ -409,6 +423,8 @@ EOS_ENUM(EOS_EExternalCredentialType,
 	 * This is the common Nintendo account that users login with outside the Nintendo Switch device.
 	 *
 	 * Supported with EOS_Auth_Login, EOS_Connect_Login.
+	 * 
+	 * Note: EOS_Auth_Login usage is restricted to Epic first party products only, attempting to use it will result in authentication failures.
 	 */
 	EOS_ECT_NINTENDO_ID_TOKEN = 6,
 	/**
@@ -430,10 +446,14 @@ EOS_ENUM(EOS_EExternalCredentialType,
 	 * progression if it is only associated with this account type.
 	 *
 	 * Supported with EOS_Auth_Login, EOS_Connect_Login.
+	 * 
+	 * Note: EOS_Auth_Login usage is restricted to Epic first party products only, attempting to use it will result in authentication failures.
 	 */
 	EOS_ECT_NINTENDO_NSA_ID_TOKEN = 7,
 	/**
 	 * Uplay Access Token
+	 * 
+	 * Supported with EOS_Connect_Login.
 	 */
 	EOS_ECT_UPLAY_ACCESS_TOKEN = 8,
 	/**
@@ -556,15 +576,18 @@ EOS_ENUM(EOS_EExternalCredentialType,
  * This type is used to distinguish between different supported integrated platforms.
  * Integrated platforms which are common across multiple host platforms will be defined here.
  */
-EXTERN_C typedef const char* EOS_IntegratedPlatformType;
+EOS_EXTERN_C typedef const char* EOS_IntegratedPlatformType;
 /** A macro to identify an unknown integrated platform. */
 #define EOS_IPT_Unknown (const char*)NULL
 
 /** This type is used to distinguish between different online platforms. */
-EXTERN_C typedef uint32_t EOS_OnlinePlatformType;
+EOS_EXTERN_C typedef uint32_t EOS_OnlinePlatformType;
 
 #define EOS_OPT_Unknown 0
 #define EOS_OPT_Epic 100
+#define EOS_OPT_PSN 1000
+#define EOS_OPT_Nintendo 2000
+#define EOS_OPT_XBL 3000
 #define EOS_OPT_Steam 4000
 
 #pragma pack(pop)

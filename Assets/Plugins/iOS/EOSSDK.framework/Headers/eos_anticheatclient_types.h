@@ -7,7 +7,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_AntiCheatClientHandle* EOS_HAntiCheatClient;
+EOS_EXTERN_C typedef struct EOS_AntiCheatClientHandle* EOS_HAntiCheatClient;
 
 /** Operating modes */
 EOS_ENUM(EOS_EAntiCheatClientMode,
@@ -50,7 +50,7 @@ EOS_ENUM(EOS_EAntiCheatClientViolationType,
 	EOS_ACCVT_ForbiddenToolDetected = 11,
 	/** An internal anti-cheat integrity check failed */
 	EOS_ACCVT_InternalAntiCheatViolation = 12,
-	/** Integrity checks on messages between the game client and game server failed */
+	/** Integrity checks on messages between the game client and game server, or between peers, failed */
 	EOS_ACCVT_CorruptedNetworkMessageFlow = 13,
 	/** The game is running inside a disallowed virtual machine */
 	EOS_ACCVT_VirtualMachineNotAllowed = 14,
@@ -178,6 +178,12 @@ EOS_STRUCT(EOS_AntiCheatClient_BeginSessionOptions, (
 #define EOS_ANTICHEATCLIENT_ENDSESSION_API_LATEST 1
 EOS_STRUCT(EOS_AntiCheatClient_EndSessionOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_ENDSESSION_API_LATEST. */
+	int32_t ApiVersion;
+));
+
+#define EOS_ANTICHEATCLIENT_RESERVED01_API_LATEST 1
+EOS_STRUCT(EOS_AntiCheatClient_Reserved01Options, (
+	/** API Version: Set this to EOS_ANTICHEATCLIENT_RESERVED01_API_LATEST. */
 	int32_t ApiVersion;
 ));
 

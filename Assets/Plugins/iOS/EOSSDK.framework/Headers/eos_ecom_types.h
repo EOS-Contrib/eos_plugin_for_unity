@@ -6,7 +6,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_EcomHandle* EOS_HEcom;
+EOS_EXTERN_C typedef struct EOS_EcomHandle* EOS_HEcom;
 
 /**
  * This handle is copied when EOS_Ecom_CopyTransactionById or EOS_Ecom_CopyTransactionByIndex is called.
@@ -18,14 +18,14 @@ EXTERN_C typedef struct EOS_EcomHandle* EOS_HEcom;
  * @see EOS_Ecom_CopyTransactionByIndex
  * @see EOS_Ecom_Transaction_Release
  */
-EXTERN_C typedef struct EOS_Ecom_TransactionHandle* EOS_Ecom_HTransaction;
+EOS_EXTERN_C typedef struct EOS_Ecom_TransactionHandle* EOS_Ecom_HTransaction;
 
 /**
  * A unique identifier for a catalog item defined and stored with the backend catalog service.
  * A catalog item represents a distinct object within the catalog.  When acquired by an account, an
  * entitlement is granted that references a specific catalog item.
  */
-EXTERN_C typedef const char* EOS_Ecom_CatalogItemId;
+EOS_EXTERN_C typedef const char* EOS_Ecom_CatalogItemId;
 
 /**
  * A unique identifier for a catalog offer defined and stored with the backend catalog service.
@@ -33,7 +33,7 @@ EXTERN_C typedef const char* EOS_Ecom_CatalogItemId;
  * could be 0).  When an offer is purchased an entitlement is granted for each of the items
  * referenced by the offer.
  */
-EXTERN_C typedef const char* EOS_Ecom_CatalogOfferId;
+EOS_EXTERN_C typedef const char* EOS_Ecom_CatalogOfferId;
 
 /**
  * An identifier which is defined on a catalog item and stored with the backend catalog service.
@@ -43,7 +43,7 @@ EXTERN_C typedef const char* EOS_Ecom_CatalogOfferId;
  *
  * @see EOS_Ecom_QueryEntitlements
  */
-EXTERN_C typedef const char* EOS_Ecom_EntitlementName;
+EOS_EXTERN_C typedef const char* EOS_Ecom_EntitlementName;
 
 /**
  * A unique identifier for an entitlement owned by an account.  An entitlement is always associated
@@ -53,14 +53,14 @@ EXTERN_C typedef const char* EOS_Ecom_EntitlementName;
  * @see EOS_Ecom_QueryEntitlements
  * @see EOS_Ecom_RedeemEntitlements
  */
-EXTERN_C typedef const char* EOS_Ecom_EntitlementId;
+EOS_EXTERN_C typedef const char* EOS_Ecom_EntitlementId;
 
 /**
  * A unique identifier for the Sandbox.
  * 
  * @see EOS_Ecom_QueryOwnershipBySandboxIds
  */
-EXTERN_C typedef const char* EOS_Ecom_SandboxId;
+EOS_EXTERN_C typedef const char* EOS_Ecom_SandboxId;
 
 /**
  * An enumeration of the different ownership statuses.
@@ -86,6 +86,18 @@ EOS_ENUM(EOS_EEcomItemType,
 	EOS_EIT_Consumable = 1,
 	/** This entitlement has a type that is not currently intended for an in-game store. */
 	EOS_EIT_Other = 2
+);
+
+/**
+ * An enumeration defining the possible orientation for the checkout page. This will be used on mobile.
+ */
+EOS_ENUM(EOS_ECheckoutOrientation,
+	/** Current orientation will be used */
+	EOS_ECO_Default = 0,
+	/** Portrait orientation */
+	EOS_ECO_Portrait = 1,
+	/** Landscape orientation */
+	EOS_ECO_Landscape = 2
 );
 
 /** The most recent version of the EOS_Ecom_Entitlement struct. */
@@ -514,7 +526,7 @@ EOS_STRUCT(EOS_Ecom_QueryOwnershipTokenCallbackInfo, (
 EOS_DECLARE_CALLBACK(EOS_Ecom_OnQueryOwnershipTokenCallback, const EOS_Ecom_QueryOwnershipTokenCallbackInfo* Data);
 
 /** The most recent version of the EOS_Ecom_QueryEntitlements API. */
-#define EOS_ECOM_QUERYENTITLEMENTS_API_LATEST 2
+#define EOS_ECOM_QUERYENTITLEMENTS_API_LATEST 3
 
 /**
  * The maximum number of entitlements that may be queried in a single QueryEntitlements API call.
@@ -535,6 +547,8 @@ EOS_STRUCT(EOS_Ecom_QueryEntitlementsOptions, (
 	uint32_t EntitlementNameCount;
 	/** If true, Entitlements that have been redeemed will be included in the results. */
 	EOS_Bool bIncludeRedeemed;
+	/** If not provided then the SandboxId is used as the catalog namespace */
+	const char* OverrideCatalogNamespace;
 ));
 
 /**
@@ -629,7 +643,7 @@ EOS_DECLARE_CALLBACK(EOS_Ecom_OnQueryOffersCallback, const EOS_Ecom_QueryOffersC
 
 
 /** The most recent version of the EOS_Ecom_Checkout API. */
-#define EOS_ECOM_CHECKOUT_API_LATEST 1
+#define EOS_ECOM_CHECKOUT_API_LATEST 2
 
 /** The maximum number of entries in a single checkout. */
 #define EOS_ECOM_CHECKOUT_MAX_ENTRIES 10
@@ -650,6 +664,13 @@ EOS_STRUCT(EOS_Ecom_CheckoutOptions, (
 	uint32_t EntryCount;
 	/** An array of EOS_Ecom_CheckoutEntry elements, each containing the details of a single offer */
 	const EOS_Ecom_CheckoutEntry* Entries;
+	/**
+	 * Preferred device orientation, specifies Default, Portrait or Landscape.
+	 * This is used only on mobile platforms currently.
+	 * SDK can use it to optimize how the Checkout page should be displayed.
+	 * Please check the mobile SDK documentation for additional required setup.
+	 */
+	EOS_ECheckoutOrientation PreferredOrientation;
 ));
 
 /**

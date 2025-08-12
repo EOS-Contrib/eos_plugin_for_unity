@@ -286,7 +286,7 @@ EOS_DECLARE_CALLBACK(EOS_IntegratedPlatform_OnUserLoginStatusChangedCallback, co
 
 /**
  * Input parameters for the EOS_IntegratedPlatform_SetUserPreLogoutCallback function.
- */
+  */
 EOS_STRUCT(EOS_IntegratedPlatform_SetUserPreLogoutCallbackOptions, (
 	/** API Version: Set this to EOS_INTEGRATEDPLATFORM_SETUSERPRELOGOUTCALLBACK_API_LATEST. */
 	int32_t ApiVersion;
@@ -363,13 +363,13 @@ EOS_STRUCT(EOS_IntegratedPlatform_FinalizeDeferredUserLogoutOptions, (
 	/** String version of the integrated platform-dependent user id. */
 	const char* LocalPlatformUserId;
 
-	/**
+/**
 	 * The logged-in state the user is expected to be (EOS_LS_LoggedIn or EOS_LS_NotLoggedIn). If the provided
 	 * state does not match internal EOS state, this function will return in failure. If the state is incorrect,
 	 * the application should wait and attempt to call the function again next tick, after both updating its own
 	 * state from the system and calling EOS_Platform_Tick, allowing the SDK to update its state from the system
 	 * as well.
-	 */
+ */
 	EOS_ELoginStatus ExpectedLoginStatus;
 ));
 
