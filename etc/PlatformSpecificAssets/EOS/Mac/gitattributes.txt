@@ -1,0 +1,4 @@
+text eol=lf
+Info.plist text
+CodeResources text
+

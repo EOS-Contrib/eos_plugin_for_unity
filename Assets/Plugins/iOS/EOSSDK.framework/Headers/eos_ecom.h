@@ -53,6 +53,7 @@ EOS_DECLARE_FUNC(void) EOS_Ecom_QueryOwnershipToken(EOS_HEcom Handle, const EOS_
  * Note: If one of the request batches fails, no data is cached and the entire query is marked as failed.
  * Use EOS_Ecom_CopyEntitlementByIndex, EOS_Ecom_CopyEntitlementByNameAndIndex, and EOS_Ecom_CopyEntitlementById to get the entitlement details.
  * Use EOS_Ecom_GetEntitlementsByNameCount to retrieve the number of entitlements with a specific entitlement name.
+ * Note: If a durable item is queried used the QueryEntitlements API, the callback returns with a EOS_InvalidRequest result code. Durable item ownership should be queried using the EOS_Ecom_QueryOwnership API.
  *
  * @param Options structure containing the account and entitlement names to retrieve
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate

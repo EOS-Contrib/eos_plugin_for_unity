@@ -4,16 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Epic.OnlineServices
 {
-	//
 	// In earlier versions of .NET and some versions of unity, IntPtr is not equatable and therefore cannot be used as a key
 	// for dictionaries without causing memory allocations when comparing two IntPtr.
 	// We therefore have to fall back on using an long int representation of pointers.
-	//
-	using PointerType = System.UInt64;
+	using PointerType = UInt64;
 
 	internal class AllocationException : Exception
 	{
@@ -25,24 +22,24 @@ namespace Epic.OnlineServices
 
 	internal class ExternalAllocationException : AllocationException
 	{
-		public ExternalAllocationException(IntPtr address, Type type)
-			: base(string.Format("Attempting to allocate '{0}' over externally allocated memory at {1}", type, address.ToString("X")))
+		public ExternalAllocationException(IntPtr pointer, Type type)
+			: base(string.Format("Attempting to allocate '{0}' over externally allocated memory at {1}", type, pointer.ToString("X")))
 		{
 		}
 	}
 
 	internal class CachedTypeAllocationException : AllocationException
 	{
-		public CachedTypeAllocationException(IntPtr address, Type foundType, Type expectedType)
-			: base(string.Format("Cached allocation is '{0}' but expected '{1}' at {2}", foundType, expectedType, address.ToString("X")))
+		public CachedTypeAllocationException(IntPtr pointer, Type foundType, Type expectedType)
+			: base(string.Format("Cached allocation is '{0}' but expected '{1}' at {2}", foundType, expectedType, pointer.ToString("X")))
 		{
 		}
 	}
 
 	internal class CachedArrayAllocationException : AllocationException
 	{
-		public CachedArrayAllocationException(IntPtr address, int foundLength, int expectedLength)
-			: base(string.Format("Cached array allocation has length {0} but expected {1} at {2}", foundLength, expectedLength, address.ToString("X")))
+		public CachedArrayAllocationException(IntPtr pointer, int foundLength, int expectedLength)
+			: base(string.Format("Cached array allocation has length {0} but expected {1} at {2}", foundLength, expectedLength, pointer.ToString("X")))
 		{
 		}
 	}
@@ -90,16 +87,12 @@ namespace Epic.OnlineServices
 
 		private class DelegateHolder
 		{
-			public Delegate Public { get; private set; }
-			public Delegate Private { get; private set; }
-			public Delegate[] StructDelegates { get; private set; }
+			public List<Delegate> Delegates { get; private set; } = new List<Delegate>();
 			public ulong? NotificationId { get; set; }
 
-			public DelegateHolder(Delegate publicDelegate, Delegate privateDelegate, params Delegate[] structDelegates)
+			public DelegateHolder(params Delegate[] delegates)
 			{
-				Public = publicDelegate;
-				Private = privateDelegate;
-				StructDelegates = structDelegates;
+				Delegates.AddRange(delegates.Where(d => d != null));
 			}
 		}
 
@@ -137,25 +130,21 @@ namespace Epic.OnlineServices
 
 		internal static void Dispose(ref IntPtr value)
 		{
+			RemoveCallback(value);
 			RemoveAllocation(ref value);
 			RemovePinnedBuffer(ref value);
+			value = default;
+		}
+
+		internal static void Dispose(ref IDisposable disposable)
+		{
+			disposable?.Dispose();
 		}
 
 		internal static void Dispose<TDisposable>(ref TDisposable disposable)
-			where TDisposable : IDisposable
+			where TDisposable : struct, IDisposable
 		{
-			if (typeof(TDisposable).IsValueType || disposable != null)
-			{
-				disposable.Dispose();
-			}
-		}
-
-		internal static void Dispose<TEnum>(ref IntPtr value, TEnum currentEnum, TEnum expectedEnum)
-		{
-			if ((int)(object)currentEnum == (int)(object)expectedEnum)
-			{
-				Dispose(ref value);
-			}
+			disposable.Dispose();
 		}
 
 		private static int GetAnsiStringLength(byte[] bytes)
@@ -174,25 +163,19 @@ namespace Epic.OnlineServices
 			return length;
 		}
 
-		private static int GetAnsiStringLength(IntPtr address)
+		private static int GetAnsiStringLength(IntPtr pointer)
 		{
 			int length = 0;
-			while (Marshal.ReadByte(address, length) != 0)
+			while (Marshal.ReadByte(pointer, length) != 0)
 			{
 				++length;
 			}
 
 			return length;
 		}
-
-		internal static T GetDefault<T>()
-		{
-			return default(T);
-		}
-
 		private static void GetAllocation<T>(IntPtr source, out T target)
 		{
-			target = GetDefault<T>();
+			target = default;
 
 			if (source == IntPtr.Zero)
 			{
@@ -222,7 +205,7 @@ namespace Epic.OnlineServices
 		private static void GetAllocation<T>(IntPtr source, out T? target)
 			where T : struct
 		{
-			target = GetDefault<T?>();
+			target = default;
 
 			if (source == IntPtr.Zero)
 			{
@@ -247,7 +230,14 @@ namespace Epic.OnlineServices
 				}
 			}
 
-			target = (T?)Marshal.PtrToStructure(source, typeof(T));
+			if (typeof(T).IsEnum)
+			{
+				target = (T)Marshal.PtrToStructure(source, Enum.GetUnderlyingType(typeof(T)));
+			}
+			else
+			{
+				target = (T?)Marshal.PtrToStructure(source, typeof(T));
+			}
 		}
 
 		private static void GetAllocation<THandle>(IntPtr source, out THandle[] target, int arrayLength)
@@ -292,10 +282,10 @@ namespace Epic.OnlineServices
 			List<THandle> items = new List<THandle>();
 			for (int itemIndex = 0; itemIndex < arrayLength; ++itemIndex)
 			{
-				IntPtr itemAddress = new IntPtr(source.ToInt64() + itemIndex * itemSize);
-				itemAddress = Marshal.ReadIntPtr(itemAddress);
+				IntPtr itemPointer = new IntPtr(source.ToInt64() + itemIndex * itemSize);
+				itemPointer = Marshal.ReadIntPtr(itemPointer);
 				THandle item;
-				Convert(itemAddress, out item);
+				Convert(itemPointer, out item);
 				items.Add(item);
 			}
 
@@ -350,23 +340,23 @@ namespace Epic.OnlineServices
 			List<T> items = new List<T>();
 			for (int itemIndex = 0; itemIndex < arrayLength; ++itemIndex)
 			{
-				IntPtr itemAddress = new IntPtr(from.ToInt64() + itemIndex * itemSize);
+				IntPtr itemPointer = new IntPtr(from.ToInt64() + itemIndex * itemSize);
 
 				if (isArrayItemAllocated)
 				{
-					itemAddress = Marshal.ReadIntPtr(itemAddress);
+					itemPointer = Marshal.ReadIntPtr(itemPointer);
 				}
 
 				T item;
 				if (typeof(T) == typeof(Utf8String))
 				{
 					Utf8String str;
-					GetAllocation(itemAddress, out str);
+					GetAllocation(itemPointer, out str);
 					item = (T)(object)(str);
 				}
 				else
 				{
-					GetAllocation(itemAddress, out item);
+					GetAllocation(itemPointer, out item);
 				}
 				items.Add(item);
 			}
@@ -400,15 +390,15 @@ namespace Epic.OnlineServices
 				return IntPtr.Zero;
 			}
 
-			IntPtr address = Marshal.AllocHGlobal(size);
-			Marshal.WriteByte(address, 0, 0);
+			IntPtr pointer = Marshal.AllocHGlobal(size);
+			Marshal.WriteByte(pointer, 0, 0);
 
 			lock (s_Allocations)
 			{
-				s_Allocations.Add((PointerType) address, new Allocation(size, null));
+				s_Allocations.Add((PointerType)pointer, new Allocation(size, null));
 			}
 
-			return address;
+			return pointer;
 		}
 
 		internal static IntPtr AddAllocation(uint size)
@@ -423,15 +413,15 @@ namespace Epic.OnlineServices
 				return IntPtr.Zero;
 			}
 
-			IntPtr address = Marshal.AllocHGlobal(size);
-			Marshal.StructureToPtr(cache, address, false);
+			IntPtr pointer = Marshal.AllocHGlobal(size);
+			Marshal.StructureToPtr(cache, pointer, false);
 
 			lock (s_Allocations)
 			{
-				s_Allocations.Add((PointerType) address, new Allocation(size, cache));
+				s_Allocations.Add((PointerType)pointer, new Allocation(size, cache));
 			}
 
-			return address;
+			return pointer;
 		}
 
 		private static IntPtr AddAllocation<T>(int size, T[] cache, bool? isArrayItemAllocated)
@@ -441,15 +431,15 @@ namespace Epic.OnlineServices
 				return IntPtr.Zero;
 			}
 
-			IntPtr address = Marshal.AllocHGlobal(size);
-			Marshal.WriteByte(address, 0, 0);
+			IntPtr pointer = Marshal.AllocHGlobal(size);
+			Marshal.WriteByte(pointer, 0, 0);
 
 			lock (s_Allocations)
 			{
-				s_Allocations.Add((PointerType) address, new Allocation(size, cache, isArrayItemAllocated));
+				s_Allocations.Add((PointerType)pointer, new Allocation(size, cache, isArrayItemAllocated));
 			}
 
-			return address;
+			return pointer;
 		}
 
 		private static IntPtr AddAllocation<T>(T[] array, bool isArrayItemAllocated)
@@ -460,7 +450,7 @@ namespace Epic.OnlineServices
 			}
 
 			int itemSize;
-			if (isArrayItemAllocated)
+			if (isArrayItemAllocated || typeof(T).BaseType == typeof(Handle))
 			{
 				itemSize = Marshal.SizeOf(typeof(IntPtr));
 			}
@@ -469,7 +459,7 @@ namespace Epic.OnlineServices
 				itemSize = Marshal.SizeOf(typeof(T));
 			}
 
-			IntPtr newArrayAddress = AddAllocation(array.Length * itemSize, array, isArrayItemAllocated);
+			IntPtr newArrayPointer = AddAllocation(array.Length * itemSize, array, isArrayItemAllocated);
 
 			for (int itemIndex = 0; itemIndex < array.Length; ++itemIndex)
 			{
@@ -477,38 +467,43 @@ namespace Epic.OnlineServices
 
 				if (isArrayItemAllocated)
 				{
-					IntPtr newItemAddress;
+					IntPtr newItemPointer;
 					if (typeof(T) == typeof(Utf8String))
 					{
-						newItemAddress = AddPinnedBuffer((Utf8String)(object)item);
-					}
-					else if (typeof(T).BaseType == typeof(Handle))
-					{
-						Convert((Handle)(object)item, out newItemAddress);
+						newItemPointer = AddPinnedBuffer((Utf8String)(object)item);
 					}
 					else
 					{
-						newItemAddress = AddAllocation(Marshal.SizeOf(typeof(T)), item);
+						newItemPointer = AddAllocation(Marshal.SizeOf(typeof(T)), item);
 					}
 
-					// Copy the item's address into the array
-					IntPtr itemAddress = new IntPtr(newArrayAddress.ToInt64() + itemIndex * itemSize);
-					Marshal.StructureToPtr(newItemAddress, itemAddress, false);
+					// Copy the item's pointer into the array
+					IntPtr itemPointer = new IntPtr(newArrayPointer.ToInt64() + itemIndex * itemSize);
+					Marshal.StructureToPtr(newItemPointer, itemPointer, false);
 				}
 				else
 				{
 					// Copy the data straight into memory
-					IntPtr itemAddress = new IntPtr(newArrayAddress.ToInt64() + itemIndex * itemSize);
-					Marshal.StructureToPtr(item, itemAddress, false);
+					IntPtr itemPointer = new IntPtr(newArrayPointer.ToInt64() + itemIndex * itemSize);
+					if (typeof(T).BaseType == typeof(Handle))
+					{
+						IntPtr newItemPointer;
+						Convert((Handle)(object)item, out newItemPointer);
+						Marshal.StructureToPtr(newItemPointer, itemPointer, false);
+					}
+					else
+					{
+						Marshal.StructureToPtr(item, itemPointer, false);
+					}
 				}
 			}
 
-			return newArrayAddress;
+			return newArrayPointer;
 		}
 
-		private static void RemoveAllocation(ref IntPtr address)
+		private static void RemoveAllocation(ref IntPtr pointer)
 		{
-			if (address == IntPtr.Zero)
+			if (pointer == IntPtr.Zero)
 			{
 				return;
 			}
@@ -516,19 +511,19 @@ namespace Epic.OnlineServices
 			Allocation allocation;
 			lock (s_Allocations)
 			{
-				if (!s_Allocations.TryGetValue((PointerType) address, out allocation))
+				if (!s_Allocations.TryGetValue((PointerType)pointer, out allocation))
 				{
 					return;
 				}
 
-				s_Allocations.Remove((PointerType) address);
+				s_Allocations.Remove((PointerType)pointer);
 			}
 
 			// If the allocation is an array, dispose and release its items as needbe.
 			if (allocation.IsArrayItemAllocated.HasValue)
 			{
 				int itemSize;
-				if (allocation.IsArrayItemAllocated.Value)
+				if (allocation.IsArrayItemAllocated.Value || allocation.Cache.GetType().GetElementType().BaseType == typeof(Handle))
 				{
 					itemSize = Marshal.SizeOf(typeof(IntPtr));
 				}
@@ -542,9 +537,9 @@ namespace Epic.OnlineServices
 				{
 					if (allocation.IsArrayItemAllocated.Value)
 					{
-						var itemAddress = new IntPtr(address.ToInt64() + itemIndex * itemSize);
-						itemAddress = Marshal.ReadIntPtr(itemAddress);
-						Dispose(ref itemAddress);
+						var itemPointer = new IntPtr(pointer.ToInt64() + itemIndex * itemSize);
+						itemPointer = Marshal.ReadIntPtr(itemPointer);
+						Dispose(ref itemPointer);
 					}
 					else
 					{
@@ -570,18 +565,18 @@ namespace Epic.OnlineServices
 				}
 			}
 
-			Marshal.FreeHGlobal(address);
-			address = IntPtr.Zero;
+			Marshal.FreeHGlobal(pointer);
+			pointer = IntPtr.Zero;
 		}
 
-		private static bool TryGetAllocationCache(IntPtr address, out object cache)
+		private static bool TryGetAllocationCache(IntPtr pointer, out object cache)
 		{
 			cache = null;
 
 			lock (s_Allocations)
 			{
 				Allocation allocation;
-				if (s_Allocations.TryGetValue((PointerType) address, out allocation))
+				if (s_Allocations.TryGetValue((PointerType)pointer, out allocation))
 				{
 					cache = allocation.Cache;
 					return true;
@@ -599,24 +594,24 @@ namespace Epic.OnlineServices
 			}
 
 			GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
-			PointerType address = (PointerType) Marshal.UnsafeAddrOfPinnedArrayElement(buffer, offset);
+			PointerType pointer = (PointerType) Marshal.UnsafeAddrOfPinnedArrayElement(buffer, offset);
 
 			lock (s_PinnedBuffers)
 			{
 				// If the item is already pinned, increase the reference count.
-				if (s_PinnedBuffers.ContainsKey(address))
+				if (s_PinnedBuffers.ContainsKey(pointer))
 				{
 					// Since this is a structure, need to copy to modify the element.
-					PinnedBuffer pinned = s_PinnedBuffers[address];
+					PinnedBuffer pinned = s_PinnedBuffers[pointer];
 					pinned.RefCount++;
-					s_PinnedBuffers[address] = pinned;
+					s_PinnedBuffers[pointer] = pinned;
 				}
 				else
 				{
-					s_PinnedBuffers.Add(address, new PinnedBuffer(handle));
+					s_PinnedBuffers.Add(pointer, new PinnedBuffer(handle));
 				}
 
-				return (IntPtr) address;
+				return (IntPtr)pointer;
 			}
 		}
 
@@ -640,9 +635,19 @@ namespace Epic.OnlineServices
 			return AddPinnedBuffer(array.Array, array.Offset);
 		}
 
-		private static void RemovePinnedBuffer(ref IntPtr address)
+		internal static IntPtr AddPinnedBuffer(byte[] array)
 		{
-			if (address == IntPtr.Zero)
+			if (array == null)
+			{
+				return IntPtr.Zero;
+			}
+
+			return AddPinnedBuffer(array, 0);
+		}
+
+		private static void RemovePinnedBuffer(ref IntPtr pointer)
+		{
+			if (pointer == IntPtr.Zero)
 			{
 				return;
 			}
@@ -650,8 +655,8 @@ namespace Epic.OnlineServices
 			lock (s_PinnedBuffers)
 			{
 				PinnedBuffer pinnedBuffer;
-				PointerType addressKey = (PointerType) address;
-				if (s_PinnedBuffers.TryGetValue(addressKey, out pinnedBuffer))
+				PointerType pointerKey = (PointerType)pointer;
+				if (s_PinnedBuffers.TryGetValue(pointerKey, out pinnedBuffer))
 				{
 					// Deref the allocation.
 					pinnedBuffer.RefCount--;
@@ -659,7 +664,7 @@ namespace Epic.OnlineServices
 					// If the reference count is zero, remove the allocation from the list of tracked allocations.
 					if (pinnedBuffer.RefCount == 0)
 					{
-						s_PinnedBuffers.Remove(addressKey);
+						s_PinnedBuffers.Remove(pointerKey);
 
 						// We only call free on the handle when the last reference has been dropped.
 						// Otherwise, the buffer is immediately unpinned despite the fact that there are still references to it.
@@ -668,12 +673,12 @@ namespace Epic.OnlineServices
 					else
 					{
 						// Copy back the structure with the decreased reference count.
-						s_PinnedBuffers[addressKey] = pinnedBuffer;
+						s_PinnedBuffers[pointerKey] = pinnedBuffer;
 					}
 				}
 			}
 
-			address = IntPtr.Zero;
+			pointer = IntPtr.Zero;
 		}
 	}
 }

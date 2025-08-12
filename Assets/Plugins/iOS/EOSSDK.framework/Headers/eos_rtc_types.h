@@ -6,7 +6,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_RTCHandle* EOS_HRTC;
+EOS_EXTERN_C typedef struct EOS_RTCHandle* EOS_HRTC;
 
 /** Participant RTC's status change */
 EOS_ENUM(EOS_ERTCParticipantStatus,
@@ -40,6 +40,12 @@ EOS_ENUM(EOS_ERTCParticipantStatus,
  */
 #define EOS_RTC_JOINROOMFLAGS_ENABLE_DATACHANNEL 0x04
 
+ /**
+  * The flag is reserved for future use.
+  *
+  * @see EOS_RTC_JoinRoomOptions::Flags
+  */
+#define EOS_RTC_JOINROOMFLAGS_RESERVED_VOICE_FEATURE 0x08
 
 /**
  * This struct is used to call EOS_RTC_JoinRoom.

@@ -50,13 +50,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// Maximum packet byte length
         /// </summary>
         /// <value><c>1170</c> due to DTLS/SCTP/UDP packet overhead.</value>
-        public const int MaxPacketSize = P2PInterface.MaxPacketSize;
+        public const int MaxPacketSize = P2PInterface.MAX_PACKET_SIZE;
 
         /// <summary>
         /// Maximum concurrent connections with any individual remote peer.
         /// </summary>
         /// <value><c>32</c></value>
-        public const int MaxConnections = P2PInterface.MaxConnections;
+        public const int MaxConnections = P2PInterface.MAX_CONNECTIONS;
 
         // Connection data, socket name must be unique within an individual remote peer.
         public class Connection : IEquatable<Connection>
