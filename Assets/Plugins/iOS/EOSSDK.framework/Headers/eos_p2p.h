@@ -54,6 +54,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_ReceivePacket(EOS_HP2P Handle, const EOS_P
 /**
  * Listen for incoming connection requests on a particular Socket ID, or optionally all Socket IDs. The bound function
  * will only be called if the connection has not already been accepted.
+ * If the network status changes from offline or disabled to online, you must call this function again.
  *
  * @param Options Information about who would like notifications, and (optionally) only for a specific socket
  * @param ClientData This value is returned to the caller when ConnectionRequestHandler is invoked
@@ -77,6 +78,7 @@ EOS_DECLARE_FUNC(void) EOS_P2P_RemoveNotifyPeerConnectionRequest(EOS_HP2P Handle
  * Listen for when a connection is established. This is fired when we first connect to a peer, when we reconnect to a peer after a connection interruption,
  * and when our underlying network connection type changes (for example, from a direct connection to relay, or vice versa). Network Connection Type changes
  * will always be broadcast with a EOS_CET_Reconnection connection type, even if the connection was not interrupted.
+ * If the network status changes from offline or disabled to online, you must call this function again.
  *
  * @param Options Information about who would like notifications about established connections, and for which socket
  * @param ClientData This value is returned to the caller when ConnectionEstablishedHandler is invoked
@@ -103,6 +105,7 @@ EOS_DECLARE_FUNC(void) EOS_P2P_RemoveNotifyPeerConnectionEstablished(EOS_HP2P Ha
  *
  * If a connection reconnects, it will trigger the P2P PeerConnectionEstablished notification with the EOS_CET_Reconnection connection type.
  * If a connection fails to reconnect, it will trigger the P2P PeerConnectionClosed notification.
+ * Packets remain queued during connection interruptions. When a connection closes, packets are flushed. This includes reliable packets.
  *
  * @param Options Information about who would like notifications about interrupted connections, and for which socket
  * @param ClientData This value is returned to the caller when ConnectionInterruptedHandler is invoked
@@ -125,7 +128,8 @@ EOS_DECLARE_FUNC(EOS_NotificationId) EOS_P2P_AddNotifyPeerConnectionInterrupted(
 EOS_DECLARE_FUNC(void) EOS_P2P_RemoveNotifyPeerConnectionInterrupted(EOS_HP2P Handle, EOS_NotificationId NotificationId);
 
 /**
- * Listen for when a previously opened connection is closed.
+ * Listen for when a previously accepted connection that was either open or pending is closed.
+ * When a connection closes, packets are flushed. This includes reliable packets.
  *
  * @param Options Information about who would like notifications about closed connections, and for which socket
  * @param ClientData This value is returned to the caller when ConnectionClosedHandler is invoked

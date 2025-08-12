@@ -52,7 +52,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #if !EOS_DISABLE
             static private PlatformInterface s_eosPlatformInterface;
 
-            public const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
+            public const string EOSBinaryName = Epic.OnlineServices.Common.LIBRARY_NAME;
 
 #if USE_EOS_GFX_PLUGIN_NATIVE_RENDER
             public const string GfxPluginNativeRenderPath =

@@ -5,6 +5,6 @@ namespace Epic.OnlineServices.RTCData
 {
 	public delegate void OnParticipantUpdatedCallback(ref ParticipantUpdatedCallbackInfo data);
 
-	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 	internal delegate void OnParticipantUpdatedCallbackInternal(ref ParticipantUpdatedCallbackInfoInternal data);
 }

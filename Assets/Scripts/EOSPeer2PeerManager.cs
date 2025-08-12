@@ -89,6 +89,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public UIPeer2PeerParticleController ParticleController;
         public Transform parent;
+        private enum PeerConnectionAppState
+        {
+            NotConnected,
+            IceConnected,
+            HandshakePending,
+            FullyConnected
+        }
+
+        private Dictionary<ProductUserId, PeerConnectionAppState> connectionStates = new();
+
+    private string Request = "hreq";
+    private string Acknowledgement = "hack";
+     private string Ping = "ping";
 
 #if UNITY_EDITOR
         void OnPlayModeChanged(UnityEditor.PlayModeStateChange modeChange)
@@ -126,7 +139,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ChatDataCache = this.ChatDataCache;
             return ChatDataCacheDirty;
         }
+        public void Initialize()
+        {
+            SubscribeToConnectionRequest();
 
+            var options = new AddNotifyPeerConnectionEstablishedOptions
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId() 
+            };
+
+            P2PHandle.AddNotifyPeerConnectionEstablished(ref options, null, OnPeerConnectionEstablished);
+
+            Debug.Log("EOSPeer2PeerManager initialized: connection listeners registered.");
+        }
         private void RefreshNATType()
         {
             var options = new QueryNATTypeOptions();
@@ -188,6 +213,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogError("EOS P2PNAT SendMessage: bad input data: account id is wrong.");
                 return;
             }
+            if (!connectionStates.TryGetValue(friendId, out var state) || state != PeerConnectionAppState.FullyConnected)
+            {
+                Debug.LogWarning($"SendMessage: Cannot send to {friendId}, not fully connected (State={state}).");
+                return;
+            }
+
             if (message.type == messageType.textMessage)
             {
                 if (string.IsNullOrEmpty(message.textData))
@@ -283,6 +314,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public ProductUserId HandleReceivedMessages()
         {
+            
+
             if (P2PHandle == null)
             {
                 return null;
@@ -330,6 +363,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 string message = System.Text.Encoding.UTF8.GetString(data);
+                // --- Handshake protocol ---
+                if (message == Request)
+                {
+                    SendHandshakeAck(peerId);
+                    connectionStates[peerId] = PeerConnectionAppState.FullyConnected;
+                    Debug.Log($"Received handshake request from {peerId}. Sending ack and setting FullyConnected.");
+                    return null;
+                }
+                else if (message == Acknowledgement)
+                {
+                    connectionStates[peerId] = PeerConnectionAppState.FullyConnected;
+                    Debug.Log($"Received handshake ack from {peerId}. Connection is now FullyConnected.");
+                    return null;
+                }
+                // --- End handshake ---
 
                 if (message.StartsWith("t"))
                 {
@@ -371,9 +419,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                     return peerId;
                 }
-
-
-
+                else if (message == Ping)
+                {
+                    Debug.Log($"EOS P2PNAT HandleReceivedMessages: received ping from {peerId}, ignoring.");
+                    return null;
+                }
                 else
                 {
                     Debug.LogErrorFormat("EOS P2PNAT HandleReceivedMessages: error while reading data, code: {0}", result);
@@ -442,11 +492,61 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             };
 
             Result result = P2PHandle.AcceptConnection(ref options);
-
+            SendHandshakeRequest(data.RemoteUserId);
             if (result != Result.Success)
             {
                 Debug.LogErrorFormat("P2p (OnIncomingConnectionRequest): error while accepting connection, code: {0}", result);
             }
         }
+        private void SendHandshakeRequest(ProductUserId remoteUserId)
+        {
+            SendRaw(remoteUserId, "hreq");
+            connectionStates[remoteUserId] = PeerConnectionAppState.HandshakePending;
+        }
+
+        private void SendHandshakeAck(ProductUserId remoteUserId)
+        {
+            SendRaw(remoteUserId, "hack");
+        }
+
+        private void SendRaw(ProductUserId remoteUserId, string rawMessage)
+        {
+            SocketId socketId = new SocketId() { SocketName = "CHAT" };
+
+            SendPacketOptions options = new SendPacketOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RemoteUserId = remoteUserId,
+                SocketId = socketId,
+                AllowDelayedDelivery = true,
+                Channel = 0,
+                Reliability = PacketReliability.ReliableOrdered,
+                Data = new ArraySegment<byte>(Encoding.UTF8.GetBytes(rawMessage))
+            };
+
+            var result = P2PHandle.SendPacket(ref options);
+            if (result != Result.Success)
+            {
+                Debug.LogError($"SendRaw failed: {result}");
+            }
+        }
+        private void OnPeerConnectionEstablished(ref OnPeerConnectionEstablishedInfo info)
+        {
+            Debug.Log($"[P2P] Connection established with {info.RemoteUserId}");
+
+            if (!connectionStates.ContainsKey(info.RemoteUserId))
+            {
+                connectionStates[info.RemoteUserId] = PeerConnectionAppState.IceConnected;
+                SendHandshakeRequest(info.RemoteUserId);
+                connectionStates[info.RemoteUserId] = PeerConnectionAppState.HandshakePending;
+            }
+        }
+        public void SendTrigger(ProductUserId peerId)
+        {
+            if (!peerId.IsValid()) return;
+            string trigger = "ping";
+            SendRaw(peerId, trigger);
+        }
     }
+
 }
