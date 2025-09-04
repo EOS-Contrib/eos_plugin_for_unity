@@ -17,7 +17,7 @@
  *
  * If the lobby is successfully created with an RTC Room enabled, the lobby system will automatically join and maintain the connection to the RTC room as long as the
  * local user remains in the lobby. Applications can use the EOS_Lobby_GetRTCRoomName to get the name of the RTC Room associated with a lobby, which may be used with
- * many of the EOS_RTC_* suite of functions. This can be useful to: register for notifications for talking status; to mute or unmute the local user's audio output;
+ * many of the functions in the RTC interface. This can be useful to: register for notifications for talking status; to mute or unmute the local user's audio output;
  * to block or unblock room participants; to set local audio device settings; and more.
  *
  * @param Options Required fields for the creation of a lobby such as a user count and its starting advertised state
@@ -49,7 +49,7 @@ EOS_DECLARE_FUNC(void) EOS_Lobby_DestroyLobby(EOS_HLobby Handle, const EOS_Lobby
  *
  * If the lobby is successfully join has an RTC Room enabled, the lobby system will automatically join and maintain the connection to the RTC room as long as the
  * local user remains in the lobby. Applications can use the EOS_Lobby_GetRTCRoomName to get the name of the RTC Room associated with a lobby, which may be used with
- * many of the EOS_RTC_* suite of functions. This can be useful to: register for notifications for talking status; to mute or unmute the local user's audio output;
+ * many of the functions in the RTC interface. This can be useful to: register for notifications for talking status; to mute or unmute the local user's audio output;
  * to block or unblock room participants; to set local audio device settings; and more.
  *
  * @param Options Structure containing information about the lobby to be joined

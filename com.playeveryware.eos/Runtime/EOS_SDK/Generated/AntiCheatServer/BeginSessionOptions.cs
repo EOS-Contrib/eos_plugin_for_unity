@@ -6,11 +6,16 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatServer
 {
+	/// <summary>
+	/// Input parameters for the <see cref="AntiCheatServerInterface.BeginSession" /> function.
+	/// </summary>
 	public struct BeginSessionOptions
 	{
 		/// <summary>
 		/// Time in seconds to allow newly registered clients to complete anti-cheat authentication.
 		/// Recommended value: 60
+		/// Minimum value: <see cref="AntiCheatServerInterface.BEGINSESSION_MIN_REGISTERTIMEOUT" />
+		/// Maximum value: <see cref="AntiCheatServerInterface.BEGINSESSION_MAX_REGISTERTIMEOUT" />
 		/// </summary>
 		public uint RegisterTimeoutSeconds { get; set; }
 

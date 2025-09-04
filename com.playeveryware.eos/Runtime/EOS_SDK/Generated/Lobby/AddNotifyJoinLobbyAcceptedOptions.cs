@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.Lobby
 {
+	/// <summary>
+	/// Input parameters for the <see cref="LobbyInterface.AddNotifyJoinLobbyAccepted" /> function.
+	/// </summary>
 	public struct AddNotifyJoinLobbyAcceptedOptions
 	{
 		

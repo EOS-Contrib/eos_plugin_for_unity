@@ -76,7 +76,10 @@ EOS_STRUCT(EOS_RTC_JoinRoomOptions, (
 	EOS_Bool bManualAudioOutputEnabled;
 ));
 
+/** The maximum size of the Key string in the EOS_RTC_Option struct. */
 #define EOS_RTC_OPTION_KEY_MAXCHARCOUNT 256
+
+/** The maximum size of the Value string in the EOS_RTC_Option struct. */
 #define EOS_RTC_OPTION_VALUE_MAXCHARCOUNT 256
 
 /** The most recent version of the EOS_RTC_Option struct. */
@@ -244,9 +247,17 @@ EOS_STRUCT(EOS_RTC_DisconnectedCallbackInfo, (
 	const char* RoomName;
 ));
 
+/**
+ * Function prototype definition for notifications that come from EOS_RTC_AddNotifyDisconnected
+ *
+ * @param Data A EOS_RTC_DisconnectedCallbackInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_RTC_OnDisconnectedCallback, const EOS_RTC_DisconnectedCallbackInfo* Data);
 
+/** The maximum size of the Key string in the EOS_RTC_ParticipantMetadata struct. */
 #define EOS_RTC_PARTICIPANTMETADATA_KEY_MAXCHARCOUNT 256
+
+/** The maximum size of the Value string in the EOS_RTC_ParticipantMetadata struct. */
 #define EOS_RTC_PARTICIPANTMETADATA_VALUE_MAXCHARCOUNT 256
 
 /** The most recent version of the EOS_RTC_ParticipantMetadata struct. */
@@ -311,6 +322,11 @@ EOS_STRUCT(EOS_RTC_ParticipantStatusChangedCallbackInfo, (
 	EOS_Bool bParticipantInBlocklist;
 ));
 
+/**
+ * Function prototype definition for notifications that come from EOS_RTC_AddNotifyParticipantStatusChanged
+ *
+ * @param Data A EOS_RTC_ParticipantStatusChangedCallbackInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_RTC_OnParticipantStatusChangedCallback, const EOS_RTC_ParticipantStatusChangedCallbackInfo* Data);
 
 
@@ -399,6 +415,11 @@ EOS_STRUCT(EOS_RTC_RoomStatisticsUpdatedInfo, (
 	const char* Statistic;
 ));
 
+/**
+ * Function prototype definition for notifications that come from EOS_RTC_AddNotifyRoomStatisticsUpdated
+ *
+ * @param Data A EOS_RTC_RoomStatisticsUpdatedInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_RTC_OnRoomStatisticsUpdatedCallback, const EOS_RTC_RoomStatisticsUpdatedInfo* Data);
 
 #pragma pack(pop)

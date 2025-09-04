@@ -15,11 +15,29 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 		{
 		}
 
+		/// <summary>
+		/// The most recent version of the <see cref="AddProgression" /> API.
+		/// </summary>
 		public const int ADDPROGRESSION_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="BeginSnapshot" /> API.
+		/// </summary>
 		public const int BEGINSNAPSHOT_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="DeleteSnapshot" /> API.
+		/// </summary>
 		public const int DELETESNAPSHOT_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="EndSnapshot" /> API.
+		/// </summary>
 		public const int ENDSNAPSHOT_API_LATEST = 1;
+		/// <summary>
+		/// An invalid ProgressionSnapshot Id.
+		/// </summary>
 		public const int INVALID_PROGRESSIONSNAPSHOTID = 0;
+		/// <summary>
+		/// The most recent version of the <see cref="SubmitSnapshot" /> API.
+		/// </summary>
 		public const int SUBMITSNAPSHOT_API_LATEST = 1;
 
 		/// <summary>

@@ -19,9 +19,21 @@ namespace Epic.OnlineServices.Presence
 		/// The most recent version of the <see cref="AddNotifyJoinGameAccepted" /> API.
 		/// </summary>
 		public const int ADDNOTIFYJOINGAMEACCEPTED_API_LATEST = 2;
+		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyOnPresenceChanged" /> API.
+		/// </summary>
 		public const int ADDNOTIFYONPRESENCECHANGED_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="CopyPresence" /> API.
+		/// </summary>
 		public const int COPYPRESENCE_API_LATEST = 3;
+		/// <summary>
+		/// The most recent version of the <see cref="CreatePresenceModification" /> API.
+		/// </summary>
 		public const int CREATEPRESENCEMODIFICATION_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="DataRecord" /> API.
+		/// </summary>
 		public const int DATARECORD_API_LATEST = 1;
 		/// <summary>
 		/// The maximum of allowed individual pieces of data a user may have. This value is subject to change and data structures should be designed to allow for greater
@@ -40,8 +52,17 @@ namespace Epic.OnlineServices.Presence
 		/// DEPRECATED! Use <see cref="PRESENCEMODIFICATION_DELETEDATA_API_LATEST" /> instead.
 		/// </summary>
 		public const int DELETEDATA_API_LATEST = PRESENCEMODIFICATION_DELETEDATA_API_LATEST;
+		/// <summary>
+		/// The most recent version of the <see cref="GetJoinInfoOptions" /> API.
+		/// </summary>
 		public const int GETJOININFO_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="HasPresence" /> API.
+		/// </summary>
 		public const int HASPRESENCE_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="Info" /> API.
+		/// </summary>
 		public const int INFO_API_LATEST = 3;
 		/// <summary>
 		/// The presence key used to specify the local platform's presence <see cref="Utf8String" /> on platforms that use tokenized presence.
@@ -50,16 +71,25 @@ namespace Epic.OnlineServices.Presence
 		/// <see cref="DataRecord" />
 		/// </summary>
 		public static readonly Utf8String KEY_PLATFORM_PRESENCE = "EOS_PlatformPresence";
+		/// <summary>
+		/// The most recent version of the <see cref="PresenceModificationDataRecordId" /> API.
+		/// </summary>
 		public const int PRESENCEMODIFICATION_DATARECORDID_API_LATEST = 1;
 		/// <summary>
 		/// Most recent version of the <see cref="PresenceModification.DeleteData" /> API.
 		/// </summary>
 		public const int PRESENCEMODIFICATION_DELETEDATA_API_LATEST = 1;
+		/// <summary>
+		/// The maximum allowed length that the JoinInfo value may be. This value is subject to change and data structures should be designed to allow for greater numbers than this.
+		/// </summary>
 		public const int PRESENCEMODIFICATION_JOININFO_MAX_LENGTH = DATA_MAX_VALUE_LENGTH;
 		/// <summary>
 		/// The most recent version of the <see cref="PresenceModification.SetData" /> API.
 		/// </summary>
 		public const int PRESENCEMODIFICATION_SETDATA_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="PresenceModificationSetJoinInfoOptions" /> API.
+		/// </summary>
 		public const int PRESENCEMODIFICATION_SETJOININFO_API_LATEST = 1;
 		/// <summary>
 		/// The most recent version of the <see cref="PresenceModification.SetRawRichText" /> function.
@@ -69,6 +99,17 @@ namespace Epic.OnlineServices.Presence
 		/// The most recent version of the <see cref="PresenceModification.SetStatus" /> API.
 		/// </summary>
 		public const int PRESENCEMODIFICATION_SETSTATUS_API_LATEST = 1;
+		/// <summary>
+		/// Most recent version of the <see cref="PresenceModification.SetTemplateData" /> API
+		/// </summary>
+		public const int PRESENCEMODIFICATION_SETTEMPLATEDATA_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="PresenceModification.SetTemplateId" /> API.
+		/// </summary>
+		public const int PRESENCEMODIFICATION_SETTEMPLATEID_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="QueryPresence" /> API.
+		/// </summary>
 		public const int QUERYPRESENCE_API_LATEST = 1;
 		/// <summary>
 		/// The maximum allowed length a user's rich text <see cref="Utf8String" /> may be. This value is subject to change and data structures should be designed to allow for greater numbers
@@ -79,6 +120,9 @@ namespace Epic.OnlineServices.Presence
 		/// DEPRECATED! Use <see cref="PRESENCEMODIFICATION_SETDATA_API_LATEST" /> instead.
 		/// </summary>
 		public const int SETDATA_API_LATEST = PRESENCEMODIFICATION_SETDATA_API_LATEST;
+		/// <summary>
+		/// The most recent version of the <see cref="SetPresence" /> API.
+		/// </summary>
 		public const int SETPRESENCE_API_LATEST = 1;
 		/// <summary>
 		/// DEPRECATED! Use <see cref="PRESENCEMODIFICATION_SETRAWRICHTEXT_API_LATEST" /> instead.

@@ -7,22 +7,73 @@ namespace Epic.OnlineServices.AntiCheatCommon
 {
 	public sealed partial class AntiCheatCommonInterface
 	{
+		/// <summary>
+		/// The most recent version of the <see cref="LogEventOptions" /> struct.
+		/// </summary>
 		public const int LOGEVENT_API_LATEST = 1;
+		/// <summary>
+		/// Max <see cref="Utf8String" /> length for a log event param value.
+		/// </summary>
 		public const int LOGEVENT_STRING_MAX_LENGTH = 39;
+		/// <summary>
+		/// The most recent version of the <see cref="LogGameRoundEndOptions" /> struct.
+		/// </summary>
 		public const int LOGGAMEROUNDEND_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="LogGameRoundStartOptions" /> struct.
+		/// </summary>
 		public const int LOGGAMEROUNDSTART_API_LATEST = 2;
+		/// <summary>
+		/// The most recent version of the <see cref="LogPlayerDespawnOptions" /> struct.
+		/// </summary>
 		public const int LOGPLAYERDESPAWN_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="LogPlayerReviveOptions" /> struct.
+		/// </summary>
 		public const int LOGPLAYERREVIVE_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="LogPlayerSpawnOptions" /> struct.
+		/// </summary>
 		public const int LOGPLAYERSPAWN_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="LogPlayerTakeDamageOptions" /> struct.
+		/// </summary>
 		public const int LOGPLAYERTAKEDAMAGE_API_LATEST = 4;
+		/// <summary>
+		/// The most recent version of the <see cref="LogPlayerTickOptions" /> struct.
+		/// </summary>
 		public const int LOGPLAYERTICK_API_LATEST = 3;
+		/// <summary>
+		/// The most recent version of the <see cref="LogPlayerUseAbilityOptions" /> struct.
+		/// </summary>
 		public const int LOGPLAYERUSEABILITY_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="LogPlayerUseWeaponOptions" /> struct.
+		/// </summary>
 		public const int LOGPLAYERUSEWEAPON_API_LATEST = 2;
+		/// <summary>
+		/// Max weapon name length in <see cref="LogPlayerUseWeaponData" />.
+		/// </summary>
 		public const int LOGPLAYERUSEWEAPON_WEAPONNAME_MAX_LENGTH = 32;
+		/// <summary>
+		/// The most recent version of the <see cref="RegisterEventOptions" /> struct.
+		/// </summary>
 		public const int REGISTEREVENT_API_LATEST = 1;
+		/// <summary>
+		/// Min value for EventId in <see cref="RegisterEventOptions" />.
+		/// </summary>
 		public const int REGISTEREVENT_CUSTOMEVENTBASE = 0x10000000;
+		/// <summary>
+		/// Max value for ParamDefsCount in <see cref="RegisterEventOptions" />.
+		/// </summary>
 		public const int REGISTEREVENT_MAX_PARAMDEFSCOUNT = 12;
+		/// <summary>
+		/// The most recent version of the <see cref="SetClientDetailsOptions" /> struct.
+		/// </summary>
 		public const int SETCLIENTDETAILS_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="SetGameSessionIdOptions" /> struct.
+		/// </summary>
 		public const int SETGAMESESSIONID_API_LATEST = 1;
 	}
 }

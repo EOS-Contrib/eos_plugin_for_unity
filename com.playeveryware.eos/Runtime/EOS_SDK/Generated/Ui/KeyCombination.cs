@@ -41,100 +41,385 @@ namespace Epic.OnlineServices.UI
 		/// The Windows key on a Windows keyboard or the Command key on a Mac keyboard
 		/// </summary>
 		Meta = (8 << ModifierShift),
+		/// <summary>
+		/// A mask which contains all of the modifier keys
+		/// </summary>
 		ValidModifierMask = (Shift | Control | Alt | Meta),
+		/// <summary>
+		/// The default value, not assigned to a key
+		/// </summary>
 		None = 0,
+		/// <summary>
+		/// The Space key
+		/// </summary>
 		Space,
+		/// <summary>
+		/// The Backspace key
+		/// </summary>
 		Backspace,
+		/// <summary>
+		/// The Tab key
+		/// </summary>
 		Tab,
+		/// <summary>
+		/// The Escape key
+		/// </summary>
 		Escape,
+		/// <summary>
+		/// The PageUp key
+		/// </summary>
 		PageUp,
+		/// <summary>
+		/// The PageDown key
+		/// </summary>
 		PageDown,
+		/// <summary>
+		/// The End key
+		/// </summary>
 		End,
+		/// <summary>
+		/// The Home key
+		/// </summary>
 		Home,
+		/// <summary>
+		/// The Insert key
+		/// </summary>
 		Insert,
+		/// <summary>
+		/// The Delete key
+		/// </summary>
 		Delete,
+		/// <summary>
+		/// The Left Arrow key
+		/// </summary>
 		Left,
+		/// <summary>
+		/// The Up Arrow key
+		/// </summary>
 		Up,
+		/// <summary>
+		/// The Right Arrow key
+		/// </summary>
 		Right,
+		/// <summary>
+		/// The Down Arrow key
+		/// </summary>
 		Down,
+		/// <summary>
+		/// The 0 key
+		/// </summary>
 		Key0,
+		/// <summary>
+		/// The 1 key
+		/// </summary>
 		Key1,
+		/// <summary>
+		/// The 2 key
+		/// </summary>
 		Key2,
+		/// <summary>
+		/// The 3 key
+		/// </summary>
 		Key3,
+		/// <summary>
+		/// The 4 key
+		/// </summary>
 		Key4,
+		/// <summary>
+		/// The 5 key
+		/// </summary>
 		Key5,
+		/// <summary>
+		/// The 6 key
+		/// </summary>
 		Key6,
+		/// <summary>
+		/// The 7 key
+		/// </summary>
 		Key7,
+		/// <summary>
+		/// The 8 key
+		/// </summary>
 		Key8,
+		/// <summary>
+		/// The 9 key
+		/// </summary>
 		Key9,
+		/// <summary>
+		/// The A key
+		/// </summary>
 		KeyA,
+		/// <summary>
+		/// The B key
+		/// </summary>
 		KeyB,
+		/// <summary>
+		/// The C key
+		/// </summary>
 		KeyC,
+		/// <summary>
+		/// The D key
+		/// </summary>
 		KeyD,
+		/// <summary>
+		/// The E key
+		/// </summary>
 		KeyE,
+		/// <summary>
+		/// The F key
+		/// </summary>
 		KeyF,
+		/// <summary>
+		/// The G key
+		/// </summary>
 		KeyG,
+		/// <summary>
+		/// The H key
+		/// </summary>
 		KeyH,
+		/// <summary>
+		/// The I key
+		/// </summary>
 		KeyI,
+		/// <summary>
+		/// The J key
+		/// </summary>
 		KeyJ,
+		/// <summary>
+		/// The K key
+		/// </summary>
 		KeyK,
+		/// <summary>
+		/// The L key
+		/// </summary>
 		KeyL,
+		/// <summary>
+		/// The M key
+		/// </summary>
 		KeyM,
+		/// <summary>
+		/// The N key
+		/// </summary>
 		KeyN,
+		/// <summary>
+		/// The O key
+		/// </summary>
 		KeyO,
+		/// <summary>
+		/// The P key
+		/// </summary>
 		KeyP,
+		/// <summary>
+		/// The Q key
+		/// </summary>
 		KeyQ,
+		/// <summary>
+		/// The R key
+		/// </summary>
 		KeyR,
+		/// <summary>
+		/// The S key
+		/// </summary>
 		KeyS,
+		/// <summary>
+		/// The T key
+		/// </summary>
 		KeyT,
+		/// <summary>
+		/// The U key
+		/// </summary>
 		KeyU,
+		/// <summary>
+		/// The V key
+		/// </summary>
 		KeyV,
+		/// <summary>
+		/// The W key
+		/// </summary>
 		KeyW,
+		/// <summary>
+		/// The X key
+		/// </summary>
 		KeyX,
+		/// <summary>
+		/// The Y key
+		/// </summary>
 		KeyY,
+		/// <summary>
+		/// The Z key
+		/// </summary>
 		KeyZ,
+		/// <summary>
+		/// The Numpad 0 key
+		/// </summary>
 		Numpad0,
+		/// <summary>
+		/// The Numpad 1 key
+		/// </summary>
 		Numpad1,
+		/// <summary>
+		/// The Numpad 2 key
+		/// </summary>
 		Numpad2,
+		/// <summary>
+		/// The Numpad 3 key
+		/// </summary>
 		Numpad3,
+		/// <summary>
+		/// The Numpad 4 key
+		/// </summary>
 		Numpad4,
+		/// <summary>
+		/// The Numpad 5 key
+		/// </summary>
 		Numpad5,
+		/// <summary>
+		/// The Numpad 6 key
+		/// </summary>
 		Numpad6,
+		/// <summary>
+		/// The Numpad 7 key
+		/// </summary>
 		Numpad7,
+		/// <summary>
+		/// The Numpad 8 key
+		/// </summary>
 		Numpad8,
+		/// <summary>
+		/// The Numpad 9 key
+		/// </summary>
 		Numpad9,
+		/// <summary>
+		/// The Numpad '*' key
+		/// </summary>
 		NumpadAsterisk,
+		/// <summary>
+		/// The Numpad '+' key
+		/// </summary>
 		NumpadPlus,
+		/// <summary>
+		/// The Numpad '-' key
+		/// </summary>
 		NumpadMinus,
+		/// <summary>
+		/// The Numpad '.' key
+		/// </summary>
 		NumpadPeriod,
+		/// <summary>
+		/// The Numpad '/' key
+		/// </summary>
 		NumpadDivide,
+		/// <summary>
+		/// The F1 key
+		/// </summary>
 		F1,
+		/// <summary>
+		/// The F2 key
+		/// </summary>
 		F2,
+		/// <summary>
+		/// The F3 key
+		/// </summary>
 		F3,
+		/// <summary>
+		/// The F4 key
+		/// </summary>
 		F4,
+		/// <summary>
+		/// The F5 key
+		/// </summary>
 		F5,
+		/// <summary>
+		/// The F6 key
+		/// </summary>
 		F6,
+		/// <summary>
+		/// The F7 key
+		/// </summary>
 		F7,
+		/// <summary>
+		/// The F8 key
+		/// </summary>
 		F8,
+		/// <summary>
+		/// The F9 key
+		/// </summary>
 		F9,
+		/// <summary>
+		/// The F10 key
+		/// </summary>
 		F10,
+		/// <summary>
+		/// The F11 key
+		/// </summary>
 		F11,
+		/// <summary>
+		/// The F12 key
+		/// </summary>
 		F12,
+		/// <summary>
+		/// The F13 key
+		/// </summary>
 		F13,
+		/// <summary>
+		/// The F14 key
+		/// </summary>
 		F14,
+		/// <summary>
+		/// The F15 key
+		/// </summary>
 		F15,
+		/// <summary>
+		/// The F16 key
+		/// </summary>
 		F16,
+		/// <summary>
+		/// The F17 key
+		/// </summary>
 		F17,
+		/// <summary>
+		/// The F18 key
+		/// </summary>
 		F18,
+		/// <summary>
+		/// The F19 key
+		/// </summary>
 		F19,
+		/// <summary>
+		/// The F20 key
+		/// </summary>
 		F20,
+		/// <summary>
+		/// The F21 key
+		/// </summary>
 		F21,
+		/// <summary>
+		/// The F22 key
+		/// </summary>
 		F22,
+		/// <summary>
+		/// The F23 key
+		/// </summary>
 		F23,
+		/// <summary>
+		/// The F24 key
+		/// </summary>
 		F24,
+		/// <summary>
+		/// '+' for US layout, others vary
+		/// </summary>
 		OemPlus,
+		/// <summary>
+		/// ',' for US layout, others vary
+		/// </summary>
 		OemComma,
+		/// <summary>
+		/// '-' for US layout, others vary
+		/// </summary>
 		OemMinus,
+		/// <summary>
+		/// '.' for US layout, others vary
+		/// </summary>
 		OemPeriod,
 		/// <summary>
 		/// ';' for US layout, others vary
@@ -165,7 +450,7 @@ namespace Epic.OnlineServices.UI
 		/// </summary>
 		Oem7,
 		/// <summary>
-		/// varies on all layouts
+		/// Varies on all layouts
 		/// </summary>
 		Oem8,
 		/// <summary>

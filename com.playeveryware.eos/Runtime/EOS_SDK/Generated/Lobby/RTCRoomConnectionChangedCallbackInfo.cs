@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.Lobby
 {
+	/// <summary>
+	/// Output parameters for the <see cref="LobbyInterface.AddNotifyRTCRoomConnectionChanged" /> function.
+	/// </summary>
 	public struct RTCRoomConnectionChangedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>

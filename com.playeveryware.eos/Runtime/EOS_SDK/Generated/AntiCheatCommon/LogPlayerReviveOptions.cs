@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
+	/// <summary>
+	/// Input parameters for the <see cref="AntiCheatServer.AntiCheatServerInterface.LogPlayerRevive" /> function.
+	/// </summary>
 	public struct LogPlayerReviveOptions
 	{
 		/// <summary>
@@ -37,8 +40,6 @@ namespace Epic.OnlineServices.AntiCheatCommon
 
 		public void Dispose()
 		{
-			Helper.Dispose(ref m_RevivedPlayerHandle);
-			Helper.Dispose(ref m_ReviverPlayerHandle);
 		}
 	}
 }

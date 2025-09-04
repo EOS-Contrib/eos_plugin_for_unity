@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
+	/// <summary>
+	/// Log Event Parameter.
+	/// </summary>
 	public struct LogEventParamPair
 	{
 		/// <summary>

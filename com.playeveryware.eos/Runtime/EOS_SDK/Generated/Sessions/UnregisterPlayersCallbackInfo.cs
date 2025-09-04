@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.Sessions
 {
+	/// <summary>
+	/// Output parameters for the <see cref="SessionsInterface.UnregisterPlayers" /> function.
+	/// </summary>
 	public struct UnregisterPlayersCallbackInfo : ICallbackInfo
 	{
 		/// <summary>

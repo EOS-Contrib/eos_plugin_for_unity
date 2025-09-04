@@ -187,6 +187,9 @@ namespace Epic.OnlineServices.Lobby
 		/// The most recent version of the <see cref="LobbyDetails.GetMemberCount" /> API.
 		/// </summary>
 		public const int LOBBYDETAILS_GETMEMBERCOUNT_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="LobbyDetailsInfo" /> API.
+		/// </summary>
 		public const int LOBBYDETAILS_INFO_API_LATEST = 3;
 		/// <summary>
 		/// The most recent version of the <see cref="LobbyDetailsMemberInfo" /> API.
@@ -272,12 +275,21 @@ namespace Epic.OnlineServices.Lobby
 		/// The most recent version of the <see cref="LocalRTCOptions" /> structure.
 		/// </summary>
 		public const int LOCALRTCOPTIONS_API_LATEST = 2;
+		/// <summary>
+		/// The maximum number of lobbies a single user can join at once
+		/// </summary>
 		public const int MAX_LOBBIES = 16;
 		/// <summary>
 		/// Maximum number of characters allowed in the lobby id override
 		/// </summary>
 		public const int MAX_LOBBYIDOVERRIDE_LENGTH = 60;
+		/// <summary>
+		/// The maximum number of players in a lobby
+		/// </summary>
 		public const int MAX_LOBBY_MEMBERS = 64;
+		/// <summary>
+		/// The maximum number of search results for a query
+		/// </summary>
 		public const int MAX_SEARCH_RESULTS = 200;
 		/// <summary>
 		/// Minimum number of characters allowed in the lobby id override
@@ -842,7 +854,7 @@ namespace Epic.OnlineServices.Lobby
 		/// 
 		/// If the lobby is successfully created with an RTC Room enabled, the lobby system will automatically join and maintain the connection to the RTC room as long as the
 		/// local user remains in the lobby. Applications can use the <see cref="GetRTCRoomName" /> to get the name of the RTC Room associated with a lobby, which may be used with
-		/// * suite of functions. This can be useful to: register for notifications for talking status; to mute or unmute the local user's audio output;
+		/// many of the functions in the RTC interface. This can be useful to: register for notifications for talking status; to mute or unmute the local user's audio output;
 		/// to block or unblock room participants; to set local audio device settings; and more.
 		/// </summary>
 		/// <param name="options">
@@ -1168,7 +1180,7 @@ namespace Epic.OnlineServices.Lobby
 		/// 
 		/// If the lobby is successfully join has an RTC Room enabled, the lobby system will automatically join and maintain the connection to the RTC room as long as the
 		/// local user remains in the lobby. Applications can use the <see cref="GetRTCRoomName" /> to get the name of the RTC Room associated with a lobby, which may be used with
-		/// * suite of functions. This can be useful to: register for notifications for talking status; to mute or unmute the local user's audio output;
+		/// many of the functions in the RTC interface. This can be useful to: register for notifications for talking status; to mute or unmute the local user's audio output;
 		/// to block or unblock room participants; to set local audio device settings; and more.
 		/// </summary>
 		/// <param name="options">

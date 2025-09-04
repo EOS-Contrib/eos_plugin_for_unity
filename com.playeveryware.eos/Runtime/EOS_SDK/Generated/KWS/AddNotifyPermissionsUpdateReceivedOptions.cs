@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.KWS
 {
+	/// <summary>
+	/// Input parameters for the <see cref="KWSInterface.AddNotifyPermissionsUpdateReceived" /> function.
+	/// </summary>
 	public struct AddNotifyPermissionsUpdateReceivedOptions
 	{
 		

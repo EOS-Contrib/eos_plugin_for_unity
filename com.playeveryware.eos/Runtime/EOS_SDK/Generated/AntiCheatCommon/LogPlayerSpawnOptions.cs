@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
+	/// <summary>
+	/// Input parameters for the <see cref="AntiCheatServer.AntiCheatServerInterface.LogPlayerSpawn" /> function.
+	/// </summary>
 	public struct LogPlayerSpawnOptions
 	{
 		/// <summary>
@@ -44,7 +47,6 @@ namespace Epic.OnlineServices.AntiCheatCommon
 
 		public void Dispose()
 		{
-			Helper.Dispose(ref m_SpawnedPlayerHandle);
 		}
 	}
 }

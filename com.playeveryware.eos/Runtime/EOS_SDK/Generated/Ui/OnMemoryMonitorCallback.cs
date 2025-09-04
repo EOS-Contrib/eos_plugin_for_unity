@@ -7,6 +7,12 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.UI
 {
 
+	/// <summary>
+	/// Function prototype definition for callbacks passed to <see cref="UIInterface.AddNotifyMemoryMonitor" />
+	/// </summary>
+	/// <param name="data">
+	/// A <see cref="MemoryMonitorCallbackInfo" /> containing the output information and result
+	/// </param>
 	public delegate void OnMemoryMonitorCallback(ref MemoryMonitorCallbackInfo data);
 
 	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]

@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.Sessions
 {
+	/// <summary>
+	/// Output parameters for the <see cref="SessionSearch.Find" /> function.
+	/// </summary>
 	public struct SessionSearchFindCallbackInfo : ICallbackInfo
 	{
 		/// <summary>

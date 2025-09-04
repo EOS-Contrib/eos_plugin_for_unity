@@ -55,7 +55,6 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_ReceivePacket(EOS_HP2P Handle, const EOS_P
  * Listen for incoming connection requests on a particular Socket ID, or optionally all Socket IDs. The bound function
  * will only be called if the connection has not already been accepted.
  * If the network status changes from offline or disabled to online, you must call this function again.
- *
  * @param Options Information about who would like notifications, and (optionally) only for a specific socket
  * @param ClientData This value is returned to the caller when ConnectionRequestHandler is invoked
  * @param ConnectionRequestHandler The callback to be fired when we receive a connection request
