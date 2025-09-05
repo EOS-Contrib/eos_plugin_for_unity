@@ -213,7 +213,7 @@ namespace Epic.OnlineServices
 
 		internal static T GetDefault<T>()
         {
-            return default[T];
+            return default;
         }
 	}
 }
