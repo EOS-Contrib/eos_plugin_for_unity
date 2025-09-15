@@ -47,7 +47,7 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// The most recent version of the <see cref="SetUserPreLogoutCallback" /> API.
 		/// </summary>
 		public const int SETUSERPRELOGOUTCALLBACK_API_LATEST = 1;
-		public const int SteamOptionsApiLatest = 3;
+
 		/// <summary>
 		/// Register to receive notifications when the login state of Integrated Platform users change.
 		/// 
