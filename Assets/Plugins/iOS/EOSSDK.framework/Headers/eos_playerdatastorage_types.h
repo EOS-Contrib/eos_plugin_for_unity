@@ -14,6 +14,7 @@ EOS_EXTERN_C typedef struct EOS_PlayerDataStorageHandle* EOS_HPlayerDataStorage;
 /** Timestamp value representing an undefined time for Player Data Storage. */
 #define EOS_PLAYERDATASTORAGE_TIME_UNDEFINED -1
 
+/** The most recent version of the EOS_PlayerDataStorage_FileMetadata API. */
 #define EOS_PLAYERDATASTORAGE_FILEMETADATA_API_LATEST 3
 
 /**

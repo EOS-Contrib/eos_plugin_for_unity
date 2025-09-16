@@ -246,6 +246,7 @@ EOS_STRUCT(EOS_Auth_PinGrantInfo, (
 
 /** Flags that describe user permissions */
 EOS_ENUM(EOS_EAuthScopeFlags,
+	/** Default value, no permissions required */
 	EOS_AS_NoFlags = 0x0,
 	/** Permissions to see your account ID, display name, and language */
 	EOS_AS_BasicProfile = 0x1,
@@ -561,6 +562,11 @@ EOS_STRUCT(EOS_Auth_QueryIdTokenCallbackInfo, (
 	EOS_EpicAccountId TargetAccountId;
 ));
 
+/**
+ * Function prototype definition for callbacks passed into EOS_Auth_QueryIdToken.
+ *
+ * @param Data A EOS_Auth_QueryIdTokenCallbackInfo containing the output information and result.
+ */
 EOS_DECLARE_CALLBACK(EOS_Auth_OnQueryIdTokenCallback, const EOS_Auth_QueryIdTokenCallbackInfo* Data);
 
 /** The most recent version of the EOS_Auth_VerifyIdToken API. */

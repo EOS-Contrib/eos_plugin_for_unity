@@ -12,7 +12,7 @@
 /**
  * Adds an integrated platform options to the container.
  *
- * @param Options Object containing properties related to setting a user's Status
+ * @param InOptions Object containing properties related to setting a user's Status
  * @return Success if modification was added successfully, otherwise an error code related to the problem
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_IntegratedPlatformOptionsContainer_Add(EOS_HIntegratedPlatformOptionsContainer Handle, const EOS_IntegratedPlatformOptionsContainer_AddOptions* InOptions);

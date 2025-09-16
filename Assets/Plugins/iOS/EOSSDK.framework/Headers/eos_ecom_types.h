@@ -555,6 +555,7 @@ EOS_STRUCT(EOS_Ecom_QueryEntitlementsOptions, (
  * Output parameters for the EOS_Ecom_QueryEntitlements Function.
  */
 EOS_STRUCT(EOS_Ecom_QueryEntitlementsCallbackInfo, (
+	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
 	EOS_EResult ResultCode;
 	/** Context that was passed into EOS_Ecom_QueryEntitlements */
 	void* ClientData;
