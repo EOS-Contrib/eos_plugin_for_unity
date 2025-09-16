@@ -32,7 +32,7 @@ namespace Epic.OnlineServices.CustomInvites
 		/// </summary>
 		public const int ADDNOTIFYCUSTOMINVITEREJECTED_API_LATEST = 1;
 		/// <summary>
-		/// The most recent version of the <see cref="AddNotifyCustomInviteAccepted" /> API.
+		/// The most recent version of the <see cref="AddNotifyRequestToJoinAccepted" /> API.
 		/// </summary>
 		public const int ADDNOTIFYREQUESTTOJOINACCEPTED_API_LATEST = 1;
 		/// <summary>

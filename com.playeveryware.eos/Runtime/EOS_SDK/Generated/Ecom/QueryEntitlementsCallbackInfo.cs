@@ -11,7 +11,9 @@ namespace Epic.OnlineServices.Ecom
 	/// </summary>
 	public struct QueryEntitlementsCallbackInfo : ICallbackInfo
 	{
-		
+		/// <summary>
+		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
+		/// </summary>
 		public Result ResultCode { get; set; }
 
 		/// <summary>

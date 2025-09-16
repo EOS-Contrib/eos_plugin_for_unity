@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatServer
 {
+	/// <summary>
+	/// Input parameters for the <see cref="AntiCheatServerInterface.SetClientNetworkState" /> function.
+	/// </summary>
 	public struct SetClientNetworkStateOptions
 	{
 		/// <summary>
@@ -37,7 +40,6 @@ namespace Epic.OnlineServices.AntiCheatServer
 
 		public void Dispose()
 		{
-			Helper.Dispose(ref m_ClientHandle);
 		}
 	}
 }

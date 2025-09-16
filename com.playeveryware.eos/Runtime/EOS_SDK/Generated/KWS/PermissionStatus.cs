@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.KWS
 {
+	/// <summary>
+	/// Contains information about a KWS permission status.
+	/// </summary>
 	public struct PermissionStatus
 	{
 		/// <summary>

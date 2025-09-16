@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
+	/// <summary>
+	/// Input parameters for the <see cref="AntiCheatServer.AntiCheatServerInterface.LogPlayerTick" /> function.
+	/// </summary>
 	public struct LogPlayerTickOptions
 	{
 		/// <summary>
@@ -72,7 +75,6 @@ namespace Epic.OnlineServices.AntiCheatCommon
 
 		public void Dispose()
 		{
-			Helper.Dispose(ref m_PlayerHandle);
 			Helper.Dispose(ref m_PlayerPosition);
 			Helper.Dispose(ref m_PlayerViewRotation);
 			Helper.Dispose(ref m_PlayerViewPosition);

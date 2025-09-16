@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.ProgressionSnapshot
 {
+	/// <summary>
+	/// Output parameters for the <see cref="ProgressionSnapshotInterface.DeleteSnapshot" /> Function.
+	/// </summary>
 	public struct DeleteSnapshotCallbackInfo : ICallbackInfo
 	{
 		/// <summary>

@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatClient
 {
+	/// <summary>
+	/// Input parameters for the <see cref="AntiCheatClientInterface.GetProtectMessageOutputLength" /> function.
+	/// </summary>
 	public struct GetProtectMessageOutputLengthOptions
 	{
 		/// <summary>

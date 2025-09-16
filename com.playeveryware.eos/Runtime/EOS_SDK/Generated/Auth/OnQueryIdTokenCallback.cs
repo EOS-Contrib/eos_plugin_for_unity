@@ -7,6 +7,12 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.Auth
 {
 
+	/// <summary>
+	/// Function prototype definition for callbacks passed into <see cref="AuthInterface.QueryIdToken" />.
+	/// </summary>
+	/// <param name="data">
+	/// A <see cref="QueryIdTokenCallbackInfo" /> containing the output information and result.
+	/// </param>
 	public delegate void OnQueryIdTokenCallback(ref QueryIdTokenCallbackInfo data);
 
 	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]

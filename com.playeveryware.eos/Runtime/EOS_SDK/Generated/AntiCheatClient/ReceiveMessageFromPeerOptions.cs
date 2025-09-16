@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatClient
 {
+	/// <summary>
+	/// Input parameters for the <see cref="AntiCheatClientInterface.ReceiveMessageFromPeer" /> function.
+	/// </summary>
 	public struct ReceiveMessageFromPeerOptions
 	{
 		/// <summary>
@@ -38,7 +41,6 @@ namespace Epic.OnlineServices.AntiCheatClient
 
 		public void Dispose()
 		{
-			Helper.Dispose(ref m_PeerHandle);
 			Helper.Dispose(ref m_Data);
 		}
 	}

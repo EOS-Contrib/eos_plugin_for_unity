@@ -14,12 +14,33 @@ namespace Epic.OnlineServices.Logging
 	/// </summary>
 	public enum LogLevel : int
 	{
+		/// <summary>
+		/// The default value, disables logging
+		/// </summary>
 		Off = 0,
+		/// <summary>
+		/// The Fatal logging level
+		/// </summary>
 		Fatal = 100,
+		/// <summary>
+		/// The Error logging level
+		/// </summary>
 		Error = 200,
+		/// <summary>
+		/// The Warning logging level
+		/// </summary>
 		Warning = 300,
+		/// <summary>
+		/// The Info logging level
+		/// </summary>
 		Info = 400,
+		/// <summary>
+		/// The Verbose logging level
+		/// </summary>
 		Verbose = 500,
+		/// <summary>
+		/// The VeryVerbose logging level
+		/// </summary>
 		VeryVerbose = 600
 	}
 

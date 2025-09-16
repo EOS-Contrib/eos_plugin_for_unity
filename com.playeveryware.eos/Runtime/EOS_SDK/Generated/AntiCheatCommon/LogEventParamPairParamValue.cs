@@ -22,6 +22,9 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		private float? m_Float;
 		private AntiCheatCommonEventParamType m_ParamValueType;
 
+		/// <summary>
+		/// Client handle.
+		/// </summary>
 		public IntPtr? ClientHandle
 		{
 			get
@@ -40,6 +43,10 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
+		/// <summary>
+		/// The value as a <see cref="Utf8String" />.
+		/// Will be truncated if longer than <see cref="AntiCheatCommonInterface.LOGEVENT_STRING_MAX_LENGTH" /> bytes.
+		/// </summary>
 		public Utf8String String
 		{
 			get
@@ -58,6 +65,9 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
+		/// <summary>
+		/// The value as a <see cref="uint" />.
+		/// </summary>
 		public uint? UInt32
 		{
 			get
@@ -76,6 +86,9 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
+		/// <summary>
+		/// The value as an <see cref="int" />.
+		/// </summary>
 		public int? Int32
 		{
 			get
@@ -94,6 +107,9 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
+		/// <summary>
+		/// The value as a <see cref="ulong" />.
+		/// </summary>
 		public ulong? UInt64
 		{
 			get
@@ -112,6 +128,9 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
+		/// <summary>
+		/// The value as an <see cref="long" />.
+		/// </summary>
 		public long? Int64
 		{
 			get
@@ -130,6 +149,9 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
+		/// <summary>
+		/// The value as an <see cref="Vec3f" />.
+		/// </summary>
 		public Vec3f? Vec3f
 		{
 			get
@@ -148,6 +170,9 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
+		/// <summary>
+		/// The value as an <see cref="Quat" />.
+		/// </summary>
 		public Quat? Quat
 		{
 			get
@@ -166,6 +191,9 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
+		/// <summary>
+		/// The value as a <see cref="float" />.
+		/// </summary>
 		public float? Float
 		{
 			get
@@ -316,7 +344,6 @@ namespace Epic.OnlineServices.AntiCheatCommon
 
 		public void Dispose()
 		{
-			Helper.Dispose(ref m_ClientHandle);
 			Helper.Dispose(ref m_String);
 			Helper.Dispose(ref m_Vec3f);
 			Helper.Dispose(ref m_Quat);

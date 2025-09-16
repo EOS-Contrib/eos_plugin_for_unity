@@ -7,6 +7,8 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.IntegratedPlatform
 {
 	/// <summary>
+	/// Initialization options to use with <see cref="Platform.Options" /> for integrated platforms.
+	/// <see cref="Platform.Options" />
 	/// </summary>
 	public struct Options
 	{

@@ -15,14 +15,41 @@ namespace Epic.OnlineServices.AntiCheatClient
 		{
 		}
 
+		/// <summary>
+		/// The most recent version of the <see cref="AddExternalIntegrityCatalog" /> API.
+		/// </summary>
 		public const int ADDEXTERNALINTEGRITYCATALOG_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyClientIntegrityViolated" /> API.
+		/// </summary>
 		public const int ADDNOTIFYCLIENTINTEGRITYVIOLATED_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyMessageToPeer" /> API.
+		/// </summary>
 		public const int ADDNOTIFYMESSAGETOPEER_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyMessageToServer" /> API.
+		/// </summary>
 		public const int ADDNOTIFYMESSAGETOSERVER_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyPeerActionRequired" /> API.
+		/// </summary>
 		public const int ADDNOTIFYPEERACTIONREQUIRED_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyPeerAuthStatusChanged" /> API.
+		/// </summary>
 		public const int ADDNOTIFYPEERAUTHSTATUSCHANGED_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="BeginSession" /> API.
+		/// </summary>
 		public const int BEGINSESSION_API_LATEST = 3;
+		/// <summary>
+		/// The most recent version of the <see cref="EndSession" /> API.
+		/// </summary>
 		public const int ENDSESSION_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="GetProtectMessageOutputLength" /> API.
+		/// </summary>
 		public const int GETPROTECTMESSAGEOUTPUTLENGTH_API_LATEST = 1;
 		/// <summary>
 		/// Maximum size of an individual message provided through <see cref="OnMessageToPeerCallback" />.
@@ -40,20 +67,44 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// </summary>
 		public static readonly IntPtr PEER_SELF = (IntPtr)(-1);
 		/// <summary>
-		/// This file contains the deprecated types for EOS AntiCheat Client. In a future version, these types will be removed.
+		/// The most recent version of the <see cref="PollStatus" /> API.
 		/// </summary>
 		public const int POLLSTATUS_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="ProtectMessage" /> API.
+		/// </summary>
 		public const int PROTECTMESSAGE_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="ReceiveMessageFromPeer" /> API.
+		/// </summary>
 		public const int RECEIVEMESSAGEFROMPEER_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="ReceiveMessageFromServer" /> API.
+		/// </summary>
 		public const int RECEIVEMESSAGEFROMSERVER_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="RegisterPeerOptions" /> API.
+		/// </summary>
 		public const int REGISTERPEER_API_LATEST = 3;
+		/// <summary>
+		/// The maximum value for the AuthenticationTimeout parameter in the <see cref="RegisterPeerOptions" /> struct.
+		/// </summary>
 		public const int REGISTERPEER_MAX_AUTHENTICATIONTIMEOUT = 120;
 		/// <summary>
-		/// Limits on RegisterTimeoutSeconds parameter
+		/// The minimum value for the AuthenticationTimeout parameter in the <see cref="RegisterPeerOptions" /> struct.
 		/// </summary>
 		public const int REGISTERPEER_MIN_AUTHENTICATIONTIMEOUT = 40;
+		/// <summary>
+		/// The most recent version of the <see cref="Reserved01" /> API.
+		/// </summary>
 		public const int RESERVED01_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="UnprotectMessage" /> API.
+		/// </summary>
 		public const int UNPROTECTMESSAGE_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="UnregisterPeer" /> API.
+		/// </summary>
 		public const int UNREGISTERPEER_API_LATEST = 1;
 
 		/// <summary>
@@ -341,7 +392,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <param name="options">
 		/// Structure containing input data.
 		/// </param>
-		/// <param name="">
+		/// <param name="outBufferSizeBytes">
 		/// On success, the OutBuffer length in bytes that is required to call ProtectMessage on the given input size.
 		/// </param>
 		/// <returns>

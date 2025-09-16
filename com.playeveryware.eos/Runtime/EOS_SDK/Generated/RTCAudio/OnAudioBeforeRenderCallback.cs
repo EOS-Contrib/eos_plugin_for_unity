@@ -7,6 +7,12 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.RTCAudio
 {
 
+	/// <summary>
+	/// Function prototype definition for callbacks passed to <see cref="RTCAudioInterface.AddNotifyAudioBeforeRender" />
+	/// </summary>
+	/// <param name="data">
+	/// An <see cref="AudioBeforeRenderCallbackInfo" /> containing the output information and result
+	/// </param>
 	public delegate void OnAudioBeforeRenderCallback(ref AudioBeforeRenderCallbackInfo data);
 
 	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]

@@ -63,6 +63,13 @@ namespace Epic.OnlineServices.Lobby
 			return callResult;
 		}
 
+		/// <summary>
+		/// Release the memory associated with a lobby modification. This must be called on data retrieved from <see cref="LobbyInterface.UpdateLobbyModification" />.
+		/// <see cref="LobbyInterface.UpdateLobbyModification" />
+		/// </summary>
+		/// <param name="lobbyModificationHandle">
+		/// - The lobby modification handle to release
+		/// </param>
 		public void Release()
 		{
 			Bindings.EOS_LobbyModification_Release(InnerHandle);

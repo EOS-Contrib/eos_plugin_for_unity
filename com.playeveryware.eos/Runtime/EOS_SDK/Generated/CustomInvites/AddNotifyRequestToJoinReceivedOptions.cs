@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.CustomInvites
 {
+	/// <summary>
+	/// Input parameters for the AddNotifyRequestToJoinReceived function.
+	/// </summary>
 	public struct AddNotifyRequestToJoinReceivedOptions
 	{
 		

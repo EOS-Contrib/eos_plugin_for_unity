@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices
 {
+	/// <summary>
+	/// Enum flags for all possible result values of operations in the SDK.
+	/// </summary>
 	public enum Result : int
 	{
 		/// <summary>
@@ -176,6 +179,10 @@ namespace Epic.OnlineServices
 		/// Network is disconnected
 		/// </summary>
 		NetworkDisconnected = 41,
+		/// <summary>
+		/// Given output buffer is insufficient to complete the operation
+		/// </summary>
+		InsufficientOutputBuffer = 42,
 		/// <summary>
 		/// Account locked due to login failures
 		/// </summary>
@@ -388,6 +395,46 @@ namespace Epic.OnlineServices
 		/// Request contained an invalid status state
 		/// </summary>
 		PresenceStatusInvalid = 3008,
+		/// <summary>
+		/// Request created with a template - rich text is not supported
+		/// </summary>
+		PresenceRichTextNotSupported = 3009,
+		/// <summary>
+		/// Request not created with a template - rich text expected
+		/// </summary>
+		PresenceTemplateNotSupported = 3010,
+		/// <summary>
+		/// Invalid Rich Presence Template ID
+		/// </summary>
+		PresenceTemplateIdInvalid = 3011,
+		/// <summary>
+		/// Template type value is not supported
+		/// </summary>
+		PresenceTemplateTypeInvalid = 3012,
+		/// <summary>
+		/// Template key is <see langword="null" /> or not supplied
+		/// </summary>
+		PresenceTemplateKeyInvalid = 3013,
+		/// <summary>
+		/// Template value, if type is a <see cref="Utf8String" />, is <see langword="null" /> or not supplie
+		/// </summary>
+		PresenceTemplateValueInvalid = 3014,
+		/// <summary>
+		/// Template id was not found for the product or deployment
+		/// </summary>
+		PresenceTemplateNotFound = 3015,
+		/// <summary>
+		/// Failed to format template with given vairable data
+		/// </summary>
+		PresenceTemplateInvalidVariableInput = 3016,
+		/// <summary>
+		/// Localization server failed to format template
+		/// </summary>
+		PresenceTemplateLocalizationServerError = 3017,
+		/// <summary>
+		/// Unknown error formatting template
+		/// </summary>
+		PresenceTemplateUnknownError = 3018,
 		/// <summary>
 		/// The entitlement retrieved is stale, requery for updated information
 		/// </summary>
@@ -852,6 +899,14 @@ namespace Epic.OnlineServices
 		/// Failed to join room due to voice moderation mode mismatch
 		/// </summary>
 		VoiceModerationModeMismatch = 13010,
+		/// <summary>
+		/// EOS RTC record buffer was empty
+		/// </summary>
+		EmptyRecord = 13011,
+		/// <summary>
+		/// Failed to join room due to room options mismatch
+		/// </summary>
+		RoomOptionsMismatch = 13012,
 		/// <summary>
 		/// The number of available Snapshot IDs have all been exhausted.
 		/// </summary>

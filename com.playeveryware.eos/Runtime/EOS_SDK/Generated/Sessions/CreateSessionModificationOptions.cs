@@ -61,8 +61,8 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Array of platform IDs indicating the player platforms allowed to register with the session. Platform IDs are
-		/// <PlatformName>'. For some platforms
-		/// the value will be in the EOS Platform specific header file. If <see langword="null" />, the session will be unrestricted.
+		/// found in the EOS header file (eos_common.h), for example <see cref="Common.OPT_EPIC" />. For some platforms the value will be
+		/// in the EOS Platform specific header file. If <see langword="null" />, the session will be unrestricted.
 		/// </summary>
 		public uint[] AllowedPlatformIds { get; set; }
 	}

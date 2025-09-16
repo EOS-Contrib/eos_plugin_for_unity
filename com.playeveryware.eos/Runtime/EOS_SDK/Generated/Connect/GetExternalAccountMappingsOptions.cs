@@ -39,7 +39,7 @@ namespace Epic.OnlineServices.Connect
 		{
 			Dispose();
 
-			m_ApiVersion = ConnectInterface.GETEXTERNALACCOUNTMAPPINGS_API_LATEST;
+			m_ApiVersion = ConnectInterface.GETEXTERNALACCOUNTMAPPING_API_LATEST;
 			Helper.Set(other.LocalUserId, ref m_LocalUserId);
 			m_AccountIdType = other.AccountIdType;
 			Helper.Set(other.TargetExternalUserId, ref m_TargetExternalUserId);
