@@ -1,7 +1,3 @@
-<div align="center"> <img src="/com.playeveryware.eos/Documentation~/images/EOSPluginLogo.png" alt="EOS Plugin for Unity" /> </div>
-
-<br />
-
 <div align="left">
   
 <a href="">[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)</a>
