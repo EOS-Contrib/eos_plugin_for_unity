@@ -1,6 +1,7 @@
 {
     "source_to_dest": [
         {"src":"SDK/Source/Core/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Core/"},
+        {"src":"SDK/Source/Core/P2P/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Core/P2P/"},
         {"src":"SDK/Source/Generated/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/"},
         {"src":"SDK/Source/Generated/Achievements/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Achievements/"},
         {"src":"SDK/Source/Generated/AntiCheatClient/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/AntiCheatClient/"},
