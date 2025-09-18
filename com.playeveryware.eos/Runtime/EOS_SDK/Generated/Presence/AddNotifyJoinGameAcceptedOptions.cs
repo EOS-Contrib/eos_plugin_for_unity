@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.Presence
 {
+	/// <summary>
+	/// Input parameters for the <see cref="PresenceInterface.AddNotifyJoinGameAccepted" /> function.
+	/// </summary>
 	public struct AddNotifyJoinGameAcceptedOptions
 	{
 		

@@ -31,6 +31,9 @@ namespace Epic.OnlineServices.KWS
 		/// The most recent version of the <see cref="CreateUser" /> API.
 		/// </summary>
 		public const int GETPERMISSIONBYKEY_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="GetPermissionsCount" /> API.
+		/// </summary>
 		public const int GETPERMISSIONSCOUNT_API_LATEST = 1;
 		/// <summary>
 		/// Maximum number of permissions that may be requested

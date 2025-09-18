@@ -55,6 +55,9 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// The most recent version of the <see cref="DuplicateFile" /> API.
 		/// </summary>
 		public const int DUPLICATEFILE_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="FileMetadata" /> API.
+		/// </summary>
 		public const int FILEMETADATA_API_LATEST = 3;
 		/// <summary>
 		/// Maximum File Name Length in bytes

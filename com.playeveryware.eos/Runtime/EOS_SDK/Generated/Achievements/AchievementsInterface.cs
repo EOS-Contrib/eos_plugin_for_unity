@@ -91,6 +91,9 @@ namespace Epic.OnlineServices.Achievements
 		/// The most recent version of the <see cref="PlayerAchievement" /> struct.
 		/// </summary>
 		public const int PLAYERACHIEVEMENT_API_LATEST = 2;
+		/// <summary>
+		/// The most recent version of the <see cref="PlayerStatInfo" /> struct.
+		/// </summary>
 		public const int PLAYERSTATINFO_API_LATEST = 1;
 		/// <summary>
 		/// The most recent version of the <see cref="QueryDefinitions" /> struct.

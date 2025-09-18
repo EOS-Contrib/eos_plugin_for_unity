@@ -31,7 +31,7 @@ namespace Epic.OnlineServices.Logging
 		/// Set the logging level for the specified logging category. By default all log categories will callback for Warnings, Errors, and Fatals.
 		/// </summary>
 		/// <param name="logCategory">
-		///  to configure all categories simultaneously to the same log level.
+		/// the specific log category to configure. Use <see cref="LogCategory.AllCategories" /> to configure all categories simultaneously to the same log level.
 		/// </param>
 		/// <param name="logLevel">
 		/// the log level to use for the log category

@@ -4,25 +4,21 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Epic.OnlineServices.RTCData
+namespace Epic.OnlineServices.Presence
 {
 	/// <summary>
-	/// An enumeration of the different data channel statuses.
+	/// Enum representing the types that may be passed as template data.
 	/// </summary>
-	public enum RTCDataStatus : int
+	public enum PresenceModificationTemplateType : int
 	{
 		/// <summary>
-		/// Data unsupported
+		/// (32-bit) integer type
 		/// </summary>
-		Unsupported = 0,
+		Int = 1,
 		/// <summary>
-		/// Data enabled
+		/// UTF8 <see cref="Utf8String" /> as an identifier
 		/// </summary>
-		Enabled = 1,
-		/// <summary>
-		/// Data disabled
-		/// </summary>
-		Disabled = 2
+		String = 2
 	}
 
 }

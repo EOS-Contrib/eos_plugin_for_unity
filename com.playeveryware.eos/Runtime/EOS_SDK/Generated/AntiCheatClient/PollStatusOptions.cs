@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatClient
 {
+	/// <summary>
+	/// Input parameters for the <see cref="AntiCheatClientInterface.PollStatus" /> function.
+	/// </summary>
 	public struct PollStatusOptions
 	{
 		/// <summary>

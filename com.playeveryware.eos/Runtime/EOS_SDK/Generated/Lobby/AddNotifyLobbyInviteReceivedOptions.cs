@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.Lobby
 {
+	/// <summary>
+	/// Input parameters for the <see cref="LobbyInterface.AddNotifyLobbyInviteReceived" /> function.
+	/// </summary>
 	public struct AddNotifyLobbyInviteReceivedOptions
 	{
 		

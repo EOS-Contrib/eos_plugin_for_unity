@@ -6,7 +6,10 @@
 
 #pragma pack(push, 8)
 
+
+/** The most recent version of the EOS_PresenceModification_SetTemplateId API. */
 #define EOS_PRESENCEMODIFICATION_SETTEMPLATEID_API_LATEST 1
+
 /**
  * Data for the EOS_PresenceModification_SetTemplateId function.
  */
@@ -41,8 +44,10 @@ EOS_STRUCT(EOS_PresenceModification_SetTemplateDataOptions, (
 	/** Union storage for template typed values */
 	union
 	{
-		int32_t AsInt32;  // localized integer
-		const char* AsStringId;  // reference a StringId in the Backend
+		/** Localized integer */
+		int32_t AsInt32;
+		/** Reference a StringId in the Backend */
+		const char* AsStringId;
 	} Value;
 	/** Type stored in the union */
 	EOS_EPresenceModificationTemplateType ValueType;

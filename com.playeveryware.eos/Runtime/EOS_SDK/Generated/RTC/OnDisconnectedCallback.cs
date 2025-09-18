@@ -7,6 +7,12 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.RTC
 {
 
+	/// <summary>
+	/// Function prototype definition for notifications that come from <see cref="RTCInterface.AddNotifyDisconnected" />
+	/// </summary>
+	/// <param name="data">
+	/// A <see cref="DisconnectedCallbackInfo" /> containing the output information and result
+	/// </param>
 	public delegate void OnDisconnectedCallback(ref DisconnectedCallbackInfo data);
 
 	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]

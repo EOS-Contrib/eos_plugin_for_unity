@@ -122,12 +122,12 @@ namespace Epic.OnlineServices
 			if (callback != null)
 			{
 				// If this delegate was added with an AddNotify, we should only ever remove it on RemoveNotify.
-				// if (notificationId.HasValue)
-				// {
-				// }
+				if (notificationId.HasValue)
+				{
+				}
 
 				// If the operation is complete, it's safe to remove.
-				 if (callbackInfo.GetResultCode().HasValue && Common.IsOperationComplete(callbackInfo.GetResultCode().Value))
+				else if (callbackInfo.GetResultCode().HasValue && Common.IsOperationComplete(callbackInfo.GetResultCode().Value))
 				{
 					RemoveCallback(clientDataPointer);
 				}

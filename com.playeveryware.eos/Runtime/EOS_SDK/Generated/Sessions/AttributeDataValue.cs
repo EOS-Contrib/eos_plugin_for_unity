@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.Sessions
 {
+	/// <summary>
+	/// Value of the session attribute
+	/// </summary>
 	public struct AttributeDataValue
 	{
 		private long? m_AsInt64;

@@ -22,7 +22,13 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// A macro to identify the Steam integrated platform.
 		/// </summary>
 		public static readonly Utf8String WINDOWS_STEAM_IPT = "STEAM";
+		/// <summary>
+		/// The maximum size of the SteamApiInterfaceVersionsArray in the <see cref="WindowsSteamOptionsInitOptions" /> struct.
+		/// </summary>
 		public const int WINDOWS_STEAM_MAX_STEAMAPIINTERFACEVERSIONSARRAY_SIZE = 4096;
+		/// <summary>
+		/// The most recent version of the <see cref="WindowsSteamOptionsInitOptions" /> API.
+		/// </summary>
 		public const int WINDOWS_STEAM_OPTIONS_API_LATEST = 3;
 	}
 }

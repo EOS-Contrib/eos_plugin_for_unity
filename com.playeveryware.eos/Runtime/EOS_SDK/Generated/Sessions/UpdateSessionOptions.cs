@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.Sessions
 {
+	/// <summary>
+	/// Input parameters for the <see cref="SessionsInterface.UpdateSession" /> function.
+	/// </summary>
 	public struct UpdateSessionOptions
 	{
 		/// <summary>

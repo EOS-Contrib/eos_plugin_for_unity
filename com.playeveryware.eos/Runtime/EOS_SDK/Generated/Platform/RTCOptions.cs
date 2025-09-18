@@ -23,6 +23,11 @@ namespace Epic.OnlineServices.Platform
 		/// Configures RTC behavior upon entering to any background application statuses
 		/// </summary>
 		public RTCBackgroundMode BackgroundMode { get; set; }
+
+		/// <summary>
+		/// Reserved field, should be <see langword="null" /> by default
+		/// </summary>
+		public IntPtr Reserved { get; set; }
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -31,6 +36,7 @@ namespace Epic.OnlineServices.Platform
 		private int m_ApiVersion;
 		private IntPtr m_PlatformSpecificOptions;
 		private RTCBackgroundMode m_BackgroundMode;
+		private IntPtr m_Reserved;
 
 		public void Set(ref RTCOptions other)
 		{
@@ -39,11 +45,13 @@ namespace Epic.OnlineServices.Platform
 			m_ApiVersion = PlatformInterface.RTCOPTIONS_API_LATEST;
 			m_PlatformSpecificOptions = other.PlatformSpecificOptions;
 			m_BackgroundMode = other.BackgroundMode;
+			m_Reserved = other.Reserved;
 		}
 
 		public void Dispose()
 		{
 			Helper.Dispose(ref m_PlatformSpecificOptions);
+			Helper.Dispose(ref m_Reserved);
 		}
 	}
 }

@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatServer
 {
+	/// <summary>
+	/// Input parameters for the <see cref="AntiCheatServerInterface.AddNotifyMessageToClient" /> function.
+	/// </summary>
 	public struct AddNotifyMessageToClientOptions
 	{
 		

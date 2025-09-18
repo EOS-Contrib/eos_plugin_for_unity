@@ -212,7 +212,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_UI_ReportInputState(EOS_HUI Handle, const EOS_
  * As this process can be involved and rather varied depending on platform we do not plan to make the call
  * replace the standard "present" call, but rather expect it to be issued "just before" that call.
  * This function has an empty implementation (i.e. returns EOS_NotImplemented) on all non-consoles platforms.
- * @param PlatformSpecificInputData will vary from platform to platform.
+ *
+ * @param Options will vary from platform to platform.
  *        Main difference will be due to a platforms ability to provide multiple rendering queues.
  *
  * @return An EOS_EResult is returned to indicate success or an error.
@@ -223,7 +224,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_UI_PrePresent(EOS_HUI Handle, const EOS_UI_Pre
  * Requests that the Social Overlay open and display the "Block User" flow for the specified user.
  *
  * @param ClientData Arbitrary data that is passed back to you in the NotificationFn.
- * @param NotificationFn A callback that is fired when the user exits the Block UI.
+ * @param CompletionDelegate A callback that is fired when the user exits the Block UI.
  *
  * @return EOS_Success If the overlay has been notified about the request.
  *         EOS_IncompatibleVersion if the API version passed in is incorrect.
@@ -237,7 +238,7 @@ EOS_DECLARE_FUNC(void) EOS_UI_ShowBlockPlayer(EOS_HUI Handle, const EOS_UI_ShowB
  * Requests that the Social Overlay open and display the "Report User" flow for the specified user.
  *
  * @param ClientData Arbitrary data that is passed back to you in the NotificationFn.
- * @param NotificationFn A callback that is fired when the user exits the Report UI.
+ * @param CompletionDelegate A callback that is fired when the user exits the Report UI.
  *
  * @return EOS_Success If the overlay has been notified about the request.
  *         EOS_IncompatibleVersion if the API version passed in is incorrect.

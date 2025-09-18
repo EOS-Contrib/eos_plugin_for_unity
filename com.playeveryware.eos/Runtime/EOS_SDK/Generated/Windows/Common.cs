@@ -18,6 +18,9 @@ namespace Epic.OnlineServices
 {
 	public sealed partial class Common
 	{
+		/// <summary>
+		/// Steam online platform
+		/// </summary>
 		public const int WINDOWS_STEAM_OPT = 4000;
 	}
 }

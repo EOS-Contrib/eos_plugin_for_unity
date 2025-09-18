@@ -27,7 +27,7 @@ namespace Epic.OnlineServices.Stats
 		{
 			Dispose();
 
-			m_ApiVersion = StatsInterface.GETSTATCOUNT_API_LATEST;
+			m_ApiVersion = StatsInterface.GETSTATSCOUNT_API_LATEST;
 			Helper.Set(other.TargetUserId, ref m_TargetUserId);
 		}
 
