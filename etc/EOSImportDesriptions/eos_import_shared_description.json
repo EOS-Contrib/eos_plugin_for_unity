@@ -27,6 +27,7 @@
         {"src":"SDK/Source/Generated/RTC/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/RTC/"},
         {"src":"SDK/Source/Generated/RTCAdmin/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/RTCAdmin/"},
         {"src":"SDK/Source/Generated/RTCAudio/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/RTCAudio/"},
+        {"src":"SDK/Source/Generated/RTCData/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/RTCData/"},
         {"src":"SDK/Source/Generated/Sanctions/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Sanctions/"},
         {"src":"SDK/Source/Generated/Sessions/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Sessions/"},
         {"src":"SDK/Source/Generated/Stats/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Stats/"},
