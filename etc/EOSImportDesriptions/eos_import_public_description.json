@@ -1,6 +1,7 @@
 {
     "source_to_dest": [
         {"src":"SDK/Source/Core/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Core/"},
+        {"src":"SDK/Source/Core/P2P/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Core/P2P/"},
         {"src":"SDK/Source/Generated/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/"},
         {"src":"SDK/Source/Generated/Achievements/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Achievements/"},
         {"src":"SDK/Source/Generated/Android/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Android/"},
@@ -31,6 +32,7 @@
         {"src":"SDK/Source/Generated/RTC/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/RTC/"},
         {"src":"SDK/Source/Generated/RTCAdmin/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/RTCAdmin/"},
         {"src":"SDK/Source/Generated/RTCAudio/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/RTCAudio/"},
+        {"src":"SDK/Source/Generated/RTCData/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/RTCData/"},
         {"src":"SDK/Source/Generated/Sanctions/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Sanctions/"},
         {"src":"SDK/Source/Generated/Sessions/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Sessions/"},
         {"src":"SDK/Source/Generated/Stats/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Stats/"},
@@ -41,9 +43,11 @@
         {"src":"SDK/Source/Generated/Windows/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Windows/"},
         {"src":"SDK/Source/Generated/Windows/Platform/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/"},
 
-        {"src": "SDK/Bin/Android/dynamic-stdc++/aar/*.aar", "dest": "etc/PlatformSpecificAssets/EOS/Android/dynamic-stdc++/aar/"},
+        {"src": "SDK/Bin/Android/dynamic-stdc++/Deprecated/aar/*.aar", "dest": "etc/PlatformSpecificAssets/EOS/Android/dynamic-stdc++/aar/"},
         {"src": "SDK/Bin/Android/static-stdc++/aar/*.aar", "dest": "etc/PlatformSpecificAssets/EOS/Android/static-stdc++/aar/"},
         
+        {"src": "SDK/Bin/IOS/EOSSDK.framework/EOSSDK", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
+        {"src": "SDK/Bin/IOS/EOSSDK.framework/Info.plist", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
         {"src": "SDK/Bin/IOS/EOSSDK.framework/EOSSDK", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
         {"src": "SDK/Bin/IOS/EOSSDK.framework/Info.plist", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
 
