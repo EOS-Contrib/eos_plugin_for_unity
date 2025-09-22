@@ -24,12 +24,12 @@ EOS_STRUCT(EOS_Platform_ClientCredentials, (
 
 /** All background modes supported by the RTC components */
 EOS_ENUM(EOS_ERTCBackgroundMode,
-	/** 
+	/**
 	 * Upon entering a background application status, all logged in users leave any RTC rooms. All subsequent attempts to join any RTC rooms will be rejected.
 	 * Upon returning to a foreground application status, all subsequent attempts to join any RTC rooms will be allowed.
 	 */
 	EOS_RTCBM_LeaveRooms = 0,
-	/** 
+	/**
 	 * Application status has no effect on RTC rooms. Audio is captured from input devices and is played to output devices.
 	 * Games should obtain consent from users and otherwise make users aware this is occurring.
 	 */
@@ -37,7 +37,7 @@ EOS_ENUM(EOS_ERTCBackgroundMode,
 );
 
 /** The most recent version of the EOS_Platform_RTCOptions API. */
-#define EOS_PLATFORM_RTCOPTIONS_API_LATEST 2
+#define EOS_PLATFORM_RTCOPTIONS_API_LATEST 3
 
 /** Platform RTC options. */
 EOS_STRUCT(EOS_Platform_RTCOptions, (
@@ -52,13 +52,22 @@ EOS_STRUCT(EOS_Platform_RTCOptions, (
 	void* PlatformSpecificOptions;
 	/** Configures RTC behavior upon entering to any background application statuses */
 	EOS_ERTCBackgroundMode BackgroundMode;
+	/**
+	 * Reserved field, should be nullptr by default
+	 */
+	void* Reserved;
 ));
 
+/** The maximum length of a Country Code */
 #define EOS_COUNTRYCODE_MAX_LENGTH 4
+/** The maximum length of a Country Code buffer */
 #define EOS_COUNTRYCODE_MAX_BUFFER_LEN (EOS_COUNTRYCODE_MAX_LENGTH + 1)
+/** The maximum length of a Locale Code */
 #define EOS_LOCALECODE_MAX_LENGTH 9
+/** The maximum length of a Locale Code buffer */
 #define EOS_LOCALECODE_MAX_BUFFER_LEN (EOS_LOCALECODE_MAX_LENGTH + 1)
 
+/** The most recent version of the EOS_Platform_Options API. */
 #define EOS_PLATFORM_OPTIONS_API_LATEST 14
 
 /** Platform Creation Flags used in EOS_Platform_Create */
@@ -133,14 +142,14 @@ EOS_STRUCT(EOS_Platform_Options, (
 	EOS_HIntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle;
 	/** Pointer to EOS_"PLATFORM_NAME"_SystemSpecificOptions. This structure will be located in "PLATFORM_NAME"/eos_"PLATFORM_NAME".h */
 	const void* SystemSpecificOptions;
-	/** 
+	/**
 	 * Number of seconds for a task to wait for the network to become available before timing out with an EOS_TimedOut error.
 	 * This timeout period applies when the network status is not EOS_NS_Online. Tasks that need the network will queue for up to
 	 * this timeout until EOS_Platform_SetNetworkStatus is used to set the network status to online.
-	 * 
-	 * Pass a null pointer to use the default. 
+	 *
+	 * Pass a null pointer to use the default.
 	 * Otherwise, pass a pointer to a double containing the number of seconds for tasks that are waiting for network to time out.
-	 * 
+	 *
 	 * @see EOS_Platform_SetNetworkStatus
 	 * @see EOS_ENetworkStatus
 	 */
@@ -163,7 +172,7 @@ EOS_ENUM(EOS_EApplicationStatus,
 	 *
 	 * Notifies the SDK that the application has returned from constrained mode,
 	 * and is back to running in a regular state with full access to system resources.
-	 * 
+	 *
 	 * The SDK will handle this state change and automatically transition its active state to EOS_AS_Foreground.
 	 * As result, after the application has set the EOS_AS_BackgroundUnconstrained state,
 	 * calling EOS_Platform_GetApplicationStatus will return EOS_AS_Foreground as the persisted active state.
@@ -314,13 +323,13 @@ EOS_STRUCT(EOS_Platform_DesktopCrossplayStatusInfo, (
 /** DEPRECATED: This alias will be removed in a future version, please use EOS_Platform_DesktopCrossplayStatusInfo to avoid API breaking changes in the future. */
 #define EOS_Platform_GetDesktopCrossplayStatusInfo EOS_Platform_DesktopCrossplayStatusInfo
 
-/** 
+/**
  * The name of the env var used to determine if the game was launched by the Epic Games Launcher.
- * 
- * During the call to EOS_Platform_Create, the command line that was used to launch the app is inspected, and if it is
- * recognized as coming from the Epic Games Launcher, this environment variable is set to 1. 
  *
- * NOTE: You can force the EOS_Platform_CheckForLauncherAndRestart API to relaunch the title by 
+ * During the call to EOS_Platform_Create, the command line that was used to launch the app is inspected, and if it is
+ * recognized as coming from the Epic Games Launcher, this environment variable is set to 1.
+ *
+ * NOTE: You can force the EOS_Platform_CheckForLauncherAndRestart API to relaunch the title by
  * explicitly unsetting this environment variable before calling EOS_Platform_CheckForLauncherAndRestart.
  */
 #define EOS_PLATFORM_CHECKFORLAUNCHERANDRESTART_ENV_VAR "EOS_LAUNCHED_BY_EPIC"

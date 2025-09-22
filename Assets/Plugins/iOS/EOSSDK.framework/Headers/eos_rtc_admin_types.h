@@ -183,6 +183,10 @@ EOS_STRUCT(EOS_RTCAdmin_SetParticipantHardMuteCompleteCallbackInfo, (
 	void* ClientData;
 ));
 
+/**
+ * Function prototype definition for callbacks passed to EOS_RTCAdmin_SetParticipantHardMute
+ * @param Data An EOS_RTCAdmin_SetParticipantHardMuteCompleteCallbackInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_RTCAdmin_OnSetParticipantHardMuteCompleteCallback, const EOS_RTCAdmin_SetParticipantHardMuteCompleteCallbackInfo* Data);
 
 #pragma pack(pop)

@@ -30,6 +30,7 @@ EOS_ENUM(EOS_Presence_EStatus,
 );
 
 
+/** The most recent version of the EOS_Presence_DataRecord API. */
 #define EOS_PRESENCE_DATARECORD_API_LATEST 1
 
 /**
@@ -47,6 +48,7 @@ EOS_STRUCT(EOS_Presence_DataRecord, (
 ));
 
 
+/** The most recent version of the EOS_Presence_Info API. */
 #define EOS_PRESENCE_INFO_API_LATEST 3
 
 /**
@@ -81,6 +83,7 @@ EOS_STRUCT(EOS_Presence_Info, (
 ));
 
 
+/** The most recent version of the EOS_Presence_QueryPresence API. */
 #define EOS_PRESENCE_QUERYPRESENCE_API_LATEST 1
 
 /**
@@ -115,6 +118,7 @@ EOS_STRUCT(EOS_Presence_QueryPresenceCallbackInfo, (
 EOS_DECLARE_CALLBACK(EOS_Presence_OnQueryPresenceCompleteCallback, const EOS_Presence_QueryPresenceCallbackInfo* Data);
 
 
+/** The most recent version of the EOS_Presence_HasPresence API. */
 #define EOS_PRESENCE_HASPRESENCE_API_LATEST 1
 
 /**
@@ -130,7 +134,9 @@ EOS_STRUCT(EOS_Presence_HasPresenceOptions, (
 ));
 
 
+/** The most recent version of the EOS_Presence_CopyPresence API. */
 #define EOS_PRESENCE_COPYPRESENCE_API_LATEST 3
+
 /**
  * Data for the EOS_Presence_CopyPresence function.
  */
@@ -153,7 +159,9 @@ EOS_STRUCT(EOS_Presence_CopyPresenceOptions, (
 EOS_DECLARE_FUNC(void) EOS_Presence_Info_Release(EOS_Presence_Info* PresenceInfo);
 
 
+/** The most recent version of the EOS_Presence_CreatePresenceModification API. */
 #define EOS_PRESENCE_CREATEPRESENCEMODIFICATION_API_LATEST 1
+
 /**
  * Data for the EOS_Presence_CreatePresenceModification function.
  */
@@ -176,7 +184,9 @@ EOS_STRUCT(EOS_Presence_CreatePresenceModificationOptions, (
 EOS_DECLARE_FUNC(void) EOS_PresenceModification_Release(EOS_HPresenceModification PresenceModificationHandle);
 
 
+/** The most recent version of the EOS_Presence_SetPresence API. */
 #define EOS_PRESENCE_SETPRESENCE_API_LATEST 1
+
 /**
  * Data for the EOS_Presence_SetPresence function.
  */
@@ -210,7 +220,9 @@ EOS_STRUCT(EOS_Presence_SetPresenceCallbackInfo, (
 EOS_DECLARE_CALLBACK(EOS_Presence_SetPresenceCompleteCallback, const EOS_Presence_SetPresenceCallbackInfo* Data);
 
 
+/** The most recent version of the EOS_Presence_AddNotifyOnPresenceChanged API. */
 #define EOS_PRESENCE_ADDNOTIFYONPRESENCECHANGED_API_LATEST 1
+
 /**
  * Data for the EOS_Presence_AddNotifyOnPresenceChanged function.
  */
@@ -234,6 +246,9 @@ EOS_STRUCT(EOS_Presence_PresenceChangedCallbackInfo, (
 /** The most recent version of the EOS_Presence_AddNotifyJoinGameAccepted API. */
 #define EOS_PRESENCE_ADDNOTIFYJOINGAMEACCEPTED_API_LATEST 2
 
+/**
+ * Input parameters for the EOS_Presence_AddNotifyJoinGameAccepted function.
+ */
 EOS_STRUCT(EOS_Presence_AddNotifyJoinGameAcceptedOptions, (
 	/** API Version: Set this to EOS_PRESENCE_ADDNOTIFYJOINGAMEACCEPTED_API_LATEST. */
 	int32_t ApiVersion;
@@ -276,7 +291,9 @@ EOS_DECLARE_CALLBACK(EOS_Presence_OnJoinGameAcceptedCallback, const EOS_Presence
  */
 EOS_DECLARE_CALLBACK(EOS_Presence_OnPresenceChangedCallback, const EOS_Presence_PresenceChangedCallbackInfo* Data);
 
+/** The most recent version of the EOS_Presence_GetJoinInfoOptions API. */
 #define EOS_PRESENCE_GETJOININFO_API_LATEST 1
+
 /**
  * Data for the EOS_Presence_GetJoinInfo function.
  */
@@ -289,9 +306,12 @@ EOS_STRUCT(EOS_Presence_GetJoinInfoOptions, (
 	EOS_EpicAccountId TargetUserId;
 ));
 
+/** The maximum allowed length that the JoinInfo value may be. This value is subject to change and data structures should be designed to allow for greater numbers than this. */
 #define EOS_PRESENCEMODIFICATION_JOININFO_MAX_LENGTH EOS_PRESENCE_DATA_MAX_VALUE_LENGTH
 
+/** The most recent version of the EOS_PresenceModification_SetJoinInfoOptions API. */
 #define EOS_PRESENCEMODIFICATION_SETJOININFO_API_LATEST 1
+
 /**
  * Data for the EOS_PresenceModification_SetJoinInfo function.
  */
@@ -399,6 +419,7 @@ EOS_STRUCT(EOS_PresenceModification_SetDataOptions, (
 	const EOS_Presence_DataRecord* Records;
 ));
 
+/** The most recent version of the EOS_PresenceModification_DataRecordId API. */
 #define EOS_PRESENCEMODIFICATION_DATARECORDID_API_LATEST 1
 
 /**
