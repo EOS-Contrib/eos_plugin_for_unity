@@ -1,6 +1,7 @@
 {
     "source_to_dest": [
         {"src":"SDK/Source/Core/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Core/"},
+        {"src":"SDK/Source/Core/P2P/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Core/P2P/"},
         {"src":"SDK/Source/Generated/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/"},
         {"src":"SDK/Source/Generated/Achievements/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Achievements/"},
         {"src":"SDK/Source/Generated/AntiCheatClient/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/AntiCheatClient/"},
@@ -27,6 +28,7 @@
         {"src":"SDK/Source/Generated/RTC/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/RTC/"},
         {"src":"SDK/Source/Generated/RTCAdmin/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/RTCAdmin/"},
         {"src":"SDK/Source/Generated/RTCAudio/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/RTCAudio/"},
+        {"src":"SDK/Source/Generated/RTCData/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/RTCData/"},
         {"src":"SDK/Source/Generated/Sanctions/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Sanctions/"},
         {"src":"SDK/Source/Generated/Sessions/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Sessions/"},
         {"src":"SDK/Source/Generated/Stats/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Stats/"},
