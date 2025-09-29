@@ -132,6 +132,8 @@ EOS_DECLARE_FUNC(void) EOS_Presence_RemoveNotifyJoinGameAccepted(EOS_HPresence H
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Presence_GetJoinInfo(EOS_HPresence Handle, const EOS_Presence_GetJoinInfoOptions* Options, char* OutBuffer, int32_t* InOutBufferLength);
 
+#include "eos_presence_localized_types.h"
+
 /**
  * To modify your own presence, you must call EOS_Presence_CreatePresenceModification to create a Presence Modification handle. To modify that handle, call
  * EOS_PresenceModification_* methods. Once you are finished, call EOS_Presence_SetPresence with your handle. You must then release your Presence Modification
@@ -145,6 +147,26 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Presence_GetJoinInfo(EOS_HPresence Handle, con
  * @return Success if modification was added successfully, otherwise an error code related to the problem
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_PresenceModification_SetStatus(EOS_HPresenceModification Handle, const EOS_PresenceModification_SetStatusOptions* Options);
+
+/**
+ * Modifies a user's Rich Presence string to a new state using a localized template. This string represents
+ * a template ID that may contain one or more variables that must be supplied via SetTemplateData. This
+ * function is mutually exclusive with SetRawRichText meaning only one can be used on a modification.
+ *
+ * @param Options Object containing the TemplateId for a pre-cofnigured a Localized Presence Template
+ * @return Success if the value was updated successfully, otherwise an error code related to the problem
+ */
+EOS_DECLARE_FUNC(EOS_EResult) EOS_PresenceModification_SetTemplateId(EOS_HPresenceModification Handle, const EOS_PresenceModification_SetTemplateIdOptions* Options);
+
+/**
+ * Adds variable data to a Presence Update template much like a format-arg would. This value will be localized
+ * by the backend and displayed to users. This function can be called multiple times for each variable. Subsequent
+ * calls for the sane variable will replace the value with the latest version.
+ *
+ * @param Options Object containing properties related to setting a named variable value on a Localized Presence Template
+ * @return Success if the value was updated successfully, otherwise an error code related to the problem
+ */
+EOS_DECLARE_FUNC(EOS_EResult) EOS_PresenceModification_SetTemplateData(EOS_HPresenceModification Handle, const EOS_PresenceModification_SetTemplateDataOptions* Options);
 
 /**
  * Modifies a user's Rich Presence string to a new state. This is the exact value other users will see

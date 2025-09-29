@@ -68,7 +68,7 @@ namespace Epic.OnlineServices
 	public static partial class Bindings
 	{
 #if EOS_DYNAMIC_BINDINGS_NAME_TYPE1
-        private const string EOS_Achievements_AddNotifyAchievementsUnlockedName = "EOS_Achievements_AddNotifyAchievementsUnlocked";
+		private const string EOS_Achievements_AddNotifyAchievementsUnlockedName = "EOS_Achievements_AddNotifyAchievementsUnlocked";
 		private const string EOS_Achievements_AddNotifyAchievementsUnlockedV2Name = "EOS_Achievements_AddNotifyAchievementsUnlockedV2";
 		private const string EOS_Achievements_CopyAchievementDefinitionByAchievementIdName = "EOS_Achievements_CopyAchievementDefinitionByAchievementId";
 		private const string EOS_Achievements_CopyAchievementDefinitionByIndexName = "EOS_Achievements_CopyAchievementDefinitionByIndex";
@@ -488,6 +488,8 @@ namespace Epic.OnlineServices
 		private const string EOS_PresenceModification_SetJoinInfoName = "EOS_PresenceModification_SetJoinInfo";
 		private const string EOS_PresenceModification_SetRawRichTextName = "EOS_PresenceModification_SetRawRichText";
 		private const string EOS_PresenceModification_SetStatusName = "EOS_PresenceModification_SetStatus";
+		private const string EOS_PresenceModification_SetTemplateDataName = "EOS_PresenceModification_SetTemplateData";
+		private const string EOS_PresenceModification_SetTemplateIdName = "EOS_PresenceModification_SetTemplateId";
 		private const string EOS_Presence_AddNotifyJoinGameAcceptedName = "EOS_Presence_AddNotifyJoinGameAccepted";
 		private const string EOS_Presence_AddNotifyOnPresenceChangedName = "EOS_Presence_AddNotifyOnPresenceChanged";
 		private const string EOS_Presence_CopyPresenceName = "EOS_Presence_CopyPresence";
@@ -695,7 +697,7 @@ namespace Epic.OnlineServices
 		private const string EOS_UserInfo_ReleaseName = "EOS_UserInfo_Release";
 #endif
 #if EOS_DYNAMIC_BINDINGS_NAME_TYPE2
-        private const string EOS_Achievements_AddNotifyAchievementsUnlockedName = "_EOS_Achievements_AddNotifyAchievementsUnlocked";
+		private const string EOS_Achievements_AddNotifyAchievementsUnlockedName = "_EOS_Achievements_AddNotifyAchievementsUnlocked";
 		private const string EOS_Achievements_AddNotifyAchievementsUnlockedV2Name = "_EOS_Achievements_AddNotifyAchievementsUnlockedV2";
 		private const string EOS_Achievements_CopyAchievementDefinitionByAchievementIdName = "_EOS_Achievements_CopyAchievementDefinitionByAchievementId";
 		private const string EOS_Achievements_CopyAchievementDefinitionByIndexName = "_EOS_Achievements_CopyAchievementDefinitionByIndex";
@@ -1115,6 +1117,8 @@ namespace Epic.OnlineServices
 		private const string EOS_PresenceModification_SetJoinInfoName = "_EOS_PresenceModification_SetJoinInfo";
 		private const string EOS_PresenceModification_SetRawRichTextName = "_EOS_PresenceModification_SetRawRichText";
 		private const string EOS_PresenceModification_SetStatusName = "_EOS_PresenceModification_SetStatus";
+		private const string EOS_PresenceModification_SetTemplateDataName = "_EOS_PresenceModification_SetTemplateData";
+		private const string EOS_PresenceModification_SetTemplateIdName = "_EOS_PresenceModification_SetTemplateId";
 		private const string EOS_Presence_AddNotifyJoinGameAcceptedName = "_EOS_Presence_AddNotifyJoinGameAccepted";
 		private const string EOS_Presence_AddNotifyOnPresenceChangedName = "_EOS_Presence_AddNotifyOnPresenceChanged";
 		private const string EOS_Presence_CopyPresenceName = "_EOS_Presence_CopyPresence";
@@ -1742,6 +1746,8 @@ namespace Epic.OnlineServices
 		private const string EOS_PresenceModification_SetJoinInfoName = "_EOS_PresenceModification_SetJoinInfo@8";
 		private const string EOS_PresenceModification_SetRawRichTextName = "_EOS_PresenceModification_SetRawRichText@8";
 		private const string EOS_PresenceModification_SetStatusName = "_EOS_PresenceModification_SetStatus@8";
+		private const string EOS_PresenceModification_SetTemplateDataName = "_EOS_PresenceModification_SetTemplateData@8";
+		private const string EOS_PresenceModification_SetTemplateIdName = "_EOS_PresenceModification_SetTemplateId@8";
 		private const string EOS_Presence_AddNotifyJoinGameAcceptedName = "_EOS_Presence_AddNotifyJoinGameAccepted@16";
 		private const string EOS_Presence_AddNotifyOnPresenceChangedName = "_EOS_Presence_AddNotifyOnPresenceChanged@16";
 		private const string EOS_Presence_CopyPresenceName = "_EOS_Presence_CopyPresence@12";
@@ -1950,12 +1956,12 @@ namespace Epic.OnlineServices
 #endif
 
 #if EOS_DYNAMIC_BINDINGS
-        /// <summary>
-        /// Hooks dynamic bindings.
-        /// </summary>
-        /// <param name="libraryHandle">A handle to the library to find functions in. The type is platform dependent, but would typically be an <see cref="IntPtr"/>.</param>
-        /// <param name="getFunctionPointer">A delegate that takes a library handle and function name, and returns an <see cref="IntPtr"/> which is a pointer to the function within the library.</param>
-        public static void Hook<TLibraryHandle>(TLibraryHandle libraryHandle, Func<TLibraryHandle, string, IntPtr> getFunctionPointer)
+		/// <summary>
+		/// Hooks dynamic bindings.
+		/// </summary>
+		/// <param name="libraryHandle">A handle to the library to find functions in. The type is platform dependent, but would typically be an <see cref="IntPtr"/>.</param>
+		/// <param name="getFunctionPointer">A delegate that takes a library handle and function name, and returns an <see cref="IntPtr"/> which is a pointer to the function within the library.</param>
+		public static void Hook<TLibraryHandle>(TLibraryHandle libraryHandle, Func<TLibraryHandle, string, IntPtr> getFunctionPointer)
 		{
 			IntPtr functionPointer;
 
@@ -2139,11 +2145,11 @@ namespace Epic.OnlineServices
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedName);
 			EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged = (EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedDelegate));
 #if EOS_DYNAMIC_BINDINGS_NAME_TYPE3 || EOS_DYNAMIC_BINDINGS_NAME_TYPE1
-            functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_Reserved01Name);
+			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_Reserved01Name);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_Reserved01Name);
 			EOS_AntiCheatClient_Reserved01 = (EOS_AntiCheatClient_Reserved01Delegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_Reserved01Delegate));
 #endif
-            functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_UnprotectMessageName);
+			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_UnprotectMessageName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_UnprotectMessageName);
 			EOS_AntiCheatClient_UnprotectMessage = (EOS_AntiCheatClient_UnprotectMessageDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_UnprotectMessageDelegate));
 
@@ -3639,6 +3645,14 @@ namespace Epic.OnlineServices
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_PresenceModification_SetStatusName);
 			EOS_PresenceModification_SetStatus = (EOS_PresenceModification_SetStatusDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetStatusDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_PresenceModification_SetTemplateDataName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_PresenceModification_SetTemplateDataName);
+			EOS_PresenceModification_SetTemplateData = (EOS_PresenceModification_SetTemplateDataDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetTemplateDataDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_PresenceModification_SetTemplateIdName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_PresenceModification_SetTemplateIdName);
+			EOS_PresenceModification_SetTemplateId = (EOS_PresenceModification_SetTemplateIdDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetTemplateIdDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Presence_AddNotifyJoinGameAcceptedName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Presence_AddNotifyJoinGameAcceptedName);
 			EOS_Presence_AddNotifyJoinGameAccepted = (EOS_Presence_AddNotifyJoinGameAcceptedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Presence_AddNotifyJoinGameAcceptedDelegate));
@@ -4885,6 +4899,8 @@ namespace Epic.OnlineServices
 			EOS_PresenceModification_SetJoinInfo = null;
 			EOS_PresenceModification_SetRawRichText = null;
 			EOS_PresenceModification_SetStatus = null;
+			EOS_PresenceModification_SetTemplateData = null;
+			EOS_PresenceModification_SetTemplateId = null;
 			EOS_Presence_AddNotifyJoinGameAccepted = null;
 			EOS_Presence_AddNotifyOnPresenceChanged = null;
 			EOS_Presence_CopyPresence = null;
@@ -5093,7 +5109,7 @@ namespace Epic.OnlineServices
 		}
 #endif
 #if EOS_DYNAMIC_BINDINGS
-        [UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate ulong EOS_Achievements_AddNotifyAchievementsUnlockedDelegate(IntPtr handle, ref Achievements.AddNotifyAchievementsUnlockedOptionsInternal options, IntPtr clientData, Achievements.OnAchievementsUnlockedCallbackInternal notificationFn);
 		internal static EOS_Achievements_AddNotifyAchievementsUnlockedDelegate EOS_Achievements_AddNotifyAchievementsUnlocked;
 
@@ -6772,6 +6788,14 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate Result EOS_PresenceModification_SetStatusDelegate(IntPtr handle, ref Presence.PresenceModificationSetStatusOptionsInternal options);
 		internal static EOS_PresenceModification_SetStatusDelegate EOS_PresenceModification_SetStatus;
+
+		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		internal delegate Result EOS_PresenceModification_SetTemplateDataDelegate(IntPtr handle, ref Presence.PresenceModificationSetTemplateDataOptionsInternal options);
+		internal static EOS_PresenceModification_SetTemplateDataDelegate EOS_PresenceModification_SetTemplateData;
+
+		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		internal delegate Result EOS_PresenceModification_SetTemplateIdDelegate(IntPtr handle, ref Presence.PresenceModificationSetTemplateIdOptionsInternal options);
+		internal static EOS_PresenceModification_SetTemplateIdDelegate EOS_PresenceModification_SetTemplateId;
 
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate ulong EOS_Presence_AddNotifyJoinGameAcceptedDelegate(IntPtr handle, ref Presence.AddNotifyJoinGameAcceptedOptionsInternal options, IntPtr clientData, Presence.OnJoinGameAcceptedCallbackInternal notificationFn);
@@ -8854,6 +8878,12 @@ namespace Epic.OnlineServices
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PresenceModification_SetStatus", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern Result EOS_PresenceModification_SetStatus(IntPtr handle, ref Presence.PresenceModificationSetStatusOptionsInternal options);
 
+		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PresenceModification_SetTemplateData", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		internal static extern Result EOS_PresenceModification_SetTemplateData(IntPtr handle, ref Presence.PresenceModificationSetTemplateDataOptionsInternal options);
+
+		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PresenceModification_SetTemplateId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		internal static extern Result EOS_PresenceModification_SetTemplateId(IntPtr handle, ref Presence.PresenceModificationSetTemplateIdOptionsInternal options);
+
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Presence_AddNotifyJoinGameAccepted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern ulong EOS_Presence_AddNotifyJoinGameAccepted(IntPtr handle, ref Presence.AddNotifyJoinGameAcceptedOptionsInternal options, IntPtr clientData, Presence.OnJoinGameAcceptedCallbackInternal notificationFn);
 
@@ -9469,5 +9499,5 @@ namespace Epic.OnlineServices
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UserInfo_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern void EOS_UserInfo_Release(IntPtr userInfo);
 #endif
-    }
+	}
 }

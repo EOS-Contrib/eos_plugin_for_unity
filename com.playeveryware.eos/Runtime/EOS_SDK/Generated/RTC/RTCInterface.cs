@@ -43,13 +43,25 @@ namespace Epic.OnlineServices.RTC
 		/// The most recent version of the <see cref="Option" /> struct.
 		/// </summary>
 		public const int OPTION_API_LATEST = 1;
+		/// <summary>
+		/// The maximum size of the Key <see cref="Utf8String" /> in the <see cref="Option" /> struct.
+		/// </summary>
 		public const int OPTION_KEY_MAXCHARCOUNT = 256;
+		/// <summary>
+		/// The maximum size of the Value <see cref="Utf8String" /> in the <see cref="Option" /> struct.
+		/// </summary>
 		public const int OPTION_VALUE_MAXCHARCOUNT = 256;
 		/// <summary>
 		/// The most recent version of the <see cref="ParticipantMetadata" /> struct.
 		/// </summary>
 		public const int PARTICIPANTMETADATA_API_LATEST = 1;
+		/// <summary>
+		/// The maximum size of the Key <see cref="Utf8String" /> in the <see cref="ParticipantMetadata" /> struct.
+		/// </summary>
 		public const int PARTICIPANTMETADATA_KEY_MAXCHARCOUNT = 256;
+		/// <summary>
+		/// The maximum size of the Value <see cref="Utf8String" /> in the <see cref="ParticipantMetadata" /> struct.
+		/// </summary>
 		public const int PARTICIPANTMETADATA_VALUE_MAXCHARCOUNT = 256;
 		/// <summary>
 		/// The most recent version of the <see cref="SetRoomSetting" /> API.
@@ -160,10 +172,13 @@ namespace Epic.OnlineServices.RTC
 		/// <see cref="Common.INVALID_NOTIFICATIONID" />
 		/// <see cref="RemoveNotifyRoomStatisticsUpdated" />
 		/// </summary>
+		/// <param name="options">
+		/// structure containing the parameters for the operation
+		/// </param>
 		/// <param name="clientData">
 		/// Arbitrary data that is passed back in the StatisticsUpdateHandler
 		/// </param>
-		/// <param name="">
+		/// <param name="statisticsUpdateHandler">
 		/// The callback to be fired when a statistics updated.
 		/// </param>
 		/// <returns>

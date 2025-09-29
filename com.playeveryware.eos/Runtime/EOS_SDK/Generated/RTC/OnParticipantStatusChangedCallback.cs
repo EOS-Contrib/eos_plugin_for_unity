@@ -7,6 +7,12 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.RTC
 {
 
+	/// <summary>
+	/// Function prototype definition for notifications that come from <see cref="RTCInterface.AddNotifyParticipantStatusChanged" />
+	/// </summary>
+	/// <param name="data">
+	/// A <see cref="ParticipantStatusChangedCallbackInfo" /> containing the output information and result
+	/// </param>
 	public delegate void OnParticipantStatusChangedCallback(ref ParticipantStatusChangedCallbackInfo data);
 
 	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]

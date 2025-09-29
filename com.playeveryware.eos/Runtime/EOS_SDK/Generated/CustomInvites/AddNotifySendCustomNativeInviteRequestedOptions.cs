@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.CustomInvites
 {
+	/// <summary>
+	/// Input parameters for the <see cref="CustomInvitesInterface.AddNotifySendCustomNativeInviteRequested" /> function.
+	/// </summary>
 	public struct AddNotifySendCustomNativeInviteRequestedOptions
 	{
 		

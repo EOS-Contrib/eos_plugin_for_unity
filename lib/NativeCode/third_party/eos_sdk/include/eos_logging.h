@@ -19,12 +19,19 @@
  * @see EOS_Logging_SetLogLevel
  */
 EOS_ENUM(EOS_ELogLevel,
+	/** The default value, disables logging */
 	EOS_LOG_Off = 0,
+	/** The Fatal logging level */
 	EOS_LOG_Fatal = 100,
+	/** The Error logging level */
 	EOS_LOG_Error = 200,
+	/** The Warning logging level */
 	EOS_LOG_Warning = 300,
+	/** The Info logging level */
 	EOS_LOG_Info = 400,
+	/** The Verbose logging level */
 	EOS_LOG_Verbose = 500,
+	/** The VeryVerbose logging level */
 	EOS_LOG_VeryVerbose = 600
 );
 

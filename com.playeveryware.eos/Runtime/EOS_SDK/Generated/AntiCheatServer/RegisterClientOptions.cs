@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatServer
 {
+	/// <summary>
+	/// Input parameters for the <see cref="AntiCheatServerInterface.RegisterClient" /> function.
+	/// </summary>
 	public struct RegisterClientOptions
 	{
 		/// <summary>
@@ -79,7 +82,6 @@ namespace Epic.OnlineServices.AntiCheatServer
 
 		public void Dispose()
 		{
-			Helper.Dispose(ref m_ClientHandle);
 			Helper.Dispose(ref m_AccountId_DEPRECATED);
 			Helper.Dispose(ref m_IpAddress);
 			Helper.Dispose(ref m_UserId);

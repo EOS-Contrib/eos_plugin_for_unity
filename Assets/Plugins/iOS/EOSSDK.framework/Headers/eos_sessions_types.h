@@ -160,8 +160,8 @@ EOS_STRUCT(EOS_Sessions_CreateSessionModificationOptions, (
 	EOS_Bool bSanctionsEnabled;
 	/** 
 	 * Array of platform IDs indicating the player platforms allowed to register with the session. Platform IDs are
-	 * found in the EOS header file (eos_common.h) and use the format 'EOS_OPT_<PlatformName>'. For some platforms
-	 * the value will be in the EOS Platform specific header file. If null, the session will be unrestricted.
+	 * found in the EOS header file (eos_common.h), for example EOS_OPT_Epic. For some platforms the value will be
+	 * in the EOS Platform specific header file. If null, the session will be unrestricted.
 	 */
 	const uint32_t* AllowedPlatformIds;
 	/** Number of platform IDs in the array */
@@ -322,6 +322,10 @@ EOS_STRUCT(EOS_Sessions_CreateSessionSearchOptions, (
 
 /** The most recent version of the EOS_Sessions_UpdateSession API. */
 #define EOS_SESSIONS_UPDATESESSION_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_Sessions_UpdateSession function.
+ */
 EOS_STRUCT(EOS_Sessions_UpdateSessionOptions, (
 	/** API Version: Set this to EOS_SESSIONS_UPDATESESSION_API_LATEST. */
 	int32_t ApiVersion;
@@ -440,6 +444,9 @@ EOS_STRUCT(EOS_Sessions_StartSessionOptions, (
 	const char* SessionName;
 ));
 
+/**
+ * Output parameters for the EOS_Sessions_StartSession function.
+ */
 EOS_STRUCT(EOS_Sessions_StartSessionCallbackInfo, (
 	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
 	EOS_EResult ResultCode;
@@ -466,6 +473,9 @@ EOS_STRUCT(EOS_Sessions_EndSessionOptions, (
 	const char* SessionName;
 ));
 
+/**
+ * Output parameters for the EOS_Sessions_EndSession function.
+ */
 EOS_STRUCT(EOS_Sessions_EndSessionCallbackInfo, (
 	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
 	EOS_EResult ResultCode;
@@ -496,6 +506,9 @@ EOS_STRUCT(EOS_Sessions_RegisterPlayersOptions, (
 	uint32_t PlayersToRegisterCount;
 ));
 
+/**
+ * Output parameters for the EOS_Sessions_RegisterPlayers function.
+ */
 EOS_STRUCT(EOS_Sessions_RegisterPlayersCallbackInfo, (
 	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
 	EOS_EResult ResultCode;
@@ -534,6 +547,9 @@ EOS_STRUCT(EOS_Sessions_UnregisterPlayersOptions, (
 	uint32_t PlayersToUnregisterCount;
 ));
 
+/**
+ * Output parameters for the EOS_Sessions_UnregisterPlayers function.
+ */
 EOS_STRUCT(EOS_Sessions_UnregisterPlayersCallbackInfo, (
 	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
 	EOS_EResult ResultCode;
@@ -684,6 +700,7 @@ EOS_STRUCT(EOS_Sessions_AttributeData, (
 	int32_t ApiVersion;
 	/** Name of the session attribute */
 	const char* Key;
+	/** Value of the session attribute */
 	union
 	{
 		/** Stored as an 8 byte integer */
@@ -820,6 +837,9 @@ EOS_STRUCT(EOS_SessionSearch_FindOptions, (
 	EOS_ProductUserId LocalUserId;
 ));
 
+/**
+ * Output parameters for the EOS_SessionSearch_Find function.
+ */
 EOS_STRUCT(EOS_SessionSearch_FindCallbackInfo, (
 	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
 	EOS_EResult ResultCode;
@@ -972,6 +992,14 @@ EOS_STRUCT(EOS_SessionDetails_Info, (
 	const char* OwnerServerClientId;
 ));
 
+/**
+ * Release the memory associated with an EOS_SessionDetails_Info structure. This must be called on data retrieved from EOS_SessionDetails_CopyInfo.
+ *
+ * @param SessionInfo - The session details structure to be released
+ *
+ * @see EOS_SessionDetails_Info
+ * @see EOS_SessionDetails_CopyInfo
+ */
 EOS_DECLARE_FUNC(void) EOS_SessionDetails_Info_Release(EOS_SessionDetails_Info* SessionInfo);
 
 /** The most recent version of the EOS_SessionDetails_CopyInfo API. */
@@ -1287,6 +1315,9 @@ EOS_STRUCT(EOS_Sessions_DumpSessionStateOptions, (
 /** The most recent version of the EOS_Sessions_AddNotifyLeaveSessionRequested API. */
 #define EOS_SESSIONS_ADDNOTIFYLEAVESESSIONREQUESTED_API_LATEST 1
 
+/**
+ * Input parameters for the EOS_Sessions_AddNotifyLeaveSessionRequested function.
+ */
 EOS_STRUCT(EOS_Sessions_AddNotifyLeaveSessionRequestedOptions, (
 	/** API Version: Set this to EOS_SESSIONS_ADDNOTIFYLEAVESESSIONREQUESTED_API_LATEST. */
 	int32_t ApiVersion;
@@ -1314,6 +1345,9 @@ EOS_DECLARE_CALLBACK(EOS_Sessions_OnLeaveSessionRequestedCallback, const EOS_Ses
 /** The most recent version of the EOS_Sessions_AddNotifySendSessionNativeInviteRequested API. */
 #define EOS_SESSIONS_ADDNOTIFYSENDSESSIONNATIVEINVITEREQUESTED_API_LATEST 1
 
+/**
+ * Input parameters for the EOS_Sessions_AddNotifySendSessionNativeInviteRequested function.
+ */
 EOS_STRUCT(EOS_Sessions_AddNotifySendSessionNativeInviteRequestedOptions, (
 	/** API Version: Set this to EOS_SESSIONS_ADDNOTIFYSENDSESSIONNATIVEINVITEREQUESTED_API_LATEST. */
 	int32_t ApiVersion;

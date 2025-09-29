@@ -16,7 +16,9 @@ namespace Epic.OnlineServices.Lobby
 		/// </summary>
 		public Utf8String Key { get; set; }
 
-
+		/// <summary>
+		/// Value of the lobby attribute
+		/// </summary>
 		public AttributeDataValue Value { get; set; }
 	}
 

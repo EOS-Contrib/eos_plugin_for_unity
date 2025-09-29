@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.Lobby
 {
+	/// <summary>
+	/// Value of the lobby attribute
+	/// </summary>
 	public struct AttributeDataValue
 	{
 		private long? m_AsInt64;

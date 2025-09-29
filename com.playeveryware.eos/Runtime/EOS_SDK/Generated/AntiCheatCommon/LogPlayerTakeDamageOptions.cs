@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
+	/// <summary>
+	/// Input parameters for the <see cref="AntiCheatServer.AntiCheatServerInterface.LogPlayerTakeDamage" /> function.
+	/// </summary>
 	public struct LogPlayerTakeDamageOptions
 	{
 		/// <summary>
@@ -164,10 +167,8 @@ namespace Epic.OnlineServices.AntiCheatCommon
 
 		public void Dispose()
 		{
-			Helper.Dispose(ref m_VictimPlayerHandle);
 			Helper.Dispose(ref m_VictimPlayerPosition);
 			Helper.Dispose(ref m_VictimPlayerViewRotation);
-			Helper.Dispose(ref m_AttackerPlayerHandle);
 			Helper.Dispose(ref m_AttackerPlayerPosition);
 			Helper.Dispose(ref m_AttackerPlayerViewRotation);
 			Helper.Dispose(ref m_PlayerUseWeaponData);

@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatServer
 {
+	/// <summary>
+	/// Input parameters for the <see cref="AntiCheatServerInterface.UnprotectMessage" /> function.
+	/// </summary>
 	public struct UnprotectMessageOptions
 	{
 		/// <summary>
@@ -45,7 +48,6 @@ namespace Epic.OnlineServices.AntiCheatServer
 
 		public void Dispose()
 		{
-			Helper.Dispose(ref m_ClientHandle);
 			Helper.Dispose(ref m_Data);
 		}
 	}

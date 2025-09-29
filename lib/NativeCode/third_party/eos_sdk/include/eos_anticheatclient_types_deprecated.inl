@@ -10,7 +10,12 @@
 
 #pragma pack(push, 8)
 
+ /** The most recent version of the EOS_AntiCheatClient_PollStatus API. */
 #define EOS_ANTICHEATCLIENT_POLLSTATUS_API_LATEST 1
+
+ /**
+  * Input parameters for the EOS_AntiCheatClient_PollStatus function.
+  */
 EOS_STRUCT(EOS_AntiCheatClient_PollStatusOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_POLLSTATUS_API_LATEST. */
 	int32_t ApiVersion;

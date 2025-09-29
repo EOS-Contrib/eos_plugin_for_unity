@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatClient
 {
+	/// <summary>
+	/// Input parameters for the <see cref="RegisterPeerOptions" /> function.
+	/// </summary>
 	public struct RegisterPeerOptions
 	{
 		/// <summary>
@@ -25,6 +28,8 @@ namespace Epic.OnlineServices.AntiCheatClient
 
 		/// <summary>
 		/// Time in seconds to allow newly registered peers to send the initial message containing their token.
+		/// Minimum value: <see cref="AntiCheatClientInterface.REGISTERPEER_MIN_AUTHENTICATIONTIMEOUT" />
+		/// Maximum value: <see cref="AntiCheatClientInterface.REGISTERPEER_MAX_AUTHENTICATIONTIMEOUT" />
 		/// </summary>
 		public uint AuthenticationTimeout { get; set; }
 
@@ -74,7 +79,6 @@ namespace Epic.OnlineServices.AntiCheatClient
 
 		public void Dispose()
 		{
-			Helper.Dispose(ref m_PeerHandle);
 			Helper.Dispose(ref m_AccountId_DEPRECATED);
 			Helper.Dispose(ref m_IpAddress);
 			Helper.Dispose(ref m_PeerProductUserId);

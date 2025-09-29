@@ -168,7 +168,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_SetClientNetworkState(EOS_HAnt
  * This will not change for a given SDK version, and allows one time allocation of reusable buffers.
  *
  * @param Options Structure containing input data.
- * @param OutBufferLengthBytes On success, the OutBuffer length in bytes that is required to call ProtectMessage on the given input size.
+ * @param OutBufferSizeBytes On success, the OutBuffer length in bytes that is required to call ProtectMessage on the given input size.
  *
  * @return EOS_Success - If the output length was calculated successfully
  *         EOS_InvalidParameters - If input data was invalid

@@ -18,6 +18,8 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.IntegratedPlatform
 {
 	/// <summary>
+	/// Initialization options to use with <see cref="Platform.WindowsOptions" /> for integrated platforms.
+	/// <see cref="Platform.WindowsOptions" />
 	/// </summary>
 	public struct WindowsSteamOptions
 	{

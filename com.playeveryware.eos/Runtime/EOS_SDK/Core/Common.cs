@@ -1,11 +1,11 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #if DEBUG
-#define EOS_DEBUG
+	#define EOS_DEBUG
 #endif
 
 #if UNITY_EDITOR
-#define EOS_EDITOR
+	#define EOS_EDITOR
 #endif
 
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_PS4 || UNITY_PS5 || UNITY_XBOXONE || UNITY_SWITCH || UNITY_IOS || UNITY_ANDROID || UNITY_WSA
@@ -20,7 +20,7 @@
 #endif
 
 #elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-#define EOS_PLATFORM_OSX
+	#define EOS_PLATFORM_OSX
 
 #elif UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
 #define EOS_PLATFORM_LINUX
@@ -43,10 +43,10 @@
 #define EOS_PLATFORM_SWITCH
 
 #elif UNITY_IOS || __IOS__
-#define EOS_PLATFORM_IOS
+	#define EOS_PLATFORM_IOS
 
 #elif UNITY_ANDROID || __ANDROID__
-#define EOS_PLATFORM_ANDROID
+	#define EOS_PLATFORM_ANDROID
 
 #endif
 

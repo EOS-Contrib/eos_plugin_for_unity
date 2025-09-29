@@ -20,24 +20,14 @@ namespace Epic.OnlineServices
 		/// A macro to identify an unknown integrated platform.
 		/// </summary>
 		public static readonly Utf8String IPT_UNKNOWN = (Utf8String)null;
+		/// <summary>
+		/// Epic online platform
+		/// </summary>
 		public const int OPT_EPIC = 100;
+		/// <summary>
+		/// Unknown online platform
+		/// </summary>
 		public const int OPT_UNKNOWN = 0;
-		/// <summary>
-		/// The most recent version of the <see cref="PageQuery" /> structs.
-		/// </summary>
-		public const int PAGEQUERY_API_LATEST = 1;
-		/// <summary>
-		/// The default MaxCount used for a <see cref="PageQuery" /> when the API allows the <see cref="PageQuery" /> to be omitted.
-		/// </summary>
-		public const int PAGEQUERY_MAXCOUNT_DEFAULT = 10;
-		/// <summary>
-		/// The maximum MaxCount used for a <see cref="PageQuery" />.
-		/// </summary>
-		public const int PAGEQUERY_MAXCOUNT_MAXIMUM = 100;
-		/// <summary>
-		/// DEPRECATED! Use <see cref="PAGEQUERY_API_LATEST" /> instead.
-		/// </summary>
-		public const int PAGINATION_API_LATEST = PAGEQUERY_API_LATEST;
 		/// <summary>
 		/// A character buffer of this size is large enough to fit a successful output of <see cref="ProductUserId.ToString" />. This length does not include the <see langword="null" />-terminator.
 		/// </summary>

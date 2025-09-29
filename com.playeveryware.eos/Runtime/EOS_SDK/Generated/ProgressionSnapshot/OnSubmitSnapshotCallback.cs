@@ -7,6 +7,12 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.ProgressionSnapshot
 {
 
+	/// <summary>
+	/// Function prototype definition for callbacks passed to <see cref="ProgressionSnapshotInterface.SubmitSnapshot" />
+	/// </summary>
+	/// <param name="data">
+	/// A <see cref="SubmitSnapshotCallbackInfo" /> containing the output information and result
+	/// </param>
 	public delegate void OnSubmitSnapshotCallback(ref SubmitSnapshotCallbackInfo data);
 
 	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]

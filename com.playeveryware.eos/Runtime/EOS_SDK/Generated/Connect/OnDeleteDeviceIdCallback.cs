@@ -7,6 +7,12 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.Connect
 {
 
+	/// <summary>
+	/// Function prototype definition for callbacks passed to <see cref="ConnectInterface.DeleteDeviceId" />.
+	/// </summary>
+	/// <param name="data">
+	/// A <see cref="DeleteDeviceIdCallbackInfo" /> containing the output information and result.
+	/// </param>
 	public delegate void OnDeleteDeviceIdCallback(ref DeleteDeviceIdCallbackInfo data);
 
 	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]

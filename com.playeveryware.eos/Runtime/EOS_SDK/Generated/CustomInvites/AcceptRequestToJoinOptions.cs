@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.CustomInvites
 {
+	/// <summary>
+	/// Input parameters for the <see cref="CustomInvitesInterface.AcceptRequestToJoin" /> function.
+	/// </summary>
 	public struct AcceptRequestToJoinOptions
 	{
 		/// <summary>

@@ -11,6 +11,7 @@
 #define EOS_RESULT_VALUE(Name, Value) Name = Value,
 #define EOS_RESULT_VALUE_LAST(Name, Value) Name = Value
 
+/** Enum flags for all possible result values of operations in the SDK. */
 EOS_ENUM_START(EOS_EResult)
 #include "eos_result.h"
 EOS_ENUM_END(EOS_EResult);
@@ -172,42 +173,6 @@ typedef struct EOS_ContinuanceTokenDetails* EOS_ContinuanceToken;
  *         EOS_LimitExceeded - The OutBuffer is not large enough to receive the continuance token string. InOutBufferLength contains the required minimum length to perform the operation successfully.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_ContinuanceToken_ToString(EOS_ContinuanceToken ContinuanceToken, char* OutBuffer, int32_t* InOutBufferLength);
-
-/** The most recent version of the EOS_PageQuery structs. */
-#define EOS_PAGEQUERY_API_LATEST 1
-
-/** DEPRECATED! Use EOS_PAGEQUERY_API_LATEST instead. */
-#define EOS_PAGINATION_API_LATEST EOS_PAGEQUERY_API_LATEST
-
-/** The default MaxCount used for a EOS_PageQuery when the API allows the EOS_PageQuery to be omitted. */
-#define EOS_PAGEQUERY_MAXCOUNT_DEFAULT 10
-
-/** The maximum MaxCount used for a EOS_PageQuery. */
-#define EOS_PAGEQUERY_MAXCOUNT_MAXIMUM 100
-
-/**
- * A page query is part of query options. It is used to allow pagination of query results.
- */
-EOS_STRUCT(EOS_PageQuery, (
-	/** API Version: Set this to EOS_PAGEQUERY_API_LATEST. */
-	int32_t ApiVersion;
-	/** The index into the ordered query results to start the page at. */
-	int32_t StartIndex;
-	/** The maximum number of results to have in the page. */
-	int32_t MaxCount;
-));
-
-/**
- * A page result is part of query callback info. It is used to provide pagination details of query results.
- */
-EOS_STRUCT(EOS_PageResult, (
-	/** The index into the ordered query results to start the page at. */
-	int32_t StartIndex;
-	/** The number of results in the current page. */
-	int32_t Count;
-	/** The number of results associated with they original query options. */
-	int32_t TotalCount;
-));
 
 /**
  * All possible states of a local user
@@ -583,11 +548,17 @@ EOS_EXTERN_C typedef const char* EOS_IntegratedPlatformType;
 /** This type is used to distinguish between different online platforms. */
 EOS_EXTERN_C typedef uint32_t EOS_OnlinePlatformType;
 
+/** Unknown online platform */
 #define EOS_OPT_Unknown 0
+/** Epic online platform */
 #define EOS_OPT_Epic 100
+/** PlayStation Network online platform */
 #define EOS_OPT_PSN 1000
+/** Nintendo online platform */
 #define EOS_OPT_Nintendo 2000
+/** Xbox Live online platform */
 #define EOS_OPT_XBL 3000
+/** Steam online platform */
 #define EOS_OPT_Steam 4000
 
 #pragma pack(pop)

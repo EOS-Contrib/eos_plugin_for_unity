@@ -15,26 +15,65 @@ namespace Epic.OnlineServices.AntiCheatServer
 		{
 		}
 
+		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyClientActionRequired" /> API.
+		/// </summary>
 		public const int ADDNOTIFYCLIENTACTIONREQUIRED_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyClientAuthStatusChanged" /> API.
+		/// </summary>
 		public const int ADDNOTIFYCLIENTAUTHSTATUSCHANGED_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyMessageToClient" /> API.
+		/// </summary>
 		public const int ADDNOTIFYMESSAGETOCLIENT_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="BeginSession" /> API.
+		/// </summary>
 		public const int BEGINSESSION_API_LATEST = 3;
+		/// <summary>
+		/// The maximum value for the RegisterTimeoutSeconds parameter in the <see cref="BeginSessionOptions" /> struct.
+		/// </summary>
 		public const int BEGINSESSION_MAX_REGISTERTIMEOUT = 120;
 		/// <summary>
-		/// Limits on RegisterTimeoutSeconds parameter
+		/// The minimum value for the RegisterTimeoutSeconds parameter in the <see cref="BeginSessionOptions" /> struct.
 		/// </summary>
 		public const int BEGINSESSION_MIN_REGISTERTIMEOUT = 10;
+		/// <summary>
+		/// The most recent version of the <see cref="EndSession" /> API.
+		/// </summary>
 		public const int ENDSESSION_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="GetProtectMessageOutputLength" /> API.
+		/// </summary>
 		public const int GETPROTECTMESSAGEOUTPUTLENGTH_API_LATEST = 1;
 		/// <summary>
 		/// Maximum size of an individual message provided through <see cref="OnMessageToClientCallback" />.
 		/// </summary>
 		public const int ONMESSAGETOCLIENTCALLBACK_MAX_MESSAGE_SIZE = 512;
+		/// <summary>
+		/// The most recent version of the <see cref="ProtectMessage" /> API.
+		/// </summary>
 		public const int PROTECTMESSAGE_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="ReceiveMessageFromClient" /> API.
+		/// </summary>
 		public const int RECEIVEMESSAGEFROMCLIENT_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="RegisterClient" /> API.
+		/// </summary>
 		public const int REGISTERCLIENT_API_LATEST = 3;
+		/// <summary>
+		/// The most recent version of the <see cref="SetClientNetworkState" /> API.
+		/// </summary>
 		public const int SETCLIENTNETWORKSTATE_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="UnprotectMessage" /> API.
+		/// </summary>
 		public const int UNPROTECTMESSAGE_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="UnregisterClient" /> API.
+		/// </summary>
 		public const int UNREGISTERCLIENT_API_LATEST = 1;
 
 		/// <summary>
@@ -207,7 +246,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <param name="options">
 		/// Structure containing input data.
 		/// </param>
-		/// <param name="">
+		/// <param name="outBufferSizeBytes">
 		/// On success, the OutBuffer length in bytes that is required to call ProtectMessage on the given input size.
 		/// </param>
 		/// <returns>

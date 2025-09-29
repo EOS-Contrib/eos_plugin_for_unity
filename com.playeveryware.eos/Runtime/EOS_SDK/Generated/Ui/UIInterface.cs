@@ -27,11 +27,17 @@ namespace Epic.OnlineServices.UI
 		/// The most recent version of the <see cref="AddNotifyDisplaySettingsUpdated" /> API.
 		/// </summary>
 		public const int ADDNOTIFYDISPLAYSETTINGSUPDATED_API_LATEST = 1;
+		/// <summary>
+		/// DEPRECATED! Use <see cref="ADDNOTIFYMEMORYMONITOR_API_LATEST" /> instead.
+		/// </summary>
 		public const int ADDNOTIFYMEMORYMONITOROPTIONS_API_LATEST = ADDNOTIFYMEMORYMONITOR_API_LATEST;
 		/// <summary>
 		/// The most recent version of the <see cref="AddNotifyMemoryMonitor" /> API.
 		/// </summary>
 		public const int ADDNOTIFYMEMORYMONITOR_API_LATEST = 1;
+		/// <summary>
+		/// An invalid Event Id.
+		/// </summary>
 		public const int EVENTID_INVALID = 0;
 		/// <summary>
 		/// The most recent version of the <see cref="GetFriendsExclusiveInput" /> API.
@@ -57,10 +63,6 @@ namespace Epic.OnlineServices.UI
 		/// The most recent version of the <see cref="IsSocialOverlayPaused" /> API.
 		/// </summary>
 		public const int ISSOCIALOVERLAYPAUSED_API_LATEST = 1;
-		/// <summary>
-		/// The most recent version of the <see cref="MemoryMonitorCallbackInfo" /> struct.
-		/// </summary>
-		public const int MEMORYMONITORCALLBACKINFO_API_LATEST = 1;
 		/// <summary>
 		/// The most recent version of the <see cref="PauseSocialOverlay" /> API.
 		/// </summary>
@@ -441,7 +443,7 @@ namespace Epic.OnlineServices.UI
 		/// replace the standard "present" call, but rather expect it to be issued "just before" that call.
 		/// This function has an empty implementation (i.e. returns <see cref="Result.NotImplemented" />) on all non-consoles platforms.
 		/// </summary>
-		/// <param name="">
+		/// <param name="options">
 		/// will vary from platform to platform.
 		/// Main difference will be due to a platforms ability to provide multiple rendering queues.
 		/// </param>
@@ -608,7 +610,7 @@ namespace Epic.OnlineServices.UI
 		/// <param name="clientData">
 		/// Arbitrary data that is passed back to you in the NotificationFn.
 		/// </param>
-		/// <param name="">
+		/// <param name="completionDelegate">
 		/// A callback that is fired when the user exits the Block UI.
 		/// </param>
 		/// <returns>
@@ -719,7 +721,7 @@ namespace Epic.OnlineServices.UI
 		/// <param name="clientData">
 		/// Arbitrary data that is passed back to you in the NotificationFn.
 		/// </param>
-		/// <param name="">
+		/// <param name="completionDelegate">
 		/// A callback that is fired when the user exits the Report UI.
 		/// </param>
 		/// <returns>

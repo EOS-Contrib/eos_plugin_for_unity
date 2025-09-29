@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.Lobby
 {
+	/// <summary>
+	/// Contains information about a member of a lobby.
+	/// </summary>
 	public struct LobbyDetailsMemberInfo
 	{
 		/// <summary>

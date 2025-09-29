@@ -13,9 +13,21 @@ namespace Epic.OnlineServices.UI
 	/// </summary>
 	public enum NotificationLocation : int
 	{
+		/// <summary>
+		/// The top left corner
+		/// </summary>
 		TopLeft,
+		/// <summary>
+		/// The top right corner
+		/// </summary>
 		TopRight,
+		/// <summary>
+		/// The bottom left corner
+		/// </summary>
 		BottomLeft,
+		/// <summary>
+		/// The bottom right corner
+		/// </summary>
 		BottomRight
 	}
 

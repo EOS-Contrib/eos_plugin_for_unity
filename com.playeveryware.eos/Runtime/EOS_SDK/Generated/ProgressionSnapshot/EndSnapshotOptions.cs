@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.ProgressionSnapshot
 {
+	/// <summary>
+	/// Input parameters for the <see cref="ProgressionSnapshotInterface.EndSnapshot" /> function.
+	/// </summary>
 	public struct EndSnapshotOptions
 	{
 		/// <summary>
