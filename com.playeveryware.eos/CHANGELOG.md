@@ -4,8 +4,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [5.1.0] - 2025-10-10
 
+### Added
+- Android support for 16kb devices.
+- QueryEntitlement and QueryOwnership tests to Store demo.
+
 ### Changed
-- Update to EOS SDK 1.18.1.1
+- Change: Update to EOS SDK 1.18.1.1
+- Change: Android JDK version update to 11
+
+### Fixed
+- Fix: Prevent Newtonsoft from being stripped
 
 ## [4.1.2] - 2025-09-24
 
