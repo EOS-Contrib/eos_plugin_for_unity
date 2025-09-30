@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - QueryEntitlement and QueryOwnership tests to Store demo.
 
 ### Changed
-- Change: Update to EOS SDK 1.18.1.1
+- Change: Update to EOS SDK 1.18.1.1-CL46192632
 - Change: Android JDK version update to 11
 
 ### Fixed
