@@ -2,7 +2,7 @@
   "dependencies": {
     "com.playeveryware.eos": "file:../com.playeveryware.eos",
     "com.unity.ai.navigation": "1.1.5",
-    "com.unity.burst": "1.8.18",
+    "com.unity.burst": "1.8.25",
     "com.unity.collab-proxy": "2.6.0",
     "com.unity.editorcoroutines": "1.0.0",
     "com.unity.ide.rider": "3.0.34",
