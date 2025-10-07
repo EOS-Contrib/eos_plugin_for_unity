@@ -4,6 +4,15 @@
 ---
 
 ## Unity and Modules
+The following Unity versions support 16 KB memory page sizes required by Android 15+:
+
+* Unity 2021.3.48f1 (Enterprise only)  
+* Unity 2022.3.56f1 ✅ Recommended baseline  
+* Unity 6000.0.38f1 (Tech Stream)
+
+> [!NOTE]  
+> Using Unity versions older than 2021.3.48f1 is **not compatible** with Android 15+ (16 KB memory pages).  
+> Upgrading to at least 2022.3.56f1 is strongly recommended for most teams.
 
 1. Install Unity (minimum version 2022.3.56f), preferably on Unity Hub. 
 
@@ -21,10 +30,10 @@
 
 ## Recommended Configuration for Unity 2022.3
 1. General Requirements
-    *Target API Level: 34 or higher
-    *Android Build Tools: 33.0.2
-    *Gradle: 7.5 – 7.6.4
-    *R8: 8.1.56
+    * Target API Level: 34 or higher
+    * Android Build Tools: 33.0.2
+    * Gradle: 7.5 – 7.6.4
+    * R8: 8.1.56
 2. Gradle Templates
     Unity 2022 already includes JDK 11, so no manual installation is required.
 
@@ -123,17 +132,14 @@
     **SOURCE_BUILD_SETUP**
     **EXTERNAL_SOURCES**
     ```
-    >[!WARNING] 
+>[!WARNING] 
 >com.android.tools:r8:8.1.56 is required because the AAR was compiled using JDK 21+, which produces bytecode that causes older tools to fail during the DEXing step.
 
 ## Unity Engine support for 16 KB memory page sizes (Android 15+)
 To comply:
 * Use Unity 2022.3.56
 * Set Target API Level to 34 or higher
-* If using Epic’s public project:  
-* Remove:  
-    `Assets\Plugins\Android\UnityHelpers_Android-debug.aar`  
-* Update Burst to "1.8.25"
+* If using Epic’s public project: Update Burst to "1.8.25"
 
 ## Alternative Configuration for Unity 2021
 Unity 2021 is supported as an alternative, but requires manual configuration of JDK and Gradle.
