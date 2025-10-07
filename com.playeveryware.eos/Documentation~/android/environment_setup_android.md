@@ -5,8 +5,9 @@
 
 ## Unity and Modules
 
-1. Install Unity (minimum version 2022.3.56f), preferably on Unity Hub.
-    This version includes JDK 11, which is required for building Android projects.
+1. Install Unity (minimum version 2022.3.56f), preferably on Unity Hub. 
+
+   This version includes JDK 11, which is required for building Android projects.
 
 2. Open the "Add modules" window.
 
@@ -20,12 +21,13 @@
 
 ## Recommended Configuration for Unity 2022.3
 1. General Requirements
-    Target API Level: 34 or higher
-    Android Build Tools: 33.0.2
-    Gradle: 7.5 – 7.6.4
-    R8: 8.1.56
+    *Target API Level: 34 or higher
+    *Android Build Tools: 33.0.2
+    *Gradle: 7.5 – 7.6.4
+    *R8: 8.1.56
 2. Gradle Templates
     Unity 2022 already includes JDK 11, so no manual installation is required.
+
     You must use custom Gradle templates to ensure the correct Android toolchain versions are applied.
 
     baseProjectTemplate.gradle
@@ -126,26 +128,27 @@
 
 ## Unity Engine support for 16 KB memory page sizes (Android 15+)
 To comply:
-Use Unity 2022.3.56
-Set Target API Level to 34 or higher
-If using Epic’s public project:
-Remove:
-`Assets\Plugins\Android\UnityHelpers_Android-debug.aar`
-Update Burst to "1.8.25"
+* Use Unity 2022.3.56
+* Set Target API Level to 34 or higher
+* If using Epic’s public project:  
+* Remove:  
+    `Assets\Plugins\Android\UnityHelpers_Android-debug.aar`  
+* Update Burst to "1.8.25"
 
 ## Alternative Configuration for Unity 2021
 Unity 2021 is supported as an alternative, but requires manual configuration of JDK and Gradle.
 1. Install JDK 11 manually
 
-Download from [Oracle JDK 11 Archive](https://www.oracle.com/mx/java/technologies/javase/jdk11-archive-downloads.html)
+    Download from [Oracle JDK 11 Archive](https://www.oracle.com/mx/java/technologies/javase/jdk11-archive-downloads.html)
 
-Then update gradleTemplate.properties with the path where you installed it, for example:
-`org.gradle.java.home=C:\\Program Files\\Java\\jdk-11`.
+    Then update gradleTemplate.properties with the path where you installed it, for example:
+
+    `org.gradle.java.home=C:\\Program Files\\Java\\jdk-11`.
 
 2. Upgrade Gradle to 7.5+
 
-[Download Gradle 7.5+](https://gradle.org/releases/) and set it in
-Edit → Preferences → External Tools.
+    [Download Gradle 7.5+](https://gradle.org/releases/) and set it in
+    Edit → Preferences → External Tools.
 
 If Unity keeps using Gradle 6.1:
 1. Build once to generate the wrapper folder.
@@ -155,19 +158,9 @@ If Unity keeps using Gradle 6.1:
 
 3. Update Build Tools
 
-Move your Android SDK to a writable location (e.g. Documents\Android\SDK) and set this path under Preferences → External Tools.
-If your project targets API 33 or higher, Unity should pull 33.0.2 automatically.
+    Move your Android SDK to a writable location (e.g. Documents\Android\SDK) and set this path under Preferences → External Tools.  
 
-Manual Installation via SDK Manager (Command Line)
-If Unity doesn’t auto-install it, you can do it manually:
-1. Open Command Prompt and navigate to your Android SDK cmdline-tools folder. For example:
-`cd C:\Users\<your-username>\Documents\Android\SDK\cmdline-tools\latest\bin`.
-(If latest doesn’t exist, use the actual folder name inside cmdline-tools.)
-2. Run the following command to install build-tools 33.0.2:
-`sdkmanager "build-tools;33.0.2"`.
-3. Accept the licenses if prompted by typing y and pressing Enter.
-4. You can also verify the installation: `sdkmanager --list`. 
-    You should see: `build-tools;33.0.2 | 33.0.2`. 
+    If your project targets API 33 or higher, Unity should pull 33.0.2 automatically.
 
 4. Clean Build Caches
 Delete:
@@ -175,6 +168,25 @@ Delete:
 C:\Users\<username>\.gradle
 <your-project>\Library\Bee\Android
 ```
+## Manual Installation via SDK Manager (Command Line)
+If Unity doesn’t auto-install it, you can do it manually:
+1. Open Command Prompt and navigate to your Android SDK cmdline-tools folder.  
+
+    For example:  
+
+    `cd C:\Users\<your-username>\Documents\Android\SDK\cmdline-tools\latest\bin`.  
+
+    (If latest doesn’t exist, use the actual folder name inside cmdline-tools.)
+
+2. Run the following command to install build-tools 33.0.2:  
+
+    `sdkmanager "build-tools;33.0.2"`.
+
+3. Accept the licenses if prompted by typing y and pressing Enter.
+
+4. You can also verify the installation: `sdkmanager --list`.  
+
+    You should see: `build-tools;33.0.2 | 33.0.2`. 
 
 ## Manage Android SDK
 
