@@ -8,7 +8,7 @@ The following Unity versions support 16 KB memory page sizes required by Android
 
 * Unity 2021.3.48f1 (Enterprise only)  
 * Unity 2022.3.56f1 ✅ Recommended baseline  
-* Unity 6000.0.38f1 (Tech Stream)
+* Unity 6000.0.38f1
 
 > [!NOTE]  
 > Using Unity versions older than 2021.3.48f1 is **not compatible** with Android 15+ (16 KB memory pages).  
