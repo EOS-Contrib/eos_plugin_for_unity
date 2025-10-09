@@ -174,6 +174,230 @@ Delete:
 C:\Users\<username>\.gradle
 <your-project>\Library\Bee\Android
 ```
+## Alternative Configuration for Unity 6
+Unity 6 migrated to a new Gradle project generation system based on Android Gradle Plugin (AGP) 8.x, which introduces mandatory changes to how Android modules are defined.
+
+Projects must now explicitly define a namespace, use JavaVersion.VERSION_17, and enable core library desugaring to maintain compatibility with Java 8+ APIs.
+
+You must use custom Gradle templates to ensure the correct Android toolchain versions are applied.
+
+launcherTemplate.gradle
+
+    ```bash
+    apply plugin: 'com.android.application'
+    apply from: 'setupSymbols.gradle'
+    apply from: '../shared/keepUnitySymbols.gradle'
+
+    dependencies {
+    implementation project(':unityLibrary')
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+    }
+
+    android {
+    namespace "**NAMESPACE**"
+    ndkPath "**NDKPATH**"
+    ndkVersion "**NDKVERSION**"
+
+    compileSdk **APIVERSION**
+    buildToolsVersion = "**BUILDTOOLS**"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled true
+    }
+
+    defaultConfig {
+        minSdk **MINSDK**
+        targetSdk **TARGETSDK**
+        applicationId '**APPLICATIONID**'
+        ndk {
+            abiFilters **ABIFILTERS**
+            debugSymbolLevel **DEBUGSYMBOLLEVEL**
+        }
+        versionCode **VERSIONCODE**
+        versionName '**VERSIONNAME**'
+    }
+
+    androidResources {
+        noCompress = **BUILTIN_NOCOMPRESS** + unityStreamingAssets.tokenize(', ')
+        ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~"
+    }**SIGN**
+
+    lint {
+        abortOnError false
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled **MINIFY_DEBUG**
+            proguardFiles getDefaultProguardFile('proguard-android.txt')**SIGNCONFIG**
+            jniDebuggable true
+        }
+        release {
+            minifyEnabled **MINIFY_RELEASE**
+            proguardFiles getDefaultProguardFile('proguard-android.txt')**SIGNCONFIG**
+        }
+    }**PACKAGING****PLAY_ASSET_PACKS****SPLITS**
+    **BUILT_APK_LOCATION**
+    bundle {
+        language {
+            enableSplit = false
+        }
+        density {
+            enableSplit = false
+        }
+        abi {
+            enableSplit = true
+        }
+        texture {
+            enableSplit = true
+        }
+    }
+
+	**GOOGLE_PLAY_DEPENDENCIES**
+    }**SPLITS_VERSION_CODE****LAUNCHER_SOURCE_BUILD_SETUP**
+    ```
+
+mainTemplate.gradle
+
+    ```bash
+    apply plugin: 'com.android.library'
+    apply from: '../shared/keepUnitySymbols.gradle'
+    **APPLY_PLUGINS**
+
+    android {
+    namespace "com.unity3d.player"
+    ndkPath "**NDKPATH**"
+    ndkVersion "**NDKVERSION**"
+
+    compileSdk **APIVERSION**
+    buildToolsVersion = "**BUILDTOOLS**"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled true 
+    }
+
+    defaultConfig {
+        minSdk **MINSDK**
+        targetSdk **TARGETSDK**
+        ndk {
+            abiFilters **ABIFILTERS**
+            debugSymbolLevel **DEBUGSYMBOLLEVEL**
+        }
+        versionCode **VERSIONCODE**
+        versionName '**VERSIONNAME**'
+        consumerProguardFiles 'proguard-unity.txt'**USER_PROGUARD**
+    **DEFAULT_CONFIG_SETUP**
+    }
+
+    lint {
+        abortOnError false
+    }
+
+    androidResources {
+        noCompress = **BUILTIN_NOCOMPRESS** + unityStreamingAssets.tokenize(', ')
+        ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~"
+    }**PACKAGING**
+    }
+    dependencies {
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
+        **DEPS**
+        coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+    }
+    **IL_CPP_BUILD_SETUP**
+    **SOURCE_BUILD_SETUP**
+    **EXTERNAL_SOURCES**
+
+    ```
+gradleTemplate.properties
+
+    ```bash
+    org.gradle.jvmargs=-Xmx**JVM_HEAP_SIZE**M
+    org.gradle.parallel=true
+    unityStreamingAssets=**STREAMING_ASSETS**
+    **ADDITIONAL_PROPERTIES**
+    android.useAndroidX=true
+    ```
+For Unity 6, you must modify the build.gradle file located at: 
+
+`yourProject\Library\PackageCache\com.playeveryware.eos@b4c7aa785817\PlatformSpecificAssets~\EOS\Android\eos_dependencies.androidlib\build.gradle`
+
+[!NOTE] This folder is automatically generated when importing the EOS package into Unity. The default Gradle configuration inside it must be replaced with the following content to ensure proper compilation and namespace compatibility in Unity 6.
+
+    ```bash
+    buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        flatDir(dirs: 'libs')
+    }
+    
+    dependencies {
+        classpath "com.android.tools.build:gradle:7.4.2"
+    }
+    }
+
+    apply plugin: 'com.android.library'
+    repositories {
+    google()
+    mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
+    }
+    android {
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    namespace 'com.pew.eos_dependencies'
+    compileSdkVersion 34
+    buildToolsVersion '34.0.0'
+    defaultConfig {
+        targetSdkVersion 34
+    }
+    }
+    dependencies {
+        implementation 'androidx.appcompat:appcompat:1.5.1'
+        implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+        implementation 'androidx.security:security-crypto:1.0.0'
+        implementation 'androidx.browser:browser:1.4.0'
+    //api fileTree(dir: 'libs', include: ['*.aar'])
+    }
+    ```
+
+[!WARNING]
+If you do not define a namespace, Android Gradle Plugin 8.0+ will fail with the error:
+Namespace not specified. Specify a namespace in the module's build file. 
+
+Additionally, you must edit the AndroidManifest.xml file located at:
+yourProject\Library\PackageCache\com.playeveryware.eos@b4c7aa785817\PlatformSpecificAssets~\EOS\Android\eos_dependencies.androidlib\AndroidManifest.xml
+
+[!NOTE]
+The manifest file contains the line <manifest xmlns:android="http://schemas.android.com/apk/res/android">, which is no longer accepted in Unity 6 due to updated Android Gradle Plugin validation rules.
+
+You must replace its contents with the following version to ensure proper compatibility:
+
+    ```bash
+    <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+    </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    </manifest>
+    ```
 ## Manual Installation via SDK Manager (Command Line)
 If Unity doesn’t auto-install it, you can do it manually:
 1. Open Command Prompt and navigate to your Android SDK cmdline-tools folder.  
