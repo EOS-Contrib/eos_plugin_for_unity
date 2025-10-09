@@ -323,9 +323,10 @@ gradleTemplate.properties
     ```
 For Unity 6, you must modify the build.gradle file located at: 
 
-`yourProject\Library\PackageCache\com.playeveryware.eos@b4c7aa785817\PlatformSpecificAssets~\EOS\Android\eos_dependencies.androidlib\build.gradle`
+`<project>\Library\PackageCache\com.playeveryware.eos@b4c7aa785817\PlatformSpecificAssets~\EOS\Android\eos_dependencies.androidlib\build.gradle`
 
-[!NOTE] This folder is automatically generated when importing the EOS package into Unity. The default Gradle configuration inside it must be replaced with the following content to ensure proper compilation and namespace compatibility in Unity 6.
+> [!NOTE]  
+> This folder is automatically generated when importing the EOS package into Unity. The default Gradle configuration inside it must be replaced with the following content to ensure proper compilation and namespace compatibility in Unity 6.
 
     ```bash
     buildscript {
@@ -374,15 +375,15 @@ For Unity 6, you must modify the build.gradle file located at:
     }
     ```
 
-[!WARNING]
-If you do not define a namespace, Android Gradle Plugin 8.0+ will fail with the error:
-Namespace not specified. Specify a namespace in the module's build file. 
+>[!WARNING]
+>If you do not define a namespace, Android Gradle Plugin 8.0+ will fail with the error: Namespace not specified. Specify a namespace in the module's build file. 
 
 Additionally, you must edit the AndroidManifest.xml file located at:
-yourProject\Library\PackageCache\com.playeveryware.eos@b4c7aa785817\PlatformSpecificAssets~\EOS\Android\eos_dependencies.androidlib\AndroidManifest.xml
 
-[!NOTE]
-The manifest file contains the line <manifest xmlns:android="http://schemas.android.com/apk/res/android">, which is no longer accepted in Unity 6 due to updated Android Gradle Plugin validation rules.
+`<project>\Library\PackageCache\com.playeveryware.eos@b4c7aa785817\PlatformSpecificAssets~\EOS\Android\eos_dependencies.androidlib\AndroidManifest.xml`
+
+> [!NOTE]  
+> The manifest file contains the line <manifest xmlns:android="http://schemas.android.com/apk/res/android">, which is no longer accepted in Unity 6 due to updated Android Gradle Plugin validation rules.
 
 You must replace its contents with the following version to ensure proper compatibility:
 
