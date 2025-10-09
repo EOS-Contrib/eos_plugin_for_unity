@@ -181,7 +181,7 @@ Projects must now explicitly define a namespace, use JavaVersion.VERSION_17, and
 
 You must use custom Gradle templates to ensure the correct Android toolchain versions are applied.
 
-    launcherTemplate.gradle
+launcherTemplate.gradle
 ```bash
     apply plugin: 'com.android.application'
     apply from: 'setupSymbols.gradle'
