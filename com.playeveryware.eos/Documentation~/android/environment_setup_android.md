@@ -181,9 +181,8 @@ Projects must now explicitly define a namespace, use JavaVersion.VERSION_17, and
 
 You must use custom Gradle templates to ensure the correct Android toolchain versions are applied.
 
-launcherTemplate.gradle
-
-    ```bash
+    launcherTemplate.gradle
+```bash
     apply plugin: 'com.android.application'
     apply from: 'setupSymbols.gradle'
     apply from: '../shared/keepUnitySymbols.gradle'
@@ -257,11 +256,10 @@ launcherTemplate.gradle
 
 	**GOOGLE_PLAY_DEPENDENCIES**
     }**SPLITS_VERSION_CODE****LAUNCHER_SOURCE_BUILD_SETUP**
-    ```
+```
 
 mainTemplate.gradle
-
-    ```bash
+```bash
     apply plugin: 'com.android.library'
     apply from: '../shared/keepUnitySymbols.gradle'
     **APPLY_PLUGINS**
@@ -311,24 +309,22 @@ mainTemplate.gradle
     **SOURCE_BUILD_SETUP**
     **EXTERNAL_SOURCES**
 
-    ```
+```
 gradleTemplate.properties
-
-    ```bash
+```bash
     org.gradle.jvmargs=-Xmx**JVM_HEAP_SIZE**M
     org.gradle.parallel=true
     unityStreamingAssets=**STREAMING_ASSETS**
     **ADDITIONAL_PROPERTIES**
     android.useAndroidX=true
-    ```
+```
 For Unity 6, you must modify the build.gradle file located at: 
 
 `<project>\Library\PackageCache\com.playeveryware.eos@b4c7aa785817\PlatformSpecificAssets~\EOS\Android\eos_dependencies.androidlib\build.gradle`
 
 > [!NOTE]  
 > This folder is automatically generated when importing the EOS package into Unity. The default Gradle configuration inside it must be replaced with the following content to ensure proper compilation and namespace compatibility in Unity 6.
-
-    ```bash
+```bash
     buildscript {
     repositories {
         google()
@@ -373,7 +369,7 @@ For Unity 6, you must modify the build.gradle file located at:
         implementation 'androidx.browser:browser:1.4.0'
     //api fileTree(dir: 'libs', include: ['*.aar'])
     }
-    ```
+```
 
 >[!WARNING]
 >If you do not define a namespace, Android Gradle Plugin 8.0+ will fail with the error: Namespace not specified. Specify a namespace in the module's build file. 
@@ -386,8 +382,7 @@ Additionally, you must edit the AndroidManifest.xml file located at:
 > The manifest file contains the line <manifest xmlns:android="http://schemas.android.com/apk/res/android">, which is no longer accepted in Unity 6 due to updated Android Gradle Plugin validation rules.
 
 You must replace its contents with the following version to ensure proper compatibility:
-
-    ```bash
+```bash
     <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
@@ -398,7 +393,7 @@ You must replace its contents with the following version to ensure proper compat
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     </manifest>
-    ```
+```
 ## Manual Installation via SDK Manager (Command Line)
 If Unity doesn’t auto-install it, you can do it manually:
 1. Open Command Prompt and navigate to your Android SDK cmdline-tools folder.  
