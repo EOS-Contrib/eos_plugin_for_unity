@@ -226,6 +226,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1796544660}
     m_Modifications:
+    - target: {fileID: 1069171951115265339, guid: 6a62934fd9ee35d49bf4f84f329793d1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 41.485107
+      objectReference: {fileID: 0}
     - target: {fileID: 1520068606371974356, guid: 6a62934fd9ee35d49bf4f84f329793d1,
         type: 3}
       propertyPath: UIParent
@@ -245,7 +250,7 @@ PrefabInstance:
         type: 3}
       propertyPath: SelectedButtonOnClose
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2116730118}
     - target: {fileID: 1520068606371974356, guid: 6a62934fd9ee35d49bf4f84f329793d1,
         type: 3}
       propertyPath: UIFriendInteractionSource
@@ -366,6 +371,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1520068607652720489, guid: 6a62934fd9ee35d49bf4f84f329793d1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 41.485107
+      objectReference: {fileID: 0}
     - target: {fileID: 2211920898928547186, guid: 6a62934fd9ee35d49bf4f84f329793d1,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -431,6 +441,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -1.9000244
       objectReference: {fileID: 0}
+    - target: {fileID: 3242887109705074310, guid: 6a62934fd9ee35d49bf4f84f329793d1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3760439968912234937, guid: 6a62934fd9ee35d49bf4f84f329793d1,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -455,6 +470,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536654852504131431, guid: 6a62934fd9ee35d49bf4f84f329793d1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -41.125
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a62934fd9ee35d49bf4f84f329793d1, type: 3}
@@ -2938,6 +2958,12 @@ PrefabInstance:
 --- !u!1 &2116730117 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7443171737537963610, guid: a220aff7b274a4e4d8e544ddb95f8002,
+    type: 3}
+  m_PrefabInstance: {fileID: 2116730116}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2116730118 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3288873079515361492, guid: a220aff7b274a4e4d8e544ddb95f8002,
     type: 3}
   m_PrefabInstance: {fileID: 2116730116}
   m_PrefabAsset: {fileID: 0}

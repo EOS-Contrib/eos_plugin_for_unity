@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1526980366}
-  m_IndirectSpecularColor: {r: 1.1158099, g: 1.0351701, b: 1.0710709, a: 1}
+  m_IndirectSpecularColor: {r: 1.1308117, g: 1.0295794, b: 1.0695393, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4272,8 +4272,24 @@ PrefabInstance:
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 8937140093654993540, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: UIFirstSelected
+      value: 
+      objectReference: {fileID: 899407523}
+    - target: {fileID: 8937140093654993540, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: UIFindSelectable
+      value: 
+      objectReference: {fileID: 899407523}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11e4648022445f041b4c867ff8f3fd94, type: 3}
+--- !u!1 &899407523 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2212923947330422897, guid: 11e4648022445f041b4c867ff8f3fd94,
+    type: 3}
+  m_PrefabInstance: {fileID: 899407522}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &913672811 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2712677383041295701, guid: 29ef8b279c6e6644db83ff5d6eacfe6a,
@@ -5855,7 +5871,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c06b9b50cdcdf45839b7da18fa5e5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitializeOnAwake: 0
   ShouldShutdownOnApplicationQuit: 1
 --- !u!4 &1546118369
 Transform:
