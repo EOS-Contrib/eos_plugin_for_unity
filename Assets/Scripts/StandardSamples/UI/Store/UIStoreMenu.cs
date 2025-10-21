@@ -23,7 +23,6 @@
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using System.Collections.Generic;
-    using System.Text;
     using UnityEngine;
     using UnityEngine.UI;
     using UnityEngine.EventSystems;
@@ -40,23 +39,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text catalogueItem1;
         public Button checkOutButton1;
 
-        [Header("Store Queries")]
-        public Button queryEntitlementsButton;
-        public Button queryOwnershipButton;
-        public Text entitlementsText;
-        public Text ownershipText;
-
         private EOSStoreManager StoreManager;
 
         protected override void OnEnable()
         {
             base.OnEnable();
             StoreManager = EOSManager.Instance.GetOrCreateManager<EOSStoreManager>();
-
-            if (queryEntitlementsButton != null)
-                queryEntitlementsButton.onClick.AddListener(OnQueryEntitlementsClick);
-            if (queryOwnershipButton != null)
-                queryOwnershipButton.onClick.AddListener(OnQueryOwnershipClick);
         }
 
         protected override void OnDestroy()
@@ -82,35 +70,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     catalogueItem1.text = string.Format("{0}, ${1}", CatalogOffers[1].TitleText, StoreManager.GetCurrentPriceAsString(CatalogOffers[1]));
                 }
             }
-
-            if (StoreManager.GetConsumableEntitlements(out var ents))
-            {
-                if (entitlementsText != null)
-                {
-                    var sb = new StringBuilder();
-                    sb.AppendLine($"Consumable Entitlements: {ents.Count}");
-                    for (int i = 0; i < ents.Count; i++)
-                    {
-                        var e = ents[i];
-                        sb.AppendLine($"[{i}] EntitlementId={e.EntitlementId}, Name={e.EntitlementName}, Item={e.CatalogItemId}, Redeemed={e.Redeemed}");
-                    }
-                    entitlementsText.text = sb.ToString();
-                }
-            }
-
-            if (StoreManager.GetDurableOwnership(out var own))
-            {
-                if (ownershipText != null)
-                {
-                    var sb = new StringBuilder();
-                    sb.AppendLine($"Durable Ownership Results: {own.Count}");
-                    for (int i = 0; i < own.Count; i++)
-                    {
-                        sb.AppendLine($"[{i}] Item={own[i].CatalogItemId}, Owned={own[i].Owned}");
-                    }
-                    ownershipText.text = sb.ToString();
-                }
-            }
         }
 
         // E-Commerce
@@ -124,16 +83,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void CheckOutButton(int index)
         {
             StoreManager.CheckOutOverlay(index);
-        }
-
-        public void OnQueryEntitlementsClick()
-        {
-            StoreManager.QueryEntitlementsConsumables();
-        }
-
-        public void OnQueryOwnershipClick()
-        {
-            StoreManager.QueryOwnershipDurables();
         }
     }
 }
