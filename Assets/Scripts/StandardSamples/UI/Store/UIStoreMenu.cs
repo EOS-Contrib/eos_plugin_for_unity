@@ -23,7 +23,6 @@
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using System.Collections.Generic;
-    using System.Text;
     using UnityEngine;
     using UnityEngine.UI;
     using UnityEngine.EventSystems;
@@ -40,11 +39,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text catalogueItem1;
         public Button checkOutButton1;
 
-        [Header("Store Queries")]
+        [Header("Entitlements")]
         public Button queryEntitlementsButton;
+        public Text entitlementsListText;
+
+        [Header("Ownership")]
         public Button queryOwnershipButton;
-        public Text entitlementsText;
-        public Text ownershipText;
+        public Text ownershipListText;
+
+        [Tooltip("CatalogItemIds in SPT")]
+        public string[] durableCatalogItemIds;
 
         private EOSStoreManager StoreManager;
 
@@ -52,11 +56,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             base.OnEnable();
             StoreManager = EOSManager.Instance.GetOrCreateManager<EOSStoreManager>();
-
-            if (queryEntitlementsButton != null)
-                queryEntitlementsButton.onClick.AddListener(OnQueryEntitlementsClick);
-            if (queryOwnershipButton != null)
-                queryOwnershipButton.onClick.AddListener(OnQueryOwnershipClick);
         }
 
         protected override void OnDestroy()
@@ -81,35 +80,38 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 {
                     catalogueItem1.text = string.Format("{0}, ${1}", CatalogOffers[1].TitleText, StoreManager.GetCurrentPriceAsString(CatalogOffers[1]));
                 }
-            }
 
-            if (StoreManager.GetConsumableEntitlements(out var ents))
-            {
-                if (entitlementsText != null)
+                // Entitlements
+                if (StoreManager.GetEntitlements(out var ents))
                 {
-                    var sb = new StringBuilder();
-                    sb.AppendLine($"Consumable Entitlements: {ents.Count}");
-                    for (int i = 0; i < ents.Count; i++)
+                    if (entitlementsListText != null)
                     {
-                        var e = ents[i];
-                        sb.AppendLine($"[{i}] EntitlementId={e.EntitlementId}, Name={e.EntitlementName}, Item={e.CatalogItemId}, Redeemed={e.Redeemed}");
+                        if (ents.Count == 0)
+                            entitlementsListText.text = "No entitlements.";
+                        else
+                        {
+                            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                            foreach (var e in ents)
+                            {
+                                sb.AppendLine($"{e.EntitlementName}  | ItemId: {e.CatalogItemId} | Redeemed: {e.Redeemed}");
+                            }
+                            entitlementsListText.text = sb.ToString();
+                        }
                     }
-                    entitlementsText.text = sb.ToString();
                 }
-            }
 
-            if (StoreManager.GetDurableOwnership(out var own))
-            {
-                if (ownershipText != null)
+                // Ownership
+                if (StoreManager.GetOwnedDurables(out var ownedIds))
                 {
-                    var sb = new StringBuilder();
-                    sb.AppendLine($"Durable Ownership Results: {own.Count}");
-                    for (int i = 0; i < own.Count; i++)
+                    if (ownershipListText != null)
                     {
-                        sb.AppendLine($"[{i}] Item={own[i].CatalogItemId}, Owned={own[i].Owned}");
+                        if (ownedIds.Count == 0)
+                            ownershipListText.text = "No durable items owned.";
+                        else
+                            ownershipListText.text = string.Join("\n", ownedIds);
                     }
-                    ownershipText.text = sb.ToString();
                 }
+
             }
         }
 
@@ -125,15 +127,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             StoreManager.CheckOutOverlay(index);
         }
-
         public void OnQueryEntitlementsClick()
         {
-            StoreManager.QueryEntitlementsConsumables();
+            StoreManager.QueryEntitlements(includeRedeemed: true);
         }
 
         public void OnQueryOwnershipClick()
         {
-            StoreManager.QueryOwnershipDurables();
+          
+            StoreManager.QueryOwnership(durableCatalogItemIds);
         }
+
     }
 }
