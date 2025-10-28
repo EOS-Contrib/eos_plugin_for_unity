@@ -31,7 +31,7 @@
 // instance of the SDK from ever initializing again. Which is bad because Unity often (always?) loads a library just once
 // up front for a given DLL.
 
-#if UNITY_EDITOR_WIN || UNITY_EDITOR_OSX || UNITY_STANDALONE_WIN
+#if UNITY_EDITOR_WIN || UNITY_EDITOR_OSX || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX
 #define EOS_CAN_SHUTDOWN
 #endif
 
