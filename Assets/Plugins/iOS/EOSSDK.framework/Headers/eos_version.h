@@ -11,7 +11,7 @@
 /** The Patch version number */
 #define EOS_PATCH_VERSION	1
 /** The Hotfix version number */
-#define EOS_HOTFIX_VERSION	1
+#define EOS_HOTFIX_VERSION	2
 
 // Macros for encoding strings
 #define EOS_VERSION_STRINGIFY_2(x) #x
