@@ -15,11 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix: Prevent Newtonsoft from being stripped
 
-## [4.1.2] - 2025-09-24
-
-### Fixed
-- Fix: Switch compatibility
-
 ## [4.1.1] - 2025-08-26
 
 ### Changed
