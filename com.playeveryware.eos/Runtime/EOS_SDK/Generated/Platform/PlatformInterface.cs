@@ -92,7 +92,7 @@ namespace Epic.OnlineServices.Platform
 		/// <summary>
 		/// The most recent version of the <see cref="RTCOptions" /> API.
 		/// </summary>
-		public const int RTCOPTIONS_API_LATEST = 3;
+		public const int RTCOPTIONS_API_LATEST = 2;
 
 		/// <summary>
 		/// Gets the <see cref="Utf8String" /> representation of an <see cref="ApplicationStatus" /> value.
