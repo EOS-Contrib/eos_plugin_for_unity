@@ -265,27 +265,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void SetRefreshRate(string hz)
         {
-            Peer2PeerManager.refreshRate = int.Parse(hz);
-            Debug.Log("UIPeer2PeerMenu (SetRefresshRate):Updated refresh rate to " + Peer2PeerManager.refreshRate + " Hz.");
-            if(hz != "" && hz != null){
+            if (hz != "" && hz != null)
+            {
                 Peer2PeerManager.refreshRate = int.Parse(hz);
                 Debug.Log("UIPeer2PeerMenu (SetRefresshRate):Updated refresh rate to " + Peer2PeerManager.refreshRate + " Hz.");
             }
-
             Debug.Log("Invalid value");
         }
 
         public void SetPacketSize(string mb)
         {
-            Peer2PeerManager.packetSizeMB = float.Parse(mb);
-            Peer2PeerManager.updatePacketSize();
-            Debug.Log("UIPeer2PeerMenu (SetPacketSize):Updated packet size to " + Peer2PeerManager.packetSizeMB + " Mb.");
-            if(mb != "" && mb != null){
+            if (mb != "" && mb != null)
+            {
                 Peer2PeerManager.packetSizeMB = float.Parse(mb);
                 Peer2PeerManager.updatePacketSize();
                 Debug.Log("UIPeer2PeerMenu (SetPacketSize):Updated packet size to " + Peer2PeerManager.packetSizeMB + " Mb.");
             }
-
             Debug.Log("Invalid value");
         }
 
