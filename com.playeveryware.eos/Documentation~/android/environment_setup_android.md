@@ -367,7 +367,6 @@ For Unity 6, you must modify the build.gradle file located at:
         implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
         implementation 'androidx.security:security-crypto:1.0.0'
         implementation 'androidx.browser:browser:1.4.0'
-    //api fileTree(dir: 'libs', include: ['*.aar'])
     }
 ```
 
@@ -382,7 +381,7 @@ Additionally, you must edit the AndroidManifest.xml file located at:
 > The manifest file contains the line <manifest xmlns:android="http://schemas.android.com/apk/res/android">, which is no longer accepted in Unity 6 due to updated Android Gradle Plugin validation rules.
 
 You must replace its contents with the following version to ensure proper compatibility:
-```bash
+```xml
     <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
