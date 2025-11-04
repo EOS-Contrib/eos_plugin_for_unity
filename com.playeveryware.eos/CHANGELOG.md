@@ -2,6 +2,22 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.1.0] - 2025-11-04
+
+### Added
+- Added: Android support for 16kb devices.
+
+### Changed
+- Change: Update to EOS SDK 1.18.1.2-CL47370208
+- Change: Android JDK version update to 11
+
+### Fixed
+- Fix: Prevent Newtonsoft from being stripped
+- Fix: Allow macOS application to shut down
+
+### Notice
+- Mac is using the 1.17.1.3 EOS SDK version of libEOSSDK-Mac-Shipping.dylib due to a bug with the 1.18.1.2 version.
+
 ## [4.1.1] - 2025-08-26
 
 ### Changed

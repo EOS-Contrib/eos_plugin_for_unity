@@ -57,6 +57,11 @@ EOS_STRUCT(EOS_RTCData_ParticipantUpdatedCallbackInfo, (
 	EOS_ERTCDataStatus DataStatus;
 ));
 
+/**
+ * Function prototype definition for notifications that come from EOS_RTCData_OnParticipantUpdatedCallback
+ *
+ * @param Data A EOS_RTCData_ParticipantUpdatedCallbackInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_RTCData_OnParticipantUpdatedCallback, const EOS_RTCData_ParticipantUpdatedCallbackInfo* Data);
 
 /**
@@ -108,6 +113,11 @@ EOS_STRUCT(EOS_RTCData_DataReceivedCallbackInfo, (
 	EOS_ProductUserId ParticipantId;
 ));
 
+/**
+ * Function prototype definition for notifications that come from EOS_RTCData_AddNotifyDataReceived
+ *
+ * @param Data A EOS_RTCData_DataReceivedCallbackInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_RTCData_OnDataReceivedCallback, const EOS_RTCData_DataReceivedCallbackInfo* Data);
 
 /** The most recent version of the EOS_RTCData_UpdateSending API. */
@@ -146,9 +156,12 @@ EOS_STRUCT(EOS_RTCData_UpdateSendingCallbackInfo, (
 	EOS_Bool bDataEnabled;
 ));
 
+
 /**
- * Callback for completion of update sending request.
+ * Function prototype definition for callbacks passed to EOS_RTCData_UpdateSending
+ * @param Data An EOS_RTCData_UpdateSendingCallbackInfo containing the output information and result
  */
+
 EOS_DECLARE_CALLBACK(EOS_RTCData_OnUpdateSendingCallback, const EOS_RTCData_UpdateSendingCallbackInfo* Data);
 
 /** The most recent version of the EOS_RTCData_UpdateReceiving API. */
@@ -193,8 +206,10 @@ EOS_STRUCT(EOS_RTCData_UpdateReceivingCallbackInfo, (
 ));
 
 /**
- * Callback for completion of update receiving request
+ * Function prototype definition for callbacks passed to EOS_RTCData_UpdateReceiving
+ * @param Data An EOS_RTCData_UpdateReceivingCallbackInfo containing the output information and result
  */
+
 EOS_DECLARE_CALLBACK(EOS_RTCData_OnUpdateReceivingCallback, const EOS_RTCData_UpdateReceivingCallbackInfo* Data);
 
 

@@ -130,7 +130,6 @@ namespace Epic.OnlineServices
 
 		internal static void Dispose(ref IntPtr value)
 		{
-			RemoveCallback(value);
 			RemoveAllocation(ref value);
 			RemovePinnedBuffer(ref value);
 			value = default;

@@ -104,10 +104,6 @@ namespace Epic.OnlineServices.Connect
 		/// </summary>
 		public const int LOGOUT_API_LATEST = 1;
 		/// <summary>
-		/// The most recent version of the <see cref="OnAuthExpirationCallback" /> API.
-		/// </summary>
-		public const int ONAUTHEXPIRATIONCALLBACK_API_LATEST = 1;
-		/// <summary>
 		/// The most recent version of the <see cref="QueryExternalAccountMappings" /> API.
 		/// </summary>
 		public const int QUERYEXTERNALACCOUNTMAPPINGS_API_LATEST = 1;

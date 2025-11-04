@@ -73,9 +73,13 @@ EOS_ENUM_BOOLEAN_OPERATORS(EOS_EIntegratedPlatformManagementFlags);
 /** A macro to identify the Steam integrated platform. */
 #define EOS_IPT_Steam "STEAM"
 
+/** The most recent version of the EOS_IntegratedPlatform_Options API. */
 #define EOS_INTEGRATEDPLATFORM_OPTIONS_API_LATEST 1
 
 /**
+ * Initialization options to use with EOS_Platform_Options for integrated platforms.
+ * 
+ * @see EOS_Platform_Options
  */
 EOS_STRUCT(EOS_IntegratedPlatform_Options, (
 	/** API Version: Set this to EOS_INTEGRATEDPLATFORM_OPTIONS_API_LATEST. */
@@ -93,8 +97,10 @@ EOS_STRUCT(EOS_IntegratedPlatform_Options, (
 	const void* InitOptions;
 ));
 
+/** The most recent version of the EOS_IntegratedPlatform_Steam_Options API. */
 #define EOS_INTEGRATEDPLATFORM_STEAM_OPTIONS_API_LATEST 3
 
+/** The maximum size of the SteamApiInterfaceVersionsArray in the EOS_IntegratedPlatform_Steam_Options struct. */
 #define EOS_INTEGRATEDPLATFORM_STEAM_MAX_STEAMAPIINTERFACEVERSIONSARRAY_SIZE 4096
 
 /**
@@ -178,6 +184,7 @@ EOS_STRUCT(EOS_IntegratedPlatform_Steam_Options, (
 	uint32_t SteamApiInterfaceVersionsArrayBytes;
 ));
 
+/** The most recent version of the EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer API. */
 #define EOS_INTEGRATEDPLATFORM_CREATEINTEGRATEDPLATFORMOPTIONSCONTAINER_API_LATEST 1
 
 /**
@@ -213,6 +220,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_IntegratedPlatform_CreateIntegratedPlatformOpt
 EOS_DECLARE_FUNC(void) EOS_IntegratedPlatformOptionsContainer_Release(EOS_HIntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle);
 
 
+/** The most recent version of the EOS_IntegratedPlatformOptionsContainer_Add API. */
 #define EOS_INTEGRATEDPLATFORMOPTIONSCONTAINER_ADD_API_LATEST 1
 
 /**

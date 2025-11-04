@@ -7,6 +7,12 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.RTCAdmin
 {
 
+	/// <summary>
+	/// Function prototype definition for callbacks passed to <see cref="RTCAdminInterface.SetParticipantHardMute" />
+	/// </summary>
+	/// <param name="data">
+	/// An <see cref="SetParticipantHardMuteCompleteCallbackInfo" /> containing the output information and result
+	/// </param>
 	public delegate void OnSetParticipantHardMuteCompleteCallback(ref SetParticipantHardMuteCompleteCallbackInfo data);
 
 	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]

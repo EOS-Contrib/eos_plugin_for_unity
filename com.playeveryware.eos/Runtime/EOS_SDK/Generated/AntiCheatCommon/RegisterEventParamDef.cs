@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
+	/// <summary>
+	/// Register Event Parameter Definition.
+	/// </summary>
 	public struct RegisterEventParamDef
 	{
 		/// <summary>

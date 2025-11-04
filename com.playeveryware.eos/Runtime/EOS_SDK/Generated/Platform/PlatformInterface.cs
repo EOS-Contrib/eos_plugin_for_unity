@@ -33,7 +33,13 @@ namespace Epic.OnlineServices.Platform
 		/// Max length of a client secret, not including the terminating <see langword="null" />.
 		/// </summary>
 		public const int CLIENTCREDENTIALS_CLIENTSECRET_MAX_LENGTH = 64;
+		/// <summary>
+		/// The maximum length of a Country Code buffer
+		/// </summary>
 		public const int COUNTRYCODE_MAX_BUFFER_LEN = (COUNTRYCODE_MAX_LENGTH + 1);
+		/// <summary>
+		/// The maximum length of a Country Code
+		/// </summary>
 		public const int COUNTRYCODE_MAX_LENGTH = 4;
 		/// <summary>
 		/// The most recent version of the <see cref="GetDesktopCrossplayStatus" /> API.
@@ -55,8 +61,17 @@ namespace Epic.OnlineServices.Platform
 		/// The most recent version of the <see cref="InitializeThreadAffinity" /> API.
 		/// </summary>
 		public const int INITIALIZE_THREADAFFINITY_API_LATEST = 3;
+		/// <summary>
+		/// The maximum length of a Locale Code buffer
+		/// </summary>
 		public const int LOCALECODE_MAX_BUFFER_LEN = (LOCALECODE_MAX_LENGTH + 1);
+		/// <summary>
+		/// The maximum length of a Locale Code
+		/// </summary>
 		public const int LOCALECODE_MAX_LENGTH = 9;
+		/// <summary>
+		/// The most recent version of the <see cref="Options" /> API.
+		/// </summary>
 		public const int OPTIONS_API_LATEST = 14;
 		/// <summary>
 		/// Max length of a deployment id, not including the terminating <see langword="null" />.
@@ -77,8 +92,11 @@ namespace Epic.OnlineServices.Platform
 		/// <summary>
 		/// The most recent version of the <see cref="RTCOptions" /> API.
 		/// </summary>
-		public const int RTCOPTIONS_API_LATEST = 2;
-
+		#if UNITY_STANDALONE_OSX
+			public const int RTCOPTIONS_API_LATEST = 2;
+		#else
+			public const int RTCOPTIONS_API_LATEST = 3;
+		#endif
 		/// <summary>
 		/// Gets the <see cref="Utf8String" /> representation of an <see cref="ApplicationStatus" /> value.
 		/// 

@@ -7,6 +7,12 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.ProgressionSnapshot
 {
 
+	/// <summary>
+	/// Function prototype definition for callbacks passed to <see cref="ProgressionSnapshotInterface.DeleteSnapshot" />
+	/// </summary>
+	/// <param name="data">
+	/// A <see cref="DeleteSnapshotCallbackInfo" /> containing the output information and result
+	/// </param>
 	public delegate void OnDeleteSnapshotCallback(ref DeleteSnapshotCallbackInfo data);
 
 	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]

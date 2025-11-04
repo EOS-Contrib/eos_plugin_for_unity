@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
+	/// <summary>
+	/// Log Player Use Weapon Data.
+	/// </summary>
 	public struct LogPlayerUseWeaponData
 	{
 		/// <summary>
@@ -63,7 +66,6 @@ namespace Epic.OnlineServices.AntiCheatCommon
 
 		public void Dispose()
 		{
-			Helper.Dispose(ref m_PlayerHandle);
 			Helper.Dispose(ref m_PlayerPosition);
 			Helper.Dispose(ref m_PlayerViewRotation);
 			Helper.Dispose(ref m_WeaponName);

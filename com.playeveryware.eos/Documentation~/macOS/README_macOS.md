@@ -39,3 +39,5 @@ If you want to do that work manually, please refer to the following:
 * If running the plugin in UnityEditor, after modifying the configuration settings, a UnityEditor reboot is needed for the changes to take place.  
 
 * With Unity `2021.3.16f1` on Mac, building while overwriting the old build can cause some weird behavior. Delete the old build or perform a "clean" before compiling in order to avoid this problem.
+
+* The plugin does not support building for Windows on a Mac.

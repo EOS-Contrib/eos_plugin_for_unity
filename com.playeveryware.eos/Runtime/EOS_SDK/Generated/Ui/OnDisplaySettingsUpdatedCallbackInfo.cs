@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.UI
 {
+	/// <summary>
+	/// Output parameters for the <see cref="UIInterface.AddNotifyDisplaySettingsUpdated" /> function.
+	/// </summary>
 	public struct OnDisplaySettingsUpdatedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>

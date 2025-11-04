@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.ProgressionSnapshot
 {
+	/// <summary>
+	/// Input parameters for the <see cref="ProgressionSnapshotInterface.DeleteSnapshot" /> function.
+	/// </summary>
 	public struct DeleteSnapshotOptions
 	{
 		/// <summary>

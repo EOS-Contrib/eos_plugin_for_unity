@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.Sessions
 {
+	/// <summary>
+	/// Output parameters for the <see cref="SessionsInterface.StartSession" /> function.
+	/// </summary>
 	public struct StartSessionCallbackInfo : ICallbackInfo
 	{
 		/// <summary>

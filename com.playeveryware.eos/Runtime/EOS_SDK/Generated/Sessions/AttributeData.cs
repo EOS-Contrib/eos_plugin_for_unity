@@ -16,7 +16,9 @@ namespace Epic.OnlineServices.Sessions
 		/// </summary>
 		public Utf8String Key { get; set; }
 
-
+		/// <summary>
+		/// Value of the session attribute
+		/// </summary>
 		public AttributeDataValue Value { get; set; }
 	}
 

@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
+	/// <summary>
+	/// Input parameters for the <see cref="AntiCheatServer.AntiCheatServerInterface.LogPlayerUseWeapon" /> function.
+	/// </summary>
 	public struct LogPlayerUseWeaponOptions
 	{
 		/// <summary>

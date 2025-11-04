@@ -143,5 +143,51 @@ namespace Epic.OnlineServices.Presence
 
 			return callResult;
 		}
+
+		/// <summary>
+		/// Adds variable data to a Presence Update template much like a format-arg would. This value will be localized
+		/// by the backend and displayed to users. This function can be called multiple times for each variable. Subsequent
+		/// calls for the sane variable will replace the value with the latest version.
+		/// </summary>
+		/// <param name="options">
+		/// Object containing properties related to setting a named variable value on a Localized Presence Template
+		/// </param>
+		/// <returns>
+		/// Success if the value was updated successfully, otherwise an error code related to the problem
+		/// </returns>
+		public Result SetTemplateData(ref PresenceModificationSetTemplateDataOptions options)
+		{
+			var optionsInternal = default(PresenceModificationSetTemplateDataOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var callResult = Bindings.EOS_PresenceModification_SetTemplateData(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			return callResult;
+		}
+
+		/// <summary>
+		/// Modifies a user's Rich Presence <see cref="Utf8String" /> to a new state using a localized template. This <see cref="Utf8String" /> represents
+		/// a template ID that may contain one or more variables that must be supplied via SetTemplateData. This
+		/// function is mutually exclusive with SetRawRichText meaning only one can be used on a modification.
+		/// </summary>
+		/// <param name="options">
+		/// Object containing the TemplateId for a pre-cofnigured a Localized Presence Template
+		/// </param>
+		/// <returns>
+		/// Success if the value was updated successfully, otherwise an error code related to the problem
+		/// </returns>
+		public Result SetTemplateId(ref PresenceModificationSetTemplateIdOptions options)
+		{
+			var optionsInternal = default(PresenceModificationSetTemplateIdOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var callResult = Bindings.EOS_PresenceModification_SetTemplateId(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			return callResult;
+		}
 	}
 }

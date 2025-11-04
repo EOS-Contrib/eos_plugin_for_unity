@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.AntiCheatServer
 {
+	/// <summary>
+	/// Input parameters for the <see cref="AntiCheatServerInterface.EndSession" /> function.
+	/// </summary>
 	public struct EndSessionOptions
 	{
 		

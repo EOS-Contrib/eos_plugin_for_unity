@@ -15,6 +15,9 @@ EOS_EXTERN_C typedef struct EOS_CustomInvitesHandle* EOS_HCustomInvites;
 /** The most recent version of the EOS_CustomInvites_SetCustomInvite API. */
 #define EOS_CUSTOMINVITES_SETCUSTOMINVITE_API_LATEST 1
 
+/**
+ * Input parameters for the EOS_CustomInvites_SetCustomInvite function.
+ */
 EOS_STRUCT(EOS_CustomInvites_SetCustomInviteOptions, (
 	/** API Version: Set this to EOS_CUSTOMINVITES_SETCUSTOMINVITE_API_LATEST. */
 	int32_t ApiVersion;
@@ -67,6 +70,9 @@ EOS_DECLARE_CALLBACK(EOS_CustomInvites_OnSendCustomInviteCallback, const EOS_Cus
 /** The most recent version of the EOS_CustomInvites_AddNotifyCustomInviteReceived API. */
 #define EOS_CUSTOMINVITES_ADDNOTIFYCUSTOMINVITERECEIVED_API_LATEST 1
 
+/**
+ * Input parameters for the EOS_CustomInvites_AddNotifyCustomInviteReceived function.
+ */
 EOS_STRUCT(EOS_CustomInvites_AddNotifyCustomInviteReceivedOptions, (
 	/** API Version: Set this to EOS_CUSTOMINVITES_ADDNOTIFYCUSTOMINVITERECEIVED_API_LATEST. */
 	int32_t ApiVersion;
@@ -99,6 +105,9 @@ EOS_DECLARE_CALLBACK(EOS_CustomInvites_OnCustomInviteReceivedCallback, const EOS
 /** The most recent version of the EOS_CustomInvites_AddNotifyCustomInviteAccepted API. */
 #define EOS_CUSTOMINVITES_ADDNOTIFYCUSTOMINVITEACCEPTED_API_LATEST 1
 
+/**
+ * Input parameters for the EOS_CustomInvites_AddNotifyCustomInviteAccepted function.
+ */
 EOS_STRUCT(EOS_CustomInvites_AddNotifyCustomInviteAcceptedOptions, (
 	/** API Version: Set this to EOS_CUSTOMINVITES_ADDNOTIFYCUSTOMINVITEACCEPTED_API_LATEST. */
 	int32_t ApiVersion;
@@ -130,6 +139,9 @@ EOS_DECLARE_CALLBACK(EOS_CustomInvites_OnCustomInviteAcceptedCallback, const EOS
 /** The most recent version of the EOS_CustomInvites_AddNotifyCustomInviteRejected API. */
 #define EOS_CUSTOMINVITES_ADDNOTIFYCUSTOMINVITEREJECTED_API_LATEST 1
 
+/**
+ * Input parameters for the EOS_CustomInvites_AddNotifyCustomInviteRejected function.
+ */
 EOS_STRUCT(EOS_CustomInvites_AddNotifyCustomInviteRejectedOptions, (
 	/** API Version: Set this to EOS_CUSTOMINVITES_ADDNOTIFYCUSTOMINVITEREJECTED_API_LATEST. */
 	int32_t ApiVersion;
@@ -161,6 +173,9 @@ EOS_DECLARE_CALLBACK(EOS_CustomInvites_OnCustomInviteRejectedCallback, const EOS
 /** The most recent version of the EOS_CustomInvites_FinalizeInvite API. */
 #define EOS_CUSTOMINVITES_FINALIZEINVITE_API_LATEST 1
 
+/**
+ * Input parameters for the EOS_CustomInvites_FinalizeInvite function.
+ */
 EOS_STRUCT(EOS_CustomInvites_FinalizeInviteOptions, (
 	/** API Version: Set this to EOS_CUSTOMINVITES_FINALIZEINVITE_API_LATEST. */
 	int32_t ApiVersion;
@@ -177,6 +192,9 @@ EOS_STRUCT(EOS_CustomInvites_FinalizeInviteOptions, (
 /** The most recent version of the EOS_CustomInvites_SendRequestToJoinOptions API. */
 #define EOS_CUSTOMINVITES_SENDREQUESTTOJOIN_API_LATEST 1
 
+/**
+ * Input parameters for the EOS_CustomInvites_SendRequestToJoin function.
+ */
 EOS_STRUCT(EOS_CustomInvites_SendRequestToJoinOptions, (
 	/** API Version: Set this to EOS_CUSTOMINVITES_SENDREQUESTTOJOIN_API_LATEST. */
 	int32_t ApiVersion;
@@ -209,6 +227,9 @@ EOS_DECLARE_CALLBACK(EOS_CustomInvites_OnSendRequestToJoinCallback, const EOS_Cu
 /** The most recent version of the EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived API. */
 #define EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINRESPONSERECEIVED_API_LATEST 1
 
+/**
+ * Input parameters for the EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived function.
+ */
 EOS_STRUCT(EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedOptions, (
 	/** API Version: Set this to EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINRESPONSERECEIVED_API_LATEST. */
 	int32_t ApiVersion;
@@ -246,6 +267,9 @@ EOS_DECLARE_CALLBACK(EOS_CustomInvites_OnRequestToJoinResponseReceivedCallback, 
 /** The most recent version of the AddNotifyRequestToJoinReceived API. */
 #define EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINRECEIVED_API_LATEST 1
 
+/**
+ * Input parameters for the AddNotifyRequestToJoinReceived function.
+ */
 EOS_STRUCT(EOS_CustomInvites_AddNotifyRequestToJoinReceivedOptions, (
 	/** API Version: Set this to EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINRECEIVED_API_LATEST. */
 	int32_t ApiVersion;
@@ -273,6 +297,9 @@ EOS_DECLARE_CALLBACK(EOS_CustomInvites_OnRequestToJoinReceivedCallback, const EO
 /** The most recent version of the EOS_CustomInvites_AcceptRequestToJoin API. */
 #define EOS_CUSTOMINVITES_ACCEPTREQUESTTOJOIN_API_LATEST 1
 
+/**
+ * Input parameters for the EOS_CustomInvites_AcceptRequestToJoin function.
+ */
 EOS_STRUCT(EOS_CustomInvites_AcceptRequestToJoinOptions, (
 	/** API Version: Set this to EOS_CUSTOMINVITES_ACCEPTREQUESTTOJOIN_API_LATEST. */
 	int32_t ApiVersion;
@@ -305,6 +332,9 @@ EOS_DECLARE_CALLBACK(EOS_CustomInvites_OnAcceptRequestToJoinCallback, const EOS_
 /** The most recent version of the EOS_CustomInvites_RejectRequestToJoin API. */
 #define EOS_CUSTOMINVITES_REJECTREQUESTTOJOIN_API_LATEST 1
 
+/**
+ * Input parameters for the EOS_CustomInvites_RejectRequestToJoin function.
+ */
 EOS_STRUCT(EOS_CustomInvites_RejectRequestToJoinOptions, (
 	/** API Version: Set this to EOS_CUSTOMINVITES_REJECTREQUESTTOJOIN_API_LATEST. */
 	int32_t ApiVersion;
@@ -337,6 +367,9 @@ EOS_DECLARE_CALLBACK(EOS_CustomInvites_OnRejectRequestToJoinCallback, const EOS_
 /** The most recent version of the EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested API. */
 #define EOS_CUSTOMINVITES_ADDNOTIFYSENDCUSTOMNATIVEINVITEREQUESTED_API_LATEST 1
 
+/**
+ * Input parameters for the EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested function.
+ */
 EOS_STRUCT(EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedOptions, (
 	/** API Version: Set this to EOS_CUSTOMINVITES_ADDNOTIFYSENDCUSTOMNATIVEINVITEREQUESTED_API_LATEST. */
 	int32_t ApiVersion;
@@ -377,9 +410,12 @@ EOS_STRUCT(EOS_CustomInvites_SendCustomNativeInviteRequestedCallbackInfo, (
  */
 EOS_DECLARE_CALLBACK(EOS_CustomInvites_OnSendCustomNativeInviteRequestedCallback, const EOS_CustomInvites_SendCustomNativeInviteRequestedCallbackInfo* Data);
 
-/** The most recent version of the EOS_CustomInvites_AddNotifyCustomInviteAccepted API. */
+/** The most recent version of the EOS_CustomInvites_AddNotifyRequestToJoinAccepted API. */
 #define EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINACCEPTED_API_LATEST 1
 
+/**
+ * Input parameters for the EOS_CustomInvites_AddNotifyRequestToJoinAccepted function.
+ */
 EOS_STRUCT(EOS_CustomInvites_AddNotifyRequestToJoinAcceptedOptions, (
 	/** API Version: Set this to EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINACCEPTED_API_LATEST. */
 	int32_t ApiVersion;
@@ -407,6 +443,9 @@ EOS_DECLARE_CALLBACK(EOS_CustomInvites_OnRequestToJoinAcceptedCallback, const EO
 /** The most recent version of the EOS_CustomInvites_AddNotifyRequestToJoinRejected API. */
 #define EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINREJECTED_API_LATEST 1
 
+/**
+ * Input parameters for the EOS_CustomInvites_AddNotifyRequestToJoinRejected function.
+ */
 EOS_STRUCT(EOS_CustomInvites_AddNotifyRequestToJoinRejectedOptions, (
 	/** API Version: Set this to EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINREJECTED_API_LATEST. */
 	int32_t ApiVersion;

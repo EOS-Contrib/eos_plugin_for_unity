@@ -17,7 +17,7 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// <summary>
 		/// Adds an integrated platform options to the container.
 		/// </summary>
-		/// <param name="">
+		/// <param name="inOptions">
 		/// Object containing properties related to setting a user's Status
 		/// </param>
 		/// <returns>

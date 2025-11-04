@@ -58,7 +58,9 @@ EOS_STRUCT(EOS_Achievements_StatThresholds, (
 	int32_t Threshold;
 ));
 
+/** The most recent version of the EOS_Achievements_PlayerStatInfo struct. */
 #define EOS_ACHIEVEMENTS_PLAYERSTATINFO_API_LATEST 1
+
 /**
  * Contains information about a collection of stat info data.
  *

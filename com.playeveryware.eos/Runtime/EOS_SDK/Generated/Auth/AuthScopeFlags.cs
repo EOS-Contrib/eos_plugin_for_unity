@@ -12,6 +12,9 @@ namespace Epic.OnlineServices.Auth
 	[Flags]
 	public enum AuthScopeFlags : int
 	{
+		/// <summary>
+		/// Default value, no permissions required
+		/// </summary>
 		NoFlags = 0x0,
 		/// <summary>
 		/// Permissions to see your account ID, display name, and language

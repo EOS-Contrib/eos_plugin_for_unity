@@ -7,13 +7,37 @@ namespace Epic.OnlineServices.Version
 {
 	public sealed partial class VersionInterface
 	{
+		/// <summary>
+		/// The company name
+		/// </summary>
 		public static readonly Utf8String COMPANY_NAME = "Epic Games, Inc.";
+		/// <summary>
+		/// The copyright <see cref="Utf8String" />
+		/// </summary>
 		public static readonly Utf8String COPYRIGHT_STRING = "Copyright Epic Games, Inc. All Rights Reserved.";
-		public const int HOTFIX = 3;
+		/// <summary>
+		/// The Hotfix version number
+		/// </summary>
+		public const int HOTFIX = 2;
+		/// <summary>
+		/// The Major version number
+		/// </summary>
 		public const int MAJOR = 1;
-		public const int MINOR = 17;
+		/// <summary>
+		/// The Minor version number
+		/// </summary>
+		public const int MINOR = 18;
+		/// <summary>
+		/// The Patch version number
+		/// </summary>
 		public const int PATCH = 1;
+		/// <summary>
+		/// The product identifier
+		/// </summary>
 		public static readonly Utf8String PRODUCT_IDENTIFIER = "Epic Online Services SDK";
+		/// <summary>
+		/// The product name
+		/// </summary>
 		public static readonly Utf8String PRODUCT_NAME = "Epic Online Services SDK";
 
 		/// <summary>

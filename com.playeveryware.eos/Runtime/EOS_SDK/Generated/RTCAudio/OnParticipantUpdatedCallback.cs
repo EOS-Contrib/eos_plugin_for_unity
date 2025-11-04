@@ -7,6 +7,12 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.RTCAudio
 {
 
+	/// <summary>
+	/// Function prototype definition for callbacks passed to <see cref="RTCAudioInterface.AddNotifyParticipantUpdated" />
+	/// </summary>
+	/// <param name="data">
+	/// An <see cref="ParticipantUpdatedCallbackInfo" /> containing the output information and result
+	/// </param>
 	public delegate void OnParticipantUpdatedCallback(ref ParticipantUpdatedCallbackInfo data);
 
 	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]

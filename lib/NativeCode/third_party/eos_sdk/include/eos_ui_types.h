@@ -11,6 +11,8 @@ EOS_EXTERN_C typedef struct EOS_UIHandle* EOS_HUI;
 
 /** ID representing a specific UI event. */
 EOS_EXTERN_C typedef uint64_t EOS_UI_EventId;
+
+/** An invalid Event Id. */
 #define EOS_UI_EVENTID_INVALID 0
 
 /** The most recent version of the EOS_UI_ShowFriends API. */
@@ -112,6 +114,9 @@ EOS_STRUCT(EOS_UI_AddNotifyDisplaySettingsUpdatedOptions, (
 	int32_t ApiVersion;
 ));
 
+/**
+ * Output parameters for the EOS_UI_AddNotifyDisplaySettingsUpdated function.
+ */
 EOS_STRUCT(EOS_UI_OnDisplaySettingsUpdatedCallbackInfo, (
 	/** Context that was passed into EOS_UI_AddNotifyDisplaySettingsUpdated */
 	void* ClientData;
@@ -230,9 +235,13 @@ EOS_STRUCT(EOS_UI_GetToggleFriendsButtonOptions, (
  * @see EOS_UI_SetDisplayPreference
  */
 EOS_ENUM(EOS_UI_ENotificationLocation,
+	/** The top left corner */
 	EOS_UNL_TopLeft,
+	/** The top right corner */
 	EOS_UNL_TopRight,
+	/** The bottom left corner */
 	EOS_UNL_BottomLeft,
+	/** The bottom right corner */
 	EOS_UNL_BottomRight
 );
 
@@ -485,9 +494,6 @@ EOS_STRUCT(EOS_UI_Rect, (
 	uint32_t Height;
 ));
 
-/** The most recent version of the EOS_UI_MemoryMonitorCallbackInfo struct. */
-#define EOS_UI_MEMORYMONITORCALLBACKINFO_API_LATEST 1
-
 /** A structure representing a memory monitoring message. */
 EOS_STRUCT(EOS_UI_MemoryMonitorCallbackInfo, (
 	/** Context that was passed into EOS_UI_AddNotifyMemoryMonitor */
@@ -504,7 +510,7 @@ EOS_STRUCT(EOS_UI_MemoryMonitorCallbackInfo, (
 
 /** The most recent version of the EOS_UI_AddNotifyMemoryMonitor API. */
 #define EOS_UI_ADDNOTIFYMEMORYMONITOR_API_LATEST 1
-// For backward compatibility. Please use the value above as this will be removed in a later version
+/** DEPRECATED! Use EOS_UI_ADDNOTIFYMEMORYMONITOR_API_LATEST instead. */
 #define EOS_UI_ADDNOTIFYMEMORYMONITOROPTIONS_API_LATEST EOS_UI_ADDNOTIFYMEMORYMONITOR_API_LATEST
 
 /**
@@ -515,6 +521,10 @@ EOS_STRUCT(EOS_UI_AddNotifyMemoryMonitorOptions, (
 	int32_t ApiVersion;
 ));
 
+/**
+ * Function prototype definition for callbacks passed to EOS_UI_AddNotifyMemoryMonitor
+ * @param Data A EOS_UI_MemoryMonitorCallbackInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_UI_OnMemoryMonitorCallback, const EOS_UI_MemoryMonitorCallbackInfo* Data);
 
 #pragma pack(pop)

@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices.CustomInvites
 {
+	/// <summary>
+	/// Input parameters for the <see cref="CustomInvitesInterface.SetCustomInvite" /> function.
+	/// </summary>
 	public struct SetCustomInviteOptions
 	{
 		/// <summary>

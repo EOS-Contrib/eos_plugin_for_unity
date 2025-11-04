@@ -23,12 +23,21 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// The most recent version of the <see cref="ClearUserPreLogoutCallback" /> API.
 		/// </summary>
 		public const int CLEARUSERPRELOGOUTCALLBACK_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="CreateIntegratedPlatformOptionsContainer" /> API.
+		/// </summary>
 		public const int CREATEINTEGRATEDPLATFORMOPTIONSCONTAINER_API_LATEST = 1;
 		/// <summary>
 		/// The most recent version of the <see cref="FinalizeDeferredUserLogout" /> API.
 		/// </summary>
 		public const int FINALIZEDEFERREDUSERLOGOUT_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="IntegratedPlatformOptionsContainer.Add" /> API.
+		/// </summary>
 		public const int INTEGRATEDPLATFORMOPTIONSCONTAINER_ADD_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="Options" /> API.
+		/// </summary>
 		public const int OPTIONS_API_LATEST = 1;
 		/// <summary>
 		/// The most recent version of the <see cref="SetUserLoginStatus" /> API.
@@ -38,28 +47,28 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// The most recent version of the <see cref="SetUserPreLogoutCallback" /> API.
 		/// </summary>
 		public const int SETUSERPRELOGOUTCALLBACK_API_LATEST = 1;
-        public const int SteamOptionsApiLatest = 3;
-        /// <summary>
-        /// Register to receive notifications when the login state of Integrated Platform users change.
-        /// 
-        /// This notification will trigger any time the EOS SDK's internal login state changes for a user, including for manual login state
-        /// changes (when the <see cref="IntegratedPlatformManagementFlags.ApplicationManagedIdentityLogin" /> flag is set), or automatically detected ones (when not disabled by the
-        /// <see cref="IntegratedPlatformManagementFlags.ApplicationManagedIdentityLogin" /> flag).
-        /// <see cref="RemoveNotifyUserLoginStatusChanged" />
-        /// </summary>
-        /// <param name="options">
-        /// Data associated with what version of the notification to receive.
-        /// </param>
-        /// <param name="clientData">
-        /// A context <see cref="IntPtr" /> that is returned in the callback function.
-        /// </param>
-        /// <param name="callbackFunction">
-        /// The function that is called when Integrated Platform user logins happen
-        /// </param>
-        /// <returns>
-        /// A valid notification that can be used to unregister for notifications, or <see cref="Common.INVALID_NOTIFICATIONID" /> if input was invalid.
-        /// </returns>
-        public ulong AddNotifyUserLoginStatusChanged(ref AddNotifyUserLoginStatusChangedOptions options, object clientData, OnUserLoginStatusChangedCallback callbackFunction)
+
+		/// <summary>
+		/// Register to receive notifications when the login state of Integrated Platform users change.
+		/// 
+		/// This notification will trigger any time the EOS SDK's internal login state changes for a user, including for manual login state
+		/// changes (when the <see cref="IntegratedPlatformManagementFlags.ApplicationManagedIdentityLogin" /> flag is set), or automatically detected ones (when not disabled by the
+		/// <see cref="IntegratedPlatformManagementFlags.ApplicationManagedIdentityLogin" /> flag).
+		/// <see cref="RemoveNotifyUserLoginStatusChanged" />
+		/// </summary>
+		/// <param name="options">
+		/// Data associated with what version of the notification to receive.
+		/// </param>
+		/// <param name="clientData">
+		/// A context <see cref="IntPtr" /> that is returned in the callback function.
+		/// </param>
+		/// <param name="callbackFunction">
+		/// The function that is called when Integrated Platform user logins happen
+		/// </param>
+		/// <returns>
+		/// A valid notification that can be used to unregister for notifications, or <see cref="Common.INVALID_NOTIFICATIONID" /> if input was invalid.
+		/// </returns>
+		public ulong AddNotifyUserLoginStatusChanged(ref AddNotifyUserLoginStatusChangedOptions options, object clientData, OnUserLoginStatusChangedCallback callbackFunction)
 		{
 			if (callbackFunction == null)
 			{

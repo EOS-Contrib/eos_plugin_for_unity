@@ -288,7 +288,12 @@ EOS_STRUCT(EOS_AntiCheatCommon_OnClientAuthStatusChangedCallbackInfo, (
 	EOS_EAntiCheatCommonClientAuthStatus ClientAuthStatus;
 ));
 
+/** The most recent version of the EOS_AntiCheatCommon_SetClientDetailsOptions struct. */
 #define EOS_ANTICHEATCOMMON_SETCLIENTDETAILS_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatServer_SetClientDetails function.
+ */
 EOS_STRUCT(EOS_AntiCheatCommon_SetClientDetailsOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCOMMON_SETCLIENTDETAILS_API_LATEST. */
 	int32_t ApiVersion;
@@ -300,7 +305,12 @@ EOS_STRUCT(EOS_AntiCheatCommon_SetClientDetailsOptions, (
 	EOS_EAntiCheatCommonClientInput ClientInputMethod;
 ));
 
+/** The most recent version of the EOS_AntiCheatCommon_SetGameSessionIdOptions struct. */
 #define EOS_ANTICHEATCOMMON_SETGAMESESSIONID_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatServer_SetGameSessionId function.
+ */
 EOS_STRUCT(EOS_AntiCheatCommon_SetGameSessionIdOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCOMMON_SETGAMESESSIONID_API_LATEST. */
 	int32_t ApiVersion;
@@ -308,15 +318,28 @@ EOS_STRUCT(EOS_AntiCheatCommon_SetGameSessionIdOptions, (
 	const char* GameSessionId;
 ));
 
-#define EOS_ANTICHEATCOMMON_REGISTEREVENT_API_LATEST 1
+/** Min value for EventId in EOS_AntiCheatCommon_RegisterEventOptions. */
 #define EOS_ANTICHEATCOMMON_REGISTEREVENT_CUSTOMEVENTBASE 0x10000000
+
+/** Max value for ParamDefsCount in EOS_AntiCheatCommon_RegisterEventOptions. */
 #define EOS_ANTICHEATCOMMON_REGISTEREVENT_MAX_PARAMDEFSCOUNT 12
+
+/**
+ * Register Event Parameter Definition.
+ */
 EOS_STRUCT(EOS_AntiCheatCommon_RegisterEventParamDef, (
 	/** Parameter name. Allowed characters are 0-9, A-Z, a-z, '_', '-' */
 	const char* ParamName;
 	/** Parameter type */
 	EOS_EAntiCheatCommonEventParamType ParamType;
 ));
+
+/** The most recent version of the EOS_AntiCheatCommon_RegisterEventOptions struct. */
+#define EOS_ANTICHEATCOMMON_REGISTEREVENT_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatServer_RegisterEvent function.
+ */
 EOS_STRUCT(EOS_AntiCheatCommon_RegisterEventOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCOMMON_REGISTEREVENT_API_LATEST. */
 	int32_t ApiVersion;
@@ -332,25 +355,48 @@ EOS_STRUCT(EOS_AntiCheatCommon_RegisterEventOptions, (
 	const EOS_AntiCheatCommon_RegisterEventParamDef* ParamDefs;
 ));
 
-#define EOS_ANTICHEATCOMMON_LOGEVENT_API_LATEST 1
+/** Max string length for a log event param value. */
 #define EOS_ANTICHEATCOMMON_LOGEVENT_STRING_MAX_LENGTH 39
+
+/**
+ * Log Event Parameter.
+ */
 EOS_STRUCT(EOS_AntiCheatCommon_LogEventParamPair, (
 	/** Parameter type */
 	EOS_EAntiCheatCommonEventParamType ParamValueType;
 	/** Parameter value */
 	union
 	{
+		/** Client handle. */
 		EOS_AntiCheatCommon_ClientHandle ClientHandle;
-		const char* String; // Will be truncated if longer than EOS_ANTICHEATCOMMON_LOGEVENT_STRING_MAX_LENGTH bytes.
+		/**
+		 * The value as a string.
+		 * Will be truncated if longer than EOS_ANTICHEATCOMMON_LOGEVENT_STRING_MAX_LENGTH bytes.
+		 */
+		const char* String;
+		/** The value as a uint32_t. */
 		uint32_t UInt32;
+		/** The value as an int32_t. */
 		int32_t Int32;
+		/** The value as a uint64_t. */
 		uint64_t UInt64;
+		/** The value as an int64_t. */
 		int64_t Int64;
+		/** The value as an EOS_AntiCheatCommon_Vec3f. */
 		EOS_AntiCheatCommon_Vec3f Vec3f;
+		/** The value as an EOS_AntiCheatCommon_Quat. */
 		EOS_AntiCheatCommon_Quat Quat;
+		/** The value as a float. */
 		float Float;
 	} ParamValue;
 ));
+
+/** The most recent version of the EOS_AntiCheatCommon_LogEventOptions struct. */
+#define EOS_ANTICHEATCOMMON_LOGEVENT_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatServer_LogEvent function.
+ */
 EOS_STRUCT(EOS_AntiCheatCommon_LogEventOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCOMMON_LOGEVENT_API_LATEST. */
 	int32_t ApiVersion;
@@ -364,7 +410,12 @@ EOS_STRUCT(EOS_AntiCheatCommon_LogEventOptions, (
 	const EOS_AntiCheatCommon_LogEventParamPair* Params;
 ));
 
+/** The most recent version of the EOS_AntiCheatCommon_LogGameRoundStartOptions struct. */
 #define EOS_ANTICHEATCOMMON_LOGGAMEROUNDSTART_API_LATEST 2
+
+/**
+ * Input parameters for the EOS_AntiCheatServer_LogGameRoundStart function.
+ */
 EOS_STRUCT(EOS_AntiCheatCommon_LogGameRoundStartOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCOMMON_LOGGAMEROUNDSTART_API_LATEST. */
 	int32_t ApiVersion;
@@ -380,7 +431,12 @@ EOS_STRUCT(EOS_AntiCheatCommon_LogGameRoundStartOptions, (
 	EOS_EAntiCheatCommonGameRoundCompetitionType CompetitionType;
 ));
 
+/** The most recent version of the EOS_AntiCheatCommon_LogGameRoundEndOptions struct. */
 #define EOS_ANTICHEATCOMMON_LOGGAMEROUNDEND_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatServer_LogGameRoundEnd function.
+ */
 EOS_STRUCT(EOS_AntiCheatCommon_LogGameRoundEndOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCOMMON_LOGGAMEROUNDEND_API_LATEST. */
 	int32_t ApiVersion;
@@ -388,7 +444,12 @@ EOS_STRUCT(EOS_AntiCheatCommon_LogGameRoundEndOptions, (
 	uint32_t WinningTeamId;
 ));
 
+/** The most recent version of the EOS_AntiCheatCommon_LogPlayerSpawnOptions struct. */
 #define EOS_ANTICHEATCOMMON_LOGPLAYERSPAWN_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatServer_LogPlayerSpawn function.
+ */
 EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerSpawnOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCOMMON_LOGPLAYERSPAWN_API_LATEST. */
 	int32_t ApiVersion;
@@ -400,7 +461,12 @@ EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerSpawnOptions, (
 	uint32_t CharacterId;
 ));
 
+/** The most recent version of the EOS_AntiCheatCommon_LogPlayerDespawnOptions struct. */
 #define EOS_ANTICHEATCOMMON_LOGPLAYERDESPAWN_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatServer_LogPlayerDespawn function.
+ */
 EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerDespawnOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCOMMON_LOGPLAYERDESPAWN_API_LATEST. */
 	int32_t ApiVersion;
@@ -408,7 +474,12 @@ EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerDespawnOptions, (
 	EOS_AntiCheatCommon_ClientHandle DespawnedPlayerHandle;
 ));
 
+/** The most recent version of the EOS_AntiCheatCommon_LogPlayerReviveOptions struct. */
 #define EOS_ANTICHEATCOMMON_LOGPLAYERREVIVE_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatServer_LogPlayerRevive function.
+ */
 EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerReviveOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCOMMON_LOGPLAYERREVIVE_API_LATEST. */
 	int32_t ApiVersion;
@@ -418,7 +489,12 @@ EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerReviveOptions, (
 	EOS_AntiCheatCommon_ClientHandle ReviverPlayerHandle;
 ));
 
+/** The most recent version of the EOS_AntiCheatCommon_LogPlayerTickOptions struct. */
 #define EOS_ANTICHEATCOMMON_LOGPLAYERTICK_API_LATEST 3
+
+/**
+ * Input parameters for the EOS_AntiCheatServer_LogPlayerTick function.
+ */
 EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerTickOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCOMMON_LOGPLAYERTICK_API_LATEST. */
 	int32_t ApiVersion;
@@ -438,8 +514,12 @@ EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerTickOptions, (
 	EOS_AntiCheatCommon_Vec3f* PlayerViewPosition;
 ));
 
-#define EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_API_LATEST 2
+/** Max weapon name length in EOS_AntiCheatCommon_LogPlayerUseWeaponData. */
 #define EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_WEAPONNAME_MAX_LENGTH 32
+
+/**
+ * Log Player Use Weapon Data.
+ */
 EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerUseWeaponData, (
 	/** Locally unique value used in RegisterClient/RegisterPeer */
 	EOS_AntiCheatCommon_ClientHandle PlayerHandle;
@@ -454,6 +534,13 @@ EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerUseWeaponData, (
 	/** Name of the weapon used. Will be truncated to EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_WEAPONNAME_MAX_LENGTH bytes if longer. */
 	const char* WeaponName;
 ));
+
+/** The most recent version of the EOS_AntiCheatCommon_LogPlayerUseWeaponOptions struct. */
+#define EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_API_LATEST 2
+
+/**
+ * Input parameters for the EOS_AntiCheatServer_LogPlayerUseWeapon function.
+ */
 EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerUseWeaponOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_API_LATEST. */
 	int32_t ApiVersion;
@@ -461,7 +548,12 @@ EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerUseWeaponOptions, (
 	EOS_AntiCheatCommon_LogPlayerUseWeaponData* UseWeaponData;
 ));
 
+/** The most recent version of the EOS_AntiCheatCommon_LogPlayerUseAbilityOptions struct. */
 #define EOS_ANTICHEATCOMMON_LOGPLAYERUSEABILITY_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatServer_LogPlayerUseAbility function.
+ */
 EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerUseAbilityOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCOMMON_LOGPLAYERUSEABILITY_API_LATEST. */
 	int32_t ApiVersion;
@@ -475,7 +567,12 @@ EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerUseAbilityOptions, (
 	uint32_t AbilityCooldownMs;
 ));
 
+/** The most recent version of the EOS_AntiCheatCommon_LogPlayerTakeDamageOptions struct. */
 #define EOS_ANTICHEATCOMMON_LOGPLAYERTAKEDAMAGE_API_LATEST 4
+
+/**
+ * Input parameters for the EOS_AntiCheatServer_LogPlayerTakeDamage function.
+ */
 EOS_STRUCT(EOS_AntiCheatCommon_LogPlayerTakeDamageOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCOMMON_LOGPLAYERTAKEDAMAGE_API_LATEST. */
 	int32_t ApiVersion;

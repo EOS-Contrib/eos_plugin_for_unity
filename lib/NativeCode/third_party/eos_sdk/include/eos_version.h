@@ -1,23 +1,30 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
-// THIS FILE WAS GENERATED AT 2025-08-01T20:16:09.5684126Z. DO NOT EDIT DIRECTLY.
 
 #pragma once
 
 // These numbers define the banner SDK version, and are the most significant numbers when ordering two engine versions (that is, a 4.12.* version is always
 // newer than a 4.11.* version, regardless of the changelist that it was built with)
+/** The Major version number */
 #define EOS_MAJOR_VERSION	1
-#define EOS_MINOR_VERSION	17
+/** The Minor version number */
+#define EOS_MINOR_VERSION	18
+/** The Patch version number */
 #define EOS_PATCH_VERSION	1
-#define EOS_HOTFIX_VERSION	3
+/** The Hotfix version number */
+#define EOS_HOTFIX_VERSION	2
 
 // Macros for encoding strings
 #define EOS_VERSION_STRINGIFY_2(x) #x
 #define EOS_VERSION_STRINGIFY(x) EOS_VERSION_STRINGIFY_2(x)
 
 // Various strings used for engine resources
+/** The company name */
 #define EOS_COMPANY_NAME  "Epic Games, Inc."
+/** The copyright string */
 #define EOS_COPYRIGHT_STRING "Copyright Epic Games, Inc. All Rights Reserved."
+/** The product name */
 #define EOS_PRODUCT_NAME "Epic Online Services SDK"
+/** The product identifier */
 #define EOS_PRODUCT_IDENTIFIER "Epic Online Services SDK"
 
 #define EOS_VERSION_STRING_BASE                  \
