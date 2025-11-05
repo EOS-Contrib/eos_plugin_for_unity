@@ -265,23 +265,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void SetRefreshRate(string hz)
         {
-            if (hz != "" && hz != null)
+            if (string.IsNullOrEmpty(hz))
             {
-                Peer2PeerManager.refreshRate = int.Parse(hz);
-                Debug.Log("UIPeer2PeerMenu (SetRefresshRate):Updated refresh rate to " + Peer2PeerManager.refreshRate + " Hz.");
+                Debug.Log("Invalid value:" + hz);
+                return;
             }
-            Debug.Log("Invalid value");
+
+            Peer2PeerManager.refreshRate = int.Parse(hz);
+            Debug.Log("UIPeer2PeerMenu (SetRefresshRate):Updated refresh rate to " + Peer2PeerManager.refreshRate + " Hz.");
+
         }
 
         public void SetPacketSize(string mb)
         {
-            if (mb != "" && mb != null)
+            if (string.IsNullOrEmpty(mb))
             {
-                Peer2PeerManager.packetSizeMB = float.Parse(mb);
-                Peer2PeerManager.updatePacketSize();
-                Debug.Log("UIPeer2PeerMenu (SetPacketSize):Updated packet size to " + Peer2PeerManager.packetSizeMB + " Mb.");
+                Debug.Log("Invalid value: " + mb);
+                return;
             }
-            Debug.Log("Invalid value");
+
+            Peer2PeerManager.packetSizeMB = float.Parse(mb);
+            Peer2PeerManager.updatePacketSize();
+            Debug.Log("UIPeer2PeerMenu (SetPacketSize):Updated packet size to " + Peer2PeerManager.packetSizeMB + " Mb.");
+
         }
 
         protected override void HideInternal()
