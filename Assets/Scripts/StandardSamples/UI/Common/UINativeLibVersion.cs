@@ -1,4 +1,4 @@
-/*
+﻿/*
 * Copyright (c) 2021 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,22 +20,17 @@
 * SOFTWARE.
 */
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public static class EOSPackageInfo
-    {
-        /*
-         * TODO:
-         *
-         * The automated process utilized previously to read and write values to CS files to indicate version and package name
-         * was fragile and had too much overhead. For the time being, it has been replaced by hard-coded values, but in the
-         * near future it is important that these values change as part of the build process in an automated fashion that does
-         * not involve editing source code files.
-         */
-      
-        public const string Version = "5.1.2";
-        public const string NativeLibVersion = "5.0.0";
+    using UnityEngine;
+    using UnityEngine.UI;
 
-        public const string PackageName = "com.playeveryware.eos";
+    public class UINativeLibVersion : MonoBehaviour
+    {
+        private void Start()
+        {
+            var textComp = GetComponent<Text>();
+            textComp.text = $"v-{EOSPackageInfo.NativeLibVersion}";
+        }
     }
 }
