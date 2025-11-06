@@ -348,21 +348,21 @@ For Unity 6, you must modify the build.gradle file located at:
         }
     }
     android {
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
-            jniLibs.srcDirs = ['libs']
+        sourceSets {
+            main {
+                manifest.srcFile 'AndroidManifest.xml'
+                java.srcDirs = ['src']
+                res.srcDirs = ['res']
+                assets.srcDirs = ['assets']
+                jniLibs.srcDirs = ['libs']
+            }
         }
-    }
-    namespace 'com.pew.eos_dependencies'
-    compileSdkVersion 34
-    buildToolsVersion '34.0.0'
-    defaultConfig {
-        targetSdkVersion 34
-    }
+        namespace 'com.pew.eos_dependencies'
+        compileSdkVersion 34
+        buildToolsVersion '34.0.0'
+        defaultConfig {
+            targetSdkVersion 34
+        }
     }
     dependencies {
         implementation 'androidx.appcompat:appcompat:1.5.1'
