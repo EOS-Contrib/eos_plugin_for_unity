@@ -102,6 +102,8 @@ namespace PlayEveryWare.EpicOnlineServices
         "DynamicLibraryLoaderHelper_Android";
 #elif UNITY_STANDALONE_OSX
         "libDynamicLibraryLoaderHelper";
+#elif UNITY_STANDALONE_LINUX
+        "libDynamicLibraryLoaderHelper";
 #else
         "__Internal";
 #endif
