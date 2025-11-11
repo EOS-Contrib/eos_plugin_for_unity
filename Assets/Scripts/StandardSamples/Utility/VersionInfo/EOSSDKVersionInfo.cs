@@ -1,11 +1,14 @@
-using UnityEngine;
-using UnityEngine.UI;
-public class EOSSDKVersionInfo : MonoBehaviour
+namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public Text pluginVersion;
-
-    void Start()
+    using UnityEngine;
+    using UnityEngine.UI;
+    public class EOSSDKVersionInfo : MonoBehaviour
     {
-        pluginVersion.text = Epic.OnlineServices.Version.VersionInterface.GetVersion();
+        public Text pluginVersion;
+
+        void Start()
+        {
+            pluginVersion.text = Epic.OnlineServices.Version.VersionInterface.GetVersion();
+        }
     }
 }
