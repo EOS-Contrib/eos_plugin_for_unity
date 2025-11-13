@@ -3616,13 +3616,15 @@ namespace Epic.OnlineServices
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_PresenceModification_SetStatusName);
 			EOS_PresenceModification_SetStatus = (EOS_PresenceModification_SetStatusDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetStatusDelegate));
 
-			functionPointer = getFunctionPointer(libraryHandle, EOS_PresenceModification_SetTemplateDataName);
-			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_PresenceModification_SetTemplateDataName);
-			EOS_PresenceModification_SetTemplateData = (EOS_PresenceModification_SetTemplateDataDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetTemplateDataDelegate));
+			#if !UNITY_EDITOR_OSX
+				functionPointer = getFunctionPointer(libraryHandle, EOS_PresenceModification_SetTemplateDataName);
+				if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_PresenceModification_SetTemplateDataName);
+				EOS_PresenceModification_SetTemplateData = (EOS_PresenceModification_SetTemplateDataDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetTemplateDataDelegate));
 
-			functionPointer = getFunctionPointer(libraryHandle, EOS_PresenceModification_SetTemplateIdName);
-			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_PresenceModification_SetTemplateIdName);
-			EOS_PresenceModification_SetTemplateId = (EOS_PresenceModification_SetTemplateIdDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetTemplateIdDelegate));
+				functionPointer = getFunctionPointer(libraryHandle, EOS_PresenceModification_SetTemplateIdName);
+				if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_PresenceModification_SetTemplateIdName);
+				EOS_PresenceModification_SetTemplateId = (EOS_PresenceModification_SetTemplateIdDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetTemplateIdDelegate));
+			#endif
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Presence_AddNotifyJoinGameAcceptedName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Presence_AddNotifyJoinGameAcceptedName);
