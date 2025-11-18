@@ -267,27 +267,58 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (string.IsNullOrEmpty(hz))
             {
-                Debug.Log("Invalid value:" + hz);
+                Debug.Log("Invalid value: empty or null input.");
                 return;
             }
+            else
+            {
+                bool attemptParse = int.TryParse(hz, out Peer2PeerManager.refreshRate);
 
-            Peer2PeerManager.refreshRate = int.Parse(hz);
-            Debug.Log("UIPeer2PeerMenu (SetRefresshRate):Updated refresh rate to " + Peer2PeerManager.refreshRate + " Hz.");
+                if (attemptParse)
+                {
+                    if (Peer2PeerManager.refreshRate < 0)
+                    {
+                        Debug.Log("Invalid value (negative): " + hz);
+                        return;
+                    }
 
+                    Debug.Log("Updated refresh rate to " + Peer2PeerManager.refreshRate + " Hz.");
+                }
+                else
+                {
+                    Debug.Log("Invalid value: " + hz);
+                    return;
+                }
+            }
         }
 
         public void SetPacketSize(string mb)
         {
             if (string.IsNullOrEmpty(mb))
             {
-                Debug.Log("Invalid value: " + mb);
+                Debug.Log("Invalid value: empty or null input.");
                 return;
             }
-
-            Peer2PeerManager.packetSizeMB = float.Parse(mb);
-            Peer2PeerManager.updatePacketSize();
-            Debug.Log("UIPeer2PeerMenu (SetPacketSize):Updated packet size to " + Peer2PeerManager.packetSizeMB + " Mb.");
-
+            else
+            {
+                bool attemptParse = float.TryParse(mb, out Peer2PeerManager.packetSizeMB);
+                if (attemptParse)
+                {
+                    if (Peer2PeerManager.packetSizeMB < 0)
+                    {
+                        Debug.Log("Invalid value (negative): " + mb);
+                        return;
+                    }
+                    
+                    Peer2PeerManager.updatePacketSize();
+                    Debug.Log("UIPeer2PeerMenu (SetPacketSize):Updated packet size to " + Peer2PeerManager.packetSizeMB + " Mb.");
+                }
+                else
+                {
+                    Debug.Log("Invalid value: " + mb);
+                    return;
+                }
+            }
         }
 
         protected override void HideInternal()
