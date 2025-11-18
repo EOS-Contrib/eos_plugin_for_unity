@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: EOS Developer Community
+    url: https://eoshelp.epicgames.com/
+    about: Please click here and create a discussion on the EOS Developer Community site. For issues of a confidential nature (including support using this plugin on console platforms), please create a private discussion.
