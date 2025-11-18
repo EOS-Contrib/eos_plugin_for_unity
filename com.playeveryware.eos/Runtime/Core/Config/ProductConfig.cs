@@ -251,6 +251,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 // Save the config
                 config.Write();
+#if UNITY_EDITOR
+                UnityEditor.AssetDatabase.SaveAssets();
+                UnityEditor.AssetDatabase.Refresh();
+#endif
+
             }
 
             // If at least one platform config was updated as a result, trigger
@@ -314,6 +319,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 // Save the config
                 config.Write();
+#if UNITY_EDITOR
+                UnityEditor.AssetDatabase.SaveAssets();
+                UnityEditor.AssetDatabase.Refresh();
+#endif
+
             }
 
             // If at least one platform config was updated as a result, trigger
@@ -331,6 +341,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // Update the platform config client credentials if needed.
             UpdatePlatformConfigClientCredentials();
+#if UNITY_EDITOR
+            UnityEditor.AssetDatabase.Refresh();
+#endif
         }
 
 #endif
