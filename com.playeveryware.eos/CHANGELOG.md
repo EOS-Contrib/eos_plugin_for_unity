@@ -2,6 +2,23 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.1.2] - 2025-11-25
+
+### Added
+- Added: Documentation about IL2CPP Setup to prevent code stripping
+- Added: Add QueryEntitlement and QueryOwnership tests to the Store demo
+
+### Changed
+- Change: Updated Android Documentation
+- Change: Packages no longer include .gitattributes files
+- Change: Improved UIHighFrequencyPeer2PeerMenu input validation
+
+### Fixed
+- Fix: NullReferenceException when using the Copy Log button in the Achievements sample scene
+- Fix: Linux build support
+- Fix: Updating EOS Config in the UI now saves it to the .json
+- Fix: Support for MacOS
+
 ## [5.1.0] - 2025-11-04
 
 ### Added
