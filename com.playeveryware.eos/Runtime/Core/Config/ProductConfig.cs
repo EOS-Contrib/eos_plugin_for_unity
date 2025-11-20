@@ -328,6 +328,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
         protected override void OnWriteCompleted()
         {
+            base.OnWriteCompleted();
+
             // Update the platform config deployments if needed.
             UpdatePlatformConfigDeployments();
 
