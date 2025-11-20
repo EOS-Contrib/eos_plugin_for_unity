@@ -262,11 +262,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             {
                 editor.Save();
             }
-#if UNITY_EDITOR
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-#endif
-
         }
     }
 }
