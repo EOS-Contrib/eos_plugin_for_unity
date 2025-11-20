@@ -3616,6 +3616,7 @@ namespace Epic.OnlineServices
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_PresenceModification_SetStatusName);
 			EOS_PresenceModification_SetStatus = (EOS_PresenceModification_SetStatusDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetStatusDelegate));
 
+			/// Temporary fix to support combining two differetn EOS SDK versions. Will remove in the next EOS SDK update with a permanent fix.
 			#if !UNITY_EDITOR_OSX
 				functionPointer = getFunctionPointer(libraryHandle, EOS_PresenceModification_SetTemplateDataName);
 				if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_PresenceModification_SetTemplateDataName);
