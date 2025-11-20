@@ -8,7 +8,10 @@
         private void Start()
         {
             var textComp = GetComponent<Text>();
-            textComp.text = $"v-{Application.unityVersion}";
+            if (textComp != null)
+            {
+                textComp.text = $"v-{Application.unityVersion}";
+            }
         }
     }
 }
