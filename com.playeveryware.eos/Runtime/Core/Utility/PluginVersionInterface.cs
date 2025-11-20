@@ -6,14 +6,6 @@ namespace ApexSystems.Utility
     public class PluginVersionInterface
     {
         /// <summary>
-        /// The company name
-        /// </summary>
-        public static readonly Utf8String COMPANY_NAME = "Apex Systems, Inc.";
-        /// <summary>
-        /// The copyright <see cref="Utf8String" />
-        /// </summary>
-        public static readonly Utf8String COPYRIGHT_STRING = "";
-        /// <summary>
         /// The Major version number
         /// </summary>
         public const int MAJOR = 1;
