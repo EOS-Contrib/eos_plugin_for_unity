@@ -182,10 +182,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         public void Save(bool prettyPrint = true)
         {
             config.Write(prettyPrint);
-#if UNITY_EDITOR
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-#endif
         }
 
         public async Task SaveAsync(bool prettyPrint = true)
