@@ -14,10 +14,6 @@ namespace ApexSystems.Utility
         /// </summary>
         public static readonly Utf8String COPYRIGHT_STRING = "";
         /// <summary>
-        /// The Hotfix version number
-        /// </summary>
-        public const int HOTFIX = 2;
-        /// <summary>
         /// The Major version number
         /// </summary>
         public const int MAJOR = 1;
@@ -29,6 +25,10 @@ namespace ApexSystems.Utility
         /// The Patch version number
         /// </summary>
         public const int PATCH = 1;
+        /// <summary>
+        /// The Hotfix version number
+        /// </summary>
+        public const int HOTFIX = 2;
         /// <summary>
         /// The product identifier
         /// </summary>
