@@ -8,7 +8,10 @@
         private void Start()
         {
             var textComp = GetComponent<Text>();
-            textComp.text = $"v-{EOSPackageInfo.NativeLibVersion}";
+            if (textComp != null)
+            {
+                textComp.text = $"v-{EOSPackageInfo.NativeLibVersion}";
+            }
         }
     }
 }
