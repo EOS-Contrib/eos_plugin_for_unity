@@ -23,11 +23,11 @@
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
     using UnityEngine.UI;
     using UnityEngine.EventSystems;
     using Epic.OnlineServices.Ecom;
-    using System.Linq;
     public class UIStoreMenu : SampleMenu
     {
         [Header("Store UI")]
@@ -56,13 +56,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             StoreManager = EOSManager.Instance.GetOrCreateManager<EOSStoreManager>();
             checkOutButton0.onClick.AddListener(() => CheckOutButton(0));
             checkOutButton1.onClick.AddListener(() => CheckOutButton(1));
-            
         }
 
         protected override void OnDestroy()
         {
-            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSStoreManager>();
+            base.OnDestroy();
         }
 
         protected override void Update()
@@ -81,52 +80,47 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 {
                     catalogueItem1.text = string.Format("{0}, ${1}", CatalogOffers[1].TitleText, StoreManager.GetCurrentPriceAsString(CatalogOffers[1]));
                 }
-
-               
-
             }
-             // Entitlements
-                if (StoreManager.GetEntitlements(out var ents))
+            // Entitlements
+            if (StoreManager.GetEntitlements(out var ents))
+            {
+                if (entitlementsListText != null)
                 {
-                    if (entitlementsListText != null)
+                    if (ents.Count == 0)
+                        entitlementsListText.text = "No entitlements.";
+                    else
                     {
-                        if (ents.Count == 0)
-                            entitlementsListText.text = "No entitlements.";
-                        else
+                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                        foreach (var e in ents)
                         {
-                            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                            foreach (var e in ents)
-                            {
-                                sb.AppendLine($"{e.EntitlementName}  | ItemId: {e.CatalogItemId} | Redeemed: {e.Redeemed}");
-                            }
-                            entitlementsListText.text = sb.ToString();
+                            sb.AppendLine($"{e.EntitlementName}  | ItemId: {e.CatalogItemId} | Redeemed: {e.Redeemed}");
                         }
+                        entitlementsListText.text = sb.ToString();
                     }
                 }
-
-                // Ownership
-                if (StoreManager.GetOwnedDurables(out var ownedIds))
+            }
+            // Ownership
+            if (StoreManager.GetOwnedDurables(out var ownedIds))
+            {
+                if (ownershipListText != null)
                 {
-                    if (ownershipListText != null)
-                    {
-                        if (ownedIds.Count == 0)
-                            ownershipListText.text = "No durable items owned.";
-                        else
-                            ownershipListText.text = string.Join("\n", ownedIds);
-                    }
+                    if (ownedIds.Count == 0)
+                        ownershipListText.text = "No durable items owned.";
+                    else
+                        ownershipListText.text = string.Join("\n", ownedIds);
                 }
+            }
         }
 
-        // E-Commerce
         public void OnQueryOffersClick()
         {
             print("OnQueryOffersClick: IsValid=" + EOSManager.Instance.GetLocalUserId().IsValid() + ", accountId" + EOSManager.Instance.GetLocalUserId().ToString());
-
             StoreManager.QueryOffers();
         }
 
         public void OnQueryEntitlementsClick()
-        {Debug.Log("[UI] QueryEntitlements CLICKED.");
+        {
+            Debug.Log("[UI] QueryEntitlements CLICKED.");
             StoreManager.QueryEntitlements(includeRedeemed: true);
         }
 
@@ -137,7 +131,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 ? fromOffers.ToArray()
                 : (durableCatalogItemIds ?? System.Array.Empty<string>());
 
-            if (ids.Length == 0) { Debug.LogWarning("[UI] No durable IDs."); return; }
+            if (ids.Length == 0)
+            {
+                Debug.LogWarning("[UI] No durable IDs.");
+                return;
+            }
             StoreManager.QueryOwnership(ids);
         }
 
@@ -145,6 +143,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             StoreManager.CheckOutOverlay(index);
         }
+
         public void QueryOwnershipFromOfferIndex(int offerIndex)
         {
             var hasOffers = StoreManager.GetCatalogOffers(out var offers);
@@ -156,7 +155,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             var offer = offers[offerIndex];
 
-            // Paso 1: Buscar Entitlements que correspondan a esta oferta (por OfferId)
+            // Step 1: Find entitlements associated with this offer
             if (!StoreManager.GetEntitlements(out var entitlements))
             {
                 Debug.LogWarning("[UI] No entitlements in cache yet, must call QueryEntitlements first.");
@@ -181,7 +180,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Debug.Log($"[UI] QueryOwnershipFromOfferIndex({offerIndex}) → {string.Join(", ", itemIds)}");
             StoreManager.QueryOwnership(itemIds.ToArray());
         }
-        // Consultar ENTITLEMENTS de la oferta seleccionada
+
         public void QueryEntitlementsFromOfferIndex(int offerIndex)
         {
             var hasOffers = StoreManager.GetCatalogOffers(out var offers);
@@ -194,20 +193,28 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Debug.Log($"[UI] QueryEntitlementsFromOfferIndex({offerIndex}) → Will refresh entitlements.");
             StoreManager.QueryEntitlements(includeRedeemed: true);
         }
+
         public void OnRedeemAllPendingClick()
         {
             if (!StoreManager.GetEntitlements(out var ents) || ents.Count == 0)
+            {
                 return;
+            }
 
             var toRedeem = ents
                 .Where(e => !e.Redeemed)
-                .Select(e => (string)e.EntitlementId)   // <-- cast a string
+                .Select(e => (string)e.EntitlementId)
                 .ToArray();
 
             if (toRedeem.Length > 0)
+            {
                 StoreManager.RedeemEntitlements(toRedeem);
+            }
             else
-                Debug.Log("[UI] No hay entitlements pendientes por canjear.");
+            {
+                Debug.Log("[UI] No pending entitlements to redeem.");
+            }
+
         }
     }
 }
