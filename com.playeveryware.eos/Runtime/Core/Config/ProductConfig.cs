@@ -335,10 +335,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // Update the platform config client credentials if needed.
             UpdatePlatformConfigClientCredentials();
-#if UNITY_EDITOR
-            UnityEditor.AssetDatabase.SaveAssets();
-            UnityEditor.AssetDatabase.Refresh();
-#endif
         }
 
 #endif
