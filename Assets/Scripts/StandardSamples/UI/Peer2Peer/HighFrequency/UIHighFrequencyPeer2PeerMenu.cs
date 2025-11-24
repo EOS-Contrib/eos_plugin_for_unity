@@ -306,6 +306,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     Debug.Log("Invalid value (negative): " + mb);
                     return;
                 }
+                Peer2PeerManager.packetSizeMB = packetSizeMB;
                 Peer2PeerManager.updatePacketSize();
                 Debug.Log("UIPeer2PeerMenu (SetPacketSize):Updated packet size to " + Peer2PeerManager.packetSizeMB + " Mb.");
             }
