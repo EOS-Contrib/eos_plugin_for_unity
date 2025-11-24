@@ -182,8 +182,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         public void Save(bool prettyPrint = true)
         {
             config.Write(prettyPrint);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
         }
 
         public async Task SaveAsync(bool prettyPrint = true)
