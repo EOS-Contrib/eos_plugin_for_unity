@@ -58,7 +58,8 @@
 
       {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api\\.dll"   },                 
       {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api64\\.dll" },
-      {"ignore_regex": "EOSUnitTestSettingsWindow"                   }
+      {"ignore_regex": "EOSUnitTestSettingsWindow"                   },
+      {"ignore_regex": "\\.gitattributes$"                           }
   ],
   "blacklist": [
       "*.png"

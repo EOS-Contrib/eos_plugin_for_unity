@@ -256,13 +256,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             _productConfigEditor.Save();
 
             // reload the product config editor
-            _productConfigEditor.Load();
 
             // Save each of the platform config editors.
             foreach (IConfigEditor editor in _platformConfigEditors)
             {
                 editor.Save();
             }
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
     }
 }

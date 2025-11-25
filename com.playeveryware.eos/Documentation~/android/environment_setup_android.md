@@ -6,9 +6,9 @@
 ## Unity and Modules
 The following Unity versions support 16 KB memory page sizes required by Android 15+:
 
-* Unity 2021.3.48f1 (Enterprise only)  
-* Unity 2022.3.56f1 ✅ Recommended baseline  
-* Unity 6000.0.38f1
+* Unity 2021.3.45f2
+* Unity 2022.3.62f2 ✅ Recommended baseline  
+* Unity 6000.0.58f2
 
 > [!NOTE]  
 > Using Unity versions older than 2021.3.48f1 is **not compatible** with Android 15+ (16 KB memory pages).  
@@ -42,28 +42,28 @@ The following Unity versions support 16 KB memory page sizes required by Android
     baseProjectTemplate.gradle
       ```bash
     allprojects {
-    buildscript {
+        buildscript {
+            repositories {
+                google()
+                mavenCentral()
+            }
+
+            dependencies {
+                classpath 'com.android.tools.build:gradle:7.4.2'
+                classpath "com.android.tools:r8:8.1.56"
+            }
+        }
+
         repositories {
             google()
             mavenCentral()
+            maven {
+                url = uri("https://storage.googleapis.com/r8-releases/raw")
+            }
+            flatDir {
+                dirs "${project(':unityLibrary').projectDir}/libs"
+            }
         }
-
-        dependencies {
-            classpath 'com.android.tools.build:gradle:7.4.2'
-            classpath "com.android.tools:r8:8.1.56"
-        }
-    }
-
-    repositories {
-        google()
-        mavenCentral()
-        maven {
-            url = uri("https://storage.googleapis.com/r8-releases/raw")
-        }
-        flatDir {
-            dirs "${project(':unityLibrary').projectDir}/libs"
-        }
-    }
     }
 
     task clean(type: Delete) {
@@ -89,45 +89,47 @@ The following Unity versions support 16 KB memory page sizes required by Android
     **APPLY_PLUGINS**
 
     dependencies {
-    implementation 'androidx.credentials:credentials-play-services-auth:1.3.0'
-    implementation 'androidx.credentials:credentials:1.3.0'
-    implementation 'com.google.android.libraries.identity.googleid:googleid:1.1.1'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+        implementation 'androidx.credentials:credentials-play-services-auth:1.3.0'
+        implementation 'androidx.credentials:credentials:1.3.0'
+        implementation 'com.google.android.libraries.identity.googleid:googleid:1.1.1'
+        implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
     **DEPS**}
 
     android {
-    namespace "com.unity3d.player"
-    ndkPath "**NDKPATH**"
-    compileSdkVersion **APIVERSION**
-    buildToolsVersion '**BUILDTOOLS**'
+        namespace "com.unity3d.player"
+        ndkPath "**NDKPATH**"
+        compileSdkVersion **APIVERSION**
+        buildToolsVersion '**BUILDTOOLS**'
 
-    compileOptions {
-        // ⚠️ Important: Required for Android 14+ support
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-
-    defaultConfig {
-        minSdkVersion **MINSDKVERSION**
-        targetSdkVersion **TARGETSDKVERSION**
-        ndk {
-            abiFilters **ABIFILTERS**
+        compileOptions {
+            // Important: Required for Android 14+ support
+            sourceCompatibility JavaVersion.VERSION_11
+            targetCompatibility JavaVersion.VERSION_11
         }
-        versionCode **VERSIONCODE**
-        versionName '**VERSIONNAME**'
-        consumerProguardFiles 'proguard-unity.txt'**USER_PROGUARD**
-    }
 
-    lintOptions {
-        abortOnError false
-    }
+        defaultConfig {
+            minSdkVersion **MINSDKVERSION**
+            targetSdkVersion **TARGETSDKVERSION**
+            ndk {
+                abiFilters **ABIFILTERS**
+            }
+            versionCode **VERSIONCODE**
+            versionName '**VERSIONNAME**'
+            consumerProguardFiles 'proguard-unity.txt'**USER_PROGUARD**
+        }
 
-    aaptOptions {
-        noCompress = ['.ress', '.resource', '.obb'] + unityStreamingAssets.tokenize(', ')
-        ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
-    }**PACKAGING_OPTIONS**
+        lintOptions {
+            abortOnError false
+        }
+
+        aaptOptions {
+            noCompress = ['.ress', '.resource', '.obb'] + unityStreamingAssets.tokenize(', ')
+            ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
+        }**PACKAGING_OPTIONS**
+
     }**REPOSITORIES**
+
     **IL_CPP_BUILD_SETUP**
     **SOURCE_BUILD_SETUP**
     **EXTERNAL_SOURCES**
@@ -188,73 +190,73 @@ launcherTemplate.gradle
     apply from: '../shared/keepUnitySymbols.gradle'
 
     dependencies {
-    implementation project(':unityLibrary')
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+        implementation project(':unityLibrary')
+        coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
     }
 
     android {
-    namespace "**NAMESPACE**"
-    ndkPath "**NDKPATH**"
-    ndkVersion "**NDKVERSION**"
+        namespace "**NAMESPACE**"
+        ndkPath "**NDKPATH**"
+        ndkVersion "**NDKVERSION**"
 
-    compileSdk **APIVERSION**
-    buildToolsVersion = "**BUILDTOOLS**"
+        compileSdk **APIVERSION**
+        buildToolsVersion = "**BUILDTOOLS**"
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-        coreLibraryDesugaringEnabled true
-    }
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_17
+            targetCompatibility JavaVersion.VERSION_17
+            coreLibraryDesugaringEnabled true
+        }
 
-    defaultConfig {
-        minSdk **MINSDK**
-        targetSdk **TARGETSDK**
-        applicationId '**APPLICATIONID**'
-        ndk {
-            abiFilters **ABIFILTERS**
-            debugSymbolLevel **DEBUGSYMBOLLEVEL**
+        defaultConfig {
+            minSdk **MINSDK**
+            targetSdk **TARGETSDK**
+            applicationId '**APPLICATIONID**'
+            ndk {
+                abiFilters **ABIFILTERS**
+                debugSymbolLevel **DEBUGSYMBOLLEVEL**
+            }
+            versionCode **VERSIONCODE**
+            versionName '**VERSIONNAME**'
         }
-        versionCode **VERSIONCODE**
-        versionName '**VERSIONNAME**'
-    }
 
-    androidResources {
-        noCompress = **BUILTIN_NOCOMPRESS** + unityStreamingAssets.tokenize(', ')
-        ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~"
-    }**SIGN**
+        androidResources {
+            noCompress = **BUILTIN_NOCOMPRESS** + unityStreamingAssets.tokenize(', ')
+            ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~"
+        }**SIGN**
 
-    lint {
-        abortOnError false
-    }
+        lint {
+            abortOnError false
+        }
 
-    buildTypes {
-        debug {
-            minifyEnabled **MINIFY_DEBUG**
-            proguardFiles getDefaultProguardFile('proguard-android.txt')**SIGNCONFIG**
-            jniDebuggable true
+        buildTypes {
+            debug {
+                minifyEnabled **MINIFY_DEBUG**
+                proguardFiles getDefaultProguardFile('proguard-android.txt')**SIGNCONFIG**
+                jniDebuggable true
+            }
+            release {
+                minifyEnabled **MINIFY_RELEASE**
+                proguardFiles getDefaultProguardFile('proguard-android.txt')**SIGNCONFIG**
+            }
+        }**PACKAGING****PLAY_ASSET_PACKS****SPLITS**
+        **BUILT_APK_LOCATION**
+        bundle {
+            language {
+                enableSplit = false
+            }
+            density {
+                enableSplit = false
+            }
+            abi {
+                enableSplit = true
+            }
+            texture {
+                enableSplit = true
+            }
         }
-        release {
-            minifyEnabled **MINIFY_RELEASE**
-            proguardFiles getDefaultProguardFile('proguard-android.txt')**SIGNCONFIG**
-        }
-    }**PACKAGING****PLAY_ASSET_PACKS****SPLITS**
-    **BUILT_APK_LOCATION**
-    bundle {
-        language {
-            enableSplit = false
-        }
-        density {
-            enableSplit = false
-        }
-        abi {
-            enableSplit = true
-        }
-        texture {
-            enableSplit = true
-        }
-    }
 
-	**GOOGLE_PLAY_DEPENDENCIES**
+    	**GOOGLE_PLAY_DEPENDENCIES**
     }**SPLITS_VERSION_CODE****LAUNCHER_SOURCE_BUILD_SETUP**
 ```
 
@@ -265,40 +267,40 @@ mainTemplate.gradle
     **APPLY_PLUGINS**
 
     android {
-    namespace "com.unity3d.player"
-    ndkPath "**NDKPATH**"
-    ndkVersion "**NDKVERSION**"
+        namespace "com.unity3d.player"
+        ndkPath "**NDKPATH**"
+        ndkVersion "**NDKVERSION**"
 
-    compileSdk **APIVERSION**
-    buildToolsVersion = "**BUILDTOOLS**"
+        compileSdk **APIVERSION**
+        buildToolsVersion = "**BUILDTOOLS**"
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-        coreLibraryDesugaringEnabled true 
-    }
-
-    defaultConfig {
-        minSdk **MINSDK**
-        targetSdk **TARGETSDK**
-        ndk {
-            abiFilters **ABIFILTERS**
-            debugSymbolLevel **DEBUGSYMBOLLEVEL**
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_17
+            targetCompatibility JavaVersion.VERSION_17
+            coreLibraryDesugaringEnabled true 
         }
-        versionCode **VERSIONCODE**
-        versionName '**VERSIONNAME**'
-        consumerProguardFiles 'proguard-unity.txt'**USER_PROGUARD**
-    **DEFAULT_CONFIG_SETUP**
-    }
 
-    lint {
-        abortOnError false
-    }
+        defaultConfig {
+            minSdk **MINSDK**
+            targetSdk **TARGETSDK**
+            ndk {
+                abiFilters **ABIFILTERS**
+                debugSymbolLevel **DEBUGSYMBOLLEVEL**
+            }
+            versionCode **VERSIONCODE**
+            versionName '**VERSIONNAME**'
+            consumerProguardFiles 'proguard-unity.txt'**USER_PROGUARD**
+        **DEFAULT_CONFIG_SETUP**
+        }
 
-    androidResources {
-        noCompress = **BUILTIN_NOCOMPRESS** + unityStreamingAssets.tokenize(', ')
-        ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~"
-    }**PACKAGING**
+        lint {
+            abortOnError false
+        }
+
+        androidResources {
+            noCompress = **BUILTIN_NOCOMPRESS** + unityStreamingAssets.tokenize(', ')
+            ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~"
+        }**PACKAGING**
     }
     dependencies {
         implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -326,48 +328,47 @@ For Unity 6, you must modify the build.gradle file located at:
 > This folder is automatically generated when importing the EOS package into Unity. The default Gradle configuration inside it must be replaced with the following content to ensure proper compilation and namespace compatibility in Unity 6.
 ```bash
     buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        flatDir(dirs: 'libs')
-    }
-    
-    dependencies {
-        classpath "com.android.tools.build:gradle:7.4.2"
-    }
+        repositories {
+            google()
+            mavenCentral()
+            flatDir(dirs: 'libs')
+        }
+        
+        dependencies {
+            classpath "com.android.tools.build:gradle:7.4.2"
+        }
     }
 
     apply plugin: 'com.android.library'
     repositories {
-    google()
-    mavenCentral()
-    flatDir {
-        dirs 'libs'
-    }
-    }
-    android {
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
-            jniLibs.srcDirs = ['libs']
+        google()
+        mavenCentral()
+        flatDir {
+            dirs 'libs'
         }
     }
-    namespace 'com.pew.eos_dependencies'
-    compileSdkVersion 34
-    buildToolsVersion '34.0.0'
-    defaultConfig {
-        targetSdkVersion 34
-    }
+    android {
+        sourceSets {
+            main {
+                manifest.srcFile 'AndroidManifest.xml'
+                java.srcDirs = ['src']
+                res.srcDirs = ['res']
+                assets.srcDirs = ['assets']
+                jniLibs.srcDirs = ['libs']
+            }
+        }
+        namespace 'com.pew.eos_dependencies'
+        compileSdkVersion 34
+        buildToolsVersion '34.0.0'
+        defaultConfig {
+            targetSdkVersion 34
+        }
     }
     dependencies {
         implementation 'androidx.appcompat:appcompat:1.5.1'
         implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
         implementation 'androidx.security:security-crypto:1.0.0'
         implementation 'androidx.browser:browser:1.4.0'
-    //api fileTree(dir: 'libs', include: ['*.aar'])
     }
 ```
 
@@ -382,16 +383,16 @@ Additionally, you must edit the AndroidManifest.xml file located at:
 > The manifest file contains the line <manifest xmlns:android="http://schemas.android.com/apk/res/android">, which is no longer accepted in Unity 6 due to updated Android Gradle Plugin validation rules.
 
 You must replace its contents with the following version to ensure proper compatibility:
-```bash
+```xml
     <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <application
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-    </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+        <application
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+        </application>
+        <uses-permission android:name="android.permission.INTERNET" />
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+        <uses-permission android:name="android.permission.RECORD_AUDIO" />
+        <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     </manifest>
 ```
 ## Manual Installation via SDK Manager (Command Line)

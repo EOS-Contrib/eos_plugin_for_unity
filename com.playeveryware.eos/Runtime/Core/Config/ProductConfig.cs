@@ -251,6 +251,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 // Save the config
                 config.Write();
+
             }
 
             // If at least one platform config was updated as a result, trigger
@@ -314,6 +315,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 // Save the config
                 config.Write();
+
             }
 
             // If at least one platform config was updated as a result, trigger
@@ -326,6 +328,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
         protected override void OnWriteCompleted()
         {
+            base.OnWriteCompleted();
+
             // Update the platform config deployments if needed.
             UpdatePlatformConfigDeployments();
 

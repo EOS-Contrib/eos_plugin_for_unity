@@ -33,8 +33,9 @@ namespace PlayEveryWare.EpicOnlineServices
          * not involve editing source code files.
          */
       
-        public const string Version = "5.1.0";
-
+        public const string Version = "5.1.2";
+        // Define a string to be used with a future version of Native Libraries
+        public const string NativeLibSDKVersion = "todo value";
         public const string PackageName = "com.playeveryware.eos";
     }
 }

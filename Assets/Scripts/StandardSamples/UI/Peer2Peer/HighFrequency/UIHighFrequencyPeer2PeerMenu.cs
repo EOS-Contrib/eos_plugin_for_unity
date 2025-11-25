@@ -265,23 +265,55 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void SetRefreshRate(string hz)
         {
-            if (hz != "" && hz != null)
+            if (string.IsNullOrEmpty(hz))
             {
-                Peer2PeerManager.refreshRate = int.Parse(hz);
-                Debug.Log("UIPeer2PeerMenu (SetRefresshRate):Updated refresh rate to " + Peer2PeerManager.refreshRate + " Hz.");
+                Debug.Log("Invalid value: empty or null input.");
+                return;
             }
-            Debug.Log("Invalid value");
+
+            bool attemptParse = int.TryParse(hz, out int refreshRate);
+            
+            if (attemptParse)
+            {
+                if (refreshRate < 0)
+                {
+                    Debug.Log("Invalid value (negative): " + hz);
+                    return;
+                }
+                Peer2PeerManager.refreshRate = refreshRate;
+                Debug.Log("Updated refresh rate to " + refreshRate + " Hz.");
+            }
+            else
+            {
+                Debug.Log("Invalid value: " + hz);
+            }
         }
 
         public void SetPacketSize(string mb)
         {
-            if (mb != "" && mb != null)
+            if (string.IsNullOrEmpty(mb))
             {
-                Peer2PeerManager.packetSizeMB = float.Parse(mb);
+                Debug.Log("Invalid value: empty or null input.");
+                return;
+            }
+
+            bool attemptParse = float.TryParse(mb, out float packetSizeMB);
+
+            if (attemptParse)
+            {
+                if (packetSizeMB < 0)
+                {
+                    Debug.Log("Invalid value (negative): " + mb);
+                    return;
+                }
+                Peer2PeerManager.packetSizeMB = packetSizeMB;
                 Peer2PeerManager.updatePacketSize();
                 Debug.Log("UIPeer2PeerMenu (SetPacketSize):Updated packet size to " + Peer2PeerManager.packetSizeMB + " Mb.");
             }
-            Debug.Log("Invalid value");
+            else
+            {
+                Debug.Log("Invalid value: " + mb);
+            }
         }
 
         protected override void HideInternal()
