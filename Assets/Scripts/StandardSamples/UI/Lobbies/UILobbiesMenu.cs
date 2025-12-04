@@ -51,6 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button LeaveLobbyButton;
         public Button ModifyLobbyButton;
         public Button AddMemberAttributeButton;
+        public Button SearchLobbiesButton;
 
         // Current Lobby
         [Header("Lobbies UI - Current Lobby")]
@@ -76,10 +77,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text InviteFromVal;
         public Text InviteLevelVal;
         public Toggle InvitePresence;
-
-        
-        
-
         // UI Cache
         private int lastMemberCount = 0;
         private ProductUserId currentLobbyOwnerCache;
@@ -91,11 +88,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSFriendsManager FriendsManager;
         private EOSEACLobbyManager AntiCheatLobbyManager;
 
-#if UNITY_ANDROID && !UNITY_EDITOR //TODO: this should be in a centralized class to reduce clutter, and like an enum if other platforms are to be included
-        const bool ONANDROIDPLATFORM = true;
-#else
-        const bool ONANDROIDPLATFORM = false;
-#endif
+        #if UNITY_ANDROID && !UNITY_EDITOR //TODO: this should be in a centralized class to reduce clutter, and like an enum if other platforms are to be included
+                const bool ONANDROIDPLATFORM = true;
+        #else
+                const bool ONANDROIDPLATFORM = false;
+        #endif
 
         protected override void OnEnable()
         {
@@ -108,6 +105,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
+            SearchLobbiesButton.onClick.AddListener(OnSearchLobbiesButtonClick);
             LobbyManager = EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
             AntiCheatLobbyManager = EOSManager.Instance.GetOrCreateManager<EOSEACLobbyManager>();
@@ -796,5 +794,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             LobbyManager.SetLocalMemberDeafen(shouldBecomeDeafened, null);
         }
+        public void OnSearchLobbiesButtonClick()
+        {
+            string bucket = SearchByBucketIdBox.InputField.text;
+            string level = SearchByLevelBox.InputField.text;
+            string lobbyId = SearchByLobbyIdBox.InputField.text;
+            
+            if (!string.IsNullOrEmpty(lobbyId))
+            {
+                LobbyManager.SearchByLobbyId(lobbyId, UIUpateSearchResults);
+            }
+            else if (!string.IsNullOrEmpty(level))
+            {
+                LobbyManager.SearchByAttribute("LEVEL", level.ToUpper(), UIUpateSearchResults);
+            }
+            else if (!string.IsNullOrEmpty(bucket))
+            {
+                LobbyManager.SearchByAttribute("bucket", bucket, UIUpateSearchResults);
+            }
+            else
+            {
+                Debug.LogWarning($"{nameof(UILobbiesMenu)} {nameof(OnSearchLobbiesButtonClick)}: No search fields were filled in.");
+            }
+        }
+
     }
 }
