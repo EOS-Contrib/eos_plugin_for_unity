@@ -1074,7 +1074,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (result != Result.Success || !idToken.HasValue)
                 {
-                    Debug.LogError("[EOS] CopyIdToken failed" + result);
+                    Debug.LogError($"{nameof(EOSManager)} {nameof(StartConnectLoginWithEpicAccount)}: CopyIdToken failed with result: {result}");
                     var dummy = new Epic.OnlineServices.Connect.LoginCallbackInfo
                     {
                         ResultCode = Result.InvalidAuth
@@ -1083,7 +1083,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     return;
                 }
 
-                Debug.Log("[EOS] Using ID Token for Connect Login");
+                Log($"{nameof(EOSManager)} {nameof(StartConnectLoginWithEpicAccount)}: Using ID Token for Connect Login");
 
                 var connectLoginOptions = new Epic.OnlineServices.Connect.LoginOptions
                 {
