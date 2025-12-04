@@ -493,6 +493,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return achievementDefinitionCount;
         }
 
+        public struct AchievementUnlockInfo
+        {
+            public Utf8String AchievementId;
+            public string DisplayName;
+            public string Description;
+        }
         /// <summary>
         /// Unlocks the achievement for the current player.
         /// TODO: Create a callback version of this method
@@ -500,16 +506,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="achievementId">
         /// The id of the achievement to unlock for the current player.
         /// </param>
-        public Task UnlockAchievementAsync(string achievementId)
+        public Task<PlayerAchievement> UnlockAchievementAsync(AchievementUnlockInfo info)
         {
             var localUserId = EOSManager.Instance.GetProductUserId();
             var eosAchievementOption = new UnlockAchievementsOptions
             {
                 UserId = localUserId,
-                AchievementIds = new Utf8String[] { achievementId }
+                AchievementIds = new Utf8String[] { info.AchievementId }
             };
 
-            TaskCompletionSource<object> tcs = new();
+            var tcs = new TaskCompletionSource<PlayerAchievement>();
 
             GetEOSAchievementInterface().UnlockAchievements(ref eosAchievementOption, null,
                 (ref OnUnlockAchievementsCompleteCallbackInfo data) =>
@@ -520,7 +526,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     }
                     else
                     {
-                        tcs.SetResult(null);
+                        var achievement = new PlayerAchievement()
+                        {
+                            AchievementId = info.AchievementId,
+                            DisplayName = info.DisplayName,
+                            Description = info.Description,
+                            Progress = 1.0,
+                            UnlockTime = DateTime.UtcNow,
+                            StatInfo = null
+                        };
+                        tcs.SetResult(achievement);
                     }
                 });
 

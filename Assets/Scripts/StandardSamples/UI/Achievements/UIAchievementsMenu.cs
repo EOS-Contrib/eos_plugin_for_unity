@@ -94,22 +94,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             var definition = achievementDataList[displayIndex].Definition;
 
+            var unlockInfo = new AchievementsService.AchievementUnlockInfo
+            {
+                AchievementId = definition.AchievementId,
+                DisplayName = definition.UnlockedDisplayName,
+                Description = definition.UnlockedDescription
+
+            };
             try
             {
-                await AchievementsService.Instance.UnlockAchievementAsync(definition.AchievementId);
-
-                var newPlayerAchievement = new PlayerAchievement()
-                {
-                    AchievementId = definition.AchievementId,
-                    DisplayName = definition.UnlockedDisplayName,
-                    Description = definition.UnlockedDescription,
-                    Progress = 1.0,
-                    UnlockTime = DateTime.UtcNow,
-                    StatInfo = null
-                };
-
-                achievementDataList[displayIndex].PlayerData = newPlayerAchievement;
-                DisplayPlayerAchievement(definition);
+                var playerAchievement = await AchievementsService.Instance.UnlockAchievementAsync(unlockInfo);
+                achievementDataList[displayIndex].PlayerData = playerAchievement;
 
                 Texture2D unlockedIcon = await AchievementsService.Instance.GetAchievementUnlockedIconTexture(definition.AchievementId);
                 Texture2D lockedIcon = await AchievementsService.Instance.GetAchievementLockedIconTexture(definition.AchievementId);
@@ -119,12 +114,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 achievementUnlockedIcon.gameObject.SetActive(true);
                 achievementLockedIcon.gameObject.SetActive(false);
                 unlockAchievementButton.interactable = false;
-
-                if (displayIndex >= 0 && displayIndex < achievementListItems.Count)
-                {
-                    var achievementButton = achievementListItems[displayIndex];
-                    achievementButton.SetIconTexture(unlockedIcon);
-                }
             }
             catch (Exception e)
             {
