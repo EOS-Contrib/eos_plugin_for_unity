@@ -87,20 +87,48 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //TODO: refresh achievement data without having to log out
         public async void UnlockAchievement()
         {
-            if (displayIndex < 0 || displayIndex > AchievementsService.GetAchievementsCount())
+            if (displayIndex < 0 || displayIndex >= achievementDataList.Count)
             {
                 return;
             }
 
-            var definition = AchievementsService.Instance.GetAchievementDefinitionAtIndex(displayIndex);
+            var definition = achievementDataList[displayIndex].Definition;
 
             try
             {
                 await AchievementsService.Instance.UnlockAchievementAsync(definition.AchievementId);
+
+                var newPlayerAchievement = new PlayerAchievement()
+                {
+                    AchievementId = definition.AchievementId,
+                    DisplayName = definition.UnlockedDisplayName,
+                    Description = definition.UnlockedDescription,
+                    Progress = 1.0,
+                    UnlockTime = DateTime.UtcNow,
+                    StatInfo = null
+                };
+
+                achievementDataList[displayIndex].PlayerData = newPlayerAchievement;
+                DisplayPlayerAchievement(definition);
+
+                Texture2D unlockedIcon = await AchievementsService.Instance.GetAchievementUnlockedIconTexture(definition.AchievementId);
+                Texture2D lockedIcon = await AchievementsService.Instance.GetAchievementLockedIconTexture(definition.AchievementId);
+
+                achievementUnlockedIcon.texture = unlockedIcon;
+                achievementLockedIcon.texture = lockedIcon;
+                achievementUnlockedIcon.gameObject.SetActive(true);
+                achievementLockedIcon.gameObject.SetActive(false);
+                unlockAchievementButton.interactable = false;
+
+                if (displayIndex >= 0 && displayIndex < achievementListItems.Count)
+                {
+                    var achievementButton = achievementListItems[displayIndex];
+                    achievementButton.SetIconTexture(unlockedIcon);
+                }
             }
             catch (Exception e)
             {
-                Debug.LogError(e.Message);
+                Debug.LogError($"{nameof(UIAchievementsMenu)} {nameof(UnlockAchievement)}: Error unlocking achievement: {e.Message}");
             }
         }
 
