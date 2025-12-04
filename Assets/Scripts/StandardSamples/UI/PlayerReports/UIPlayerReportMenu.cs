@@ -49,7 +49,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSFriendsManager FriendsManager;
         
 
-        private void Start()
+        new private void Awake()
         {
             ReportsManager = EOSManager.Instance.GetOrCreateManager<EOSReportsManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
@@ -72,27 +72,32 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             PlayerName.text = playerName;
             currentProdcutUserId = userId;
-
-            // Start Search for Sanctions
-            EOSManager.Instance.GetOrCreateManager<EOSReportsManager>().QueryActivePlayerSanctions(userId, QueryActivePlayerSanctionsCompleted);
-
-            // Show PopUp
             UIParent.SetActive(true);
 
-            // Controller
-            if(UIFirstSelected.activeInHierarchy)
+            if (UIFirstSelected.activeInHierarchy)
             {
                 EventSystem.current.SetSelectedGameObject(UIFirstSelected);
             }
+
+            ReportsManager.QueryActivePlayerSanctions(userId, (result) =>
+            {
+                QueryActivePlayerSanctionsCompleted(result, userId);
+            });
+
         }
 
         public void PlayerSanctionsRefreshOnClick()
         {
             // Start Search for Sanctions
-            ReportsManager.QueryActivePlayerSanctions(currentProdcutUserId, QueryActivePlayerSanctionsCompleted);
+            var targetUserId = currentProdcutUserId;
+            ReportsManager.QueryActivePlayerSanctions(targetUserId, (result) =>
+            {
+                QueryActivePlayerSanctionsCompleted(result, targetUserId);
+            });
+
         }
 
-        private void QueryActivePlayerSanctionsCompleted(Result result)
+        private void QueryActivePlayerSanctionsCompleted(Result result, ProductUserId userId)
         {
             if(result != Result.Success)
             {
@@ -100,19 +105,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            // Destroy current UI member list
             foreach (Transform child in SanctionsListContentParent.transform)
             {
                 GameObject.Destroy(child.gameObject);
             }
 
-            // Update Sanctions List UI
             if (ReportsManager.GetCachedPlayerSanctions(out Dictionary<ProductUserId, List<Sanction>> sanctionLookup))
             {
-                if(!sanctionLookup.ContainsKey(currentProdcutUserId))
+                if (!sanctionLookup.ContainsKey(userId))
                 {
-                    // No Sanctions for current user
-
                     GameObject sanctionUIObj = Instantiate(UISanctionsEntryPrefab, SanctionsListContentParent.transform);
                     UISanctionEntry uiEntry = sanctionUIObj.GetComponent<UISanctionEntry>();
 
@@ -122,8 +123,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     return;
                 }
 
-                List<Sanction> sanctionList = sanctionLookup[currentProdcutUserId];
-
+                List<Sanction> sanctionList = sanctionLookup[userId];
                 foreach (Sanction s in sanctionList)
                 {
                     GameObject sanctionUIObj = Instantiate(UISanctionsEntryPrefab, SanctionsListContentParent.transform);
@@ -144,7 +144,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             string categoryStr = CategoryList.options[CategoryList.value].text;
-
             PlayerReportsCategory category = PlayerReportsCategory.Invalid;
             var categoryParsed = Enum.Parse(typeof(PlayerReportsCategory), categoryStr);
             if(categoryParsed != null)
@@ -169,7 +168,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             PlayerName.text = string.Empty;
             CategoryList.value = 0;
             Message.text = string.Empty;
-
             currentProdcutUserId = null;
             UIParent.SetActive(false);
         }
@@ -192,6 +190,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         protected override void ShowInternal()
         {
             ResetPopUp();
+            UIParent.SetActive(true);
         }
 
         protected override void HideInternal()
