@@ -14,77 +14,70 @@ namespace PlayEveryWare.EpicOnlineServices
         public static string DeploymentIdOverride { get; set; }
         public static string SandboxIdOverride { get; set; }
     }
-}
-/// <summary>
-/// Applies CLI overrides for Epic Online Services before any scene loads.
-/// </summary>
-public static class EOSCommandLineOverrides
-{
-    private const string DeploymentKey = "-epicdeploymentid";
-    private const string SandboxKey = "-epicsandboxid";
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    private static void ApplyCliOverrides()
+    /// <summary>
+    /// Applies CLI overrides for Epic Online Services before any scene loads.
+    /// </summary>
+    public static class EOSCommandLineOverrides
     {
-        try
+        private const string DeploymentKey = "-epicdeploymentid";
+        private const string SandboxKey = "-epicsandboxid";
+    
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ApplyCliOverrides()
         {
-            Debug.Log($"[{nameof(EOSCommandLineOverrides)}::{nameof(ApplyCliOverrides)}] Initializing CLI overrides…");
-
-            // Get command line arguments
-            string[] args = Environment.GetCommandLineArgs();
-            string deploymentArg = null;
-            string sandboxArg = null;
-
-            // Parse CLI arguments for deployment and sandbox IDs
-            foreach (var arg in args)
+            try
             {
-                if (arg.StartsWith(DeploymentKey, StringComparison.OrdinalIgnoreCase))
-                    deploymentArg = arg.Substring(DeploymentKey.Length);
-
-                if (arg.StartsWith(SandboxKey, StringComparison.OrdinalIgnoreCase))
-                    sandboxArg = arg.Substring(SandboxKey.Length);
+                Debug.Log($"[{nameof(EOSCommandLineOverrides)}::{nameof(ApplyCliOverrides)}] Initializing CLI overrides");
+    
+                // Get command line arguments
+                string[] args = Environment.GetCommandLineArgs();
+                string deploymentArg = null;
+                string sandboxArg = null;
+    
+                // Parse CLI arguments for deployment and sandbox IDs
+                foreach (var arg in args)
+                {
+                    if (arg.StartsWith(DeploymentKey, StringComparison.OrdinalIgnoreCase))
+                        deploymentArg = arg.Substring(DeploymentKey.Length);
+                    else if (arg.StartsWith(SandboxKey, StringComparison.OrdinalIgnoreCase))
+                        sandboxArg = arg.Substring(SandboxKey.Length);
+                }
+    
+                // If no overrides found, exit early
+                if (string.IsNullOrEmpty(deploymentArg) && string.IsNullOrEmpty(sandboxArg))
+                {
+                    Debug.Log($"[{nameof(EOSCommandLineOverrides)}] No CLI overrides found. argsCount={args.Length}");
+                    return;
+                }
+    
+                Debug.Log($"[EOSBuildBootstrapper] CLI Override detected: DEPLOYMENT={deploymentArg}, SANDBOX={sandboxArg}");
+    
+                // Save values globally for later access
+                EOSOverrideState.DeploymentIdOverride = deploymentArg;
+                EOSOverrideState.SandboxIdOverride = sandboxArg;
+    
+                var cfg = PlatformManager.GetPlatformConfig();
+    
+                // Apply overrides to PlatformConfig. Even though the values are applied here, they still need to be read globally for later access.
+                if (!string.IsNullOrEmpty(sandboxArg))
+                {
+                    cfg.deployment.SandboxId = SandboxId.FromString(sandboxArg);
+                    Debug.Log($"[{nameof(EOSCommandLineOverrides)}] Sandbox configured: {sandboxArg}");
+                }
+    
+                if (!string.IsNullOrEmpty(deploymentArg) && Guid.TryParse(deploymentArg, out Guid dep))
+                {
+                    cfg.deployment.DeploymentId = dep;
+                    Debug.Log($"[{nameof(EOSCommandLineOverrides)}] Deployment configured: {dep}");
+                }
+    
+                Debug.Log($"[{nameof(EOSCommandLineOverrides)}] Overrides applied successfully.");
             }
-
-            // If no overrides found, exit early
-            if (deploymentArg == null && sandboxArg == null)
+            catch (Exception ex)
             {
-                Debug.Log($"[{nameof(EOSCommandLineOverrides)}] No CLI overrides found. argsCount={args.Length}");
-                return;
+                Debug.LogError($"[{nameof(EOSCommandLineOverrides)}] ERROR applying overrides: {ex}");
             }
-
-            Debug.Log($"[EOSBuildBootstrapper] CLI Override detected: DEPLOYMENT={deploymentArg}, SANDBOX={sandboxArg}");
-
-            // --------------------------------------------------------------------
-            // Save values globally for later access
-            // --------------------------------------------------------------------
-            EOSOverrideState.DeploymentIdOverride = deploymentArg;
-            EOSOverrideState.SandboxIdOverride = sandboxArg;
-
-            // --------------------------------------------------------------------
-            // Regenerate a clean platform config
-            // --------------------------------------------------------------------
-            var cfg = PlatformManager.GetPlatformConfig();
-
-            // --------------------------------------------------------------------
-            // Apply overrides to PlatformConfig
-            // --------------------------------------------------------------------
-            if (!string.IsNullOrEmpty(sandboxArg))
-            {
-                cfg.deployment.SandboxId = SandboxId.FromString(sandboxArg);
-                Debug.Log($"[{nameof(EOSCommandLineOverrides)}] Sandbox configured: {sandboxArg}");
-            }
-
-            if (!string.IsNullOrEmpty(deploymentArg) && Guid.TryParse(deploymentArg, out Guid dep))
-            {
-                cfg.deployment.DeploymentId = dep;
-                Debug.Log($"[{nameof(EOSCommandLineOverrides)}] Deployment configured: {dep}");
-            }
-
-            Debug.Log($"[{nameof(EOSCommandLineOverrides)}] Overrides applied successfully.");
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"[{nameof(EOSCommandLineOverrides)}] ERROR applying overrides: {ex}");
         }
     }
 }
