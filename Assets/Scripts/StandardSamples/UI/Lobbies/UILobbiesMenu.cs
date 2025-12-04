@@ -77,6 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text InviteFromVal;
         public Text InviteLevelVal;
         public Toggle InvitePresence;
+        
         // UI Cache
         private int lastMemberCount = 0;
         private ProductUserId currentLobbyOwnerCache;
@@ -88,11 +89,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSFriendsManager FriendsManager;
         private EOSEACLobbyManager AntiCheatLobbyManager;
 
-        #if UNITY_ANDROID && !UNITY_EDITOR //TODO: this should be in a centralized class to reduce clutter, and like an enum if other platforms are to be included
-                const bool ONANDROIDPLATFORM = true;
-        #else
-                const bool ONANDROIDPLATFORM = false;
-        #endif
+#if UNITY_ANDROID && !UNITY_EDITOR //TODO: this should be in a centralized class to reduce clutter, and like an enum if other platforms are to be included
+    const bool ONANDROIDPLATFORM = true;
+#else
+    const bool ONANDROIDPLATFORM = false;
+#endif
 
         protected override void OnEnable()
         {
@@ -806,11 +807,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else if (!string.IsNullOrEmpty(level))
             {
-                LobbyManager.SearchByAttribute("LEVEL", level.ToUpper(), UIUpateSearchResults);
+                LobbyManager.SearchByAttribute(EOSLobbyManager.ATTRIBUTE_KEY_LEVEL, level.ToUpper(), UIUpateSearchResults);
             }
             else if (!string.IsNullOrEmpty(bucket))
             {
-                LobbyManager.SearchByAttribute("bucket", bucket, UIUpateSearchResults);
+                LobbyManager.SearchByAttribute(EOSLobbyManager.ATTRIBUTE_KEY_BUCKET, bucket, UIUpateSearchResults);
             }
             else
             {
