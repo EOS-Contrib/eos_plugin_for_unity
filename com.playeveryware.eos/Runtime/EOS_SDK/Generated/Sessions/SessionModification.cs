@@ -18,14 +18,17 @@ namespace Epic.OnlineServices.Sessions
 		/// Associate an attribute with this session
 		/// An attribute is something that may or may not be advertised with the session.
 		/// If advertised, it can be queried for in a search, otherwise the data remains local to the client
+		/// <see cref="SessionModificationAddAttributeOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options to set the attribute and its advertised state
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this parameter was successful
-		/// <see cref="Result.InvalidParameters" /> if the attribution is missing information or otherwise invalid
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this parameter was successful
+		/// - <see cref="Result.InvalidParameters" /> if the attribution is missing information or otherwise invalid
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result AddAttribute(ref SessionModificationAddAttributeOptions options)
 		{
@@ -55,14 +58,17 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Remove an attribute from this session
+		/// <see cref="SessionModificationRemoveAttributeOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Specify the key of the attribute to remove
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if removing this parameter was successful
-		/// <see cref="Result.InvalidParameters" /> if the key is <see langword="null" /> or empty
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if removing this parameter was successful
+		/// - <see cref="Result.InvalidParameters" /> if the key is <see langword="null" /> or empty
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result RemoveAttribute(ref SessionModificationRemoveAttributeOptions options)
 		{
@@ -78,14 +84,17 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Set the Allowed Platform IDs for the session.
+		/// <see cref="SessionModificationSetAllowedPlatformIdsOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options associated with allowed Platform IDs for this session.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this parameter was successful
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
-		/// <see cref="Result.InvalidParameters" /> if the attribution is missing information or otherwise invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this parameter was successful
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// - <see cref="Result.InvalidParameters" /> if the attribution is missing information or otherwise invalid
 		/// </returns>
 		public Result SetAllowedPlatformIds(ref SessionModificationSetAllowedPlatformIdsOptions options)
 		{
@@ -103,14 +112,17 @@ namespace Epic.OnlineServices.Sessions
 		/// Set the bucket ID associated with this session.
 		/// Values such as region, game mode, etc can be combined here depending on game need.
 		/// Setting this is strongly recommended to improve search performance.
+		/// <see cref="SessionModificationSetBucketIdOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options associated with the bucket ID of the session
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this parameter was successful
-		/// <see cref="Result.InvalidParameters" /> if the bucket ID is invalid or <see langword="null" />
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this parameter was successful
+		/// - <see cref="Result.InvalidParameters" /> if the bucket ID is invalid or <see langword="null" />
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result SetBucketId(ref SessionModificationSetBucketIdOptions options)
 		{
@@ -129,14 +141,17 @@ namespace Epic.OnlineServices.Sessions
 		/// Setting this is optional, if the value is not set the SDK will fill the value in from the service.
 		/// It is useful to set if other addressing mechanisms are desired or if LAN addresses are preferred during development
 		/// No validation of this value occurs to allow for flexibility in addressing methods
+		/// <see cref="SessionModificationSetHostAddressOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options associated with the host address of the session
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this parameter was successful
-		/// <see cref="Result.InvalidParameters" /> if the host ID is an empty <see cref="Utf8String" />
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this parameter was successful
+		/// - <see cref="Result.InvalidParameters" /> if the host ID is an empty <see cref="Utf8String" />
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result SetHostAddress(ref SessionModificationSetHostAddressOptions options)
 		{
@@ -153,13 +168,16 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// Allows enabling or disabling invites for this session.
 		/// The session will also need to have `bPresenceEnabled` <see langword="true" />.
+		/// <see cref="SessionModificationSetInvitesAllowedOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options associated with invites allowed flag for this session.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this parameter was successful
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this parameter was successful
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result SetInvitesAllowed(ref SessionModificationSetInvitesAllowedOptions options)
 		{
@@ -176,13 +194,16 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// Set whether or not join in progress is allowed
 		/// Once a session is started, it will no longer be visible to search queries unless this flag is set or the session returns to the pending or ended state
+		/// <see cref="SessionModificationSetJoinInProgressAllowedOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options associated with setting the join in progress state the session
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this parameter was successful
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this parameter was successful
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result SetJoinInProgressAllowed(ref SessionModificationSetJoinInProgressAllowedOptions options)
 		{
@@ -199,13 +220,16 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// Set the maximum number of players allowed in this session.
 		/// When updating the session, it is not possible to reduce this number below the current number of existing players
+		/// <see cref="SessionModificationSetMaxPlayersOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options associated with max number of players in this session
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this parameter was successful
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this parameter was successful
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result SetMaxPlayers(ref SessionModificationSetMaxPlayersOptions options)
 		{
@@ -222,13 +246,16 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// Set the session permissions associated with this session.
 		/// The permissions range from "public" to "invite only" and are described by <see cref="OnlineSessionPermissionLevel" />
+		/// <see cref="SessionModificationSetPermissionLevelOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options associated with the permission level of the session
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this parameter was successful
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this parameter was successful
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result SetPermissionLevel(ref SessionModificationSetPermissionLevelOptions options)
 		{

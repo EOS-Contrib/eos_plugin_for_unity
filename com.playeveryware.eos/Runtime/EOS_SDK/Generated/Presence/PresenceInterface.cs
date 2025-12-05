@@ -136,12 +136,14 @@ namespace Epic.OnlineServices.Presence
 		/// <summary>
 		/// Register to receive notifications when a user accepts a join game option via the social overlay.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyJoinGameAccepted" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyJoinGameAcceptedOptions" />
+		/// <see cref="OnJoinGameAcceptedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
 		/// </param>
 		/// <param name="clientData">
-		/// Arbitrary data that is passed back to you in the CompletionDelegate.
+		/// Data the is returned to when NotificationHandler is invoked
 		/// </param>
 		/// <param name="notificationFn">
 		/// A callback that is fired when a a notification is received.
@@ -176,6 +178,8 @@ namespace Epic.OnlineServices.Presence
 		/// Register to receive notifications when presence changes.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyOnPresenceChanged" /> when you no longer wish to have your NotificationHandler called.
 		/// <see cref="Common.INVALID_NOTIFICATIONID" />
+		/// <see cref="AddNotifyOnPresenceChangedOptions" />
+		/// <see cref="OnPresenceChangedCallback" />
 		/// <see cref="RemoveNotifyOnPresenceChanged" />
 		/// </summary>
 		/// <param name="clientData">
@@ -212,6 +216,8 @@ namespace Epic.OnlineServices.Presence
 
 		/// <summary>
 		/// Get a user's cached presence object. If successful, this data must be released by calling <see cref="Release" />
+		/// <see cref="CopyPresenceOptions" />
+		/// <see cref="Info" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -246,6 +252,8 @@ namespace Epic.OnlineServices.Presence
 		/// <summary>
 		/// Creates a presence modification handle. This handle can used to add multiple changes to your presence that can be applied with <see cref="SetPresence" />.
 		/// The resulting handle must be released by calling <see cref="PresenceModification.Release" /> once it has been passed to <see cref="SetPresence" />.
+		/// <see cref="CreatePresenceModificationOptions" />
+		/// <see cref="PresenceModification" />
 		/// <see cref="PresenceModification.Release" />
 		/// <see cref="SetPresence" />
 		/// <see cref="PresenceModification.SetStatus" />
@@ -284,6 +292,7 @@ namespace Epic.OnlineServices.Presence
 		/// 
 		/// This value will be valid only after a QueryPresence call has successfully completed.
 		/// <see cref="PRESENCEMODIFICATION_JOININFO_MAX_LENGTH" />
+		/// <see cref="GetJoinInfoOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Object containing an associated user
@@ -298,10 +307,10 @@ namespace Epic.OnlineServices.Presence
 		/// </param>
 		/// <returns>
 		/// An <see cref="Result" /> that indicates whether the location <see cref="Utf8String" /> was copied into the OutBuffer.
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutBuffer
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if there is user or the location <see cref="Utf8String" /> was not found.
-		/// <see cref="Result.LimitExceeded" /> - The OutBuffer is not large enough to receive the location <see cref="Utf8String" />. InOutBufferLength contains the required minimum length to perform the operation successfully.
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutBuffer
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if there is user or the location <see cref="Utf8String" /> was not found.
+		/// - <see cref="Result.LimitExceeded" /> - The OutBuffer is not large enough to receive the location <see cref="Utf8String" />. InOutBufferLength contains the required minimum length to perform the operation successfully.
 		/// </returns>
 		public Result GetJoinInfo(ref GetJoinInfoOptions options, out Utf8String outBuffer)
 		{
@@ -323,6 +332,7 @@ namespace Epic.OnlineServices.Presence
 
 		/// <summary>
 		/// Check if we already have presence for a user
+		/// <see cref="HasPresenceOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Object containing properties related to who is requesting presence and for what user
@@ -347,6 +357,8 @@ namespace Epic.OnlineServices.Presence
 		/// <summary>
 		/// Query a user's presence. This must complete successfully before CopyPresence will have valid results. If HasPresence returns <see langword="true" /> for a remote
 		/// user, this does not need to be called.
+		/// <see cref="QueryPresenceOptions" />
+		/// <see cref="OnQueryPresenceCompleteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Object containing properties related to who is querying presence and for what user
@@ -404,6 +416,8 @@ namespace Epic.OnlineServices.Presence
 
 		/// <summary>
 		/// Sets your new presence with the data applied to a PresenceModificationHandle. The PresenceModificationHandle can be released safely after calling this function.
+		/// <see cref="SetPresenceOptions" />
+		/// <see cref="SetPresenceCompleteCallback" />
 		/// <see cref="CreatePresenceModification" />
 		/// <see cref="PresenceModification.Release" />
 		/// </summary>

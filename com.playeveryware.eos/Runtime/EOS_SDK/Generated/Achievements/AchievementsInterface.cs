@@ -125,6 +125,8 @@ namespace Epic.OnlineServices.Achievements
 		/// 
 		/// Register to receive achievement unlocked notifications.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyAchievementsUnlocked" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyAchievementsUnlockedOptions" />
+		/// <see cref="OnAchievementsUnlockedCallback" />
 		/// <see cref="RemoveNotifyAchievementsUnlocked" />
 		/// </summary>
 		/// <param name="options">
@@ -165,6 +167,8 @@ namespace Epic.OnlineServices.Achievements
 		/// <summary>
 		/// Register to receive achievement unlocked notifications.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyAchievementsUnlocked" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyAchievementsUnlockedV2Options" />
+		/// <see cref="OnAchievementsUnlockedCallbackV2" />
 		/// <see cref="RemoveNotifyAchievementsUnlocked" />
 		/// </summary>
 		/// <param name="options">
@@ -206,6 +210,8 @@ namespace Epic.OnlineServices.Achievements
 		/// DEPRECATED! Use <see cref="CopyAchievementDefinitionV2ByAchievementId" /> instead.
 		/// 
 		/// Fetches an achievement definition from a given achievement ID.
+		/// <see cref="CopyAchievementDefinitionByAchievementIdOptions" />
+		/// <see cref="Definition" />
 		/// <see cref="Release" />
 		/// <see cref="CopyAchievementDefinitionV2ByAchievementId" />
 		/// </summary>
@@ -216,9 +222,11 @@ namespace Epic.OnlineServices.Achievements
 		/// The achievement definition for the given achievement ID, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutDefinition
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the achievement definition is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutDefinition
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the achievement definition is not found
 		/// </returns>
 		public Result CopyAchievementDefinitionByAchievementId(ref CopyAchievementDefinitionByAchievementIdOptions options, out Definition? outDefinition)
 		{
@@ -244,6 +252,8 @@ namespace Epic.OnlineServices.Achievements
 		/// DEPRECATED! Use <see cref="CopyAchievementDefinitionV2ByIndex" /> instead.
 		/// 
 		/// Fetches an achievement definition from a given index.
+		/// <see cref="CopyAchievementDefinitionByIndexOptions" />
+		/// <see cref="Definition" />
 		/// <see cref="CopyAchievementDefinitionV2ByIndex" />
 		/// <see cref="Release" />
 		/// </summary>
@@ -254,9 +264,11 @@ namespace Epic.OnlineServices.Achievements
 		/// The achievement definition for the given index, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutDefinition
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the achievement definition is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutDefinition
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the achievement definition is not found
 		/// </returns>
 		public Result CopyAchievementDefinitionByIndex(ref CopyAchievementDefinitionByIndexOptions options, out Definition? outDefinition)
 		{
@@ -280,6 +292,8 @@ namespace Epic.OnlineServices.Achievements
 
 		/// <summary>
 		/// Fetches an achievement definition from a given achievement ID.
+		/// <see cref="CopyAchievementDefinitionV2ByAchievementIdOptions" />
+		/// <see cref="DefinitionV2" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -289,10 +303,12 @@ namespace Epic.OnlineServices.Achievements
 		/// The achievement definition for the given achievement ID, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutDefinition
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the achievement definition is not found
-		/// <see cref="Result.InvalidProductUserID" /> if any of the userid options are incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutDefinition
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the achievement definition is not found
+		/// - <see cref="Result.InvalidProductUserID" /> if any of the userid options are incorrect
 		/// </returns>
 		public Result CopyAchievementDefinitionV2ByAchievementId(ref CopyAchievementDefinitionV2ByAchievementIdOptions options, out DefinitionV2? outDefinition)
 		{
@@ -316,6 +332,8 @@ namespace Epic.OnlineServices.Achievements
 
 		/// <summary>
 		/// Fetches an achievement definition from a given index.
+		/// <see cref="CopyAchievementDefinitionV2ByIndexOptions" />
+		/// <see cref="DefinitionV2" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -325,10 +343,12 @@ namespace Epic.OnlineServices.Achievements
 		/// The achievement definition for the given index, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutDefinition
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the achievement definition is not found
-		/// <see cref="Result.InvalidProductUserID" /> if any of the userid options are incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutDefinition
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the achievement definition is not found
+		/// - <see cref="Result.InvalidProductUserID" /> if any of the userid options are incorrect
 		/// </returns>
 		public Result CopyAchievementDefinitionV2ByIndex(ref CopyAchievementDefinitionV2ByIndexOptions options, out DefinitionV2? outDefinition)
 		{
@@ -352,6 +372,8 @@ namespace Epic.OnlineServices.Achievements
 
 		/// <summary>
 		/// Fetches a player achievement from a given achievement ID.
+		/// <see cref="CopyPlayerAchievementByAchievementIdOptions" />
+		/// <see cref="PlayerAchievement" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -361,10 +383,12 @@ namespace Epic.OnlineServices.Achievements
 		/// The player achievement data for the given achievement ID, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutAchievement
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the player achievement is not found
-		/// <see cref="Result.InvalidProductUserID" /> if you pass an invalid user ID
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutAchievement
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the player achievement is not found
+		/// - <see cref="Result.InvalidProductUserID" /> if you pass an invalid user ID
 		/// </returns>
 		public Result CopyPlayerAchievementByAchievementId(ref CopyPlayerAchievementByAchievementIdOptions options, out PlayerAchievement? outAchievement)
 		{
@@ -388,6 +412,8 @@ namespace Epic.OnlineServices.Achievements
 
 		/// <summary>
 		/// Fetches a player achievement from a given index.
+		/// <see cref="CopyPlayerAchievementByIndexOptions" />
+		/// <see cref="PlayerAchievement" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -397,10 +423,12 @@ namespace Epic.OnlineServices.Achievements
 		/// The player achievement data for the given index, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutAchievement
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the player achievement is not found
-		/// <see cref="Result.InvalidProductUserID" /> if you pass an invalid user ID
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutAchievement
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the player achievement is not found
+		/// - <see cref="Result.InvalidProductUserID" /> if you pass an invalid user ID
 		/// </returns>
 		public Result CopyPlayerAchievementByIndex(ref CopyPlayerAchievementByIndexOptions options, out PlayerAchievement? outAchievement)
 		{
@@ -426,6 +454,8 @@ namespace Epic.OnlineServices.Achievements
 		/// DEPRECATED! Use <see cref="CopyPlayerAchievementByAchievementId" /> instead.
 		/// 
 		/// Fetches an unlocked achievement from a given achievement ID.
+		/// <see cref="CopyUnlockedAchievementByAchievementIdOptions" />
+		/// <see cref="UnlockedAchievement" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -435,9 +465,11 @@ namespace Epic.OnlineServices.Achievements
 		/// The unlocked achievement data for the given achievement ID, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutAchievement
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the unlocked achievement is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutAchievement
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the unlocked achievement is not found
 		/// </returns>
 		public Result CopyUnlockedAchievementByAchievementId(ref CopyUnlockedAchievementByAchievementIdOptions options, out UnlockedAchievement? outAchievement)
 		{
@@ -463,6 +495,8 @@ namespace Epic.OnlineServices.Achievements
 		/// DEPRECATED! Use <see cref="CopyPlayerAchievementByAchievementId" /> instead.
 		/// 
 		/// Fetches an unlocked achievement from a given index.
+		/// <see cref="CopyUnlockedAchievementByIndexOptions" />
+		/// <see cref="UnlockedAchievement" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -472,9 +506,11 @@ namespace Epic.OnlineServices.Achievements
 		/// The unlocked achievement data for the given index, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutAchievement
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the unlocked achievement is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutAchievement
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the unlocked achievement is not found
 		/// </returns>
 		public Result CopyUnlockedAchievementByIndex(ref CopyUnlockedAchievementByIndexOptions options, out UnlockedAchievement? outAchievement)
 		{
@@ -498,6 +534,7 @@ namespace Epic.OnlineServices.Achievements
 
 		/// <summary>
 		/// Fetch the number of achievement definitions that are cached locally.
+		/// <see cref="GetAchievementDefinitionCountOptions" />
 		/// <see cref="CopyAchievementDefinitionByIndex" />
 		/// </summary>
 		/// <param name="options">
@@ -520,6 +557,7 @@ namespace Epic.OnlineServices.Achievements
 
 		/// <summary>
 		/// Fetch the number of player achievements that are cached locally.
+		/// <see cref="GetPlayerAchievementCountOptions" />
 		/// <see cref="CopyPlayerAchievementByIndex" />
 		/// </summary>
 		/// <param name="options">
@@ -544,6 +582,7 @@ namespace Epic.OnlineServices.Achievements
 		/// DEPRECATED! Use <see cref="GetPlayerAchievementCount" />, <see cref="CopyPlayerAchievementByIndex" /> and filter for unlocked instead.
 		/// 
 		/// Fetch the number of unlocked achievements that are cached locally.
+		/// <see cref="GetUnlockedAchievementCountOptions" />
 		/// <see cref="CopyUnlockedAchievementByIndex" />
 		/// </summary>
 		/// <param name="options">
@@ -567,6 +606,8 @@ namespace Epic.OnlineServices.Achievements
 		/// <summary>
 		/// Query for a list of definitions for all existing achievements, including localized text, icon IDs and whether an achievement is hidden.
 		/// When the Social Overlay is enabled then this will be called automatically. The Social Overlay is enabled by default (see <see cref="Platform.PlatformFlags.DisableSocialOverlay" />).
+		/// <see cref="QueryDefinitionsOptions" />
+		/// <see cref="OnQueryDefinitionsCompleteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the application whose achievement definitions we're retrieving.
@@ -577,10 +618,6 @@ namespace Epic.OnlineServices.Achievements
 		/// <param name="completionDelegate">
 		/// This function is called when the query definitions operation completes.
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// </returns>
 		public void QueryDefinitions(ref QueryDefinitionsOptions options, object clientData, OnQueryDefinitionsCompleteCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -604,6 +641,8 @@ namespace Epic.OnlineServices.Achievements
 		/// Query for a list of achievements for a specific player, including progress towards completion for each achievement.
 		/// Note: By default, this query will not return locked hidden achievements. To return all achievements, call <see cref="QueryDefinitions" /> first.
 		/// When the Social Overlay is enabled then this will be called automatically. The Social Overlay is enabled by default (see <see cref="Platform.PlatformFlags.DisableSocialOverlay" />).
+		/// <see cref="QueryPlayerAchievementsOptions" />
+		/// <see cref="OnQueryPlayerAchievementsCompleteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the player whose achievements we're retrieving.
@@ -614,11 +653,6 @@ namespace Epic.OnlineServices.Achievements
 		/// <param name="completionDelegate">
 		/// This function is called when the query player achievements operation completes.
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation completes successfully
-		/// <see cref="Result.InvalidProductUserID" /> if any of the userid options are incorrect
-		/// <see cref="Result.InvalidParameters" /> if any of the other options are incorrect
-		/// </returns>
 		public void QueryPlayerAchievements(ref QueryPlayerAchievementsOptions options, object clientData, OnQueryPlayerAchievementsCompleteCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -654,6 +688,8 @@ namespace Epic.OnlineServices.Achievements
 
 		/// <summary>
 		/// Unlocks a number of achievements for a specific player.
+		/// <see cref="UnlockAchievementsOptions" />
+		/// <see cref="OnUnlockAchievementsCompleteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the achievements and the player whose achievements we're unlocking.
@@ -664,10 +700,6 @@ namespace Epic.OnlineServices.Achievements
 		/// <param name="completionDelegate">
 		/// This function is called when the unlock achievements operation completes.
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// </returns>
 		public void UnlockAchievements(ref UnlockAchievementsOptions options, object clientData, OnUnlockAchievementsCompleteCallback completionDelegate)
 		{
 			if (completionDelegate == null)

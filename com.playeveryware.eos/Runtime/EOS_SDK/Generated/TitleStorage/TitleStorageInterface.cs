@@ -82,6 +82,8 @@ namespace Epic.OnlineServices.TitleStorage
 
 		/// <summary>
 		/// Get the cached copy of a file's metadata by index. The metadata will be for the last retrieved version. The returned <see cref="IntPtr" /> must be released by the user when no longer needed.
+		/// <see cref="CopyFileMetadataAtIndexOptions" />
+		/// <see cref="FileMetadata" />
 		/// <see cref="GetFileMetadataCount" />
 		/// <see cref="Release" />
 		/// </summary>
@@ -117,6 +119,8 @@ namespace Epic.OnlineServices.TitleStorage
 		/// <summary>
 		/// Create a cached copy of a file's metadata by filename. The metadata will be for the last retrieved or successfully saved version, and will not include any changes that have not
 		/// completed writing. The returned <see cref="IntPtr" /> must be released by the user when no longer needed.
+		/// <see cref="CopyFileMetadataByFilenameOptions" />
+		/// <see cref="FileMetadata" />
 		/// </summary>
 		/// <param name="options">
 		/// Object containing properties related to which user is requesting metadata, and for which filename
@@ -150,6 +154,8 @@ namespace Epic.OnlineServices.TitleStorage
 		/// <summary>
 		/// Clear previously cached file data. This operation will be done asynchronously. All cached files except those corresponding to the transfers in progress will be removed.
 		/// Warning: Use this with care. Cache system generally tries to clear old and unused cached files from time to time. Unnecessarily clearing cache can degrade performance as SDK will have to re-download data.
+		/// <see cref="DeleteCacheOptions" />
+		/// <see cref="OnDeleteCacheCompleteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Object containing properties related to which user is deleting cache
@@ -186,6 +192,7 @@ namespace Epic.OnlineServices.TitleStorage
 
 		/// <summary>
 		/// Get the count of files we have previously queried information for and files we have previously read from / written to.
+		/// <see cref="GetFileMetadataCountOptions" />
 		/// <see cref="CopyFileMetadataAtIndex" />
 		/// </summary>
 		/// <param name="options">
@@ -209,6 +216,8 @@ namespace Epic.OnlineServices.TitleStorage
 		/// <summary>
 		/// Query a specific file's metadata, such as file names, size, and a MD5 hash of the data. This is not required before a file may be opened. Once a file has
 		/// been queried, its metadata will be available by the <see cref="CopyFileMetadataAtIndex" /> and <see cref="CopyFileMetadataByFilename" /> functions.
+		/// <see cref="QueryFileOptions" />
+		/// <see cref="OnQueryFileCompleteCallback" />
 		/// <see cref="GetFileMetadataCount" />
 		/// <see cref="CopyFileMetadataAtIndex" />
 		/// <see cref="CopyFileMetadataByFilename" />
@@ -222,10 +231,6 @@ namespace Epic.OnlineServices.TitleStorage
 		/// <param name="completionCallback">
 		/// This function is called when the query operation completes
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the query completes successfully and a file is found
-		/// <see cref="Result.NotFound" /> if no file is found
-		/// </returns>
 		public void QueryFile(ref QueryFileOptions options, object clientData, OnQueryFileCompleteCallback completionCallback)
 		{
 			if (completionCallback == null)
@@ -248,6 +253,8 @@ namespace Epic.OnlineServices.TitleStorage
 		/// <summary>
 		/// Query the file metadata, such as file names, size, and a MD5 hash of the data, for all files available for current user based on their settings (such as game role) and tags provided.
 		/// This is not required before a file can be downloaded by name.
+		/// <see cref="QueryFileListOptions" />
+		/// <see cref="OnQueryFileListCompleteCallback" />
 		/// <see cref="GetFileMetadataCount" />
 		/// <see cref="CopyFileMetadataAtIndex" />
 		/// <see cref="CopyFileMetadataByFilename" />
@@ -261,9 +268,6 @@ namespace Epic.OnlineServices.TitleStorage
 		/// <param name="completionCallback">
 		/// This function is called when the query operation completes
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the query completes successfully (whether any files are found or not)
-		/// </returns>
 		public void QueryFileList(ref QueryFileListOptions options, object clientData, OnQueryFileListCompleteCallback completionCallback)
 		{
 			if (completionCallback == null)
@@ -287,6 +291,8 @@ namespace Epic.OnlineServices.TitleStorage
 		/// Retrieve the contents of a specific file, potentially downloading the contents if we do not have a local copy, from the cloud. This request will occur asynchronously, potentially over
 		/// multiple frames. All callbacks for this function will come from the same thread that the SDK is ticked from. If specified, the FileTransferProgressCallback will always be called at
 		/// least once if the request is started successfully.
+		/// <see cref="ReadFileOptions" />
+		/// <see cref="OnReadFileCompleteCallback" />
 		/// <see cref="TitleStorageFileTransferRequest.Release" />
 		/// </summary>
 		/// <param name="options">
@@ -300,8 +306,10 @@ namespace Epic.OnlineServices.TitleStorage
 		/// </param>
 		/// <returns>
 		/// A valid Title Storage File Request handle if successful, or <see langword="null" /> otherwise. Data contained in the completion callback will have more detailed information about issues with the request in failure cases. This handle must be released when it is no longer needed
-		/// <see cref="Result.Success" /> if the file is exists and the read operation completes successfully
-		/// <see cref="Result.NotFound" /> if no file is found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the file is exists and the read operation completes successfully
+		/// - <see cref="Result.NotFound" /> if no file is found
 		/// </returns>
 		public TitleStorageFileTransferRequest ReadFile(ref ReadFileOptions options, object clientData, OnReadFileCompleteCallback completionCallback)
 		{

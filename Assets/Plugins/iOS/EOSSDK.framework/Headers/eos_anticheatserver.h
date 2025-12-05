@@ -63,8 +63,10 @@ EOS_DECLARE_FUNC(void) EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged(E
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the initialization succeeded
- *         EOS_InvalidParameters - If input data was invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the initialization succeeded
+ * - EOS_InvalidParameters - If input data was invalid
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_BeginSession(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_BeginSessionOptions* Options);
 
@@ -73,8 +75,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_BeginSession(EOS_HAntiCheatSer
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the initialization succeeded
- *         EOS_InvalidParameters - If input data was invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the initialization succeeded
+ * - EOS_InvalidParameters - If input data was invalid
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_EndSession(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_EndSessionOptions* Options);
 
@@ -86,8 +90,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_EndSession(EOS_HAntiCheatServe
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the player was registered successfully
- *         EOS_InvalidParameters - If input data was invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the player was registered successfully
+ * - EOS_InvalidParameters - If input data was invalid
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_RegisterClient(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_RegisterClientOptions* Options);
 
@@ -99,8 +105,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_RegisterClient(EOS_HAntiCheatS
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the player was unregistered successfully
- *         EOS_InvalidParameters - If input data was invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the player was unregistered successfully
+ * - EOS_InvalidParameters - If input data was invalid
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_UnregisterClient(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_UnregisterClientOptions* Options);
 
@@ -112,9 +120,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_UnregisterClient(EOS_HAntiChea
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the message was processed successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_InvalidRequest - If message contents were corrupt and could not be processed
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the message was processed successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_InvalidRequest - If message contents were corrupt and could not be processed
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_ReceiveMessageFromClient(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_ReceiveMessageFromClientOptions* Options);
 
@@ -126,8 +136,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_ReceiveMessageFromClient(EOS_H
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the flags were updated successfully
- *         EOS_InvalidParameters - If input data was invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the flags were updated successfully
+ * - EOS_InvalidParameters - If input data was invalid
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_SetClientDetails(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_SetClientDetailsOptions* Options);
 
@@ -140,8 +152,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_SetClientDetails(EOS_HAntiChea
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the game session identifier was set successfully
- *         EOS_InvalidParameters - If input data was invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the game session identifier was set successfully
+ * - EOS_InvalidParameters - If input data was invalid
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_SetGameSessionId(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_SetGameSessionIdOptions* Options);
 
@@ -157,8 +171,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_SetGameSessionId(EOS_HAntiChea
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the network state was updated successfully
- *         EOS_InvalidParameters - If input data was invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the network state was updated successfully
+ * - EOS_InvalidParameters - If input data was invalid
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_SetClientNetworkState(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_SetClientNetworkStateOptions* Options);
 
@@ -170,8 +186,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_SetClientNetworkState(EOS_HAnt
  * @param Options Structure containing input data.
  * @param OutBufferSizeBytes On success, the OutBuffer length in bytes that is required to call ProtectMessage on the given input size.
  *
- * @return EOS_Success - If the output length was calculated successfully
- *         EOS_InvalidParameters - If input data was invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the output length was calculated successfully
+ * - EOS_InvalidParameters - If input data was invalid
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_GetProtectMessageOutputLength(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_GetProtectMessageOutputLengthOptions* Options, uint32_t* OutBufferSizeBytes);
 
@@ -185,9 +203,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_GetProtectMessageOutputLength(
  * @param OutBuffer On success, buffer where encrypted message data will be written.
  * @param OutBytesWritten On success, the number of bytes that were written to OutBuffer.
  *
- * @return EOS_Success - If the message was protected successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_InvalidUser - If the specified ClientHandle was invalid or not currently registered. See RegisterClient.
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the message was protected successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_InvalidUser - If the specified ClientHandle was invalid or not currently registered. See RegisterClient.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_ProtectMessage(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_ProtectMessageOptions* Options, void* OutBuffer, uint32_t* OutBytesWritten);
 
@@ -201,8 +221,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_ProtectMessage(EOS_HAntiCheatS
  * @param OutBuffer On success, buffer where encrypted message data will be written.
  * @param OutBytesWritten On success, the number of bytes that were written to OutBuffer.
  *
- * @return EOS_Success - If the message was unprotected successfully
- *         EOS_InvalidParameters - If input data was invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the message was unprotected successfully
+ * - EOS_InvalidParameters - If input data was invalid
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_UnprotectMessage(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_UnprotectMessageOptions* Options, void* OutBuffer, uint32_t* OutBytesWritten);
 
@@ -215,8 +237,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_UnprotectMessage(EOS_HAntiChea
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the event was registered successfully
- *         EOS_InvalidParameters - If input data was invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the event was registered successfully
+ * - EOS_InvalidParameters - If input data was invalid
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_RegisterEvent(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_RegisterEventOptions* Options);
 
@@ -229,9 +253,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_RegisterEvent(EOS_HAntiCheatSe
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the event was logged successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the event was logged successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogEvent(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogEventOptions* Options);
 
@@ -244,9 +270,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogEvent(EOS_HAntiCheatServer 
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the event was logged successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the event was logged successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogGameRoundStart(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogGameRoundStartOptions* Options);
 
@@ -259,9 +287,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogGameRoundStart(EOS_HAntiChe
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the event was logged successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the event was logged successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogGameRoundEnd(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogGameRoundEndOptions* Options);
 
@@ -274,9 +304,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogGameRoundEnd(EOS_HAntiCheat
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the event was logged successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the event was logged successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerSpawn(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogPlayerSpawnOptions* Options);
 
@@ -290,9 +322,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerSpawn(EOS_HAntiCheatS
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the event was logged successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the event was logged successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerDespawn(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogPlayerDespawnOptions* Options);
 
@@ -305,9 +339,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerDespawn(EOS_HAntiChea
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the event was logged successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the event was logged successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerRevive(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogPlayerReviveOptions* Options);
 
@@ -320,9 +356,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerRevive(EOS_HAntiCheat
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the event was logged successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the event was logged successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerTick(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogPlayerTickOptions* Options);
 
@@ -335,9 +373,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerTick(EOS_HAntiCheatSe
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the event was logged successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the event was logged successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerUseWeapon(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogPlayerUseWeaponOptions* Options);
 
@@ -351,9 +391,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerUseWeapon(EOS_HAntiCh
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the event was logged successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the event was logged successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerUseAbility(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogPlayerUseAbilityOptions* Options);
 
@@ -366,8 +408,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerUseAbility(EOS_HAntiC
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the event was logged successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the event was logged successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerTakeDamage(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogPlayerTakeDamageOptions* Options);

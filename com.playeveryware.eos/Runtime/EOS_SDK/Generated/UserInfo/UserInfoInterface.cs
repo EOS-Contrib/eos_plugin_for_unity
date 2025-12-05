@@ -101,11 +101,13 @@ namespace Epic.OnlineServices.UserInfo
 		/// out parameter used to receive the <see cref="BestDisplayName" /> structure.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutBestDisplayName
-		/// <see cref="Result.UserInfoBestDisplayNameIndeterminate" /> unable to determine a cert friendly display name for user, one potential solution would be to call <see cref="CopyBestDisplayNameWithPlatform" /> with <see cref="Common.OPT_EPIC" /> for the platform, see doc for more details
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
-		/// <see cref="Result.NotFound" /> if the user info or product user id is not locally cached
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutBestDisplayName
+		/// - <see cref="Result.UserInfoBestDisplayNameIndeterminate" /> unable to determine a cert friendly display name for user, one potential solution would be to call <see cref="CopyBestDisplayNameWithPlatform" /> with <see cref="Common.OPT_EPIC" /> for the platform, see doc for more details
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// - <see cref="Result.NotFound" /> if the user info or product user id is not locally cached
 		/// </returns>
 		public Result CopyBestDisplayName(ref CopyBestDisplayNameOptions options, out BestDisplayName? outBestDisplayName)
 		{
@@ -150,11 +152,13 @@ namespace Epic.OnlineServices.UserInfo
 		/// out parameter used to receive the <see cref="BestDisplayName" /> structure.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutBestDisplayName
-		/// <see cref="Result.UserInfoBestDisplayNameIndeterminate" /> unable to determine a cert friendly display name for user
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
-		/// <see cref="Result.NotFound" /> if the user info is not locally cached
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutBestDisplayName
+		/// - <see cref="Result.UserInfoBestDisplayNameIndeterminate" /> unable to determine a cert friendly display name for user
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// - <see cref="Result.NotFound" /> if the user info is not locally cached
 		/// </returns>
 		public Result CopyBestDisplayNameWithPlatform(ref CopyBestDisplayNameWithPlatformOptions options, out BestDisplayName? outBestDisplayName)
 		{
@@ -178,6 +182,8 @@ namespace Epic.OnlineServices.UserInfo
 
 		/// <summary>
 		/// Fetches an external user info for a given external account ID.
+		/// <see cref="CopyExternalUserInfoByAccountIdOptions" />
+		/// <see cref="ExternalUserInfo" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -187,9 +193,11 @@ namespace Epic.OnlineServices.UserInfo
 		/// The external user info. If it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutExternalUserInfo
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the external user info is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutExternalUserInfo
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the external user info is not found
 		/// </returns>
 		public Result CopyExternalUserInfoByAccountId(ref CopyExternalUserInfoByAccountIdOptions options, out ExternalUserInfo? outExternalUserInfo)
 		{
@@ -213,6 +221,8 @@ namespace Epic.OnlineServices.UserInfo
 
 		/// <summary>
 		/// Fetches an external user info for a given external account type.
+		/// <see cref="CopyExternalUserInfoByAccountTypeOptions" />
+		/// <see cref="ExternalUserInfo" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -222,9 +232,11 @@ namespace Epic.OnlineServices.UserInfo
 		/// The external user info. If it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutExternalUserInfo
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the external user info is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutExternalUserInfo
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the external user info is not found
 		/// </returns>
 		public Result CopyExternalUserInfoByAccountType(ref CopyExternalUserInfoByAccountTypeOptions options, out ExternalUserInfo? outExternalUserInfo)
 		{
@@ -248,6 +260,8 @@ namespace Epic.OnlineServices.UserInfo
 
 		/// <summary>
 		/// Fetches an external user info from a given index.
+		/// <see cref="CopyExternalUserInfoByIndexOptions" />
+		/// <see cref="ExternalUserInfo" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -257,9 +271,11 @@ namespace Epic.OnlineServices.UserInfo
 		/// The external user info. If it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutExternalUserInfo
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the external user info is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutExternalUserInfo
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the external user info is not found
 		/// </returns>
 		public Result CopyExternalUserInfoByIndex(ref CopyExternalUserInfoByIndexOptions options, out ExternalUserInfo? outExternalUserInfo)
 		{
@@ -295,10 +311,12 @@ namespace Epic.OnlineServices.UserInfo
 		/// out parameter used to receive the <see cref="UserInfoData" /> structure.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutUserInfo
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
-		/// <see cref="Result.NotFound" /> if the user info is not locally cached. The information must have been previously cached by a call to <see cref="QueryUserInfo" />
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutUserInfo
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// - <see cref="Result.NotFound" /> if the user info is not locally cached. The information must have been previously cached by a call to <see cref="QueryUserInfo" />
 		/// </returns>
 		public Result CopyUserInfo(ref CopyUserInfoOptions options, out UserInfoData? outUserInfo)
 		{
@@ -322,6 +340,7 @@ namespace Epic.OnlineServices.UserInfo
 
 		/// <summary>
 		/// Fetch the number of external user infos that are cached locally.
+		/// <see cref="GetExternalUserInfoCountOptions" />
 		/// <see cref="CopyExternalUserInfoByIndex" />
 		/// </summary>
 		/// <param name="options">

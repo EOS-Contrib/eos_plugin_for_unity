@@ -111,6 +111,8 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <summary>
 		/// Get the cached copy of a file's metadata by index. The metadata will be for the last retrieved or successfully saved version, and will not include any local changes that have not been
 		/// committed by calling SaveFile. The returned <see cref="IntPtr" /> must be released by the user when no longer needed.
+		/// <see cref="CopyFileMetadataAtIndexOptions" />
+		/// <see cref="FileMetadata" />
 		/// <see cref="GetFileMetadataCount" />
 		/// <see cref="Release" />
 		/// </summary>
@@ -146,6 +148,8 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <summary>
 		/// Create the cached copy of a file's metadata by filename. The metadata will be for the last retrieved or successfully saved version, and will not include any changes that have not
 		/// completed writing. The returned <see cref="IntPtr" /> must be released by the user when no longer needed.
+		/// <see cref="CopyFileMetadataByFilenameOptions" />
+		/// <see cref="FileMetadata" />
 		/// </summary>
 		/// <param name="copyFileMetadataOptions">
 		/// Object containing properties related to which user is requesting metadata, and for which filename
@@ -179,6 +183,8 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <summary>
 		/// Clear previously cached file data. This operation will be done asynchronously. All cached files except those corresponding to the transfers in progress will be removed.
 		/// Warning: Use this with care. Cache system generally tries to clear old and unused cached files from time to time. Unnecessarily clearing cache can degrade performance as SDK will have to re-download data.
+		/// <see cref="DeleteCacheOptions" />
+		/// <see cref="OnDeleteCacheCompleteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Object containing properties related to which user is deleting cache
@@ -215,6 +221,8 @@ namespace Epic.OnlineServices.PlayerDataStorage
 
 		/// <summary>
 		/// Deletes an existing file in the cloud. If successful, the file's data will be removed from our local cache.
+		/// <see cref="DeleteFileOptions" />
+		/// <see cref="OnDeleteFileCompleteCallback" />
 		/// </summary>
 		/// <param name="deleteOptions">
 		/// Object containing properties related to which user is deleting the file, and what file name is
@@ -247,6 +255,8 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <summary>
 		/// Copies the data of an existing file to a new filename. This action happens entirely on the server and will not upload the contents of the source destination file from the host. This
 		/// function paired with a subsequent <see cref="DeleteFile" /> can be used to rename a file. If successful, the destination file's metadata will be updated in our local cache.
+		/// <see cref="DuplicateFileOptions" />
+		/// <see cref="OnDuplicateFileCompleteCallback" />
 		/// </summary>
 		/// <param name="duplicateOptions">
 		/// Object containing properties related to which user is duplicating the file, and what the source and destination file names are
@@ -278,6 +288,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 
 		/// <summary>
 		/// Get the count of files we have previously queried information for and files we have previously read from / written to.
+		/// <see cref="GetFileMetadataCountOptions" />
 		/// <see cref="CopyFileMetadataAtIndex" />
 		/// </summary>
 		/// <param name="getFileMetadataCountOptions">
@@ -304,6 +315,8 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <summary>
 		/// Query a specific file's metadata, such as file names, size, and a MD5 hash of the data. This is not required before a file may be opened, saved, copied, or deleted. Once a file has
 		/// been queried, its metadata will be available by the <see cref="CopyFileMetadataAtIndex" /> and <see cref="CopyFileMetadataByFilename" /> functions.
+		/// <see cref="QueryFileOptions" />
+		/// <see cref="OnQueryFileCompleteCallback" />
 		/// <see cref="GetFileMetadataCount" />
 		/// <see cref="CopyFileMetadataAtIndex" />
 		/// <see cref="CopyFileMetadataByFilename" />
@@ -317,10 +330,6 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <param name="completionCallback">
 		/// This function is called when the query operation completes
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the query completes successfully and a file is found
-		/// <see cref="Result.NotFound" /> if no file is found
-		/// </returns>
 		public void QueryFile(ref QueryFileOptions queryFileOptions, object clientData, OnQueryFileCompleteCallback completionCallback)
 		{
 			if (completionCallback == null)
@@ -343,6 +352,8 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <summary>
 		/// Query the file metadata, such as file names, size, and a MD5 hash of the data, for all files owned by this user for this application. This is not required before a file may be opened,
 		/// saved, copied, or deleted.
+		/// <see cref="QueryFileListOptions" />
+		/// <see cref="OnQueryFileListCompleteCallback" />
 		/// <see cref="GetFileMetadataCount" />
 		/// <see cref="CopyFileMetadataAtIndex" />
 		/// <see cref="CopyFileMetadataByFilename" />
@@ -356,9 +367,6 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <param name="completionCallback">
 		/// This function is called when the query operation completes
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the query completes successfully (whether any files are found or not)
-		/// </returns>
 		public void QueryFileList(ref QueryFileListOptions queryFileListOptions, object clientData, OnQueryFileListCompleteCallback completionCallback)
 		{
 			if (completionCallback == null)
@@ -382,6 +390,8 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// Retrieve the contents of a specific file, potentially downloading the contents if we do not have a local copy, from the cloud. This request will occur asynchronously, potentially over
 		/// multiple frames. All callbacks for this function will come from the same thread that the SDK is ticked from. If specified, the FileTransferProgressCallback will always be called at
 		/// least once if the request is started successfully.
+		/// <see cref="ReadFileOptions" />
+		/// <see cref="OnReadFileCompleteCallback" />
 		/// <see cref="PlayerDataStorageFileTransferRequest.Release" />
 		/// </summary>
 		/// <param name="readOptions">
@@ -395,8 +405,10 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// </param>
 		/// <returns>
 		/// A valid Player Data Storage File Request handle if successful, or <see langword="null" /> otherwise. Data contained in the completion callback will have more detailed information about issues with the request in failure cases. This handle must be released when it is no longer needed
-		/// <see cref="Result.Success" /> if the file is exists and the read operation completes successfully
-		/// <see cref="Result.NotFound" /> if no file is found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the file is exists and the read operation completes successfully
+		/// - <see cref="Result.NotFound" /> if no file is found
 		/// </returns>
 		public PlayerDataStorageFileTransferRequest ReadFile(ref ReadFileOptions readOptions, object clientData, OnReadFileCompleteCallback completionCallback)
 		{
@@ -428,6 +440,8 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// Write new data to a specific file, potentially overwriting any existing file by the same name, to the cloud. This request will occur asynchronously, potentially over multiple frames.
 		/// All callbacks for this function will come from the same thread that the SDK is ticked from. If specified, the FileTransferProgressCallback will always be called at least once if the
 		/// request is started successfully.
+		/// <see cref="WriteFileOptions" />
+		/// <see cref="OnWriteFileCompleteCallback" />
 		/// <see cref="PlayerDataStorageFileTransferRequest.Release" />
 		/// </summary>
 		/// <param name="writeOptions">

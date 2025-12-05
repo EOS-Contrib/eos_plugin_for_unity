@@ -47,7 +47,11 @@ namespace Epic.OnlineServices.Platform
 		/// <summary>
 		/// A bit that indicates your game would like to opt-in to automatic unloading of the overlay module when possible. This flag is only relevant on Consoles
 		/// </summary>
-		ConsoleEnableOverlayAutomaticUnloading = 0x00080
+		ConsoleEnableOverlayAutomaticUnloading = 0x00080,
+		/// <summary>
+		/// A bit that enables verbose debug logging related to the overlay. This flag is only relevant on Consoles.
+		/// </summary>
+		EnableOverlayDebugLogging = 0x00100
 	}
 
 }

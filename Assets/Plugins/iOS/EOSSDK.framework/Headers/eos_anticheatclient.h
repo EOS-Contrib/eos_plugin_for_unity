@@ -111,9 +111,11 @@ EOS_DECLARE_FUNC(void) EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolated(E
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the session was started successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the session was started successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_BeginSession(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_BeginSessionOptions* Options);
 
@@ -125,9 +127,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_BeginSession(EOS_HAntiCheatCli
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the session was ended normally
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the session was ended normally
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_EndSession(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_EndSessionOptions* Options);
 
@@ -152,9 +156,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_EndSession(EOS_HAntiCheatClien
  * @param OutViolationType On success, receives a code describing the violation that occurred.
  * @param OutMessage On success, receives a string describing the violation which should be displayed to the user.
  *
- * @return EOS_Success - If violation information was returned successfully
- *		   EOS_LimitExceeded - If OutMessage is too small to receive the message string. Call again with a larger OutMessage.
- *         EOS_NotFound - If no violation has occurred since the last call
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If violation information was returned successfully
+ * - EOS_LimitExceeded - If OutMessage is too small to receive the message string. Call again with a larger OutMessage.
+ * - EOS_NotFound - If no violation has occurred since the last call
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_PollStatus(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_PollStatusOptions* Options, EOS_EAntiCheatClientViolationType* OutViolationType, char* OutMessage);
 
@@ -169,14 +175,25 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_PollStatus(EOS_HAntiCheatClien
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_Reserved01(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_Reserved01Options* Options, int32_t* OutValue);
 
 /**
+ * This function is reserved for future use and must not be called.
+ *
+ * @param Options Structure containing input data.
+ *
+ * @return EOS_NotImplemented - Always
+ */
+EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_Reserved02(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_Reserved02Options* Options);
+
+/**
  * Optional. Adds an integrity catalog and certificate pair from outside the game directory,
  * for example to support mods that load from elsewhere.
  * Mode: All
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the integrity catalog was added successfully
- *         EOS_InvalidParameters - If input data was invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the integrity catalog was added successfully
+ * - EOS_InvalidParameters - If input data was invalid
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_AddExternalIntegrityCatalog(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_AddExternalIntegrityCatalogOptions* Options);
 
@@ -186,10 +203,12 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_AddExternalIntegrityCatalog(EO
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the message was processed successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_InvalidRequest - If message contents were corrupt and could not be processed
- *         EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the message was processed successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_InvalidRequest - If message contents were corrupt and could not be processed
+ * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_ReceiveMessageFromServer(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_ReceiveMessageFromServerOptions* Options);
 
@@ -202,9 +221,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_ReceiveMessageFromServer(EOS_H
  * @param Options Structure containing input data.
  * @param OutBufferSizeBytes On success, the OutBuffer length in bytes that is required to call ProtectMessage on the given input size.
  *
- * @return EOS_Success - If the output length was calculated successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the output length was calculated successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_GetProtectMessageOutputLength(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_GetProtectMessageOutputLengthOptions* Options, uint32_t* OutBufferSizeBytes);
 
@@ -219,9 +240,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_GetProtectMessageOutputLength(
  * @param OutBuffer On success, buffer where encrypted message data will be written.
  * @param OutBytesWritten On success, the number of bytes that were written to OutBuffer.
  *
- * @return EOS_Success - If the message was protected successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the message was protected successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_ProtectMessage(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_ProtectMessageOptions* Options, void* OutBuffer, uint32_t* OutBytesWritten);
 
@@ -236,9 +259,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_ProtectMessage(EOS_HAntiCheatC
  * @param OutBuffer On success, buffer where encrypted message data will be written.
  * @param OutBytesWritten On success, the number of bytes that were written to OutBuffer.
  *
- * @return EOS_Success - If the message was unprotected successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the message was unprotected successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_UnprotectMessage(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_UnprotectMessageOptions* Options, void* OutBuffer, uint32_t* OutBytesWritten);
 
@@ -251,9 +276,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_UnprotectMessage(EOS_HAntiChea
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the player was registered successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the player was registered successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_RegisterPeer(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_RegisterPeerOptions* Options);
 
@@ -265,9 +292,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_RegisterPeer(EOS_HAntiCheatCli
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the player was unregistered successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the player was unregistered successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_UnregisterPeer(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_UnregisterPeerOptions* Options);
 
@@ -277,8 +306,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_UnregisterPeer(EOS_HAntiCheatC
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_Success - If the message was processed successfully
- *         EOS_InvalidParameters - If input data was invalid
- *         EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the message was processed successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_ReceiveMessageFromPeer(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_ReceiveMessageFromPeerOptions* Options);

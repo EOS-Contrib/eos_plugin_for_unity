@@ -8,7 +8,7 @@ namespace Epic.OnlineServices.Ecom
 {
 
 	/// <summary>
-	/// Function prototype definition for callbacks passed to <see cref="EcomInterface.QueryOffers" />
+	/// Function prototype definition for callbacks passed to <see cref="EcomInterface.QueryOffers" />. When one or more cached offers have an invalid price, the callback returns the result code <see cref="Result.EcomCatalogOfferPriceInvalid" />.
 	/// </summary>
 	/// <param name="data">
 	/// A <see cref="QueryOffersCallbackInfo" /> containing the output information and result

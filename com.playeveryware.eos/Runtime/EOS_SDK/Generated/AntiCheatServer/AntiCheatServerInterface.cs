@@ -201,8 +201,10 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the initialization succeeded
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the initialization succeeded
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// </returns>
 		public Result BeginSession(ref BeginSessionOptions options)
 		{
@@ -223,8 +225,10 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the initialization succeeded
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the initialization succeeded
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// </returns>
 		public Result EndSession(ref EndSessionOptions options)
 		{
@@ -250,8 +254,10 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// On success, the OutBuffer length in bytes that is required to call ProtectMessage on the given input size.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the output length was calculated successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the output length was calculated successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// </returns>
 		public Result GetProtectMessageOutputLength(ref GetProtectMessageOutputLengthOptions options, out uint outBufferSizeBytes)
 		{
@@ -276,9 +282,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the event was logged successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the event was logged successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogEvent(ref AntiCheatCommon.LogEventOptions options)
 		{
@@ -303,9 +311,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the event was logged successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the event was logged successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogGameRoundEnd(ref AntiCheatCommon.LogGameRoundEndOptions options)
 		{
@@ -330,9 +340,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the event was logged successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the event was logged successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogGameRoundStart(ref AntiCheatCommon.LogGameRoundStartOptions options)
 		{
@@ -358,9 +370,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the event was logged successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the event was logged successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogPlayerDespawn(ref AntiCheatCommon.LogPlayerDespawnOptions options)
 		{
@@ -385,9 +399,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the event was logged successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the event was logged successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogPlayerRevive(ref AntiCheatCommon.LogPlayerReviveOptions options)
 		{
@@ -412,9 +428,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the event was logged successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the event was logged successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogPlayerSpawn(ref AntiCheatCommon.LogPlayerSpawnOptions options)
 		{
@@ -439,9 +457,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the event was logged successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the event was logged successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogPlayerTakeDamage(ref AntiCheatCommon.LogPlayerTakeDamageOptions options)
 		{
@@ -466,9 +486,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the event was logged successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the event was logged successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogPlayerTick(ref AntiCheatCommon.LogPlayerTickOptions options)
 		{
@@ -494,9 +516,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the event was logged successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the event was logged successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogPlayerUseAbility(ref AntiCheatCommon.LogPlayerUseAbilityOptions options)
 		{
@@ -521,9 +545,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the event was logged successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the event was logged successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogPlayerUseWeapon(ref AntiCheatCommon.LogPlayerUseWeaponOptions options)
 		{
@@ -553,9 +579,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// On success, the number of bytes that were written to OutBuffer.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the message was protected successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.InvalidUser" /> - If the specified ClientHandle was invalid or not currently registered. See RegisterClient.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the message was protected successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.InvalidUser" /> - If the specified ClientHandle was invalid or not currently registered. See RegisterClient.
 		/// </returns>
 		public Result ProtectMessage(ref ProtectMessageOptions options, ArraySegment<byte> outBuffer, out uint outBytesWritten)
 		{
@@ -583,9 +611,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the message was processed successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.InvalidRequest" /> - If message contents were corrupt and could not be processed
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the message was processed successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.InvalidRequest" /> - If message contents were corrupt and could not be processed
 		/// </returns>
 		public Result ReceiveMessageFromClient(ref ReceiveMessageFromClientOptions options)
 		{
@@ -609,8 +639,10 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the player was registered successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the player was registered successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// </returns>
 		public Result RegisterClient(ref RegisterClientOptions options)
 		{
@@ -635,8 +667,10 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the event was registered successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the event was registered successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// </returns>
 		public Result RegisterEvent(ref AntiCheatCommon.RegisterEventOptions options)
 		{
@@ -699,8 +733,10 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the flags were updated successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the flags were updated successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// </returns>
 		public Result SetClientDetails(ref AntiCheatCommon.SetClientDetailsOptions options)
 		{
@@ -728,8 +764,10 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the network state was updated successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the network state was updated successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// </returns>
 		public Result SetClientNetworkState(ref SetClientNetworkStateOptions options)
 		{
@@ -754,8 +792,10 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the game session identifier was set successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the game session identifier was set successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// </returns>
 		public Result SetGameSessionId(ref AntiCheatCommon.SetGameSessionIdOptions options)
 		{
@@ -785,8 +825,10 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// On success, the number of bytes that were written to OutBuffer.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the message was unprotected successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the message was unprotected successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// </returns>
 		public Result UnprotectMessage(ref UnprotectMessageOptions options, ArraySegment<byte> outBuffer, out uint outBytesWritten)
 		{
@@ -814,8 +856,10 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the player was unregistered successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the player was unregistered successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// </returns>
 		public Result UnregisterClient(ref UnregisterClientOptions options)
 		{

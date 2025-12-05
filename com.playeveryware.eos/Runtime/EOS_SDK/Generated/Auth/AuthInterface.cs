@@ -79,6 +79,8 @@ namespace Epic.OnlineServices.Auth
 		/// <summary>
 		/// Register to receive login status updates.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyLoginStatusChanged" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyLoginStatusChangedOptions" />
+		/// <see cref="OnLoginStatusChangedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the api version of AddNotifyLoginStatusChanged to use
@@ -124,6 +126,8 @@ namespace Epic.OnlineServices.Auth
 		/// 
 		/// An ID token for the selected account ID of a locally authenticated user will always be readily available.
 		/// To retrieve it for the selected account ID, you can use <see cref="CopyIdToken" /> directly after a successful user login.
+		/// <see cref="CopyIdTokenOptions" />
+		/// <see cref="IdToken" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -133,9 +137,11 @@ namespace Epic.OnlineServices.Auth
 		/// An ID token for the given user, if it exists and is valid; use <see cref="Release" /> when finished.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutUserIdToken
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the Id token is not found or expired.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutUserIdToken
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the Id token is not found or expired.
 		/// </returns>
 		public Result CopyIdToken(ref CopyIdTokenOptions options, out IdToken? outIdToken)
 		{
@@ -162,6 +168,8 @@ namespace Epic.OnlineServices.Auth
 		/// 
 		/// A user authentication token allows any code with possession (backend/client) to perform certain actions on behalf of the user.
 		/// Because of this, for the purposes of user identity verification, the <see cref="CopyIdToken" /> API should be used instead.
+		/// <see cref="CopyUserAuthTokenOptions" />
+		/// <see cref="Token" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -174,9 +182,11 @@ namespace Epic.OnlineServices.Auth
 		/// The auth token for the given user, if it exists and is valid; use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutUserAuthToken
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the auth token is not found or expired.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutUserAuthToken
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the auth token is not found or expired.
 		/// </returns>
 		public Result CopyUserAuthToken(ref CopyUserAuthTokenOptions options, EpicAccountId localUserId, out Token? outUserAuthToken)
 		{
@@ -205,6 +215,8 @@ namespace Epic.OnlineServices.Auth
 		/// On Console platforms, even though the caller is responsible for storing and deleting the access token on the local device,
 		/// this function should still be called with the access token before its deletion to make the best effort in attempting to also revoke it on the authentication server.
 		/// If the function would fail on Console, the caller should still proceed as normal to delete the access token locally as intended.
+		/// <see cref="DeletePersistentAuthOptions" />
+		/// <see cref="OnDeletePersistentAuthCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing operation input parameters
@@ -328,11 +340,13 @@ namespace Epic.OnlineServices.Auth
 		/// The selected account ID corresponding to the given account ID.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the user is logged in and the information is available.
-		/// <see cref="Result.InvalidParameters" /> if the output parameter is <see langword="null" />.
-		/// <see cref="Result.InvalidUser" /> if the input account ID is not locally known.
-		/// <see cref="Result.InvalidAuth" /> if the input account ID is not locally logged in.
-		/// <see cref="Result.NotFound" /> otherwise.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the user is logged in and the information is available.
+		/// - <see cref="Result.InvalidParameters" /> if the output parameter is <see langword="null" />.
+		/// - <see cref="Result.InvalidUser" /> if the input account ID is not locally known.
+		/// - <see cref="Result.InvalidAuth" /> if the input account ID is not locally logged in.
+		/// - <see cref="Result.NotFound" /> otherwise.
 		/// </returns>
 		public Result GetSelectedAccountId(EpicAccountId localUserId, out EpicAccountId outSelectedAccountId)
 		{
@@ -352,6 +366,8 @@ namespace Epic.OnlineServices.Auth
 		/// 
 		/// On success, the user will be logged in at the completion of this action.
 		/// This will commit this external account to the Epic Account and cannot be undone in the SDK.
+		/// <see cref="LinkAccountOptions" />
+		/// <see cref="OnLinkAccountCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the account credentials to use during the link account operation
@@ -383,6 +399,8 @@ namespace Epic.OnlineServices.Auth
 
 		/// <summary>
 		/// Login/Authenticate with user credentials.
+		/// <see cref="LoginOptions" />
+		/// <see cref="OnLoginCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the account credentials to use during the login operation
@@ -414,6 +432,8 @@ namespace Epic.OnlineServices.Auth
 
 		/// <summary>
 		/// Signs the player out of the online service.
+		/// <see cref="LogoutOptions" />
+		/// <see cref="OnLogoutCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing information about which account to log out.
@@ -449,6 +469,8 @@ namespace Epic.OnlineServices.Auth
 		/// The ID token can be used to impersonate a merged account ID when communicating with online services.
 		/// 
 		/// An ID token for the selected account ID of a locally authenticated user will always be readily available and does not need to be queried explicitly.
+		/// <see cref="QueryIdTokenOptions" />
+		/// <see cref="OnQueryIdTokenCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the merged account ID for which to query an ID token.
@@ -493,6 +515,8 @@ namespace Epic.OnlineServices.Auth
 
 		/// <summary>
 		/// Verify a given ID token for authenticity and validity.
+		/// <see cref="VerifyIdTokenOptions" />
+		/// <see cref="OnVerifyIdTokenCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the ID token to verify.
@@ -525,6 +549,8 @@ namespace Epic.OnlineServices.Auth
 		/// <summary>
 		/// Contact the backend service to verify validity of an existing user auth token.
 		/// This function is intended for server-side use only.
+		/// <see cref="VerifyUserAuthOptions" />
+		/// <see cref="OnVerifyUserAuthCallback" />
 		/// <see cref="CopyUserAuthToken" />
 		/// </summary>
 		/// <param name="options">

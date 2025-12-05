@@ -85,6 +85,7 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerActionRequiredName = "EOS_AntiCheatClient_RemoveNotifyPeerActionRequired";
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedName = "EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged";
 		private const string EOS_AntiCheatClient_Reserved01Name = "EOS_AntiCheatClient_Reserved01";
+		private const string EOS_AntiCheatClient_Reserved02Name = "EOS_AntiCheatClient_Reserved02";
 		private const string EOS_AntiCheatClient_UnprotectMessageName = "EOS_AntiCheatClient_UnprotectMessage";
 		private const string EOS_AntiCheatClient_UnregisterPeerName = "EOS_AntiCheatClient_UnregisterPeer";
 		private const string EOS_AntiCheatServer_AddNotifyClientActionRequiredName = "EOS_AntiCheatServer_AddNotifyClientActionRequired";
@@ -533,6 +534,7 @@ namespace Epic.OnlineServices
 		private const string EOS_RTCData_UpdateSendingName = "EOS_RTCData_UpdateSending";
 		private const string EOS_RTC_AddNotifyDisconnectedName = "EOS_RTC_AddNotifyDisconnected";
 		private const string EOS_RTC_AddNotifyParticipantStatusChangedName = "EOS_RTC_AddNotifyParticipantStatusChanged";
+		private const string EOS_RTC_AddNotifyRoomBeforeJoinName = "EOS_RTC_AddNotifyRoomBeforeJoin";
 		private const string EOS_RTC_AddNotifyRoomStatisticsUpdatedName = "EOS_RTC_AddNotifyRoomStatisticsUpdated";
 		private const string EOS_RTC_BlockParticipantName = "EOS_RTC_BlockParticipant";
 		private const string EOS_RTC_GetAudioInterfaceName = "EOS_RTC_GetAudioInterface";
@@ -541,6 +543,7 @@ namespace Epic.OnlineServices
 		private const string EOS_RTC_LeaveRoomName = "EOS_RTC_LeaveRoom";
 		private const string EOS_RTC_RemoveNotifyDisconnectedName = "EOS_RTC_RemoveNotifyDisconnected";
 		private const string EOS_RTC_RemoveNotifyParticipantStatusChangedName = "EOS_RTC_RemoveNotifyParticipantStatusChanged";
+		private const string EOS_RTC_RemoveNotifyRoomBeforeJoinName = "EOS_RTC_RemoveNotifyRoomBeforeJoin";
 		private const string EOS_RTC_RemoveNotifyRoomStatisticsUpdatedName = "EOS_RTC_RemoveNotifyRoomStatisticsUpdated";
 		private const string EOS_RTC_SetRoomSettingName = "EOS_RTC_SetRoomSetting";
 		private const string EOS_RTC_SetSettingName = "EOS_RTC_SetSetting";
@@ -631,6 +634,8 @@ namespace Epic.OnlineServices
 		private const string EOS_UI_AcknowledgeEventIdName = "EOS_UI_AcknowledgeEventId";
 		private const string EOS_UI_AddNotifyDisplaySettingsUpdatedName = "EOS_UI_AddNotifyDisplaySettingsUpdated";
 		private const string EOS_UI_AddNotifyMemoryMonitorName = "EOS_UI_AddNotifyMemoryMonitor";
+		private const string EOS_UI_AddNotifyOnScreenKeyboardRequestedName = "EOS_UI_AddNotifyOnScreenKeyboardRequested";
+		private const string EOS_UI_ConfigureOnScreenKeyboardName = "EOS_UI_ConfigureOnScreenKeyboard";
 		private const string EOS_UI_GetFriendsExclusiveInputName = "EOS_UI_GetFriendsExclusiveInput";
 		private const string EOS_UI_GetFriendsVisibleName = "EOS_UI_GetFriendsVisible";
 		private const string EOS_UI_GetNotificationLocationPreferenceName = "EOS_UI_GetNotificationLocationPreference";
@@ -644,6 +649,7 @@ namespace Epic.OnlineServices
 		private const string EOS_UI_PrePresentName = "EOS_UI_PrePresent";
 		private const string EOS_UI_RemoveNotifyDisplaySettingsUpdatedName = "EOS_UI_RemoveNotifyDisplaySettingsUpdated";
 		private const string EOS_UI_RemoveNotifyMemoryMonitorName = "EOS_UI_RemoveNotifyMemoryMonitor";
+		private const string EOS_UI_RemoveNotifyOnScreenKeyboardRequestedName = "EOS_UI_RemoveNotifyOnScreenKeyboardRequested";
 		private const string EOS_UI_ReportInputStateName = "EOS_UI_ReportInputState";
 		private const string EOS_UI_SetDisplayPreferenceName = "EOS_UI_SetDisplayPreference";
 		private const string EOS_UI_SetToggleFriendsButtonName = "EOS_UI_SetToggleFriendsButton";
@@ -714,6 +720,7 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerActionRequiredName = "_EOS_AntiCheatClient_RemoveNotifyPeerActionRequired";
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedName = "_EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged";
 		private const string EOS_AntiCheatClient_Reserved01Name = "_EOS_AntiCheatClient_Reserved01";
+		private const string EOS_AntiCheatClient_Reserved02Name = "_EOS_AntiCheatClient_Reserved02";
 		private const string EOS_AntiCheatClient_UnprotectMessageName = "_EOS_AntiCheatClient_UnprotectMessage";
 		private const string EOS_AntiCheatClient_UnregisterPeerName = "_EOS_AntiCheatClient_UnregisterPeer";
 		private const string EOS_AntiCheatServer_AddNotifyClientActionRequiredName = "_EOS_AntiCheatServer_AddNotifyClientActionRequired";
@@ -1162,6 +1169,7 @@ namespace Epic.OnlineServices
 		private const string EOS_RTCData_UpdateSendingName = "_EOS_RTCData_UpdateSending";
 		private const string EOS_RTC_AddNotifyDisconnectedName = "_EOS_RTC_AddNotifyDisconnected";
 		private const string EOS_RTC_AddNotifyParticipantStatusChangedName = "_EOS_RTC_AddNotifyParticipantStatusChanged";
+		private const string EOS_RTC_AddNotifyRoomBeforeJoinName = "_EOS_RTC_AddNotifyRoomBeforeJoin";
 		private const string EOS_RTC_AddNotifyRoomStatisticsUpdatedName = "_EOS_RTC_AddNotifyRoomStatisticsUpdated";
 		private const string EOS_RTC_BlockParticipantName = "_EOS_RTC_BlockParticipant";
 		private const string EOS_RTC_GetAudioInterfaceName = "_EOS_RTC_GetAudioInterface";
@@ -1170,6 +1178,7 @@ namespace Epic.OnlineServices
 		private const string EOS_RTC_LeaveRoomName = "_EOS_RTC_LeaveRoom";
 		private const string EOS_RTC_RemoveNotifyDisconnectedName = "_EOS_RTC_RemoveNotifyDisconnected";
 		private const string EOS_RTC_RemoveNotifyParticipantStatusChangedName = "_EOS_RTC_RemoveNotifyParticipantStatusChanged";
+		private const string EOS_RTC_RemoveNotifyRoomBeforeJoinName = "_EOS_RTC_RemoveNotifyRoomBeforeJoin";
 		private const string EOS_RTC_RemoveNotifyRoomStatisticsUpdatedName = "_EOS_RTC_RemoveNotifyRoomStatisticsUpdated";
 		private const string EOS_RTC_SetRoomSettingName = "_EOS_RTC_SetRoomSetting";
 		private const string EOS_RTC_SetSettingName = "_EOS_RTC_SetSetting";
@@ -1260,6 +1269,8 @@ namespace Epic.OnlineServices
 		private const string EOS_UI_AcknowledgeEventIdName = "_EOS_UI_AcknowledgeEventId";
 		private const string EOS_UI_AddNotifyDisplaySettingsUpdatedName = "_EOS_UI_AddNotifyDisplaySettingsUpdated";
 		private const string EOS_UI_AddNotifyMemoryMonitorName = "_EOS_UI_AddNotifyMemoryMonitor";
+		private const string EOS_UI_AddNotifyOnScreenKeyboardRequestedName = "_EOS_UI_AddNotifyOnScreenKeyboardRequested";
+		private const string EOS_UI_ConfigureOnScreenKeyboardName = "_EOS_UI_ConfigureOnScreenKeyboard";
 		private const string EOS_UI_GetFriendsExclusiveInputName = "_EOS_UI_GetFriendsExclusiveInput";
 		private const string EOS_UI_GetFriendsVisibleName = "_EOS_UI_GetFriendsVisible";
 		private const string EOS_UI_GetNotificationLocationPreferenceName = "_EOS_UI_GetNotificationLocationPreference";
@@ -1273,6 +1284,7 @@ namespace Epic.OnlineServices
 		private const string EOS_UI_PrePresentName = "_EOS_UI_PrePresent";
 		private const string EOS_UI_RemoveNotifyDisplaySettingsUpdatedName = "_EOS_UI_RemoveNotifyDisplaySettingsUpdated";
 		private const string EOS_UI_RemoveNotifyMemoryMonitorName = "_EOS_UI_RemoveNotifyMemoryMonitor";
+		private const string EOS_UI_RemoveNotifyOnScreenKeyboardRequestedName = "_EOS_UI_RemoveNotifyOnScreenKeyboardRequested";
 		private const string EOS_UI_ReportInputStateName = "_EOS_UI_ReportInputState";
 		private const string EOS_UI_SetDisplayPreferenceName = "_EOS_UI_SetDisplayPreference";
 		private const string EOS_UI_SetToggleFriendsButtonName = "_EOS_UI_SetToggleFriendsButton";
@@ -1343,6 +1355,7 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerActionRequiredName = "_EOS_AntiCheatClient_RemoveNotifyPeerActionRequired@12";
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedName = "_EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged@12";
 		private const string EOS_AntiCheatClient_Reserved01Name = "_EOS_AntiCheatClient_Reserved01@12";
+		private const string EOS_AntiCheatClient_Reserved02Name = "_EOS_AntiCheatClient_Reserved02@8";
 		private const string EOS_AntiCheatClient_UnprotectMessageName = "_EOS_AntiCheatClient_UnprotectMessage@16";
 		private const string EOS_AntiCheatClient_UnregisterPeerName = "_EOS_AntiCheatClient_UnregisterPeer@8";
 		private const string EOS_AntiCheatServer_AddNotifyClientActionRequiredName = "_EOS_AntiCheatServer_AddNotifyClientActionRequired@16";
@@ -1791,6 +1804,7 @@ namespace Epic.OnlineServices
 		private const string EOS_RTCData_UpdateSendingName = "_EOS_RTCData_UpdateSending@16";
 		private const string EOS_RTC_AddNotifyDisconnectedName = "_EOS_RTC_AddNotifyDisconnected@16";
 		private const string EOS_RTC_AddNotifyParticipantStatusChangedName = "_EOS_RTC_AddNotifyParticipantStatusChanged@16";
+		private const string EOS_RTC_AddNotifyRoomBeforeJoinName = "_EOS_RTC_AddNotifyRoomBeforeJoin@16";
 		private const string EOS_RTC_AddNotifyRoomStatisticsUpdatedName = "_EOS_RTC_AddNotifyRoomStatisticsUpdated@16";
 		private const string EOS_RTC_BlockParticipantName = "_EOS_RTC_BlockParticipant@16";
 		private const string EOS_RTC_GetAudioInterfaceName = "_EOS_RTC_GetAudioInterface@4";
@@ -1799,6 +1813,7 @@ namespace Epic.OnlineServices
 		private const string EOS_RTC_LeaveRoomName = "_EOS_RTC_LeaveRoom@16";
 		private const string EOS_RTC_RemoveNotifyDisconnectedName = "_EOS_RTC_RemoveNotifyDisconnected@12";
 		private const string EOS_RTC_RemoveNotifyParticipantStatusChangedName = "_EOS_RTC_RemoveNotifyParticipantStatusChanged@12";
+		private const string EOS_RTC_RemoveNotifyRoomBeforeJoinName = "_EOS_RTC_RemoveNotifyRoomBeforeJoin@12";
 		private const string EOS_RTC_RemoveNotifyRoomStatisticsUpdatedName = "_EOS_RTC_RemoveNotifyRoomStatisticsUpdated@12";
 		private const string EOS_RTC_SetRoomSettingName = "_EOS_RTC_SetRoomSetting@8";
 		private const string EOS_RTC_SetSettingName = "_EOS_RTC_SetSetting@8";
@@ -1889,6 +1904,8 @@ namespace Epic.OnlineServices
 		private const string EOS_UI_AcknowledgeEventIdName = "_EOS_UI_AcknowledgeEventId@8";
 		private const string EOS_UI_AddNotifyDisplaySettingsUpdatedName = "_EOS_UI_AddNotifyDisplaySettingsUpdated@16";
 		private const string EOS_UI_AddNotifyMemoryMonitorName = "_EOS_UI_AddNotifyMemoryMonitor@16";
+		private const string EOS_UI_AddNotifyOnScreenKeyboardRequestedName = "_EOS_UI_AddNotifyOnScreenKeyboardRequested@16";
+		private const string EOS_UI_ConfigureOnScreenKeyboardName = "_EOS_UI_ConfigureOnScreenKeyboard@8";
 		private const string EOS_UI_GetFriendsExclusiveInputName = "_EOS_UI_GetFriendsExclusiveInput@8";
 		private const string EOS_UI_GetFriendsVisibleName = "_EOS_UI_GetFriendsVisible@8";
 		private const string EOS_UI_GetNotificationLocationPreferenceName = "_EOS_UI_GetNotificationLocationPreference@4";
@@ -1902,6 +1919,7 @@ namespace Epic.OnlineServices
 		private const string EOS_UI_PrePresentName = "_EOS_UI_PrePresent@8";
 		private const string EOS_UI_RemoveNotifyDisplaySettingsUpdatedName = "_EOS_UI_RemoveNotifyDisplaySettingsUpdated@12";
 		private const string EOS_UI_RemoveNotifyMemoryMonitorName = "_EOS_UI_RemoveNotifyMemoryMonitor@12";
+		private const string EOS_UI_RemoveNotifyOnScreenKeyboardRequestedName = "_EOS_UI_RemoveNotifyOnScreenKeyboardRequested@12";
 		private const string EOS_UI_ReportInputStateName = "_EOS_UI_ReportInputState@8";
 		private const string EOS_UI_SetDisplayPreferenceName = "_EOS_UI_SetDisplayPreference@8";
 		private const string EOS_UI_SetToggleFriendsButtonName = "_EOS_UI_SetToggleFriendsButton@8";
@@ -2119,6 +2137,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_Reserved01Name);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_Reserved01Name);
 			EOS_AntiCheatClient_Reserved01 = (EOS_AntiCheatClient_Reserved01Delegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_Reserved01Delegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_Reserved02Name);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_Reserved02Name);
+			EOS_AntiCheatClient_Reserved02 = (EOS_AntiCheatClient_Reserved02Delegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_Reserved02Delegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_UnprotectMessageName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_UnprotectMessageName);
@@ -3616,16 +3638,13 @@ namespace Epic.OnlineServices
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_PresenceModification_SetStatusName);
 			EOS_PresenceModification_SetStatus = (EOS_PresenceModification_SetStatusDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetStatusDelegate));
 
-			/// Temporary fix to support combining two different EOS SDK versions. Will remove in the next EOS SDK update with a permanent fix.
-			#if !UNITY_EDITOR_OSX
-				functionPointer = getFunctionPointer(libraryHandle, EOS_PresenceModification_SetTemplateDataName);
-				if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_PresenceModification_SetTemplateDataName);
-				EOS_PresenceModification_SetTemplateData = (EOS_PresenceModification_SetTemplateDataDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetTemplateDataDelegate));
+			functionPointer = getFunctionPointer(libraryHandle, EOS_PresenceModification_SetTemplateDataName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_PresenceModification_SetTemplateDataName);
+			EOS_PresenceModification_SetTemplateData = (EOS_PresenceModification_SetTemplateDataDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetTemplateDataDelegate));
 
-				functionPointer = getFunctionPointer(libraryHandle, EOS_PresenceModification_SetTemplateIdName);
-				if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_PresenceModification_SetTemplateIdName);
-				EOS_PresenceModification_SetTemplateId = (EOS_PresenceModification_SetTemplateIdDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetTemplateIdDelegate));
-			#endif
+			functionPointer = getFunctionPointer(libraryHandle, EOS_PresenceModification_SetTemplateIdName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_PresenceModification_SetTemplateIdName);
+			EOS_PresenceModification_SetTemplateId = (EOS_PresenceModification_SetTemplateIdDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetTemplateIdDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Presence_AddNotifyJoinGameAcceptedName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Presence_AddNotifyJoinGameAcceptedName);
@@ -3915,6 +3934,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_RTC_AddNotifyParticipantStatusChangedName);
 			EOS_RTC_AddNotifyParticipantStatusChanged = (EOS_RTC_AddNotifyParticipantStatusChangedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_AddNotifyParticipantStatusChangedDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTC_AddNotifyRoomBeforeJoinName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_RTC_AddNotifyRoomBeforeJoinName);
+			EOS_RTC_AddNotifyRoomBeforeJoin = (EOS_RTC_AddNotifyRoomBeforeJoinDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_AddNotifyRoomBeforeJoinDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_RTC_AddNotifyRoomStatisticsUpdatedName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_RTC_AddNotifyRoomStatisticsUpdatedName);
 			EOS_RTC_AddNotifyRoomStatisticsUpdated = (EOS_RTC_AddNotifyRoomStatisticsUpdatedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_AddNotifyRoomStatisticsUpdatedDelegate));
@@ -3946,6 +3969,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_RTC_RemoveNotifyParticipantStatusChangedName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_RTC_RemoveNotifyParticipantStatusChangedName);
 			EOS_RTC_RemoveNotifyParticipantStatusChanged = (EOS_RTC_RemoveNotifyParticipantStatusChangedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_RemoveNotifyParticipantStatusChangedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTC_RemoveNotifyRoomBeforeJoinName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_RTC_RemoveNotifyRoomBeforeJoinName);
+			EOS_RTC_RemoveNotifyRoomBeforeJoin = (EOS_RTC_RemoveNotifyRoomBeforeJoinDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_RemoveNotifyRoomBeforeJoinDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_RTC_RemoveNotifyRoomStatisticsUpdatedName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_RTC_RemoveNotifyRoomStatisticsUpdatedName);
@@ -4307,6 +4334,14 @@ namespace Epic.OnlineServices
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_UI_AddNotifyMemoryMonitorName);
 			EOS_UI_AddNotifyMemoryMonitor = (EOS_UI_AddNotifyMemoryMonitorDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_AddNotifyMemoryMonitorDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_AddNotifyOnScreenKeyboardRequestedName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_UI_AddNotifyOnScreenKeyboardRequestedName);
+			EOS_UI_AddNotifyOnScreenKeyboardRequested = (EOS_UI_AddNotifyOnScreenKeyboardRequestedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_AddNotifyOnScreenKeyboardRequestedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_ConfigureOnScreenKeyboardName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_UI_ConfigureOnScreenKeyboardName);
+			EOS_UI_ConfigureOnScreenKeyboard = (EOS_UI_ConfigureOnScreenKeyboardDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_ConfigureOnScreenKeyboardDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_GetFriendsExclusiveInputName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_UI_GetFriendsExclusiveInputName);
 			EOS_UI_GetFriendsExclusiveInput = (EOS_UI_GetFriendsExclusiveInputDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_GetFriendsExclusiveInputDelegate));
@@ -4358,6 +4393,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_RemoveNotifyMemoryMonitorName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_UI_RemoveNotifyMemoryMonitorName);
 			EOS_UI_RemoveNotifyMemoryMonitor = (EOS_UI_RemoveNotifyMemoryMonitorDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_RemoveNotifyMemoryMonitorDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_RemoveNotifyOnScreenKeyboardRequestedName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_UI_RemoveNotifyOnScreenKeyboardRequestedName);
+			EOS_UI_RemoveNotifyOnScreenKeyboardRequested = (EOS_UI_RemoveNotifyOnScreenKeyboardRequestedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_RemoveNotifyOnScreenKeyboardRequestedDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_ReportInputStateName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_UI_ReportInputStateName);
@@ -4499,6 +4538,7 @@ namespace Epic.OnlineServices
 			EOS_AntiCheatClient_RemoveNotifyPeerActionRequired = null;
 			EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged = null;
 			EOS_AntiCheatClient_Reserved01 = null;
+			EOS_AntiCheatClient_Reserved02 = null;
 			EOS_AntiCheatClient_UnprotectMessage = null;
 			EOS_AntiCheatClient_UnregisterPeer = null;
 			EOS_AntiCheatServer_AddNotifyClientActionRequired = null;
@@ -4947,6 +4987,7 @@ namespace Epic.OnlineServices
 			EOS_RTCData_UpdateSending = null;
 			EOS_RTC_AddNotifyDisconnected = null;
 			EOS_RTC_AddNotifyParticipantStatusChanged = null;
+			EOS_RTC_AddNotifyRoomBeforeJoin = null;
 			EOS_RTC_AddNotifyRoomStatisticsUpdated = null;
 			EOS_RTC_BlockParticipant = null;
 			EOS_RTC_GetAudioInterface = null;
@@ -4955,6 +4996,7 @@ namespace Epic.OnlineServices
 			EOS_RTC_LeaveRoom = null;
 			EOS_RTC_RemoveNotifyDisconnected = null;
 			EOS_RTC_RemoveNotifyParticipantStatusChanged = null;
+			EOS_RTC_RemoveNotifyRoomBeforeJoin = null;
 			EOS_RTC_RemoveNotifyRoomStatisticsUpdated = null;
 			EOS_RTC_SetRoomSetting = null;
 			EOS_RTC_SetSetting = null;
@@ -5045,6 +5087,8 @@ namespace Epic.OnlineServices
 			EOS_UI_AcknowledgeEventId = null;
 			EOS_UI_AddNotifyDisplaySettingsUpdated = null;
 			EOS_UI_AddNotifyMemoryMonitor = null;
+			EOS_UI_AddNotifyOnScreenKeyboardRequested = null;
+			EOS_UI_ConfigureOnScreenKeyboard = null;
 			EOS_UI_GetFriendsExclusiveInput = null;
 			EOS_UI_GetFriendsVisible = null;
 			EOS_UI_GetNotificationLocationPreference = null;
@@ -5058,6 +5102,7 @@ namespace Epic.OnlineServices
 			EOS_UI_PrePresent = null;
 			EOS_UI_RemoveNotifyDisplaySettingsUpdated = null;
 			EOS_UI_RemoveNotifyMemoryMonitor = null;
+			EOS_UI_RemoveNotifyOnScreenKeyboardRequested = null;
 			EOS_UI_ReportInputState = null;
 			EOS_UI_SetDisplayPreference = null;
 			EOS_UI_SetToggleFriendsButton = null;
@@ -5265,6 +5310,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_Reserved01Delegate(IntPtr handle, ref AntiCheatClient.Reserved01OptionsInternal options, out int outValue);
 		internal static EOS_AntiCheatClient_Reserved01Delegate EOS_AntiCheatClient_Reserved01;
+
+		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		internal delegate Result EOS_AntiCheatClient_Reserved02Delegate(IntPtr handle, ref AntiCheatClient.Reserved02OptionsInternal options);
+		internal static EOS_AntiCheatClient_Reserved02Delegate EOS_AntiCheatClient_Reserved02;
 
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_UnprotectMessageDelegate(IntPtr handle, ref AntiCheatClient.UnprotectMessageOptionsInternal options, IntPtr outBuffer, out uint outBytesWritten);
@@ -7059,7 +7108,11 @@ namespace Epic.OnlineServices
 		internal static EOS_RTC_AddNotifyParticipantStatusChangedDelegate EOS_RTC_AddNotifyParticipantStatusChanged;
 
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
-		internal delegate ulong EOS_RTC_AddNotifyRoomStatisticsUpdatedDelegate(IntPtr handle, ref RTC.AddNotifyRoomStatisticsUpdatedOptionsInternal options, IntPtr clientData, RTC.OnRoomStatisticsUpdatedCallbackInternal statisticsUpdateHandler);
+		internal delegate ulong EOS_RTC_AddNotifyRoomBeforeJoinDelegate(IntPtr handle, ref RTC.AddNotifyRoomBeforeJoinOptionsInternal options, IntPtr clientData, RTC.OnRoomBeforeJoinCallbackInternal completionDelegate);
+		internal static EOS_RTC_AddNotifyRoomBeforeJoinDelegate EOS_RTC_AddNotifyRoomBeforeJoin;
+
+		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		internal delegate ulong EOS_RTC_AddNotifyRoomStatisticsUpdatedDelegate(IntPtr handle, ref RTC.AddNotifyRoomStatisticsUpdatedOptionsInternal options, IntPtr clientData, RTC.OnRoomStatisticsUpdatedCallbackInternal completionDelegate);
 		internal static EOS_RTC_AddNotifyRoomStatisticsUpdatedDelegate EOS_RTC_AddNotifyRoomStatisticsUpdated;
 
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
@@ -7089,6 +7142,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate void EOS_RTC_RemoveNotifyParticipantStatusChangedDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_RTC_RemoveNotifyParticipantStatusChangedDelegate EOS_RTC_RemoveNotifyParticipantStatusChanged;
+
+		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		internal delegate void EOS_RTC_RemoveNotifyRoomBeforeJoinDelegate(IntPtr handle, ulong notificationId);
+		internal static EOS_RTC_RemoveNotifyRoomBeforeJoinDelegate EOS_RTC_RemoveNotifyRoomBeforeJoin;
 
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate void EOS_RTC_RemoveNotifyRoomStatisticsUpdatedDelegate(IntPtr handle, ulong notificationId);
@@ -7451,6 +7508,14 @@ namespace Epic.OnlineServices
 		internal static EOS_UI_AddNotifyMemoryMonitorDelegate EOS_UI_AddNotifyMemoryMonitor;
 
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		internal delegate ulong EOS_UI_AddNotifyOnScreenKeyboardRequestedDelegate(IntPtr handle, ref UI.AddNotifyOnScreenKeyboardRequestedOptionsInternal options, IntPtr clientData, UI.OnScreenKeyboardRequestedCallbackInternal notificationFn);
+		internal static EOS_UI_AddNotifyOnScreenKeyboardRequestedDelegate EOS_UI_AddNotifyOnScreenKeyboardRequested;
+
+		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		internal delegate Result EOS_UI_ConfigureOnScreenKeyboardDelegate(IntPtr handle, ref UI.ConfigureOnScreenKeyboardOptionsInternal options);
+		internal static EOS_UI_ConfigureOnScreenKeyboardDelegate EOS_UI_ConfigureOnScreenKeyboard;
+
+		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate int EOS_UI_GetFriendsExclusiveInputDelegate(IntPtr handle, ref UI.GetFriendsExclusiveInputOptionsInternal options);
 		internal static EOS_UI_GetFriendsExclusiveInputDelegate EOS_UI_GetFriendsExclusiveInput;
 
@@ -7501,6 +7566,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate void EOS_UI_RemoveNotifyMemoryMonitorDelegate(IntPtr handle, ulong id);
 		internal static EOS_UI_RemoveNotifyMemoryMonitorDelegate EOS_UI_RemoveNotifyMemoryMonitor;
+
+		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		internal delegate void EOS_UI_RemoveNotifyOnScreenKeyboardRequestedDelegate(IntPtr handle, ulong id);
+		internal static EOS_UI_RemoveNotifyOnScreenKeyboardRequestedDelegate EOS_UI_RemoveNotifyOnScreenKeyboardRequested;
 
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate Result EOS_UI_ReportInputStateDelegate(IntPtr handle, ref UI.ReportInputStateOptionsInternal options);
@@ -7727,6 +7796,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_Reserved01", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_Reserved01(IntPtr handle, ref AntiCheatClient.Reserved01OptionsInternal options, out int outValue);
+
+		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_Reserved02", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		internal static extern Result EOS_AntiCheatClient_Reserved02(IntPtr handle, ref AntiCheatClient.Reserved02OptionsInternal options);
 
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_UnprotectMessage", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_UnprotectMessage(IntPtr handle, ref AntiCheatClient.UnprotectMessageOptionsInternal options, IntPtr outBuffer, out uint outBytesWritten);
@@ -9072,8 +9144,11 @@ namespace Epic.OnlineServices
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_AddNotifyParticipantStatusChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern ulong EOS_RTC_AddNotifyParticipantStatusChanged(IntPtr handle, ref RTC.AddNotifyParticipantStatusChangedOptionsInternal options, IntPtr clientData, RTC.OnParticipantStatusChangedCallbackInternal completionDelegate);
 
+		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_AddNotifyRoomBeforeJoin", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		internal static extern ulong EOS_RTC_AddNotifyRoomBeforeJoin(IntPtr handle, ref RTC.AddNotifyRoomBeforeJoinOptionsInternal options, IntPtr clientData, RTC.OnRoomBeforeJoinCallbackInternal completionDelegate);
+
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_AddNotifyRoomStatisticsUpdated", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
-		internal static extern ulong EOS_RTC_AddNotifyRoomStatisticsUpdated(IntPtr handle, ref RTC.AddNotifyRoomStatisticsUpdatedOptionsInternal options, IntPtr clientData, RTC.OnRoomStatisticsUpdatedCallbackInternal statisticsUpdateHandler);
+		internal static extern ulong EOS_RTC_AddNotifyRoomStatisticsUpdated(IntPtr handle, ref RTC.AddNotifyRoomStatisticsUpdatedOptionsInternal options, IntPtr clientData, RTC.OnRoomStatisticsUpdatedCallbackInternal completionDelegate);
 
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_BlockParticipant", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern void EOS_RTC_BlockParticipant(IntPtr handle, ref RTC.BlockParticipantOptionsInternal options, IntPtr clientData, RTC.OnBlockParticipantCallbackInternal completionDelegate);
@@ -9095,6 +9170,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_RemoveNotifyParticipantStatusChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern void EOS_RTC_RemoveNotifyParticipantStatusChanged(IntPtr handle, ulong notificationId);
+
+		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_RemoveNotifyRoomBeforeJoin", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		internal static extern void EOS_RTC_RemoveNotifyRoomBeforeJoin(IntPtr handle, ulong notificationId);
 
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_RemoveNotifyRoomStatisticsUpdated", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern void EOS_RTC_RemoveNotifyRoomStatisticsUpdated(IntPtr handle, ulong notificationId);
@@ -9366,6 +9444,12 @@ namespace Epic.OnlineServices
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_AddNotifyMemoryMonitor", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern ulong EOS_UI_AddNotifyMemoryMonitor(IntPtr handle, ref UI.AddNotifyMemoryMonitorOptionsInternal options, IntPtr clientData, UI.OnMemoryMonitorCallbackInternal notificationFn);
 
+		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_AddNotifyOnScreenKeyboardRequested", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		internal static extern ulong EOS_UI_AddNotifyOnScreenKeyboardRequested(IntPtr handle, ref UI.AddNotifyOnScreenKeyboardRequestedOptionsInternal options, IntPtr clientData, UI.OnScreenKeyboardRequestedCallbackInternal notificationFn);
+
+		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_ConfigureOnScreenKeyboard", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		internal static extern Result EOS_UI_ConfigureOnScreenKeyboard(IntPtr handle, ref UI.ConfigureOnScreenKeyboardOptionsInternal options);
+
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_GetFriendsExclusiveInput", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern int EOS_UI_GetFriendsExclusiveInput(IntPtr handle, ref UI.GetFriendsExclusiveInputOptionsInternal options);
 
@@ -9404,6 +9488,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_RemoveNotifyMemoryMonitor", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern void EOS_UI_RemoveNotifyMemoryMonitor(IntPtr handle, ulong id);
+
+		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_RemoveNotifyOnScreenKeyboardRequested", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		internal static extern void EOS_UI_RemoveNotifyOnScreenKeyboardRequested(IntPtr handle, ulong id);
 
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_ReportInputState", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern Result EOS_UI_ReportInputState(IntPtr handle, ref UI.ReportInputStateOptionsInternal options);
