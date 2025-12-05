@@ -90,9 +90,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSEACLobbyManager AntiCheatLobbyManager;
 
 #if UNITY_ANDROID && !UNITY_EDITOR //TODO: this should be in a centralized class to reduce clutter, and like an enum if other platforms are to be included
-    const bool ONANDROIDPLATFORM = true;
+        const bool ONANDROIDPLATFORM = true;
 #else
-    const bool ONANDROIDPLATFORM = false;
+        const bool ONANDROIDPLATFORM = false;
 #endif
 
         protected override void OnEnable()
