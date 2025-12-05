@@ -43,23 +43,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject SanctionsListContentParent;
         public GameObject UISanctionsEntryPrefab;
 
-        private ProductUserId currentProdcutUserId;
+        private ProductUserId currentProductUserId;
 
         private EOSReportsManager ReportsManager;
         private EOSFriendsManager FriendsManager;
         
 
-        new private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             ReportsManager = EOSManager.Instance.GetOrCreateManager<EOSReportsManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
         }
 
         protected override void OnDestroy()
         {
-            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSReportsManager>();
             EOSManager.Instance.RemoveManager<EOSFriendsManager>();
+            base.OnDestroy();
         }
 
         public void ReportButtonOnClick(ProductUserId userId, string playerName)
@@ -71,7 +72,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }    
 
             PlayerName.text = playerName;
-            currentProdcutUserId = userId;
+            currentProductUserId = userId;
             UIParent.SetActive(true);
 
             if (UIFirstSelected.activeInHierarchy)
@@ -89,19 +90,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void PlayerSanctionsRefreshOnClick()
         {
             // Start Search for Sanctions
-            var targetUserId = currentProdcutUserId;
+            var targetUserId = currentProductUserId;
             ReportsManager.QueryActivePlayerSanctions(targetUserId, (result) =>
             {
                 QueryActivePlayerSanctionsCompleted(result, targetUserId);
             });
 
         }
-
+        //Display only sanctions, reports are not visible
         private void QueryActivePlayerSanctionsCompleted(Result result, ProductUserId userId)
         {
             if(result != Result.Success)
             {
-                Debug.LogErrorFormat("UIPlayerReportMenu (QueryActivePlayerSanctionsCompleted): result == {0}", result);
+                Debug.LogError($"{nameof(UIPlayerReportMenu)} {nameof(QueryActivePlayerSanctionsCompleted)}: Query failed with result: {result}");
                 return;
             }
 
@@ -110,34 +111,39 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 GameObject.Destroy(child.gameObject);
             }
 
-            if (ReportsManager.GetCachedPlayerSanctions(out Dictionary<ProductUserId, List<Sanction>> sanctionLookup))
+            if (!ReportsManager.GetCachedPlayerSanctions(out Dictionary<ProductUserId, List<Sanction>> sanctionLookup))
             {
-                if (!sanctionLookup.ContainsKey(userId))
-                {
-                    GameObject sanctionUIObj = Instantiate(UISanctionsEntryPrefab, SanctionsListContentParent.transform);
-                    UISanctionEntry uiEntry = sanctionUIObj.GetComponent<UISanctionEntry>();
-
-                    uiEntry.TimePlaced.text = string.Empty;
-                    uiEntry.Action.text = "No Sanctions Found.";
-
-                    return;
-                }
-
-                List<Sanction> sanctionList = sanctionLookup[userId];
-                foreach (Sanction s in sanctionList)
-                {
-                    GameObject sanctionUIObj = Instantiate(UISanctionsEntryPrefab, SanctionsListContentParent.transform);
-                    UISanctionEntry uiEntry = sanctionUIObj.GetComponent<UISanctionEntry>();
-
-                    uiEntry.TimePlaced.text = string.Format("Added on {0: M/d/yyyy HH:mm}", s.TimePlaced);
-                    uiEntry.Action.text = s.Action;
-                }
+                CreateSanctionEntry(string.Empty, "No Sanctions Found.");
+                return;
             }
+
+            if (!sanctionLookup.TryGetValue(userId, out var sanctions) || sanctions == null || sanctions.Count == 0)
+            {
+                CreateSanctionEntry(string.Empty, "No Sanctions Found.");
+                return;
+            }
+
+            foreach (var s in sanctions)
+            {
+                var timeText = s.TimePlaced.ToString("dd/MM/yyyy HH:mm"); 
+                CreateSanctionEntry(timeText, s.Action);
+            }
+
+        }
+
+        // Helper method to create an entry in the sanctions list
+        private void CreateSanctionEntry(string timeText, string actionText)
+        {
+            var sanctionUIObj = Instantiate(UISanctionsEntryPrefab, SanctionsListContentParent.transform);
+            var uiEntry = sanctionUIObj.GetComponent<UISanctionEntry>();
+
+            uiEntry.TimePlaced.text = timeText ?? string.Empty;
+            uiEntry.Action.text = actionText ?? string.Empty;
         }
 
         public void SubmitReportButtonOnClick()
         {
-            if(currentProdcutUserId == null || !currentProdcutUserId.IsValid())
+            if(currentProductUserId == null || !currentProductUserId.IsValid())
             {
                 Debug.LogError("UIPlayerReportMenu (ReportButtonOnClick): ProductUserId is not valid!");
                 return;
@@ -153,7 +159,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (ReportsManager != null)
             {
-                ReportsManager.SendPlayerBehaviorReport(currentProdcutUserId, category, Message.text);
+                ReportsManager.SendPlayerBehaviorReport(currentProductUserId, category, Message.text);
                 ResetPopUp();
             }
         }
@@ -168,7 +174,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             PlayerName.text = string.Empty;
             CategoryList.value = 0;
             Message.text = string.Empty;
-            currentProdcutUserId = null;
+            currentProductUserId = null;
             UIParent.SetActive(false);
         }
 
