@@ -264,6 +264,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
             s_platformConfig = platformInfo.GetConfigFunction();
 
+            EOSCommandLineOverrides.ApplyOverrides(s_platformConfig);
+
             return s_platformConfig;
         }
 

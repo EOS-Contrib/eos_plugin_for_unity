@@ -288,10 +288,6 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public string GetSandboxId()
             {
-                if (!string.IsNullOrEmpty(EOSOverrideState.SandboxIdOverride))
-                {
-                    return EOSOverrideState.SandboxIdOverride;
-                }
                 return PlatformManager.GetPlatformConfig().deployment.SandboxId.ToString();
             }
 
@@ -302,10 +298,6 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public string GetDeploymentID()
             {
-                if (!string.IsNullOrEmpty(EOSOverrideState.DeploymentIdOverride))
-                {
-                    return EOSOverrideState.DeploymentIdOverride;
-                }
                 return PlatformManager.GetPlatformConfig().deployment.DeploymentId.ToString("N").ToLowerInvariant();
             }
 
