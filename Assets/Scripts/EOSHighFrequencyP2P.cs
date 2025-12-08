@@ -47,7 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public bool sendActive = false;
         private List<float> dataDump;
-
+        private const string CoordinateMessagePrefix = "m";
 #if UNITY_EDITOR
         void OnPlayModeChanged(UnityEditor.PlayModeStateChange modeChange)
         {
@@ -299,10 +299,40 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (!peerId.IsValid())
                 {
-                    Debug.LogErrorFormat("EOS P2PNAT HandleReceivedMessages: ProductUserId peerId is not valid!");
+                    Debug.LogError($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: ProductUserId for '{0}' is not valid!");
                     return null;
                 }
+                string message = System.Text.Encoding.UTF8.GetString(data);
+                if (string.IsNullOrEmpty(message))
+                {
+                    Debug.LogWarning($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: Received an empty message.");
+                    return null;
+                }
+                else if (message.StartsWith(CoordinateMessagePrefix))
+                {
+                    string[] parts = message.Substring(1).Split(',');
+                    if (parts.Length == 2 &&
+                        int.TryParse(parts[0], out int xPos) &&
+                        int.TryParse(parts[1], out int yPos))
+                    {
+                        Debug.Log($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: Particle coordinates received: x={xPos}, y={yPos}");
 
+                        if (owner != null && owner.ParticleManager != null)
+                        {
+                            owner.ParticleManager.SpawnParticles(xPos, yPos);
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: ParticleManager or owner reference is missing.");
+                        }
+
+                        return peerId;
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: Malformed coordinate message received.");
+                    }
+                }
                 /*string message = System.Text.Encoding.UTF8.GetString(data);
 
                     ChatEntry newMessage = new ChatEntry()
