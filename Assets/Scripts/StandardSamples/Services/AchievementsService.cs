@@ -493,12 +493,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return achievementDefinitionCount;
         }
 
-        public struct AchievementUnlockInfo
-        {
-            public Utf8String AchievementId;
-            public string DisplayName;
-            public string Description;
-        }
         /// <summary>
         /// Unlocks the achievement for the current player.
         /// TODO: Create a callback version of this method
@@ -506,7 +500,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="achievementId">
         /// The id of the achievement to unlock for the current player.
         /// </param>
-        public Task<PlayerAchievement> UnlockAchievementAsync(string achivementId)
+        public Task<PlayerAchievement> UnlockAchievementAsync(string achievementId)
         {
             DefinitionV2 definition = default;
             bool found = false;
