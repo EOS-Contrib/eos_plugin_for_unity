@@ -47,7 +47,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public bool sendActive = false;
         private List<float> dataDump;
-        private const string CoordinateMessagePrefix = "m";
+        public const string CoordinateMessagePrefix = "m";
+        
 #if UNITY_EDITOR
         void OnPlayModeChanged(UnityEditor.PlayModeStateChange modeChange)
         {
@@ -299,7 +300,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (!peerId.IsValid())
                 {
-                    Debug.LogError($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: ProductUserId for '{0}' is not valid!");
+                    Debug.LogError($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: ProductUserId for '{peerId}' is not valid!");
                     return null;
                 }
                 string message = System.Text.Encoding.UTF8.GetString(data);
@@ -333,55 +334,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         Debug.LogWarning($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: Malformed coordinate message received.");
                     }
                 }
-                /*string message = System.Text.Encoding.UTF8.GetString(data);
-
-                    ChatEntry newMessage = new ChatEntry()
-                    {
-                        isOwnEntry = false,
-                        Message = message.Substring(1)
-                    };
-
-                    if (ChatDataCache.TryGetValue(peerId, out ChatWithFriendData chatData))
-                    {
-                        // Update existing chat
-                        chatData.ChatLines.Enqueue(newMessage);
-
-                        ChatDataCacheDirty = true;
-                        return peerId;
-                    }
-                    else
-                    {
-                        ChatWithFriendData newChat = new ChatWithFriendData(peerId);
-                        newChat.ChatLines.Enqueue(newMessage);
-
-                        // New Chat Request
-                        ChatDataCache.Add(peerId, newChat);
-
-                        return peerId;
-                    }
-                }
-            
-                else if (message.StartsWith("m"))
-                {
-                    message = message.Substring(1);
-
-                    string[] coords = message.Split(',');
-                    int xPos = Int32.Parse(coords[0]);
-                    int yPos = Int32.Parse(coords[1]);
-                    Debug.Log("EOS P2PNAT HandleReceivedMessages:  Mouse position Recieved at " + xPos + ", " + yPos);
-
-                    ParticleController.SpawnParticles(xPos, yPos, parent);
-
-                    return peerId;
-                }
-
-
-
-                else
-                {
-                    Debug.LogErrorFormat("EOS P2PNAT HandleReceivedMessages: error while reading data, code: {0}", result);
-                    return null;
-                }*/
             }
             return null;
         }

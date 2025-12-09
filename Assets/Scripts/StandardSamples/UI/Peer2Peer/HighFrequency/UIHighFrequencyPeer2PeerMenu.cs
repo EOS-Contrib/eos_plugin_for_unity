@@ -52,7 +52,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private ProductUserId currentChatProductUserId;
 
         private Camera uiCamera;
-        private const string CoordinateMessagePrefix = "m";
+
         void Start()
         {
             Peer2PeerManager = EOSManager.Instance.GetOrCreateManager<EOSHighFrequencyPeer2PeerManager>();
@@ -101,7 +101,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 ParticlesOnClick();
             }
 
-            if (Peer2PeerManager.sendActive && currentChatProductUserId != null)
+            if (Peer2PeerManager.sendActive)
             {
                 Peer2PeerManager.P2PUpdate();
             }
@@ -322,6 +322,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void ParticlesOnClick()
         {
+            if (!HasValidCurrentProductId())
+            {
+                return;
+            }
             Debug.Log($"{nameof(UIHighFrequencyPeer2PeerMenu)} {nameof(ParticlesOnClick)} Mouse click received");
             Vector3 mousePos = Input.mousePosition;
             Vector3 viewportPos = uiCamera.ScreenToViewportPoint(mousePos);
@@ -330,30 +334,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             message.xPos = viewportPos.x;
             message.yPos = viewportPos.y;
             message.textData = null;
-            string coordinatePayload = CoordinateMessagePrefix + message.xPos + "," + message.yPos;
-
-            if (!HasValidCurrentProductId())
-            {
-                return;
-            }
-
+            string coordinatePayload = EOSHighFrequencyPeer2PeerManager.CoordinateMessagePrefix + message.xPos + "," + message.yPos;
             Peer2PeerManager.SendMessage(currentChatProductUserId, coordinatePayload);
         }
         private bool HasValidCurrentProductId()
         {
             if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
             {
-                Debug.LogError($"{nameof(UIHighFrequencyPeer2PeerMenu)} {nameof(HasValidCurrentProductId)}: ProductUserId for '{0}' is not valid!");
+                Debug.LogError($"{nameof(UIHighFrequencyPeer2PeerMenu)} {nameof(HasValidCurrentProductId)}: ProductUserId for '{currentChatDisplayName}' is not valid!");
                 return false;
             }
-            else
-            {
-                return true;
-            }
+            
+            return true;
         }
         private void ForceInitialHFPacket()
         {
-            if (HasValidCurrentProductId())
+            if (!HasValidCurrentProductId())
             {
                 Debug.LogWarning($"{nameof(UIHighFrequencyPeer2PeerMenu)} {nameof(ForceInitialHFPacket)}: Cannot send initial HF packet. Invalid ProductUserId.");
                 return;
