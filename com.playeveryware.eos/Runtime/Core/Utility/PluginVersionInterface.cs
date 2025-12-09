@@ -1,3 +1,4 @@
+#if !EOS_DISABLE
 using Epic.OnlineServices;
 using System;
 
@@ -40,3 +41,4 @@ namespace ApexSystems.Utility
         }
     }
 }
+#endif

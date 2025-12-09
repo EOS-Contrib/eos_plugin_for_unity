@@ -32,6 +32,7 @@
 #define DYNAMIC_MEMORY_ALLOCATION_AVAILABLE
 #endif
 
+#if !EOS_DISABLE
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System.Runtime.InteropServices;
@@ -132,3 +133,4 @@ namespace PlayEveryWare.EpicOnlineServices
 
     }
 }
+#endif
