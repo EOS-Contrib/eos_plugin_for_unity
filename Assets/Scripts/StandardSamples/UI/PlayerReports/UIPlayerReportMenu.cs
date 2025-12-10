@@ -111,13 +111,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 GameObject.Destroy(child.gameObject);
             }
 
-            if (!ReportsManager.GetCachedPlayerSanctions(out Dictionary<ProductUserId, List<Sanction>> sanctionLookup))
-            {
-                CreateSanctionEntry(string.Empty, "No Sanctions Found.");
-                return;
-            }
-
-            if (!sanctionLookup.TryGetValue(userId, out var sanctions) || sanctions == null || sanctions.Count == 0)
+            if (!ReportsManager.GetCachedPlayerSanctions(out Dictionary<ProductUserId, List<Sanction>> sanctionLookup)
+                || !sanctionLookup.TryGetValue(userId, out var sanctions) || sanctions == null || sanctions.Count == 0)
             {
                 CreateSanctionEntry(string.Empty, "No Sanctions Found.");
                 return;
