@@ -30,6 +30,8 @@ namespace Epic.OnlineServices.Reports
 
 		/// <summary>
 		/// Sends the provided report directly to the Epic Online Services back-end.
+		/// <see cref="SendPlayerBehaviorReportOptions" />
+		/// <see cref="OnSendPlayerBehaviorReportCompleteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the player report information.

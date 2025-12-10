@@ -343,6 +343,8 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Register to receive notifications about lobby "JOIN" performed by local user (when no invite) via the overlay.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyJoinLobbyAccepted" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyJoinLobbyAcceptedOptions" />
+		/// <see cref="OnJoinLobbyAcceptedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -383,6 +385,8 @@ namespace Epic.OnlineServices.Lobby
 		/// Register to receive notifications about leave lobby requests performed by the local user via the overlay.
 		/// When user requests to leave the lobby in the social overlay, the SDK does not automatically leave the lobby, it is up to the game to perform any necessary cleanup and call the <see cref="LeaveLobby" /> method using the lobbyId sent in the notification function.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyLeaveLobbyRequested" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyLeaveLobbyRequestedOptions" />
+		/// <see cref="OnLeaveLobbyRequestedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -422,6 +426,8 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Register to receive notifications about lobby invites accepted by local user via the overlay.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyLobbyInviteAccepted" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyLobbyInviteAcceptedOptions" />
+		/// <see cref="OnLobbyInviteAcceptedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -461,6 +467,8 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Register to receive notifications about lobby invites sent to local users.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyLobbyInviteReceived" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyLobbyInviteReceivedOptions" />
+		/// <see cref="OnLobbyInviteReceivedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -500,6 +508,8 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Register to receive notifications about lobby invites rejected by local user.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyLobbyInviteRejected" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyLobbyInviteRejectedOptions" />
+		/// <see cref="OnLobbyInviteRejectedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -539,6 +549,8 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Register to receive notifications about the changing status of lobby members.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyLobbyMemberStatusReceived" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyLobbyMemberStatusReceivedOptions" />
+		/// <see cref="OnLobbyMemberStatusReceivedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -578,6 +590,8 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Register to receive notifications when a lobby member updates the attributes associated with themselves inside the lobby.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyLobbyMemberUpdateReceived" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyLobbyMemberUpdateReceivedOptions" />
+		/// <see cref="OnLobbyMemberUpdateReceivedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -617,6 +631,8 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Register to receive notifications when a lobby owner updates the attributes associated with the lobby.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyLobbyUpdateReceived" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyLobbyUpdateReceivedOptions" />
+		/// <see cref="OnLobbyUpdateReceivedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -668,6 +684,8 @@ namespace Epic.OnlineServices.Lobby
 		/// 
 		/// This function will only succeed when called on a lobby the local user is currently a member of.
 		/// <see cref="RemoveNotifyRTCRoomConnectionChanged" />
+		/// <see cref="AddNotifyRTCRoomConnectionChangedOptions" />
+		/// <see cref="OnRTCRoomConnectionChangedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the lobby to receive updates about
@@ -713,6 +731,8 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions" />
 		/// <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity" />
 		/// <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity" />
+		/// <see cref="AddNotifySendLobbyNativeInviteRequestedOptions" />
+		/// <see cref="OnSendLobbyNativeInviteRequestedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -752,6 +772,8 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Create a handle to an existing lobby.
 		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutLobbyDetailsHandle, must be passed to <see cref="LobbyDetails.Release" /> to release the memory associated with it.
+		/// <see cref="CopyLobbyDetailsHandleOptions" />
+		/// <see cref="LobbyDetails" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the lobby to retrieve
@@ -760,10 +782,12 @@ namespace Epic.OnlineServices.Lobby
 		/// The new active lobby handle or <see langword="null" /> if there was an error
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the lobby handle was created successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
-		/// <see cref="Result.NotFound" /> if the lobby doesn't exist
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the lobby handle was created successfully
+		/// - <see cref="Result.InvalidParameters" /> if any of the options are incorrect
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// - <see cref="Result.NotFound" /> if the lobby doesn't exist
 		/// </returns>
 		public Result CopyLobbyDetailsHandle(ref CopyLobbyDetailsHandleOptions options, out LobbyDetails outLobbyDetailsHandle)
 		{
@@ -785,6 +809,7 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="CopyLobbyDetailsHandleByInviteId" /> is used to immediately retrieve a handle to the lobby information from after notification of an invite
 		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutLobbyDetailsHandle, must be passed to <see cref="LobbyDetails.Release" /> to release the memory associated with it.
 		/// <see cref="CopyLobbyDetailsHandleByInviteIdOptions" />
+		/// <see cref="LobbyDetails" />
 		/// <see cref="LobbyDetails.Release" />
 		/// </summary>
 		/// <param name="options">
@@ -794,10 +819,12 @@ namespace Epic.OnlineServices.Lobby
 		/// out parameter used to receive the lobby handle
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutLobbyDetailsHandle
-		/// <see cref="Result.InvalidParameters" /> if you pass an invalid invite ID or a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
-		/// <see cref="Result.NotFound" /> If the invite ID cannot be found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutLobbyDetailsHandle
+		/// - <see cref="Result.InvalidParameters" /> if you pass an invalid invite ID or a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// - <see cref="Result.NotFound" /> If the invite ID cannot be found
 		/// </returns>
 		public Result CopyLobbyDetailsHandleByInviteId(ref CopyLobbyDetailsHandleByInviteIdOptions options, out LobbyDetails outLobbyDetailsHandle)
 		{
@@ -816,9 +843,10 @@ namespace Epic.OnlineServices.Lobby
 		}
 
 		/// <summary>
-		/// <see cref="CopyLobbyDetailsHandleByUiEventId" /> is used to immediately retrieve a handle to the lobby information from after notification of an join game
+		/// <see cref="CopyLobbyDetailsHandleByUiEventId" /> is used to immediately retrieve a handle to the lobby information from after notification of a join game
 		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutLobbyDetailsHandle, must be passed to <see cref="LobbyDetails.Release" /> to release the memory associated with it.
 		/// <see cref="CopyLobbyDetailsHandleByUiEventIdOptions" />
+		/// <see cref="LobbyDetails" />
 		/// <see cref="LobbyDetails.Release" />
 		/// </summary>
 		/// <param name="options">
@@ -828,10 +856,12 @@ namespace Epic.OnlineServices.Lobby
 		/// out parameter used to receive the lobby handle
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutLobbyDetailsHandle
-		/// <see cref="Result.InvalidParameters" /> if you pass an invalid ui event ID
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
-		/// <see cref="Result.NotFound" /> If the invite ID cannot be found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutLobbyDetailsHandle
+		/// - <see cref="Result.InvalidParameters" /> if you pass an invalid ui event ID
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// - <see cref="Result.NotFound" /> If the invite ID cannot be found
 		/// </returns>
 		public Result CopyLobbyDetailsHandleByUiEventId(ref CopyLobbyDetailsHandleByUiEventIdOptions options, out LobbyDetails outLobbyDetailsHandle)
 		{
@@ -856,6 +886,8 @@ namespace Epic.OnlineServices.Lobby
 		/// local user remains in the lobby. Applications can use the <see cref="GetRTCRoomName" /> to get the name of the RTC Room associated with a lobby, which may be used with
 		/// many of the functions in the RTC interface. This can be useful to: register for notifications for talking status; to mute or unmute the local user's audio output;
 		/// to block or unblock room participants; to set local audio device settings; and more.
+		/// <see cref="CreateLobbyOptions" />
+		/// <see cref="OnCreateLobbyCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Required fields for the creation of a lobby such as a user count and its starting advertised state
@@ -866,11 +898,6 @@ namespace Epic.OnlineServices.Lobby
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the create operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the creation completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.LimitExceeded" /> if the number of allowed lobbies is exceeded
-		/// </returns>
 		public void CreateLobby(ref CreateLobbyOptions options, object clientData, OnCreateLobbyCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -896,6 +923,8 @@ namespace Epic.OnlineServices.Lobby
 		/// - set the lobby ID to find a specific lobby
 		/// - set the target user ID to find a specific user
 		/// - set lobby parameters to find an array of lobbies that match the search criteria
+		/// <see cref="CreateLobbySearchOptions" />
+		/// <see cref="LobbySearch" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing required parameters such as the maximum number of search results
@@ -904,8 +933,10 @@ namespace Epic.OnlineServices.Lobby
 		/// The new search handle or <see langword="null" /> if there was an error creating the search handle
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the search creation completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the search creation completes successfully
+		/// - <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// </returns>
 		public Result CreateLobbySearch(ref CreateLobbySearchOptions options, out LobbySearch outLobbySearchHandle)
 		{
@@ -925,6 +956,8 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Destroy a lobby given a lobby ID
+		/// <see cref="DestroyLobbyOptions" />
+		/// <see cref="OnDestroyLobbyCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the lobby to be destroyed
@@ -935,12 +968,6 @@ namespace Epic.OnlineServices.Lobby
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the destroy operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the destroy completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.AlreadyPending" /> if the lobby is already marked for destroy
-		/// <see cref="Result.NotFound" /> if the lobby to be destroyed does not exist
-		/// </returns>
 		public void DestroyLobby(ref DestroyLobbyOptions options, object clientData, OnDestroyLobbyCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -964,6 +991,7 @@ namespace Epic.OnlineServices.Lobby
 		/// Get the Connection <see cref="Utf8String" /> for an EOS lobby. The connection <see cref="Utf8String" /> describes the presence of a player in terms of game state.
 		/// Xbox platforms expect titles to embed this into their MultiplayerActivity at creation.
 		/// When present, the SDK will use this value to populate session presence in the social overlay and facilitate platform invitations.
+		/// <see cref="GetConnectStringOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the input parameters. API version, the LobbyID of the lobby to generate the <see cref="Utf8String" /> from and the PUID of the requesting user.
@@ -975,11 +1003,13 @@ namespace Epic.OnlineServices.Lobby
 		/// In: The maximum amount of writable chars in OutBuffer see <see cref="GETCONNECTSTRING_BUFFER_SIZE" />, Out: The minimum amount of chars needed in OutBuffer to store the ConnectString (including the <see langword="null" />-terminator). May be set to zero depending on the error result.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if retrieving the <see cref="Utf8String" /> was successful.
-		/// <see cref="Result.InvalidParameters" /> if the OutBuffer or InOutBufferLength are <see langword="null" />.
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
-		/// <see cref="Result.NotFound" /> if no lobby is found matching the LobbyID and PUID provided.
-		/// <see cref="Result.LimitExceeded" /> if the provided InOutBufferLength is too small to contain the resulting <see cref="Utf8String" />.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if retrieving the <see cref="Utf8String" /> was successful.
+		/// - <see cref="Result.InvalidParameters" /> if the OutBuffer or InOutBufferLength are <see langword="null" />.
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
+		/// - <see cref="Result.NotFound" /> if no lobby is found matching the LobbyID and PUID provided.
+		/// - <see cref="Result.LimitExceeded" /> if the provided InOutBufferLength is too small to contain the resulting <see cref="Utf8String" />.
 		/// </returns>
 		public Result GetConnectString(ref GetConnectStringOptions options, out Utf8String outBuffer)
 		{
@@ -1001,6 +1031,7 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Get the number of known invites for a given user
+		/// <see cref="GetInviteCountOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// the Options associated with retrieving the current invite count
@@ -1024,14 +1055,17 @@ namespace Epic.OnlineServices.Lobby
 		/// Retrieve an invite ID from a list of active invites for a given user
 		/// <see cref="GetInviteCount" />
 		/// <see cref="CopyLobbyDetailsHandleByInviteId" />
+		/// <see cref="GetInviteIdByIndexOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the input parameters
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the input is valid and an invite ID was returned
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.NotFound" /> if the invite doesn't exist
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the input is valid and an invite ID was returned
+		/// - <see cref="Result.InvalidParameters" /> if any of the options are incorrect
+		/// - <see cref="Result.NotFound" /> if the invite doesn't exist
 		/// </returns>
 		public Result GetInviteIdByIndex(ref GetInviteIdByIndexOptions options, out Utf8String outBuffer)
 		{
@@ -1059,6 +1093,7 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="Common.INVALID_NOTIFICATIONID" /> if used with those functions.
 		/// 
 		/// This function will only succeed when called on a lobby the local user is currently a member of.
+		/// <see cref="GetRTCRoomNameOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the RTC room name to retrieve
@@ -1070,11 +1105,13 @@ namespace Epic.OnlineServices.Lobby
 		/// In: The maximum amount of writable chars in OutBuffer, Out: The minimum amount of chars needed in OutBuffer to store the RTC room name (including the <see langword="null" />-terminator)
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if a room exists for the specified lobby, there was enough space in OutBuffer, and the name was written successfully
-		/// <see cref="Result.NotFound" /> if the lobby does not exist
-		/// <see cref="Result.Disabled" /> if the lobby exists, but did not have the RTC Room feature enabled when created
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> on invalid length for any of the parameters
-		/// <see cref="Result.LimitExceeded" /> The OutBuffer is not large enough to receive the room name. InOutBufferLength contains the required minimum length to perform the operation successfully.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if a room exists for the specified lobby, there was enough space in OutBuffer, and the name was written successfully
+		/// - <see cref="Result.NotFound" /> if the lobby does not exist
+		/// - <see cref="Result.Disabled" /> if the lobby exists, but did not have the RTC Room feature enabled when created
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> on invalid length for any of the parameters
+		/// - <see cref="Result.LimitExceeded" /> The OutBuffer is not large enough to receive the room name. InOutBufferLength contains the required minimum length to perform the operation successfully.
 		/// </returns>
 		public Result GetRTCRoomName(ref GetRTCRoomNameOptions options, out Utf8String outBuffer)
 		{
@@ -1096,6 +1133,8 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Hard mute an existing member in the lobby, can't speak but can hear other members of the lobby
+		/// <see cref="HardMuteMemberOptions" />
+		/// <see cref="OnHardMuteMemberCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the lobby and member to be hard muted
@@ -1106,18 +1145,6 @@ namespace Epic.OnlineServices.Lobby
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the hard mute operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the hard mute completes successfully
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.InvalidProductUserID" /> if a target user is incorrect
-		/// <see cref="Result.NotFound" /> if lobby or target user cannot be found
-		/// <see cref="Result.LobbyVoiceNotEnabled" /> if lobby has no voice enabled
-		/// <see cref="Result.LobbyNotOwner" /> if the calling user is not the owner of the lobby
-		/// <see cref="Result.NotFound" /> if a lobby of interest does not exist
-		/// <see cref="Result.AlreadyPending" /> if the user is already marked for hard mute
-		/// <see cref="Result.TooManyRequests" /> if there are too many requests
-		/// </returns>
 		public void HardMuteMember(ref HardMuteMemberOptions options, object clientData, OnHardMuteMemberCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1146,6 +1173,7 @@ namespace Epic.OnlineServices.Lobby
 		/// 
 		/// This function will only succeed when called on a lobby the local user is currently a member of.
 		/// <see cref="AddNotifyRTCRoomConnectionChanged" />
+		/// <see cref="IsRTCRoomConnectedOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the lobby to query the RTC Room connection status for
@@ -1154,10 +1182,12 @@ namespace Epic.OnlineServices.Lobby
 		/// If the result is <see cref="Result.Success" />, this will be set to <see langword="true" /> if we are connected, or <see langword="false" /> if we are not yet connected.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if we are connected to the specified lobby, the input options and parameters were valid and we were able to write to bOutIsConnected successfully.
-		/// <see cref="Result.NotFound" /> if the lobby doesn't exist
-		/// <see cref="Result.Disabled" /> if the lobby exists, but did not have the RTC Room feature enabled when created
-		/// <see cref="Result.InvalidParameters" /> if bOutIsConnected is <see langword="null" />, or any other parameters are <see langword="null" /> or invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if we are connected to the specified lobby, the input options and parameters were valid and we were able to write to bOutIsConnected successfully.
+		/// - <see cref="Result.NotFound" /> if the lobby doesn't exist
+		/// - <see cref="Result.Disabled" /> if the lobby exists, but did not have the RTC Room feature enabled when created
+		/// - <see cref="Result.InvalidParameters" /> if bOutIsConnected is <see langword="null" />, or any other parameters are <see langword="null" /> or invalid
 		/// </returns>
 		public Result IsRTCRoomConnected(ref IsRTCRoomConnectedOptions options, out bool outIsConnected)
 		{
@@ -1182,6 +1212,8 @@ namespace Epic.OnlineServices.Lobby
 		/// local user remains in the lobby. Applications can use the <see cref="GetRTCRoomName" /> to get the name of the RTC Room associated with a lobby, which may be used with
 		/// many of the functions in the RTC interface. This can be useful to: register for notifications for talking status; to mute or unmute the local user's audio output;
 		/// to block or unblock room participants; to set local audio device settings; and more.
+		/// <see cref="JoinLobbyOptions" />
+		/// <see cref="OnJoinLobbyCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the lobby to be joined
@@ -1192,10 +1224,6 @@ namespace Epic.OnlineServices.Lobby
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the join operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the destroy completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// </returns>
 		public void JoinLobby(ref JoinLobbyOptions options, object clientData, OnJoinLobbyCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1218,6 +1246,8 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// This is a special case of <see cref="JoinLobby" />. It should only be used if the lobby has had Join-by-ID enabled.
 		/// Additionally, Join-by-ID should only be enabled to support native invites on an integrated platform.
+		/// <see cref="JoinLobbyByIdOptions" />
+		/// <see cref="OnJoinLobbyByIdCallback" />
 		/// <see cref="JoinLobby" />
 		/// </summary>
 		/// <param name="options">
@@ -1229,10 +1259,6 @@ namespace Epic.OnlineServices.Lobby
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the join operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the destroy completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// </returns>
 		public void JoinLobbyById(ref JoinLobbyByIdOptions options, object clientData, OnJoinLobbyByIdCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1257,6 +1283,8 @@ namespace Epic.OnlineServices.Lobby
 		/// 
 		/// This function will only succeed when called on a lobby that has the RTC Room feature enabled.
 		/// Clients may check if the RTC Room feature is enabled by inspecting the value of <see cref="LobbyDetailsInfo.RTCRoomEnabled" />.
+		/// <see cref="JoinRTCRoomOptions" />
+		/// <see cref="OnJoinRTCRoomCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about which lobby a local user should join the RTC Room for
@@ -1267,14 +1295,6 @@ namespace Epic.OnlineServices.Lobby
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the join RTC Room operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if creation completes succesfully
-		/// <see cref="Result.NotFound" /> if the lobby does not exist
-		/// <see cref="Result.Disabled" /> if the lobby exists, but did not have the RTC Room feature enabled when created
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> on invalid length for any of the parameters
-		/// <see cref="Result.NoChange" /> if call does not affect the state of the RTC Room
-		/// <see cref="Result.InvalidState" /> if call to join is made when RTC Room state is not disconnected/disconnecting
-		/// </returns>
 		public void JoinRTCRoom(ref JoinRTCRoomOptions options, object clientData, OnJoinRTCRoomCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1296,6 +1316,8 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Kick an existing member from the lobby
+		/// <see cref="KickMemberOptions" />
+		/// <see cref="OnKickMemberCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the lobby and member to be kicked
@@ -1306,12 +1328,6 @@ namespace Epic.OnlineServices.Lobby
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the kick operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the kick completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.LobbyNotOwner" /> if the calling user is not the owner of the lobby
-		/// <see cref="Result.NotFound" /> if a lobby of interest does not exist
-		/// </returns>
 		public void KickMember(ref KickMemberOptions options, object clientData, OnKickMemberCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1335,6 +1351,8 @@ namespace Epic.OnlineServices.Lobby
 		/// Leave a lobby given a lobby ID
 		/// 
 		/// If the lobby you are leaving had an RTC Room enabled, leaving the lobby will also automatically leave the RTC room.
+		/// <see cref="LeaveLobbyOptions" />
+		/// <see cref="OnLeaveLobbyCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the lobby to be left
@@ -1345,12 +1363,6 @@ namespace Epic.OnlineServices.Lobby
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the leave operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the leave completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.AlreadyPending" /> if the lobby is already marked for leave
-		/// <see cref="Result.NotFound" /> if a lobby to be left does not exist
-		/// </returns>
 		public void LeaveLobby(ref LeaveLobbyOptions options, object clientData, OnLeaveLobbyCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1375,6 +1387,8 @@ namespace Epic.OnlineServices.Lobby
 		/// 
 		/// This function will only succeed when called on a lobby that has the RTC Room feature enabled.
 		/// Clients may check if the RTC Room feature is enabled by inspecting the value of <see cref="LobbyDetailsInfo.RTCRoomEnabled" />.
+		/// <see cref="LeaveRTCRoomOptions" />
+		/// <see cref="OnLeaveRTCRoomCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about which lobby a local user should leave the RTC Room for
@@ -1383,15 +1397,8 @@ namespace Epic.OnlineServices.Lobby
 		/// Arbitrary data that is passed back to you in the CompletionDelegate
 		/// </param>
 		/// <param name="completionDelegate">
-		/// A callback that is fired when the join RTC Room operation completes, either successfully or in error
+		/// A callback that is fired when the leave RTC Room operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if creation completes succesfully
-		/// <see cref="Result.NotFound" /> if the lobby does not exist
-		/// <see cref="Result.Disabled" /> if the lobby exists, but did not have the RTC Room feature enabled when created
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> on invalid length for any of the parameters
-		/// <see cref="Result.NoChange" /> if call does not affect the state of the RTC Room
-		/// </returns>
 		public void LeaveRTCRoom(ref LeaveRTCRoomOptions options, object clientData, OnLeaveRTCRoomCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1414,6 +1421,7 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Parse the ConnectString for an EOS lobby invitation to extract just the lobby ID.
 		/// Used for joining a lobby from a connection <see cref="Utf8String" /> (as generated by GetConnectString) found in a platform invitation or presence.
+		/// <see cref="ParseConnectStringOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the input parameters. API version and ConnectString.
@@ -1425,10 +1433,12 @@ namespace Epic.OnlineServices.Lobby
 		/// In: The maximum amount of writable chars in OutBuffer see <see cref="PARSECONNECTSTRING_BUFFER_SIZE" />, Out: The minimum amount of chars needed in OutBuffer to store the LobbyID (including the <see langword="null" />-terminator). May be set to zero depending on the error result.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if retrieving the <see cref="Utf8String" /> was successful.
-		/// <see cref="Result.InvalidParameters" /> if the OutBuffer or InOutBufferLength are <see langword="null" />.
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
-		/// <see cref="Result.LimitExceeded" /> if the provided InOutBufferLength is too small to contain the resulting <see cref="Utf8String" />.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if retrieving the <see cref="Utf8String" /> was successful.
+		/// - <see cref="Result.InvalidParameters" /> if the OutBuffer or InOutBufferLength are <see langword="null" />.
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
+		/// - <see cref="Result.LimitExceeded" /> if the provided InOutBufferLength is too small to contain the resulting <see cref="Utf8String" />.
 		/// </returns>
 		public Result ParseConnectString(ref ParseConnectStringOptions options, out Utf8String outBuffer)
 		{
@@ -1450,6 +1460,8 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Promote an existing member of the lobby to owner, allowing them to make lobby data modifications
+		/// <see cref="PromoteMemberOptions" />
+		/// <see cref="OnPromoteMemberCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the lobby and member to be promoted
@@ -1460,12 +1472,6 @@ namespace Epic.OnlineServices.Lobby
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the promotion operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the promote completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.LobbyNotOwner" /> if the calling user is not the owner of the lobby
-		/// <see cref="Result.NotFound" /> if the lobby of interest does not exist
-		/// </returns>
 		public void PromoteMember(ref PromoteMemberOptions options, object clientData, OnPromoteMemberCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1487,6 +1493,8 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Retrieve all existing invites for a single user
+		/// <see cref="QueryInvitesOptions" />
+		/// <see cref="OnQueryInvitesCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the invites to query
@@ -1518,6 +1526,8 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Reject an invite from another user.
+		/// <see cref="RejectInviteOptions" />
+		/// <see cref="OnRejectInviteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the invite to reject
@@ -1528,11 +1538,6 @@ namespace Epic.OnlineServices.Lobby
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the reject invite operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the invite rejection completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.NotFound" /> if the invite does not exist
-		/// </returns>
 		public void RejectInvite(ref RejectInviteOptions options, object clientData, OnRejectInviteCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1687,6 +1692,8 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Send an invite to another user. User must be a member of the lobby or else the call will fail
+		/// <see cref="SendInviteOptions" />
+		/// <see cref="OnSendInviteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the lobby and user to invite
@@ -1697,11 +1704,6 @@ namespace Epic.OnlineServices.Lobby
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the send invite operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the send invite completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.NotFound" /> if the lobby to send the invite from does not exist
-		/// </returns>
 		public void SendInvite(ref SendInviteOptions options, object clientData, OnSendInviteCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1723,6 +1725,8 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Update a lobby given a lobby modification handle created by <see cref="UpdateLobbyModification" />
+		/// <see cref="UpdateLobbyOptions" />
+		/// <see cref="OnUpdateLobbyCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the lobby to be updated
@@ -1733,12 +1737,6 @@ namespace Epic.OnlineServices.Lobby
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the update operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the update completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.LobbyNotOwner" /> if the lobby modification contains modifications that are only allowed by the owner
-		/// <see cref="Result.NotFound" /> if the lobby to update does not exist
-		/// </returns>
 		public void UpdateLobby(ref UpdateLobbyOptions options, object clientData, OnUpdateLobbyCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1763,6 +1761,7 @@ namespace Epic.OnlineServices.Lobby
 		/// The <see cref="LobbyModification" /> must be released by calling <see cref="LobbyModification.Release" /> once it is no longer needed.
 		/// <see cref="LobbyModification.Release" />
 		/// <see cref="UpdateLobby" />
+		/// <see cref="UpdateLobbyModificationOptions" />
 		/// <see cref="LobbyModification" />
 		/// </summary>
 		/// <param name="options">
@@ -1772,8 +1771,10 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="IntPtr" /> to a Lobby Modification Handle only set if successful
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if we successfully created the Lobby Modification Handle pointed at in OutLobbyModificationHandle, or an error result if the input data was invalid
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if we successfully created the Lobby Modification Handle pointed at in OutLobbyModificationHandle, or an error result if the input data was invalid
+		/// - <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// </returns>
 		public Result UpdateLobbyModification(ref UpdateLobbyModificationOptions options, out LobbyModification outLobbyModificationHandle)
 		{

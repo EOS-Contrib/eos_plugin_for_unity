@@ -78,6 +78,8 @@ namespace Epic.OnlineServices.CustomInvites
 
 		/// <summary>
 		/// Accept a request to join from another user
+		/// <see cref="AcceptRequestToJoinOptions" />
+		/// <see cref="OnAcceptRequestToJoinCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -89,8 +91,10 @@ namespace Epic.OnlineServices.CustomInvites
 		/// A callback that is fired when the operation completes, either successfully or in error
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the query completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the query completes successfully
+		/// - <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
 		/// </returns>
 		public void AcceptRequestToJoin(ref AcceptRequestToJoinOptions options, object clientData, OnAcceptRequestToJoinCallback completionDelegate)
 		{
@@ -115,6 +119,8 @@ namespace Epic.OnlineServices.CustomInvites
 		/// Register to receive notifications when a Custom Invite for any logged in local user is accepted via the Social Overlay
 		/// Invites accepted in this way still need to have FinalizeInvite called on them after you have finished processing the invite accept (e.g. after joining the game)
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyCustomInviteAccepted" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyCustomInviteAcceptedOptions" />
+		/// <see cref="OnCustomInviteAcceptedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -154,6 +160,8 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <summary>
 		/// Register to receive notifications when a Custom Invite for any logged in local user is received
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyCustomInviteReceived" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyCustomInviteReceivedOptions" />
+		/// <see cref="OnCustomInviteReceivedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -194,6 +202,8 @@ namespace Epic.OnlineServices.CustomInvites
 		/// Register to receive notifications when a Custom Invite for any logged in local user is rejected via the Social Overlay
 		/// Invites rejected in this way do not need to have FinalizeInvite called on them, it is called automatically internally by the SDK.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyCustomInviteRejected" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyCustomInviteRejectedOptions" />
+		/// <see cref="OnCustomInviteRejectedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -233,6 +243,8 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <summary>
 		/// Register to receive notifications when a Request to Join for any logged in local user is accepted via the Social Overlay
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyRequestToJoinAccepted" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyRequestToJoinAcceptedOptions" />
+		/// <see cref="OnRequestToJoinAcceptedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -272,6 +284,8 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <summary>
 		/// Register to receive notifications when a request to join is received for a local user
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyRequestToJoinReceived" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyRequestToJoinReceivedOptions" />
+		/// <see cref="OnRequestToJoinReceivedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -311,6 +325,8 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <summary>
 		/// Register to receive notifications when a Request to Join for any logged in local user is rejected via the Social Overlay
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyRequestToJoinRejected" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyRequestToJoinRejectedOptions" />
+		/// <see cref="OnRequestToJoinRejectedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -351,6 +367,8 @@ namespace Epic.OnlineServices.CustomInvites
 		/// Register to receive notifications when a request to join is responded to by a target user. Note that there is no guarantee a response will be received for every request to join.
 		/// A player is free to ignore a Request to Join until it expires at which point it will be deleted without sending a response.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyRequestToJoinResponseReceived" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyRequestToJoinResponseReceivedOptions" />
+		/// <see cref="OnRequestToJoinResponseReceivedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -393,6 +411,8 @@ namespace Epic.OnlineServices.CustomInvites
 		/// then use the state of <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity" /> and <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity" /> to determine when the NotificationFn is
 		/// called.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifySendCustomNativeInviteRequested" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifySendCustomNativeInviteRequestedOptions" />
+		/// <see cref="OnSendCustomNativeInviteRequestedCallback" />
 		/// <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions" />
 		/// <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity" />
 		/// <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity" />
@@ -434,13 +454,16 @@ namespace Epic.OnlineServices.CustomInvites
 
 		/// <summary>
 		/// Signal that the title has completed processing a received Custom Invite, and that it should be cleaned up internally and in the Overlay
+		/// <see cref="FinalizeInviteOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the operation completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the option values are incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the operation completes successfully
+		/// - <see cref="Result.InvalidParameters" /> if any of the option values are incorrect
 		/// </returns>
 		public Result FinalizeInvite(ref FinalizeInviteOptions options)
 		{
@@ -456,6 +479,8 @@ namespace Epic.OnlineServices.CustomInvites
 
 		/// <summary>
 		/// Reject a request to join from another user
+		/// <see cref="RejectRequestToJoinOptions" />
+		/// <see cref="OnRejectRequestToJoinCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -467,8 +492,10 @@ namespace Epic.OnlineServices.CustomInvites
 		/// A callback that is fired when the operation completes, either successfully or in error
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the query completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the query completes successfully
+		/// - <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
 		/// </returns>
 		public void RejectRequestToJoin(ref RejectRequestToJoinOptions options, object clientData, OnRejectRequestToJoinCallback completionDelegate)
 		{
@@ -595,6 +622,8 @@ namespace Epic.OnlineServices.CustomInvites
 
 		/// <summary>
 		/// Sends a Custom Invite that has previously been initialized via SetCustomInvite to a group of users.
+		/// <see cref="SendCustomInviteOptions" />
+		/// <see cref="OnSendCustomInviteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -606,10 +635,12 @@ namespace Epic.OnlineServices.CustomInvites
 		/// A callback that is fired when the operation completes, either successfully or in error
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the query completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
-		/// <see cref="Result.TooManyRequests" /> if the number of allowed queries is exceeded
-		/// <see cref="Result.NotFound" /> if SetCustomInvite has not been previously successfully called for this user
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the query completes successfully
+		/// - <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
+		/// - <see cref="Result.TooManyRequests" /> if the number of allowed queries is exceeded
+		/// - <see cref="Result.NotFound" /> if SetCustomInvite has not been previously successfully called for this user
 		/// </returns>
 		public void SendCustomInvite(ref SendCustomInviteOptions options, object clientData, OnSendCustomInviteCallback completionDelegate)
 		{
@@ -632,6 +663,8 @@ namespace Epic.OnlineServices.CustomInvites
 
 		/// <summary>
 		/// Request that another user send an invitation.
+		/// <see cref="SendRequestToJoinOptions" />
+		/// <see cref="OnSendRequestToJoinCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -643,8 +676,10 @@ namespace Epic.OnlineServices.CustomInvites
 		/// A callback that is fired when the operation completes, either successfully or in error
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the query completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the query completes successfully
+		/// - <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
 		/// </returns>
 		public void SendRequestToJoin(ref SendRequestToJoinOptions options, object clientData, OnSendRequestToJoinCallback completionDelegate)
 		{
@@ -672,8 +707,10 @@ namespace Epic.OnlineServices.CustomInvites
 		/// Structure containing information about the request.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the operation completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the operation completes successfully
+		/// - <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
 		/// </returns>
 		public Result SetCustomInvite(ref SetCustomInviteOptions options)
 		{
