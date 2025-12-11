@@ -48,7 +48,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSReportsManager ReportsManager;
         private EOSFriendsManager FriendsManager;
         
-
+        private const string DateFormat="dd/MM/yyyy HH:mm";
+        
         protected override void Awake()
         {
             base.Awake();
@@ -97,6 +98,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             });
 
         }
+
         //Display only sanctions, reports are not visible
         private void QueryActivePlayerSanctionsCompleted(Result result, ProductUserId userId)
         {
@@ -112,7 +114,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             if (!ReportsManager.GetCachedPlayerSanctions(out Dictionary<ProductUserId, List<Sanction>> sanctionLookup)
-                || !sanctionLookup.TryGetValue(userId, out var sanctions) || sanctions == null || sanctions.Count == 0)
+                || sanctionLookup == null || !sanctionLookup.TryGetValue(userId, out var sanctions) || sanctions == null || sanctions.Count == 0)
             {
                 CreateSanctionEntry(string.Empty, "No Sanctions Found.");
                 return;
@@ -120,7 +122,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             foreach (var s in sanctions)
             {
-                var timeText = s.TimePlaced.ToString("dd/MM/yyyy HH:mm"); 
+                var timeText = s.TimePlaced.ToString(DateFormat); 
                 CreateSanctionEntry(timeText, s.Action);
             }
 
