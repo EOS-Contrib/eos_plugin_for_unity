@@ -500,16 +500,32 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="achievementId">
         /// The id of the achievement to unlock for the current player.
         /// </param>
-        public Task UnlockAchievementAsync(string achievementId)
+        public Task<PlayerAchievement> UnlockAchievementAsync(string achievementId)
         {
+            DefinitionV2? definition = null;
+            for (int i = 0; i < _achievements.Count; i++)
+            {
+                DefinitionV2 otherDefinition = _achievements[i];
+                if (otherDefinition.AchievementId == achievementId)
+                {
+                    definition = otherDefinition;
+                    break;
+                }
+            }
+
+            if (!definition.HasValue)
+            {
+                return Task.FromException<PlayerAchievement>(new Exception($"Achievement definition not found for ID: {achievementId}"));
+            }
+
             var localUserId = EOSManager.Instance.GetProductUserId();
             var eosAchievementOption = new UnlockAchievementsOptions
             {
                 UserId = localUserId,
-                AchievementIds = new Utf8String[] { achievementId }
+                AchievementIds = new Utf8String[] { definition.Value.AchievementId }
             };
 
-            TaskCompletionSource<object> tcs = new();
+            var tcs = new TaskCompletionSource<PlayerAchievement>();
 
             GetEOSAchievementInterface().UnlockAchievements(ref eosAchievementOption, null,
                 (ref OnUnlockAchievementsCompleteCallbackInfo data) =>
@@ -520,7 +536,36 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     }
                     else
                     {
-                        tcs.SetResult(null);
+                        var achievement = new PlayerAchievement()
+                        {
+                            AchievementId = definition.Value.AchievementId,
+                            DisplayName = definition.Value.UnlockedDisplayName,
+                            Description = definition.Value.UnlockedDescription,
+                            Progress = 1.0,
+                            UnlockTime = DateTime.UtcNow,
+                            StatInfo = null
+                        };
+
+                        _playerAchievements.AddOrUpdate(localUserId,
+                            new List<PlayerAchievement> { achievement },
+                            (id, list) =>
+                            {
+                                int index = list.FindIndex(a => a.AchievementId == achievement.AchievementId);
+                                if (index >= 0)
+                                {
+                                    list[index] = achievement;
+                                }
+                                else
+                                {
+                                    list.Add(achievement);
+                                }
+                                return list;
+                            });
+
+                        NotifyUpdated(); 
+
+                        tcs.SetResult(achievement);
+
                     }
                 });
 
