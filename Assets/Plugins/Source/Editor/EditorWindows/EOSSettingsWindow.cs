@@ -255,7 +255,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             // Save the product config editor
             _productConfigEditor.Save();
 
-            // reload the product config editor
+            //Update deployment in current platform
+            ProductConfig.Get<ProductConfig>().Environments.TryGetFirstDefinedNamedDeployment(out var namedDep);
+            _platformConfigEditors[_selectedTab].SetDeployment(namedDep.Value);
 
             // Save each of the platform config editors.
             foreach (IConfigEditor editor in _platformConfigEditors)

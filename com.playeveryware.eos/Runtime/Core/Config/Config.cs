@@ -188,7 +188,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             MigrateConfigIfNeededInternal();
 #if UNITY_EDITOR
-            Write();
+            //Write();
 #endif
         }
 
