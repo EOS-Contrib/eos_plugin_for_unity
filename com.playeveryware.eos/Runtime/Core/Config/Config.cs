@@ -547,11 +547,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
         protected virtual void OnWriteCompleted()
         {
-            // Optionally override for deriving classes. Base implementation performs Unity Editor persistence operations.
-         #if UNITY_EDITOR
-            UnityEditor.AssetDatabase.SaveAssets();
-            UnityEditor.AssetDatabase.Refresh();
-        #endif
+            // Optionally override for deriving classes. Default behavior is to 
+            // take no action.
         }
 
 #endif
