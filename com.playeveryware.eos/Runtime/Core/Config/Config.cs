@@ -506,11 +506,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
             var json = JsonUtility.ToJson(this, prettyPrint);
 
-            // If the json hasn't changed since it was last read, then
-            // take no action.
-            if (json == _lastReadJsonString)
-                return;
-
             await FileSystemUtility.WriteFileAsync(FilePath, json);
             OnWriteCompleted();
         }
@@ -529,11 +524,6 @@ namespace PlayEveryWare.EpicOnlineServices
             schemaVersion = CURRENT_SCHEMA_VERSION;
 
             var json = JsonUtility.ToJson(this, prettyPrint);
-
-            // If the json hasn't changed since it was last read, then
-            // take no action.
-            if (json == _lastReadJsonString)
-                return;
 
             FileSystemUtility.WriteFile(FilePath, json);
             OnWriteCompleted();
