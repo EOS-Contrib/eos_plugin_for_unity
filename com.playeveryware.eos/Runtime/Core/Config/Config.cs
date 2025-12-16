@@ -187,9 +187,6 @@ namespace PlayEveryWare.EpicOnlineServices
         private void MigrateConfigIfNeeded()
         {
             MigrateConfigIfNeededInternal();
-#if UNITY_EDITOR
-            //Write();
-#endif
         }
 
         /// <summary>
@@ -506,8 +503,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
             var json = JsonUtility.ToJson(this, prettyPrint);
 
+            // If the json hasn't changed since it was last read, then
+            // take no action.
+            if (json == _lastReadJsonString)
+                return;
+
             await FileSystemUtility.WriteFileAsync(FilePath, json);
             OnWriteCompleted();
+            _lastReadJsonString = json;
         }
 
         /// <summary>
@@ -525,8 +528,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
             var json = JsonUtility.ToJson(this, prettyPrint);
 
+            // If the json hasn't changed since it was last read, then
+            // take no action.
+            if (json == _lastReadJsonString)
+                return;
+             
             FileSystemUtility.WriteFile(FilePath, json);
             OnWriteCompleted();
+            _lastReadJsonString = json;
         }
 
         protected virtual void BeforeWrite()
