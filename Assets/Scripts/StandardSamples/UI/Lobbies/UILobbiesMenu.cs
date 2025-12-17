@@ -51,6 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button LeaveLobbyButton;
         public Button ModifyLobbyButton;
         public Button AddMemberAttributeButton;
+        public Button SearchLobbiesButton;
 
         // Current Lobby
         [Header("Lobbies UI - Current Lobby")]
@@ -76,10 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text InviteFromVal;
         public Text InviteLevelVal;
         public Toggle InvitePresence;
-
         
-        
-
         // UI Cache
         private int lastMemberCount = 0;
         private ProductUserId currentLobbyOwnerCache;
@@ -108,6 +106,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
+            SearchLobbiesButton.onClick.AddListener(OnSearchLobbiesButtonClick);
             LobbyManager = EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
             AntiCheatLobbyManager = EOSManager.Instance.GetOrCreateManager<EOSEACLobbyManager>();
@@ -796,5 +795,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             LobbyManager.SetLocalMemberDeafen(shouldBecomeDeafened, null);
         }
+        public void OnSearchLobbiesButtonClick()
+        {
+            string bucket = SearchByBucketIdBox.InputField.text;
+            string level = SearchByLevelBox.InputField.text;
+            string lobbyId = SearchByLobbyIdBox.InputField.text;
+            
+            if (!string.IsNullOrEmpty(lobbyId))
+            {
+                LobbyManager.SearchByLobbyId(lobbyId, UIUpateSearchResults);
+            }
+            else if (!string.IsNullOrEmpty(level))
+            {
+                LobbyManager.SearchByAttribute(EOSLobbyManager.ATTRIBUTE_KEY_LEVEL, level.ToUpper(), UIUpateSearchResults);
+            }
+            else if (!string.IsNullOrEmpty(bucket))
+            {
+                LobbyManager.SearchByAttribute(EOSLobbyManager.ATTRIBUTE_KEY_BUCKET, bucket, UIUpateSearchResults);
+            }
+            else
+            {
+                Debug.LogWarning($"{nameof(UILobbiesMenu)} {nameof(OnSearchLobbiesButtonClick)}: No search fields were filled in.");
+            }
+        }
+
     }
 }

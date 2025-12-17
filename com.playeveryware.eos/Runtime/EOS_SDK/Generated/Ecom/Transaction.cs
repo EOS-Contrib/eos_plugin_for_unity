@@ -16,6 +16,8 @@ namespace Epic.OnlineServices.Ecom
 		}
 		/// <summary>
 		/// Fetches an entitlement from a given index.
+		/// <see cref="TransactionCopyEntitlementByIndexOptions" />
+		/// <see cref="Entitlement" />
 		/// <see cref="EcomInterface.Release" />
 		/// </summary>
 		/// <param name="options">
@@ -25,10 +27,12 @@ namespace Epic.OnlineServices.Ecom
 		/// the entitlement for the given index, if it exists and is valid, use <see cref="EcomInterface.Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutEntitlement
-		/// <see cref="Result.EcomEntitlementStale" /> if the entitlement information is stale and passed out in OutEntitlement
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the entitlement is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutEntitlement
+		/// - <see cref="Result.EcomEntitlementStale" /> if the entitlement information is stale and passed out in OutEntitlement
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the entitlement is not found
 		/// </returns>
 		public Result CopyEntitlementByIndex(ref TransactionCopyEntitlementByIndexOptions options, out Entitlement? outEntitlement)
 		{
@@ -52,6 +56,7 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetch the number of entitlements that are part of this transaction.
+		/// <see cref="TransactionGetEntitlementsCountOptions" />
 		/// <see cref="CopyEntitlementByIndex" />
 		/// </summary>
 		/// <param name="options">

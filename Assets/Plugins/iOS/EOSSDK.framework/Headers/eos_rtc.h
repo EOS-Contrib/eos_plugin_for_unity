@@ -131,6 +131,34 @@ EOS_DECLARE_FUNC(EOS_NotificationId) EOS_RTC_AddNotifyParticipantStatusChanged(E
 EOS_DECLARE_FUNC(void) EOS_RTC_RemoveNotifyParticipantStatusChanged(EOS_HRTC Handle, EOS_NotificationId NotificationId);
 
 /**
+ * Register to receive notifications of when the RTC Room is about to be created and joined.
+ *
+ * This gives you access to the RTC Room about to be joined, allowing for example to apply sending or receiving settings.
+ *
+ * If the returned NotificationId is valid, you must call EOS_RTC_RemoveNotifyRoomBeforeJoin when you no longer wish to
+ * have your CompletionDelegate called.
+ *
+ * @param Options structure containing the parameters for the operation.
+ * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate.
+ * @param CompletionDelegate The callback to be fired when the RTC Room is about to be created and joined
+ *
+ * @return Notification ID representing the registered callback if successful, an invalid NotificationId if not.
+ *
+ * @see EOS_INVALID_NOTIFICATIONID
+ * @see EOS_RTC_RemoveNotifyRoomBeforeJoin
+ */
+EOS_DECLARE_FUNC(EOS_NotificationId) EOS_RTC_AddNotifyRoomBeforeJoin(EOS_HRTC Handle, const EOS_RTC_AddNotifyRoomBeforeJoinOptions* Options, void* ClientData, const EOS_RTC_OnRoomBeforeJoinCallback CompletionDelegate);
+
+/**
+ * Unregister from receiving notifications when the RTC Room is about to be created and joined.
+ *
+ * @param NotificationId The Notification ID representing the registered callback
+ *
+ * @see EOS_RTC_AddNotifyRoomBeforeJoin
+ */
+EOS_DECLARE_FUNC(void) EOS_RTC_RemoveNotifyRoomBeforeJoin(EOS_HRTC Handle, EOS_NotificationId NotificationId);
+
+/**
  * Use this function to control settings.
  *
  * The available settings are documented as part of EOS_RTC_SetSettingOptions.
@@ -151,18 +179,20 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_RTC_SetSetting(EOS_HRTC Handle, const EOS_RTC_
 EOS_DECLARE_FUNC(EOS_EResult) EOS_RTC_SetRoomSetting(EOS_HRTC Handle, const EOS_RTC_SetRoomSettingOptions* Options);
 
 /**
- * Register to receive notifications to receiving periodical statistics update. If the returned NotificationId is valid, you must call
- * EOS_RTC_RemoveNotifyRoomStatisticsUpdated when you no longer wish to have your StatisticsUpdateHandler called.
+ * Register to receive notifications to receiving periodical statistics update.
+ *
+ * If the returned NotificationId is valid, you must call
+ * EOS_RTC_RemoveNotifyRoomStatisticsUpdated when you no longer wish to have your CompletionDelegate called.
  *
  * @param Options structure containing the parameters for the operation
- * @param ClientData Arbitrary data that is passed back in the StatisticsUpdateHandler
- * @param StatisticsUpdateHandler The callback to be fired when a statistics updated.
+ * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
+ * @param CompletionDelegate The callback to be fired when a statistics updated.
  * @return Notification ID representing the registered callback if successful, an invalid NotificationId if not
  *
  * @see EOS_INVALID_NOTIFICATIONID
  * @see EOS_RTC_RemoveNotifyRoomStatisticsUpdated
  */
-EOS_DECLARE_FUNC(EOS_NotificationId) EOS_RTC_AddNotifyRoomStatisticsUpdated(EOS_HRTC Handle, const EOS_RTC_AddNotifyRoomStatisticsUpdatedOptions* Options, void* ClientData, const EOS_RTC_OnRoomStatisticsUpdatedCallback StatisticsUpdateHandler);
+EOS_DECLARE_FUNC(EOS_NotificationId) EOS_RTC_AddNotifyRoomStatisticsUpdated(EOS_HRTC Handle, const EOS_RTC_AddNotifyRoomStatisticsUpdatedOptions* Options, void* ClientData, const EOS_RTC_OnRoomStatisticsUpdatedCallback CompletionDelegate);
 
 /**
  * Unregister a previously bound notification handler from receiving periodical statistics update notifications

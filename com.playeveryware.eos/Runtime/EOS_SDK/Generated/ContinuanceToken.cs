@@ -40,7 +40,7 @@ namespace Epic.OnlineServices
 		/// </returns>
 		public Result ToString(out Utf8String outBuffer)
 		{
-			int inOutBufferLength = 1024;
+			int inOutBufferLength = 8192;
 			var outBufferPointer = Helper.AddAllocation(inOutBufferLength);
 
 			var callResult = Bindings.EOS_ContinuanceToken_ToString(InnerHandle, outBufferPointer, ref inOutBufferLength);

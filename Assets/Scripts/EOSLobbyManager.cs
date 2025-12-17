@@ -482,6 +482,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private List<OnMemberUpdateCallback> MemberUpdateCallbacks;
 
+        //Global Constants
+        public const string ATTRIBUTE_KEY_LEVEL = "LEVEL";
+        public const string ATTRIBUTE_KEY_BUCKET = "bucket";
         public class LobbyChangeEventArgs
         {
             public string LobbyId { get; }

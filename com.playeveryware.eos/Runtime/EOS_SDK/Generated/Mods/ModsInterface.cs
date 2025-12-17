@@ -48,6 +48,8 @@ namespace Epic.OnlineServices.Mods
 		/// Get cached enumerated mods object. If successful, this data must be released by calling <see cref="Release" />
 		/// Types of the cached enumerated mods can be specified through <see cref="CopyModInfoOptions" />
 		/// <see cref="Release" />
+		/// <see cref="CopyModInfoOptions" />
+		/// <see cref="ModInfo" />
 		/// This request may fail with an <see cref="Result.NotFound" /> code if an enumeration of a certain type was not performed before this call.
 		/// </summary>
 		/// <param name="options">
@@ -83,6 +85,8 @@ namespace Epic.OnlineServices.Mods
 		/// Starts an asynchronous task that makes a request to enumerate mods for the specified game.
 		/// Types of the mods to enumerate can be specified through <see cref="EnumerateModsOptions" />
 		/// the section related to mods in eos_result.h for more details.
+		/// <see cref="EnumerateModsOptions" />
+		/// <see cref="OnEnumerateModsCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the game identifiers
@@ -115,6 +119,8 @@ namespace Epic.OnlineServices.Mods
 		/// <summary>
 		/// Starts an asynchronous task that makes a request to install the specified mod.
 		/// the section related to mods in eos_result.h for more details.
+		/// <see cref="InstallModOptions" />
+		/// <see cref="OnInstallModCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the game and mod identifiers
@@ -147,6 +153,8 @@ namespace Epic.OnlineServices.Mods
 		/// <summary>
 		/// Starts an asynchronous task that makes a request to uninstall the specified mod.
 		/// the section related to mods in eos_result.h for more details.
+		/// <see cref="UninstallModOptions" />
+		/// <see cref="OnUninstallModCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the game and mod identifiers
@@ -179,6 +187,8 @@ namespace Epic.OnlineServices.Mods
 		/// <summary>
 		/// Starts an asynchronous task that makes a request to update the specified mod to the latest version.
 		/// the section related to mods in eos_result.h for more details.
+		/// <see cref="UpdateModOptions" />
+		/// <see cref="OnUpdateModCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the game and mod identifiers

@@ -28,9 +28,11 @@ namespace Epic.OnlineServices.Sessions
 		/// Out parameter used to receive the <see cref="ActiveSessionInfo" /> structure.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutActiveSessionInfo
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutActiveSessionInfo
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result CopyInfo(ref ActiveSessionCopyInfoOptions options, out ActiveSessionInfo? outActiveSessionInfo)
 		{
@@ -79,6 +81,7 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Get the number of registered players associated with this active session
+		/// <see cref="ActiveSessionGetRegisteredPlayerCountOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// the Options associated with retrieving the registered player count

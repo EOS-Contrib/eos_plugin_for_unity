@@ -24,6 +24,10 @@ namespace Epic.OnlineServices.RTC
 		/// </summary>
 		public const int ADDNOTIFYPARTICIPANTSTATUSCHANGED_API_LATEST = 1;
 		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyRoomBeforeJoin" /> API.
+		/// </summary>
+		public const int ADDNOTIFYROOMBEFOREJOIN_API_LATEST = 1;
+		/// <summary>
 		/// The most recent version of the <see cref="AddNotifyRoomStatisticsUpdated" /> API.
 		/// </summary>
 		public const int ADDNOTIFYROOMSTATISTICSUPDATED_API_LATEST = 1;
@@ -167,8 +171,55 @@ namespace Epic.OnlineServices.RTC
 		}
 
 		/// <summary>
-		/// Register to receive notifications to receiving periodical statistics update. If the returned NotificationId is valid, you must call
-		/// <see cref="RemoveNotifyRoomStatisticsUpdated" /> when you no longer wish to have your StatisticsUpdateHandler called.
+		/// Register to receive notifications of when the RTC Room is about to be created and joined.
+		/// 
+		/// This gives you access to the RTC Room about to be joined, allowing for example to apply sending or receiving settings.
+		/// 
+		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyRoomBeforeJoin" /> when you no longer wish to
+		/// have your CompletionDelegate called.
+		/// <see cref="Common.INVALID_NOTIFICATIONID" />
+		/// <see cref="RemoveNotifyRoomBeforeJoin" />
+		/// </summary>
+		/// <param name="options">
+		/// structure containing the parameters for the operation.
+		/// </param>
+		/// <param name="clientData">
+		/// Arbitrary data that is passed back to you in the CompletionDelegate.
+		/// </param>
+		/// <param name="completionDelegate">
+		/// The callback to be fired when the RTC Room is about to be created and joined
+		/// </param>
+		/// <returns>
+		/// Notification ID representing the registered callback if successful, an invalid NotificationId if not.
+		/// </returns>
+		public ulong AddNotifyRoomBeforeJoin(ref AddNotifyRoomBeforeJoinOptions options, object clientData, OnRoomBeforeJoinCallback completionDelegate)
+		{
+			if (completionDelegate == null)
+			{
+				throw new ArgumentNullException("completionDelegate");
+			}
+
+			var optionsInternal = default(AddNotifyRoomBeforeJoinOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var clientDataPointer = IntPtr.Zero;
+
+			Helper.AddCallback(out clientDataPointer, clientData, completionDelegate);
+
+			var callResult = Bindings.EOS_RTC_AddNotifyRoomBeforeJoin(InnerHandle, ref optionsInternal, clientDataPointer, OnRoomBeforeJoinCallbackInternalImplementation.Delegate);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.AssignNotificationIdToCallback(clientDataPointer, callResult);
+
+			return callResult;
+		}
+
+		/// <summary>
+		/// Register to receive notifications to receiving periodical statistics update.
+		/// 
+		/// If the returned NotificationId is valid, you must call
+		/// <see cref="RemoveNotifyRoomStatisticsUpdated" /> when you no longer wish to have your CompletionDelegate called.
 		/// <see cref="Common.INVALID_NOTIFICATIONID" />
 		/// <see cref="RemoveNotifyRoomStatisticsUpdated" />
 		/// </summary>
@@ -176,19 +227,19 @@ namespace Epic.OnlineServices.RTC
 		/// structure containing the parameters for the operation
 		/// </param>
 		/// <param name="clientData">
-		/// Arbitrary data that is passed back in the StatisticsUpdateHandler
+		/// Arbitrary data that is passed back in the CompletionDelegate
 		/// </param>
-		/// <param name="statisticsUpdateHandler">
+		/// <param name="completionDelegate">
 		/// The callback to be fired when a statistics updated.
 		/// </param>
 		/// <returns>
 		/// Notification ID representing the registered callback if successful, an invalid NotificationId if not
 		/// </returns>
-		public ulong AddNotifyRoomStatisticsUpdated(ref AddNotifyRoomStatisticsUpdatedOptions options, object clientData, OnRoomStatisticsUpdatedCallback statisticsUpdateHandler)
+		public ulong AddNotifyRoomStatisticsUpdated(ref AddNotifyRoomStatisticsUpdatedOptions options, object clientData, OnRoomStatisticsUpdatedCallback completionDelegate)
 		{
-			if (statisticsUpdateHandler == null)
+			if (completionDelegate == null)
 			{
-				throw new ArgumentNullException("statisticsUpdateHandler");
+				throw new ArgumentNullException("completionDelegate");
 			}
 
 			var optionsInternal = default(AddNotifyRoomStatisticsUpdatedOptionsInternal);
@@ -196,7 +247,7 @@ namespace Epic.OnlineServices.RTC
 
 			var clientDataPointer = IntPtr.Zero;
 
-			Helper.AddCallback(out clientDataPointer, clientData, statisticsUpdateHandler);
+			Helper.AddCallback(out clientDataPointer, clientData, completionDelegate);
 
 			var callResult = Bindings.EOS_RTC_AddNotifyRoomStatisticsUpdated(InnerHandle, ref optionsInternal, clientDataPointer, OnRoomStatisticsUpdatedCallbackInternalImplementation.Delegate);
 
@@ -375,6 +426,20 @@ namespace Epic.OnlineServices.RTC
 		public void RemoveNotifyParticipantStatusChanged(ulong notificationId)
 		{
 			Bindings.EOS_RTC_RemoveNotifyParticipantStatusChanged(InnerHandle, notificationId);
+
+			Helper.RemoveCallbackByNotificationId(notificationId);
+		}
+
+		/// <summary>
+		/// Unregister from receiving notifications when the RTC Room is about to be created and joined.
+		/// <see cref="AddNotifyRoomBeforeJoin" />
+		/// </summary>
+		/// <param name="notificationId">
+		/// The Notification ID representing the registered callback
+		/// </param>
+		public void RemoveNotifyRoomBeforeJoin(ulong notificationId)
+		{
+			Bindings.EOS_RTC_RemoveNotifyRoomBeforeJoin(InnerHandle, notificationId);
 
 			Helper.RemoveCallbackByNotificationId(notificationId);
 		}

@@ -527,4 +527,87 @@ EOS_STRUCT(EOS_UI_AddNotifyMemoryMonitorOptions, (
  */
 EOS_DECLARE_CALLBACK(EOS_UI_OnMemoryMonitorCallback, const EOS_UI_MemoryMonitorCallbackInfo* Data);
 
+/**
+ * An on screen keyboard behavior.
+ */
+EOS_ENUM(EOS_UI_EOnScreenKeyboardBehavior,
+	/** Do nothing when an on screen keyboard is requested. This effectively disables on screen keyboards. */
+	EOS_UIOSKB_None = 0,
+	/** Receive a notification when an on screen keyboard is requested. Use this to implement custom on screen keyboard logic. */
+	EOS_UIOSKB_Notification = 1,
+	/** Try to launch the native on screen keyboard when one is requested. */
+	EOS_UIOSKB_Native = 2
+);
+
+/** The most recent version of the EOS_UI_ConfigureOnScreenKeyboard API. */
+#define EOS_UI_CONFIGUREONSCREENKEYBOARD_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_UI_ConfigureOnScreenKeyboard function.
+ */
+EOS_STRUCT(EOS_UI_ConfigureOnScreenKeyboardOptions, (
+	/** API Version: Set this to EOS_UI_CONFIGUREONSCREENKEYBOARD_API_LATEST. */
+	int32_t ApiVersion;
+	/** The behavior of the on screen keyboard. */
+	EOS_UI_EOnScreenKeyboardBehavior Behavior;
+	/**
+	 * Whether to enable device checks.
+	 * When enabled, the overlay will use a number of heuristics based on the device's configuration to determine whether an on screen keyboard should be requested.
+	 * When disabled, on screen keyboards will always be requested regardless of device configuration.
+	 * Note, by setting environment variable "EOS_OVERLAY_OSK" to 0, on screen keyboard requests will always fail, and by setting it to 1, device checks will always succeed.
+	 */
+	EOS_Bool bIsDeviceChecksEnabled;
+));
+
+/**
+ * An on screen keyboard type.
+ */
+EOS_ENUM(EOS_UI_EOnScreenKeyboardType,
+	/** No on screen keyboard. */
+	EOS_UIOSKT_None = 0,
+	/** The default on screen keyboard. */
+	EOS_UIOSKT_Default = 1,
+	/** The text on screen keyboard. */
+	EOS_UIOSKT_Text = 2,
+	/** The telephone number on screen keyboard. */
+	EOS_UIOSKT_TelephoneNumber = 3,
+	/** The URL on screen keyboard. */
+	EOS_UIOSKT_URL = 4,
+	/** The email on screen keyboard. */
+	EOS_UIOSKT_Email = 5,
+	/** The numeric on screen keyboard. */
+	EOS_UIOSKT_Numeric = 6,
+	/** The decimal on screen keyboard. */
+	EOS_UIOSKT_Decimal = 7,
+	/** The search on screen keyboard. */
+	EOS_UIOSKT_Search = 8
+);
+
+/** The most recent version of the EOS_UI_AddNotifyOnScreenKeyboardRequested API. */
+#define EOS_UI_ADDNOTIFYONSCREENKEYBOARDREQUESTED_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_UI_AddNotifyOnScreenKeyboardRequested function.
+ */
+EOS_STRUCT(EOS_UI_AddNotifyOnScreenKeyboardRequestedOptions, (
+	/** API Version: Set this to EOS_UI_ADDNOTIFYONSCREENKEYBOARDREQUESTED_API_LATEST. */
+	int32_t ApiVersion;
+));
+
+/**
+ * Output parameters for the EOS_UI_AddNotifyOnScreenKeyboardRequested function.
+ */
+EOS_STRUCT(EOS_UI_OnScreenKeyboardRequestedCallbackInfo, (
+	/** Context that was passed into EOS_UI_AddNotifyOnScreenKeyboardRequested */
+	void* ClientData;
+	/** The type of on screen keyboard being requested. */
+	EOS_UI_EOnScreenKeyboardType Type;
+));
+
+/**
+ * Function prototype definition for callbacks passed to EOS_UI_AddNotifyOnScreenKeyboardRequested.
+ * @param Data A EOS_UI_OnScreenKeyboardRequestedCallbackInfo containing notification data.
+ */
+EOS_DECLARE_CALLBACK(EOS_UI_OnScreenKeyboardRequestedCallback, const EOS_UI_OnScreenKeyboardRequestedCallbackInfo* Data);
+
 #pragma pack(pop)
