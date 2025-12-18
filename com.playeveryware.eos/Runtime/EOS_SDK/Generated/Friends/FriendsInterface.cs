@@ -62,6 +62,8 @@ namespace Epic.OnlineServices.Friends
 
 		/// <summary>
 		/// Starts an asynchronous task that accepts a friend invitation from another user. The completion delegate is executed after the backend response has been received.
+		/// <see cref="AcceptInviteOptions" />
+		/// <see cref="OnAcceptInviteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the logged in account and the inviting account
@@ -93,6 +95,8 @@ namespace Epic.OnlineServices.Friends
 
 		/// <summary>
 		/// Listen for changes to blocklist for a particular account.
+		/// <see cref="AddNotifyBlockedUsersUpdateOptions" />
+		/// <see cref="OnBlockedUsersUpdateCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about the API version which is being used.
@@ -131,6 +135,8 @@ namespace Epic.OnlineServices.Friends
 
 		/// <summary>
 		/// Listen for changes to friends for a particular account.
+		/// <see cref="AddNotifyFriendsUpdateOptions" />
+		/// <see cref="OnFriendsUpdateCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about who would like notifications.
@@ -169,6 +175,7 @@ namespace Epic.OnlineServices.Friends
 
 		/// <summary>
 		/// Retrieves the Epic Account ID of an entry from the blocklist that has already been retrieved by the <see cref="QueryFriends" /> API.
+		/// <see cref="GetBlockedUserAtIndexOptions" />
 		/// <see cref="QueryFriends" />
 		/// <see cref="GetBlockedUsersCount" />
 		/// </summary>
@@ -194,6 +201,7 @@ namespace Epic.OnlineServices.Friends
 
 		/// <summary>
 		/// Retrieves the number of blocked users on the blocklist that has already been retrieved by the <see cref="QueryFriends" /> API.
+		/// <see cref="GetBlockedUsersCountOptions" />
 		/// <see cref="QueryFriends" />
 		/// </summary>
 		/// <param name="options">
@@ -218,6 +226,7 @@ namespace Epic.OnlineServices.Friends
 		/// Retrieves the Epic Account ID of an entry from the friends list that has already been retrieved by the <see cref="QueryFriends" /> API.
 		/// The Epic Account ID returned by this function may belong to an account that has been invited to be a friend or that has invited the local user to be a friend.
 		/// To determine if the Epic Account ID returned by this function is a friend or a pending friend invitation, use the <see cref="GetStatus" /> function.
+		/// <see cref="GetFriendAtIndexOptions" />
 		/// <see cref="GetFriendsCount" />
 		/// <see cref="GetStatus" />
 		/// </summary>
@@ -243,6 +252,7 @@ namespace Epic.OnlineServices.Friends
 
 		/// <summary>
 		/// Retrieves the number of friends on the friends list that has already been retrieved by the <see cref="QueryFriends" /> API.
+		/// <see cref="GetFriendsCountOptions" />
 		/// <see cref="GetFriendAtIndex" />
 		/// </summary>
 		/// <param name="options">
@@ -265,6 +275,7 @@ namespace Epic.OnlineServices.Friends
 
 		/// <summary>
 		/// Retrieve the friendship status between the local user and another user.
+		/// <see cref="GetStatusOptions" />
 		/// <see cref="FriendsStatus" />
 		/// </summary>
 		/// <param name="options">
@@ -272,10 +283,10 @@ namespace Epic.OnlineServices.Friends
 		/// </param>
 		/// <returns>
 		/// A value indicating whether the two accounts have a friendship, pending invites in either direction, or no relationship
-		/// <see cref="FriendsStatus.Friends" /> is returned for two users that have confirmed friendship
-		/// <see cref="FriendsStatus.InviteSent" /> is returned when the local user has sent a friend invitation but the other user has not accepted or rejected it
-		/// <see cref="FriendsStatus.InviteReceived" /> is returned when the other user has sent a friend invitation to the local user
-		/// <see cref="FriendsStatus.NotFriends" /> is returned when there is no known relationship
+		/// - <see cref="FriendsStatus.Friends" /> is returned for two users that have confirmed friendship
+		/// - <see cref="FriendsStatus.InviteSent" /> is returned when the local user has sent a friend invitation but the other user has not accepted or rejected it
+		/// - <see cref="FriendsStatus.InviteReceived" /> is returned when the other user has sent a friend invitation to the local user
+		/// - <see cref="FriendsStatus.NotFriends" /> is returned when there is no known relationship
 		/// </returns>
 		public FriendsStatus GetStatus(ref GetStatusOptions options)
 		{
@@ -292,6 +303,8 @@ namespace Epic.OnlineServices.Friends
 		/// <summary>
 		/// Starts an asynchronous task that reads the user's friends list and blocklist from the backend service, caching it for future use.
 		/// When the Social Overlay is enabled then this will be called automatically. The Social Overlay is enabled by default (see <see cref="Platform.PlatformFlags.DisableSocialOverlay" />).
+		/// <see cref="QueryFriendsOptions" />
+		/// <see cref="OnQueryFriendsCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the account for which to retrieve the friends list
@@ -323,6 +336,8 @@ namespace Epic.OnlineServices.Friends
 
 		/// <summary>
 		/// Starts an asynchronous task that rejects a friend invitation from another user. The completion delegate is executed after the backend response has been received.
+		/// <see cref="RejectInviteOptions" />
+		/// <see cref="OnRejectInviteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the logged in account and the inviting account
@@ -381,6 +396,8 @@ namespace Epic.OnlineServices.Friends
 		/// <summary>
 		/// Starts an asynchronous task that sends a friend invitation to another user. The completion delegate is executed after the backend response has been received.
 		/// It does not indicate that the target user has responded to the friend invitation.
+		/// <see cref="SendInviteOptions" />
+		/// <see cref="OnSendInviteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the account to send the invite from and the account to send the invite to

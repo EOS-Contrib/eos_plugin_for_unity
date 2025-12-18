@@ -18,7 +18,11 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// Attempt to cancel this file request in progress. This is a best-effort command and is not guaranteed to be successful if the request has completed before this function is called.
 		/// </summary>
 		/// <returns>
-		/// <see cref="Result.Success" /> if cancel is successful, <see cref="Result.NoChange" /> if request had already completed (can't be canceled), <see cref="Result.AlreadyPending" /> if it's already been canceled before (this is a final state for canceled request and won't change over time).
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if cancel is successful
+		/// - <see cref="Result.NoChange" /> if request had already completed (can't be canceled)
+		/// - <see cref="Result.AlreadyPending" /> if it's already been canceled before (this is a final state for canceled request and won't change over time).
 		/// </returns>
 		public Result CancelRequest()
 		{

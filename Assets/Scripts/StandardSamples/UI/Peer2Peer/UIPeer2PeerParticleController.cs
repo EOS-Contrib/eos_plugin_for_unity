@@ -26,11 +26,32 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
     public class UIPeer2PeerParticleController : MonoBehaviour
     {
-        public GameObject ClickParticles;
+        public GameObject clickParticles;
+        public Canvas rootCanvas;
+        private RectTransform canvasRect;
 
-        public void SpawnParticles(int xPos, int yPos, Transform parent)
+        private void Awake()
         {
-            Instantiate(ClickParticles, new Vector3(xPos, yPos, -3), Quaternion.identity, parent);
+            canvasRect = rootCanvas.GetComponent<RectTransform>();
         }
+
+        public void SpawnParticles(float xPos, float yPos)
+        {
+            Vector2 screenPos = new Vector2(
+                xPos * Screen.width,
+                yPos * Screen.height
+                );
+            Vector2 localPoint;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvasRect, 
+                screenPos, 
+                rootCanvas.renderMode==RenderMode.ScreenSpaceOverlay?null:rootCanvas.worldCamera,
+                out localPoint);
+            GameObject particle = Instantiate(clickParticles,canvasRect);
+            RectTransform particleRect = particle.GetComponent<RectTransform>();
+            particleRect.anchoredPosition = localPoint;
+            particleRect.localScale = Vector3.one;
+        }
+
     }
 }

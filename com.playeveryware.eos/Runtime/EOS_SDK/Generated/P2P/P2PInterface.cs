@@ -130,13 +130,16 @@ namespace Epic.OnlineServices.P2P
 		/// If multiple Socket IDs are accepted with one peer, they will share one physical socket.
 		/// 
 		/// Even if a connection is already locally accepted, <see cref="Result.Success" /> will still be returned if the input was valid.
+		/// <see cref="AcceptConnectionOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about who would like to accept a connection, and which connection
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - if the provided data is valid
-		/// <see cref="Result.InvalidParameters" /> - if the provided data is invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - if the provided data is valid
+		/// - <see cref="Result.InvalidParameters" /> - if the provided data is invalid
 		/// </returns>
 		public Result AcceptConnection(ref AcceptConnectionOptions options)
 		{
@@ -155,6 +158,8 @@ namespace Epic.OnlineServices.P2P
 		/// room for new incoming packets. If this event fires and no packets are read by calling <see cref="ReceivePacket" />
 		/// or the packet queue size is not increased by <see cref="SetPacketQueueSize" />, any packets that are received after
 		/// this event are discarded until there is room again in the queue.
+		/// <see cref="AddNotifyIncomingPacketQueueFullOptions" />
+		/// <see cref="OnIncomingPacketQueueFullCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about what version of the <see cref="AddNotifyIncomingPacketQueueFull" /> API is supported
@@ -194,6 +199,8 @@ namespace Epic.OnlineServices.P2P
 		/// <summary>
 		/// Listen for when a previously accepted connection that was either open or pending is closed.
 		/// When a connection closes, packets are flushed. This includes reliable packets.
+		/// <see cref="AddNotifyPeerConnectionClosedOptions" />
+		/// <see cref="OnRemoteConnectionClosedCallback" />
 		/// <see cref="AddNotifyPeerConnectionEstablished" />
 		/// <see cref="AddNotifyPeerConnectionInterrupted" />
 		/// <see cref="RemoveNotifyPeerConnectionClosed" />
@@ -238,6 +245,8 @@ namespace Epic.OnlineServices.P2P
 		/// and when our underlying network connection type changes (for example, from a direct connection to relay, or vice versa). Network Connection Type changes
 		/// will always be broadcast with a <see cref="ConnectionEstablishedType.Reconnection" /> connection type, even if the connection was not interrupted.
 		/// If the network status changes from offline or disabled to online, you must call this function again.
+		/// <see cref="AddNotifyPeerConnectionEstablishedOptions" />
+		/// <see cref="OnPeerConnectionEstablishedCallback" />
 		/// <see cref="AddNotifyPeerConnectionInterrupted" />
 		/// <see cref="AddNotifyPeerConnectionClosed" />
 		/// <see cref="RemoveNotifyPeerConnectionEstablished" />
@@ -283,6 +292,8 @@ namespace Epic.OnlineServices.P2P
 		/// If a connection reconnects, it will trigger the P2P PeerConnectionEstablished notification with the <see cref="ConnectionEstablishedType.Reconnection" /> connection type.
 		/// If a connection fails to reconnect, it will trigger the P2P PeerConnectionClosed notification.
 		/// Packets remain queued during connection interruptions. When a connection closes, packets are flushed. This includes reliable packets.
+		/// <see cref="AddNotifyPeerConnectionInterruptedOptions" />
+		/// <see cref="OnPeerConnectionInterruptedCallback" />
 		/// <see cref="AddNotifyPeerConnectionEstablished" />
 		/// <see cref="AddNotifyPeerConnectionClosed" />
 		/// <see cref="RemoveNotifyPeerConnectionInterrupted" />
@@ -327,6 +338,8 @@ namespace Epic.OnlineServices.P2P
 		/// will only be called if the connection has not already been accepted.
 		/// If the network status changes from offline or disabled to online, you must call this function again.
 		/// <see cref="RemoveNotifyPeerConnectionRequest" />
+		/// <see cref="AddNotifyPeerConnectionRequestOptions" />
+		/// <see cref="OnIncomingConnectionRequestCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about who would like notifications, and (optionally) only for a specific socket
@@ -365,15 +378,18 @@ namespace Epic.OnlineServices.P2P
 
 		/// <summary>
 		/// Clear queued incoming and outgoing packets.
+		/// <see cref="ClearPacketQueueOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about which queues should be cleared
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - if the input options were valid (even if queues were empty and no packets where cleared)
-		/// <see cref="Result.IncompatibleVersion" /> - if wrong API version
-		/// <see cref="Result.InvalidUser" /> - if an invalid/remote user was used
-		/// <see cref="Result.InvalidParameters" /> - if input was invalid in other way
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - if the input options were valid (even if queues were empty and no packets where cleared)
+		/// - <see cref="Result.IncompatibleVersion" /> - if wrong API version
+		/// - <see cref="Result.InvalidUser" /> - if an invalid/remote user was used
+		/// - <see cref="Result.InvalidParameters" /> - if input was invalid in other way
 		/// </returns>
 		public Result ClearPacketQueue(ref ClearPacketQueueOptions options)
 		{
@@ -393,13 +409,16 @@ namespace Epic.OnlineServices.P2P
 		/// 
 		/// If your application wants to migrate an existing connection with a peer it already connected to, it is recommended to call <see cref="AcceptConnection" />
 		/// with the new Socket ID first before calling <see cref="CloseConnection" />, to prevent the shared physical socket from being torn down prematurely.
+		/// <see cref="CloseConnectionOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about who would like to close a connection, and which connection.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - if the provided data is valid
-		/// <see cref="Result.InvalidParameters" /> - if the provided data is invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - if the provided data is valid
+		/// - <see cref="Result.InvalidParameters" /> - if the provided data is invalid
 		/// </returns>
 		public Result CloseConnection(ref CloseConnectionOptions options)
 		{
@@ -415,13 +434,16 @@ namespace Epic.OnlineServices.P2P
 
 		/// <summary>
 		/// Close any open Connections for a specific Peer Connection ID.
+		/// <see cref="CloseConnectionsOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about who would like to close connections, and by what socket ID
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - if the provided data is valid
-		/// <see cref="Result.InvalidParameters" /> - if the provided data is invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - if the provided data is valid
+		/// - <see cref="Result.InvalidParameters" /> - if the provided data is invalid
 		/// </returns>
 		public Result CloseConnections(ref CloseConnectionsOptions options)
 		{
@@ -437,6 +459,7 @@ namespace Epic.OnlineServices.P2P
 
 		/// <summary>
 		/// Get our last-queried NAT-type, if it has been successfully queried.
+		/// <see cref="GetNATTypeOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about what version of the <see cref="GetNATType" /> API is supported
@@ -445,8 +468,10 @@ namespace Epic.OnlineServices.P2P
 		/// The queried NAT Type, or unknown if unknown
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - if we have cached data
-		/// <see cref="Result.NotFound" /> - If we do not have queried data cached
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - if we have cached data
+		/// - <see cref="Result.NotFound" /> - If we do not have queried data cached
 		/// </returns>
 		public Result GetNATType(ref GetNATTypeOptions options, out NATType outNATType)
 		{
@@ -463,6 +488,7 @@ namespace Epic.OnlineServices.P2P
 		/// <summary>
 		/// Gets the size of the packet that will be returned by ReceivePacket for a particular user, if there is any available
 		/// packets to be retrieved.
+		/// <see cref="GetNextReceivedPacketSizeOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about who is requesting the size of their next packet
@@ -471,9 +497,11 @@ namespace Epic.OnlineServices.P2P
 		/// The amount of bytes required to store the data of the next packet for the requested user
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If OutPacketSizeBytes was successfully set and there is data to be received
-		/// <see cref="Result.InvalidParameters" /> - If input was invalid
-		/// <see cref="Result.NotFound" /> - If there are no packets available for the requesting user
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If OutPacketSizeBytes was successfully set and there is data to be received
+		/// - <see cref="Result.InvalidParameters" /> - If input was invalid
+		/// - <see cref="Result.NotFound" /> - If there are no packets available for the requesting user
 		/// </returns>
 		public Result GetNextReceivedPacketSize(ref GetNextReceivedPacketSizeOptions options, out uint outPacketSizeBytes)
 		{
@@ -489,6 +517,8 @@ namespace Epic.OnlineServices.P2P
 
 		/// <summary>
 		/// Gets the current cached information related to the incoming and outgoing packet queues.
+		/// <see cref="GetPacketQueueInfoOptions" />
+		/// <see cref="PacketQueueInfo" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about what version of the <see cref="GetPacketQueueInfo" /> API is supported
@@ -497,8 +527,10 @@ namespace Epic.OnlineServices.P2P
 		/// The current information of the incoming and outgoing packet queues
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - if the input options were valid
-		/// <see cref="Result.InvalidParameters" /> - if the input was invalid in some way
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - if the input options were valid
+		/// - <see cref="Result.InvalidParameters" /> - if the input was invalid in some way
 		/// </returns>
 		public Result GetPacketQueueInfo(ref GetPacketQueueInfoOptions options, out PacketQueueInfo outPacketQueueInfo)
 		{
@@ -518,6 +550,7 @@ namespace Epic.OnlineServices.P2P
 
 		/// <summary>
 		/// Get the current chosen port and the amount of other ports to try above the chosen port if the chosen port is unavailable.
+		/// <see cref="GetPortRangeOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about what version of the <see cref="GetPortRange" /> API is supported
@@ -529,8 +562,10 @@ namespace Epic.OnlineServices.P2P
 		/// The amount of ports to try above the value in OutPort, if OutPort is unavailable
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - if the input options were valid
-		/// <see cref="Result.InvalidParameters" /> - if the input was invalid in some way
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - if the input options were valid
+		/// - <see cref="Result.InvalidParameters" /> - if the input was invalid in some way
 		/// </returns>
 		public Result GetPortRange(ref GetPortRangeOptions options, out ushort outPort, out ushort outNumAdditionalPortsToTry)
 		{
@@ -546,6 +581,8 @@ namespace Epic.OnlineServices.P2P
 
 		/// <summary>
 		/// Get the current relay control setting.
+		/// <see cref="GetRelayControlOptions" />
+		/// <see cref="RelayControl" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about what version of the <see cref="GetRelayControl" /> API is supported
@@ -554,8 +591,10 @@ namespace Epic.OnlineServices.P2P
 		/// The relay control setting currently configured
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - if the input was valid
-		/// <see cref="Result.InvalidParameters" /> - if the input was invalid in some way
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - if the input was valid
+		/// - <see cref="Result.InvalidParameters" /> - if the input was invalid in some way
 		/// </returns>
 		public Result GetRelayControl(ref GetRelayControlOptions options, out RelayControl outRelayControl)
 		{
@@ -571,6 +610,8 @@ namespace Epic.OnlineServices.P2P
 
 		/// <summary>
 		/// Query the current NAT-type of our connection.
+		/// <see cref="QueryNATTypeOptions" />
+		/// <see cref="OnQueryNATTypeCompleteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about what version of the <see cref="QueryNATType" /> API is supported
@@ -673,15 +714,18 @@ namespace Epic.OnlineServices.P2P
 		/// Send a packet to a peer at the specified address. If there is already an open connection to this peer, it will be
 		/// sent immediately. If there is no open connection, an attempt to connect to the peer will be made. An <see cref="Result.Success" />
 		/// result only means the data was accepted to be sent, not that it has been successfully delivered to the peer.
+		/// <see cref="SendPacketOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about the data being sent, by who, to who
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If packet was queued to be sent successfully
-		/// <see cref="Result.InvalidParameters" /> - If input was invalid
-		/// <see cref="Result.LimitExceeded" /> - If amount of data being sent is too large, or the outgoing packet queue was full
-		/// <see cref="Result.NoConnection" /> - If bDisableAutoAcceptConnection was set to <see langword="true" /> and the connection was not currently accepted (call <see cref="AcceptConnection" /> first, or set bDisableAutoAcceptConnection to <see langword="false" />)
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If packet was queued to be sent successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input was invalid
+		/// - <see cref="Result.LimitExceeded" /> - If amount of data being sent is too large, or the outgoing packet queue was full
+		/// - <see cref="Result.NoConnection" /> - If bDisableAutoAcceptConnection was set to <see langword="true" /> and the connection was not currently accepted (call <see cref="AcceptConnection" /> first, or set bDisableAutoAcceptConnection to <see langword="false" />)
 		/// </returns>
 		public Result SendPacket(ref SendPacketOptions options)
 		{
@@ -700,13 +744,16 @@ namespace Epic.OnlineServices.P2P
 		/// size is made smaller than the current queue size while there are packets in the queue that would push this
 		/// packet size over, existing packets are kept but new packets may not be added to the full queue until enough
 		/// packets are sent or received.
+		/// <see cref="SetPacketQueueSizeOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about packet queue size
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - if the input options were valid
-		/// <see cref="Result.InvalidParameters" /> - if the input was invalid in some way
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - if the input options were valid
+		/// - <see cref="Result.InvalidParameters" /> - if the input was invalid in some way
 		/// </returns>
 		public Result SetPacketQueueSize(ref SetPacketQueueSizeOptions options)
 		{
@@ -722,13 +769,16 @@ namespace Epic.OnlineServices.P2P
 
 		/// <summary>
 		/// Set configuration options related to network ports.
+		/// <see cref="SetPortRangeOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about network ports config options
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - if the options were set successfully
-		/// <see cref="Result.InvalidParameters" /> - if the options are invalid in some way
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - if the options were set successfully
+		/// - <see cref="Result.InvalidParameters" /> - if the options are invalid in some way
 		/// </returns>
 		public Result SetPortRange(ref SetPortRangeOptions options)
 		{
@@ -745,14 +795,17 @@ namespace Epic.OnlineServices.P2P
 		/// <summary>
 		/// Set how relay servers are to be used. This setting does not immediately apply to existing connections, but may apply to existing
 		/// connections if the connection requires renegotiation.
+		/// <see cref="SetRelayControlOptions" />
 		/// <see cref="RelayControl" />
 		/// </summary>
 		/// <param name="options">
 		/// Information about relay server config options
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - if the options were set successfully
-		/// <see cref="Result.InvalidParameters" /> - if the options are invalid in some way
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - if the options were set successfully
+		/// - <see cref="Result.InvalidParameters" /> - if the options are invalid in some way
 		/// </returns>
 		public Result SetRelayControl(ref SetRelayControlOptions options)
 		{

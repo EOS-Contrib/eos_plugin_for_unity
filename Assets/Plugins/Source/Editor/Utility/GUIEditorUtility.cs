@@ -993,6 +993,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     if (!productionEnvironmentsCopy.Sandboxes.Remove(item))
                     {
                         // TODO: Tell user why the sandbox could not be removed.
+                        Debug.LogError($"{nameof(GUIEditorUtility)} {nameof(RenderSandboxInputs)}: Failed to find sandbox with name {item.Name} when trying to remove it.");
                     }
                 }
             );

@@ -415,7 +415,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     int yPos = Int32.Parse(coords[1]);
                     Debug.Log("EOS P2PNAT HandleReceivedMessages:  Mouse position Recieved at " + xPos + ", " + yPos);
 
-                    ParticleController.SpawnParticles(xPos, yPos, parent);
+                    ParticleController.SpawnParticles(xPos, yPos);
 
                     return peerId;
                 }

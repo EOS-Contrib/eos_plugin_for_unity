@@ -44,6 +44,8 @@ namespace Epic.OnlineServices.RTCAdmin
 		/// Fetches a user token when called inside of the OnQueryJoinRoomTokenComplete callback.
 		/// The order of the tokens doesn't necessarily match the order of the <see cref="ProductUserId" /> array specified in the <see cref="QueryJoinRoomTokenOptions" /> when
 		/// initiating the query.
+		/// <see cref="CopyUserTokenByIndexOptions" />
+		/// <see cref="UserToken" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -53,9 +55,11 @@ namespace Epic.OnlineServices.RTCAdmin
 		/// The user token for the given index, if it exists and is valid. Use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutUserToken
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the user token is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutUserToken
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the user token is not found
 		/// </returns>
 		public Result CopyUserTokenByIndex(ref CopyUserTokenByIndexOptions options, out UserToken? outUserToken)
 		{
@@ -79,6 +83,8 @@ namespace Epic.OnlineServices.RTCAdmin
 
 		/// <summary>
 		/// Fetches a user token for a given user ID when called inside of the OnQueryJoinRoomTokenComplete callback.
+		/// <see cref="CopyUserTokenByUserIdOptions" />
+		/// <see cref="UserToken" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -88,9 +94,11 @@ namespace Epic.OnlineServices.RTCAdmin
 		/// The user token for the given user ID, if it exists and is valid. Use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutUserToken
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the user token is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutUserToken
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the user token is not found
 		/// </returns>
 		public Result CopyUserTokenByUserId(ref CopyUserTokenByUserIdOptions options, out UserToken? outUserToken)
 		{
@@ -114,6 +122,8 @@ namespace Epic.OnlineServices.RTCAdmin
 
 		/// <summary>
 		/// Starts an asynchronous task that removes a participant from a room and revokes their token.
+		/// <see cref="KickOptions" />
+		/// <see cref="OnKickCompleteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the room and user to revoke the token from.
@@ -150,6 +160,8 @@ namespace Epic.OnlineServices.RTCAdmin
 		/// to retrieve the tokens from inside the callback.
 		/// 
 		/// This query id and query result itself are only valid for the duration of the callback.
+		/// <see cref="QueryJoinRoomTokenOptions" />
+		/// <see cref="OnQueryJoinRoomTokenCompleteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the application whose user tokens we're retrieving.
@@ -160,10 +172,6 @@ namespace Epic.OnlineServices.RTCAdmin
 		/// <param name="completionDelegate">
 		/// This function is called when the query join room token operation completes.
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// </returns>
 		public void QueryJoinRoomToken(ref QueryJoinRoomTokenOptions options, object clientData, OnQueryJoinRoomTokenCompleteCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -187,6 +195,8 @@ namespace Epic.OnlineServices.RTCAdmin
 		/// Starts an asynchronous task remotely mutes/unmutes a room participant.
 		/// 
 		/// This remotely mutes the specified participant, so no audio is sent from that participant to any other participant in the room.
+		/// <see cref="SetParticipantHardMuteOptions" />
+		/// <see cref="OnSetParticipantHardMuteCompleteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the room and user to mute.

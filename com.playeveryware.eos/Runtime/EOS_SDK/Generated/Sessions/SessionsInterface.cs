@@ -295,6 +295,8 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// Register to receive notifications when a user accepts a session join game via the social overlay.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyJoinSessionAccepted" /> when you no longer wish to have your NotificationHandler called
+		/// <see cref="AddNotifyJoinSessionAcceptedOptions" />
+		/// <see cref="OnJoinSessionAcceptedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -335,6 +337,8 @@ namespace Epic.OnlineServices.Sessions
 		/// Register to receive notifications about leave session requests performed by local user via the overlay.
 		/// When user requests to leave the session in the social overlay, the SDK does not automatically leave the session, it is up to the game to perform any necessary cleanup and call the <see cref="DestroySession" /> method using the SessionName sent in the notification function.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyLeaveSessionRequested" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyLeaveSessionRequestedOptions" />
+		/// <see cref="OnLeaveSessionRequestedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -377,6 +381,8 @@ namespace Epic.OnlineServices.Sessions
 		/// then use the state of <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity" /> and <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity" /> to determine when the NotificationFn is
 		/// called.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifySendSessionNativeInviteRequested" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifySendSessionNativeInviteRequestedOptions" />
+		/// <see cref="OnSendSessionNativeInviteRequestedCallback" />
 		/// <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions" />
 		/// <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity" />
 		/// <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity" />
@@ -419,6 +425,8 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// Register to receive notifications when a user accepts a session invite via the social overlay.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifySessionInviteAccepted" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifySessionInviteAcceptedOptions" />
+		/// <see cref="OnSessionInviteAcceptedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -458,6 +466,8 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// Register to receive session invites.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifySessionInviteReceived" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifySessionInviteReceivedOptions" />
+		/// <see cref="OnSessionInviteReceivedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the session invite notification
@@ -497,6 +507,8 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// Register to receive notifications when a user rejects a session invite.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifySessionInviteRejected" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifySessionInviteRejectedOptions" />
+		/// <see cref="OnSessionInviteRejectedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -535,6 +547,7 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Create a handle to an existing active session.
+		/// <see cref="CopyActiveSessionHandleOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the active session to retrieve
@@ -543,10 +556,12 @@ namespace Epic.OnlineServices.Sessions
 		/// The new active session handle or <see langword="null" /> if there was an error
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the session handle was created successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
-		/// <see cref="Result.NotFound" /> if the active session doesn't exist
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the session handle was created successfully
+		/// - <see cref="Result.InvalidParameters" /> if any of the options are incorrect
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// - <see cref="Result.NotFound" /> if the active session doesn't exist
 		/// </returns>
 		public Result CopyActiveSessionHandle(ref CopyActiveSessionHandleOptions options, out ActiveSession outSessionHandle)
 		{
@@ -568,6 +583,7 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="CopySessionHandleByInviteId" /> is used to immediately retrieve a handle to the session information from after notification of an invite
 		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutSessionHandle, must be passed to <see cref="SessionDetails.Release" /> to release the memory associated with it.
 		/// <see cref="CopySessionHandleByInviteIdOptions" />
+		/// <see cref="SessionDetails" />
 		/// <see cref="SessionDetails.Release" />
 		/// </summary>
 		/// <param name="options">
@@ -577,10 +593,12 @@ namespace Epic.OnlineServices.Sessions
 		/// out parameter used to receive the session handle
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutSessionHandle
-		/// <see cref="Result.InvalidParameters" /> if you pass an invalid invite ID or a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
-		/// <see cref="Result.NotFound" /> if the invite ID cannot be found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutSessionHandle
+		/// - <see cref="Result.InvalidParameters" /> if you pass an invalid invite ID or a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// - <see cref="Result.NotFound" /> if the invite ID cannot be found
 		/// </returns>
 		public Result CopySessionHandleByInviteId(ref CopySessionHandleByInviteIdOptions options, out SessionDetails outSessionHandle)
 		{
@@ -602,6 +620,7 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="CopySessionHandleByUiEventId" /> is used to immediately retrieve a handle to the session information from after notification of a join game event.
 		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutSessionHandle, must be passed to <see cref="SessionDetails.Release" /> to release the memory associated with it.
 		/// <see cref="CopySessionHandleByUiEventIdOptions" />
+		/// <see cref="SessionDetails" />
 		/// <see cref="SessionDetails.Release" />
 		/// </summary>
 		/// <param name="options">
@@ -611,10 +630,12 @@ namespace Epic.OnlineServices.Sessions
 		/// out parameter used to receive the session handle
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutSessionHandle
-		/// <see cref="Result.InvalidParameters" /> if you pass an invalid invite ID or a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
-		/// <see cref="Result.NotFound" /> if the invite ID cannot be found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutSessionHandle
+		/// - <see cref="Result.InvalidParameters" /> if you pass an invalid invite ID or a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// - <see cref="Result.NotFound" /> if the invite ID cannot be found
 		/// </returns>
 		public Result CopySessionHandleByUiEventId(ref CopySessionHandleByUiEventIdOptions options, out SessionDetails outSessionHandle)
 		{
@@ -636,6 +657,7 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="CopySessionHandleForPresence" /> is used to immediately retrieve a handle to the session information which was marked with bPresenceEnabled on create or join.
 		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutSessionHandle, must be passed to <see cref="SessionDetails.Release" /> to release the memory associated with it.
 		/// <see cref="CopySessionHandleForPresenceOptions" />
+		/// <see cref="SessionDetails" />
 		/// <see cref="SessionDetails.Release" />
 		/// </summary>
 		/// <param name="options">
@@ -645,10 +667,12 @@ namespace Epic.OnlineServices.Sessions
 		/// out parameter used to receive the session handle
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutSessionHandle
-		/// <see cref="Result.InvalidParameters" /> if you pass an invalid invite ID or a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
-		/// <see cref="Result.NotFound" /> if there is no session with bPresenceEnabled
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutSessionHandle
+		/// - <see cref="Result.InvalidParameters" /> if you pass an invalid invite ID or a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// - <see cref="Result.NotFound" /> if there is no session with bPresenceEnabled
 		/// </returns>
 		public Result CopySessionHandleForPresence(ref CopySessionHandleForPresenceOptions options, out SessionDetails outSessionHandle)
 		{
@@ -669,6 +693,7 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// Creates a session modification handle (<see cref="SessionModification" />). The session modification handle is used to build a new session and can be applied with <see cref="UpdateSession" />
 		/// The <see cref="SessionModification" /> must be released by calling <see cref="SessionModification.Release" /> once it no longer needed.
+		/// <see cref="CreateSessionModificationOptions" />
 		/// <see cref="SessionModification.Release" />
 		/// <see cref="UpdateSession" />
 		/// <see cref="SessionModification" />
@@ -680,7 +705,9 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="IntPtr" /> to a Session Modification Handle only set if successful
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if we successfully created the Session Modification Handle pointed at in OutSessionModificationHandle, or an error result if the input data was invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if we successfully created the Session Modification Handle pointed at in OutSessionModificationHandle, or an error result if the input data was invalid
 		/// </returns>
 		public Result CreateSessionModification(ref CreateSessionModificationOptions options, out SessionModification outSessionModificationHandle)
 		{
@@ -704,6 +731,7 @@ namespace Epic.OnlineServices.Sessions
 		/// - set the session ID to find a specific session
 		/// - set the target user ID to find a specific user
 		/// - set session parameters to find an array of sessions that match the search criteria
+		/// <see cref="CreateSessionSearchOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing required parameters such as the maximum number of search results
@@ -712,8 +740,10 @@ namespace Epic.OnlineServices.Sessions
 		/// The new search handle or <see langword="null" /> if there was an error creating the search handle
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the search creation completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the search creation completes successfully
+		/// - <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// </returns>
 		public Result CreateSessionSearch(ref CreateSessionSearchOptions options, out SessionSearch outSessionSearchHandle)
 		{
@@ -733,6 +763,8 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Destroy a session given a session name
+		/// <see cref="DestroySessionOptions" />
+		/// <see cref="OnDestroySessionCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the session to be destroyed
@@ -743,12 +775,6 @@ namespace Epic.OnlineServices.Sessions
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the destroy operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the destroy completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.AlreadyPending" /> if the session is already marked for destroy
-		/// <see cref="Result.NotFound" /> if a session to be destroyed does not exist
-		/// </returns>
 		public void DestroySession(ref DestroySessionOptions options, object clientData, OnDestroySessionCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -770,14 +796,17 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Dump the contents of active sessions that exist locally to the log output, purely for debug purposes
+		/// <see cref="DumpSessionStateOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options related to dumping session state such as the session name
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the output operation completes successfully
-		/// <see cref="Result.NotFound" /> if the session specified does not exist
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the output operation completes successfully
+		/// - <see cref="Result.NotFound" /> if the session specified does not exist
+		/// - <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// </returns>
 		public Result DumpSessionState(ref DumpSessionStateOptions options)
 		{
@@ -793,6 +822,8 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Mark a session as ended, making it available to find if "join in progress" was disabled. The session may be started again if desired
+		/// <see cref="EndSessionOptions" />
+		/// <see cref="OnEndSessionCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the session to be ended
@@ -803,12 +834,6 @@ namespace Epic.OnlineServices.Sessions
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the end operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the end completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.SessionsOutOfSync" /> if the session is out of sync and will be updated on the next connection with the backend
-		/// <see cref="Result.NotFound" /> if a session to be ended does not exist
-		/// </returns>
 		public void EndSession(ref EndSessionOptions options, object clientData, OnEndSessionCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -830,6 +855,7 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Get the number of known invites for a given user
+		/// <see cref="GetInviteCountOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// the Options associated with retrieving the current invite count
@@ -851,6 +877,7 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Retrieve an invite ID from a list of active invites for a given user
+		/// <see cref="GetInviteIdByIndexOptions" />
 		/// <see cref="GetInviteCount" />
 		/// <see cref="CopySessionHandleByInviteId" />
 		/// </summary>
@@ -858,9 +885,11 @@ namespace Epic.OnlineServices.Sessions
 		/// Structure containing the input parameters
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the input is valid and an invite ID was returned
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.NotFound" /> if the invite doesn't exist
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the input is valid and an invite ID was returned
+		/// - <see cref="Result.InvalidParameters" /> if any of the options are incorrect
+		/// - <see cref="Result.NotFound" /> if the invite doesn't exist
 		/// </returns>
 		public Result GetInviteIdByIndex(ref GetInviteIdByIndexOptions options, out Utf8String outBuffer)
 		{
@@ -882,17 +911,20 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// <see cref="IsUserInSession" /> returns whether or not a given user can be found in a specified session
+		/// <see cref="IsUserInSessionOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the input parameters
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the user is found in the specified session
-		/// <see cref="Result.NotFound" /> if the user is not found in the specified session
-		/// <see cref="Result.InvalidParameters" /> if you pass an invalid invite ID or a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
-		/// <see cref="Result.InvalidProductUserID" /> if an invalid target user is specified
-		/// <see cref="Result.SessionsInvalidSession" /> if the session specified is invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the user is found in the specified session
+		/// - <see cref="Result.NotFound" /> if the user is not found in the specified session
+		/// - <see cref="Result.InvalidParameters" /> if you pass an invalid invite ID or a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// - <see cref="Result.InvalidProductUserID" /> if an invalid target user is specified
+		/// - <see cref="Result.SessionsInvalidSession" /> if the session specified is invalid
 		/// </returns>
 		public Result IsUserInSession(ref IsUserInSessionOptions options)
 		{
@@ -908,6 +940,8 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Join a session, creating a local session under a given session name. Backend will validate various conditions to make sure it is possible to join the session.
+		/// <see cref="JoinSessionOptions" />
+		/// <see cref="OnJoinSessionCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the session to be joined
@@ -918,12 +952,6 @@ namespace Epic.OnlineServices.Sessions
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the join operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the join completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.SessionsSessionAlreadyExists" /> if the session is already exists or is in the process of being joined
-		/// <see cref="Result.InvalidUser" /> if the local user associated with the local session to be created does not exist or is not authenticated
-		/// </returns>
 		public void JoinSession(ref JoinSessionOptions options, object clientData, OnJoinSessionCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -945,6 +973,8 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Retrieve all existing invites for a single user
+		/// <see cref="QueryInvitesOptions" />
+		/// <see cref="OnQueryInvitesCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the invites to query
@@ -976,6 +1006,8 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Register a group of players with the session, allowing them to invite others or otherwise indicate they are part of the session for determining a full session
+		/// <see cref="RegisterPlayersOptions" />
+		/// <see cref="OnRegisterPlayersCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the session and players to be registered
@@ -986,15 +1018,6 @@ namespace Epic.OnlineServices.Sessions
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the registration operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the register completes successfully
-		/// <see cref="Result.NoChange" /> if the players to register registered previously
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.SessionsOutOfSync" /> if the session is out of sync and will be updated on the next connection with the backend
-		/// <see cref="Result.NotFound" /> if a session to register players does not exist
-		/// <see cref="Result.LimitExceeded" /> if registering the requested players would drive the total number of registered players beyond <see cref="MAXREGISTEREDPLAYERS" /> (API Version equal to or less than 2)
-		/// <see cref="Result.SessionsTooManyPlayers" /> if registering the requested players would drive the total number of registered players beyond <see cref="MAXREGISTEREDPLAYERS" /> (API Version greater than 2)
-		/// </returns>
 		public void RegisterPlayers(ref RegisterPlayersOptions options, object clientData, OnRegisterPlayersCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1016,6 +1039,8 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Reject an invite from another player.
+		/// <see cref="RejectInviteOptions" />
+		/// <see cref="OnRejectInviteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the invite to reject
@@ -1026,11 +1051,6 @@ namespace Epic.OnlineServices.Sessions
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the reject invite operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the invite rejection completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.NotFound" /> if the invite does not exist
-		/// </returns>
 		public void RejectInvite(ref RejectInviteOptions options, object clientData, OnRejectInviteCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1130,6 +1150,8 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Send an invite to another player. User must have created the session or be registered in the session or else the call will fail
+		/// <see cref="SendInviteOptions" />
+		/// <see cref="OnSendInviteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the session and player to invite
@@ -1140,11 +1162,6 @@ namespace Epic.OnlineServices.Sessions
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the send invite operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the send invite completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.NotFound" /> if the session to send the invite from does not exist
-		/// </returns>
 		public void SendInvite(ref SendInviteOptions options, object clientData, OnSendInviteCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1166,6 +1183,8 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Mark a session as started, making it unable to find if session properties indicate "join in progress" is not available
+		/// <see cref="StartSessionOptions" />
+		/// <see cref="OnStartSessionCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the session to be started
@@ -1176,12 +1195,6 @@ namespace Epic.OnlineServices.Sessions
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the start operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the start completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.SessionsOutOfSync" /> if the session is out of sync and will be updated on the next connection with the backend
-		/// <see cref="Result.NotFound" /> if a session to be started does not exist
-		/// </returns>
 		public void StartSession(ref StartSessionOptions options, object clientData, OnStartSessionCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1203,6 +1216,8 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Unregister a group of players with the session, freeing up space for others to join
+		/// <see cref="UnregisterPlayersOptions" />
+		/// <see cref="OnUnregisterPlayersCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the session and players to be unregistered
@@ -1213,13 +1228,6 @@ namespace Epic.OnlineServices.Sessions
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the unregistration operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the unregister completes successfully
-		/// <see cref="Result.NoChange" /> if the players to unregister were not found
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.SessionsOutOfSync" /> if the session is out of sync and will be updated on the next connection with the backend
-		/// <see cref="Result.NotFound" /> if a session to be unregister players does not exist
-		/// </returns>
 		public void UnregisterPlayers(ref UnregisterPlayersOptions options, object clientData, OnUnregisterPlayersCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1241,6 +1249,8 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Update a session given a session modification handle created by <see cref="CreateSessionModification" /> or <see cref="UpdateSessionModification" />
+		/// <see cref="UpdateSessionOptions" />
+		/// <see cref="OnUpdateSessionCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the session to be updated
@@ -1251,14 +1261,6 @@ namespace Epic.OnlineServices.Sessions
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the update operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the update completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.SessionsOutOfSync" /> if the session is out of sync and will be updated on the next connection with the backend
-		/// <see cref="Result.NotFound" /> if a session to be updated does not exist
-		/// <see cref="Result.LimitExceeded" /> if a new session cannot be created because doing so would exceed the maximum allowed concurrent session count
-		/// <see cref="Result.InvalidUser" /> if the local user associated with the session to update does not exist or is not authenticated
-		/// </returns>
 		public void UpdateSession(ref UpdateSessionOptions options, object clientData, OnUpdateSessionCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1281,6 +1283,7 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// Creates a session modification handle (<see cref="SessionModification" />). The session modification handle is used to modify an existing session and can be applied with <see cref="UpdateSession" />.
 		/// The <see cref="SessionModification" /> must be released by calling <see cref="SessionModification.Release" /> once it is no longer needed.
+		/// <see cref="UpdateSessionModificationOptions" />
 		/// <see cref="SessionModification.Release" />
 		/// <see cref="UpdateSession" />
 		/// <see cref="SessionModification" />
@@ -1292,7 +1295,9 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="IntPtr" /> to a Session Modification Handle only set if successful
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if we successfully created the Session Modification Handle pointed at in OutSessionModificationHandle, or an error result if the input data was invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if we successfully created the Session Modification Handle pointed at in OutSessionModificationHandle, or an error result if the input data was invalid
 		/// </returns>
 		public Result UpdateSessionModification(ref UpdateSessionModificationOptions options, out SessionModification outSessionModificationHandle)
 		{

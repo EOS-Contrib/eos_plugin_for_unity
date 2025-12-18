@@ -29,6 +29,7 @@ namespace Epic.OnlineServices.Metrics
 		/// 
 		/// The game client should call this function whenever it joins into a new multiplayer, peer-to-peer or single player game session.
 		/// Each call to BeginPlayerSession must be matched with a corresponding call to EndPlayerSession.
+		/// <see cref="BeginPlayerSessionOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the local player's game account and the game session information.
@@ -53,6 +54,7 @@ namespace Epic.OnlineServices.Metrics
 		/// 
 		/// Call once when the game client leaves the active game session.
 		/// Each call to BeginPlayerSession must be matched with a corresponding call to EndPlayerSession.
+		/// <see cref="EndPlayerSessionOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the account id of the player whose session to end.
