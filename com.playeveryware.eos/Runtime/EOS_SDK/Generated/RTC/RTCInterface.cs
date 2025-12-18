@@ -83,6 +83,8 @@ namespace Epic.OnlineServices.RTC
 		/// This function will always return <see cref="Common.INVALID_NOTIFICATIONID" /> when used with lobby RTC room. To be notified of the connection
 		/// status of a Lobby-managed RTC room, use the <see cref="Lobby.LobbyInterface.AddNotifyRTCRoomConnectionChanged" /> function instead.
 		/// <see cref="Common.INVALID_NOTIFICATIONID" />
+		/// <see cref="AddNotifyDisconnectedOptions" />
+		/// <see cref="OnDisconnectedCallback" />
 		/// <see cref="RemoveNotifyDisconnected" />
 		/// </summary>
 		/// <param name="clientData">
@@ -136,6 +138,8 @@ namespace Epic.OnlineServices.RTC
 		/// ParticipantStatus set to <see cref="RTCParticipantStatus.Joined" /> and bParticipantInBlocklist set to <see langword="false" />.
 		/// This notification is also raised when the local user joins the room, but NOT when the local user leaves the room.
 		/// <see cref="Common.INVALID_NOTIFICATIONID" />
+		/// <see cref="AddNotifyParticipantStatusChangedOptions" />
+		/// <see cref="OnParticipantStatusChangedCallback" />
 		/// <see cref="RemoveNotifyParticipantStatusChanged" />
 		/// </summary>
 		/// <param name="clientData">
@@ -178,6 +182,8 @@ namespace Epic.OnlineServices.RTC
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyRoomBeforeJoin" /> when you no longer wish to
 		/// have your CompletionDelegate called.
 		/// <see cref="Common.INVALID_NOTIFICATIONID" />
+		/// <see cref="AddNotifyRoomBeforeJoinOptions" />
+		/// <see cref="OnRoomBeforeJoinCallback" />
 		/// <see cref="RemoveNotifyRoomBeforeJoin" />
 		/// </summary>
 		/// <param name="options">
@@ -221,6 +227,8 @@ namespace Epic.OnlineServices.RTC
 		/// If the returned NotificationId is valid, you must call
 		/// <see cref="RemoveNotifyRoomStatisticsUpdated" /> when you no longer wish to have your CompletionDelegate called.
 		/// <see cref="Common.INVALID_NOTIFICATIONID" />
+		/// <see cref="AddNotifyRoomStatisticsUpdatedOptions" />
+		/// <see cref="OnRoomStatisticsUpdatedCallback" />
 		/// <see cref="RemoveNotifyRoomStatisticsUpdated" />
 		/// </summary>
 		/// <param name="options">
@@ -261,6 +269,8 @@ namespace Epic.OnlineServices.RTC
 		/// <summary>
 		/// Use this function to block a participant already connected to the room. After blocking them no media will be sent or received between
 		/// that user and the local user. This method can be used after receiving the OnParticipantStatusChanged notification.
+		/// <see cref="BlockParticipantOptions" />
+		/// <see cref="OnBlockParticipantCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation.
@@ -271,12 +281,6 @@ namespace Epic.OnlineServices.RTC
 		/// <param name="completionDelegate">
 		/// a callback that is fired when the async operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation succeeded
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
-		/// <see cref="Result.NotFound" /> if either the local user or specified participant are not in the specified room
-		/// <see cref="Result.UserIsInBlocklist" /> The user is in one of the platform's applicable block lists and thus an RTC unblock is not allowed.
-		/// </returns>
 		public void BlockParticipant(ref BlockParticipantOptions options, object clientData, OnBlockParticipantCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -335,6 +339,8 @@ namespace Epic.OnlineServices.RTC
 		/// 
 		/// This function does not need to called for the Lobby RTC Room system; doing so will return <see cref="Result.AccessDenied" />. The lobby system will
 		/// automatically join and leave RTC Rooms for all lobbies that have RTC rooms enabled.
+		/// <see cref="JoinRoomOptions" />
+		/// <see cref="OnJoinRoomCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation.
@@ -370,6 +376,8 @@ namespace Epic.OnlineServices.RTC
 		/// 
 		/// This function does not need to called for the Lobby RTC Room system; doing so will return <see cref="Result.AccessDenied" />. The lobby system will
 		/// automatically join and leave RTC Rooms for all lobbies that have RTC rooms enabled.
+		/// <see cref="LeaveRoomOptions" />
+		/// <see cref="OnLeaveRoomCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation.
@@ -380,11 +388,6 @@ namespace Epic.OnlineServices.RTC
 		/// <param name="completionDelegate">
 		/// a callback that is fired when the async operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation succeeded
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
-		/// <see cref="Result.NotFound" /> if not in the specified room
-		/// </returns>
 		public void LeaveRoom(ref LeaveRoomOptions options, object clientData, OnLeaveRoomCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -461,12 +464,17 @@ namespace Epic.OnlineServices.RTC
 		/// Use this function to control settings for the specific room.
 		/// 
 		/// The available settings are documented as part of <see cref="SetRoomSettingOptions" />.
+		/// <see cref="SetRoomSettingOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> when the setting is successfully set, <see cref="Result.NotFound" /> when the setting is unknown, <see cref="Result.InvalidParameters" /> when the value is invalid.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> when the setting is successfully set
+		/// - <see cref="Result.NotFound" /> when the setting is unknown
+		/// - <see cref="Result.InvalidParameters" /> when the value is invalid.
 		/// </returns>
 		public Result SetRoomSetting(ref SetRoomSettingOptions options)
 		{
@@ -484,12 +492,17 @@ namespace Epic.OnlineServices.RTC
 		/// Use this function to control settings.
 		/// 
 		/// The available settings are documented as part of <see cref="SetSettingOptions" />.
+		/// <see cref="SetSettingOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> when the setting is successfully set, <see cref="Result.NotFound" /> when the setting is unknown, <see cref="Result.InvalidParameters" /> when the value is invalid.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> when the setting is successfully set
+		/// - <see cref="Result.NotFound" /> when the setting is unknown
+		/// - <see cref="Result.InvalidParameters" /> when the value is invalid.
 		/// </returns>
 		public Result SetSetting(ref SetSettingOptions options)
 		{

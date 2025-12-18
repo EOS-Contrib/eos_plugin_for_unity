@@ -46,6 +46,8 @@ namespace Epic.OnlineServices.RTCData
 		/// have your CompletionDelegate called.
 		/// The CompletionDelegate may be called from a thread other than the one from which the SDK is ticking.
 		/// <see cref="Common.INVALID_NOTIFICATIONID" />
+		/// <see cref="AddNotifyDataReceivedOptions" />
+		/// <see cref="OnDataReceivedCallback" />
 		/// <see cref="RemoveNotifyDataReceived" />
 		/// </summary>
 		/// <param name="clientData">
@@ -88,8 +90,9 @@ namespace Epic.OnlineServices.RTCData
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyParticipantUpdated" /> when you no longer wish
 		/// to have your CompletionDelegate called.
 		/// <see cref="Common.INVALID_NOTIFICATIONID" />
+		/// <see cref="AddNotifyParticipantUpdatedOptions" />
 		/// <see cref="RemoveNotifyParticipantUpdated" />
-		/// <see cref="ParticipantUpdatedCallbackInfo" />
+		/// <see cref="OnParticipantUpdatedCallback" />
 		/// <see cref="RTCDataStatus" />
 		/// </summary>
 		/// <param name="options">
@@ -155,14 +158,17 @@ namespace Epic.OnlineServices.RTCData
 
 		/// <summary>
 		/// Use this function to send a data packet to the rest of participants.
+		/// <see cref="SendDataOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> the data packet was queued for sending
-		/// <see cref="Result.InvalidParameters" /> if any of the options are invalid
-		/// <see cref="Result.NotFound" /> if the specified room was not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> the data packet was queued for sending
+		/// - <see cref="Result.InvalidParameters" /> if any of the options are invalid
+		/// - <see cref="Result.NotFound" /> if the specified room was not found
 		/// </returns>
 		public Result SendData(ref SendDataOptions options)
 		{
@@ -178,6 +184,8 @@ namespace Epic.OnlineServices.RTCData
 
 		/// <summary>
 		/// Use this function to tweak incoming data options for a room.
+		/// <see cref="UpdateReceivingOptions" />
+		/// <see cref="OnUpdateReceivingCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation.
@@ -188,11 +196,6 @@ namespace Epic.OnlineServices.RTCData
 		/// <param name="completionDelegate">
 		/// The callback to be fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation succeeded
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
-		/// <see cref="Result.NotFound" /> if either the local user or specified participant are not in the room
-		/// </returns>
 		public void UpdateReceiving(ref UpdateReceivingOptions options, object clientData, OnUpdateReceivingCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -214,6 +217,8 @@ namespace Epic.OnlineServices.RTCData
 
 		/// <summary>
 		/// Use this function to tweak outgoing data options for a room.
+		/// <see cref="UpdateSendingOptions" />
+		/// <see cref="OnUpdateSendingCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation.
@@ -224,11 +229,6 @@ namespace Epic.OnlineServices.RTCData
 		/// <param name="completionDelegate">
 		/// The callback to be fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation succeeded
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
-		/// <see cref="Result.NotFound" /> if the local user is not in the room
-		/// </returns>
 		public void UpdateSending(ref UpdateSendingOptions options, object clientData, OnUpdateSendingCallback completionDelegate)
 		{
 			if (completionDelegate == null)
