@@ -15,9 +15,8 @@
  * @param ClientData Optional pointer to help clients track this request, that is returned in the completion callback
  * @param CompletionCallback This function is called when the query operation completes
  *
- * @return EOS_Success if the query completes successfully and a file is found
- *         EOS_NotFound if no file is found
- *
+ * @see EOS_TitleStorage_QueryFileOptions
+ * @see EOS_TitleStorage_OnQueryFileCompleteCallback
  * @see EOS_TitleStorage_GetFileMetadataCount
  * @see EOS_TitleStorage_CopyFileMetadataAtIndex
  * @see EOS_TitleStorage_CopyFileMetadataByFilename
@@ -32,8 +31,8 @@ EOS_DECLARE_FUNC(void) EOS_TitleStorage_QueryFile(EOS_HTitleStorage Handle, cons
  * @param ClientData Optional pointer to help clients track this request, that is returned in the completion callback
  * @param CompletionCallback This function is called when the query operation completes
  *
- * @return EOS_Success if the query completes successfully (whether any files are found or not)
- *
+ * @see EOS_TitleStorage_QueryFileListOptions
+ * @see EOS_TitleStorage_OnQueryFileListCompleteCallback
  * @see EOS_TitleStorage_GetFileMetadataCount
  * @see EOS_TitleStorage_CopyFileMetadataAtIndex
  * @see EOS_TitleStorage_CopyFileMetadataByFilename
@@ -47,6 +46,9 @@ EOS_DECLARE_FUNC(void) EOS_TitleStorage_QueryFileList(EOS_HTitleStorage Handle, 
  * @param Options Object containing properties related to which user is requesting metadata, and for which filename
  * @param OutMetadata A copy of the FileMetadata structure will be set if successful.  This data must be released by calling EOS_TitleStorage_FileMetadata_Release.
  * @return EOS_Success if the metadata is currently cached, otherwise an error result explaining what went wrong
+ *
+ * @see EOS_TitleStorage_CopyFileMetadataByFilenameOptions
+ * @see EOS_TitleStorage_FileMetadata
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_TitleStorage_CopyFileMetadataByFilename(EOS_HTitleStorage Handle, const EOS_TitleStorage_CopyFileMetadataByFilenameOptions* Options, EOS_TitleStorage_FileMetadata ** OutMetadata);
 
@@ -56,6 +58,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_TitleStorage_CopyFileMetadataByFilename(EOS_HT
  * @param Options Object containing properties related to which user is requesting the metadata count
  * @return If successful, the count of metadata currently cached. Returns 0 on failure.
  *
+ * @see EOS_TitleStorage_GetFileMetadataCountOptions
  * @see EOS_TitleStorage_CopyFileMetadataAtIndex
  */
 EOS_DECLARE_FUNC(uint32_t) EOS_TitleStorage_GetFileMetadataCount(EOS_HTitleStorage Handle, const EOS_TitleStorage_GetFileMetadataCountOptions* Options);
@@ -67,6 +70,8 @@ EOS_DECLARE_FUNC(uint32_t) EOS_TitleStorage_GetFileMetadataCount(EOS_HTitleStora
  * @param OutMetadata A copy of the FileMetadata structure will be set if successful.  This data must be released by calling EOS_TitleStorage_FileMetadata_Release.
  * @return EOS_Success if the requested metadata is currently cached, otherwise an error result explaining what went wrong.
  *
+ * @see EOS_TitleStorage_CopyFileMetadataAtIndexOptions
+ * @see EOS_TitleStorage_FileMetadata
  * @see EOS_TitleStorage_GetFileMetadataCount
  * @see EOS_TitleStorage_FileMetadata_Release
  */
@@ -82,9 +87,13 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_TitleStorage_CopyFileMetadataAtIndex(EOS_HTitl
  * @param CompletionCallback This function is called when the read operation completes
  * @return A valid Title Storage File Request handle if successful, or NULL otherwise. Data contained in the completion callback will have more detailed information about issues with the request in failure cases. This handle must be released when it is no longer needed
  *
- * @return EOS_Success if the file is exists and the read operation completes successfully
- *         EOS_NotFound if no file is found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the file is exists and the read operation completes successfully
+ * - EOS_NotFound if no file is found
  *
+ * @see EOS_TitleStorage_ReadFileOptions
+ * @see EOS_TitleStorage_OnReadFileCompleteCallback
  * @see EOS_TitleStorageFileTransferRequest_Release
  */
 EOS_DECLARE_FUNC(EOS_HTitleStorageFileTransferRequest) EOS_TitleStorage_ReadFile(EOS_HTitleStorage Handle, const EOS_TitleStorage_ReadFileOptions* Options, void* ClientData, const EOS_TitleStorage_OnReadFileCompleteCallback CompletionCallback);
@@ -97,6 +106,9 @@ EOS_DECLARE_FUNC(EOS_HTitleStorageFileTransferRequest) EOS_TitleStorage_ReadFile
  * @param ClientData Optional pointer to help clients track this request, that is returned in associated callbacks
  * @param CompletionCallback This function is called when the delete cache operation completes
  * @return EOS_Success if the operation was started correctly, otherwise an error result explaining what went wrong
+ *
+ * @see EOS_TitleStorage_DeleteCacheOptions
+ * @see EOS_TitleStorage_OnDeleteCacheCompleteCallback
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_TitleStorage_DeleteCache(EOS_HTitleStorage Handle, const EOS_TitleStorage_DeleteCacheOptions* Options, void* ClientData, const EOS_TitleStorage_OnDeleteCacheCompleteCallback CompletionCallback);
 
@@ -107,7 +119,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_TitleStorage_DeleteCache(EOS_HTitleStorage Han
 /**
  * Get the current state of a file request.
  *
- * @return EOS_Success if complete and successful, EOS_RequestInProgress if the request is still in progress, or another state for failure.
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if complete and successful
+ * - EOS_RequestInProgress if the request is still in progress, or another state for failure.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_TitleStorageFileTransferRequest_GetFileRequestState(EOS_HTitleStorageFileTransferRequest Handle);
 
@@ -126,6 +141,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_TitleStorageFileTransferRequest_GetFilename(EO
 /**
  * Attempt to cancel this file request in progress. This is a best-effort command and is not guaranteed to be successful if the request has completed before this function is called.
  *
- * @return EOS_Success if cancel is successful, EOS_NoChange if request had already completed (can't be canceled), EOS_AlreadyPending if it's already been canceled before (this is a final state for canceled request and won't change over time).
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if cancel is successful
+ * - EOS_NoChange if request had already completed (can't be canceled)
+ * - EOS_AlreadyPending if it's already been canceled before (this is a final state for canceled request and won't change over time).
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_TitleStorageFileTransferRequest_CancelRequest(EOS_HTitleStorageFileTransferRequest Handle);

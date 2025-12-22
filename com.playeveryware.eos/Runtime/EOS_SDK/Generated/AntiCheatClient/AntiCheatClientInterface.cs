@@ -48,6 +48,10 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// </summary>
 		public const int ENDSESSION_API_LATEST = 1;
 		/// <summary>
+		/// The most recent version of the <see cref="GetModuleBuildId" /> API.
+		/// </summary>
+		public const int GETMODULEBUILDID_API_LATEST = 1;
+		/// <summary>
 		/// The most recent version of the <see cref="GetProtectMessageOutputLength" /> API.
 		/// </summary>
 		public const int GETPROTECTMESSAGEOUTPUTLENGTH_API_LATEST = 1;
@@ -387,6 +391,40 @@ namespace Epic.OnlineServices.AntiCheatClient
 			optionsInternal.Set(ref options);
 
 			var callResult = Bindings.EOS_AntiCheatClient_EndSession(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			return callResult;
+		}
+
+		/// <summary>
+		/// Get the build id of the loaded anti-cheat client module.
+		/// Mode: All
+		/// 
+		/// NOTE: This is intended for analytics or troubleshooting purposes only. The build identifier should be treated as an arbitrary value
+		/// and never used in relative comparisons. For example, it is incorrect to assume that a change in the behavior of the anti-cheat module
+		/// introduced with build N is also present in build N+1 because we may backport bugfixes and compatibility fixes to older releases.
+		/// </summary>
+		/// <param name="options">
+		/// Structure containing input data.
+		/// </param>
+		/// <param name="outModuleBuildId">
+		/// On success, the build id of the loaded anti-cheat client module.
+		/// </param>
+		/// <returns>
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the build id was provided successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotImplemented" /> - If the platform does not use anti-cheat client modules or the loaded anti-cheat client module is too old to support this function.
+		/// - <see cref="Result.NotFound" /> - If the platform supports anti-cheat client modules but none is currently loaded (failsafe NullClient mode, launched without bootstrapper, etc).
+		/// </returns>
+		public Result GetModuleBuildId(ref GetModuleBuildIdOptions options, out uint outModuleBuildId)
+		{
+			var optionsInternal = default(GetModuleBuildIdOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var callResult = Bindings.EOS_AntiCheatClient_GetModuleBuildId(InnerHandle, ref optionsInternal, out outModuleBuildId);
 
 			Helper.Dispose(ref optionsInternal);
 

@@ -73,6 +73,7 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_AddNotifyPeerAuthStatusChangedName = "EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged";
 		private const string EOS_AntiCheatClient_BeginSessionName = "EOS_AntiCheatClient_BeginSession";
 		private const string EOS_AntiCheatClient_EndSessionName = "EOS_AntiCheatClient_EndSession";
+		private const string EOS_AntiCheatClient_GetModuleBuildIdName = "EOS_AntiCheatClient_GetModuleBuildId";
 		private const string EOS_AntiCheatClient_GetProtectMessageOutputLengthName = "EOS_AntiCheatClient_GetProtectMessageOutputLength";
 		private const string EOS_AntiCheatClient_PollStatusName = "EOS_AntiCheatClient_PollStatus";
 		private const string EOS_AntiCheatClient_ProtectMessageName = "EOS_AntiCheatClient_ProtectMessage";
@@ -201,6 +202,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_CopyItemByIdName = "EOS_Ecom_CopyItemById";
 		private const string EOS_Ecom_CopyItemImageInfoByIndexName = "EOS_Ecom_CopyItemImageInfoByIndex";
 		private const string EOS_Ecom_CopyItemReleaseByIndexName = "EOS_Ecom_CopyItemReleaseByIndex";
+		private const string EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexName = "EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex";
 		private const string EOS_Ecom_CopyLastRedeemedEntitlementByIndexName = "EOS_Ecom_CopyLastRedeemedEntitlementByIndex";
 		private const string EOS_Ecom_CopyOfferByIdName = "EOS_Ecom_CopyOfferById";
 		private const string EOS_Ecom_CopyOfferByIndexName = "EOS_Ecom_CopyOfferByIndex";
@@ -213,6 +215,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_GetEntitlementsCountName = "EOS_Ecom_GetEntitlementsCount";
 		private const string EOS_Ecom_GetItemImageInfoCountName = "EOS_Ecom_GetItemImageInfoCount";
 		private const string EOS_Ecom_GetItemReleaseCountName = "EOS_Ecom_GetItemReleaseCount";
+		private const string EOS_Ecom_GetLastRedeemEntitlementsResultCountName = "EOS_Ecom_GetLastRedeemEntitlementsResultCount";
 		private const string EOS_Ecom_GetLastRedeemedEntitlementsCountName = "EOS_Ecom_GetLastRedeemedEntitlementsCount";
 		private const string EOS_Ecom_GetOfferCountName = "EOS_Ecom_GetOfferCount";
 		private const string EOS_Ecom_GetOfferImageInfoCountName = "EOS_Ecom_GetOfferImageInfoCount";
@@ -708,6 +711,7 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_AddNotifyPeerAuthStatusChangedName = "_EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged";
 		private const string EOS_AntiCheatClient_BeginSessionName = "_EOS_AntiCheatClient_BeginSession";
 		private const string EOS_AntiCheatClient_EndSessionName = "_EOS_AntiCheatClient_EndSession";
+		private const string EOS_AntiCheatClient_GetModuleBuildIdName = "_EOS_AntiCheatClient_GetModuleBuildId";
 		private const string EOS_AntiCheatClient_GetProtectMessageOutputLengthName = "_EOS_AntiCheatClient_GetProtectMessageOutputLength";
 		private const string EOS_AntiCheatClient_PollStatusName = "_EOS_AntiCheatClient_PollStatus";
 		private const string EOS_AntiCheatClient_ProtectMessageName = "_EOS_AntiCheatClient_ProtectMessage";
@@ -836,6 +840,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_CopyItemByIdName = "_EOS_Ecom_CopyItemById";
 		private const string EOS_Ecom_CopyItemImageInfoByIndexName = "_EOS_Ecom_CopyItemImageInfoByIndex";
 		private const string EOS_Ecom_CopyItemReleaseByIndexName = "_EOS_Ecom_CopyItemReleaseByIndex";
+		private const string EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexName = "_EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex";
 		private const string EOS_Ecom_CopyLastRedeemedEntitlementByIndexName = "_EOS_Ecom_CopyLastRedeemedEntitlementByIndex";
 		private const string EOS_Ecom_CopyOfferByIdName = "_EOS_Ecom_CopyOfferById";
 		private const string EOS_Ecom_CopyOfferByIndexName = "_EOS_Ecom_CopyOfferByIndex";
@@ -848,6 +853,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_GetEntitlementsCountName = "_EOS_Ecom_GetEntitlementsCount";
 		private const string EOS_Ecom_GetItemImageInfoCountName = "_EOS_Ecom_GetItemImageInfoCount";
 		private const string EOS_Ecom_GetItemReleaseCountName = "_EOS_Ecom_GetItemReleaseCount";
+		private const string EOS_Ecom_GetLastRedeemEntitlementsResultCountName = "_EOS_Ecom_GetLastRedeemEntitlementsResultCount";
 		private const string EOS_Ecom_GetLastRedeemedEntitlementsCountName = "_EOS_Ecom_GetLastRedeemedEntitlementsCount";
 		private const string EOS_Ecom_GetOfferCountName = "_EOS_Ecom_GetOfferCount";
 		private const string EOS_Ecom_GetOfferImageInfoCountName = "_EOS_Ecom_GetOfferImageInfoCount";
@@ -1343,6 +1349,7 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_AddNotifyPeerAuthStatusChangedName = "_EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged@16";
 		private const string EOS_AntiCheatClient_BeginSessionName = "_EOS_AntiCheatClient_BeginSession@8";
 		private const string EOS_AntiCheatClient_EndSessionName = "_EOS_AntiCheatClient_EndSession@8";
+		private const string EOS_AntiCheatClient_GetModuleBuildIdName = "_EOS_AntiCheatClient_GetModuleBuildId@12";
 		private const string EOS_AntiCheatClient_GetProtectMessageOutputLengthName = "_EOS_AntiCheatClient_GetProtectMessageOutputLength@12";
 		private const string EOS_AntiCheatClient_PollStatusName = "_EOS_AntiCheatClient_PollStatus@16";
 		private const string EOS_AntiCheatClient_ProtectMessageName = "_EOS_AntiCheatClient_ProtectMessage@16";
@@ -1471,6 +1478,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_CopyItemByIdName = "_EOS_Ecom_CopyItemById@12";
 		private const string EOS_Ecom_CopyItemImageInfoByIndexName = "_EOS_Ecom_CopyItemImageInfoByIndex@12";
 		private const string EOS_Ecom_CopyItemReleaseByIndexName = "_EOS_Ecom_CopyItemReleaseByIndex@12";
+		private const string EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexName = "_EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex@16";
 		private const string EOS_Ecom_CopyLastRedeemedEntitlementByIndexName = "_EOS_Ecom_CopyLastRedeemedEntitlementByIndex@16";
 		private const string EOS_Ecom_CopyOfferByIdName = "_EOS_Ecom_CopyOfferById@12";
 		private const string EOS_Ecom_CopyOfferByIndexName = "_EOS_Ecom_CopyOfferByIndex@12";
@@ -1483,6 +1491,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_GetEntitlementsCountName = "_EOS_Ecom_GetEntitlementsCount@8";
 		private const string EOS_Ecom_GetItemImageInfoCountName = "_EOS_Ecom_GetItemImageInfoCount@8";
 		private const string EOS_Ecom_GetItemReleaseCountName = "_EOS_Ecom_GetItemReleaseCount@8";
+		private const string EOS_Ecom_GetLastRedeemEntitlementsResultCountName = "_EOS_Ecom_GetLastRedeemEntitlementsResultCount@8";
 		private const string EOS_Ecom_GetLastRedeemedEntitlementsCountName = "_EOS_Ecom_GetLastRedeemedEntitlementsCount@8";
 		private const string EOS_Ecom_GetOfferCountName = "_EOS_Ecom_GetOfferCount@8";
 		private const string EOS_Ecom_GetOfferImageInfoCountName = "_EOS_Ecom_GetOfferImageInfoCount@8";
@@ -2090,6 +2099,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_EndSessionName);
 			EOS_AntiCheatClient_EndSession = (EOS_AntiCheatClient_EndSessionDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_EndSessionDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_GetModuleBuildIdName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_GetModuleBuildIdName);
+			EOS_AntiCheatClient_GetModuleBuildId = (EOS_AntiCheatClient_GetModuleBuildIdDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_GetModuleBuildIdDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_GetProtectMessageOutputLengthName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_GetProtectMessageOutputLengthName);
 			EOS_AntiCheatClient_GetProtectMessageOutputLength = (EOS_AntiCheatClient_GetProtectMessageOutputLengthDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_GetProtectMessageOutputLengthDelegate));
@@ -2602,6 +2615,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_CopyItemReleaseByIndexName);
 			EOS_Ecom_CopyItemReleaseByIndex = (EOS_Ecom_CopyItemReleaseByIndexDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyItemReleaseByIndexDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexName);
+			EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex = (EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Ecom_CopyLastRedeemedEntitlementByIndexName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_CopyLastRedeemedEntitlementByIndexName);
 			EOS_Ecom_CopyLastRedeemedEntitlementByIndex = (EOS_Ecom_CopyLastRedeemedEntitlementByIndexDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyLastRedeemedEntitlementByIndexDelegate));
@@ -2649,6 +2666,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Ecom_GetItemReleaseCountName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_GetItemReleaseCountName);
 			EOS_Ecom_GetItemReleaseCount = (EOS_Ecom_GetItemReleaseCountDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_GetItemReleaseCountDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Ecom_GetLastRedeemEntitlementsResultCountName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_GetLastRedeemEntitlementsResultCountName);
+			EOS_Ecom_GetLastRedeemEntitlementsResultCount = (EOS_Ecom_GetLastRedeemEntitlementsResultCountDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_GetLastRedeemEntitlementsResultCountDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Ecom_GetLastRedeemedEntitlementsCountName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_GetLastRedeemedEntitlementsCountName);
@@ -4526,6 +4547,7 @@ namespace Epic.OnlineServices
 			EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged = null;
 			EOS_AntiCheatClient_BeginSession = null;
 			EOS_AntiCheatClient_EndSession = null;
+			EOS_AntiCheatClient_GetModuleBuildId = null;
 			EOS_AntiCheatClient_GetProtectMessageOutputLength = null;
 			EOS_AntiCheatClient_PollStatus = null;
 			EOS_AntiCheatClient_ProtectMessage = null;
@@ -4654,6 +4676,7 @@ namespace Epic.OnlineServices
 			EOS_Ecom_CopyItemById = null;
 			EOS_Ecom_CopyItemImageInfoByIndex = null;
 			EOS_Ecom_CopyItemReleaseByIndex = null;
+			EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex = null;
 			EOS_Ecom_CopyLastRedeemedEntitlementByIndex = null;
 			EOS_Ecom_CopyOfferById = null;
 			EOS_Ecom_CopyOfferByIndex = null;
@@ -4666,6 +4689,7 @@ namespace Epic.OnlineServices
 			EOS_Ecom_GetEntitlementsCount = null;
 			EOS_Ecom_GetItemImageInfoCount = null;
 			EOS_Ecom_GetItemReleaseCount = null;
+			EOS_Ecom_GetLastRedeemEntitlementsResultCount = null;
 			EOS_Ecom_GetLastRedeemedEntitlementsCount = null;
 			EOS_Ecom_GetOfferCount = null;
 			EOS_Ecom_GetOfferImageInfoCount = null;
@@ -5264,6 +5288,10 @@ namespace Epic.OnlineServices
 		internal static EOS_AntiCheatClient_EndSessionDelegate EOS_AntiCheatClient_EndSession;
 
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		internal delegate Result EOS_AntiCheatClient_GetModuleBuildIdDelegate(IntPtr handle, ref AntiCheatClient.GetModuleBuildIdOptionsInternal options, out uint outModuleBuildId);
+		internal static EOS_AntiCheatClient_GetModuleBuildIdDelegate EOS_AntiCheatClient_GetModuleBuildId;
+
+		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_GetProtectMessageOutputLengthDelegate(IntPtr handle, ref AntiCheatClient.GetProtectMessageOutputLengthOptionsInternal options, out uint outBufferSizeBytes);
 		internal static EOS_AntiCheatClient_GetProtectMessageOutputLengthDelegate EOS_AntiCheatClient_GetProtectMessageOutputLength;
 
@@ -5776,6 +5804,10 @@ namespace Epic.OnlineServices
 		internal static EOS_Ecom_CopyItemReleaseByIndexDelegate EOS_Ecom_CopyItemReleaseByIndex;
 
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		internal delegate Result EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexDelegate(IntPtr handle, ref Ecom.CopyLastRedeemEntitlementsResultByIndexOptionsInternal options, IntPtr outEntitlementId, ref int inOutEntitlementIdLength);
+		internal static EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexDelegate EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex;
+
+		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_CopyLastRedeemedEntitlementByIndexDelegate(IntPtr handle, ref Ecom.CopyLastRedeemedEntitlementByIndexOptionsInternal options, IntPtr outRedeemedEntitlementId, ref int inOutRedeemedEntitlementIdLength);
 		internal static EOS_Ecom_CopyLastRedeemedEntitlementByIndexDelegate EOS_Ecom_CopyLastRedeemedEntitlementByIndex;
 
@@ -5822,6 +5854,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate uint EOS_Ecom_GetItemReleaseCountDelegate(IntPtr handle, ref Ecom.GetItemReleaseCountOptionsInternal options);
 		internal static EOS_Ecom_GetItemReleaseCountDelegate EOS_Ecom_GetItemReleaseCount;
+
+		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		internal delegate uint EOS_Ecom_GetLastRedeemEntitlementsResultCountDelegate(IntPtr handle, ref Ecom.GetLastRedeemEntitlementsResultCountOptionsInternal options);
+		internal static EOS_Ecom_GetLastRedeemEntitlementsResultCountDelegate EOS_Ecom_GetLastRedeemEntitlementsResultCount;
 
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate uint EOS_Ecom_GetLastRedeemedEntitlementsCountDelegate(IntPtr handle, ref Ecom.GetLastRedeemedEntitlementsCountOptionsInternal options);
@@ -7761,6 +7797,9 @@ namespace Epic.OnlineServices
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_EndSession", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_EndSession(IntPtr handle, ref AntiCheatClient.EndSessionOptionsInternal options);
 
+		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_GetModuleBuildId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		internal static extern Result EOS_AntiCheatClient_GetModuleBuildId(IntPtr handle, ref AntiCheatClient.GetModuleBuildIdOptionsInternal options, out uint outModuleBuildId);
+
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_GetProtectMessageOutputLength", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_GetProtectMessageOutputLength(IntPtr handle, ref AntiCheatClient.GetProtectMessageOutputLengthOptionsInternal options, out uint outBufferSizeBytes);
 
@@ -8145,6 +8184,9 @@ namespace Epic.OnlineServices
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyItemReleaseByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_CopyItemReleaseByIndex(IntPtr handle, ref Ecom.CopyItemReleaseByIndexOptionsInternal options, out IntPtr outRelease);
 
+		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		internal static extern Result EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex(IntPtr handle, ref Ecom.CopyLastRedeemEntitlementsResultByIndexOptionsInternal options, IntPtr outEntitlementId, ref int inOutEntitlementIdLength);
+
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyLastRedeemedEntitlementByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_CopyLastRedeemedEntitlementByIndex(IntPtr handle, ref Ecom.CopyLastRedeemedEntitlementByIndexOptionsInternal options, IntPtr outRedeemedEntitlementId, ref int inOutRedeemedEntitlementIdLength);
 
@@ -8180,6 +8222,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_GetItemReleaseCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern uint EOS_Ecom_GetItemReleaseCount(IntPtr handle, ref Ecom.GetItemReleaseCountOptionsInternal options);
+
+		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_GetLastRedeemEntitlementsResultCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		internal static extern uint EOS_Ecom_GetLastRedeemEntitlementsResultCount(IntPtr handle, ref Ecom.GetLastRedeemEntitlementsResultCountOptionsInternal options);
 
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_GetLastRedeemedEntitlementsCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern uint EOS_Ecom_GetLastRedeemedEntitlementsCount(IntPtr handle, ref Ecom.GetLastRedeemedEntitlementsCountOptionsInternal options);

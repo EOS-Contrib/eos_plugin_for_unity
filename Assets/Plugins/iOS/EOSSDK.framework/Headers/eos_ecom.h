@@ -165,6 +165,38 @@ EOS_DECLARE_FUNC(uint32_t) EOS_Ecom_GetLastRedeemedEntitlementsCount(EOS_HEcom H
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyLastRedeemedEntitlementByIndex(EOS_HEcom Handle, const EOS_Ecom_CopyLastRedeemedEntitlementByIndexOptions* Options, char* OutRedeemedEntitlementId, int32_t* InOutRedeemedEntitlementIdLength);
 
 /**
+ * Fetch the number of entitlements of the given type in the last Redeem Entitlements result.
+ *
+ * @param Options structure containing the Epic Account ID and the result type.
+ *
+ * @see EOS_Ecom_GetLastRedeemEntitlementsResultCountOptions
+ * @see EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex
+ *
+ * @return the number of entitlements of the given result type in the last Redeem Entitlements result.
+ */
+EOS_DECLARE_FUNC(uint32_t) EOS_Ecom_GetLastRedeemEntitlementsResultCount(EOS_HEcom Handle, const EOS_Ecom_GetLastRedeemEntitlementsResultCountOptions* Options);
+
+/**
+ * Fetches an entitlement id of the given result type and the given index in the last Redeem Entitlements result.
+ *
+ * @param Options structure containing the Epic Account ID and index being accessed
+ * @param OutEntitlementId The ID of the entitlement. Must be long enough to hold a string of EOS_ECOM_ENTITLEMENTID_MAX_LENGTH.
+ * @param InOutEntitlementIdLength The size of the OutEntitlementId in characters.
+ *								   The input buffer should include enough space to be null-terminated.
+ *								   When the function returns, this parameter will be filled with the length of the string copied into OutEntitlementId.
+ *
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in EntitlementId
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the entitlement id is not found
+ *
+ * @see EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexOptions
+ * @see EOS_ECOM_ENTITLEMENTID_MAX_LENGTH
+ */
+EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex(EOS_HEcom Handle, const EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexOptions* Options, char* OutEntitlementId, int32_t* InOutEntitlementIdLength);
+
+/**
  * Fetch the number of entitlements that are cached for a given local user.
  *
  * @param Options structure containing the Epic Account ID being accessed
