@@ -741,8 +741,12 @@ EOS_STRUCT(EOS_Ecom_RedeemEntitlementsCallbackInfo, (
 	void* ClientData;
 	/** The Epic Account ID of the user who has redeemed entitlements */
 	EOS_EpicAccountId LocalUserId;
-	/* The number of redeemed Entitlements */
+	/* The number of redeemed Entitlements specified in the request. */
 	uint32_t RedeemedEntitlementIdsCount;
+	/* The number of previously redeemed Entitlements specified in the request. */
+	uint32_t PreviouslyRedeemedEntitlementIdsCount;
+	/* The number of invalid Entitlements specified in the request. */
+	uint32_t InvalidEntitlementIdsCount;
 ));
 
 /**
@@ -777,6 +781,50 @@ EOS_STRUCT(EOS_Ecom_CopyLastRedeemedEntitlementByIndexOptions, (
 	EOS_EpicAccountId LocalUserId;
 	/** Index of the last redeemed entitlement id to retrieve from the cache */
 	uint32_t RedeemedEntitlementIndex;
+));
+
+/**
+ * An enumeration defining the different entitlement list types in the Redeem Entitlements result.
+ */
+EOS_ENUM(EOS_ERedeemEntitlementsResultListType,
+	/** List of entitlements in the Redeem Entitlements result that were redeemed. */
+	EOS_ERERLT_Redeemed = 0,
+	/** List of entitlements in the Redeem Entitlements result that were previously redeemed. */
+	EOS_ERERLT_PreviouslyRedeemed = 1,
+	/** List of entitlements in the Redeem Entitlements result that are invalid. */
+	EOS_ERERLT_Invalid = 2
+);
+
+/** The most recent version of the EOS_Ecom_GetLastRedeemEntitlementsResultCount API. */
+#define EOS_ECOM_GETLASTREDEEMENTITLEMENTSRESULTCOUNT_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_Ecom_GetLastRedeemEntitlementsResultCount function.
+ */
+EOS_STRUCT(EOS_Ecom_GetLastRedeemEntitlementsResultCountOptions, (
+	/** API Version: Set this to EOS_ECOM_GETLASTREDEEMENTITLEMENTSRESULTCOUNT_API_LATEST. */
+	int32_t ApiVersion;
+	/** The Epic Account ID of the local user for who to retrieve the last redeemed entitlements count */
+	EOS_EpicAccountId LocalUserId;
+	/** The Redeem Entitlements Result Type. */
+	EOS_ERedeemEntitlementsResultListType ResultType;
+));
+
+/** The most recent version of the EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex API. */
+#define EOS_ECOM_COPYLASTREDEEMENTITLEMENTSRESULTBYINDEX_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex function.
+ */
+EOS_STRUCT(EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexOptions, (
+	/** API Version: Set this to EOS_ECOM_COPYLASTREDEEMENTITLEMENTSRESULTBYINDEX_API_LATEST. */
+	int32_t ApiVersion;
+	/** The Epic Account ID of the local user whose last redeemed entitlement id is being copied */
+	EOS_EpicAccountId LocalUserId;
+	/** Index of the entitlement of the given result type. */
+	uint32_t EntitlementIndex;
+	/** The Redeem Entitlements Result Type. */
+	EOS_ERedeemEntitlementsResultListType ResultType;
 ));
 
 /** The most recent version of the EOS_Ecom_GetEntitlementsCount API. */
