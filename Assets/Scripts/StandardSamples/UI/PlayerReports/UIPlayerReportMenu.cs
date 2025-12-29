@@ -43,25 +43,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject SanctionsListContentParent;
         public GameObject UISanctionsEntryPrefab;
 
-        private ProductUserId currentProductUserId;
+        private ProductUserId currentProdcutUserId;
 
         private EOSReportsManager ReportsManager;
         private EOSFriendsManager FriendsManager;
         
-        private const string DateFormat="dd/MM/yyyy HH:mm";
-        
-        protected override void Awake()
+
+        private void Start()
         {
-            base.Awake();
             ReportsManager = EOSManager.Instance.GetOrCreateManager<EOSReportsManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
         }
 
         protected override void OnDestroy()
         {
+            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSReportsManager>();
             EOSManager.Instance.RemoveManager<EOSFriendsManager>();
-            base.OnDestroy();
         }
 
         public void ReportButtonOnClick(ProductUserId userId, string playerName)
@@ -73,80 +71,80 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }    
 
             PlayerName.text = playerName;
-            currentProductUserId = userId;
+            currentProdcutUserId = userId;
+
+            // Start Search for Sanctions
+            EOSManager.Instance.GetOrCreateManager<EOSReportsManager>().QueryActivePlayerSanctions(userId, QueryActivePlayerSanctionsCompleted);
+
+            // Show PopUp
             UIParent.SetActive(true);
 
-            if (UIFirstSelected.activeInHierarchy)
+            // Controller
+            if(UIFirstSelected.activeInHierarchy)
             {
                 EventSystem.current.SetSelectedGameObject(UIFirstSelected);
             }
-
-            ReportsManager.QueryActivePlayerSanctions(userId, (result) =>
-            {
-                QueryActivePlayerSanctionsCompleted(result, userId);
-            });
-
         }
 
         public void PlayerSanctionsRefreshOnClick()
         {
             // Start Search for Sanctions
-            var targetUserId = currentProductUserId;
-            ReportsManager.QueryActivePlayerSanctions(targetUserId, (result) =>
-            {
-                QueryActivePlayerSanctionsCompleted(result, targetUserId);
-            });
-
+            ReportsManager.QueryActivePlayerSanctions(currentProdcutUserId, QueryActivePlayerSanctionsCompleted);
         }
 
-        //Display only sanctions, reports are not visible
-        private void QueryActivePlayerSanctionsCompleted(Result result, ProductUserId userId)
+        private void QueryActivePlayerSanctionsCompleted(Result result)
         {
             if(result != Result.Success)
             {
-                Debug.LogError($"{nameof(UIPlayerReportMenu)} {nameof(QueryActivePlayerSanctionsCompleted)}: Query failed with result: {result}");
+                Debug.LogErrorFormat("UIPlayerReportMenu (QueryActivePlayerSanctionsCompleted): result == {0}", result);
                 return;
             }
 
+            // Destroy current UI member list
             foreach (Transform child in SanctionsListContentParent.transform)
             {
                 GameObject.Destroy(child.gameObject);
             }
 
-            if (!ReportsManager.GetCachedPlayerSanctions(out Dictionary<ProductUserId, List<Sanction>> sanctionLookup)
-                || sanctionLookup == null || !sanctionLookup.TryGetValue(userId, out var sanctions) || sanctions == null || sanctions.Count == 0)
+            // Update Sanctions List UI
+            if (ReportsManager.GetCachedPlayerSanctions(out Dictionary<ProductUserId, List<Sanction>> sanctionLookup))
             {
-                CreateSanctionEntry(string.Empty, "No Sanctions Found.");
-                return;
+                if(!sanctionLookup.ContainsKey(currentProdcutUserId))
+                {
+                    // No Sanctions for current user
+
+                    GameObject sanctionUIObj = Instantiate(UISanctionsEntryPrefab, SanctionsListContentParent.transform);
+                    UISanctionEntry uiEntry = sanctionUIObj.GetComponent<UISanctionEntry>();
+
+                    uiEntry.TimePlaced.text = string.Empty;
+                    uiEntry.Action.text = "No Sanctions Found.";
+
+                    return;
+                }
+
+                List<Sanction> sanctionList = sanctionLookup[currentProdcutUserId];
+
+                foreach (Sanction s in sanctionList)
+                {
+                    GameObject sanctionUIObj = Instantiate(UISanctionsEntryPrefab, SanctionsListContentParent.transform);
+                    UISanctionEntry uiEntry = sanctionUIObj.GetComponent<UISanctionEntry>();
+
+                    uiEntry.TimePlaced.text = string.Format("Added on {0: M/d/yyyy HH:mm}", s.TimePlaced);
+                    uiEntry.Action.text = s.Action;
+                }
             }
-
-            foreach (var s in sanctions)
-            {
-                var timeText = s.TimePlaced.ToString(DateFormat); 
-                CreateSanctionEntry(timeText, s.Action);
-            }
-
-        }
-
-        // Helper method to create an entry in the sanctions list
-        private void CreateSanctionEntry(string timeText, string actionText)
-        {
-            var sanctionUIObj = Instantiate(UISanctionsEntryPrefab, SanctionsListContentParent.transform);
-            var uiEntry = sanctionUIObj.GetComponent<UISanctionEntry>();
-
-            uiEntry.TimePlaced.text = timeText ?? string.Empty;
-            uiEntry.Action.text = actionText ?? string.Empty;
         }
 
         public void SubmitReportButtonOnClick()
         {
-            if(currentProductUserId == null || !currentProductUserId.IsValid())
+            if(currentProdcutUserId == null || !currentProdcutUserId.IsValid())
             {
                 Debug.LogError("UIPlayerReportMenu (ReportButtonOnClick): ProductUserId is not valid!");
                 return;
             }
 
             string categoryStr = CategoryList.options[CategoryList.value].text;
+
             PlayerReportsCategory category = PlayerReportsCategory.Invalid;
             var categoryParsed = Enum.Parse(typeof(PlayerReportsCategory), categoryStr);
             if(categoryParsed != null)
@@ -156,7 +154,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (ReportsManager != null)
             {
-                ReportsManager.SendPlayerBehaviorReport(currentProductUserId, category, Message.text);
+                ReportsManager.SendPlayerBehaviorReport(currentProdcutUserId, category, Message.text);
                 ResetPopUp();
             }
         }
@@ -171,7 +169,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             PlayerName.text = string.Empty;
             CategoryList.value = 0;
             Message.text = string.Empty;
-            currentProductUserId = null;
+
+            currentProdcutUserId = null;
             UIParent.SetActive(false);
         }
 
@@ -193,7 +192,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         protected override void ShowInternal()
         {
             ResetPopUp();
-            UIParent.SetActive(true);
         }
 
         protected override void HideInternal()
