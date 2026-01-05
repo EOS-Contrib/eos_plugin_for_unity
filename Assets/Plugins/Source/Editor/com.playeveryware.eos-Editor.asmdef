@@ -17,7 +17,9 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "!EOS_DISABLE"
+    ],
     "versionDefines": [
         {
             "name": "com.unity.inputsystem",

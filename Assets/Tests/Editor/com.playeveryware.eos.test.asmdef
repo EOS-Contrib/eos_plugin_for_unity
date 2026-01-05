@@ -1,13 +1,12 @@
 {
-    "name": "com.playeveryware.eos.samples.appleauth.editor",
+    "name": "com.playeveryware.eos.test",
     "rootNamespace": "",
     "references": [
-        "GUID:09ef5922e2d77498aa246abd9073d05f",
+        "GUID:0acc523941302664db1f4e527237feb3",
+        "GUID:27619889b8ba8c24980f49ee34dbb44a",
         "GUID:cc11d9857b82d9b458fca637d5cb33fb"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
@@ -16,12 +15,6 @@
     "defineConstraints": [
         "!EOS_DISABLE"
     ],
-    "versionDefines": [
-        {
-            "name": "com.lupidan.apple-signin-unity",
-            "expression": "",
-            "define": "APPLEAUTH_MODULE_EDITOR"
-        }
-    ],
+    "versionDefines": [],
     "noEngineReferences": false
 }

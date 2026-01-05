@@ -187,9 +187,6 @@ namespace PlayEveryWare.EpicOnlineServices
         private void MigrateConfigIfNeeded()
         {
             MigrateConfigIfNeededInternal();
-#if UNITY_EDITOR
-            Write();
-#endif
         }
 
         /// <summary>
@@ -513,6 +510,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             await FileSystemUtility.WriteFileAsync(FilePath, json);
             OnWriteCompleted();
+            _lastReadJsonString = json;
         }
 
         /// <summary>
@@ -534,9 +532,10 @@ namespace PlayEveryWare.EpicOnlineServices
             // take no action.
             if (json == _lastReadJsonString)
                 return;
-
+             
             FileSystemUtility.WriteFile(FilePath, json);
             OnWriteCompleted();
+            _lastReadJsonString = json;
         }
 
         protected virtual void BeforeWrite()
@@ -547,11 +546,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
         protected virtual void OnWriteCompleted()
         {
-            // Optionally override for deriving classes. Base implementation performs Unity Editor persistence operations.
-         #if UNITY_EDITOR
-            UnityEditor.AssetDatabase.SaveAssets();
-            UnityEditor.AssetDatabase.Refresh();
-        #endif
+            // Optionally override for deriving classes. Default behavior is to 
+            // take no action.
         }
 
 #endif
