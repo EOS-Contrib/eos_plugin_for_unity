@@ -138,9 +138,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// <param name="report"></param>
         public virtual void PreBuild(BuildReport report)
         {
-            // Check to make sure that the platform configuration exists
-            CheckPlatformConfiguration();
-
             // Configure the version numbers per user defined preferences
             ConfigureVersion();
 
@@ -205,19 +202,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
                 // Validate that the binaries built are now in the correct location
                 ValidateNativeBinaries();
-            }
-        }
-
-        /// <summary>
-        /// Checks to make sure that the platform configuration file exists where it is expected to be
-        /// TODO: Add configuration validation.
-        /// </summary>
-        private static void CheckPlatformConfiguration()
-        {
-            string configFilePath = PlatformManager.GetConfigFilePath();
-            if (!File.Exists(configFilePath))
-            {
-                throw new BuildFailedException($"Expected config file \"{configFilePath}\" for platform {PlatformManager.GetFullName(PlatformManager.CurrentPlatform)} does not exist.");
             }
         }
 

@@ -1,4 +1,3 @@
-#if UNITY_EDITOR
 using PlayEveryWare.EpicOnlineServices;
 using System;
 using System.Collections.Generic;
@@ -43,9 +42,9 @@ public class EOSConfigBuildValidator : IPreprocessBuildWithReport
     [Flags]
     private enum ErrorCode : uint
     {
-        NONE = 0x0,
-        INVALID_SANDBOX_ID = 0x1,
-        INVALID_DEPLOYMENT_ID = 0x2,
+        None = 0x0,
+        InvalidSandboxId = 0x1,
+        InvalidDeploymentId = 0x2,
     }
 
     /// <summary>
@@ -77,7 +76,7 @@ public class EOSConfigBuildValidator : IPreprocessBuildWithReport
     /// Accumulates error flags detected during pre-build validation.
     /// Uses bitwise combinations of <see cref="ErrorCode"/> to represent multiple issues in a single value.
     /// </summary>
-    private ErrorCode errorCode = ErrorCode.NONE;
+    private ErrorCode errorCode = ErrorCode.None;
 
     /// <summary>
     /// Produces a human-readable message based on active error flags in <see cref = "errorCode" />.
@@ -86,8 +85,8 @@ public class EOSConfigBuildValidator : IPreprocessBuildWithReport
     /// <returns></returns>
     private string BuildErrorMessage()
     {
-        bool isInvalidSandbox = errorCode.HasFlag(ErrorCode.INVALID_SANDBOX_ID);
-        bool isInvalidDeployment = errorCode.HasFlag(ErrorCode.INVALID_DEPLOYMENT_ID);
+        bool isInvalidSandbox = errorCode.HasFlag(ErrorCode.InvalidSandboxId);
+        bool isInvalidDeployment = errorCode.HasFlag(ErrorCode.InvalidDeploymentId);
         if (isInvalidSandbox && isInvalidDeployment)
         {
             return "Both sandbox and deployment ID missing. Please configure a valid Deployment and Sandbox IDs in EOS Plugin->EOS Configuration.";
@@ -111,7 +110,7 @@ public class EOSConfigBuildValidator : IPreprocessBuildWithReport
     /// <exception cref="BuildFailedException">An exception class that represents a failed build.</exception>
     public void OnPreprocessBuild(BuildReport report)
     {
-        errorCode = ErrorCode.NONE;
+        errorCode = ErrorCode.None;
         BuildTarget target = report.summary.platform;
         if (!PlatformManager.TryGetConfigFilePath(target, out string configFilePath))
         {
@@ -120,7 +119,7 @@ public class EOSConfigBuildValidator : IPreprocessBuildWithReport
 
         if (!File.Exists(configFilePath))
         {
-            throw new BuildFailedException($"{target} config file not found.");
+            throw new BuildFailedException($"{target} config file not found, Set EOS configuration.");
         }
 
         if (!TargetToPlatformsMap.TryGetValue(target, out PlatformManager.Platform supportedPlatform))
@@ -135,18 +134,16 @@ public class EOSConfigBuildValidator : IPreprocessBuildWithReport
 
         if (String.IsNullOrEmpty(platformConfig.deployment.SandboxId.Value))
         {
-            errorCode = errorCode | ErrorCode.INVALID_SANDBOX_ID;
+            errorCode = errorCode | ErrorCode.InvalidSandboxId;
         }
-
         if (platformConfig.deployment.DeploymentId.Equals(Guid.Empty))
         {
-            errorCode = errorCode | ErrorCode.INVALID_DEPLOYMENT_ID;
+            errorCode = errorCode | ErrorCode.InvalidDeploymentId;
         }
 
-        if (errorCode != ErrorCode.NONE)
+        if (errorCode != ErrorCode.None)
         {
             throw new BuildFailedException(BuildErrorMessage());
         }
     }
 }
-#endif
