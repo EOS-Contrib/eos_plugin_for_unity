@@ -163,7 +163,7 @@ EOS_DECLARE_FUNC(EOS_HRTC) EOS_Platform_GetRTCInterface(EOS_HPlatform Handle);
  * @return EOS_HRTCAdmin handle
  *
  * @see eos_rtc_admin.h
- * @see eos_admin_types.h
+ * @see eos_rtc_admin_types.h
  */
 EOS_DECLARE_FUNC(EOS_HRTCAdmin) EOS_Platform_GetRTCAdminInterface(EOS_HPlatform Handle);
 
@@ -240,9 +240,6 @@ EOS_DECLARE_FUNC(EOS_HAntiCheatClient) EOS_Platform_GetAntiCheatClientInterface(
 EOS_DECLARE_FUNC(EOS_HAntiCheatServer) EOS_Platform_GetAntiCheatServerInterface(EOS_HPlatform Handle);
 
 /**
- * Get the active country code that the SDK will send to services which require it.
- * This returns the override value otherwise it will use the country code of the given user.
- * This is currently used for determining pricing.
  * Get a handle to the ProgressionSnapshot Interface.
  * @return EOS_HProgressionSnapshot handle
  *
@@ -307,10 +304,10 @@ EOS_DECLARE_FUNC(EOS_HIntegratedPlatform) EOS_Platform_GetIntegratedPlatformInte
  *                          When the function returns, this parameter will be filled with the length of the string copied into OutBuffer.
  *
  * @return An EOS_EResult that indicates whether the active country code string was copied into the OutBuffer.
- *         EOS_Success if the information is available and passed out in OutBuffer
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if there is not an override country code for the user.
- *         EOS_LimitExceeded - The OutBuffer is not large enough to receive the country code string. InOutBufferLength contains the required minimum length to perform the operation successfully.
+ * - EOS_Success if the information is available and passed out in OutBuffer
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if there is not an override country code for the user.
+ * - EOS_LimitExceeded - The OutBuffer is not large enough to receive the country code string. InOutBufferLength contains the required minimum length to perform the operation successfully.
  *
  * @see eos_ecom.h
  * @see EOS_COUNTRYCODE_MAX_LENGTH
@@ -329,10 +326,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Platform_GetActiveCountryCode(EOS_HPlatform Ha
  *                          When the function returns, this parameter will be filled with the length of the string copied into OutBuffer.
  *
  * @return An EOS_EResult that indicates whether the active locale code string was copied into the OutBuffer.
- *         EOS_Success if the information is available and passed out in OutBuffer
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if there is neither an override nor an available locale code for the user.
- *         EOS_LimitExceeded - The OutBuffer is not large enough to receive the locale code string. InOutBufferLength contains the required minimum length to perform the operation successfully.
+ * - EOS_Success if the information is available and passed out in OutBuffer
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if there is neither an override nor an available locale code for the user.
+ * - EOS_LimitExceeded - The OutBuffer is not large enough to receive the locale code string. InOutBufferLength contains the required minimum length to perform the operation successfully.
  *
  * @see eos_ecom.h
  * @see EOS_LOCALECODE_MAX_LENGTH
@@ -349,9 +346,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Platform_GetActiveLocaleCode(EOS_HPlatform Han
  *                          When the function returns, this parameter will be filled with the length of the string copied into OutBuffer.
  *
  * @return An EOS_EResult that indicates whether the override country code string was copied into the OutBuffer.
- *         EOS_Success if the information is available and passed out in OutBuffer
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_LimitExceeded - The OutBuffer is not large enough to receive the country code string. InOutBufferLength contains the required minimum length to perform the operation successfully.
+ * - EOS_Success if the information is available and passed out in OutBuffer
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_LimitExceeded - The OutBuffer is not large enough to receive the country code string. InOutBufferLength contains the required minimum length to perform the operation successfully.
  *
  * @see eos_ecom.h
  * @see EOS_COUNTRYCODE_MAX_LENGTH
@@ -368,9 +365,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Platform_GetOverrideCountryCode(EOS_HPlatform 
  *                          When the function returns, this parameter will be filled with the length of the string copied into OutBuffer.
  *
  * @return An EOS_EResult that indicates whether the override locale code string was copied into the OutBuffer.
- *         EOS_Success if the information is available and passed out in OutBuffer
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_LimitExceeded - The OutBuffer is not large enough to receive the locale code string. InOutBufferLength contains the required minimum length to perform the operation successfully.
+ * - EOS_Success if the information is available and passed out in OutBuffer
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_LimitExceeded - The OutBuffer is not large enough to receive the locale code string. InOutBufferLength contains the required minimum length to perform the operation successfully.
  *
  * @see eos_ecom.h
  * @see EOS_LOCALECODE_MAX_LENGTH
@@ -382,8 +379,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Platform_GetOverrideLocaleCode(EOS_HPlatform H
  * This is not currently used for anything internally.
  *
  * @return An EOS_EResult that indicates whether the override country code string was saved.
- *         EOS_Success if the country code was overridden
- *         EOS_InvalidParameters if you pass an invalid country code
+ * - EOS_Success if the country code was overridden
+ * - EOS_InvalidParameters if you pass an invalid country code
  *
  * @see eos_ecom.h
  * @see EOS_COUNTRYCODE_MAX_LENGTH
@@ -395,8 +392,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Platform_SetOverrideCountryCode(EOS_HPlatform 
  * This is used for localization. This follows ISO 639.
  *
  * @return An EOS_EResult that indicates whether the override locale code string was saved.
- *         EOS_Success if the locale code was overridden
- *         EOS_InvalidParameters if you pass an invalid locale code
+ * - EOS_Success if the locale code was overridden
+ * - EOS_InvalidParameters if you pass an invalid locale code
  *
  * @see eos_ecom.h
  * @see EOS_LOCALECODE_MAX_LENGTH
@@ -436,7 +433,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Platform_CheckForLauncherAndRestart(EOS_HPlatf
  * @param OutDesktopCrossplayStatusInfo output structure to receive the desktop crossplay status information.
  *
  * @return An EOS_EResult is returned to indicate success or an error.
- *		   EOS_NotImplemented is returned on non-Windows platforms.
+ * - EOS_NotImplemented is returned on non-Windows platforms.
+ *
+ * @see EOS_Platform_GetDesktopCrossplayStatusOptions
+ * @see EOS_Platform_DesktopCrossplayStatusInfo
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Platform_GetDesktopCrossplayStatus(EOS_HPlatform Handle, const EOS_Platform_GetDesktopCrossplayStatusOptions* Options, EOS_Platform_DesktopCrossplayStatusInfo* OutDesktopCrossplayStatusInfo);
 
@@ -448,9 +448,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Platform_GetDesktopCrossplayStatus(EOS_HPlatfo
  * @param NewStatus The new status for the application.
  *
  * @return An EOS_EResult that indicates whether we changed the application status successfully.
- *         EOS_Success if the application was changed successfully.
- *         EOS_InvalidParameters if the value of NewStatus is invalid.
- *         EOS_NotImplemented if EOS_AS_BackgroundConstrained or EOS_AS_BackgroundUnconstrained are attempted to be set on platforms that do not have such application states.
+ * - EOS_Success if the application was changed successfully.
+ * - EOS_InvalidParameters if the value of NewStatus is invalid.
+ * - EOS_NotImplemented if EOS_AS_BackgroundConstrained or EOS_AS_BackgroundUnconstrained are attempted to be set on platforms that do not have such application states.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Platform_SetApplicationStatus(EOS_HPlatform Handle, const EOS_EApplicationStatus NewStatus);
 
@@ -467,8 +467,8 @@ EOS_DECLARE_FUNC(EOS_EApplicationStatus) EOS_Platform_GetApplicationStatus(EOS_H
  * @param NewStatus The new network status.
  *
  * @return An EOS_EResult that indicates whether we changed the network status successfully.
- *         EOS_Success if the network was changed successfully.
- *         EOS_InvalidParameters if the value of NewStatus is invalid.
+ * - EOS_Success if the network was changed successfully.
+ * - EOS_InvalidParameters if the value of NewStatus is invalid.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Platform_SetNetworkStatus(EOS_HPlatform Handle, const EOS_ENetworkStatus NewStatus);
 

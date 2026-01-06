@@ -100,6 +100,8 @@ EOS_RESULT_VALUE(EOS_ApplicationSuspended, 40)
 EOS_RESULT_VALUE(EOS_NetworkDisconnected, 41)
 /** Given output buffer is insufficient to complete the operation */
 EOS_RESULT_VALUE(EOS_InsufficientOutputBuffer, 42)
+/** The associated feature or action is not enabled in the client policy */
+EOS_RESULT_VALUE(EOS_ClientPolicyMissingAction, 43)
 /** Account locked due to login failures */
 EOS_RESULT_VALUE(EOS_Auth_AccountLocked, 1001)
 /** Account locked by update operation. */

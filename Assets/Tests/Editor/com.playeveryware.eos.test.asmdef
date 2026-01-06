@@ -13,6 +13,7 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
+        "UNITY_INCLUDE_TESTS",
         "!EOS_DISABLE"
     ],
     "versionDefines": [],

@@ -92,6 +92,10 @@ namespace Epic.OnlineServices.Ecom
 		/// </summary>
 		public const int COPYLASTREDEEMEDENTITLEMENTBYINDEX_API_LATEST = 1;
 		/// <summary>
+		/// The most recent version of the <see cref="CopyLastRedeemEntitlementsResultByIndex" /> API.
+		/// </summary>
+		public const int COPYLASTREDEEMENTITLEMENTSRESULTBYINDEX_API_LATEST = 1;
+		/// <summary>
 		/// The most recent version of the <see cref="CopyOfferById" /> API.
 		/// </summary>
 		public const int COPYOFFERBYID_API_LATEST = 3;
@@ -147,6 +151,10 @@ namespace Epic.OnlineServices.Ecom
 		/// The most recent version of the <see cref="GetLastRedeemedEntitlementsCount" /> API.
 		/// </summary>
 		public const int GETLASTREDEEMEDENTITLEMENTSCOUNT_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="GetLastRedeemEntitlementsResultCount" /> API.
+		/// </summary>
+		public const int GETLASTREDEEMENTITLEMENTSRESULTCOUNT_API_LATEST = 1;
 		/// <summary>
 		/// The most recent version of the <see cref="GetOfferCount" /> API.
 		/// </summary>
@@ -523,6 +531,47 @@ namespace Epic.OnlineServices.Ecom
 		}
 
 		/// <summary>
+		/// Fetches an entitlement id of the given result type and the given index in the last Redeem Entitlements result.
+		/// <see cref="CopyLastRedeemEntitlementsResultByIndexOptions" />
+		/// <see cref="ENTITLEMENTID_MAX_LENGTH" />
+		/// </summary>
+		/// <param name="options">
+		/// structure containing the Epic Account ID and index being accessed
+		/// </param>
+		/// <param name="outEntitlementId">
+		/// The ID of the entitlement. Must be long enough to hold a <see cref="Utf8String" /> of <see cref="ENTITLEMENTID_MAX_LENGTH" />.
+		/// </param>
+		/// <param name="inOutEntitlementIdLength">
+		/// The size of the OutEntitlementId in characters.
+		/// The input buffer should include enough space to be <see langword="null" />-terminated.
+		/// When the function returns, this parameter will be filled with the length of the <see cref="Utf8String" /> copied into OutEntitlementId.
+		/// </param>
+		/// <returns>
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in EntitlementId
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the entitlement id is not found
+		/// </returns>
+		public Result CopyLastRedeemEntitlementsResultByIndex(ref CopyLastRedeemEntitlementsResultByIndexOptions options, out Utf8String outEntitlementId)
+		{
+			var optionsInternal = default(CopyLastRedeemEntitlementsResultByIndexOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			int inOutEntitlementIdLength = ENTITLEMENTID_MAX_LENGTH + 1;
+			var outEntitlementIdPointer = Helper.AddAllocation(inOutEntitlementIdLength);
+
+			var callResult = Bindings.EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex(InnerHandle, ref optionsInternal, outEntitlementIdPointer, ref inOutEntitlementIdLength);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.Get(outEntitlementIdPointer, out outEntitlementId);
+			Helper.Dispose(ref outEntitlementIdPointer);
+
+			return callResult;
+		}
+
+		/// <summary>
 		/// Fetches a redeemed entitlement id from a given index.
 		/// Only entitlements that were redeemed during the last <see cref="RedeemEntitlements" /> call can be copied.
 		/// <see cref="CopyLastRedeemedEntitlementByIndexOptions" />
@@ -874,6 +923,29 @@ namespace Epic.OnlineServices.Ecom
 			optionsInternal.Set(ref options);
 
 			var callResult = Bindings.EOS_Ecom_GetItemReleaseCount(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			return callResult;
+		}
+
+		/// <summary>
+		/// Fetch the number of entitlements of the given type in the last Redeem Entitlements result.
+		/// <see cref="GetLastRedeemEntitlementsResultCountOptions" />
+		/// <see cref="CopyLastRedeemEntitlementsResultByIndex" />
+		/// </summary>
+		/// <param name="options">
+		/// structure containing the Epic Account ID and the result type.
+		/// </param>
+		/// <returns>
+		/// the number of entitlements of the given result type in the last Redeem Entitlements result.
+		/// </returns>
+		public uint GetLastRedeemEntitlementsResultCount(ref GetLastRedeemEntitlementsResultCountOptions options)
+		{
+			var optionsInternal = default(GetLastRedeemEntitlementsResultCountOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var callResult = Bindings.EOS_Ecom_GetLastRedeemEntitlementsResultCount(InnerHandle, ref optionsInternal);
 
 			Helper.Dispose(ref optionsInternal);
 

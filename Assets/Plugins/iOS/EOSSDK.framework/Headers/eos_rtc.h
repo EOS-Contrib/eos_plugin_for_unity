@@ -38,6 +38,9 @@ EOS_DECLARE_FUNC(EOS_HRTCData) EOS_RTC_GetDataInterface(EOS_HRTC Handle);
  * @param Options structure containing the parameters for the operation.
  * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
+ *
+ * @see EOS_RTC_JoinRoomOptions
+ * @see EOS_RTC_OnJoinRoomCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTC_JoinRoom(EOS_HRTC Handle, const EOS_RTC_JoinRoomOptions* Options, void* ClientData, const EOS_RTC_OnJoinRoomCallback CompletionDelegate);
 
@@ -51,9 +54,9 @@ EOS_DECLARE_FUNC(void) EOS_RTC_JoinRoom(EOS_HRTC Handle, const EOS_RTC_JoinRoomO
  * @param Options structure containing the parameters for the operation.
  * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
- * @return EOS_Success if the operation succeeded
- *         EOS_InvalidParameters if any of the parameters are incorrect
- *         EOS_NotFound if not in the specified room
+ *
+ * @see EOS_RTC_LeaveRoomOptions
+ * @see EOS_RTC_OnLeaveRoomCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTC_LeaveRoom(EOS_HRTC Handle, const EOS_RTC_LeaveRoomOptions* Options, void* ClientData, const EOS_RTC_OnLeaveRoomCallback CompletionDelegate);
 
@@ -64,10 +67,9 @@ EOS_DECLARE_FUNC(void) EOS_RTC_LeaveRoom(EOS_HRTC Handle, const EOS_RTC_LeaveRoo
  * @param Options structure containing the parameters for the operation.
  * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
- * @return EOS_Success if the operation succeeded
- *         EOS_InvalidParameters if any of the parameters are incorrect
- *         EOS_NotFound if either the local user or specified participant are not in the specified room
- *         EOS_RTC_UserIsInBlocklist The user is in one of the platform's applicable block lists and thus an RTC unblock is not allowed.
+ *
+ * @see EOS_RTC_BlockParticipantOptions
+ * @see EOS_RTC_OnBlockParticipantCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTC_BlockParticipant(EOS_HRTC Handle, const EOS_RTC_BlockParticipantOptions* Options, void* ClientData, const EOS_RTC_OnBlockParticipantCallback CompletionDelegate);
 
@@ -83,6 +85,8 @@ EOS_DECLARE_FUNC(void) EOS_RTC_BlockParticipant(EOS_HRTC Handle, const EOS_RTC_B
  * @return Notification ID representing the registered callback if successful, an invalid NotificationId if not
  *
  * @see EOS_INVALID_NOTIFICATIONID
+ * @see EOS_RTC_AddNotifyDisconnectedOptions
+ * @see EOS_RTC_OnDisconnectedCallback
  * @see EOS_RTC_RemoveNotifyDisconnected
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_RTC_AddNotifyDisconnected(EOS_HRTC Handle, const EOS_RTC_AddNotifyDisconnectedOptions* Options, void* ClientData, const EOS_RTC_OnDisconnectedCallback CompletionDelegate);
@@ -119,6 +123,8 @@ EOS_DECLARE_FUNC(void) EOS_RTC_RemoveNotifyDisconnected(EOS_HRTC Handle, EOS_Not
  * @note This notification is also raised when the local user joins the room, but NOT when the local user leaves the room.
  *
  * @see EOS_INVALID_NOTIFICATIONID
+ * @see EOS_RTC_AddNotifyParticipantStatusChangedOptions
+ * @see EOS_RTC_OnParticipantStatusChangedCallback
  * @see EOS_RTC_RemoveNotifyParticipantStatusChanged
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_RTC_AddNotifyParticipantStatusChanged(EOS_HRTC Handle, const EOS_RTC_AddNotifyParticipantStatusChangedOptions* Options, void* ClientData, const EOS_RTC_OnParticipantStatusChangedCallback CompletionDelegate);
@@ -145,6 +151,8 @@ EOS_DECLARE_FUNC(void) EOS_RTC_RemoveNotifyParticipantStatusChanged(EOS_HRTC Han
  * @return Notification ID representing the registered callback if successful, an invalid NotificationId if not.
  *
  * @see EOS_INVALID_NOTIFICATIONID
+ * @see EOS_RTC_AddNotifyRoomBeforeJoinOptions
+ * @see EOS_RTC_OnRoomBeforeJoinCallback
  * @see EOS_RTC_RemoveNotifyRoomBeforeJoin
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_RTC_AddNotifyRoomBeforeJoin(EOS_HRTC Handle, const EOS_RTC_AddNotifyRoomBeforeJoinOptions* Options, void* ClientData, const EOS_RTC_OnRoomBeforeJoinCallback CompletionDelegate);
@@ -164,7 +172,13 @@ EOS_DECLARE_FUNC(void) EOS_RTC_RemoveNotifyRoomBeforeJoin(EOS_HRTC Handle, EOS_N
  * The available settings are documented as part of EOS_RTC_SetSettingOptions.
  *
  * @param Options structure containing the parameters for the operation
- * @return EOS_Success when the setting is successfully set, EOS_NotFound when the setting is unknown, EOS_InvalidParameters when the value is invalid.
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success when the setting is successfully set
+ * - EOS_NotFound when the setting is unknown
+ * - EOS_InvalidParameters when the value is invalid.
+ *
+ * @see EOS_RTC_SetSettingOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_RTC_SetSetting(EOS_HRTC Handle, const EOS_RTC_SetSettingOptions* Options);
 
@@ -174,7 +188,13 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_RTC_SetSetting(EOS_HRTC Handle, const EOS_RTC_
  * The available settings are documented as part of EOS_RTC_SetRoomSettingOptions.
  *
  * @param Options structure containing the parameters for the operation
- * @return EOS_Success when the setting is successfully set, EOS_NotFound when the setting is unknown, EOS_InvalidParameters when the value is invalid.
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success when the setting is successfully set
+ * - EOS_NotFound when the setting is unknown
+ * - EOS_InvalidParameters when the value is invalid.
+ *
+ * @see EOS_RTC_SetRoomSettingOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_RTC_SetRoomSetting(EOS_HRTC Handle, const EOS_RTC_SetRoomSettingOptions* Options);
 
@@ -190,6 +210,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_RTC_SetRoomSetting(EOS_HRTC Handle, const EOS_
  * @return Notification ID representing the registered callback if successful, an invalid NotificationId if not
  *
  * @see EOS_INVALID_NOTIFICATIONID
+ * @see EOS_RTC_AddNotifyRoomStatisticsUpdatedOptions
+ * @see EOS_RTC_OnRoomStatisticsUpdatedCallback
  * @see EOS_RTC_RemoveNotifyRoomStatisticsUpdated
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_RTC_AddNotifyRoomStatisticsUpdated(EOS_HRTC Handle, const EOS_RTC_AddNotifyRoomStatisticsUpdatedOptions* Options, void* ClientData, const EOS_RTC_OnRoomStatisticsUpdatedCallback CompletionDelegate);

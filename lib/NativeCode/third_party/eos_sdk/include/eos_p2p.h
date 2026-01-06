@@ -15,10 +15,14 @@
  * result only means the data was accepted to be sent, not that it has been successfully delivered to the peer.
  *
  * @param Options Information about the data being sent, by who, to who
- * @return EOS_EResult::EOS_Success           - If packet was queued to be sent successfully
- *         EOS_EResult::EOS_InvalidParameters - If input was invalid
- *         EOS_EResult::EOS_LimitExceeded     - If amount of data being sent is too large, or the outgoing packet queue was full
- *         EOS_EResult::EOS_NoConnection      - If bDisableAutoAcceptConnection was set to EOS_TRUE and the connection was not currently accepted (call EOS_P2P_AcceptConnection first, or set bDisableAutoAcceptConnection to EOS_FALSE)
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success           - If packet was queued to be sent successfully
+ * - EOS_InvalidParameters - If input was invalid
+ * - EOS_LimitExceeded     - If amount of data being sent is too large, or the outgoing packet queue was full
+ * - EOS_NoConnection      - If bDisableAutoAcceptConnection was set to EOS_TRUE and the connection was not currently accepted (call EOS_P2P_AcceptConnection first, or set bDisableAutoAcceptConnection to EOS_FALSE)
+ *
+ * @see EOS_P2P_SendPacketOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_SendPacket(EOS_HP2P Handle, const EOS_P2P_SendPacketOptions* Options);
 
@@ -28,9 +32,13 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_SendPacket(EOS_HP2P Handle, const EOS_P2P_
  *
  * @param Options Information about who is requesting the size of their next packet
  * @param OutPacketSizeBytes The amount of bytes required to store the data of the next packet for the requested user
- * @return EOS_EResult::EOS_Success - If OutPacketSizeBytes was successfully set and there is data to be received
- *         EOS_EResult::EOS_InvalidParameters - If input was invalid
- *         EOS_EResult::EOS_NotFound  - If there are no packets available for the requesting user
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If OutPacketSizeBytes was successfully set and there is data to be received
+ * - EOS_InvalidParameters - If input was invalid
+ * - EOS_NotFound  - If there are no packets available for the requesting user
+ *
+ * @see EOS_P2P_GetNextReceivedPacketSizeOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_GetNextReceivedPacketSize(EOS_HP2P Handle, const EOS_P2P_GetNextReceivedPacketSizeOptions* Options, uint32_t* OutPacketSizeBytes);
 
@@ -43,11 +51,14 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_GetNextReceivedPacketSize(EOS_HP2P Handle,
  * @param OutChannel The channel the data was sent on. Only set if there was a packet to receive.
  * @param OutData Buffer to store the data being received. Must be at least EOS_P2P_GetNextReceivedPacketSize in length or data will be truncated
  * @param OutBytesWritten The amount of bytes written to OutData. Only set if there was a packet to receive.
- * @return EOS_EResult::EOS_Success - If the packet was received successfully
- *         EOS_EResult::EOS_InvalidParameters - If input was invalid
- *         EOS_EResult::EOS_NotFound - If there are no packets available for the requesting user
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the packet was received successfully
+ * - EOS_InvalidParameters - If input was invalid
+ * - EOS_NotFound - If there are no packets available for the requesting user
  *
  * @see EOS_P2P_GetNextReceivedPacketSize
+ * @see EOS_P2P_ReceivePacketOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_ReceivePacket(EOS_HP2P Handle, const EOS_P2P_ReceivePacketOptions* Options, EOS_ProductUserId* OutPeerId, EOS_P2P_SocketId* OutSocketId, uint8_t* OutChannel, void* OutData, uint32_t* OutBytesWritten);
 
@@ -61,6 +72,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_ReceivePacket(EOS_HP2P Handle, const EOS_P
  * @return A valid notification ID if successfully bound, or EOS_INVALID_NOTIFICATIONID otherwise
  *
  * @see EOS_P2P_RemoveNotifyPeerConnectionRequest
+ * @see EOS_P2P_AddNotifyPeerConnectionRequestOptions
+ * @see EOS_P2P_OnIncomingConnectionRequestCallback
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_P2P_AddNotifyPeerConnectionRequest(EOS_HP2P Handle, const EOS_P2P_AddNotifyPeerConnectionRequestOptions* Options, void* ClientData, EOS_P2P_OnIncomingConnectionRequestCallback ConnectionRequestHandler);
 
@@ -84,6 +97,8 @@ EOS_DECLARE_FUNC(void) EOS_P2P_RemoveNotifyPeerConnectionRequest(EOS_HP2P Handle
  * @param ConnectionEstablishedHandler The callback to be fired when a connection has been established
  * @return A valid notification ID if successfully bound, or EOS_INVALID_NOTIFICATIONID otherwise
  *
+ * @see EOS_P2P_AddNotifyPeerConnectionEstablishedOptions
+ * @see EOS_P2P_OnPeerConnectionEstablishedCallback
  * @see EOS_P2P_AddNotifyPeerConnectionInterrupted
  * @see EOS_P2P_AddNotifyPeerConnectionClosed
  * @see EOS_P2P_RemoveNotifyPeerConnectionEstablished
@@ -111,6 +126,8 @@ EOS_DECLARE_FUNC(void) EOS_P2P_RemoveNotifyPeerConnectionEstablished(EOS_HP2P Ha
  * @param ConnectionInterruptedHandler The callback to be fired when an open connection has been interrupted
  * @return A valid notification ID if successfully bound, or EOS_INVALID_NOTIFICATIONID otherwise
  *
+ * @see EOS_P2P_AddNotifyPeerConnectionInterruptedOptions
+ * @see EOS_P2P_OnPeerConnectionInterruptedCallback
  * @see EOS_P2P_AddNotifyPeerConnectionEstablished
  * @see EOS_P2P_AddNotifyPeerConnectionClosed
  * @see EOS_P2P_RemoveNotifyPeerConnectionInterrupted
@@ -135,6 +152,8 @@ EOS_DECLARE_FUNC(void) EOS_P2P_RemoveNotifyPeerConnectionInterrupted(EOS_HP2P Ha
  * @param ConnectionClosedHandler The callback to be fired when an open connection has been closed
  * @return A valid notification ID if successfully bound, or EOS_INVALID_NOTIFICATIONID otherwise
  *
+ * @see EOS_P2P_AddNotifyPeerConnectionClosedOptions
+ * @see EOS_P2P_OnRemoteConnectionClosedCallback
  * @see EOS_P2P_AddNotifyPeerConnectionEstablished
  * @see EOS_P2P_AddNotifyPeerConnectionInterrupted
  * @see EOS_P2P_RemoveNotifyPeerConnectionClosed
@@ -162,11 +181,15 @@ EOS_DECLARE_FUNC(void) EOS_P2P_RemoveNotifyPeerConnectionClosed(EOS_HP2P Handle,
  *
  * If multiple Socket IDs are accepted with one peer, they will share one physical socket.
  *
- * Even if a connection is already locally accepted, EOS_EResult::EOS_Success will still be returned if the input was valid.
+ * Even if a connection is already locally accepted, EOS_Success will still be returned if the input was valid.
  *
  * @param Options Information about who would like to accept a connection, and which connection
- * @return EOS_EResult::EOS_Success - if the provided data is valid
- *         EOS_EResult::EOS_InvalidParameters - if the provided data is invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - if the provided data is valid
+ * - EOS_InvalidParameters - if the provided data is invalid
+ *
+ * @see EOS_P2P_AcceptConnectionOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_AcceptConnection(EOS_HP2P Handle, const EOS_P2P_AcceptConnectionOptions* Options);
 
@@ -178,8 +201,12 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_AcceptConnection(EOS_HP2P Handle, const EO
  * with the new Socket ID first before calling EOS_P2P_CloseConnection, to prevent the shared physical socket from being torn down prematurely.
  *
  * @param Options Information about who would like to close a connection, and which connection.
- * @return EOS_EResult::EOS_Success - if the provided data is valid
- *         EOS_EResult::EOS_InvalidParameters - if the provided data is invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - if the provided data is valid
+ * - EOS_InvalidParameters - if the provided data is invalid
+ *
+ * @see EOS_P2P_CloseConnectionOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_CloseConnection(EOS_HP2P Handle, const EOS_P2P_CloseConnectionOptions* Options);
 
@@ -187,8 +214,12 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_CloseConnection(EOS_HP2P Handle, const EOS
  * Close any open Connections for a specific Peer Connection ID.
  *
  * @param Options Information about who would like to close connections, and by what socket ID
- * @return EOS_EResult::EOS_Success - if the provided data is valid
- *         EOS_EResult::EOS_InvalidParameters - if the provided data is invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - if the provided data is valid
+ * - EOS_InvalidParameters - if the provided data is invalid
+ *
+ * @see EOS_P2P_CloseConnectionsOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_CloseConnections(EOS_HP2P Handle, const EOS_P2P_CloseConnectionsOptions* Options);
 
@@ -198,6 +229,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_CloseConnections(EOS_HP2P Handle, const EO
  * @param Options Information about what version of the EOS_P2P_QueryNATType API is supported
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate The callback to be fired when we finish querying our NAT type
+ *
+ * @see EOS_P2P_QueryNATTypeOptions
+ * @see EOS_P2P_OnQueryNATTypeCompleteCallback
  */
 EOS_DECLARE_FUNC(void) EOS_P2P_QueryNATType(EOS_HP2P Handle, const EOS_P2P_QueryNATTypeOptions* Options, void* ClientData, const EOS_P2P_OnQueryNATTypeCompleteCallback CompletionDelegate);
 
@@ -206,8 +240,12 @@ EOS_DECLARE_FUNC(void) EOS_P2P_QueryNATType(EOS_HP2P Handle, const EOS_P2P_Query
  *
  * @param Options Information about what version of the EOS_P2P_GetNATType API is supported
  * @param OutNATType The queried NAT Type, or unknown if unknown
- * @return EOS_EResult::EOS_Success - if we have cached data
- *         EOS_EResult::EOS_NotFound - If we do not have queried data cached
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - if we have cached data
+ * - EOS_NotFound - If we do not have queried data cached
+ *
+ * @see EOS_P2P_GetNATTypeOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_GetNATType(EOS_HP2P Handle, const EOS_P2P_GetNATTypeOptions* Options, EOS_ENATType* OutNATType);
 
@@ -216,9 +254,12 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_GetNATType(EOS_HP2P Handle, const EOS_P2P_
  * connections if the connection requires renegotiation.
  *
  * @param Options Information about relay server config options
- * @return EOS_EResult::EOS_Success - if the options were set successfully
- *         EOS_EResult::EOS_InvalidParameters - if the options are invalid in some way
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - if the options were set successfully
+ * - EOS_InvalidParameters - if the options are invalid in some way
  *
+ * @see EOS_P2P_SetRelayControlOptions
  * @see EOS_ERelayControl
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_SetRelayControl(EOS_HP2P Handle, const EOS_P2P_SetRelayControlOptions* Options);
@@ -228,8 +269,13 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_SetRelayControl(EOS_HP2P Handle, const EOS
  *
  * @param Options Information about what version of the EOS_P2P_GetRelayControl API is supported
  * @param OutRelayControl The relay control setting currently configured
- * @return EOS_EResult::EOS_Success - if the input was valid
- *         EOS_EResult::EOS_InvalidParameters - if the input was invalid in some way
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - if the input was valid
+ * - EOS_InvalidParameters - if the input was invalid in some way
+ *
+ * @see EOS_P2P_GetRelayControlOptions
+ * @see EOS_ERelayControl
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_GetRelayControl(EOS_HP2P Handle, const EOS_P2P_GetRelayControlOptions* Options, EOS_ERelayControl* OutRelayControl);
 
@@ -237,8 +283,12 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_GetRelayControl(EOS_HP2P Handle, const EOS
  * Set configuration options related to network ports.
  *
  * @param Options Information about network ports config options
- * @return EOS_EResult::EOS_Success - if the options were set successfully
- *         EOS_EResult::EOS_InvalidParameters - if the options are invalid in some way
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - if the options were set successfully
+ * - EOS_InvalidParameters - if the options are invalid in some way
+ *
+ * @see EOS_P2P_SetPortRangeOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_SetPortRange(EOS_HP2P Handle, const EOS_P2P_SetPortRangeOptions* Options);
 
@@ -248,8 +298,12 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_SetPortRange(EOS_HP2P Handle, const EOS_P2
  * @param Options Information about what version of the EOS_P2P_GetPortRange API is supported
  * @param OutPort The port that will be tried first
  * @param OutNumAdditionalPortsToTry The amount of ports to try above the value in OutPort, if OutPort is unavailable
- * @return EOS_EResult::EOS_Success - if the input options were valid
- *         EOS_EResult::EOS_InvalidParameters - if the input was invalid in some way
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - if the input options were valid
+ * - EOS_InvalidParameters - if the input was invalid in some way
+ *
+ * @see EOS_P2P_GetPortRangeOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_GetPortRange(EOS_HP2P Handle, const EOS_P2P_GetPortRangeOptions* Options, uint16_t* OutPort, uint16_t* OutNumAdditionalPortsToTry);
 
@@ -260,8 +314,12 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_GetPortRange(EOS_HP2P Handle, const EOS_P2
  * packets are sent or received.
  *
  * @param Options Information about packet queue size
- * @return EOS_EResult::EOS_Success - if the input options were valid
- *         EOS_EResult::EOS_InvalidParameters - if the input was invalid in some way
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - if the input options were valid
+ * - EOS_InvalidParameters - if the input was invalid in some way
+ *
+ * @see EOS_P2P_SetPacketQueueSizeOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_SetPacketQueueSize(EOS_HP2P Handle, const EOS_P2P_SetPacketQueueSizeOptions* Options);
 
@@ -270,8 +328,13 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_SetPacketQueueSize(EOS_HP2P Handle, const 
  *
  * @param Options Information about what version of the EOS_P2P_GetPacketQueueInfo API is supported
  * @param OutPacketQueueInfo The current information of the incoming and outgoing packet queues
- * @return EOS_EResult::EOS_Success - if the input options were valid
- *         EOS_EResult::EOS_InvalidParameters - if the input was invalid in some way
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - if the input options were valid
+ * - EOS_InvalidParameters - if the input was invalid in some way
+ *
+ * @see EOS_P2P_GetPacketQueueInfoOptions
+ * @see EOS_P2P_PacketQueueInfo
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_GetPacketQueueInfo(EOS_HP2P Handle, const EOS_P2P_GetPacketQueueInfoOptions* Options, EOS_P2P_PacketQueueInfo* OutPacketQueueInfo);
 
@@ -285,6 +348,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_GetPacketQueueInfo(EOS_HP2P Handle, const 
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
  * @param IncomingPacketQueueFullHandler The callback to be fired when the incoming packet queue is full
  * @return A valid notification ID if successfully bound, or EOS_INVALID_NOTIFICATIONID otherwise
+ *
+ * @see EOS_P2P_AddNotifyIncomingPacketQueueFullOptions
+ * @see EOS_P2P_OnIncomingPacketQueueFullCallback
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_P2P_AddNotifyIncomingPacketQueueFull(EOS_HP2P Handle, const EOS_P2P_AddNotifyIncomingPacketQueueFullOptions* Options, void* ClientData, EOS_P2P_OnIncomingPacketQueueFullCallback IncomingPacketQueueFullHandler);
 
@@ -299,9 +365,13 @@ EOS_DECLARE_FUNC(void) EOS_P2P_RemoveNotifyIncomingPacketQueueFull(EOS_HP2P Hand
  * Clear queued incoming and outgoing packets.
  *
  * @param Options Information about which queues should be cleared
- * @return EOS_EResult::EOS_Success - if the input options were valid (even if queues were empty and no packets where cleared)
- *         EOS_EResult::EOS_IncompatibleVersion - if wrong API version
- *         EOS_EResult::EOS_InvalidUser - if an invalid/remote user was used
- *         EOS_EResult::EOS_InvalidParameters - if input was invalid in other way
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - if the input options were valid (even if queues were empty and no packets where cleared)
+ * - EOS_IncompatibleVersion - if wrong API version
+ * - EOS_InvalidUser - if an invalid/remote user was used
+ * - EOS_InvalidParameters - if input was invalid in other way
+ *
+ * @see EOS_P2P_ClearPacketQueueOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_ClearPacketQueue(EOS_HP2P Handle, const EOS_P2P_ClearPacketQueueOptions* Options);
