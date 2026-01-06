@@ -10,12 +10,12 @@
 - **[iOS](/com.playeveryware.eos/Documentation~/iOS/README_iOS.md)** [^1]
 - **[Linux](/com.playeveryware.eos/Documentation~/dev_env/Ubuntu_Development_Environment.md)** [^1]
 - **[MacOS](/com.playeveryware.eos/Documentation~/macOS/README_macOS.md)**
-- *** To get access to the EOS Plugin for Unity on console platforms, please follow this guide [Console Developer Access](https://dev.epicgames.com/docs/dev-portal/organization-management#console-developer-access)
 - **Nintendo (Switch & Switch 2)**<br>
 - **Xbox (One & Xbox Series X)**<br>
 - **PlayStation (4 & 5)**<br>
+_To get access to the EOS Plugin for Unity on console platforms, please follow this guide [Console Developer Access](https://dev.epicgames.com/docs/dev-portal/organization-management#console-developer-access)_
 
-We are always looking to add the functionality of the plugin to more platforms, and have functionality for some in private development
+We are always looking to add the functionality of the plugin to more platforms, and have functionality for some in private development.
 
 [^1]: Social overlay feature is currently not supported on this platform.
 
