@@ -1262,6 +1262,15 @@ namespace PlayEveryWare.EpicOnlineServices
             public void StartLoginWithLoginTypeAndToken(LoginCredentialType loginType, string id, string token,
                 OnAuthLoginCallback onLoginCallback)
             {
+                if(loginType == LoginCredentialType.ExchangeCode && string.IsNullOrEmpty(token))
+                {
+                    Debug.LogError($"{nameof(EOSManager)} {nameof(StartLoginWithLoginTypeAndToken)}: ExchangeCode login attempted with empty token. Abort login.");
+                    onLoginCallback?.Invoke(new LoginCallbackInfo
+                    {
+                        ResultCode = Result.InvalidAuth
+                    });
+                    return;
+                }
                 StartLoginWithLoginTypeAndToken(loginType, ExternalCredentialType.Epic, id, token, onLoginCallback);
             }
 
@@ -1389,6 +1398,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
 #endif
                     Log("LoginCallBackResult : " + data.ResultCode);
+                    if (data.ResultCode != Result.Success && loginOptions.Credentials?.Type == LoginCredentialType.ExchangeCode)
+                    {
+                        Debug.LogError($"{nameof(EOSManager)} {nameof(StartLoginWithLoginOptions)}: ExchangeCode login failed with ResultCode= {data.ResultCode}");
+                        onLoginCallback?.Invoke(data);
+                        return;
+                    }
+
                     if (data.ResultCode == Result.Success)
                     {
                         loggedInAccountIDs.Add(data.LocalUserId);
