@@ -1267,7 +1267,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     Debug.LogError($"{nameof(EOSManager)} {nameof(StartLoginWithLoginTypeAndToken)}: ExchangeCode login attempted with empty token. Abort login.");
                     onLoginCallback?.Invoke(new LoginCallbackInfo
                     {
-                        ResultCode = Result.InvalidAuth
+                        ResultCode = Result.AuthExchangeCodeNotFound
                     });
                     return;
                 }
@@ -1398,12 +1398,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
 #endif
                     Log("LoginCallBackResult : " + data.ResultCode);
-                    if (data.ResultCode != Result.Success && loginOptions.Credentials?.Type == LoginCredentialType.ExchangeCode)
-                    {
-                        Debug.LogError($"{nameof(EOSManager)} {nameof(StartLoginWithLoginOptions)}: ExchangeCode login failed with ResultCode= {data.ResultCode}");
-                        onLoginCallback?.Invoke(data);
-                        return;
-                    }
 
                     if (data.ResultCode == Result.Success)
                     {
@@ -1414,6 +1408,11 @@ namespace PlayEveryWare.EpicOnlineServices
                         ConfigureAuthStatusCallback();
 
                         OnAuthLogin?.Invoke(data);
+                    }
+                    else
+                    {
+                        string credentialType = loginOptions.Credentials?.Type.ToString() ?? "UNKNOWN";
+                        Debug.LogWarning($"{nameof(EOSManager)} {nameof(StartLoginWithLoginOptions)}: {credentialType} login failed with ResultCode: {data.ResultCode}");
                     }
 
                     if (onLoginCallback != null)
