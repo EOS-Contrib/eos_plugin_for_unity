@@ -1,136 +1,141 @@
 {
-    "LogCategoryLevelPairs": [
-        {
-            "Category": "Core",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Auth",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Friends",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Presence",
-            "Level": "Warning"
-        },
-        {
-            "Category": "UserInfo",
-            "Level": "Warning"
-        },
-        {
-            "Category": "HttpSerialization",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Ecom",
-            "Level": "Warning"
-        },
-        {
-            "Category": "P2P",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Sessions",
-            "Level": "Warning"
-        },
-        {
-            "Category": "RateLimiter",
-            "Level": "Warning"
-        },
-        {
-            "Category": "PlayerDataStorage",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Analytics",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Messaging",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Connect",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Overlay",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Achievements",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Stats",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Ui",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Lobby",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Leaderboards",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Keychain",
-            "Level": "Warning"
-        },
-        {
-            "Category": "IntegratedPlatform",
-            "Level": "Warning"
-        },
-        {
-            "Category": "TitleStorage",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Mods",
-            "Level": "Warning"
-        },
-        {
-            "Category": "AntiCheat",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Reports",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Sanctions",
-            "Level": "Warning"
-        },
-        {
-            "Category": "ProgressionSnapshots",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Kws",
-            "Level": "Warning"
-        },
-        {
-            "Category": "Rtc",
-            "Level": "Warning"
-        },
-        {
-            "Category": "RTCAdmin",
-            "Level": "Warning"
-        },
-        {
-            "Category": "CustomInvites",
-            "Level": "Warning"
-        },
-        {
-            "Category": "AllCategories",
-            "Level": "Warning"
-        }
-    ]
+  "LogCategoryLevelPairs": [
+    {
+      "Category": "Core",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Auth",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Friends",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Presence",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "UserInfo",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "HttpSerialization",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Ecom",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "P2P",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Sessions",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "RateLimiter",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "PlayerDataStorage",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Analytics",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Messaging",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Connect",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Overlay",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Achievements",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Stats",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Ui",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Lobby",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Leaderboards",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Keychain",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "IntegratedPlatform",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "TitleStorage",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Mods",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "AntiCheat",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Reports",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Sanctions",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "ProgressionSnapshots",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Kws",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Rtc",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "RTCAdmin",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "CustomInvites",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "Http",
+      "Level": "VeryVerbose"
+    },
+    {
+      "Category": "AllCategories",
+      "Level": "VeryVerbose"
+    }
+  ],
+  "schemaVersion": "1.0"
 }
