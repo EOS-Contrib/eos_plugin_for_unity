@@ -35,9 +35,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     {
         LogLevelConfig currentLogLevelConfig;
 
+        static readonly string defaultLogLevel = Epic.OnlineServices.Logging.LogLevel.VeryVerbose.ToString();
+
         string[] categories = LogLevelUtility.LogCategoryStringArray;
         string[] levels = LogLevelUtility.LogLevelStringArray;
-        static readonly string defaultLogLevel = Epic.OnlineServices.Logging.LogLevel.VeryVerbose.ToString();
 
         int selectedCategoryIndex = 0;
         bool showAllCategories = false;
