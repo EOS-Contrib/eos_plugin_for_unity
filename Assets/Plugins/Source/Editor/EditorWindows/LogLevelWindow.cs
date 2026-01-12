@@ -33,9 +33,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
     public class LogLevelWindow : EOSEditorWindow
     {
-        LogLevelConfig currentLogLevelConfig;
-
         static readonly string defaultLogLevel = Epic.OnlineServices.Logging.LogLevel.VeryVerbose.ToString();
+
+        LogLevelConfig currentLogLevelConfig;
 
         string[] categories = LogLevelUtility.LogCategoryStringArray;
         string[] levels = LogLevelUtility.LogLevelStringArray;
