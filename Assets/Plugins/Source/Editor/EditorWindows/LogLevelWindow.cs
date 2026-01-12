@@ -37,6 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         string[] categories = LogLevelUtility.LogCategoryStringArray;
         string[] levels = LogLevelUtility.LogLevelStringArray;
+        static readonly string defaultLogLevel = Epic.OnlineServices.Logging.LogLevel.VeryVerbose.ToString();
 
         int selectedCategoryIndex = 0;
         bool showAllCategories = false;
@@ -69,7 +70,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
                 foreach (var category in categories)
                 {
-                    currentLogLevelConfig.LogCategoryLevelPairs.Add(new LogCategoryLevelPair(category, "Info"));
+                    currentLogLevelConfig.LogCategoryLevelPairs.Add(new LogCategoryLevelPair(category, defaultLogLevel));
                 }
 
                 currentLogLevelConfig.Write(true);
