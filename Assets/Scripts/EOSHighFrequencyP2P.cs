@@ -309,6 +309,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     Debug.LogWarning($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: Received an empty message.");
                     return null;
                 }
+                // Expected message format: <CoordinateMessagePrefix><x>,<y>
+                // The first character is a prefix used to identify coordinate update messages.
+                // We intentionally skip the prefix (Substring(1)) before splitting the payload
+                // so only the numeric coordinate data is parsed.
                 else if (message.StartsWith(CoordinateMessagePrefix))
                 {
                     string[] parts = message.Substring(1).Split(',');

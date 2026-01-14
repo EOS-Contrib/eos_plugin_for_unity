@@ -589,6 +589,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
             public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName = null)
             {
+                // Apply overrides from command line args. They are handled by the native libs also, but we load
+                // the config files from disk, so must also always apply them here
+                ApplyCommandLineArguments();
+
                 if (GetEOSPlatformInterface() != null)
                 {
                     Log("Init completed with existing EOS PlatformInterface");
@@ -618,8 +622,6 @@ namespace PlayEveryWare.EpicOnlineServices
 #else
                 InitializeLogLevels();
 #endif
-
-                ApplyCommandLineArguments();
 
                 Result initResult = InitializePlatformInterface();
 

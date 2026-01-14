@@ -91,11 +91,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 IncomingChat(messageFromPlayer);
             }
 
-            if (!HasValidCurrentProductId())
-            {
-                return;
-            }
-
             if (Input.GetMouseButtonDown(0))
             {
                 ParticlesOnClick();
