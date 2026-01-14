@@ -92,7 +92,7 @@ namespace Epic.OnlineServices.Platform
 		/// <summary>
 		/// The most recent version of the <see cref="RTCOptions" /> API.
 		/// </summary>
-		#if UNITY_STANDALONE_OSX
+		#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
 			public const int RTCOPTIONS_API_LATEST = 2;
 		#else
 			public const int RTCOPTIONS_API_LATEST = 3;

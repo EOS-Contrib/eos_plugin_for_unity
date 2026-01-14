@@ -10,7 +10,7 @@
             var textComp = GetComponent<Text>();
             if (textComp != null)
             {
-                textComp.text = $"v-{EOSPackageInfo.NativeLibVersion}";
+                textComp.text = $"v-{EOSPackageInfo.NativeLibSDKVersion}";
             }
         }
     }
