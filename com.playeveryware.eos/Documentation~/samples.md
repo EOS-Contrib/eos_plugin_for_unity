@@ -9,7 +9,7 @@ The included samples show examples of fully functional [feature implementations]
 
 ## Importing Samples
 
-1. Select the `PlayEveryWare EOS Plugin for Unity` in the Package Manager window.
+1. Select the the `EOS Plugin for Unity` in the Package Manager window.
 
     ![Unity Install Samples](/com.playeveryware.eos/Documentation~/images/unity_install_samples.gif)
 
