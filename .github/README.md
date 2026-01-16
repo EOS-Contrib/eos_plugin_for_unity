@@ -71,7 +71,9 @@ There are many EOS features that do not require your player to have an Epic Game
 
 Efforts will be made to add corresponding support to features as they are added to the Epic Online Services SDK. The table above reflects the features as of December 2025.
 
-[^2]: As of EOS SDK 1.18.1.2, only the Store Overlay is supported on mobile. The Social Overlay isn't supported. The mobile Epic Games Store is currently in closed beta. We’re excited to launch our self-publishing tools in the near future.
+[^2]: As of EOS SDK 1.18.1.2, only the Store Overlay is supported on mobile. The Social Overlay isn't supported. 
+
+The mobile Epic Games Store is currently in closed beta. We’re excited to launch our self-publishing tools in the near future.
 Interested in joining our mobile store? Submit your game through our [Leads Intake form](https://e.acct.epicgames.com/click?EZWdzdG9yZS10ZWFtQGVwaWNnYW1lcy5jb20/CeyJtaWQiOiIxNzYzNTcxOTU3NDUzMTk2NTk2OGRjNzFiIiwiY3QiOiJlcGljLXR4LXByb2QtODI0ODA2ZmU0NDUwYjQ4ZTQ3MDVhODM3Y2Q4MzAwNGItMSIsInJkIjoiZXBpY2dhbWVzLmNvbSJ9/VaHR0cHM6Ly9mb3Jtcy51bnJlYWxlbmdpbmUuY29tL3MvZWdzLWxlYWQtaW50YWtlLWZvcm0/SWkhfYWNjdF9OTlRBTjExMTkyMDI1YzE4NjM3NjJiMQ/LYWUx/qP2xhbmd1YWdlPWVuX1VT/gaR35mw/JMTExOTIwMjVDMTg2Mzc2MkIx/s1v93de8f7c)
 
 ## Supported Platforms
@@ -84,6 +86,7 @@ We currently support the following platforms, details of each can be found on ou
 * Android
 * iOS
 * Nintendo Switch™
+* Nintendo Switch 2™
 * Xbox One
 * Xbox Series X|S
 * PlayStation®4
