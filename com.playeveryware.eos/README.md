@@ -77,7 +77,8 @@ There are many EOS features that do not require your player to have an Epic Game
 
 Efforts will be made to add corresponding support to features as they are added to the Epic Online Services SDK. The table above reflects the features as of November 2023.
 
-[^2]: Overlay Features aren't supported yet on Mobile devices as of EOSSDK 1.16.4. That includes Social Overlay and Store Overlay.
+[^2]: As of EOS SDK 1.18.1.2, only the Store Overlay is supported on mobile. The Social Overlay isn't supported. The mobile Epic Games Store is currently in closed beta. We’re excited to launch our self-publishing tools in the near future.
+Interested in joining our mobile store? Submit your game through our [Leads Intake form](https://e.acct.epicgames.com/click?EZWdzdG9yZS10ZWFtQGVwaWNnYW1lcy5jb20/CeyJtaWQiOiIxNzYzNTcxOTU3NDUzMTk2NTk2OGRjNzFiIiwiY3QiOiJlcGljLXR4LXByb2QtODI0O
 
 ## Supported Platforms
 
