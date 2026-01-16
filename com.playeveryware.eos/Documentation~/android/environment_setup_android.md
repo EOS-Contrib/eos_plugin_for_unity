@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
-
 # <div align="center">Environment Setup for Android</div>
 ---
 

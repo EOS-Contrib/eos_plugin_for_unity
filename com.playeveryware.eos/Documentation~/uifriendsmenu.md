@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
-
 # UIFriendsMenu.cs
 
 Some scenes in the provided samples have the `friendsTabUI.prefab` included in them. This tab demonstrates the ability to query friends, send social invitations, and display social statuses.

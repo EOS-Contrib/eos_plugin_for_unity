@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
-
 # Samples
 
 <img src="com.playeveryware.eos/Documentation~/images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"/> <img src="com.playeveryware.eos/Documentation~/images/sample_screen_achievements.gif" alt="Achievements Storage Screenshot" width="48%"/>
