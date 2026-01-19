@@ -69,6 +69,8 @@ namespace Epic.OnlineServices.KWS
 		/// 
 		/// Register to receive notifications about KWS permissions changes for any logged in local users
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyPermissionsUpdateReceived" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyPermissionsUpdateReceivedOptions" />
+		/// <see cref="OnPermissionsUpdateReceivedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -109,6 +111,8 @@ namespace Epic.OnlineServices.KWS
 		/// This interface is not available for general access at this time.
 		/// 
 		/// Fetch a permission for a given by index for a given local user
+		/// <see cref="CopyPermissionByIndexOptions" />
+		/// <see cref="PermissionStatus" />
 		/// <see cref="CreateUser" />
 		/// <see cref="QueryPermissions" />
 		/// <see cref="RequestPermissions" />
@@ -121,8 +125,10 @@ namespace Epic.OnlineServices.KWS
 		/// the permission for the given index, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the permission state is known for the given user and index
-		/// <see cref="Result.NotFound" /> if the user is not found or the index is invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the permission state is known for the given user and index
+		/// - <see cref="Result.NotFound" /> if the user is not found or the index is invalid
 		/// </returns>
 		public Result CopyPermissionByIndex(ref CopyPermissionByIndexOptions options, out PermissionStatus? outPermission)
 		{
@@ -148,6 +154,8 @@ namespace Epic.OnlineServices.KWS
 		/// This interface is not available for general access at this time.
 		/// 
 		/// Create an account with Kids Web Services and associate it with the local Product User ID
+		/// <see cref="CreateUserOptions" />
+		/// <see cref="OnCreateUserCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// options required for creating an account such as the local users Product User ID, their data of birth, and parental contact information
@@ -158,11 +166,6 @@ namespace Epic.OnlineServices.KWS
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if account creation completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.TooManyRequests" /> if the number of allowed requests is exceeded
-		/// </returns>
 		public void CreateUser(ref CreateUserOptions options, object clientData, OnCreateUserCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -186,6 +189,8 @@ namespace Epic.OnlineServices.KWS
 		/// This interface is not available for general access at this time.
 		/// 
 		/// Fetch the state of a given permission that are cached for a given local user.
+		/// <see cref="GetPermissionByKeyOptions" />
+		/// <see cref="KWSPermissionStatus" />
 		/// <see cref="CreateUser" />
 		/// <see cref="QueryPermissions" />
 		/// <see cref="RequestPermissions" />
@@ -197,8 +202,10 @@ namespace Epic.OnlineServices.KWS
 		/// the permission for the given key, if it exists and is valid
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the permission state is known for the given user and key
-		/// <see cref="Result.NotFound" /> if the user or the permission is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the permission state is known for the given user and key
+		/// - <see cref="Result.NotFound" /> if the user or the permission is not found
 		/// </returns>
 		public Result GetPermissionByKey(ref GetPermissionByKeyOptions options, out KWSPermissionStatus outPermission)
 		{
@@ -216,6 +223,7 @@ namespace Epic.OnlineServices.KWS
 		/// This interface is not available for general access at this time.
 		/// 
 		/// Fetch the number of permissions found for a given local user
+		/// <see cref="GetPermissionsCountOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the input parameters
@@ -239,6 +247,8 @@ namespace Epic.OnlineServices.KWS
 		/// This interface is not available for general access at this time.
 		/// 
 		/// Query the client's country and age permissions for client side reasoning about the possible need enforce age based restrictions
+		/// <see cref="QueryAgeGateOptions" />
+		/// <see cref="OnQueryAgeGateCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// options required for interacting with the age gate system
@@ -249,11 +259,6 @@ namespace Epic.OnlineServices.KWS
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the query completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.TooManyRequests" /> if the number of allowed queries is exceeded
-		/// </returns>
 		public void QueryAgeGate(ref QueryAgeGateOptions options, object clientData, OnQueryAgeGateCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -277,6 +282,8 @@ namespace Epic.OnlineServices.KWS
 		/// This interface is not available for general access at this time.
 		/// 
 		/// Query the current state of permissions for a given local Product User ID
+		/// <see cref="QueryPermissionsOptions" />
+		/// <see cref="OnQueryPermissionsCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// options required for querying permissions such as the local users Product User ID
@@ -287,11 +294,6 @@ namespace Epic.OnlineServices.KWS
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the account query completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.TooManyRequests" /> if the number of allowed requests is exceeded
-		/// </returns>
 		public void QueryPermissions(ref QueryPermissionsOptions options, object clientData, OnQueryPermissionsCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -330,6 +332,8 @@ namespace Epic.OnlineServices.KWS
 		/// This interface is not available for general access at this time.
 		/// 
 		/// Request new permissions for a given local Product User ID
+		/// <see cref="RequestPermissionsOptions" />
+		/// <see cref="OnRequestPermissionsCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// options required for updating permissions such as the new list of permissions
@@ -340,13 +344,6 @@ namespace Epic.OnlineServices.KWS
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if contact information update completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.TooManyRequests" /> if the number of allowed requests is exceeded
-		/// <see cref="Result.ParentEmailMissing" /> if the account requesting permissions has no parent email associated with it
-		/// <see cref="Result.LimitExceeded" /> if the number of permissions exceeds <see cref="MAX_PERMISSIONS" />, or if any permission name exceeds <see cref="MAX_PERMISSION_LENGTH" />
-		/// </returns>
 		public void RequestPermissions(ref RequestPermissionsOptions options, object clientData, OnRequestPermissionsCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -370,6 +367,8 @@ namespace Epic.OnlineServices.KWS
 		/// This interface is not available for general access at this time.
 		/// 
 		/// Update the parent contact information for a given local Product User ID
+		/// <see cref="UpdateParentEmailOptions" />
+		/// <see cref="OnUpdateParentEmailCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// options required for updating the contact information such as the new email address
@@ -380,11 +379,6 @@ namespace Epic.OnlineServices.KWS
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if contact information update completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.TooManyRequests" /> if the number of allowed requests is exceeded
-		/// </returns>
 		public void UpdateParentEmail(ref UpdateParentEmailOptions options, object clientData, OnUpdateParentEmailCallback completionDelegate)
 		{
 			if (completionDelegate == null)

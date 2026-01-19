@@ -47,7 +47,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public bool sendActive = false;
         private List<float> dataDump;
-
+        public const string CoordinateMessagePrefix = "m";
+        
 #if UNITY_EDITOR
         void OnPlayModeChanged(UnityEditor.PlayModeStateChange modeChange)
         {
@@ -299,59 +300,44 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (!peerId.IsValid())
                 {
-                    Debug.LogErrorFormat("EOS P2PNAT HandleReceivedMessages: ProductUserId peerId is not valid!");
+                    Debug.LogError($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: ProductUserId for '{peerId}' is not valid!");
                     return null;
                 }
-
-                /*string message = System.Text.Encoding.UTF8.GetString(data);
-
-                    ChatEntry newMessage = new ChatEntry()
+                string message = System.Text.Encoding.UTF8.GetString(data);
+                if (string.IsNullOrEmpty(message))
+                {
+                    Debug.LogWarning($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: Received an empty message.");
+                    return null;
+                }
+                // Expected message format: <CoordinateMessagePrefix><x>,<y>
+                // The first character is a prefix used to identify coordinate update messages.
+                // We intentionally skip the prefix (Substring(1)) before splitting the payload
+                // so only the numeric coordinate data is parsed.
+                else if (message.StartsWith(CoordinateMessagePrefix))
+                {
+                    string[] parts = message.Substring(1).Split(',');
+                    if (parts.Length == 2 &&
+                        int.TryParse(parts[0], out int xPos) &&
+                        int.TryParse(parts[1], out int yPos))
                     {
-                        isOwnEntry = false,
-                        Message = message.Substring(1)
-                    };
+                        Debug.Log($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: Particle coordinates received: x={xPos}, y={yPos}");
 
-                    if (ChatDataCache.TryGetValue(peerId, out ChatWithFriendData chatData))
-                    {
-                        // Update existing chat
-                        chatData.ChatLines.Enqueue(newMessage);
+                        if (owner != null && owner.ParticleManager != null)
+                        {
+                            owner.ParticleManager.SpawnParticles(xPos, yPos);
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: ParticleManager or owner reference is missing.");
+                        }
 
-                        ChatDataCacheDirty = true;
                         return peerId;
                     }
                     else
                     {
-                        ChatWithFriendData newChat = new ChatWithFriendData(peerId);
-                        newChat.ChatLines.Enqueue(newMessage);
-
-                        // New Chat Request
-                        ChatDataCache.Add(peerId, newChat);
-
-                        return peerId;
+                        Debug.LogWarning($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: Malformed coordinate message received.");
                     }
                 }
-            
-                else if (message.StartsWith("m"))
-                {
-                    message = message.Substring(1);
-
-                    string[] coords = message.Split(',');
-                    int xPos = Int32.Parse(coords[0]);
-                    int yPos = Int32.Parse(coords[1]);
-                    Debug.Log("EOS P2PNAT HandleReceivedMessages:  Mouse position Recieved at " + xPos + ", " + yPos);
-
-                    ParticleController.SpawnParticles(xPos, yPos, parent);
-
-                    return peerId;
-                }
-
-
-
-                else
-                {
-                    Debug.LogErrorFormat("EOS P2PNAT HandleReceivedMessages: error while reading data, code: {0}", result);
-                    return null;
-                }*/
             }
             return null;
         }

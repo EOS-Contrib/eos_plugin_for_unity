@@ -16,6 +16,10 @@ namespace Epic.OnlineServices.Ecom
 		}
 
 		/// <summary>
+		/// The maximum length of a CatalogItemId.
+		/// </summary>
+		public const int CATALOGITEMID_MAX_LENGTH = 32;
+		/// <summary>
 		/// The most recent version of the <see cref="CatalogItem" /> struct.
 		/// </summary>
 		public const int CATALOGITEM_API_LATEST = 1;
@@ -23,6 +27,10 @@ namespace Epic.OnlineServices.Ecom
 		/// Timestamp value representing an undefined EntitlementEndTimestamp for <see cref="CatalogItem" />
 		/// </summary>
 		public const int CATALOGITEM_ENTITLEMENTENDTIMESTAMP_UNDEFINED = -1;
+		/// <summary>
+		/// The maximum length of a CatalogOfferId.
+		/// </summary>
+		public const int CATALOGOFFERID_MAX_LENGTH = 32;
 		/// <summary>
 		/// The most recent version of the <see cref="CatalogOffer" /> struct.
 		/// </summary>
@@ -84,6 +92,10 @@ namespace Epic.OnlineServices.Ecom
 		/// </summary>
 		public const int COPYLASTREDEEMEDENTITLEMENTBYINDEX_API_LATEST = 1;
 		/// <summary>
+		/// The most recent version of the <see cref="CopyLastRedeemEntitlementsResultByIndex" /> API.
+		/// </summary>
+		public const int COPYLASTREDEEMENTITLEMENTSRESULTBYINDEX_API_LATEST = 1;
+		/// <summary>
 		/// The most recent version of the <see cref="CopyOfferById" /> API.
 		/// </summary>
 		public const int COPYOFFERBYID_API_LATEST = 3;
@@ -139,6 +151,10 @@ namespace Epic.OnlineServices.Ecom
 		/// The most recent version of the <see cref="GetLastRedeemedEntitlementsCount" /> API.
 		/// </summary>
 		public const int GETLASTREDEEMEDENTITLEMENTSCOUNT_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="GetLastRedeemEntitlementsResultCount" /> API.
+		/// </summary>
+		public const int GETLASTREDEEMENTITLEMENTSRESULTCOUNT_API_LATEST = 1;
 		/// <summary>
 		/// The most recent version of the <see cref="GetOfferCount" /> API.
 		/// </summary>
@@ -216,9 +232,13 @@ namespace Epic.OnlineServices.Ecom
 		/// </summary>
 		public const int REDEEMENTITLEMENTS_MAX_IDS = 32;
 		/// <summary>
-		/// The maximum length of a transaction ID.
+		/// The maximum length of a transaction ID. DEPRECATED, replaced with <see cref="TRANSACTIONID_MAX_LENGTH" />.
 		/// </summary>
 		public const int TRANSACTIONID_MAXIMUM_LENGTH = 64;
+		/// <summary>
+		/// The maximum length of a transaction ID.
+		/// </summary>
+		public const int TRANSACTIONID_MAX_LENGTH = 64;
 		/// <summary>
 		/// The most recent version of the <see cref="Transaction.CopyEntitlementByIndex" /> Function.
 		/// </summary>
@@ -234,6 +254,8 @@ namespace Epic.OnlineServices.Ecom
 		/// On success, a Transaction ID will be returned. The Transaction ID can be used to obtain an
 		/// <see cref="Transaction" /> handle. The handle can then be used to retrieve the entitlements rewarded by the purchase.
 		/// <see cref="Transaction.Release" />
+		/// <see cref="CheckoutOptions" />
+		/// <see cref="OnCheckoutCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing filter criteria
@@ -265,6 +287,8 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetches the entitlement with the given ID.
+		/// <see cref="CopyEntitlementByIdOptions" />
+		/// <see cref="Entitlement" />
 		/// <see cref="CopyEntitlementByNameAndIndex" />
 		/// <see cref="Release" />
 		/// </summary>
@@ -275,10 +299,12 @@ namespace Epic.OnlineServices.Ecom
 		/// the entitlement for the given ID, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutEntitlement
-		/// <see cref="Result.EcomEntitlementStale" /> if the entitlement information is stale and passed out in OutEntitlement
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the entitlement is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutEntitlement
+		/// - <see cref="Result.EcomEntitlementStale" /> if the entitlement information is stale and passed out in OutEntitlement
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the entitlement is not found
 		/// </returns>
 		public Result CopyEntitlementById(ref CopyEntitlementByIdOptions options, out Entitlement? outEntitlement)
 		{
@@ -302,6 +328,8 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetches an entitlement from a given index.
+		/// <see cref="CopyEntitlementByIndexOptions" />
+		/// <see cref="Entitlement" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -311,10 +339,12 @@ namespace Epic.OnlineServices.Ecom
 		/// the entitlement for the given index, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutEntitlement
-		/// <see cref="Result.EcomEntitlementStale" /> if the entitlement information is stale and passed out in OutEntitlement
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the entitlement is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutEntitlement
+		/// - <see cref="Result.EcomEntitlementStale" /> if the entitlement information is stale and passed out in OutEntitlement
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the entitlement is not found
 		/// </returns>
 		public Result CopyEntitlementByIndex(ref CopyEntitlementByIndexOptions options, out Entitlement? outEntitlement)
 		{
@@ -340,6 +370,8 @@ namespace Epic.OnlineServices.Ecom
 		/// Fetches a single entitlement with a given Entitlement Name. The Index is used to access individual
 		/// entitlements among those with the same Entitlement Name. The Index can be a value from 0 to
 		/// one less than the result from <see cref="GetEntitlementsByNameCount" />.
+		/// <see cref="CopyEntitlementByNameAndIndexOptions" />
+		/// <see cref="Entitlement" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -349,10 +381,12 @@ namespace Epic.OnlineServices.Ecom
 		/// the entitlement for the given name index pair, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutEntitlement
-		/// <see cref="Result.EcomEntitlementStale" /> if the entitlement information is stale and passed out in OutEntitlement
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the entitlement is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutEntitlement
+		/// - <see cref="Result.EcomEntitlementStale" /> if the entitlement information is stale and passed out in OutEntitlement
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the entitlement is not found
 		/// </returns>
 		public Result CopyEntitlementByNameAndIndex(ref CopyEntitlementByNameAndIndexOptions options, out Entitlement? outEntitlement)
 		{
@@ -376,6 +410,8 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetches an item with a given ID.
+		/// <see cref="CopyItemByIdOptions" />
+		/// <see cref="CatalogItem" />
 		/// <see cref="Release" />
 		/// <see cref="GetItemImageInfoCount" />
 		/// <see cref="GetItemReleaseCount" />
@@ -387,10 +423,12 @@ namespace Epic.OnlineServices.Ecom
 		/// the item for the given index, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutItem
-		/// <see cref="Result.EcomCatalogItemStale" /> if the item information is stale and passed out in OutItem
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the offer is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutItem
+		/// - <see cref="Result.EcomCatalogItemStale" /> if the item information is stale and passed out in OutItem
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the offer is not found
 		/// </returns>
 		public Result CopyItemById(ref CopyItemByIdOptions options, out CatalogItem? outItem)
 		{
@@ -414,6 +452,8 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetches an image from a given index.
+		/// <see cref="CopyItemImageInfoByIndexOptions" />
+		/// <see cref="KeyImageInfo" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -423,10 +463,12 @@ namespace Epic.OnlineServices.Ecom
 		/// the image for the given index, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutImageInfo
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.EcomCatalogItemStale" /> if the associated item information is stale
-		/// <see cref="Result.NotFound" /> if the image is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutImageInfo
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.EcomCatalogItemStale" /> if the associated item information is stale
+		/// - <see cref="Result.NotFound" /> if the image is not found
 		/// </returns>
 		public Result CopyItemImageInfoByIndex(ref CopyItemImageInfoByIndexOptions options, out KeyImageInfo? outImageInfo)
 		{
@@ -450,6 +492,8 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetches a release from a given index.
+		/// <see cref="CopyItemReleaseByIndexOptions" />
+		/// <see cref="CatalogRelease" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -459,10 +503,12 @@ namespace Epic.OnlineServices.Ecom
 		/// the release for the given index, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutRelease
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.EcomCatalogItemStale" /> if the associated item information is stale
-		/// <see cref="Result.NotFound" /> if the release is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutRelease
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.EcomCatalogItemStale" /> if the associated item information is stale
+		/// - <see cref="Result.NotFound" /> if the release is not found
 		/// </returns>
 		public Result CopyItemReleaseByIndex(ref CopyItemReleaseByIndexOptions options, out CatalogRelease? outRelease)
 		{
@@ -485,8 +531,50 @@ namespace Epic.OnlineServices.Ecom
 		}
 
 		/// <summary>
+		/// Fetches an entitlement id of the given result type and the given index in the last Redeem Entitlements result.
+		/// <see cref="CopyLastRedeemEntitlementsResultByIndexOptions" />
+		/// <see cref="ENTITLEMENTID_MAX_LENGTH" />
+		/// </summary>
+		/// <param name="options">
+		/// structure containing the Epic Account ID and index being accessed
+		/// </param>
+		/// <param name="outEntitlementId">
+		/// The ID of the entitlement. Must be long enough to hold a <see cref="Utf8String" /> of <see cref="ENTITLEMENTID_MAX_LENGTH" />.
+		/// </param>
+		/// <param name="inOutEntitlementIdLength">
+		/// The size of the OutEntitlementId in characters.
+		/// The input buffer should include enough space to be <see langword="null" />-terminated.
+		/// When the function returns, this parameter will be filled with the length of the <see cref="Utf8String" /> copied into OutEntitlementId.
+		/// </param>
+		/// <returns>
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in EntitlementId
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the entitlement id is not found
+		/// </returns>
+		public Result CopyLastRedeemEntitlementsResultByIndex(ref CopyLastRedeemEntitlementsResultByIndexOptions options, out Utf8String outEntitlementId)
+		{
+			var optionsInternal = default(CopyLastRedeemEntitlementsResultByIndexOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			int inOutEntitlementIdLength = ENTITLEMENTID_MAX_LENGTH + 1;
+			var outEntitlementIdPointer = Helper.AddAllocation(inOutEntitlementIdLength);
+
+			var callResult = Bindings.EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex(InnerHandle, ref optionsInternal, outEntitlementIdPointer, ref inOutEntitlementIdLength);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.Get(outEntitlementIdPointer, out outEntitlementId);
+			Helper.Dispose(ref outEntitlementIdPointer);
+
+			return callResult;
+		}
+
+		/// <summary>
 		/// Fetches a redeemed entitlement id from a given index.
 		/// Only entitlements that were redeemed during the last <see cref="RedeemEntitlements" /> call can be copied.
+		/// <see cref="CopyLastRedeemedEntitlementByIndexOptions" />
 		/// <see cref="ENTITLEMENTID_MAX_LENGTH" />
 		/// </summary>
 		/// <param name="options">
@@ -501,9 +589,11 @@ namespace Epic.OnlineServices.Ecom
 		/// When the function returns, this parameter will be filled with the length of the <see cref="Utf8String" /> copied into OutRedeemedEntitlementId.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutRedeemedEntitlementId
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the entitlement id is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutRedeemedEntitlementId
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the entitlement id is not found
 		/// </returns>
 		public Result CopyLastRedeemedEntitlementByIndex(ref CopyLastRedeemedEntitlementByIndexOptions options, out Utf8String outRedeemedEntitlementId)
 		{
@@ -525,6 +615,8 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetches an offer with a given ID. The pricing and text are localized to the provided account.
+		/// <see cref="CopyOfferByIdOptions" />
+		/// <see cref="CatalogOffer" />
 		/// <see cref="Release" />
 		/// <see cref="GetOfferItemCount" />
 		/// </summary>
@@ -535,11 +627,13 @@ namespace Epic.OnlineServices.Ecom
 		/// the offer for the given index, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutOffer
-		/// <see cref="Result.EcomCatalogOfferStale" /> if the offer information is stale and passed out in OutOffer
-		/// <see cref="Result.EcomCatalogOfferPriceInvalid" /> if the offer information has an invalid price and passed out in OutOffer
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the offer is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutOffer
+		/// - <see cref="Result.EcomCatalogOfferStale" /> if the offer information is stale and passed out in OutOffer
+		/// - <see cref="Result.EcomCatalogOfferPriceInvalid" /> if the offer information has an invalid price and passed out in OutOffer
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the offer is not found
 		/// </returns>
 		public Result CopyOfferById(ref CopyOfferByIdOptions options, out CatalogOffer? outOffer)
 		{
@@ -563,6 +657,8 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetches an offer from a given index. The pricing and text are localized to the provided account.
+		/// <see cref="CopyOfferByIndexOptions" />
+		/// <see cref="CatalogOffer" />
 		/// <see cref="Release" />
 		/// <see cref="GetOfferItemCount" />
 		/// </summary>
@@ -573,11 +669,13 @@ namespace Epic.OnlineServices.Ecom
 		/// the offer for the given index, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutOffer
-		/// <see cref="Result.EcomCatalogOfferStale" /> if the offer information is stale and passed out in OutOffer
-		/// <see cref="Result.EcomCatalogOfferPriceInvalid" /> if the offer information has an invalid price and passed out in OutOffer
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the offer is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutOffer
+		/// - <see cref="Result.EcomCatalogOfferStale" /> if the offer information is stale and passed out in OutOffer
+		/// - <see cref="Result.EcomCatalogOfferPriceInvalid" /> if the offer information has an invalid price and passed out in OutOffer
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the offer is not found
 		/// </returns>
 		public Result CopyOfferByIndex(ref CopyOfferByIndexOptions options, out CatalogOffer? outOffer)
 		{
@@ -601,6 +699,8 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetches an image from a given index.
+		/// <see cref="CopyOfferImageInfoByIndexOptions" />
+		/// <see cref="KeyImageInfo" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -610,10 +710,12 @@ namespace Epic.OnlineServices.Ecom
 		/// the image for the given index, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutImageInfo
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.EcomCatalogOfferStale" /> if the associated offer information is stale
-		/// <see cref="Result.NotFound" /> if the image is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutImageInfo
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.EcomCatalogOfferStale" /> if the associated offer information is stale
+		/// - <see cref="Result.NotFound" /> if the image is not found
 		/// </returns>
 		public Result CopyOfferImageInfoByIndex(ref CopyOfferImageInfoByIndexOptions options, out KeyImageInfo? outImageInfo)
 		{
@@ -637,6 +739,8 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetches an item from a given index.
+		/// <see cref="CopyOfferItemByIndexOptions" />
+		/// <see cref="CatalogItem" />
 		/// <see cref="Release" />
 		/// <see cref="GetItemImageInfoCount" />
 		/// <see cref="GetItemReleaseCount" />
@@ -648,10 +752,12 @@ namespace Epic.OnlineServices.Ecom
 		/// the item for the given index, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutItem
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.EcomCatalogItemStale" /> if the item information is stale
-		/// <see cref="Result.NotFound" /> if the item is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutItem
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.EcomCatalogItemStale" /> if the item information is stale
+		/// - <see cref="Result.NotFound" /> if the item is not found
 		/// </returns>
 		public Result CopyOfferItemByIndex(ref CopyOfferItemByIndexOptions options, out CatalogItem? outItem)
 		{
@@ -675,6 +781,8 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetches the transaction handle at the given index.
+		/// <see cref="CopyTransactionByIdOptions" />
+		/// <see cref="Transaction" />
 		/// <see cref="CheckoutCallbackInfo" />
 		/// <see cref="Transaction.Release" />
 		/// </summary>
@@ -682,9 +790,11 @@ namespace Epic.OnlineServices.Ecom
 		/// structure containing the Epic Account ID and transaction ID being accessed
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutTransaction
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the transaction is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutTransaction
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the transaction is not found
 		/// </returns>
 		public Result CopyTransactionById(ref CopyTransactionByIdOptions options, out Transaction outTransaction)
 		{
@@ -704,6 +814,8 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetches the transaction handle at the given index.
+		/// <see cref="CopyTransactionByIndexOptions" />
+		/// <see cref="Transaction" />
 		/// <see cref="CheckoutCallbackInfo" />
 		/// <see cref="Transaction.Release" />
 		/// </summary>
@@ -711,9 +823,11 @@ namespace Epic.OnlineServices.Ecom
 		/// structure containing the Epic Account ID and index being accessed
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutTransaction
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the transaction is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutTransaction
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the transaction is not found
 		/// </returns>
 		public Result CopyTransactionByIndex(ref CopyTransactionByIndexOptions options, out Transaction outTransaction)
 		{
@@ -733,6 +847,7 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetch the number of entitlements with the given Entitlement Name that are cached for a given local user.
+		/// <see cref="GetEntitlementsByNameCountOptions" />
 		/// <see cref="CopyEntitlementByNameAndIndex" />
 		/// </summary>
 		/// <param name="options">
@@ -755,6 +870,7 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetch the number of entitlements that are cached for a given local user.
+		/// <see cref="GetEntitlementsCountOptions" />
 		/// <see cref="CopyEntitlementByIndex" />
 		/// </summary>
 		/// <param name="options">
@@ -777,6 +893,7 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetch the number of images that are associated with a given cached item for a local user.
+		/// <see cref="GetItemImageInfoCountOptions" />
 		/// </summary>
 		/// <returns>
 		/// the number of images found.
@@ -795,6 +912,7 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetch the number of releases that are associated with a given cached item for a local user.
+		/// <see cref="GetItemReleaseCountOptions" />
 		/// </summary>
 		/// <returns>
 		/// the number of releases found.
@@ -812,7 +930,31 @@ namespace Epic.OnlineServices.Ecom
 		}
 
 		/// <summary>
+		/// Fetch the number of entitlements of the given type in the last Redeem Entitlements result.
+		/// <see cref="GetLastRedeemEntitlementsResultCountOptions" />
+		/// <see cref="CopyLastRedeemEntitlementsResultByIndex" />
+		/// </summary>
+		/// <param name="options">
+		/// structure containing the Epic Account ID and the result type.
+		/// </param>
+		/// <returns>
+		/// the number of entitlements of the given result type in the last Redeem Entitlements result.
+		/// </returns>
+		public uint GetLastRedeemEntitlementsResultCount(ref GetLastRedeemEntitlementsResultCountOptions options)
+		{
+			var optionsInternal = default(GetLastRedeemEntitlementsResultCountOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var callResult = Bindings.EOS_Ecom_GetLastRedeemEntitlementsResultCount(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			return callResult;
+		}
+
+		/// <summary>
 		/// Fetch the number of entitlements that were redeemed during the last <see cref="RedeemEntitlements" /> call.
+		/// <see cref="GetLastRedeemedEntitlementsCountOptions" />
 		/// <see cref="CopyLastRedeemedEntitlementByIndex" />
 		/// </summary>
 		/// <param name="options">
@@ -835,6 +977,7 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetch the number of offers that are cached for a given local user.
+		/// <see cref="GetOfferCountOptions" />
 		/// <see cref="CopyOfferByIndex" />
 		/// </summary>
 		/// <param name="options">
@@ -857,6 +1000,7 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetch the number of images that are associated with a given cached offer for a local user.
+		/// <see cref="GetOfferImageInfoCountOptions" />
 		/// </summary>
 		/// <returns>
 		/// the number of images found.
@@ -875,6 +1019,7 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetch the number of items that are associated with a given cached offer for a local user.
+		/// <see cref="GetOfferItemCountOptions" />
 		/// </summary>
 		/// <returns>
 		/// the number of items found.
@@ -893,6 +1038,7 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// Fetch the number of transactions that are cached for a given local user.
+		/// <see cref="GetTransactionCountOptions" />
 		/// <see cref="CheckoutCallbackInfo" />
 		/// <see cref="CopyTransactionByIndex" />
 		/// </summary>
@@ -915,6 +1061,8 @@ namespace Epic.OnlineServices.Ecom
 		/// Query the entitlement verification status defined with Epic Online Services.
 		/// An optional set of entitlement names can be provided to filter the set of entitlements associated with the account.
 		/// The data is return via the callback in the form of a signed JWT that should be verified by an external backend server using a public key for authenticity.
+		/// <see cref="QueryEntitlementTokenOptions" />
+		/// <see cref="OnQueryEntitlementTokenCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the account and catalog item IDs to retrieve in token form
@@ -953,6 +1101,8 @@ namespace Epic.OnlineServices.Ecom
 		/// Use <see cref="CopyEntitlementByIndex" />, <see cref="CopyEntitlementByNameAndIndex" />, and <see cref="CopyEntitlementById" /> to get the entitlement details.
 		/// Use <see cref="GetEntitlementsByNameCount" /> to retrieve the number of entitlements with a specific entitlement name.
 		/// Note: If a durable item is queried used the QueryEntitlements API, the callback returns with a <see cref="Result.InvalidRequest" /> result code. Durable item ownership should be queried using the <see cref="QueryOwnership" /> API.
+		/// <see cref="QueryEntitlementsOptions" />
+		/// <see cref="OnQueryEntitlementsCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the account and entitlement names to retrieve
@@ -985,6 +1135,9 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// Query for a list of catalog offers defined with Epic Online Services.
 		/// This data will be cached for a limited time and retrieved again from the backend when necessary.
+		/// When one or more cached offers have an invalid price, the callback returns the result code <see cref="Result.EcomCatalogOfferPriceInvalid" />.
+		/// <see cref="QueryOffersOptions" />
+		/// <see cref="OnQueryOffersCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing filter criteria
@@ -1019,6 +1172,8 @@ namespace Epic.OnlineServices.Ecom
 		/// This data will be cached for a limited time and retrieved again from the backend when necessary
 		/// Depending on the number of catalog item ids passed, the SDK splits the query into smaller batch requests to the backend and aggregates the result.
 		/// Note: If one of the request batches fails, no data is cached and the entire query is marked as failed.
+		/// <see cref="QueryOwnershipOptions" />
+		/// <see cref="OnQueryOwnershipCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the account and catalog item IDs to retrieve
@@ -1051,6 +1206,8 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// Query the ownership status of all catalog item IDs under the given list of Sandbox IDs defined with Epic Online Services.
 		/// This data will be cached for a limited time and retrieved again from the backend when necessary.
+		/// <see cref="QueryOwnershipBySandboxIdsOptions" />
+		/// <see cref="OnQueryOwnershipBySandboxIdsCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the account and Sandbox IDs to retrieve.
@@ -1083,6 +1240,8 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// Query the ownership status for a given list of catalog item IDs defined with Epic Online Services.
 		/// The data is return via the callback in the form of a signed JWT that should be verified by an external backend server using a public key for authenticity.
+		/// <see cref="QueryOwnershipTokenOptions" />
+		/// <see cref="OnQueryOwnershipTokenCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the account and catalog item IDs to retrieve in token form
@@ -1115,6 +1274,8 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// Requests that the provided entitlement be marked redeemed. This will cause that entitlement
 		/// to no longer be returned from QueryEntitlements unless the include redeemed request flag is set <see langword="true" />.
+		/// <see cref="RedeemEntitlementsOptions" />
+		/// <see cref="OnRedeemEntitlementsCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing entitlement to redeem

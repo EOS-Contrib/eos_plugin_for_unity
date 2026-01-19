@@ -51,6 +51,11 @@ namespace Epic.OnlineServices.Platform
 		/// Worker threads of the external overlay
 		/// </summary>
 		public ulong EmbeddedOverlayWorkerThreads { get; set; }
+
+		/// <summary>
+		/// Any thread that process cryptography work
+		/// </summary>
+		public ulong CryptographyWork { get; set; }
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -65,6 +70,7 @@ namespace Epic.OnlineServices.Platform
 		private ulong m_RTCIo;
 		private ulong m_EmbeddedOverlayMainThread;
 		private ulong m_EmbeddedOverlayWorkerThreads;
+		private ulong m_CryptographyWork;
 
 		public void Set(ref InitializeThreadAffinity other)
 		{
@@ -79,6 +85,7 @@ namespace Epic.OnlineServices.Platform
 			m_RTCIo = other.RTCIo;
 			m_EmbeddedOverlayMainThread = other.EmbeddedOverlayMainThread;
 			m_EmbeddedOverlayWorkerThreads = other.EmbeddedOverlayWorkerThreads;
+			m_CryptographyWork = other.CryptographyWork;
 		}
 
 		public void Dispose()

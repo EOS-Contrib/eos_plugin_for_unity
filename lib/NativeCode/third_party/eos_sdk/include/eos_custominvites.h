@@ -16,8 +16,10 @@
  *
  * @param Options Structure containing information about the request.
  *
- * @return EOS_Success if the operation completes successfully
- *         EOS_InvalidParameters if any of the options values are incorrect
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the operation completes successfully
+ * - EOS_InvalidParameters if any of the options values are incorrect
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_CustomInvites_SetCustomInvite(EOS_HCustomInvites Handle, const EOS_CustomInvites_SetCustomInviteOptions* Options);
 
@@ -28,10 +30,15 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_CustomInvites_SetCustomInvite(EOS_HCustomInvit
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate A callback that is fired when the operation completes, either successfully or in error
  *
- * @return EOS_Success if the query completes successfully
- *         EOS_InvalidParameters if any of the options values are incorrect
- *         EOS_TooManyRequests if the number of allowed queries is exceeded
- *         EOS_NotFound if SetCustomInvite has not been previously successfully called for this user
+ * @see EOS_CustomInvites_SendCustomInviteOptions
+ * @see EOS_CustomInvites_OnSendCustomInviteCallback
+ *
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the query completes successfully
+ * - EOS_InvalidParameters if any of the options values are incorrect
+ * - EOS_TooManyRequests if the number of allowed queries is exceeded
+ * - EOS_NotFound if SetCustomInvite has not been previously successfully called for this user
  */
 EOS_DECLARE_FUNC(void) EOS_CustomInvites_SendCustomInvite(EOS_HCustomInvites Handle, const EOS_CustomInvites_SendCustomInviteOptions* Options, void* ClientData, const EOS_CustomInvites_OnSendCustomInviteCallback CompletionDelegate);
 
@@ -42,6 +49,9 @@ EOS_DECLARE_FUNC(void) EOS_CustomInvites_SendCustomInvite(EOS_HCustomInvites Han
  * @param Options Structure containing information about the request.
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate.
  * @param NotificationFn A callback that is fired when a Custom Invite is received.
+ *
+ * @see EOS_CustomInvites_AddNotifyCustomInviteReceivedOptions
+ * @see EOS_CustomInvites_OnCustomInviteReceivedCallback
  *
  * @return handle representing the registered callback
  */
@@ -63,6 +73,9 @@ EOS_DECLARE_FUNC(void) EOS_CustomInvites_RemoveNotifyCustomInviteReceived(EOS_HC
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate.
  * @param NotificationFn A callback that is fired when a Custom Invite is accepted via the Social Overlay.
  *
+ * @see EOS_CustomInvites_AddNotifyCustomInviteAcceptedOptions
+ * @see EOS_CustomInvites_OnCustomInviteAcceptedCallback
+ *
  * @return handle representing the registered callback
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_CustomInvites_AddNotifyCustomInviteAccepted(EOS_HCustomInvites Handle, const EOS_CustomInvites_AddNotifyCustomInviteAcceptedOptions* Options, void* ClientData, const EOS_CustomInvites_OnCustomInviteAcceptedCallback NotificationFn);
@@ -83,6 +96,9 @@ EOS_DECLARE_FUNC(void) EOS_CustomInvites_RemoveNotifyCustomInviteAccepted(EOS_HC
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate.
  * @param NotificationFn A callback that is fired when a Custom Invite is rejected via the Social Overlay.
  *
+ * @see EOS_CustomInvites_AddNotifyCustomInviteRejectedOptions
+ * @see EOS_CustomInvites_OnCustomInviteRejectedCallback
+ *
  * @return handle representing the registered callback
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_CustomInvites_AddNotifyCustomInviteRejected(EOS_HCustomInvites Handle, const EOS_CustomInvites_AddNotifyCustomInviteRejectedOptions* Options, void* ClientData, const EOS_CustomInvites_OnCustomInviteRejectedCallback NotificationFn);
@@ -99,8 +115,12 @@ EOS_DECLARE_FUNC(void) EOS_CustomInvites_RemoveNotifyCustomInviteRejected(EOS_HC
  *
  * @param Options Structure containing information about the request.
  *
- * @return EOS_Success if the operation completes successfully
- *         EOS_InvalidParameters if any of the option values are incorrect
+ * @see EOS_CustomInvites_FinalizeInviteOptions
+ *
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the operation completes successfully
+ * - EOS_InvalidParameters if any of the option values are incorrect
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_CustomInvites_FinalizeInvite(EOS_HCustomInvites Handle, const EOS_CustomInvites_FinalizeInviteOptions* Options);
 
@@ -111,8 +131,13 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_CustomInvites_FinalizeInvite(EOS_HCustomInvite
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate A callback that is fired when the operation completes, either successfully or in error
  *
- * @return EOS_Success if the query completes successfully
- *         EOS_InvalidParameters if any of the options values are incorrect
+ * @see EOS_CustomInvites_SendRequestToJoinOptions
+ * @see EOS_CustomInvites_OnSendRequestToJoinCallback
+ *
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the query completes successfully
+ * - EOS_InvalidParameters if any of the options values are incorrect
  */
 EOS_DECLARE_FUNC(void) EOS_CustomInvites_SendRequestToJoin(EOS_HCustomInvites Handle, const EOS_CustomInvites_SendRequestToJoinOptions* Options, void* ClientData, const EOS_CustomInvites_OnSendRequestToJoinCallback CompletionDelegate);
 
@@ -124,6 +149,9 @@ EOS_DECLARE_FUNC(void) EOS_CustomInvites_SendRequestToJoin(EOS_HCustomInvites Ha
  * @param Options Structure containing information about the request.
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate.
  * @param NotificationFn A callback that is fired when a response is received for an invite request.
+ *
+ * @see EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedOptions
+ * @see EOS_CustomInvites_OnRequestToJoinResponseReceivedCallback
  *
  * @return handle representing the registered callback
  */
@@ -143,6 +171,9 @@ EOS_DECLARE_FUNC(void) EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceiv
  * @param Options Structure containing information about the request.
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate.
  * @param NotificationFn A callback that is fired when a response is received for an invite request.
+ *
+ * @see EOS_CustomInvites_AddNotifyRequestToJoinReceivedOptions
+ * @see EOS_CustomInvites_OnRequestToJoinReceivedCallback
  *
  * @return handle representing the registered callback
  */
@@ -169,6 +200,8 @@ EOS_DECLARE_FUNC(void) EOS_CustomInvites_RemoveNotifyRequestToJoinReceived(EOS_H
  *
  * @return handle representing the registered callback
  *
+ * @see EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedOptions
+ * @see EOS_CustomInvites_OnSendCustomNativeInviteRequestedCallback
  * @see EOS_IPMF_DisableSDKManagedSessions
  * @see EOS_IPMF_PreferEOSIdentity
  * @see EOS_IPMF_PreferIntegratedIdentity
@@ -191,6 +224,9 @@ EOS_DECLARE_FUNC(void) EOS_CustomInvites_RemoveNotifySendCustomNativeInviteReque
  * @param NotificationFn A callback that is fired when a Request to Join is accepted via the Social Overlay.
  *
  * @return handle representing the registered callback
+ *
+ * @see EOS_CustomInvites_AddNotifyRequestToJoinAcceptedOptions
+ * @see EOS_CustomInvites_OnRequestToJoinAcceptedCallback
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_CustomInvites_AddNotifyRequestToJoinAccepted(EOS_HCustomInvites Handle, const EOS_CustomInvites_AddNotifyRequestToJoinAcceptedOptions* Options, void* ClientData, const EOS_CustomInvites_OnRequestToJoinAcceptedCallback NotificationFn);
 
@@ -210,6 +246,9 @@ EOS_DECLARE_FUNC(void) EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted(EOS_H
  * @param NotificationFn A callback that is fired when a Request to Join is accepted via the Social Overlay.
  *
  * @return handle representing the registered callback
+ *
+ * @see EOS_CustomInvites_AddNotifyRequestToJoinRejectedOptions
+ * @see EOS_CustomInvites_OnRequestToJoinRejectedCallback
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_CustomInvites_AddNotifyRequestToJoinRejected(EOS_HCustomInvites Handle, const EOS_CustomInvites_AddNotifyRequestToJoinRejectedOptions* Options, void* ClientData, const EOS_CustomInvites_OnRequestToJoinRejectedCallback NotificationFn);
 
@@ -227,8 +266,13 @@ EOS_DECLARE_FUNC(void) EOS_CustomInvites_RemoveNotifyRequestToJoinRejected(EOS_H
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate A callback that is fired when the operation completes, either successfully or in error
  *
- * @return EOS_Success if the query completes successfully
- *         EOS_InvalidParameters if any of the options values are incorrect
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the query completes successfully
+ * - EOS_InvalidParameters if any of the options values are incorrect
+ *
+ * @see EOS_CustomInvites_AcceptRequestToJoinOptions
+ * @see EOS_CustomInvites_OnAcceptRequestToJoinCallback
  */
 EOS_DECLARE_FUNC(void) EOS_CustomInvites_AcceptRequestToJoin(EOS_HCustomInvites Handle, const EOS_CustomInvites_AcceptRequestToJoinOptions* Options, void* ClientData, const EOS_CustomInvites_OnAcceptRequestToJoinCallback CompletionDelegate);
 
@@ -239,7 +283,12 @@ EOS_DECLARE_FUNC(void) EOS_CustomInvites_AcceptRequestToJoin(EOS_HCustomInvites 
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate A callback that is fired when the operation completes, either successfully or in error
  *
- * @return EOS_Success if the query completes successfully
- *         EOS_InvalidParameters if any of the options values are incorrect
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the query completes successfully
+ * - EOS_InvalidParameters if any of the options values are incorrect
+ *
+ * @see EOS_CustomInvites_RejectRequestToJoinOptions
+ * @see EOS_CustomInvites_OnRejectRequestToJoinCallback
  */
 EOS_DECLARE_FUNC(void) EOS_CustomInvites_RejectRequestToJoin(EOS_HCustomInvites Handle, const EOS_CustomInvites_RejectRequestToJoinOptions* Options, void* ClientData, const EOS_CustomInvites_OnRejectRequestToJoinCallback CompletionDelegate);

@@ -184,6 +184,10 @@ namespace Epic.OnlineServices
 		/// </summary>
 		InsufficientOutputBuffer = 42,
 		/// <summary>
+		/// The associated feature or action is not enabled in the client policy
+		/// </summary>
+		ClientPolicyMissingAction = 43,
+		/// <summary>
 		/// Account locked due to login failures
 		/// </summary>
 		AuthAccountLocked = 1001,

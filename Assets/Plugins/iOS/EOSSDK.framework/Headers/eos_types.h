@@ -68,7 +68,7 @@ EOS_STRUCT(EOS_Platform_RTCOptions, (
 #define EOS_LOCALECODE_MAX_BUFFER_LEN (EOS_LOCALECODE_MAX_LENGTH + 1)
 
 /** The most recent version of the EOS_Platform_Options API. */
-#define EOS_PLATFORM_OPTIONS_API_LATEST 14
+#define EOS_PLATFORM_OPTIONS_API_LATEST 15
 
 /** Platform Creation Flags used in EOS_Platform_Create */
 
@@ -88,6 +88,8 @@ EOS_STRUCT(EOS_Platform_RTCOptions, (
 #define EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL	0x00040
 /** A bit that indicates your game would like to opt-in to automatic unloading of the overlay module when possible. This flag is only relevant on Consoles */
 #define EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING 	0x00080
+/** A bit that enables verbose debug logging related to the overlay. This flag is only relevant on Consoles. */
+#define EOS_PF_ENABLE_OVERLAY_DEBUG_LOGGING		0x00100
 
 /** Max length of a product id, not including the terminating null. */
 #define EOS_PLATFORM_OPTIONS_PRODUCTID_MAX_LENGTH 64

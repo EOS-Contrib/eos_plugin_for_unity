@@ -34,7 +34,7 @@ EOS_EXTERN_C typedef void* (EOS_MEMORY_CALL * EOS_ReallocateMemoryFunc)(void* Po
 EOS_EXTERN_C typedef void (EOS_MEMORY_CALL * EOS_ReleaseMemoryFunc)(void* Pointer);
 
 /** The most recent version of the EOS_Initialize_ThreadAffinity API. */
-#define EOS_INITIALIZE_THREADAFFINITY_API_LATEST 3
+#define EOS_INITIALIZE_THREADAFFINITY_API_LATEST 4
 
 /**
  * Options for initializing defining thread affinity for use by Epic Online Services SDK.
@@ -59,10 +59,12 @@ EOS_STRUCT(EOS_Initialize_ThreadAffinity, (
 	uint64_t EmbeddedOverlayMainThread;
 	/** Worker threads of the external overlay */
 	uint64_t EmbeddedOverlayWorkerThreads;
+	/** Any thread that process cryptography work */
+	uint64_t CryptographyWork;
 ));
 
 /** The most recent version of the EOS_Initialize API. */
-#define EOS_INITIALIZE_API_LATEST 4
+#define EOS_INITIALIZE_API_LATEST 5
 
 /** Max length of a product name, not including the terminating null. */
 #define EOS_INITIALIZEOPTIONS_PRODUCTNAME_MAX_LENGTH 64

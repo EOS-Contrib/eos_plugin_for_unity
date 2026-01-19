@@ -9,10 +9,13 @@
  * This should only be used if Manual Audio Input was enabled locally for the specified room.
  *
  * @param Options structure containing the parameters for the operation.
- * @return EOS_Success if the buffer was successfully queued for sending
- *         EOS_InvalidParameters if any of the parameters are incorrect
- *         EOS_NotFound if the specified room was not found
- *         EOS_InvalidState if manual recording was not enabled when joining the room.
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the buffer was successfully queued for sending
+ * - EOS_InvalidParameters if any of the parameters are incorrect
+ * - EOS_NotFound if the specified room was not found
+ * - EOS_InvalidState if manual recording was not enabled when joining the room.
+ * @see EOS_RTCAudio_SendAudioOptions
  * @see EOS_RTC_JoinRoomOptions
  * @see EOS_Lobby_LocalRTCOptions
  */
@@ -26,9 +29,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_RTCAudio_SendAudio(EOS_HRTCAudio Handle, const
  * @param Options structure containing the parameters for the operation.
  * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
  * @param CompletionDelegate The callback to be fired when the operation completes, either successfully or in error
- * @return EOS_Success if the operation succeeded
- *         EOS_InvalidParameters if any of the parameters are incorrect
- *         EOS_NotFound if the local user is not in the room
+ *
+ * @see EOS_RTCAudio_UpdateSendingOptions
+ * @see EOS_RTCAudio_OnUpdateSendingCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTCAudio_UpdateSending(EOS_HRTCAudio Handle, const EOS_RTCAudio_UpdateSendingOptions* Options, void* ClientData, const EOS_RTCAudio_OnUpdateSendingCallback CompletionDelegate);
 
@@ -40,9 +43,9 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_UpdateSending(EOS_HRTCAudio Handle, const EO
  * @param Options structure containing the parameters for the operation.
  * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
  * @param CompletionDelegate The callback to be fired when the operation completes, either successfully or in error
- * @return EOS_Success if the operation succeeded
- *         EOS_InvalidParameters if any of the parameters are incorrect
- *         EOS_NotFound if either the local user or specified participant are not in the room
+ *
+ * @see EOS_RTCAudio_UpdateReceivingOptions
+ * @see EOS_RTCAudio_OnUpdateReceivingCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTCAudio_UpdateReceiving(EOS_HRTCAudio Handle, const EOS_RTCAudio_UpdateReceivingOptions* Options, void* ClientData, const EOS_RTCAudio_OnUpdateReceivingCallback CompletionDelegate);
 
@@ -54,9 +57,9 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_UpdateReceiving(EOS_HRTCAudio Handle, const 
  * @param Options structure containing the parameters for the operation.
  * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
  * @param CompletionDelegate The callback to be fired when the operation completes, either successfully or in error
- * @return EOS_Success if the operation succeeded
- *         EOS_InvalidParameters if any of the parameters are incorrect
- *         EOS_NotFound if the local user is not in the room
+ *
+ * @see EOS_RTCAudio_UpdateSendingVolumeOptions
+ * @see EOS_RTCAudio_OnUpdateSendingVolumeCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTCAudio_UpdateSendingVolume(EOS_HRTCAudio Handle, const EOS_RTCAudio_UpdateSendingVolumeOptions* Options, void* ClientData, const EOS_RTCAudio_OnUpdateSendingVolumeCallback CompletionDelegate);
 
@@ -68,9 +71,9 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_UpdateSendingVolume(EOS_HRTCAudio Handle, co
  * @param Options structure containing the parameters for the operation.
  * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
  * @param CompletionDelegate The callback to be fired when the operation completes, either successfully or on error
- * @return EOS_Success if the operation succeeded
- *         EOS_InvalidParameters if any of the parameters are incorrect
- *         EOS_NotFound if the local user is not in the room
+ *
+ * @see EOS_RTCAudio_UpdateReceivingVolumeOptions
+ * @see EOS_RTCAudio_OnUpdateReceivingVolumeCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTCAudio_UpdateReceivingVolume(EOS_HRTCAudio Handle, const EOS_RTCAudio_UpdateReceivingVolumeOptions* Options, void* ClientData, const EOS_RTCAudio_OnUpdateReceivingVolumeCallback CompletionDelegate);
 
@@ -82,9 +85,9 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_UpdateReceivingVolume(EOS_HRTCAudio Handle, 
  * @param Options structure containing the parameters for the operation.
  * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
  * @param CompletionDelegate The callback to be fired when the operation completes, either successfully or in error
- * @return EOS_Success if the operation succeeded
- *         EOS_InvalidParameters if any of the parameters are incorrect
- *         EOS_NotFound if either the local user or specified participant are not in the room
+ *
+ * @see EOS_RTCAudio_UpdateParticipantVolumeOptions
+ * @see EOS_RTCAudio_OnUpdateParticipantVolumeCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTCAudio_UpdateParticipantVolume(EOS_HRTCAudio Handle, const EOS_RTCAudio_UpdateParticipantVolumeOptions* Options, void* ClientData, const EOS_RTCAudio_OnUpdateParticipantVolumeCallback CompletionDelegate);
 
@@ -102,7 +105,8 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_UpdateParticipantVolume(EOS_HRTCAudio Handle
  *
  * @see EOS_INVALID_NOTIFICATIONID
  * @see EOS_RTCAudio_RemoveNotifyParticipantUpdated
- * @see EOS_RTCAudio_ParticipantUpdatedCallbackInfo
+ * @see EOS_RTCAudio_AddNotifyParticipantUpdatedOptions
+ * @see EOS_RTCAudio_OnParticipantUpdatedCallback
  * @see EOS_ERTCAudioStatus
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_RTCAudio_AddNotifyParticipantUpdated(EOS_HRTCAudio Handle, const EOS_RTCAudio_AddNotifyParticipantUpdatedOptions* Options, void* ClientData, const EOS_RTCAudio_OnParticipantUpdatedCallback CompletionDelegate);
@@ -133,6 +137,8 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_RemoveNotifyParticipantUpdated(EOS_HRTCAudio
  * @return Notification ID representing the registered callback if successful, an invalid NotificationId if not
  *
  * @see EOS_INVALID_NOTIFICATIONID
+ * @see EOS_RTCAudio_AddNotifyAudioDevicesChangedOptions
+ * @see EOS_RTCAudio_OnAudioDevicesChangedCallback
  * @see EOS_RTCAudio_RemoveNotifyAudioDevicesChanged
  * @see EOS_RTCAudio_SetAudioInputSettingsOptions
  * @see EOS_RTCAudio_SetAudioOutputSettingsOptions
@@ -157,6 +163,8 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_RemoveNotifyAudioDevicesChanged(EOS_HRTCAudi
  * @return Notification ID representing the registered callback if successful, an invalid NotificationId if not
  *
  * @see EOS_INVALID_NOTIFICATIONID
+ * @see EOS_RTCAudio_AddNotifyAudioInputStateOptions
+ * @see EOS_RTCAudio_OnAudioInputStateCallback
  * @see EOS_RTCAudio_RemoveNotifyAudioInputState
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_RTCAudio_AddNotifyAudioInputState(EOS_HRTCAudio Handle, const EOS_RTCAudio_AddNotifyAudioInputStateOptions* Options, void* ClientData, const EOS_RTCAudio_OnAudioInputStateCallback CompletionDelegate);
@@ -179,6 +187,8 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_RemoveNotifyAudioInputState(EOS_HRTCAudio Ha
  * @return Notification ID representing the registered callback if successful, an invalid NotificationId if not
  *
  * @see EOS_INVALID_NOTIFICATIONID
+ * @see EOS_RTCAudio_AddNotifyAudioOutputStateOptions
+ * @see EOS_RTCAudio_OnAudioOutputStateCallback
  * @see EOS_RTCAudio_RemoveNotifyAudioOutputState
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_RTCAudio_AddNotifyAudioOutputState(EOS_HRTCAudio Handle, const EOS_RTCAudio_AddNotifyAudioOutputStateOptions* Options, void* ClientData, const EOS_RTCAudio_OnAudioOutputStateCallback CompletionDelegate);
@@ -205,6 +215,8 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_RemoveNotifyAudioOutputState(EOS_HRTCAudio H
  * @return Notification ID representing the registered callback if successful, an invalid NotificationId if not
  *
  * @see EOS_INVALID_NOTIFICATIONID
+ * @see EOS_RTCAudio_AddNotifyAudioBeforeSendOptions
+ * @see EOS_RTCAudio_OnAudioBeforeSendCallback
  * @see EOS_RTCAudio_RemoveNotifyAudioBeforeSend
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_RTCAudio_AddNotifyAudioBeforeSend(EOS_HRTCAudio Handle, const EOS_RTCAudio_AddNotifyAudioBeforeSendOptions* Options, void* ClientData, const EOS_RTCAudio_OnAudioBeforeSendCallback CompletionDelegate);
@@ -231,6 +243,8 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_RemoveNotifyAudioBeforeSend(EOS_HRTCAudio Ha
  * @return Notification ID representing the registered callback if successful, an invalid NotificationId if not
  *
  * @see EOS_INVALID_NOTIFICATIONID
+ * @see EOS_RTCAudio_AddNotifyAudioBeforeRenderOptions
+ * @see EOS_RTCAudio_OnAudioBeforeRenderCallback
  * @see EOS_RTCAudio_RemoveNotifyAudioBeforeRender
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_RTCAudio_AddNotifyAudioBeforeRender(EOS_HRTCAudio Handle, const EOS_RTCAudio_AddNotifyAudioBeforeRenderOptions* Options, void* ClientData, const EOS_RTCAudio_OnAudioBeforeRenderCallback CompletionDelegate);
@@ -250,10 +264,9 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_RemoveNotifyAudioBeforeRender(EOS_HRTCAudio 
  * @param Options structure containing the parameters for the operation
  * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
  * @param CompletionDelegate The callback to be fired when the operation completes, either successfully or in error
- * @return EOS_Success if the user was successfully registered
- *         EOS_InvalidParameters if any of the parameters are incorrect
- *         EOS_UnexpectedError otherwise
  *
+ * @see EOS_RTCAudio_RegisterPlatformUserOptions
+ * @see EOS_RTCAudio_OnRegisterPlatformUserCallback
  * @see EOS_RTCAudio_UnregisterPlatformUser
  */
 EOS_DECLARE_FUNC(void) EOS_RTCAudio_RegisterPlatformUser(EOS_HRTCAudio Handle, const EOS_RTCAudio_RegisterPlatformUserOptions* Options, void* ClientData, const EOS_RTCAudio_OnRegisterPlatformUserCallback CompletionDelegate);
@@ -266,9 +279,9 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_RegisterPlatformUser(EOS_HRTCAudio Handle, c
  * @param Options structure containing the parameters for the operation
  * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
  * @param CompletionDelegate The callback to be fired when the operation completes, either successfully or in error
- * @return EOS_Success if the user was successfully unregistered
- *         EOS_InvalidParameters if any of the parameters are incorrect
- *         EOS_UnexpectedError otherwise
+ *
+ * @see EOS_RTCAudio_UnregisterPlatformUserOptions
+ * @see EOS_RTCAudio_OnUnregisterPlatformUserCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTCAudio_UnregisterPlatformUser(EOS_HRTCAudio Handle, const EOS_RTCAudio_UnregisterPlatformUserOptions* Options, void* ClientData, const EOS_RTCAudio_OnUnregisterPlatformUserCallback CompletionDelegate);
 
@@ -278,8 +291,9 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_UnregisterPlatformUser(EOS_HRTCAudio Handle,
  * @param Options structure containing the parameters for the operation
  * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
  * @param CompletionDelegate The callback to be fired when the operation completes, either successfully or in error
- * @return EOS_Success if the operation succeeded
- *         EOS_InvalidParameters if any of the parameters are incorrect
+ *
+ * @see EOS_RTCAudio_QueryInputDevicesInformationOptions
+ * @see EOS_RTCAudio_OnQueryInputDevicesInformationCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTCAudio_QueryInputDevicesInformation(EOS_HRTCAudio Handle, const EOS_RTCAudio_QueryInputDevicesInformationOptions* Options, void* ClientData, const EOS_RTCAudio_OnQueryInputDevicesInformationCallback CompletionDelegate);
 
@@ -292,6 +306,7 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_QueryInputDevicesInformation(EOS_HRTCAudio H
  * @param Options structure containing the parameters for the operation
  * @return The number of audio input devices available in the system or 0 if there is an error
  *
+ * @see EOS_RTCAudio_GetInputDevicesCountOptions
  * @see EOS_RTCAudio_CopyInputDeviceInformationByIndex
  * @see EOS_RTCAudio_AddNotifyAudioDevicesChanged
  */
@@ -302,10 +317,14 @@ EOS_DECLARE_FUNC(uint32_t) EOS_RTCAudio_GetInputDevicesCount(EOS_HRTCAudio Handl
  *
  * @param Options structure containing the index being accessed
  * @param OutInputDeviceInformation The audio input device's information for the given index, if it exists and is valid, use EOS_RTCAudio_InputDeviceInformation_Release when finished
- * @return EOS_Success if the information is available and passed out in OutInputDeviceInformation
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the audio input device's information is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutInputDeviceInformation
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the audio input device's information is not found
  *
+ * @see EOS_RTCAudio_CopyInputDeviceInformationByIndexOptions
+ * @see EOS_RTCAudio_InputDeviceInformation
  * @see EOS_RTCAudio_InputDeviceInformation_Release
  * @see EOS_RTCAudio_GetAudioInputDevicesCount
  * @see EOS_RTCAudio_AddNotifyAudioDevicesChanged
@@ -318,8 +337,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_RTCAudio_CopyInputDeviceInformationByIndex(EOS
  * @param Options structure containing the parameters for the operation
  * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
  * @param CompletionDelegate The callback to be fired when the operation completes, either successfully or in error
- * @return EOS_Success if the operation succeeded
- *         EOS_InvalidParameters if any of the parameters are incorrect
+ *
+ * @see EOS_RTCAudio_QueryOutputDevicesInformationOptions
+ * @see EOS_RTCAudio_OnQueryOutputDevicesInformationCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTCAudio_QueryOutputDevicesInformation(EOS_HRTCAudio Handle, const EOS_RTCAudio_QueryOutputDevicesInformationOptions* Options, void* ClientData, const EOS_RTCAudio_OnQueryOutputDevicesInformationCallback CompletionDelegate);
 
@@ -332,6 +352,7 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_QueryOutputDevicesInformation(EOS_HRTCAudio 
  * @param Options structure containing the parameters for the operation
  * @return The number of audio output devices available in the system or 0 if there is an error
  *
+ * @see EOS_RTCAudio_GetOutputDevicesCountOptions
  * @see EOS_RTCAudio_CopyOutputDeviceInformationByIndex
  * @see EOS_RTCAudio_AddNotifyAudioDevicesChanged
  */
@@ -342,10 +363,14 @@ EOS_DECLARE_FUNC(uint32_t) EOS_RTCAudio_GetOutputDevicesCount(EOS_HRTCAudio Hand
  *
  * @param Options structure containing the index being accessed
  * @param OutOutputDeviceInformation The audio output device's information for the given index, if it exists and is valid, use EOS_RTCAudio_OutputDeviceInformation_Release when finished
- * @return EOS_Success if the information is available and passed out in OutOutputDeviceInformation
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the audio output device's information is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutOutputDeviceInformation
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the audio output device's information is not found
  *
+ * @see EOS_RTCAudio_CopyOutputDeviceInformationByIndexOptions
+ * @see EOS_RTCAudio_OutputDeviceInformation
  * @see EOS_RTCAudio_OutputDeviceInformation_Release
  * @see EOS_RTCAudio_GetAudioOutputDevicesCount
  * @see EOS_RTCAudio_AddNotifyAudioDevicesChanged
@@ -358,8 +383,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_RTCAudio_CopyOutputDeviceInformationByIndex(EO
  * @param Options structure containing the parameters for the operation
  * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
  * @param CompletionDelegate The callback to be fired when the operation completes, either successfully or in error
- * @return EOS_Success if the setting was successful
- *         EOS_InvalidParameters if any of the parameters are incorrect
+ *
+ * @see EOS_RTCAudio_SetInputDeviceSettingsOptions
+ * @see EOS_RTCAudio_OnSetInputDeviceSettingsCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTCAudio_SetInputDeviceSettings(EOS_HRTCAudio Handle, const EOS_RTCAudio_SetInputDeviceSettingsOptions* Options, void* ClientData, const EOS_RTCAudio_OnSetInputDeviceSettingsCallback CompletionDelegate);
 
@@ -369,8 +395,9 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_SetInputDeviceSettings(EOS_HRTCAudio Handle,
  * @param Options structure containing the parameters for the operation
  * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
  * @param CompletionDelegate The callback to be fired when the operation completes, either successfully or in error
- * @return EOS_Success if the setting was successful
- *         EOS_InvalidParameters if any of the parameters are incorrect
+ *
+ * @see EOS_RTCAudio_SetOutputDeviceSettingsOptions
+ * @see EOS_RTCAudio_OnSetOutputDeviceSettingsCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTCAudio_SetOutputDeviceSettings(EOS_HRTCAudio Handle, const EOS_RTCAudio_SetOutputDeviceSettingsOptions* Options, void* ClientData, const EOS_RTCAudio_OnSetOutputDeviceSettingsCallback CompletionDelegate);
 
@@ -382,7 +409,11 @@ EOS_DECLARE_FUNC(void) EOS_RTCAudio_SetOutputDeviceSettings(EOS_HRTCAudio Handle
  * This function is only necessary for some platforms.
  *
  * @param Options structure containing the parameters for the operation.
- * @return EOS_Success if the user was successfully registered, EOS_UnexpectedError otherwise.
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the user was successfully registered
+ * - EOS_UnexpectedError otherwise.
+ * @see EOS_RTCAudio_RegisterPlatformAudioUserOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_RTCAudio_RegisterPlatformAudioUser(EOS_HRTCAudio Handle, const EOS_RTCAudio_RegisterPlatformAudioUserOptions* Options);
 
@@ -392,7 +423,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_RTCAudio_RegisterPlatformAudioUser(EOS_HRTCAud
  * Use this function to remove a user that was added with EOS_RTCAudio_RegisterPlatformAudioUser.
  *
  * @param Options structure containing the parameters for the operation.
- * @return EOS_Success if the user was successfully unregistered, EOS_UnexpectedError otherwise.
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the user was successfully unregistered, EOS_UnexpectedError otherwise.
+ * @see EOS_RTCAudio_UnregisterPlatformAudioUserOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_RTCAudio_UnregisterPlatformAudioUser(EOS_HRTCAudio Handle, const EOS_RTCAudio_UnregisterPlatformAudioUserOptions* Options);
 
@@ -408,6 +442,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_RTCAudio_UnregisterPlatformAudioUser(EOS_HRTCA
  * @return The number of audio input devices
  * @see EOS_RTCAudio_GetAudioInputDeviceByIndex
  * @see EOS_RTCAudio_AddNotifyAudioDevicesChanged
+ * @see EOS_RTCAudio_GetAudioInputDevicesCountOptions
  */
 EOS_DECLARE_FUNC(uint32_t) EOS_RTCAudio_GetAudioInputDevicesCount(EOS_HRTCAudio Handle, const EOS_RTCAudio_GetAudioInputDevicesCountOptions* Options);
 
@@ -421,6 +456,7 @@ EOS_DECLARE_FUNC(uint32_t) EOS_RTCAudio_GetAudioInputDevicesCount(EOS_HRTCAudio 
  * @return A pointer to the device information, or NULL on error. You should NOT keep hold of this pointer.
  * @see EOS_RTCAudio_GetAudioInputDevicesCount
  * @see EOS_RTCAudio_AddNotifyAudioDevicesChanged
+ * @see EOS_RTCAudio_GetAudioInputDeviceByIndexOptions
  */
 EOS_DECLARE_FUNC(const EOS_RTCAudio_AudioInputDeviceInfo *) EOS_RTCAudio_GetAudioInputDeviceByIndex(EOS_HRTCAudio Handle, const EOS_RTCAudio_GetAudioInputDeviceByIndexOptions* Options);
 
@@ -436,6 +472,7 @@ EOS_DECLARE_FUNC(const EOS_RTCAudio_AudioInputDeviceInfo *) EOS_RTCAudio_GetAudi
  * @return The number of audio output devices
  * @see EOS_RTCAudio_GetAudioOutputDeviceByIndex
  * @see EOS_RTCAudio_AddNotifyAudioDevicesChanged
+ * @see EOS_RTCAudio_GetAudioOutputDevicesCountOptions
  */
 EOS_DECLARE_FUNC(uint32_t) EOS_RTCAudio_GetAudioOutputDevicesCount(EOS_HRTCAudio Handle, const EOS_RTCAudio_GetAudioOutputDevicesCountOptions* Options);
 
@@ -450,6 +487,7 @@ EOS_DECLARE_FUNC(uint32_t) EOS_RTCAudio_GetAudioOutputDevicesCount(EOS_HRTCAudio
  * @return A pointer to the device information, or NULL on error. You should NOT keep hold of this pointer.
  * @see EOS_RTCAudio_GetAudioOutputDevicesCount
  * @see EOS_RTCAudio_AddNotifyAudioDevicesChanged
+ * @see EOS_RTCAudio_GetAudioOutputDeviceByIndexOptions
  */
 EOS_DECLARE_FUNC(const EOS_RTCAudio_AudioOutputDeviceInfo *) EOS_RTCAudio_GetAudioOutputDeviceByIndex(EOS_HRTCAudio Handle, const EOS_RTCAudio_GetAudioOutputDeviceByIndexOptions* Options);
 
@@ -459,8 +497,11 @@ EOS_DECLARE_FUNC(const EOS_RTCAudio_AudioOutputDeviceInfo *) EOS_RTCAudio_GetAud
  * Use this function to set audio input settings, such as the active input device, volume, or platform AEC.
  *
  * @param Options structure containing the parameters for the operation.
- * @return EOS_Success if the setting was successful
- *         EOS_InvalidParameters if any of the parameters are incorrect
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the setting was successful
+ * - EOS_InvalidParameters if any of the parameters are incorrect
+ * @see EOS_RTCAudio_SetAudioInputSettingsOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_RTCAudio_SetAudioInputSettings(EOS_HRTCAudio Handle, const EOS_RTCAudio_SetAudioInputSettingsOptions* Options);
 
@@ -470,7 +511,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_RTCAudio_SetAudioInputSettings(EOS_HRTCAudio H
  * Use this function to set audio output settings, such as the active output device or volume.
  *
  * @param Options structure containing the parameters for the operation.
- * @return EOS_Success if the setting was successful
- *         EOS_InvalidParameters if any of the parameters are incorrect
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the setting was successful
+ * - EOS_InvalidParameters if any of the parameters are incorrect
+ * @see EOS_RTCAudio_SetAudioOutputSettingsOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_RTCAudio_SetAudioOutputSettings(EOS_HRTCAudio Handle, const EOS_RTCAudio_SetAudioOutputSettingsOptions* Options);

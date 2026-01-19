@@ -48,6 +48,10 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// </summary>
 		public const int ENDSESSION_API_LATEST = 1;
 		/// <summary>
+		/// The most recent version of the <see cref="GetModuleBuildId" /> API.
+		/// </summary>
+		public const int GETMODULEBUILDID_API_LATEST = 1;
+		/// <summary>
 		/// The most recent version of the <see cref="GetProtectMessageOutputLength" /> API.
 		/// </summary>
 		public const int GETPROTECTMESSAGEOUTPUTLENGTH_API_LATEST = 1;
@@ -99,6 +103,10 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// </summary>
 		public const int RESERVED01_API_LATEST = 1;
 		/// <summary>
+		/// The most recent version of the <see cref="Reserved02" /> API.
+		/// </summary>
+		public const int RESERVED02_API_LATEST = 1;
+		/// <summary>
 		/// The most recent version of the <see cref="UnprotectMessage" /> API.
 		/// </summary>
 		public const int UNPROTECTMESSAGE_API_LATEST = 1;
@@ -116,8 +124,10 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the integrity catalog was added successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the integrity catalog was added successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// </returns>
 		public Result AddExternalIntegrityCatalog(ref AddExternalIntegrityCatalogOptions options)
 		{
@@ -341,9 +351,11 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the session was started successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the session was started successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
 		public Result BeginSession(ref BeginSessionOptions options)
 		{
@@ -367,9 +379,11 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the session was ended normally
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the session was ended normally
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
 		public Result EndSession(ref EndSessionOptions options)
 		{
@@ -377,6 +391,40 @@ namespace Epic.OnlineServices.AntiCheatClient
 			optionsInternal.Set(ref options);
 
 			var callResult = Bindings.EOS_AntiCheatClient_EndSession(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			return callResult;
+		}
+
+		/// <summary>
+		/// Get the build id of the loaded anti-cheat client module.
+		/// Mode: All
+		/// 
+		/// NOTE: This is intended for analytics or troubleshooting purposes only. The build identifier should be treated as an arbitrary value
+		/// and never used in relative comparisons. For example, it is incorrect to assume that a change in the behavior of the anti-cheat module
+		/// introduced with build N is also present in build N+1 because we may backport bugfixes and compatibility fixes to older releases.
+		/// </summary>
+		/// <param name="options">
+		/// Structure containing input data.
+		/// </param>
+		/// <param name="outModuleBuildId">
+		/// On success, the build id of the loaded anti-cheat client module.
+		/// </param>
+		/// <returns>
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the build id was provided successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotImplemented" /> - If the platform does not use anti-cheat client modules or the loaded anti-cheat client module is too old to support this function.
+		/// - <see cref="Result.NotFound" /> - If the platform supports anti-cheat client modules but none is currently loaded (failsafe NullClient mode, launched without bootstrapper, etc).
+		/// </returns>
+		public Result GetModuleBuildId(ref GetModuleBuildIdOptions options, out uint outModuleBuildId)
+		{
+			var optionsInternal = default(GetModuleBuildIdOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var callResult = Bindings.EOS_AntiCheatClient_GetModuleBuildId(InnerHandle, ref optionsInternal, out outModuleBuildId);
 
 			Helper.Dispose(ref optionsInternal);
 
@@ -396,9 +444,11 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// On success, the OutBuffer length in bytes that is required to call ProtectMessage on the given input size.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the output length was calculated successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the output length was calculated successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
 		public Result GetProtectMessageOutputLength(ref GetProtectMessageOutputLengthOptions options, out uint outBufferSizeBytes)
 		{
@@ -439,9 +489,11 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// On success, receives a <see cref="Utf8String" /> describing the violation which should be displayed to the user.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If violation information was returned successfully
-		/// <see cref="Result.LimitExceeded" /> - If OutMessage is too small to receive the message <see cref="Utf8String" />. Call again with a larger OutMessage.
-		/// <see cref="Result.NotFound" /> - If no violation has occurred since the last call
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If violation information was returned successfully
+		/// - <see cref="Result.LimitExceeded" /> - If OutMessage is too small to receive the message <see cref="Utf8String" />. Call again with a larger OutMessage.
+		/// - <see cref="Result.NotFound" /> - If no violation has occurred since the last call
 		/// </returns>
 		public Result PollStatus(ref PollStatusOptions options, out AntiCheatClientViolationType outViolationType, out Utf8String outMessage)
 		{
@@ -477,9 +529,11 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// On success, the number of bytes that were written to OutBuffer.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the message was protected successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the message was protected successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
 		public Result ProtectMessage(ref ProtectMessageOptions options, ArraySegment<byte> outBuffer, out uint outBytesWritten)
 		{
@@ -505,9 +559,11 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the message was processed successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the message was processed successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
 		public Result ReceiveMessageFromPeer(ref ReceiveMessageFromPeerOptions options)
 		{
@@ -529,10 +585,12 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the message was processed successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.InvalidRequest" /> - If message contents were corrupt and could not be processed
-		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the message was processed successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.InvalidRequest" /> - If message contents were corrupt and could not be processed
+		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
 		public Result ReceiveMessageFromServer(ref ReceiveMessageFromServerOptions options)
 		{
@@ -557,9 +615,11 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the player was registered successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the player was registered successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
 		public Result RegisterPeer(ref RegisterPeerOptions options)
 		{
@@ -668,6 +728,27 @@ namespace Epic.OnlineServices.AntiCheatClient
 		}
 
 		/// <summary>
+		/// This function is reserved for future use and must not be called.
+		/// </summary>
+		/// <param name="options">
+		/// Structure containing input data.
+		/// </param>
+		/// <returns>
+		/// <see cref="Result.NotImplemented" /> - Always
+		/// </returns>
+		public Result Reserved02(ref Reserved02Options options)
+		{
+			var optionsInternal = default(Reserved02OptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var callResult = Bindings.EOS_AntiCheatClient_Reserved02(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			return callResult;
+		}
+
+		/// <summary>
 		/// Optional NetProtect feature for game message encryption.
 		/// Decrypts an encrypted message received from the game server.
 		/// Mode: <see cref="AntiCheatClientMode.ClientServer" />.
@@ -684,9 +765,11 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// On success, the number of bytes that were written to OutBuffer.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the message was unprotected successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the message was unprotected successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
 		public Result UnprotectMessage(ref UnprotectMessageOptions options, ArraySegment<byte> outBuffer, out uint outBytesWritten)
 		{
@@ -714,9 +797,11 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> - If the player was unregistered successfully
-		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the player was unregistered successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
 		public Result UnregisterPeer(ref UnregisterPeerOptions options)
 		{

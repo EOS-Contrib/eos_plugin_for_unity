@@ -40,6 +40,8 @@ namespace Epic.OnlineServices.Sanctions
 		/// Copies an active player sanction.
 		/// You must call QueryActivePlayerSanctions first to retrieve the data from the service backend.
 		/// On success, <see cref="Release" /> must be called on OutSanction to free memory.
+		/// <see cref="CopyPlayerSanctionByIndexOptions" />
+		/// <see cref="PlayerSanction" />
 		/// <see cref="QueryActivePlayerSanctions" />
 		/// <see cref="Release" />
 		/// </summary>
@@ -50,9 +52,11 @@ namespace Epic.OnlineServices.Sanctions
 		/// The player sanction data for the given index, if it exists and is valid
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutSanction
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the player achievement is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutSanction
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the player achievement is not found
 		/// </returns>
 		public Result CopyPlayerSanctionByIndex(ref CopyPlayerSanctionByIndexOptions options, out PlayerSanction? outSanction)
 		{
@@ -77,6 +81,8 @@ namespace Epic.OnlineServices.Sanctions
 		/// <summary>
 		/// Create a sanction appeal on behalf of a local user.
 		/// Note that for creating the sanction appeal you'll need the sanction reference id, which is available through CopyPlayerSanctionByIndex.
+		/// <see cref="CreatePlayerSanctionAppealOptions" />
+		/// <see cref="CreatePlayerSanctionAppealCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the player sanction appeal information.
@@ -109,6 +115,7 @@ namespace Epic.OnlineServices.Sanctions
 		/// <summary>
 		/// Fetch the number of player sanctions that have been retrieved for a given player.
 		/// You must call QueryActivePlayerSanctions first to retrieve the data from the service backend.
+		/// <see cref="GetPlayerSanctionCountOptions" />
 		/// <see cref="QueryActivePlayerSanctions" />
 		/// <see cref="CopyPlayerSanctionByIndex" />
 		/// </summary>
@@ -133,6 +140,8 @@ namespace Epic.OnlineServices.Sanctions
 		/// <summary>
 		/// Start an asynchronous query to retrieve any active sanctions for a specified user.
 		/// Call <see cref="GetPlayerSanctionCount" /> and <see cref="CopyPlayerSanctionByIndex" /> to retrieve the data.
+		/// <see cref="QueryActivePlayerSanctionsOptions" />
+		/// <see cref="OnQueryActivePlayerSanctionsCallback" />
 		/// <see cref="GetPlayerSanctionCount" />
 		/// <see cref="CopyPlayerSanctionByIndex" />
 		/// </summary>
