@@ -1390,13 +1390,5 @@ using UnityEngine.InputSystem;
             EOSManager.Instance.RemovePersistentToken();
         }
 
-        public void OnExitButtonClick()
-        {
-            Application.Quit();
-
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.ExitPlaymode();
-#endif
-        }
     }
 }
