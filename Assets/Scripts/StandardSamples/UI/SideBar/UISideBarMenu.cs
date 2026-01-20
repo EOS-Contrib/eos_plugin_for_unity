@@ -24,7 +24,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Awake()
         {
-            // On console platforms, the application cannot be quit manually,
+            // On some platforms, the application cannot be quit manually,
             // so hide the Exit button to avoid exposing unsupported functionality.
             ExitButton.gameObject.SetActive(EOSManagerPlatformSpecificsSingleton.Instance.CanShowExitButton());
         }
