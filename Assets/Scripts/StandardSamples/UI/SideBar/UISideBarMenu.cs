@@ -17,7 +17,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
     public class UISideBarMenu : MonoBehaviour
     {
-
         /// <summary>
         /// Reference to the Exit button in the UI.
         /// </summary>
