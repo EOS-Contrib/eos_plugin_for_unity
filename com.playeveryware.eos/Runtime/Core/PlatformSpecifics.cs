@@ -129,7 +129,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public virtual bool CanShowExitButton()
         {
-            //Default behavior is show ExitButton unless platform is a console.
             return true;
         }
 
