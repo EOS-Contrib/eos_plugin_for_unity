@@ -81,7 +81,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             fontSize = 14,
             padding = new RectOffset(10, 10, 10, 10),
             alignment = TextAnchor.MiddleCenter,
-            fixedHeight = 40
+            fixedHeight = 60
         };
 
         public EOSSettingsWindow() : base("EOS Configuration") { }
