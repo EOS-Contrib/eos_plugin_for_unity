@@ -1,2 +1,1 @@
 anticheat_integritytool.exe   filter=lfs diff=lfs merge=lfs binary
-anticheat_integritytool64.exe filter=lfs diff=lfs merge=lfs binary
