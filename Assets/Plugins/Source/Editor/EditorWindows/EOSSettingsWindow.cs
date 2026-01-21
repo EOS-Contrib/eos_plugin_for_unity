@@ -137,6 +137,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 // config within the PlatformConfigEditor.
                 platformConfigEditor.SetClientCredentials(platformConfigFromDisk.clientCredentials);
             }
+            Repaint();
         }
 
         // TODO: Refactor to reduce massive overlap between this function and 
@@ -168,6 +169,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 // within the PlatformConfigEditor.
                 platformConfigEditor.SetDeployment(platformConfigFromDisk.deployment);
             }
+            Repaint();
         }
 
         protected override async Task AsyncSetup()
@@ -220,7 +222,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 _selectedTab = 0;
             }
 
-            _platformTabs = tabContents.ToArray();
+            _platformTabs = BuildPlatformTabsDynamic();
         }
 
         protected override void RenderWindow()
@@ -271,6 +273,89 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             }
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+        }
+
+        /// <summary>
+        /// Determines whether a Deployment object represents a valid and fully defined deployment.
+        /// </summary>
+        private static bool IsDeploymentSet(Deployment dep)
+        {
+            return dep.IsComplete && dep.DeploymentId != Guid.Empty;
+        }
+
+        /// <summary>
+        /// Produces a simple text label describing the deployment type based on its name.
+        /// </summary>
+        private static bool TryGetDeploymentDisplayName(ProductionEnvironments envs, Deployment target, out string displayName)
+        {
+            displayName = null;
+            if (envs == null || target.DeploymentId == Guid.Empty)
+            {
+                return false;
+            }
+
+            var named = envs.Deployments.FirstOrDefault(d => d != null && d.Value.DeploymentId == target.DeploymentId);
+
+            if (named != null)
+            {
+                displayName = named.Name;
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Converts a GUID into a shorter, UI-friendly representation.
+        /// Used only as a fallback when a deployment does not have a valid name.
+        /// </summary>
+        private static string ShortenGuid(Guid id)
+        {
+            var s = id.ToString("N");
+            return s.Length > 8 ? s.Substring(0, 8) : s;
+        }
+
+        /// <summary>
+        /// Builds the GUIContent array used for drawing the platform selection toolbar.
+        /// Unlike the static version initialized at window setup, this version refreshes
+        /// dynamically so that each platform tab displays the current deployment name
+        /// </summary>
+        private GUIContent[] BuildPlatformTabsDynamic()
+        {
+            var product = ProductConfig.Get<ProductConfig>();
+            var envs = product?.Environments;
+            var contents = new List<GUIContent>(_platformConfigEditors.Count);
+
+            foreach (var editor in _platformConfigEditors)
+            {
+                string platformLabel = editor.GetLabelText();
+                string deploymentName = "-";
+
+                if (PlatformManager.TryGetConfig(editor.GetPlatform(), out PlatformConfig cfg) && cfg != null)
+                {
+                    if (IsDeploymentSet(cfg.deployment))
+                    {
+                        if (TryGetDeploymentDisplayName(envs, cfg.deployment, out var displayName))
+                        {
+                            deploymentName = displayName;
+                        }
+                        else
+                        {
+                            deploymentName = ShortenGuid(cfg.deployment.DeploymentId);
+                        }
+                    }
+                    else
+                    {
+                        deploymentName = "nameless";
+                    }
+
+                }
+
+                string text = $" {platformLabel} \n [{deploymentName}]";
+                contents.Add(new GUIContent(text, editor.GetPlatformIconTexture()));
+            }
+
+            return contents.ToArray();
         }
     }
 }
