@@ -63,6 +63,9 @@ namespace PlayEveryWare.EpicOnlineServices
         void SetDefaultAudioSession();
 
         void UpdateNetworkStatus();
+
+        bool CanShowExitButton();
+
 #endif
     }
 }
