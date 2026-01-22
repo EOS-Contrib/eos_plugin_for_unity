@@ -127,6 +127,11 @@ namespace PlayEveryWare.EpicOnlineServices
         {
         }
 
+        public virtual bool CanShowExitButton()
+        {
+            return true;
+        }
+
         #endregion
     }
 }
