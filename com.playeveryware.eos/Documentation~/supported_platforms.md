@@ -28,4 +28,4 @@ We are always looking to add the functionality of the plugin to more platforms, 
 ## Targetted Versions:
 
 * Targets [Unity 2021.3.16f1](https://unity.com/releases/editor/whats-new/2021.3.16), for best results a version of Unity 2021 is preferred.
-* Targets [EOS SDK 1.18.1.2](https://dev.epicgames.com/docs/epic-online-services/release-notes#11812---cl47370208---2025-nov-04) *(bundled with plugin)*.
+* Targets [EOS SDK 1.19.0.3](https://dev.epicgames.com/docs/epic-online-services/release-notes#release-notes) *(bundled with plugin)*.
