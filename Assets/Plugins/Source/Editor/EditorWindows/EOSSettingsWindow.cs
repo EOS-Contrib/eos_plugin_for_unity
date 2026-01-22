@@ -175,8 +175,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         protected override async Task AsyncSetup()
         {
             await _productConfigEditor.LoadAsync();
-            
-            List<GUIContent> tabContents = new();
             int tabIndex = 0;
             foreach (PlatformManager.Platform platform in Enum.GetValues(typeof(PlatformManager.Platform)))
             {
@@ -211,8 +209,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 tabIndex++;
 
                 _platformConfigEditors.Add(editor);
-
-                tabContents.Add(new GUIContent($" {editor.GetLabelText()}", editor.GetPlatformIconTexture()));
             }
 
             // If (for some reason) a default platform was not selected, then
