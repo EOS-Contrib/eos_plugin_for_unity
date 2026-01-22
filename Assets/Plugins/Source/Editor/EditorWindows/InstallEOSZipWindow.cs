@@ -128,7 +128,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override void Setup()
         {
-            pathToImportDescDirectory = Path.Combine(FileSystemUtility.GetProjectPath(), "etc/EOSImportDesriptions");
+            pathToImportDescDirectory = Path.Combine(FileSystemUtility.GetProjectPath(), "etc/EOSImportDescriptions");
             importInfoList = JsonUtility.FromJsonFile<PlatformImportInfoList>(Path.Combine(pathToImportDescDirectory, PlatformImportInfoListFileName));
         }
 
