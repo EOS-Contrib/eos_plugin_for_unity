@@ -1662,6 +1662,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6385380291453459038, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.000061035156
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385380291453459038, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.0009765625
+      objectReference: {fileID: 0}
     - target: {fileID: 6385380291460701031, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1731,6 +1741,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6440864997652558017, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 6480838251680938628, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
@@ -2142,5 +2157,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8937140093654993540, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: UIFindSelectable
+      value: 
+      objectReference: {fileID: 1714923546}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11e4648022445f041b4c867ff8f3fd94, type: 3}
+--- !u!1 &1714923546 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2212923947330422897, guid: 11e4648022445f041b4c867ff8f3fd94,
+    type: 3}
+  m_PrefabInstance: {fileID: 1714923545}
+  m_PrefabAsset: {fileID: 0}
