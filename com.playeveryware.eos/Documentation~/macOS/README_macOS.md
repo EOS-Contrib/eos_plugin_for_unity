@@ -36,7 +36,7 @@ If you want to do that work manually, please refer to the following:
 
 * With Unity `2021.3.16f1` on Mac, building while overwriting the old build can cause some weird behavior. Delete the old build or perform a "clean" before compiling in order to avoid this problem.
 
-* If opening the project in Xcode, use Unity '2021.3.20f1' or later to avoid an error.
+* If opening the project in Xcode, use Unity `2021.3.20f1` or later to avoid an error.
 
 * If opening the project in Xcode, do not enable the Address Sanitizer setting due to a [known Unity bug](https://issuetracker.unity3d.com/issues/thread-1-deallocation-of-non-allocated-memory-error-appears-when-building-an-xcode-project-with-the-address-sanitizer-setting-enabled).
 
