@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
-
 # Full Guide to Implementing the EOS Plugin for Unity
 
 This document serves as the starting point for a beginning-to-end guide on how to implement the EOS Plugin for Unity into your game.

@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
-
 # <div align="center">Unity-specific plugin functionality</div>
 ---
 
@@ -18,8 +16,8 @@ The EOS Unity Plugin is a collective effort between multiple sources, each sourc
 We take multiple factors into account, and decide on the versions that are most stable and expandable.  
 
 The current release is using :  
-* Unity 2021.3.16f1.  
-* EOS SDK 1.16.3.   
+* Unity 2021.3.16f1.
+* EOS SDK 1.19.0.3.
 * SDK versions of the target platform that supports the given Unity and EOS SDK versions above could be found in their platform forums.
 
 ### Why do we reload the EOS SDK DLL in the editor?
@@ -34,5 +32,3 @@ Therefore, we unload and reload the DLL for our users to rerun the plugin withou
 
 GFX plugin is required so that the EOS Overlay can render properly on Windows.   
 Due to how the EOS SDK implements the graphics system for the overlay feature, initialization of the SDK needs to happen _before_ the Unity Editor finishes _it's_ graphics system. The solution is in a GFX plugin because accomplishing this is done in native code.
-
-

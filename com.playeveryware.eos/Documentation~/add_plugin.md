@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
-
 # Adding via Package Manager
 
 The following document outlines the two methods with which you can add the plugin release via the package manager.

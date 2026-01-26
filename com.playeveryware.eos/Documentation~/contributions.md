@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
-
 # Contributor Notes
 
 The following are guidelines for making contributions to this open-source project, as well as guidance on setting up your development environment to do so.

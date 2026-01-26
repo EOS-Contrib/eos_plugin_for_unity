@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
-
 # <div align="center">Disabling the EOS plugin on specific platforms</div>
 ---
 

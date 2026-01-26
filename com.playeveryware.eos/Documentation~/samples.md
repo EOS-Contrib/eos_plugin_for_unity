@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
-
 # Samples
 
 <img src="com.playeveryware.eos/Documentation~/images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"/> <img src="com.playeveryware.eos/Documentation~/images/sample_screen_achievements.gif" alt="Achievements Storage Screenshot" width="48%"/>
@@ -11,7 +9,7 @@ The included samples show examples of fully functional [feature implementations]
 
 ## Importing Samples
 
-1. Select the `PlayEveryWare EOS Plugin for Unity` in the Package Manager window.
+1. Select the the `EOS Plugin for Unity` in the Package Manager window.
 
     ![Unity Install Samples](/com.playeveryware.eos/Documentation~/images/unity_install_samples.gif)
 
