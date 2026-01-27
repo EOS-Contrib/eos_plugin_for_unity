@@ -750,6 +750,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             ShowFriendsOverlayCallback = ShowFriendsOverlayCompleted;
             var showFriendsOptions = new ShowFriendsOptions() { LocalUserId = EOSManager.Instance.GetLocalUserId() };
+            if (EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface() == null)
+            {
+                Debug.Log("EOS platform interface is not ready. Attempted to access platform interface before loading finished.");
+                return;
+            }
             EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface().ShowFriends(ref showFriendsOptions, null, OnShowFriendsCallback);
         }
 
