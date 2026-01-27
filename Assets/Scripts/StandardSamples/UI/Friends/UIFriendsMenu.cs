@@ -105,6 +105,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void SearchFriendsEndEdit(string searchString)
         {
+            if (FriendsManager == null)
+            {
+                Debug.Log("Friends Manager is not ready. Attempted to access friend data before loading finished.");
+            }
             if (string.IsNullOrEmpty(searchString))
             {
                 isSearching = false;
@@ -154,6 +158,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void RenderFriendsList(bool forceUpdate)
         {
+            if (FriendsManager == null)
+            {
+                Debug.Log("Friends Manager is not ready. Attempted to access friend data before loading finished.");
+            }
             if (FriendsManager.GetCachedFriends(out Dictionary<EpicAccountId, FriendData> friendList) || forceUpdate)
             {
                 RefreshUIList(friendList.Values);
@@ -162,6 +170,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void RenderSearchResults()
         {
+            if (FriendsManager == null)
+            {
+                Debug.Log("Friends Manager is not ready. Attempted to access friend data before loading finished.");
+            }
             if (FriendsManager.GetCachedSearchResults(out Dictionary<EpicAccountId, FriendData> searchResults))
             {
                 RefreshUIList(searchResults.Values);
@@ -292,12 +304,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Friends
         public void FriendsOverlayOnClick()
         {
+            if(FriendsManager == null) 
+            {
+                Debug.Log("Friends Manager is not ready. Attempted to access friend data before loading finished.");
+            }
             Debug.Log("FriendsOverlayOnClick: IsValid=" + EOSManager.Instance.GetLocalUserId().IsValid() + ", accountId" + EOSManager.Instance.GetLocalUserId().ToString());
             FriendsManager.ShowFriendsOverlay(null);
         }
 
         public void RefreshFriendsOnClick()
         {
+            if (FriendsManager == null)
+            {
+                Debug.Log("Friends Manager is not ready. Attempted to access friend data before loading finished.");
+            }
             FriendsManager.QueryFriends(null);
         }
 
