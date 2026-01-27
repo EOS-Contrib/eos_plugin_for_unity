@@ -105,10 +105,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void SearchFriendsEndEdit(string searchString)
         {
-            if (FriendsManager == null)
-            {
-                Debug.Log("Friends Manager is not ready. Attempted to access friend data before loading finished.");
-            }
             if (string.IsNullOrEmpty(searchString))
             {
                 isSearching = false;
