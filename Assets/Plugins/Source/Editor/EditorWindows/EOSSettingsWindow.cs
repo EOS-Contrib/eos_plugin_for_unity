@@ -254,13 +254,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             _productConfigEditor.Save();
 
             //Update deployment in current platform
-            if (ProductConfig.Get<ProductConfig>().Environments.TryGetFirstDefinedNamedDeployment(out var namedDep))
-            {
-                _platformConfigEditors[_selectedTab].SetDeployment(namedDep.Value);
-            }
-            else
+            if(!ProductConfig.Get<ProductConfig>().Environments.TryGetFirstDefinedNamedDeployment(out var namedDep))
             {
                 Debug.LogError($"{nameof(EOSSettingsWindow)} {nameof(Save)}: No named deployment found for current platform tab: {_platformConfigEditors[_selectedTab].GetPlatform()}");
+                return;
             }
             // Save each of the platform config editors.
             foreach (IConfigEditor editor in _platformConfigEditors)
@@ -269,6 +266,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             }
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+            _platformTabs = BuildPlatformTabsDynamic();
+            Repaint();
         }
 
         /// <summary>
