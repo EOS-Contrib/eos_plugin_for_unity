@@ -257,6 +257,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             if(!ProductConfig.Get<ProductConfig>().Environments.TryGetFirstDefinedNamedDeployment(out var namedDep))
             {
                 Debug.LogError($"{nameof(EOSSettingsWindow)} {nameof(Save)}: No named deployment found for current platform tab: {_platformConfigEditors[_selectedTab].GetPlatform()}");
+                return;
             }
             // Save each of the platform config editors.
             foreach (IConfigEditor editor in _platformConfigEditors)
