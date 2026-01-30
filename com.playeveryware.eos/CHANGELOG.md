@@ -2,6 +2,37 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.0.0] - 2026-02-10
+
+### Added
+- Added: documentation on binary-only updates when upgrading to new versions of EOS.
+
+### Removed
+- Removed: Support for Windows 32-bit (x86)
+
+### Changed
+- Change: Update to EOS SDK 1.19.0.3-CL49960398
+- Change: Achievements scene displays updated achievement image right after unlocking for better user feedback and disables unlock button when achievement is already unlocked.
+- Change: Increased ContinuanceToken buffer size.
+- Change: Changed the default logging level for EOS logging to VeryVerbose.
+- Change: EOS Config platform tabs refresh dynamically so that each platform tab displays the current deployment name.
+
+### Fixed
+- Fix: EOS pre-build validator catches and logs missing deployment ID before crash.
+- Fix: Sandbox and Deployment ids provided by command line arguments now apply correctly to the PlatformConfig for platforms where the native libs create the PlatformInterface instance.
+- Fix: Platform friends now show up in the overlay.
+- Fix: Defining the EOS_DISABLE symbol no longer causes build failures for non-Windows platforms.
+- Fix: High-frequency P2P scene improvements (particles-on-click flow optimization, improved logs, readme spelling error, etc.).
+- Fix: Lobbies scene improvements (added search button, fixed Copy ID error, updated readme).
+- Fix: Sanctions and report scene prevents null reference exceptions during popup initialization.
+- Fix: EOS Config window initialization exception.
+- Fix: Overlay now accepts @ as a keyboard input when using a European keyboard.
+- Fix: Store demo Query Offers button now works on mouse click.
+- Fix: Prevent ExchangeCode auth retry loop.
+- Fix: Restored missing references to prevent softlock when navigating some menus with the controller.
+- Fix: Null Reference Error in Sessions & Matchmaking scene when opening the Friends tab.
+- Fix: Deployment resolution when multiple deployments exist and auto-assign single sandbox to the deployments.
+
 ## [5.1.2] - 2025-11-25
 
 ### Added
