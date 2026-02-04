@@ -70,6 +70,11 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             // default behavior is to take no action.
         }
+
+        public virtual void InitializeNetworkChecks(IEOSCoroutineOwner owner)
+        {
+            // default behavior is to take no action.
+        }
 #endif
 
         public virtual void AddPluginSearchPaths(ref List<string> pluginPaths)

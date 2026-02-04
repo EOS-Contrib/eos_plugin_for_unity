@@ -190,6 +190,8 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public partial class EOSSingleton
         {
+            private const float NetworkStatusUpdateIntervalSecs = 0.5f;
+            static float s_nextNetworkStatusUpdateTime = 0.0f;
             static private EpicAccountId s_localUserId;
             static private ProductUserId s_localProductUserId;
 
@@ -468,6 +470,11 @@ namespace PlayEveryWare.EpicOnlineServices
                 return platformInterface;
 
             }
+            //-------------------------------------------------------------------------
+            private void InitializeNetworkChecks(IEOSCoroutineOwner coroutineOwner)
+            {
+                EOSManagerPlatformSpecificsSingleton.Instance.InitializeNetworkChecks(coroutineOwner);
+            }
 
             //-------------------------------------------------------------------------
             private void InitializeOverlay(IEOSCoroutineOwner coroutineOwner)
@@ -606,7 +613,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     // The log levels are set in the native plugin
                     // This is here to sync the settings visually in UILogWindow
                     InitializeLogLevels();
-
+                    InitializeNetworkChecks(coroutineOwner);
                     InitializeOverlay(coroutineOwner);
                     return;
                 }
@@ -678,8 +685,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 SetEOSPlatformInterface(eosPlatformInterface);
                 UpdateEOSApplicationStatus();
 
+                InitializeNetworkChecks(coroutineOwner);
                 InitializeOverlay(coroutineOwner);
-
+                
                 Log("EOS loaded");
             }
 
@@ -1386,6 +1394,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     NotificationLocation = NotificationLocation.TopRight
                 };
+
                 Instance.GetEOSPlatformInterface().GetUIInterface().SetDisplayPreference(ref displayOptions);
 
                 Log("StartLoginWithLoginTypeAndToken");
@@ -1399,8 +1408,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 EOSAuthInterface.Login(ref loginOptions, null, (ref LoginCallbackInfo data) =>
                 {
 #endif
-                    Log("LoginCallBackResult : " + data.ResultCode);
-
                     if (data.ResultCode == Result.Success)
                     {
                         loggedInAccountIDs.Add(data.LocalUserId);
@@ -1531,6 +1538,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
+            
             public void Tick()
             {
                 ExecuteQueuedMainThreadTasks();
@@ -1540,7 +1548,11 @@ namespace PlayEveryWare.EpicOnlineServices
                     // already coincide with a prior application focus or pause event
                     UpdateApplicationConstrainedState();
 
-                    UpdateNetworkStatus();
+                    if (Time.realtimeSinceStartup >= s_nextNetworkStatusUpdateTime)
+                    {
+                        UpdateNetworkStatus();
+                        s_nextNetworkStatusUpdateTime = Time.realtimeSinceStartup + NetworkStatusUpdateIntervalSecs;
+                    }
 
                     if (s_state != EOSState.Suspended)
                     {
@@ -1842,12 +1854,12 @@ namespace PlayEveryWare.EpicOnlineServices
                 enabled = false;
                 return;
             }
-
+            
             // Indicate that a EOSManager has been created, and mark it to not be destroyed
             s_EOSManagerInstance = this;
             DontDestroyOnLoad(this.gameObject);
 
-            Instance.Init(this);
+            Instance.Init(this); 
         }
 
         //-------------------------------------------------------------------------
