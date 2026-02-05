@@ -471,6 +471,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 return platformInterface;
 
             }
+
             //-------------------------------------------------------------------------
             private void InitializeNetworkChecks(IEOSCoroutineOwner coroutineOwner)
             {
