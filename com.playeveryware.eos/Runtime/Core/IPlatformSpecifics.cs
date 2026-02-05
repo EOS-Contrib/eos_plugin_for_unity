@@ -46,6 +46,8 @@ namespace PlayEveryWare.EpicOnlineServices
         void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptions);
 
         void InitializeOverlay(IEOSCoroutineOwner owner);
+
+        void InitializeNetworkChecks(IEOSCoroutineOwner owner);
 #endif
 
         void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions);
