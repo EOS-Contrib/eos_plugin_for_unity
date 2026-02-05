@@ -191,7 +191,8 @@ namespace PlayEveryWare.EpicOnlineServices
         public partial class EOSSingleton
         {
             private const float NetworkStatusUpdateIntervalSecs = 0.5f;
-            static float s_nextNetworkStatusUpdateTime = 0.0f;
+            
+            private static float s_nextNetworkStatusUpdateTime = 0.0f;
             static private EpicAccountId s_localUserId;
             static private ProductUserId s_localProductUserId;
 
