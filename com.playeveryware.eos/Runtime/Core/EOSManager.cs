@@ -1409,9 +1409,9 @@ namespace PlayEveryWare.EpicOnlineServices
 #else
                 EOSAuthInterface.Login(ref loginOptions, null, (ref LoginCallbackInfo data) =>
                 {
+#endif
                     Log("LoginCallBackResult : " + data.ResultCode);
 
-#endif
                     if (data.ResultCode == Result.Success)
                     {
                         loggedInAccountIDs.Add(data.LocalUserId);
