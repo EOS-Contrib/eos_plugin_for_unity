@@ -1862,7 +1862,7 @@ namespace PlayEveryWare.EpicOnlineServices
             s_EOSManagerInstance = this;
             DontDestroyOnLoad(this.gameObject);
 
-            Instance.Init(this); 
+            Instance.Init(this);
         }
 
         //-------------------------------------------------------------------------
