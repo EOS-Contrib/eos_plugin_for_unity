@@ -1542,7 +1542,6 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            
             public void Tick()
             {
                 ExecuteQueuedMainThreadTasks();
