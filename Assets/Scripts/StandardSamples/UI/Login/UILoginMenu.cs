@@ -104,7 +104,7 @@ using UnityEngine.InputSystem;
             tokenInputField.InputField.onEndEdit.AddListener(CacheTokenField);
 #if UNITY_EDITOR
             loginType = LoginCredentialType.AccountPortal; // Default in editor
-#elif UNITY_SWITCH
+#elif UNITY_SWITCH || UNITY_SWITCH2
             loginType = LoginCredentialType.PersistentAuth; // Default on switch
 #elif UNITY_PS4 || UNITY_PS5 || UNITY_GAMECORE
             loginType = LoginCredentialType.ExternalAuth; // Default on other consoles
@@ -117,7 +117,7 @@ using UnityEngine.InputSystem;
             idInputField.InputField.text = "localhost:7777"; //default on pc
 #endif
 
-#if !ENABLE_INPUT_SYSTEM && (UNITY_XBOXONE || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT || UNITY_PS4 || UNITY_PS5 || UNITY_SWITCH)
+#if !ENABLE_INPUT_SYSTEM && (UNITY_XBOXONE || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT || UNITY_PS4 || UNITY_PS5 || UNITY_SWITCH || UNITY_SWITCH2)
             Debug.LogError("Input currently handled by Input Manager. Input System Package is required for controller support on consoles.");
 #endif
         }
@@ -1033,6 +1033,9 @@ using UnityEngine.InputSystem;
 #elif UNITY_SWITCH && !UNITY_EDITOR
                 var nintendoManager = EOSManager.Instance.GetOrCreateManager<EOSNintendoManager>();
                 nintendoManager.StartLoginWithNSAPreselectedUser(StartLoginWithLoginTypeAndTokenCallback);
+#elif UNITY_SWITCH2 && !UNITY_EDITOR
+                var nintendoManager = EOSManager.Instance.GetOrCreateManager<EOSNintendo2Manager>();
+                nintendoManager.StartLoginWithNSAPreselectedUser(StartLoginWithLoginTypeAndTokenCallback);
 #elif UNITY_GAMECORE && !UNITY_EDITOR
                 EOSXBLManager xblManager = EOSManager.Instance.GetOrCreateManager<EOSXBLManager>();
                 xblManager.StartLoginWithXbl(StartLoginWithLoginTypeAndTokenCallback);
@@ -1044,6 +1047,19 @@ using UnityEngine.InputSystem;
             {
 #if UNITY_SWITCH && !UNITY_EDITOR
                 var nintendoManager = EOSManager.Instance.GetOrCreateManager<EOSNintendoManager>();
+                nintendoManager.StartLoginWithPersistantAuthPreselectedUser((LoginCallbackInfo callbackInfo) =>
+            {
+                    if (callbackInfo.ResultCode == Result.Success)
+                    {
+                        ConfigureUIForLogout();
+                    }
+                    else
+                    {
+                        ConfigureUIForLogin();
+                    }
+                });
+#elif UNITY_SWITCH2 && !UNITY_EDITOR
+                var nintendoManager = EOSManager.Instance.GetOrCreateManager<EOSNintendo2Manager>();
                 nintendoManager.StartLoginWithPersistantAuthPreselectedUser((LoginCallbackInfo callbackInfo) =>
             {
                     if (callbackInfo.ResultCode == Result.Success)

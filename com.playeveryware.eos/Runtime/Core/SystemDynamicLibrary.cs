@@ -116,7 +116,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [DllImport(DLLHBinaryName, SetLastError = true, CharSet = CharSet.Ansi)]
         private static extern IntPtr DLLH_load_library_at_path(IntPtr ctx, string library_path);
 
-#if !UNITY_SWITCH && !UNITY_PS4 && !UNITY_PS5
+#if !UNITY_SWITCH && !UNITY_SWITCH2 && !UNITY_PS4 && !UNITY_PS5
         [DllImport(DLLHBinaryName)]
         private static extern bool DLLH_unload_library_at_path(IntPtr ctx, IntPtr library_handle);
 #endif

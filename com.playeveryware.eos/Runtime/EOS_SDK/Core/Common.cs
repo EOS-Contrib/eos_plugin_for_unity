@@ -8,7 +8,7 @@
 #define EOS_EDITOR
 #endif
 
-#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_PS4 || UNITY_PS5 || UNITY_XBOXONE || UNITY_SWITCH || UNITY_IOS || UNITY_ANDROID || UNITY_WSA
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_PS4 || UNITY_PS5 || UNITY_XBOXONE || UNITY_SWITCH || UNITY_SWITCH2 || UNITY_IOS || UNITY_ANDROID || UNITY_WSA
 #define EOS_UNITY
 #endif
 
@@ -41,6 +41,10 @@
 
 #elif UNITY_SWITCH
 #define EOS_PLATFORM_SWITCH
+
+//added for Switch 2
+#elif UNITY_SWITCH2
+#define EOS_PLATFORM_SWITCH2
 
 #elif UNITY_IOS || __IOS__
 #define EOS_PLATFORM_IOS
@@ -97,6 +101,9 @@ namespace Epic.OnlineServices
 
 #elif EOS_PLATFORM_SWITCH
 			"EOSSDK-Switch-Shipping"
+
+#elif EOS_PLATFORM_SWITCH2 //update EOSSDK name for switch 2
+			"EOSSDK-Switch2-Shipping"
 
 #elif EOS_PLATFORM_XBOXONE_GDK
 			"EOSSDK-XboxOneGDK-Shipping"
