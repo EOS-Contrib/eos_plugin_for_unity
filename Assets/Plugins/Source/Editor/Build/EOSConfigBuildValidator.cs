@@ -61,6 +61,7 @@ public class EOSConfigBuildValidator : IPreprocessBuildWithReport
                 { BuildTarget.PS4,                 PlatformManager.Platform.PS4         },
                 { BuildTarget.PS5,                 PlatformManager.Platform.PS5         },
                 { BuildTarget.Switch,              PlatformManager.Platform.Switch      },
+                { BuildTarget.Switch2,             PlatformManager.Platform.Switch2     },
                 { BuildTarget.StandaloneOSX,       PlatformManager.Platform.macOS       },
                 { BuildTarget.StandaloneWindows,   PlatformManager.Platform.Windows     },
                 { BuildTarget.StandaloneWindows64, PlatformManager.Platform.Windows     },
