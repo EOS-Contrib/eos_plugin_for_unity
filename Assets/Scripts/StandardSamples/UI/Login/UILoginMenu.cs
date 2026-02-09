@@ -1371,7 +1371,7 @@ using UnityEngine.InputSystem;
             {
                 print("Trying Auth link with external account: " + loginCallbackInfo.ContinuanceToken);
                 EOSManager.Instance.AuthLinkExternalAccountWithContinuanceToken(loginCallbackInfo.ContinuanceToken, 
-#if UNITY_SWITCH
+#if UNITY_SWITCH || UNITY_SWITCH2
                                                                                 LinkAccountFlags.NintendoNsaId,
 #else
                                                                                 LinkAccountFlags.NoFlags,
