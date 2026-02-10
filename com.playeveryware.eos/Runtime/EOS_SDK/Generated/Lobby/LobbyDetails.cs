@@ -28,9 +28,11 @@ namespace Epic.OnlineServices.Lobby
 		/// Out parameter used to receive the <see cref="Attribute" /> structure.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutAttribute
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutAttribute
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result CopyAttributeByIndex(ref LobbyDetailsCopyAttributeByIndexOptions options, out Attribute? outAttribute)
 		{
@@ -66,9 +68,11 @@ namespace Epic.OnlineServices.Lobby
 		/// Out parameter used to receive the <see cref="Attribute" /> structure.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutAttribute
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutAttribute
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result CopyAttributeByKey(ref LobbyDetailsCopyAttributeByKeyOptions options, out Attribute? outAttribute)
 		{
@@ -104,9 +108,11 @@ namespace Epic.OnlineServices.Lobby
 		/// Out parameter used to receive the <see cref="LobbyDetailsInfo" /> structure.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutLobbyDetailsInfo
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutLobbyDetailsInfo
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result CopyInfo(ref LobbyDetailsCopyInfoOptions options, out LobbyDetailsInfo? outLobbyDetailsInfo)
 		{
@@ -143,9 +149,11 @@ namespace Epic.OnlineServices.Lobby
 		/// Out parameter used to receive the <see cref="Attribute" /> structure.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutAttribute
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutAttribute
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result CopyMemberAttributeByIndex(ref LobbyDetailsCopyMemberAttributeByIndexOptions options, out Attribute? outAttribute)
 		{
@@ -182,9 +190,11 @@ namespace Epic.OnlineServices.Lobby
 		/// Out parameter used to receive the <see cref="Attribute" /> structure.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutAttribute
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutAttribute
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result CopyMemberAttributeByKey(ref LobbyDetailsCopyMemberAttributeByKeyOptions options, out Attribute? outAttribute)
 		{
@@ -221,10 +231,12 @@ namespace Epic.OnlineServices.Lobby
 		/// Out parameter used to receive the <see cref="LobbyDetailsInfo" /> structure.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutLobbyMemberDetailsInfo
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
-		/// <see cref="Result.NotFound" /> if searching for a target user ID returns no results
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutLobbyMemberDetailsInfo
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// - <see cref="Result.NotFound" /> if searching for a target user ID returns no results
 		/// </returns>
 		public Result CopyMemberInfo(ref LobbyDetailsCopyMemberInfoOptions options, out LobbyDetailsMemberInfo? outLobbyDetailsMemberInfo)
 		{
@@ -248,6 +260,7 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Get the number of attributes associated with this lobby
+		/// <see cref="LobbyDetailsGetAttributeCountOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// the Options associated with retrieving the attribute count
@@ -269,6 +282,7 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Get the product user ID of the current owner for a given lobby
+		/// <see cref="LobbyDetailsGetLobbyOwnerOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the input parameters
@@ -342,6 +356,7 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Get the number of members associated with this lobby
+		/// <see cref="LobbyDetailsGetMemberCountOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// the Options associated with retrieving the member count

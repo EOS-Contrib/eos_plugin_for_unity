@@ -22,6 +22,9 @@
  * @param Options structure containing the account and catalog item IDs to retrieve
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
+ *
+ * @see EOS_Ecom_QueryOwnershipOptions
+ * @see EOS_Ecom_OnQueryOwnershipCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Ecom_QueryOwnership(EOS_HEcom Handle, const EOS_Ecom_QueryOwnershipOptions* Options, void* ClientData, const EOS_Ecom_OnQueryOwnershipCallback CompletionDelegate);
 
@@ -32,6 +35,9 @@ EOS_DECLARE_FUNC(void) EOS_Ecom_QueryOwnership(EOS_HEcom Handle, const EOS_Ecom_
  * @param Options structure containing the account and Sandbox IDs to retrieve.
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate.
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error.
+ *
+ * @see EOS_Ecom_QueryOwnershipBySandboxIdsOptions
+ * @see EOS_Ecom_OnQueryOwnershipBySandboxIdsCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Ecom_QueryOwnershipBySandboxIds(EOS_HEcom Handle, const EOS_Ecom_QueryOwnershipBySandboxIdsOptions* Options, void* ClientData, const EOS_Ecom_OnQueryOwnershipBySandboxIdsCallback CompletionDelegate);
 
@@ -42,6 +48,9 @@ EOS_DECLARE_FUNC(void) EOS_Ecom_QueryOwnershipBySandboxIds(EOS_HEcom Handle, con
  * @param Options structure containing the account and catalog item IDs to retrieve in token form
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
+ *
+ * @see EOS_Ecom_QueryOwnershipTokenOptions
+ * @see EOS_Ecom_OnQueryOwnershipTokenCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Ecom_QueryOwnershipToken(EOS_HEcom Handle, const EOS_Ecom_QueryOwnershipTokenOptions* Options, void* ClientData, const EOS_Ecom_OnQueryOwnershipTokenCallback CompletionDelegate);
 
@@ -58,6 +67,9 @@ EOS_DECLARE_FUNC(void) EOS_Ecom_QueryOwnershipToken(EOS_HEcom Handle, const EOS_
  * @param Options structure containing the account and entitlement names to retrieve
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
+ *
+ * @see EOS_Ecom_QueryEntitlementsOptions
+ * @see EOS_Ecom_OnQueryEntitlementsCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Ecom_QueryEntitlements(EOS_HEcom Handle, const EOS_Ecom_QueryEntitlementsOptions* Options, void* ClientData, const EOS_Ecom_OnQueryEntitlementsCallback CompletionDelegate);
 
@@ -69,16 +81,23 @@ EOS_DECLARE_FUNC(void) EOS_Ecom_QueryEntitlements(EOS_HEcom Handle, const EOS_Ec
  * @param Options structure containing the account and catalog item IDs to retrieve in token form
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
+ *
+ * @see EOS_Ecom_QueryEntitlementTokenOptions
+ * @see EOS_Ecom_OnQueryEntitlementTokenCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Ecom_QueryEntitlementToken(EOS_HEcom Handle, const EOS_Ecom_QueryEntitlementTokenOptions* Options, void* ClientData, const EOS_Ecom_OnQueryEntitlementTokenCallback CompletionDelegate);
 
 /**
  * Query for a list of catalog offers defined with Epic Online Services.
  * This data will be cached for a limited time and retrieved again from the backend when necessary.
+ * When one or more cached offers have an invalid price, the callback returns the result code EOS_EResult::EOS_Ecom_CatalogOfferPriceInvalid.
  *
  * @param Options structure containing filter criteria
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
+ *
+ * @see EOS_Ecom_QueryOffersOptions
+ * @see EOS_Ecom_OnQueryOffersCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Ecom_QueryOffers(EOS_HEcom Handle, const EOS_Ecom_QueryOffersOptions* Options, void* ClientData, const EOS_Ecom_OnQueryOffersCallback CompletionDelegate);
 
@@ -93,6 +112,9 @@ EOS_DECLARE_FUNC(void) EOS_Ecom_QueryOffers(EOS_HEcom Handle, const EOS_Ecom_Que
  * @param Options structure containing filter criteria
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
+ *
+ * @see EOS_Ecom_CheckoutOptions
+ * @see EOS_Ecom_OnCheckoutCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Ecom_Checkout(EOS_HEcom Handle, const EOS_Ecom_CheckoutOptions* Options, void* ClientData, const EOS_Ecom_OnCheckoutCallback CompletionDelegate);
 
@@ -103,6 +125,9 @@ EOS_DECLARE_FUNC(void) EOS_Ecom_Checkout(EOS_HEcom Handle, const EOS_Ecom_Checko
  * @param Options structure containing entitlement to redeem
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
+ *
+ * @see EOS_Ecom_RedeemEntitlementsOptions
+ * @see EOS_Ecom_OnRedeemEntitlementsCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Ecom_RedeemEntitlements(EOS_HEcom Handle, const EOS_Ecom_RedeemEntitlementsOptions* Options, void* ClientData, const EOS_Ecom_OnRedeemEntitlementsCallback CompletionDelegate);
 
@@ -111,6 +136,7 @@ EOS_DECLARE_FUNC(void) EOS_Ecom_RedeemEntitlements(EOS_HEcom Handle, const EOS_E
  *
  * @param Options structure containing the Epic Account ID
  *
+ * @see EOS_Ecom_GetLastRedeemedEntitlementsCountOptions
  * @see EOS_Ecom_CopyLastRedeemedEntitlementByIndex
  *
  * @return the number of the redeemed entitlements.
@@ -127,19 +153,55 @@ EOS_DECLARE_FUNC(uint32_t) EOS_Ecom_GetLastRedeemedEntitlementsCount(EOS_HEcom H
  *										   The input buffer should include enough space to be null-terminated.
  *										   When the function returns, this parameter will be filled with the length of the string copied into OutRedeemedEntitlementId.
  *
- * @return EOS_Success if the information is available and passed out in OutRedeemedEntitlementId
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the entitlement id is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutRedeemedEntitlementId
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the entitlement id is not found
  *
+ * @see EOS_Ecom_CopyLastRedeemedEntitlementByIndexOptions
  * @see EOS_ECOM_ENTITLEMENTID_MAX_LENGTH
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyLastRedeemedEntitlementByIndex(EOS_HEcom Handle, const EOS_Ecom_CopyLastRedeemedEntitlementByIndexOptions* Options, char* OutRedeemedEntitlementId, int32_t* InOutRedeemedEntitlementIdLength);
+
+/**
+ * Fetch the number of entitlements of the given type in the last Redeem Entitlements result.
+ *
+ * @param Options structure containing the Epic Account ID and the result type.
+ *
+ * @see EOS_Ecom_GetLastRedeemEntitlementsResultCountOptions
+ * @see EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex
+ *
+ * @return the number of entitlements of the given result type in the last Redeem Entitlements result.
+ */
+EOS_DECLARE_FUNC(uint32_t) EOS_Ecom_GetLastRedeemEntitlementsResultCount(EOS_HEcom Handle, const EOS_Ecom_GetLastRedeemEntitlementsResultCountOptions* Options);
+
+/**
+ * Fetches an entitlement id of the given result type and the given index in the last Redeem Entitlements result.
+ *
+ * @param Options structure containing the Epic Account ID and index being accessed
+ * @param OutEntitlementId The ID of the entitlement. Must be long enough to hold a string of EOS_ECOM_ENTITLEMENTID_MAX_LENGTH.
+ * @param InOutEntitlementIdLength The size of the OutEntitlementId in characters.
+ *								   The input buffer should include enough space to be null-terminated.
+ *								   When the function returns, this parameter will be filled with the length of the string copied into OutEntitlementId.
+ *
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in EntitlementId
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the entitlement id is not found
+ *
+ * @see EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexOptions
+ * @see EOS_ECOM_ENTITLEMENTID_MAX_LENGTH
+ */
+EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex(EOS_HEcom Handle, const EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexOptions* Options, char* OutEntitlementId, int32_t* InOutEntitlementIdLength);
 
 /**
  * Fetch the number of entitlements that are cached for a given local user.
  *
  * @param Options structure containing the Epic Account ID being accessed
  *
+ * @see EOS_Ecom_GetEntitlementsCountOptions
  * @see EOS_Ecom_CopyEntitlementByIndex
  *
  * @return the number of entitlements found.
@@ -151,6 +213,7 @@ EOS_DECLARE_FUNC(uint32_t) EOS_Ecom_GetEntitlementsCount(EOS_HEcom Handle, const
  *
  * @param Options structure containing the Epic Account ID and name being accessed
  *
+ * @see EOS_Ecom_GetEntitlementsByNameCountOptions
  * @see EOS_Ecom_CopyEntitlementByNameAndIndex
  *
  * @return the number of entitlements found.
@@ -163,12 +226,16 @@ EOS_DECLARE_FUNC(uint32_t) EOS_Ecom_GetEntitlementsByNameCount(EOS_HEcom Handle,
  * @param Options structure containing the Epic Account ID and index being accessed
  * @param OutEntitlement the entitlement for the given index, if it exists and is valid, use EOS_Ecom_Entitlement_Release when finished
  *
+ * @see EOS_Ecom_CopyEntitlementByIndexOptions
+ * @see EOS_Ecom_Entitlement
  * @see EOS_Ecom_Entitlement_Release
  *
- * @return EOS_Success if the information is available and passed out in OutEntitlement
- *         EOS_Ecom_EntitlementStale if the entitlement information is stale and passed out in OutEntitlement
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the entitlement is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutEntitlement
+ * - EOS_Ecom_EntitlementStale if the entitlement information is stale and passed out in OutEntitlement
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the entitlement is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyEntitlementByIndex(EOS_HEcom Handle, const EOS_Ecom_CopyEntitlementByIndexOptions* Options, EOS_Ecom_Entitlement ** OutEntitlement);
 
@@ -180,12 +247,16 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyEntitlementByIndex(EOS_HEcom Handle, 
  * @param Options structure containing the Epic Account ID, entitlement name, and index being accessed
  * @param OutEntitlement the entitlement for the given name index pair, if it exists and is valid, use EOS_Ecom_Entitlement_Release when finished
  *
+ * @see EOS_Ecom_CopyEntitlementByNameAndIndexOptions
+ * @see EOS_Ecom_Entitlement
  * @see EOS_Ecom_Entitlement_Release
  *
- * @return EOS_Success if the information is available and passed out in OutEntitlement
- *         EOS_Ecom_EntitlementStale if the entitlement information is stale and passed out in OutEntitlement
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the entitlement is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutEntitlement
+ * - EOS_Ecom_EntitlementStale if the entitlement information is stale and passed out in OutEntitlement
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the entitlement is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyEntitlementByNameAndIndex(EOS_HEcom Handle, const EOS_Ecom_CopyEntitlementByNameAndIndexOptions* Options, EOS_Ecom_Entitlement ** OutEntitlement);
 
@@ -195,13 +266,17 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyEntitlementByNameAndIndex(EOS_HEcom H
  * @param Options structure containing the Epic Account ID and entitlement ID being accessed
  * @param OutEntitlement the entitlement for the given ID, if it exists and is valid, use EOS_Ecom_Entitlement_Release when finished
  *
+ * @see EOS_Ecom_CopyEntitlementByIdOptions
+ * @see EOS_Ecom_Entitlement
  * @see EOS_Ecom_CopyEntitlementByNameAndIndex
  * @see EOS_Ecom_Entitlement_Release
  *
- * @return EOS_Success if the information is available and passed out in OutEntitlement
- *         EOS_Ecom_EntitlementStale if the entitlement information is stale and passed out in OutEntitlement
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the entitlement is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutEntitlement
+ * - EOS_Ecom_EntitlementStale if the entitlement information is stale and passed out in OutEntitlement
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the entitlement is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyEntitlementById(EOS_HEcom Handle, const EOS_Ecom_CopyEntitlementByIdOptions* Options, EOS_Ecom_Entitlement ** OutEntitlement);
 
@@ -210,6 +285,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyEntitlementById(EOS_HEcom Handle, con
  *
  * @param Options structure containing the Epic Account ID being accessed
  *
+ * @see EOS_Ecom_GetOfferCountOptions
  * @see EOS_Ecom_CopyOfferByIndex
  *
  * @return the number of offers found.
@@ -222,14 +298,18 @@ EOS_DECLARE_FUNC(uint32_t) EOS_Ecom_GetOfferCount(EOS_HEcom Handle, const EOS_Ec
  * @param Options structure containing the Epic Account ID and index being accessed
  * @param OutOffer the offer for the given index, if it exists and is valid, use EOS_Ecom_CatalogOffer_Release when finished
  *
+ * @see EOS_Ecom_CopyOfferByIndexOptions
+ * @see EOS_Ecom_CatalogOffer
  * @see EOS_Ecom_CatalogOffer_Release
  * @see EOS_Ecom_GetOfferItemCount
  *
- * @return EOS_Success if the information is available and passed out in OutOffer
- *         EOS_Ecom_CatalogOfferStale if the offer information is stale and passed out in OutOffer
- *         EOS_Ecom_CatalogOfferPriceInvalid if the offer information has an invalid price and passed out in OutOffer
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the offer is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutOffer
+ * - EOS_Ecom_CatalogOfferStale if the offer information is stale and passed out in OutOffer
+ * - EOS_Ecom_CatalogOfferPriceInvalid if the offer information has an invalid price and passed out in OutOffer
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the offer is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyOfferByIndex(EOS_HEcom Handle, const EOS_Ecom_CopyOfferByIndexOptions* Options, EOS_Ecom_CatalogOffer ** OutOffer);
 
@@ -239,19 +319,25 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyOfferByIndex(EOS_HEcom Handle, const 
  * @param Options structure containing the Epic Account ID and offer ID being accessed
  * @param OutOffer the offer for the given index, if it exists and is valid, use EOS_Ecom_CatalogOffer_Release when finished
  *
+ * @see EOS_Ecom_CopyOfferByIdOptions
+ * @see EOS_Ecom_CatalogOffer
  * @see EOS_Ecom_CatalogOffer_Release
  * @see EOS_Ecom_GetOfferItemCount
  *
- * @return EOS_Success if the information is available and passed out in OutOffer
- *         EOS_Ecom_CatalogOfferStale if the offer information is stale and passed out in OutOffer
- *         EOS_Ecom_CatalogOfferPriceInvalid if the offer information has an invalid price and passed out in OutOffer
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the offer is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutOffer
+ * - EOS_Ecom_CatalogOfferStale if the offer information is stale and passed out in OutOffer
+ * - EOS_Ecom_CatalogOfferPriceInvalid if the offer information has an invalid price and passed out in OutOffer
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the offer is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyOfferById(EOS_HEcom Handle, const EOS_Ecom_CopyOfferByIdOptions* Options, EOS_Ecom_CatalogOffer ** OutOffer);
 
 /**
  * Fetch the number of items that are associated with a given cached offer for a local user.
+ *
+ * @see EOS_Ecom_GetOfferItemCountOptions
  *
  * @return the number of items found.
  */
@@ -263,14 +349,18 @@ EOS_DECLARE_FUNC(uint32_t) EOS_Ecom_GetOfferItemCount(EOS_HEcom Handle, const EO
  * @param Options structure containing the Epic Account ID and index being accessed
  * @param OutItem the item for the given index, if it exists and is valid, use EOS_Ecom_CatalogItem_Release when finished
  *
+ * @see EOS_Ecom_CopyOfferItemByIndexOptions
+ * @see EOS_Ecom_CatalogItem
  * @see EOS_Ecom_CatalogItem_Release
  * @see EOS_Ecom_GetItemImageInfoCount
  * @see EOS_Ecom_GetItemReleaseCount
  *
- * @return EOS_Success if the information is available and passed out in OutItem
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_Ecom_CatalogItemStale if the item information is stale
- *         EOS_NotFound if the item is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutItem
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_Ecom_CatalogItemStale if the item information is stale
+ * - EOS_NotFound if the item is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyOfferItemByIndex(EOS_HEcom Handle, const EOS_Ecom_CopyOfferItemByIndexOptions* Options, EOS_Ecom_CatalogItem ** OutItem);
 
@@ -280,19 +370,25 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyOfferItemByIndex(EOS_HEcom Handle, co
  * @param Options structure containing the item ID being accessed
  * @param OutItem the item for the given index, if it exists and is valid, use EOS_Ecom_CatalogItem_Release when finished
  *
+ * @see EOS_Ecom_CopyItemByIdOptions
+ * @see EOS_Ecom_CatalogItem
  * @see EOS_Ecom_CatalogItem_Release
  * @see EOS_Ecom_GetItemImageInfoCount
  * @see EOS_Ecom_GetItemReleaseCount
  *
- * @return EOS_Success if the information is available and passed out in OutItem
- *         EOS_Ecom_CatalogItemStale if the item information is stale and passed out in OutItem
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the offer is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutItem
+ * - EOS_Ecom_CatalogItemStale if the item information is stale and passed out in OutItem
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the offer is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyItemById(EOS_HEcom Handle, const EOS_Ecom_CopyItemByIdOptions* Options, EOS_Ecom_CatalogItem ** OutItem);
 
 /**
  * Fetch the number of images that are associated with a given cached offer for a local user.
+ *
+ * @see EOS_Ecom_GetOfferImageInfoCountOptions
  *
  * @return the number of images found.
  */
@@ -304,17 +400,23 @@ EOS_DECLARE_FUNC(uint32_t) EOS_Ecom_GetOfferImageInfoCount(EOS_HEcom Handle, con
  * @param Options structure containing the offer ID and index being accessed
  * @param OutImageInfo the image for the given index, if it exists and is valid, use EOS_Ecom_KeyImageInfo_Release when finished
  *
+ * @see EOS_Ecom_CopyOfferImageInfoByIndexOptions
+ * @see EOS_Ecom_KeyImageInfo
  * @see EOS_Ecom_KeyImageInfo_Release
  *
- * @return EOS_Success if the information is available and passed out in OutImageInfo
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_Ecom_CatalogOfferStale if the associated offer information is stale
- *         EOS_NotFound if the image is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutImageInfo
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_Ecom_CatalogOfferStale if the associated offer information is stale
+ * - EOS_NotFound if the image is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyOfferImageInfoByIndex(EOS_HEcom Handle, const EOS_Ecom_CopyOfferImageInfoByIndexOptions* Options, EOS_Ecom_KeyImageInfo ** OutImageInfo);
 
 /**
  * Fetch the number of images that are associated with a given cached item for a local user.
+ *
+ * @see EOS_Ecom_GetItemImageInfoCountOptions
  *
  * @return the number of images found.
  */
@@ -326,17 +428,23 @@ EOS_DECLARE_FUNC(uint32_t) EOS_Ecom_GetItemImageInfoCount(EOS_HEcom Handle, cons
  * @param Options structure containing the item ID and index being accessed
  * @param OutImageInfo the image for the given index, if it exists and is valid, use EOS_Ecom_KeyImageInfo_Release when finished
  *
+ * @see EOS_Ecom_CopyItemImageInfoByIndexOptions
+ * @see EOS_Ecom_KeyImageInfo
  * @see EOS_Ecom_KeyImageInfo_Release
  *
- * @return EOS_Success if the information is available and passed out in OutImageInfo
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_Ecom_CatalogItemStale if the associated item information is stale
- *         EOS_NotFound if the image is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutImageInfo
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_Ecom_CatalogItemStale if the associated item information is stale
+ * - EOS_NotFound if the image is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyItemImageInfoByIndex(EOS_HEcom Handle, const EOS_Ecom_CopyItemImageInfoByIndexOptions* Options, EOS_Ecom_KeyImageInfo ** OutImageInfo);
 
 /**
  * Fetch the number of releases that are associated with a given cached item for a local user.
+ *
+ * @see EOS_Ecom_GetItemReleaseCountOptions
  *
  * @return the number of releases found.
  */
@@ -348,18 +456,23 @@ EOS_DECLARE_FUNC(uint32_t) EOS_Ecom_GetItemReleaseCount(EOS_HEcom Handle, const 
  * @param Options structure containing the item ID and index being accessed
  * @param OutRelease the release for the given index, if it exists and is valid, use EOS_Ecom_CatalogRelease_Release when finished
  *
+ * @see EOS_Ecom_CopyItemReleaseByIndexOptions
+ * @see EOS_Ecom_CatalogRelease
  * @see EOS_Ecom_CatalogRelease_Release
  *
- * @return EOS_Success if the information is available and passed out in OutRelease
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_Ecom_CatalogItemStale if the associated item information is stale
- *         EOS_NotFound if the release is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutRelease
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_Ecom_CatalogItemStale if the associated item information is stale
+ * - EOS_NotFound if the release is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyItemReleaseByIndex(EOS_HEcom Handle, const EOS_Ecom_CopyItemReleaseByIndexOptions* Options, EOS_Ecom_CatalogRelease ** OutRelease);
 
 /**
  * Fetch the number of transactions that are cached for a given local user.
  *
+ * @see EOS_Ecom_GetTransactionCountOptions
  * @see EOS_Ecom_CheckoutCallbackInfo
  * @see EOS_Ecom_CopyTransactionByIndex
  *
@@ -372,12 +485,16 @@ EOS_DECLARE_FUNC(uint32_t) EOS_Ecom_GetTransactionCount(EOS_HEcom Handle, const 
  *
  * @param Options structure containing the Epic Account ID and index being accessed
  *
+ * @see EOS_Ecom_CopyTransactionByIndexOptions
+ * @see EOS_Ecom_HTransaction
  * @see EOS_Ecom_CheckoutCallbackInfo
  * @see EOS_Ecom_Transaction_Release
  *
- * @return EOS_Success if the information is available and passed out in OutTransaction
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the transaction is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutTransaction
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the transaction is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyTransactionByIndex(EOS_HEcom Handle, const EOS_Ecom_CopyTransactionByIndexOptions* Options, EOS_Ecom_HTransaction* OutTransaction);
 
@@ -386,12 +503,16 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyTransactionByIndex(EOS_HEcom Handle, 
  *
  * @param Options structure containing the Epic Account ID and transaction ID being accessed
  *
+ * @see EOS_Ecom_CopyTransactionByIdOptions
+ * @see EOS_Ecom_HTransaction
  * @see EOS_Ecom_CheckoutCallbackInfo
  * @see EOS_Ecom_Transaction_Release
  *
- * @return EOS_Success if the information is available and passed out in OutTransaction
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the transaction is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutTransaction
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the transaction is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyTransactionById(EOS_HEcom Handle, const EOS_Ecom_CopyTransactionByIdOptions* Options, EOS_Ecom_HTransaction* OutTransaction);
 
@@ -415,6 +536,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_Transaction_GetTransactionId(EOS_Ecom_HTr
  *
  * @param Options structure containing the Epic Account ID being accessed
  *
+ * @see EOS_Ecom_Transaction_GetEntitlementsCountOptions
  * @see EOS_Ecom_Transaction_CopyEntitlementByIndex
  *
  * @return the number of entitlements found.
@@ -427,11 +549,15 @@ EOS_DECLARE_FUNC(uint32_t) EOS_Ecom_Transaction_GetEntitlementsCount(EOS_Ecom_HT
  * @param Options structure containing the index being accessed
  * @param OutEntitlement the entitlement for the given index, if it exists and is valid, use EOS_Ecom_Entitlement_Release when finished
  *
+ * @see EOS_Ecom_Transaction_CopyEntitlementByIndexOptions
+ * @see EOS_Ecom_Entitlement
  * @see EOS_Ecom_Entitlement_Release
  *
- * @return EOS_Success if the information is available and passed out in OutEntitlement
- *         EOS_Ecom_EntitlementStale if the entitlement information is stale and passed out in OutEntitlement
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the entitlement is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutEntitlement
+ * - EOS_Ecom_EntitlementStale if the entitlement information is stale and passed out in OutEntitlement
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the entitlement is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_Transaction_CopyEntitlementByIndex(EOS_Ecom_HTransaction Handle, const EOS_Ecom_Transaction_CopyEntitlementByIndexOptions* Options, EOS_Ecom_Entitlement ** OutEntitlement);

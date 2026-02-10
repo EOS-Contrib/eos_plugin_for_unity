@@ -19,6 +19,8 @@ namespace Epic.OnlineServices.Auth
 
 		/// <summary>
 		/// Login/Authenticate with user credentials.
+		/// <see cref="IOSLoginOptions" />
+		/// <see cref="OnLoginCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the account credentials to use during the login operation

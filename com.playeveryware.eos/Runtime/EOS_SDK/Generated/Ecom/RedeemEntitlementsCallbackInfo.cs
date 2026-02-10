@@ -27,9 +27,19 @@ namespace Epic.OnlineServices.Ecom
 		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
-		/// The number of redeemed Entitlements
+		/// The number of redeemed Entitlements specified in the request.
 		/// </summary>
 		public uint RedeemedEntitlementIdsCount { get; set; }
+
+		/// <summary>
+		/// The number of previously redeemed Entitlements specified in the request.
+		/// </summary>
+		public uint PreviouslyRedeemedEntitlementIdsCount { get; set; }
+
+		/// <summary>
+		/// The number of invalid Entitlements specified in the request.
+		/// </summary>
+		public uint InvalidEntitlementIdsCount { get; set; }
 
 		public object GetClientData()
 		{
@@ -49,6 +59,8 @@ namespace Epic.OnlineServices.Ecom
 		private IntPtr m_ClientData;
 		private IntPtr m_LocalUserId;
 		private uint m_RedeemedEntitlementIdsCount;
+		private uint m_PreviouslyRedeemedEntitlementIdsCount;
+		private uint m_InvalidEntitlementIdsCount;
 
 		public IntPtr ClientDataPointer
 		{
@@ -70,6 +82,8 @@ namespace Epic.OnlineServices.Ecom
 			Helper.Get(m_LocalUserId, out LocalUserIdPublic);
 			other.LocalUserId = LocalUserIdPublic;
 			other.RedeemedEntitlementIdsCount = m_RedeemedEntitlementIdsCount;
+			other.PreviouslyRedeemedEntitlementIdsCount = m_PreviouslyRedeemedEntitlementIdsCount;
+			other.InvalidEntitlementIdsCount = m_InvalidEntitlementIdsCount;
 		}
 	}
 }

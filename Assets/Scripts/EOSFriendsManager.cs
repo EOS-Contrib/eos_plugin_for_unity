@@ -748,6 +748,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>Display Social Overlay</summary>
         public void ShowFriendsOverlay(OnFriendsCallback ShowFriendsOverlayCompleted)
         {
+            if (EOSManager.Instance.GetEOSPlatformInterface() == null)
+            {
+                Debug.Log("EOS platform interface is not ready. Attempted to access platform interface before loading finished.");
+                return;
+            }
             ShowFriendsOverlayCallback = ShowFriendsOverlayCompleted;
             var showFriendsOptions = new ShowFriendsOptions() { LocalUserId = EOSManager.Instance.GetLocalUserId() };
             EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface().ShowFriends(ref showFriendsOptions, null, OnShowFriendsCallback);

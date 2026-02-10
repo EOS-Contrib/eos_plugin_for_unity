@@ -165,6 +165,8 @@ namespace Epic.OnlineServices.RTCAudio
 		/// have your CompletionDelegate called.
 		/// The CompletionDelegate may be called from a thread other than the one from which the SDK is ticking.
 		/// <see cref="Common.INVALID_NOTIFICATIONID" />
+		/// <see cref="AddNotifyAudioBeforeRenderOptions" />
+		/// <see cref="OnAudioBeforeRenderCallback" />
 		/// <see cref="RemoveNotifyAudioBeforeRender" />
 		/// </summary>
 		/// <param name="clientData">
@@ -208,6 +210,8 @@ namespace Epic.OnlineServices.RTCAudio
 		/// have your CompletionDelegate called.
 		/// The CompletionDelegate may be called from a thread other than the one from which the SDK is ticking.
 		/// <see cref="Common.INVALID_NOTIFICATIONID" />
+		/// <see cref="AddNotifyAudioBeforeSendOptions" />
+		/// <see cref="OnAudioBeforeSendCallback" />
 		/// <see cref="RemoveNotifyAudioBeforeSend" />
 		/// </summary>
 		/// <param name="clientData">
@@ -256,6 +260,8 @@ namespace Epic.OnlineServices.RTCAudio
 		/// - if for any reason, a device cannot be used - the library will fallback to using default;
 		/// - if a configuration of the current audio device has been changed, it will be restarted.
 		/// <see cref="Common.INVALID_NOTIFICATIONID" />
+		/// <see cref="AddNotifyAudioDevicesChangedOptions" />
+		/// <see cref="OnAudioDevicesChangedCallback" />
 		/// <see cref="RemoveNotifyAudioDevicesChanged" />
 		/// <see cref="SetAudioInputSettingsOptions" />
 		/// <see cref="SetAudioOutputSettingsOptions" />
@@ -298,6 +304,8 @@ namespace Epic.OnlineServices.RTCAudio
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyAudioInputState" /> when you no longer wish to
 		/// have your CompletionDelegate called.
 		/// <see cref="Common.INVALID_NOTIFICATIONID" />
+		/// <see cref="AddNotifyAudioInputStateOptions" />
+		/// <see cref="OnAudioInputStateCallback" />
 		/// <see cref="RemoveNotifyAudioInputState" />
 		/// </summary>
 		/// <param name="clientData">
@@ -338,6 +346,8 @@ namespace Epic.OnlineServices.RTCAudio
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyAudioOutputState" /> when you no longer wish to
 		/// have your CompletionDelegate called.
 		/// <see cref="Common.INVALID_NOTIFICATIONID" />
+		/// <see cref="AddNotifyAudioOutputStateOptions" />
+		/// <see cref="OnAudioOutputStateCallback" />
 		/// <see cref="RemoveNotifyAudioOutputState" />
 		/// </summary>
 		/// <param name="clientData">
@@ -381,7 +391,8 @@ namespace Epic.OnlineServices.RTCAudio
 		/// to have your CompletionDelegate called.
 		/// <see cref="Common.INVALID_NOTIFICATIONID" />
 		/// <see cref="RemoveNotifyParticipantUpdated" />
-		/// <see cref="ParticipantUpdatedCallbackInfo" />
+		/// <see cref="AddNotifyParticipantUpdatedOptions" />
+		/// <see cref="OnParticipantUpdatedCallback" />
 		/// <see cref="RTCAudioStatus" />
 		/// </summary>
 		/// <param name="clientData">
@@ -418,6 +429,8 @@ namespace Epic.OnlineServices.RTCAudio
 
 		/// <summary>
 		/// Fetches an audio input device's information from then given index that are cached locally.
+		/// <see cref="CopyInputDeviceInformationByIndexOptions" />
+		/// <see cref="InputDeviceInformation" />
 		/// <see cref="Release" />
 		/// <see cref="GetAudioInputDevicesCount" />
 		/// <see cref="AddNotifyAudioDevicesChanged" />
@@ -429,9 +442,11 @@ namespace Epic.OnlineServices.RTCAudio
 		/// The audio input device's information for the given index, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutInputDeviceInformation
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the audio input device's information is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutInputDeviceInformation
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the audio input device's information is not found
 		/// </returns>
 		public Result CopyInputDeviceInformationByIndex(ref CopyInputDeviceInformationByIndexOptions options, out InputDeviceInformation? outInputDeviceInformation)
 		{
@@ -455,6 +470,8 @@ namespace Epic.OnlineServices.RTCAudio
 
 		/// <summary>
 		/// Fetches an audio output device's information from then given index that are cached locally.
+		/// <see cref="CopyOutputDeviceInformationByIndexOptions" />
+		/// <see cref="OutputDeviceInformation" />
 		/// <see cref="Release" />
 		/// <see cref="GetAudioOutputDevicesCount" />
 		/// <see cref="AddNotifyAudioDevicesChanged" />
@@ -466,9 +483,11 @@ namespace Epic.OnlineServices.RTCAudio
 		/// The audio output device's information for the given index, if it exists and is valid, use <see cref="Release" /> when finished
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutOutputDeviceInformation
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the audio output device's information is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutOutputDeviceInformation
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the audio output device's information is not found
 		/// </returns>
 		public Result CopyOutputDeviceInformationByIndex(ref CopyOutputDeviceInformationByIndexOptions options, out OutputDeviceInformation? outOutputDeviceInformation)
 		{
@@ -497,6 +516,7 @@ namespace Epic.OnlineServices.RTCAudio
 		/// information should be copied off of the result object immediately.
 		/// <see cref="GetAudioInputDevicesCount" />
 		/// <see cref="AddNotifyAudioDevicesChanged" />
+		/// <see cref="GetAudioInputDeviceByIndexOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the index being accessed
@@ -527,6 +547,7 @@ namespace Epic.OnlineServices.RTCAudio
 		/// function.
 		/// <see cref="GetAudioInputDeviceByIndex" />
 		/// <see cref="AddNotifyAudioDevicesChanged" />
+		/// <see cref="GetAudioInputDevicesCountOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation
@@ -554,6 +575,7 @@ namespace Epic.OnlineServices.RTCAudio
 		/// The returned value should not be cached and important information should be copied off of the result object immediately.
 		/// <see cref="GetAudioOutputDevicesCount" />
 		/// <see cref="AddNotifyAudioDevicesChanged" />
+		/// <see cref="GetAudioOutputDeviceByIndexOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the index being accessed
@@ -584,6 +606,7 @@ namespace Epic.OnlineServices.RTCAudio
 		/// function.
 		/// <see cref="GetAudioOutputDeviceByIndex" />
 		/// <see cref="AddNotifyAudioDevicesChanged" />
+		/// <see cref="GetAudioOutputDevicesCountOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation
@@ -608,6 +631,7 @@ namespace Epic.OnlineServices.RTCAudio
 		/// 
 		/// The returned value should not be cached and should instead be used immediately with
 		/// the <see cref="CopyInputDeviceInformationByIndex" /> function.
+		/// <see cref="GetInputDevicesCountOptions" />
 		/// <see cref="CopyInputDeviceInformationByIndex" />
 		/// <see cref="AddNotifyAudioDevicesChanged" />
 		/// </summary>
@@ -634,6 +658,7 @@ namespace Epic.OnlineServices.RTCAudio
 		/// 
 		/// The returned value should not be cached and should instead be used immediately with
 		/// the <see cref="CopyOutputDeviceInformationByIndex" /> function.
+		/// <see cref="GetOutputDevicesCountOptions" />
 		/// <see cref="CopyOutputDeviceInformationByIndex" />
 		/// <see cref="AddNotifyAudioDevicesChanged" />
 		/// </summary>
@@ -657,6 +682,8 @@ namespace Epic.OnlineServices.RTCAudio
 
 		/// <summary>
 		/// Query for a list of audio input devices available in the system together with their specifications.
+		/// <see cref="QueryInputDevicesInformationOptions" />
+		/// <see cref="OnQueryInputDevicesInformationCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation
@@ -667,10 +694,6 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <param name="completionDelegate">
 		/// The callback to be fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation succeeded
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
-		/// </returns>
 		public void QueryInputDevicesInformation(ref QueryInputDevicesInformationOptions options, object clientData, OnQueryInputDevicesInformationCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -692,6 +715,8 @@ namespace Epic.OnlineServices.RTCAudio
 
 		/// <summary>
 		/// Query for a list of audio output devices available in the system together with their specifications.
+		/// <see cref="QueryOutputDevicesInformationOptions" />
+		/// <see cref="OnQueryOutputDevicesInformationCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation
@@ -702,10 +727,6 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <param name="completionDelegate">
 		/// The callback to be fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation succeeded
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
-		/// </returns>
 		public void QueryOutputDevicesInformation(ref QueryOutputDevicesInformationOptions options, object clientData, OnQueryOutputDevicesInformationCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -731,12 +752,16 @@ namespace Epic.OnlineServices.RTCAudio
 		/// Use this function to inform the audio system of a user.
 		/// 
 		/// This function is only necessary for some platforms.
+		/// <see cref="RegisterPlatformAudioUserOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the user was successfully registered, <see cref="Result.UnexpectedError" /> otherwise.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the user was successfully registered
+		/// - <see cref="Result.UnexpectedError" /> otherwise.
 		/// </returns>
 		public Result RegisterPlatformAudioUser(ref RegisterPlatformAudioUserOptions options)
 		{
@@ -754,6 +779,8 @@ namespace Epic.OnlineServices.RTCAudio
 		/// Use this function to inform the audio system of a user.
 		/// 
 		/// This function is only necessary for some platforms.
+		/// <see cref="RegisterPlatformUserOptions" />
+		/// <see cref="OnRegisterPlatformUserCallback" />
 		/// <see cref="UnregisterPlatformUser" />
 		/// </summary>
 		/// <param name="options">
@@ -765,11 +792,6 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <param name="completionDelegate">
 		/// The callback to be fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the user was successfully registered
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
-		/// <see cref="Result.UnexpectedError" /> otherwise
-		/// </returns>
 		public void RegisterPlatformUser(ref RegisterPlatformUserOptions options, object clientData, OnRegisterPlatformUserCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -871,6 +893,7 @@ namespace Epic.OnlineServices.RTCAudio
 		/// Use this function to push a new audio buffer to be sent to the participants of a room.
 		/// 
 		/// This should only be used if Manual Audio Input was enabled locally for the specified room.
+		/// <see cref="SendAudioOptions" />
 		/// <see cref="RTC.JoinRoomOptions" />
 		/// <see cref="Lobby.LocalRTCOptions" />
 		/// </summary>
@@ -878,10 +901,12 @@ namespace Epic.OnlineServices.RTCAudio
 		/// structure containing the parameters for the operation.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the buffer was successfully queued for sending
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
-		/// <see cref="Result.NotFound" /> if the specified room was not found
-		/// <see cref="Result.InvalidState" /> if manual recording was not enabled when joining the room.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the buffer was successfully queued for sending
+		/// - <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
+		/// - <see cref="Result.NotFound" /> if the specified room was not found
+		/// - <see cref="Result.InvalidState" /> if manual recording was not enabled when joining the room.
 		/// </returns>
 		public Result SendAudio(ref SendAudioOptions options)
 		{
@@ -899,13 +924,16 @@ namespace Epic.OnlineServices.RTCAudio
 		/// DEPRECATED! Use <see cref="SetInputDeviceSettings" /> instead.
 		/// 
 		/// Use this function to set audio input settings, such as the active input device, volume, or platform AEC.
+		/// <see cref="SetAudioInputSettingsOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the setting was successful
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the setting was successful
+		/// - <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
 		/// </returns>
 		public Result SetAudioInputSettings(ref SetAudioInputSettingsOptions options)
 		{
@@ -923,13 +951,16 @@ namespace Epic.OnlineServices.RTCAudio
 		/// DEPRECATED! Use <see cref="SetOutputDeviceSettings" /> instead.
 		/// 
 		/// Use this function to set audio output settings, such as the active output device or volume.
+		/// <see cref="SetAudioOutputSettingsOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the setting was successful
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the setting was successful
+		/// - <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
 		/// </returns>
 		public Result SetAudioOutputSettings(ref SetAudioOutputSettingsOptions options)
 		{
@@ -945,6 +976,8 @@ namespace Epic.OnlineServices.RTCAudio
 
 		/// <summary>
 		/// Use this function to set audio input device settings, such as the active input device, or platform AEC.
+		/// <see cref="SetInputDeviceSettingsOptions" />
+		/// <see cref="OnSetInputDeviceSettingsCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation
@@ -955,10 +988,6 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <param name="completionDelegate">
 		/// The callback to be fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the setting was successful
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
-		/// </returns>
 		public void SetInputDeviceSettings(ref SetInputDeviceSettingsOptions options, object clientData, OnSetInputDeviceSettingsCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -980,6 +1009,8 @@ namespace Epic.OnlineServices.RTCAudio
 
 		/// <summary>
 		/// Use this function to set audio output device settings, such as the active output device.
+		/// <see cref="SetOutputDeviceSettingsOptions" />
+		/// <see cref="OnSetOutputDeviceSettingsCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation
@@ -990,10 +1021,6 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <param name="completionDelegate">
 		/// The callback to be fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the setting was successful
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
-		/// </returns>
 		public void SetOutputDeviceSettings(ref SetOutputDeviceSettingsOptions options, object clientData, OnSetOutputDeviceSettingsCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1017,12 +1044,15 @@ namespace Epic.OnlineServices.RTCAudio
 		/// DEPRECATED! Use <see cref="UnregisterPlatformUser" /> instead.
 		/// 
 		/// Use this function to remove a user that was added with <see cref="RegisterPlatformAudioUser" />.
+		/// <see cref="UnregisterPlatformAudioUserOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the user was successfully unregistered, <see cref="Result.UnexpectedError" /> otherwise.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the user was successfully unregistered, <see cref="Result.UnexpectedError" /> otherwise.
 		/// </returns>
 		public Result UnregisterPlatformAudioUser(ref UnregisterPlatformAudioUserOptions options)
 		{
@@ -1040,6 +1070,8 @@ namespace Epic.OnlineServices.RTCAudio
 		/// Use this function to remove a user that was added with <see cref="RegisterPlatformUser" />.
 		/// 
 		/// This function is only necessary for some platforms.
+		/// <see cref="UnregisterPlatformUserOptions" />
+		/// <see cref="OnUnregisterPlatformUserCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation
@@ -1050,11 +1082,6 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <param name="completionDelegate">
 		/// The callback to be fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the user was successfully unregistered
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
-		/// <see cref="Result.UnexpectedError" /> otherwise
-		/// </returns>
 		public void UnregisterPlatformUser(ref UnregisterPlatformUserOptions options, object clientData, OnUnregisterPlatformUserCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1077,6 +1104,8 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <summary>
 		/// Use this function to change participant audio volume for a room.
 		/// Due to internal implementation details, this function requires that you first register to any notification for room
+		/// <see cref="UpdateParticipantVolumeOptions" />
+		/// <see cref="OnUpdateParticipantVolumeCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation.
@@ -1087,11 +1116,6 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <param name="completionDelegate">
 		/// The callback to be fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation succeeded
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
-		/// <see cref="Result.NotFound" /> if either the local user or specified participant are not in the room
-		/// </returns>
 		public void UpdateParticipantVolume(ref UpdateParticipantVolumeOptions options, object clientData, OnUpdateParticipantVolumeCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1114,6 +1138,8 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <summary>
 		/// Use this function to tweak incoming audio options for a room.
 		/// Due to internal implementation details, this function requires that you first register to any notification for room
+		/// <see cref="UpdateReceivingOptions" />
+		/// <see cref="OnUpdateReceivingCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation.
@@ -1124,11 +1150,6 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <param name="completionDelegate">
 		/// The callback to be fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation succeeded
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
-		/// <see cref="Result.NotFound" /> if either the local user or specified participant are not in the room
-		/// </returns>
 		public void UpdateReceiving(ref UpdateReceivingOptions options, object clientData, OnUpdateReceivingCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1151,6 +1172,8 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <summary>
 		/// Use this function to change incoming audio volume for a room.
 		/// Due to internal implementation details, this function requires that you first register to any notification for room
+		/// <see cref="UpdateReceivingVolumeOptions" />
+		/// <see cref="OnUpdateReceivingVolumeCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation.
@@ -1161,11 +1184,6 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <param name="completionDelegate">
 		/// The callback to be fired when the operation completes, either successfully or on error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation succeeded
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
-		/// <see cref="Result.NotFound" /> if the local user is not in the room
-		/// </returns>
 		public void UpdateReceivingVolume(ref UpdateReceivingVolumeOptions options, object clientData, OnUpdateReceivingVolumeCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1188,6 +1206,8 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <summary>
 		/// Use this function to tweak outgoing audio options for a room.
 		/// Due to internal implementation details, this function requires that you first register to any notification for room
+		/// <see cref="UpdateSendingOptions" />
+		/// <see cref="OnUpdateSendingCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation.
@@ -1198,11 +1218,6 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <param name="completionDelegate">
 		/// The callback to be fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation succeeded
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
-		/// <see cref="Result.NotFound" /> if the local user is not in the room
-		/// </returns>
 		public void UpdateSending(ref UpdateSendingOptions options, object clientData, OnUpdateSendingCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -1225,6 +1240,8 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <summary>
 		/// Use this function to change outgoing audio volume for a room.
 		/// Due to internal implementation details, this function requires that you first register to any notification for room
+		/// <see cref="UpdateSendingVolumeOptions" />
+		/// <see cref="OnUpdateSendingVolumeCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the parameters for the operation.
@@ -1235,11 +1252,6 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <param name="completionDelegate">
 		/// The callback to be fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation succeeded
-		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
-		/// <see cref="Result.NotFound" /> if the local user is not in the room
-		/// </returns>
 		public void UpdateSendingVolume(ref UpdateSendingVolumeOptions options, object clientData, OnUpdateSendingVolumeCallback completionDelegate)
 		{
 			if (completionDelegate == null)

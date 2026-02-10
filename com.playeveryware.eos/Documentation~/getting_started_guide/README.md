@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
-
 # Full Guide to Implementing the EOS Plugin for Unity
 
 This document serves as the starting point for a beginning-to-end guide on how to implement the EOS Plugin for Unity into your game.
@@ -151,7 +149,7 @@ Essentially this value is used to encrypt Player Data Storage and Title Data Sto
 
 It is recommended that you use the `Dev` Sandbox and `Dev Deployment` Sandbox while configuring the plugin.
 By using the Dev environment information, the EOS Plugin for Unity will use this environment when no other environment is assumed.
-If your game is deployed through the Epic Game Store, the game will be launched with `-epicsandboxid` and `epicdeploymentid` arguments, which the EOS Plugin for Unity will use instead of your configured Sandbox and Deployment.
+If your game is deployed through the Epic Game Store, the game will be launched with `-epicsandboxid` and `-epicdeploymentid` arguments, which the EOS Plugin for Unity will use instead of your configured Sandbox and Deployment.
 
 For more information on the use of the Encryption Key, see [Epic's documentation on Title Storage Interface](https://dev.epicgames.com/docs/game-services/title-storage).
 

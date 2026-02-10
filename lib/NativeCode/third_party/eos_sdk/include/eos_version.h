@@ -7,11 +7,11 @@
 /** The Major version number */
 #define EOS_MAJOR_VERSION	1
 /** The Minor version number */
-#define EOS_MINOR_VERSION	18
+#define EOS_MINOR_VERSION	19
 /** The Patch version number */
-#define EOS_PATCH_VERSION	1
+#define EOS_PATCH_VERSION	0
 /** The Hotfix version number */
-#define EOS_HOTFIX_VERSION	2
+#define EOS_HOTFIX_VERSION	3
 
 // Macros for encoding strings
 #define EOS_VERSION_STRINGIFY_2(x) #x

@@ -21,6 +21,8 @@
  * @return Notification ID representing the registered callback if successful, an invalid NotificationId if not
  *
  * @see EOS_INVALID_NOTIFICATIONID
+ * @see EOS_RTCData_AddNotifyDataReceivedOptions
+ * @see EOS_RTCData_OnDataReceivedCallback
  * @see EOS_RTCData_RemoveNotifyDataReceived
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_RTCData_AddNotifyDataReceived(EOS_HRTCData Handle, const EOS_RTCData_AddNotifyDataReceivedOptions* Options, void* ClientData, const EOS_RTCData_OnDataReceivedCallback CompletionDelegate);
@@ -36,9 +38,13 @@ EOS_DECLARE_FUNC(void) EOS_RTCData_RemoveNotifyDataReceived(EOS_HRTCData Handle,
  * Use this function to send a data packet to the rest of participants.
  *
  * @param Options structure containing the parameters for the operation.
- * @return EOS_Success the data packet was queued for sending
- *         EOS_InvalidParameters if any of the options are invalid
- *         EOS_NotFound if the specified room was not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success the data packet was queued for sending
+ * - EOS_InvalidParameters if any of the options are invalid
+ * - EOS_NotFound if the specified room was not found
+ *
+ * @see EOS_RTCData_SendDataOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_RTCData_SendData(EOS_HRTCData Handle, const EOS_RTCData_SendDataOptions* Options);
 
@@ -48,9 +54,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_RTCData_SendData(EOS_HRTCData Handle, const EO
  * @param Options structure containing the parameters for the operation.
  * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
  * @param CompletionDelegate The callback to be fired when the operation completes, either successfully or in error
- * @return EOS_Success if the operation succeeded
- *         EOS_InvalidParameters if any of the parameters are incorrect
- *         EOS_NotFound if the local user is not in the room
+ *
+ * @see EOS_RTCData_UpdateSendingOptions
+ * @see EOS_RTCData_OnUpdateSendingCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTCData_UpdateSending(EOS_HRTCData Handle, const EOS_RTCData_UpdateSendingOptions* Options, void* ClientData, const EOS_RTCData_OnUpdateSendingCallback CompletionDelegate);
 
@@ -60,9 +66,9 @@ EOS_DECLARE_FUNC(void) EOS_RTCData_UpdateSending(EOS_HRTCData Handle, const EOS_
  * @param Options structure containing the parameters for the operation.
  * @param ClientData Arbitrary data that is passed back in the CompletionDelegate
  * @param CompletionDelegate The callback to be fired when the operation completes, either successfully or in error
- * @return EOS_Success if the operation succeeded
- *         EOS_InvalidParameters if any of the parameters are incorrect
- *         EOS_NotFound if either the local user or specified participant are not in the room
+ *
+ * @see EOS_RTCData_UpdateReceivingOptions
+ * @see EOS_RTCData_OnUpdateReceivingCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTCData_UpdateReceiving(EOS_HRTCData Handle, const EOS_RTCData_UpdateReceivingOptions* Options, void* ClientData, const EOS_RTCData_OnUpdateReceivingCallback CompletionDelegate);
 
@@ -80,8 +86,9 @@ EOS_DECLARE_FUNC(void) EOS_RTCData_UpdateReceiving(EOS_HRTCData Handle, const EO
  * @return Notification ID representing the registered callback if successful, an invalid NotificationId if not
  *
  * @see EOS_INVALID_NOTIFICATIONID
+ * @see EOS_RTCData_AddNotifyParticipantUpdatedOptions
  * @see EOS_RTCData_RemoveNotifyParticipantUpdated
- * @see EOS_RTCData_ParticipantUpdatedCallbackInfo
+ * @see EOS_RTCData_OnParticipantUpdatedCallback
  * @see EOS_ERTCDataStatus
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_RTCData_AddNotifyParticipantUpdated(EOS_HRTCData Handle, const EOS_RTCData_AddNotifyParticipantUpdatedOptions* Options, void* ClientData, const EOS_RTCData_OnParticipantUpdatedCallback CompletionDelegate);

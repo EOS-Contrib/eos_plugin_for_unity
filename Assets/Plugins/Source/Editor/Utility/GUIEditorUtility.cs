@@ -868,7 +868,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                             nameRect,
                             string.IsNullOrEmpty,
                             item.Name,
-                            "Sandbox Name");
+                            "Deployment Name");
 
                         if (!item.TrySetName(newItemName))
                         {
@@ -926,6 +926,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                             break;
                         }
                     }
+                    else
+                    {
+                        item.Value.SandboxId = productionEnvironmentsCopy.Sandboxes[0].Value;
+                    }
                 },
                 () => productionEnvironmentsCopy.Deployments.Add(),
                 (item) =>
@@ -934,6 +938,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     {
                         // TODO: Tell user why deployment could not be removed
                         //       from the Production Environments.
+                        Debug.LogError($"{nameof(GUIEditorUtility)} {nameof(RenderDeploymentInputs)}: Failed to find deployment with name {item.Name} when trying to remove it.");
                     }
                 });
         }
@@ -993,6 +998,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     if (!productionEnvironmentsCopy.Sandboxes.Remove(item))
                     {
                         // TODO: Tell user why the sandbox could not be removed.
+                        Debug.LogError($"{nameof(GUIEditorUtility)} {nameof(RenderSandboxInputs)}: Failed to find sandbox with name {item.Name} when trying to remove it.");
                     }
                 }
             );

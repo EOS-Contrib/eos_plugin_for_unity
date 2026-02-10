@@ -15,9 +15,8 @@
  * @param ClientData Optional pointer to help clients track this request, that is returned in the completion callback
  * @param CompletionCallback This function is called when the query operation completes
  *
- * @return EOS_Success if the query completes successfully and a file is found
- *         EOS_NotFound if no file is found
- *
+ * @see EOS_PlayerDataStorage_QueryFileOptions
+ * @see EOS_PlayerDataStorage_OnQueryFileCompleteCallback
  * @see EOS_PlayerDataStorage_GetFileMetadataCount
  * @see EOS_PlayerDataStorage_CopyFileMetadataAtIndex
  * @see EOS_PlayerDataStorage_CopyFileMetadataByFilename
@@ -32,8 +31,8 @@ EOS_DECLARE_FUNC(void) EOS_PlayerDataStorage_QueryFile(EOS_HPlayerDataStorage Ha
  * @param ClientData Optional pointer to help clients track this request, that is returned in the completion callback
  * @param CompletionCallback This function is called when the query operation completes
  *
- * @return EOS_Success if the query completes successfully (whether any files are found or not)
- *
+ * @see EOS_PlayerDataStorage_QueryFileListOptions
+ * @see EOS_PlayerDataStorage_OnQueryFileListCompleteCallback
  * @see EOS_PlayerDataStorage_GetFileMetadataCount
  * @see EOS_PlayerDataStorage_CopyFileMetadataAtIndex
  * @see EOS_PlayerDataStorage_CopyFileMetadataByFilename
@@ -46,7 +45,10 @@ EOS_DECLARE_FUNC(void) EOS_PlayerDataStorage_QueryFileList(EOS_HPlayerDataStorag
  *
  * @param CopyFileMetadataOptions Object containing properties related to which user is requesting metadata, and for which filename
  * @param OutMetadata A copy of the FileMetadata structure will be set if successful.  This data must be released by calling EOS_PlayerDataStorage_FileMetadata_Release.
- * @return EOS_EResult::EOS_Success if the metadata is currently cached, otherwise an error result explaining what went wrong
+ * @return EOS_Success if the metadata is currently cached, otherwise an error result explaining what went wrong
+ *
+ * @see EOS_PlayerDataStorage_CopyFileMetadataByFilenameOptions
+ * @see EOS_PlayerDataStorage_FileMetadata
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_PlayerDataStorage_CopyFileMetadataByFilename(EOS_HPlayerDataStorage Handle, const EOS_PlayerDataStorage_CopyFileMetadataByFilenameOptions* CopyFileMetadataOptions, EOS_PlayerDataStorage_FileMetadata ** OutMetadata);
 
@@ -55,8 +57,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_PlayerDataStorage_CopyFileMetadataByFilename(E
  *
  * @param GetFileMetadataCountOptions Object containing properties related to which user is requesting the metadata count
  * @param OutFileMetadataCount If successful, the count of metadata currently cached
- * @return EOS_EResult::EOS_Success if the input was valid, otherwise an error result explaining what went wrong
+ * @return EOS_Success if the input was valid, otherwise an error result explaining what went wrong
  *
+ * @see EOS_PlayerDataStorage_GetFileMetadataCountOptions
  * @see EOS_PlayerDataStorage_CopyFileMetadataAtIndex
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_PlayerDataStorage_GetFileMetadataCount(EOS_HPlayerDataStorage Handle, const EOS_PlayerDataStorage_GetFileMetadataCountOptions* GetFileMetadataCountOptions, int32_t* OutFileMetadataCount);
@@ -67,8 +70,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_PlayerDataStorage_GetFileMetadataCount(EOS_HPl
  *
  * @param CopyFileMetadataOptions Object containing properties related to which user is requesting metadata, and at what index
  * @param OutMetadata A copy of the FileMetadata structure will be set if successful.  This data must be released by calling EOS_PlayerDataStorage_FileMetadata_Release.
- * @return EOS_EResult::EOS_Success if the requested metadata is currently cached, otherwise an error result explaining what went wrong
+ * @return EOS_Success if the requested metadata is currently cached, otherwise an error result explaining what went wrong
  *
+ * @see EOS_PlayerDataStorage_CopyFileMetadataAtIndexOptions
+ * @see EOS_PlayerDataStorage_FileMetadata
  * @see EOS_PlayerDataStorage_GetFileMetadataCount
  * @see EOS_PlayerDataStorage_FileMetadata_Release
  */
@@ -82,6 +87,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_PlayerDataStorage_CopyFileMetadataAtIndex(EOS_
  * @param ClientData Optional pointer to help clients track this request, that is returned in the completion callback
  * @param CompletionCallback This function is called when the duplicate operation completes
  *
+ * @see EOS_PlayerDataStorage_DuplicateFileOptions
+ * @see EOS_PlayerDataStorage_OnDuplicateFileCompleteCallback
  */
 EOS_DECLARE_FUNC(void) EOS_PlayerDataStorage_DuplicateFile(EOS_HPlayerDataStorage Handle, const EOS_PlayerDataStorage_DuplicateFileOptions* DuplicateOptions, void* ClientData, const EOS_PlayerDataStorage_OnDuplicateFileCompleteCallback CompletionCallback);
 
@@ -91,6 +98,9 @@ EOS_DECLARE_FUNC(void) EOS_PlayerDataStorage_DuplicateFile(EOS_HPlayerDataStorag
  * @param DeleteOptions Object containing properties related to which user is deleting the file, and what file name is
  * @param ClientData Optional pointer to help clients track this request, that is returned in the completion callback
  * @param CompletionCallback This function is called when the delete operation completes
+ *
+ * @see EOS_PlayerDataStorage_DeleteFileOptions
+ * @see EOS_PlayerDataStorage_OnDeleteFileCompleteCallback
  */
 EOS_DECLARE_FUNC(void) EOS_PlayerDataStorage_DeleteFile(EOS_HPlayerDataStorage Handle, const EOS_PlayerDataStorage_DeleteFileOptions* DeleteOptions, void* ClientData, const EOS_PlayerDataStorage_OnDeleteFileCompleteCallback CompletionCallback);
 
@@ -104,9 +114,13 @@ EOS_DECLARE_FUNC(void) EOS_PlayerDataStorage_DeleteFile(EOS_HPlayerDataStorage H
  * @param CompletionCallback This function is called when the read operation completes
  * @return A valid Player Data Storage File Request handle if successful, or NULL otherwise. Data contained in the completion callback will have more detailed information about issues with the request in failure cases. This handle must be released when it is no longer needed
  *
- * @return EOS_Success if the file is exists and the read operation completes successfully
- *         EOS_NotFound if no file is found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the file is exists and the read operation completes successfully
+ * - EOS_NotFound if no file is found
  *
+ * @see EOS_PlayerDataStorage_ReadFileOptions
+ * @see EOS_PlayerDataStorage_OnReadFileCompleteCallback
  * @see EOS_PlayerDataStorageFileTransferRequest_Release
  */
 EOS_DECLARE_FUNC(EOS_HPlayerDataStorageFileTransferRequest) EOS_PlayerDataStorage_ReadFile(EOS_HPlayerDataStorage Handle, const EOS_PlayerDataStorage_ReadFileOptions* ReadOptions, void* ClientData, const EOS_PlayerDataStorage_OnReadFileCompleteCallback CompletionCallback);
@@ -121,6 +135,8 @@ EOS_DECLARE_FUNC(EOS_HPlayerDataStorageFileTransferRequest) EOS_PlayerDataStorag
  * @param CompletionCallback This function is called when the write operation completes
  * @return A valid Player Data Storage File Request handle if successful, or NULL otherwise. Data contained in the completion callback will have more detailed information about issues with the request in failure cases. This handle must be released when it is no longer needed
  *
+ * @see EOS_PlayerDataStorage_WriteFileOptions
+ * @see EOS_PlayerDataStorage_OnWriteFileCompleteCallback
  * @see EOS_PlayerDataStorageFileTransferRequest_Release
  */
 EOS_DECLARE_FUNC(EOS_HPlayerDataStorageFileTransferRequest) EOS_PlayerDataStorage_WriteFile(EOS_HPlayerDataStorage Handle, const EOS_PlayerDataStorage_WriteFileOptions* WriteOptions, void* ClientData, const EOS_PlayerDataStorage_OnWriteFileCompleteCallback CompletionCallback);
@@ -133,6 +149,9 @@ EOS_DECLARE_FUNC(EOS_HPlayerDataStorageFileTransferRequest) EOS_PlayerDataStorag
  * @param ClientData Optional pointer to help clients track this request, that is returned in associated callbacks
  * @param CompletionCallback This function is called when the delete cache operation completes
  * @return EOS_Success if the operation was started correctly, otherwise an error result explaining what went wrong
+ *
+ * @see EOS_PlayerDataStorage_DeleteCacheOptions
+ * @see EOS_PlayerDataStorage_OnDeleteCacheCompleteCallback
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_PlayerDataStorage_DeleteCache(EOS_HPlayerDataStorage Handle, const EOS_PlayerDataStorage_DeleteCacheOptions* Options, void* ClientData, const EOS_PlayerDataStorage_OnDeleteCacheCompleteCallback CompletionCallback);
 
@@ -162,6 +181,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_PlayerDataStorageFileTransferRequest_GetFilena
 /**
  * Attempt to cancel this file request in progress. This is a best-effort command and is not guaranteed to be successful if the request has completed before this function is called.
  *
- * @return EOS_Success if cancel is successful, EOS_NoChange if request had already completed (can't be canceled), EOS_AlreadyPending if it's already been canceled before (this is a final state for canceled request and won't change over time).
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if cancel is successful
+ * - EOS_NoChange if request had already completed (can't be canceled)
+ * - EOS_AlreadyPending if it's already been canceled before (this is a final state for canceled request and won't change over time).
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_PlayerDataStorageFileTransferRequest_CancelRequest(EOS_HPlayerDataStorageFileTransferRequest Handle);

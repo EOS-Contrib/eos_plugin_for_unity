@@ -62,6 +62,8 @@ namespace Epic.OnlineServices.Stats
 
 		/// <summary>
 		/// Fetches a stat from a given index. Use <see cref="Release" /> when finished with the data.
+		/// <see cref="CopyStatByIndexOptions" />
+		/// <see cref="Stat" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -71,9 +73,11 @@ namespace Epic.OnlineServices.Stats
 		/// The stat data for the given index, if it exists and is valid
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutStat
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the stat is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutStat
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the stat is not found
 		/// </returns>
 		public Result CopyStatByIndex(ref CopyStatByIndexOptions options, out Stat? outStat)
 		{
@@ -97,6 +101,8 @@ namespace Epic.OnlineServices.Stats
 
 		/// <summary>
 		/// Fetches a stat from cached stats by name. Use <see cref="Release" /> when finished with the data.
+		/// <see cref="CopyStatByNameOptions" />
+		/// <see cref="Stat" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -106,9 +112,11 @@ namespace Epic.OnlineServices.Stats
 		/// The stat data for the given name, if it exists and is valid
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutStat
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the stat is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutStat
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the stat is not found
 		/// </returns>
 		public Result CopyStatByName(ref CopyStatByNameOptions options, out Stat? outStat)
 		{
@@ -132,6 +140,7 @@ namespace Epic.OnlineServices.Stats
 
 		/// <summary>
 		/// Fetch the number of stats that are cached locally.
+		/// <see cref="GetStatCountOptions" />
 		/// <see cref="CopyStatByIndex" />
 		/// </summary>
 		/// <param name="options">
@@ -156,6 +165,8 @@ namespace Epic.OnlineServices.Stats
 		/// Ingest a stat by the amount specified in Options.
 		/// When the operation is complete and the delegate is triggered the stat will be uploaded to the backend to be processed.
 		/// The stat may not be updated immediately and an achievement using the stat may take a while to be unlocked once the stat has been uploaded.
+		/// <see cref="IngestStatOptions" />
+		/// <see cref="OnIngestStatCompleteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the stat we're ingesting.
@@ -166,11 +177,6 @@ namespace Epic.OnlineServices.Stats
 		/// <param name="completionDelegate">
 		/// This function is called when the ingest stat operation completes.
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.InvalidUser" /> if target user ID is missing or incorrect
-		/// </returns>
 		public void IngestStat(ref IngestStatOptions options, object clientData, OnIngestStatCompleteCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -192,6 +198,8 @@ namespace Epic.OnlineServices.Stats
 
 		/// <summary>
 		/// Query for a list of stats for a specific player.
+		/// <see cref="QueryStatsOptions" />
+		/// <see cref="OnQueryStatsCompleteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the player whose stats we're retrieving.
@@ -202,11 +210,6 @@ namespace Epic.OnlineServices.Stats
 		/// <param name="completionDelegate">
 		/// This function is called when the query player stats operation completes.
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// <see cref="Result.InvalidUser" /> if target user ID is missing or incorrect
-		/// </returns>
 		public void QueryStats(ref QueryStatsOptions options, object clientData, OnQueryStatsCompleteCallback completionDelegate)
 		{
 			if (completionDelegate == null)

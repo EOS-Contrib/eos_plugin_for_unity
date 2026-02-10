@@ -142,9 +142,11 @@ namespace Epic.OnlineServices.Connect
 
 		/// <summary>
 		/// Register to receive upcoming authentication expiration notifications.
-		/// Notification is approximately 10 minutes prior to expiration.
+		/// Notification is approximately 1 minute prior to expiration.
 		/// Call <see cref="Login" /> again with valid third party credentials to refresh access.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyAuthExpiration" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyAuthExpirationOptions" />
+		/// <see cref="OnAuthExpirationCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the API version of the callback to use.
@@ -184,6 +186,8 @@ namespace Epic.OnlineServices.Connect
 		/// <summary>
 		/// Register to receive user login status updates.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyLoginStatusChanged" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyLoginStatusChangedOptions" />
+		/// <see cref="OnLoginStatusChangedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the API version of the callback to use.
@@ -222,6 +226,8 @@ namespace Epic.OnlineServices.Connect
 
 		/// <summary>
 		/// Fetches an ID token for a Product User ID.
+		/// <see cref="CopyIdTokenOptions" />
+		/// <see cref="IdToken" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -231,9 +237,11 @@ namespace Epic.OnlineServices.Connect
 		/// The ID token for the given user, if it exists and is valid; use <see cref="Release" /> when finished.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutIdToken.
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter.
-		/// <see cref="Result.NotFound" /> if the ID token is not found or expired.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutIdToken.
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter.
+		/// - <see cref="Result.NotFound" /> if the ID token is not found or expired.
 		/// </returns>
 		public Result CopyIdToken(ref CopyIdTokenOptions options, out IdToken? outIdToken)
 		{
@@ -258,6 +266,8 @@ namespace Epic.OnlineServices.Connect
 		/// <summary>
 		/// Fetch information about an external account linked to a Product User ID.
 		/// On a successful call, the caller must release the returned structure using the <see cref="Release" /> API.
+		/// <see cref="CopyProductUserExternalAccountByAccountIdOptions" />
+		/// <see cref="ExternalAccountInfo" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -268,9 +278,9 @@ namespace Epic.OnlineServices.Connect
 		/// </param>
 		/// <returns>
 		/// An <see cref="Result" /> that indicates the external account data was copied into the OutExternalAccountInfo.
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutExternalAccountInfo.
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter.
-		/// <see cref="Result.NotFound" /> if the account data doesn't exist or hasn't been queried yet.
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutExternalAccountInfo.
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter.
+		/// - <see cref="Result.NotFound" /> if the account data doesn't exist or hasn't been queried yet.
 		/// </returns>
 		public Result CopyProductUserExternalAccountByAccountId(ref CopyProductUserExternalAccountByAccountIdOptions options, out ExternalAccountInfo? outExternalAccountInfo)
 		{
@@ -295,6 +305,8 @@ namespace Epic.OnlineServices.Connect
 		/// <summary>
 		/// Fetch information about an external account of a specific type linked to a Product User ID.
 		/// On a successful call, the caller must release the returned structure using the <see cref="Release" /> API.
+		/// <see cref="CopyProductUserExternalAccountByAccountTypeOptions" />
+		/// <see cref="ExternalAccountInfo" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -305,9 +317,9 @@ namespace Epic.OnlineServices.Connect
 		/// </param>
 		/// <returns>
 		/// An <see cref="Result" /> that indicates the external account data was copied into the OutExternalAccountInfo.
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutExternalAccountInfo.
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter.
-		/// <see cref="Result.NotFound" /> if the account data doesn't exist or hasn't been queried yet.
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutExternalAccountInfo.
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter.
+		/// - <see cref="Result.NotFound" /> if the account data doesn't exist or hasn't been queried yet.
 		/// </returns>
 		public Result CopyProductUserExternalAccountByAccountType(ref CopyProductUserExternalAccountByAccountTypeOptions options, out ExternalAccountInfo? outExternalAccountInfo)
 		{
@@ -332,6 +344,8 @@ namespace Epic.OnlineServices.Connect
 		/// <summary>
 		/// Fetch information about an external account linked to a Product User ID.
 		/// On a successful call, the caller must release the returned structure using the <see cref="Release" /> API.
+		/// <see cref="CopyProductUserExternalAccountByIndexOptions" />
+		/// <see cref="ExternalAccountInfo" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -342,9 +356,9 @@ namespace Epic.OnlineServices.Connect
 		/// </param>
 		/// <returns>
 		/// An <see cref="Result" /> that indicates the external account data was copied into the OutExternalAccountInfo.
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutExternalAccountInfo.
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter.
-		/// <see cref="Result.NotFound" /> if the account data doesn't exist or hasn't been queried yet.
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutExternalAccountInfo.
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter.
+		/// - <see cref="Result.NotFound" /> if the account data doesn't exist or hasn't been queried yet.
 		/// </returns>
 		public Result CopyProductUserExternalAccountByIndex(ref CopyProductUserExternalAccountByIndexOptions options, out ExternalAccountInfo? outExternalAccountInfo)
 		{
@@ -369,6 +383,8 @@ namespace Epic.OnlineServices.Connect
 		/// <summary>
 		/// Fetch information about a Product User, using the external account that they most recently logged in with as the reference.
 		/// On a successful call, the caller must release the returned structure using the <see cref="Release" /> API.
+		/// <see cref="CopyProductUserInfoOptions" />
+		/// <see cref="ExternalAccountInfo" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -379,9 +395,9 @@ namespace Epic.OnlineServices.Connect
 		/// </param>
 		/// <returns>
 		/// An <see cref="Result" /> that indicates the external account data was copied into the OutExternalAccountInfo.
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutExternalAccountInfo.
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter.
-		/// <see cref="Result.NotFound" /> if the account data doesn't exist or hasn't been queried yet.
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutExternalAccountInfo.
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter.
+		/// - <see cref="Result.NotFound" /> if the account data doesn't exist or hasn't been queried yet.
 		/// </returns>
 		public Result CopyProductUserInfo(ref CopyProductUserInfoOptions options, out ExternalAccountInfo? outExternalAccountInfo)
 		{
@@ -425,6 +441,8 @@ namespace Epic.OnlineServices.Connect
 		/// automatically on subsequent game starts with <see cref="Login" /> using the <see cref="ExternalCredentialType.DeviceidAccessToken" />
 		/// credentials type. If a Device ID already exists for the local user on the device then <see cref="Result.DuplicateNotAllowed" />
 		/// error result is returned and the caller should proceed to calling <see cref="Login" /> directly.
+		/// <see cref="CreateDeviceIdOptions" />
+		/// <see cref="OnCreateDeviceIdCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing operation input parameters.
@@ -456,6 +474,8 @@ namespace Epic.OnlineServices.Connect
 
 		/// <summary>
 		/// Create an account association with the Epic Online Service as a product user given their external auth credentials.
+		/// <see cref="CreateUserOptions" />
+		/// <see cref="OnCreateUserCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing a continuance token from a "user not found" response during Login (always try login first).
@@ -497,6 +517,8 @@ namespace Epic.OnlineServices.Connect
 		/// On Desktop platforms (Linux, macOS, Windows), Device ID credentials are not automatically deleted.
 		/// Applications may re-use existing Device ID credentials for the local OS user when the application is
 		/// re-installed, or call the DeleteDeviceId API on the first run to ensure a fresh start for the user.
+		/// <see cref="DeleteDeviceIdOptions" />
+		/// <see cref="OnDeleteDeviceIdCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing operation input parameters
@@ -528,6 +550,7 @@ namespace Epic.OnlineServices.Connect
 
 		/// <summary>
 		/// Fetch a Product User ID that maps to an external account ID cached from a previous query.
+		/// <see cref="GetExternalAccountMappingsOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the local user and target external account ID.
@@ -598,6 +621,7 @@ namespace Epic.OnlineServices.Connect
 
 		/// <summary>
 		/// Fetch the number of linked external accounts for a Product User ID.
+		/// <see cref="GetProductUserExternalAccountCountOptions" />
 		/// <see cref="CopyProductUserExternalAccountByIndex" />
 		/// </summary>
 		/// <param name="options">
@@ -620,6 +644,7 @@ namespace Epic.OnlineServices.Connect
 
 		/// <summary>
 		/// Fetch an external account ID, in <see cref="Utf8String" /> form, that maps to a given Product User ID.
+		/// <see cref="GetProductUserIdMappingOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the local user and target Product User ID.
@@ -634,10 +659,10 @@ namespace Epic.OnlineServices.Connect
 		/// </param>
 		/// <returns>
 		/// An <see cref="Result" /> that indicates the external account ID was copied into the OutBuffer.
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutUserInfo.
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter.
-		/// <see cref="Result.NotFound" /> if the mapping doesn't exist or hasn't been queried yet.
-		/// <see cref="Result.LimitExceeded" /> if the OutBuffer is not large enough to receive the external account ID. InOutBufferLength contains the required minimum length to perform the operation successfully.
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutUserInfo.
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter.
+		/// - <see cref="Result.NotFound" /> if the mapping doesn't exist or hasn't been queried yet.
+		/// - <see cref="Result.LimitExceeded" /> if the OutBuffer is not large enough to receive the external account ID. InOutBufferLength contains the required minimum length to perform the operation successfully.
 		/// </returns>
 		public Result GetProductUserIdMapping(ref GetProductUserIdMappingOptions options, out Utf8String outBuffer)
 		{
@@ -659,6 +684,8 @@ namespace Epic.OnlineServices.Connect
 
 		/// <summary>
 		/// Link a set of external auth credentials with an existing product user on the Epic Online Service.
+		/// <see cref="LinkAccountOptions" />
+		/// <see cref="OnLinkAccountCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing a continuance token from a "user not found" response during Login (always try login first) and a currently logged in user not already associated with this external auth provider.
@@ -690,6 +717,8 @@ namespace Epic.OnlineServices.Connect
 
 		/// <summary>
 		/// Login/Authenticate given a valid set of external auth credentials.
+		/// <see cref="LoginOptions" />
+		/// <see cref="OnLoginCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the external account credentials and type to use during the login operation.
@@ -722,6 +751,8 @@ namespace Epic.OnlineServices.Connect
 		/// <summary>
 		/// Logout a currently logged in user.
 		/// NOTE: Access tokens for Product User IDs cannot be revoked. This operation really just cleans up state for the Product User ID and locally discards any associated access token.
+		/// <see cref="LogoutOptions" />
+		/// <see cref="OnLogoutCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the input parameters for the operation
@@ -756,6 +787,8 @@ namespace Epic.OnlineServices.Connect
 		/// The values will be cached and retrievable through <see cref="GetExternalAccountMapping" />.
 		/// A common use case is to query other users who are connected through the same account system as the local user.
 		/// Queries using external account IDs of another account system may not be available, depending on the account system specifics.
+		/// <see cref="QueryExternalAccountMappingsOptions" />
+		/// <see cref="OnQueryExternalAccountMappingsCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing a list of external account IDs, in <see cref="Utf8String" /> form, to query for the Product User ID representation.
@@ -790,6 +823,8 @@ namespace Epic.OnlineServices.Connect
 		/// 
 		/// The values will be cached and retrievable via <see cref="GetProductUserIdMapping" />, <see cref="CopyProductUserExternalAccountByIndex" />,
 		/// <see cref="CopyProductUserExternalAccountByAccountType" /> or <see cref="CopyProductUserExternalAccountByAccountId" />.
+		/// <see cref="QueryProductUserIdMappingsOptions" />
+		/// <see cref="OnQueryProductUserIdMappingsCallback" />
 		/// <see cref="ExternalAccountInfo" />
 		/// <see cref="GetProductUserExternalAccountCount" />
 		/// <see cref="GetProductUserIdMapping" />
@@ -909,6 +944,8 @@ namespace Epic.OnlineServices.Connect
 		/// be discarded permanently. The other product user will be discarded permanently and cannot be
 		/// recovered, so it is very important that the user is guided to make the right choice to avoid
 		/// accidental loss of all game progression.
+		/// <see cref="TransferDeviceIdAccountOptions" />
+		/// <see cref="OnTransferDeviceIdAccountCallback" />
 		/// <see cref="Login" />
 		/// <see cref="CreateDeviceId" />
 		/// </summary>
@@ -963,6 +1000,8 @@ namespace Epic.OnlineServices.Connect
 		/// operation will ensure that any existing authentication session cannot be used to re-link and overwrite the entry without
 		/// authenticating with one of the other linked accounts in the keychain. These restrictions limit the potential attack surface
 		/// related to account theft scenarios.
+		/// <see cref="UnlinkAccountOptions" />
+		/// <see cref="OnUnlinkAccountCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing operation input parameters.
@@ -994,6 +1033,8 @@ namespace Epic.OnlineServices.Connect
 
 		/// <summary>
 		/// Verify a given ID token for authenticity and validity.
+		/// <see cref="VerifyIdTokenOptions" />
+		/// <see cref="OnVerifyIdTokenCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing information about the ID token to verify.

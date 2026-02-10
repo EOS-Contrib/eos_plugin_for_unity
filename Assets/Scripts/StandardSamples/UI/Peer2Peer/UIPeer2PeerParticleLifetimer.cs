@@ -26,20 +26,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
     public class UIPeer2PeerParticleLifetimer : MonoBehaviour
     {
+        private const float LifeTimeSeconds = 5f;
         private float timer = 0;
-        public GameObject parent;
-
-        public Vector3 direction;
-
         // Update is called once per frame
         void Update()
         {
-            this.transform.position += (direction / 100.0f);
             timer += Time.deltaTime;
 
-            if (timer >= 1)
+            if (timer >= LifeTimeSeconds)
             {
-                Destroy(parent);
+                Destroy(this.gameObject);
             }
         }
     }

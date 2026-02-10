@@ -589,6 +589,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
             public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName = null)
             {
+                // Apply overrides from command line args. They are handled by the native libs also, but we load
+                // the config files from disk, so must also always apply them here
+                ApplyCommandLineArguments();
+
                 if (GetEOSPlatformInterface() != null)
                 {
                     Log("Init completed with existing EOS PlatformInterface");
@@ -618,8 +622,6 @@ namespace PlayEveryWare.EpicOnlineServices
 #else
                 InitializeLogLevels();
 #endif
-
-                ApplyCommandLineArguments();
 
                 Result initResult = InitializePlatformInterface();
 
@@ -1061,83 +1063,45 @@ namespace PlayEveryWare.EpicOnlineServices
             /// Also contains the information needed to set ProductUserId.
             /// <see cref="s_localProductUserId"/>
             /// </param>
-            public async void StartConnectLoginWithEpicAccount(EpicAccountId epicAccountId,
-                OnConnectLoginCallback onConnectLoginCallback)
+            public async void StartConnectLoginWithEpicAccount(EpicAccountId epicAccountId, OnConnectLoginCallback onConnectLoginCallback)
             {
-                var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
-                var copyUserTokenOptions = new CopyUserAuthTokenOptions();
-                var result =
-                    EOSAuthInterface.CopyUserAuthToken(ref copyUserTokenOptions, epicAccountId, out Token? authToken);
-                var connectLoginOptions = new Epic.OnlineServices.Connect.LoginOptions();
+                var authInterface = GetEOSPlatformInterface().GetAuthInterface();
 
-                if (result == Result.NotFound)
+                var idOpts = new Epic.OnlineServices.Auth.CopyIdTokenOptions
                 {
-                    Log("No User Auth tokens found to login");
-                    if (onConnectLoginCallback != null)
+                    AccountId = epicAccountId
+                };
+
+                var result = authInterface.CopyIdToken(ref idOpts, out Epic.OnlineServices.Auth.IdToken? idToken);
+
+                if (result != Result.Success || !idToken.HasValue)
+                {
+                    Debug.LogError($"{nameof(EOSManager)} {nameof(StartConnectLoginWithEpicAccount)}: CopyIdToken failed with result: {result}");
+                    var dummy = new Epic.OnlineServices.Connect.LoginCallbackInfo
                     {
-                        var dummyLoginCallbackInfo = new Epic.OnlineServices.Connect.LoginCallbackInfo();
-                        dummyLoginCallbackInfo.ResultCode = Result.ConnectAuthExpired;
-                        onConnectLoginCallback(dummyLoginCallbackInfo);
-                    }
-
+                        ResultCode = Result.InvalidAuth
+                    };
+                    onConnectLoginCallback?.Invoke(dummy);
                     return;
                 }
 
-                Log($"CopyUserAuthToken result code: {result}");
+                Log($"{nameof(EOSManager)} {nameof(StartConnectLoginWithEpicAccount)}: Using ID Token for Connect Login");
 
-                if (!authToken.HasValue)
+                var connectLoginOptions = new Epic.OnlineServices.Connect.LoginOptions
                 {
-                    Log("authToken was not found, unable to login");
+                    Credentials = new Epic.OnlineServices.Connect.Credentials
+                    {
+                        Token = idToken.Value.JsonWebToken,
+                        Type = Epic.OnlineServices.ExternalCredentialType.EpicIdToken
+                    }
+                };
 
-                    var dummyLoginCallbackInfo = new Epic.OnlineServices.Connect.LoginCallbackInfo();
-                    dummyLoginCallbackInfo.ResultCode = Result.InvalidAuth;
-                    onConnectLoginCallback(dummyLoginCallbackInfo);
-
-                    return;
-                }
-
-                // If the GetUserLoginInfo delegate is set, the UserLoginInfo can
-                // be provided here for platforms that require it in this scenario.
                 if (EOSManager.GetUserLoginInfo != null)
                 {
                     connectLoginOptions.UserLoginInfo = await EOSManager.GetUserLoginInfo();
                 }
 
-                // If the authToken returned a value, and there is a RefreshToken, then try to login using that
-                // Otherwise, try to use the AccessToken if that's available
-                // One or the other should be provided, but if neither is available then fail to login
-                if (authToken.Value.RefreshToken != null)
-                {
-                    Log("Attempting to use refresh token to login with connect");
-
-                    connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
-                    {
-                        Token = authToken.Value.RefreshToken,
-                        Type = ExternalCredentialType.Epic
-                    };
-
-                    StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
-                }
-                else if (authToken.Value.AccessToken != null)
-                {
-                    Log("Attempting to use access token to login with connect");
-
-                    connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
-                    {
-                        Token = authToken.Value.AccessToken,
-                        Type = ExternalCredentialType.Epic
-                    };
-
-                    StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
-                }
-                else
-                {
-                    Log("authToken has a value, but neither the refresh token nor the access token was provided. Cannot login.");
-
-                    var dummyLoginCallbackInfo = new Epic.OnlineServices.Connect.LoginCallbackInfo();
-                    dummyLoginCallbackInfo.ResultCode = Result.InvalidAuth;
-                    onConnectLoginCallback(dummyLoginCallbackInfo);
-                }
+                StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
             }
 
             //-------------------------------------------------------------------------
@@ -1300,6 +1264,15 @@ namespace PlayEveryWare.EpicOnlineServices
             public void StartLoginWithLoginTypeAndToken(LoginCredentialType loginType, string id, string token,
                 OnAuthLoginCallback onLoginCallback)
             {
+                if(loginType == LoginCredentialType.ExchangeCode && string.IsNullOrEmpty(token))
+                {
+                    Debug.LogError($"{nameof(EOSManager)} {nameof(StartLoginWithLoginTypeAndToken)}: ExchangeCode login attempted with empty token. Abort login.");
+                    onLoginCallback?.Invoke(new LoginCallbackInfo
+                    {
+                        ResultCode = Result.AuthExchangeCodeNotFound
+                    });
+                    return;
+                }
                 StartLoginWithLoginTypeAndToken(loginType, ExternalCredentialType.Epic, id, token, onLoginCallback);
             }
 
@@ -1427,6 +1400,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
 #endif
                     Log("LoginCallBackResult : " + data.ResultCode);
+
                     if (data.ResultCode == Result.Success)
                     {
                         loggedInAccountIDs.Add(data.LocalUserId);
@@ -1436,6 +1410,11 @@ namespace PlayEveryWare.EpicOnlineServices
                         ConfigureAuthStatusCallback();
 
                         OnAuthLogin?.Invoke(data);
+                    }
+                    else
+                    {
+                        string credentialType = loginOptions.Credentials?.Type.ToString() ?? "UNKNOWN";
+                        Debug.LogWarning($"{nameof(EOSManager)} {nameof(StartLoginWithLoginOptions)}: {credentialType} login failed with ResultCode: {data.ResultCode}");
                     }
 
                     if (onLoginCallback != null)

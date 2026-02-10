@@ -47,9 +47,13 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 		/// 
 		/// The order in which the Key/Value pairs are added is stored as is for later retrieval/display.
 		/// Ideally, you would make multiple calls to AddProgression() followed by a single call to SubmitSnapshot().
+		/// <see cref="AddProgressionOptions" />
 		/// </summary>
 		/// <returns>
-		/// <see cref="Result.Success" /> when successful; otherwise, <see cref="Result.NotFound" />
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> when successful
+		/// - <see cref="Result.NotFound" /> oherwise
 		/// </returns>
 		public Result AddProgression(ref AddProgressionOptions options)
 		{
@@ -65,6 +69,7 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 
 		/// <summary>
 		/// Creates a new progression-snapshot resource for a given user.
+		/// <see cref="BeginSnapshotOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Object containing properties that identifies the PUID this Snapshot will belong to.
@@ -73,8 +78,10 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 		/// A progression-snapshot identifier output parameter. Use that identifier to reference the snapshot in the other APIs.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> when successful.
-		/// <see cref="Result.ProgressionSnapshotSnapshotIdUnavailable" /> when no IDs are available. This is irrecoverable state.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> when successful.
+		/// - <see cref="Result.ProgressionSnapshotSnapshotIdUnavailable" /> when no IDs are available. This is irrecoverable state.
 		/// </returns>
 		public Result BeginSnapshot(ref BeginSnapshotOptions options, out uint outSnapshotId)
 		{
@@ -91,6 +98,8 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 		/// <summary>
 		/// Wipes out all progression data for the given user from the service. However, any previous progression data that haven't
 		/// been submitted yet are retained.
+		/// <see cref="DeleteSnapshotOptions" />
+		/// <see cref="OnDeleteSnapshotCallback" />
 		/// </summary>
 		public void DeleteSnapshot(ref DeleteSnapshotOptions options, object clientData, OnDeleteSnapshotCallback completionDelegate)
 		{
@@ -113,9 +122,13 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 
 		/// <summary>
 		/// Cleans up and releases resources associated with the given progression snapshot identifier.
+		/// <see cref="EndSnapshotOptions" />
 		/// </summary>
 		/// <returns>
-		/// <see cref="Result.Success" /> when successful; otherwise, <see cref="Result.NotFound" />
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> when successful
+		/// - <see cref="Result.NotFound" /> otherwise
 		/// </returns>
 		public Result EndSnapshot(ref EndSnapshotOptions options)
 		{
@@ -133,6 +146,8 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 		/// Saves the previously added Key/Value pairs of a given Snapshot to the service.
 		/// 
 		/// Note: This will overwrite any prior progression data stored with the service that's associated with the user.
+		/// <see cref="SubmitSnapshotOptions" />
+		/// <see cref="OnSubmitSnapshotCallback" />
 		/// </summary>
 		public void SubmitSnapshot(ref SubmitSnapshotOptions options, object clientData, OnSubmitSnapshotCallback completionDelegate)
 		{

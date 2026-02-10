@@ -86,6 +86,8 @@ namespace Epic.OnlineServices.Leaderboards
 
 		/// <summary>
 		/// Fetches a leaderboard definition from the cache using an index.
+		/// <see cref="CopyLeaderboardDefinitionByIndexOptions" />
+		/// <see cref="Definition" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -95,9 +97,11 @@ namespace Epic.OnlineServices.Leaderboards
 		/// The leaderboard data for the given index, if it exists and is valid, use <see cref="Release" /> when finished.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutLeaderboardDefinition
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the leaderboard is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutLeaderboardDefinition
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the leaderboard is not found
 		/// </returns>
 		public Result CopyLeaderboardDefinitionByIndex(ref CopyLeaderboardDefinitionByIndexOptions options, out Definition? outLeaderboardDefinition)
 		{
@@ -121,6 +125,8 @@ namespace Epic.OnlineServices.Leaderboards
 
 		/// <summary>
 		/// Fetches a leaderboard definition from the cache using a leaderboard ID.
+		/// <see cref="CopyLeaderboardDefinitionByLeaderboardIdOptions" />
+		/// <see cref="Definition" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -130,9 +136,11 @@ namespace Epic.OnlineServices.Leaderboards
 		/// The leaderboard definition for the given leaderboard ID, if it exists and is valid, use <see cref="Release" /> when finished.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutLeaderboardDefinition
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the leaderboard data is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutLeaderboardDefinition
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the leaderboard data is not found
 		/// </returns>
 		public Result CopyLeaderboardDefinitionByLeaderboardId(ref CopyLeaderboardDefinitionByLeaderboardIdOptions options, out Definition? outLeaderboardDefinition)
 		{
@@ -156,6 +164,8 @@ namespace Epic.OnlineServices.Leaderboards
 
 		/// <summary>
 		/// Fetches a leaderboard record from a given index.
+		/// <see cref="CopyLeaderboardRecordByIndexOptions" />
+		/// <see cref="LeaderboardRecord" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -165,9 +175,11 @@ namespace Epic.OnlineServices.Leaderboards
 		/// The leaderboard record for the given index, if it exists and is valid, use <see cref="Release" /> when finished.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the leaderboard record is available and passed out in OutLeaderboardRecord
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the leaderboard is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the leaderboard record is available and passed out in OutLeaderboardRecord
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the leaderboard is not found
 		/// </returns>
 		public Result CopyLeaderboardRecordByIndex(ref CopyLeaderboardRecordByIndexOptions options, out LeaderboardRecord? outLeaderboardRecord)
 		{
@@ -191,6 +203,8 @@ namespace Epic.OnlineServices.Leaderboards
 
 		/// <summary>
 		/// Fetches a leaderboard record from a given user ID.
+		/// <see cref="CopyLeaderboardRecordByUserIdOptions" />
+		/// <see cref="LeaderboardRecord" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -200,9 +214,11 @@ namespace Epic.OnlineServices.Leaderboards
 		/// The leaderboard record for the given user ID, if it exists and is valid, use <see cref="Release" /> when finished.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the leaderboard record is available and passed out in OutLeaderboardRecord
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the leaderboard data is not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the leaderboard record is available and passed out in OutLeaderboardRecord
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the leaderboard data is not found
 		/// </returns>
 		public Result CopyLeaderboardRecordByUserId(ref CopyLeaderboardRecordByUserIdOptions options, out LeaderboardRecord? outLeaderboardRecord)
 		{
@@ -226,6 +242,8 @@ namespace Epic.OnlineServices.Leaderboards
 
 		/// <summary>
 		/// Fetches leaderboard user score from a given index.
+		/// <see cref="CopyLeaderboardUserScoreByIndexOptions" />
+		/// <see cref="LeaderboardUserScore" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -235,9 +253,11 @@ namespace Epic.OnlineServices.Leaderboards
 		/// The leaderboard user score for the given index, if it exists and is valid, use <see cref="Release" /> when finished.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the leaderboard scores are available and passed out in OutLeaderboardUserScore
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the leaderboard user scores are not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the leaderboard scores are available and passed out in OutLeaderboardUserScore
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the leaderboard user scores are not found
 		/// </returns>
 		public Result CopyLeaderboardUserScoreByIndex(ref CopyLeaderboardUserScoreByIndexOptions options, out LeaderboardUserScore? outLeaderboardUserScore)
 		{
@@ -261,6 +281,8 @@ namespace Epic.OnlineServices.Leaderboards
 
 		/// <summary>
 		/// Fetches leaderboard user score from a given user ID.
+		/// <see cref="CopyLeaderboardUserScoreByUserIdOptions" />
+		/// <see cref="LeaderboardUserScore" />
 		/// <see cref="Release" />
 		/// </summary>
 		/// <param name="options">
@@ -270,9 +292,11 @@ namespace Epic.OnlineServices.Leaderboards
 		/// The leaderboard user score for the given user ID, if it exists and is valid, use <see cref="Release" /> when finished.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the leaderboard scores are available and passed out in OutLeaderboardUserScore
-		/// <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.NotFound" /> if the leaderboard user scores are not found
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the leaderboard scores are available and passed out in OutLeaderboardUserScore
+		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.NotFound" /> if the leaderboard user scores are not found
 		/// </returns>
 		public Result CopyLeaderboardUserScoreByUserId(ref CopyLeaderboardUserScoreByUserIdOptions options, out LeaderboardUserScore? outLeaderboardUserScore)
 		{
@@ -296,6 +320,7 @@ namespace Epic.OnlineServices.Leaderboards
 
 		/// <summary>
 		/// Fetch the number of leaderboards definitions that are cached locally.
+		/// <see cref="GetLeaderboardDefinitionCountOptions" />
 		/// <see cref="CopyLeaderboardDefinitionByIndex" />
 		/// <see cref="CopyLeaderboardDefinitionByLeaderboardId" />
 		/// </summary>
@@ -319,6 +344,7 @@ namespace Epic.OnlineServices.Leaderboards
 
 		/// <summary>
 		/// Fetch the number of leaderboard records that are cached locally.
+		/// <see cref="GetLeaderboardRecordCountOptions" />
 		/// <see cref="CopyLeaderboardRecordByIndex" />
 		/// <see cref="CopyLeaderboardRecordByUserId" />
 		/// </summary>
@@ -342,6 +368,7 @@ namespace Epic.OnlineServices.Leaderboards
 
 		/// <summary>
 		/// Fetch the number of leaderboard user scores that are cached locally.
+		/// <see cref="GetLeaderboardUserScoreCountOptions" />
 		/// <see cref="CopyLeaderboardUserScoreByIndex" />
 		/// <see cref="CopyLeaderboardUserScoreByUserId" />
 		/// </summary>
@@ -365,6 +392,8 @@ namespace Epic.OnlineServices.Leaderboards
 
 		/// <summary>
 		/// Query for a list of existing leaderboards definitions including their attributes.
+		/// <see cref="QueryLeaderboardDefinitionsOptions" />
+		/// <see cref="OnQueryLeaderboardDefinitionsCompleteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the application whose leaderboard definitions we're retrieving.
@@ -375,10 +404,6 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <param name="completionDelegate">
 		/// This function is called when the query operation completes.
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// </returns>
 		public void QueryLeaderboardDefinitions(ref QueryLeaderboardDefinitionsOptions options, object clientData, OnQueryLeaderboardDefinitionsCompleteCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -400,6 +425,8 @@ namespace Epic.OnlineServices.Leaderboards
 
 		/// <summary>
 		/// Retrieves top leaderboard records by rank in the leaderboard matching the given leaderboard ID.
+		/// <see cref="QueryLeaderboardRanksOptions" />
+		/// <see cref="OnQueryLeaderboardRanksCompleteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the leaderboard records we're retrieving.
@@ -410,10 +437,6 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <param name="completionDelegate">
 		/// This function is called when the query operation completes.
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// </returns>
 		public void QueryLeaderboardRanks(ref QueryLeaderboardRanksOptions options, object clientData, OnQueryLeaderboardRanksCompleteCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -435,6 +458,8 @@ namespace Epic.OnlineServices.Leaderboards
 
 		/// <summary>
 		/// Query for a list of scores for a given list of users.
+		/// <see cref="QueryLeaderboardUserScoresOptions" />
+		/// <see cref="OnQueryLeaderboardUserScoresCompleteCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the users whose scores we're retrieving.
@@ -445,10 +470,6 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <param name="completionDelegate">
 		/// This function is called when the query operation completes.
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the operation completes successfully
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// </returns>
 		public void QueryLeaderboardUserScores(ref QueryLeaderboardUserScoresOptions options, object clientData, OnQueryLeaderboardUserScoresCompleteCallback completionDelegate)
 		{
 			if (completionDelegate == null)

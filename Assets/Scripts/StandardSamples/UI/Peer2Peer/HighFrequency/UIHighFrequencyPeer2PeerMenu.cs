@@ -44,13 +44,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public UIConsoleInputField ChatMessageInput;
         public UIConsoleInputField ProductUserIdInput;
         public UIPeer2PeerParticleController ParticleManager;
-        public Slider refreshRateSlider;
-        
+
         private EOSHighFrequencyPeer2PeerManager Peer2PeerManager;
         private EOSFriendsManager FriendsManager;
 
         private string currentChatDisplayName;
         private ProductUserId currentChatProductUserId;
+
+        private Camera uiCamera;
 
         void Start()
         {
@@ -59,6 +60,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Peer2PeerManager.ParticleController = ParticleManager;
             Peer2PeerManager.owner = this;
             Peer2PeerManager.parent = this.transform;
+            uiCamera = Camera.main;
         }
 
         protected override void OnDestroy()
@@ -89,15 +91,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 IncomingChat(messageFromPlayer);
             }
 
-            if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
+            if (Input.GetMouseButtonDown(0))
             {
-                return;
+                ParticlesOnClick();
             }
 
-            if(Peer2PeerManager.sendActive && currentChatProductUserId != null)
+            if (Peer2PeerManager.sendActive)
             {
                 Peer2PeerManager.P2PUpdate();
             }
+
         }
 
         public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
@@ -135,10 +138,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 currentChatDisplayName = friend.Name;
                 currentChatProductUserId = friend.UserProductUserId;
-
                 CurrentChatUserText.text = currentChatDisplayName;
 
-                //ChatWindow.SetActive(true);
+                ForceInitialHFPacket();
             }
             else
             {
@@ -172,10 +174,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 currentChatDisplayName = productUserId.ToString();
                 currentChatProductUserId = productUserId;
-
                 CurrentChatUserText.text = currentChatDisplayName;
-
-                //ChatWindow.SetActive(true);
             }
             else
             {
@@ -192,13 +191,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogError("UIPeer2PeerMenu (SetIdOnClick): Invalid ProductUserId.");
                 return;
             }
-
             currentChatDisplayName = productUserIdText;
             currentChatProductUserId = productUserId;
-
             CurrentChatUserText.text = productUserIdText;
-
-           // ChatWindow.SetActive(true);
         }
 
         public void SendOnClick()
@@ -220,9 +215,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             message.xPos = 0;
             message.yPos = 0;
 
-            if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
+            if (!HasValidCurrentProductId())
             {
-                Debug.LogError("UIPeer2PeerMenu (SendOnClick): ProductUserId for '{0}' is not valid!");
                 return;
             }
 
@@ -272,7 +266,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             bool attemptParse = int.TryParse(hz, out int refreshRate);
-            
+
             if (attemptParse)
             {
                 if (refreshRate < 0)
@@ -323,22 +317,44 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void ParticlesOnClick()
         {
-            Debug.Log("UIPeer2PeerMenu (OnMouseDown): Mouse click recieved");
-            Vector2 mousePos = Input.mousePosition;
-
+            if (!HasValidCurrentProductId())
+            {
+                return;
+            }
+            Debug.Log($"{nameof(UIHighFrequencyPeer2PeerMenu)} {nameof(ParticlesOnClick)} Mouse click received");
+            Vector3 mousePos = Input.mousePosition;
+            Vector3 viewportPos = uiCamera.ScreenToViewportPoint(mousePos);
             messageData message;
             message.type = messageType.coordinatesMessage;
-            message.xPos = mousePos.x;
-            message.yPos = mousePos.y;
+            message.xPos = viewportPos.x;
+            message.yPos = viewportPos.y;
             message.textData = null;
-
+            string coordinatePayload = EOSHighFrequencyPeer2PeerManager.CoordinateMessagePrefix + message.xPos + "," + message.yPos;
+            Peer2PeerManager.SendMessage(currentChatProductUserId, coordinatePayload);
+        }
+        private bool HasValidCurrentProductId()
+        {
             if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
             {
-                Debug.LogError("UIPeer2PeerMenu (SendOnClick): ProductUserId for '{0}' is not valid!");
+                Debug.LogError($"{nameof(UIHighFrequencyPeer2PeerMenu)} {nameof(HasValidCurrentProductId)}: ProductUserId for '{currentChatDisplayName}' is not valid!");
+                return false;
+            }
+            
+            return true;
+        }
+        private void ForceInitialHFPacket()
+        {
+            if (!HasValidCurrentProductId())
+            {
+                Debug.LogWarning($"{nameof(UIHighFrequencyPeer2PeerMenu)} {nameof(ForceInitialHFPacket)}: Cannot send initial HF packet. Invalid ProductUserId.");
                 return;
             }
 
-            Peer2PeerManager.SendMessage(currentChatProductUserId, message.ToString()) ;
+            Peer2PeerManager.SendMessage(
+                currentChatProductUserId,
+                "hf_init"
+            );
+
         }
     }
 }

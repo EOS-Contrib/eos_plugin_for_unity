@@ -227,6 +227,36 @@ EOS_STRUCT(EOS_AntiCheatClient_Reserved01Options, (
 	int32_t ApiVersion;
 ));
 
+/** The most recent version of the EOS_AntiCheatClient_Reserved02 API. */
+#define EOS_ANTICHEATCLIENT_RESERVED02_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_Reserved02 function.
+ */
+EOS_STRUCT(EOS_AntiCheatClient_Reserved02Options, (
+	/** API Version: Set this to EOS_ANTICHEATCLIENT_RESERVED02_API_LATEST. */
+	int32_t ApiVersion;
+	/** Field reserved for future use */
+	int64_t Reserved1;
+	/** Field reserved for future use */
+	uint32_t Reserved2;
+	/** Field reserved for future use */
+	uint32_t Reserved3;
+	/** Field reserved for future use */
+	const void* Reserved4;
+));
+
+/** The most recent version of the EOS_AntiCheatClient_GetModuleBuildId API. */
+#define EOS_ANTICHEATCLIENT_GETMODULEBUILDID_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_GetModuleBuildId function.
+ */
+EOS_STRUCT(EOS_AntiCheatClient_GetModuleBuildIdOptions, (
+	/** API Version: Set this to EOS_ANTICHEATCLIENT_GETMODULEBUILDID_API_LATEST. */
+	int32_t ApiVersion;
+));
+
 /** The most recent version of the EOS_AntiCheatClient_AddExternalIntegrityCatalog API. */
 #define EOS_ANTICHEATCLIENT_ADDEXTERNALINTEGRITYCATALOG_API_LATEST 1
 

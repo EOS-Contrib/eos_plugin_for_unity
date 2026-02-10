@@ -18,6 +18,7 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="CopySearchResultByIndex" /> is used to immediately retrieve a handle to the lobby information from a given search result.
 		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutLobbyDetailsHandle, must be passed to <see cref="LobbyDetails.Release" /> to release the memory associated with it.
 		/// <see cref="LobbySearchCopySearchResultByIndexOptions" />
+		/// <see cref="LobbyDetails" />
 		/// <see cref="LobbyDetails.Release" />
 		/// </summary>
 		/// <param name="options">
@@ -27,9 +28,11 @@ namespace Epic.OnlineServices.Lobby
 		/// out parameter used to receive the lobby details handle
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the information is available and passed out in OutLobbyDetailsHandle
-		/// <see cref="Result.InvalidParameters" /> if you pass an invalid index or a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutLobbyDetailsHandle
+		/// - <see cref="Result.InvalidParameters" /> if you pass an invalid index or a <see langword="null" /> <see cref="IntPtr" /> for the out parameter
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result CopySearchResultByIndex(ref LobbySearchCopySearchResultByIndexOptions options, out LobbyDetails outLobbyDetailsHandle)
 		{
@@ -50,6 +53,8 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Find lobbies matching the search criteria setup via this lobby search handle.
 		/// When the operation completes, this handle will have the search results that can be parsed
+		/// <see cref="LobbySearchFindOptions" />
+		/// <see cref="LobbySearchOnFindCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the search criteria to use
@@ -60,11 +65,6 @@ namespace Epic.OnlineServices.Lobby
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the search operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> if the find operation completes successfully
-		/// <see cref="Result.NotFound" /> if searching for an individual lobby by lobby ID or target user ID returns no results
-		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
-		/// </returns>
 		public void Find(ref LobbySearchFindOptions options, object clientData, LobbySearchOnFindCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -86,6 +86,7 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Get the number of search results found by the search parameters in this search
+		/// <see cref="LobbySearchGetSearchResultCountOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options associated with the search count
@@ -119,15 +120,18 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Remove a parameter from the array of search criteria.
+		/// <see cref="LobbySearchRemoveParameterOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// a search parameter key name to remove
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if removing this search parameter was successful
-		/// <see cref="Result.InvalidParameters" /> if the search key is invalid or <see langword="null" />
-		/// <see cref="Result.NotFound" /> if the parameter was not a part of the search criteria
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if removing this search parameter was successful
+		/// - <see cref="Result.InvalidParameters" /> if the search key is invalid or <see langword="null" />
+		/// - <see cref="Result.NotFound" /> if the parameter was not a part of the search criteria
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result RemoveParameter(ref LobbySearchRemoveParameterOptions options)
 		{
@@ -143,14 +147,17 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Set a lobby ID to find and will return at most one search result. Setting TargetUserId or SearchParameters will result in <see cref="Find" /> failing
+		/// <see cref="LobbySearchSetLobbyIdOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// A specific lobby ID for which to search
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this lobby ID was successful
-		/// <see cref="Result.InvalidParameters" /> if the lobby ID is invalid or <see langword="null" />
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this lobby ID was successful
+		/// - <see cref="Result.InvalidParameters" /> if the lobby ID is invalid or <see langword="null" />
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result SetLobbyId(ref LobbySearchSetLobbyIdOptions options)
 		{
@@ -166,14 +173,17 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Set the maximum number of search results to return in the query, can't be more than <see cref="LobbyInterface.MAX_SEARCH_RESULTS" />
+		/// <see cref="LobbySearchSetMaxResultsOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// maximum number of search results to return in the query
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting the max results was successful
-		/// <see cref="Result.InvalidParameters" /> if the number of results requested is invalid
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting the max results was successful
+		/// - <see cref="Result.InvalidParameters" /> if the number of results requested is invalid
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result SetMaxResults(ref LobbySearchSetMaxResultsOptions options)
 		{
@@ -189,6 +199,7 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Add a parameter to an array of search criteria combined via an implicit AND operator. Setting LobbyId or TargetUserId will result in <see cref="Find" /> failing
+		/// <see cref="LobbySearchSetParameterOptions" />
 		/// <see cref="AttributeData" />
 		/// <see cref="ComparisonOp" />
 		/// </summary>
@@ -196,9 +207,11 @@ namespace Epic.OnlineServices.Lobby
 		/// a search parameter and its comparison op
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this search parameter was successful
-		/// <see cref="Result.InvalidParameters" /> if the search criteria is invalid or <see langword="null" />
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this search parameter was successful
+		/// - <see cref="Result.InvalidParameters" /> if the search criteria is invalid or <see langword="null" />
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result SetParameter(ref LobbySearchSetParameterOptions options)
 		{
@@ -215,14 +228,17 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Set a target user ID to find. Setting LobbyId or SearchParameters will result in <see cref="Find" /> failing
 		/// a search result will only be found if this user is in a public lobby
+		/// <see cref="LobbySearchSetTargetUserIdOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// a specific target user ID to find
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this target user ID was successful
-		/// <see cref="Result.InvalidParameters" /> if the target user ID is invalid or <see langword="null" />
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this target user ID was successful
+		/// - <see cref="Result.InvalidParameters" /> if the target user ID is invalid or <see langword="null" />
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result SetTargetUserId(ref LobbySearchSetTargetUserIdOptions options)
 		{

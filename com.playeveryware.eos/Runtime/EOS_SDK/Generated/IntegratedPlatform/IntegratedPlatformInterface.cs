@@ -54,6 +54,8 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// This notification will trigger any time the EOS SDK's internal login state changes for a user, including for manual login state
 		/// changes (when the <see cref="IntegratedPlatformManagementFlags.ApplicationManagedIdentityLogin" /> flag is set), or automatically detected ones (when not disabled by the
 		/// <see cref="IntegratedPlatformManagementFlags.ApplicationManagedIdentityLogin" /> flag).
+		/// <see cref="AddNotifyUserLoginStatusChangedOptions" />
+		/// <see cref="OnUserLoginStatusChangedCallback" />
 		/// <see cref="RemoveNotifyUserLoginStatusChanged" />
 		/// </summary>
 		/// <param name="options">
@@ -96,7 +98,7 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// 
 		/// If there are any pending deferred user-logouts when a handler is cleared, those users will internally be logged-out and cached data about those users cleared before this function returns.
 		/// Any applicable callbacks about those users being logged-out will occur in a future call to <see cref="Platform.PlatformInterface.Tick" />().
-		/// <see cref="SetUserPreLogoutCallback" />
+		/// <see cref="ClearUserPreLogoutCallbackOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Data for which integrated platform to no longer call a previously-registered callback for.
@@ -152,6 +154,7 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// 
 		/// If the sign-out is intended and your application believes the user is still logged-out, the UserExpectedLoginState in Options should be <see cref="LoginStatus.NotLoggedIn" />.
 		/// If the sign-out was NOT intended and your application believes the user has logged-in again, the UserExpectedLoginState in Options should be <see cref="LoginStatus.LoggedIn" />.
+		/// <see cref="FinalizeDeferredUserLogoutOptions" />
 		/// <see cref="SetUserPreLogoutCallback" />
 		/// <see cref="ClearUserPreLogoutCallback" />
 		/// <see cref="AddNotifyUserLoginStatusChanged" />
@@ -160,10 +163,12 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// Data for which integrated platform and user is now in the expected logged-in/logged-out state.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the platform user state matches the UserExpectedLoginState internally.
-		/// <see cref="Result.NotConfigured" /> if the Integrated Platform was not initialized on platform creation
-		/// <see cref="Result.InvalidUser" /> if the LocalPlatformUserId is not a valid user id for the provided Integrated Platform, or if there is no deferred logout waiting to be completed for this specified user
-		/// <see cref="Result.InvalidParameters" /> if any other input was invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the platform user state matches the UserExpectedLoginState internally.
+		/// - <see cref="Result.NotConfigured" /> if the Integrated Platform was not initialized on platform creation
+		/// - <see cref="Result.InvalidUser" /> if the LocalPlatformUserId is not a valid user id for the provided Integrated Platform, or if there is no deferred logout waiting to be completed for this specified user
+		/// - <see cref="Result.InvalidParameters" /> if any other input was invalid
 		/// </returns>
 		public Result FinalizeDeferredUserLogout(ref FinalizeDeferredUserLogoutOptions options)
 		{
@@ -202,16 +207,19 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// 
 		/// If the login status of a user is not different from a previous call to this function, the function will do nothing and return <see cref="Result.Success" />.
 		/// This will not trigger a call to the Integrated Platform User Login Status Changed.
+		/// <see cref="SetUserLoginStatusOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// 
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the call was successful
-		/// <see cref="Result.NotConfigured" /> if the Integrated Platform was not initialized on platform creation
-		/// <see cref="Result.InvalidState" /> if the Integrated Platform was not initialized with the <see cref="IntegratedPlatformManagementFlags.ApplicationManagedIdentityLogin" /> flag
-		/// <see cref="Result.InvalidUser" /> if the LocalPlatformUserId is not a valid user id for the provided Integrated Platform
-		/// <see cref="Result.InvalidParameters" /> if any other input was invalid
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the call was successful
+		/// - <see cref="Result.NotConfigured" /> if the Integrated Platform was not initialized on platform creation
+		/// - <see cref="Result.InvalidState" /> if the Integrated Platform was not initialized with the <see cref="IntegratedPlatformManagementFlags.ApplicationManagedIdentityLogin" /> flag
+		/// - <see cref="Result.InvalidUser" /> if the LocalPlatformUserId is not a valid user id for the provided Integrated Platform
+		/// - <see cref="Result.InvalidParameters" /> if any other input was invalid
 		/// </returns>
 		public Result SetUserLoginStatus(ref SetUserLoginStatusOptions options)
 		{
@@ -237,7 +245,8 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// 
 		/// If a logout is deferred, applications are expected to eventually call <see cref="FinalizeDeferredUserLogout" /> when they
 		/// have decided a user meant to logout, or if they have logged in again.
-		/// <see cref="ClearUserPreLogoutCallback" />
+		/// <see cref="SetUserPreLogoutCallbackOptions" />
+		/// <see cref="OnUserPreLogoutCallback" />
 		/// <see cref="FinalizeDeferredUserLogout" />
 		/// </summary>
 		/// <param name="options">
@@ -250,8 +259,10 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// The function that will handle the callback.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if the platform user logout handler was bound successfully.
-		/// <see cref="Result.AlreadyConfigured" /> if there is already a platform user logout handler bound.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the platform user logout handler was bound successfully.
+		/// - <see cref="Result.AlreadyConfigured" /> if there is already a platform user logout handler bound.
 		/// </returns>
 		public Result SetUserPreLogoutCallback(ref SetUserPreLogoutCallbackOptions options, object clientData, OnUserPreLogoutCallback callbackFunction)
 		{

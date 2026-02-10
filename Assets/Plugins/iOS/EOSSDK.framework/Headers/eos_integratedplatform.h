@@ -30,11 +30,15 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_IntegratedPlatformOptionsContainer_Add(EOS_HIn
  * This will not trigger a call to the Integrated Platform User Login Status Changed.
  *
  * @param Options
- * @return EOS_Success if the call was successful
- *         EOS_NotConfigured if the Integrated Platform was not initialized on platform creation
- *         EOS_InvalidState if the Integrated Platform was not initialized with the EOS_IPMF_ApplicationManagedIdentityLogin flag
- *         EOS_InvalidUser if the LocalPlatformUserId is not a valid user id for the provided Integrated Platform
- *         EOS_InvalidParameters if any other input was invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the call was successful
+ * - EOS_NotConfigured if the Integrated Platform was not initialized on platform creation
+ * - EOS_InvalidState if the Integrated Platform was not initialized with the EOS_IPMF_ApplicationManagedIdentityLogin flag
+ * - EOS_InvalidUser if the LocalPlatformUserId is not a valid user id for the provided Integrated Platform
+ * - EOS_InvalidParameters if any other input was invalid
+ *
+ * @see EOS_IntegratedPlatform_SetUserLoginStatusOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_IntegratedPlatform_SetUserLoginStatus(EOS_HIntegratedPlatform Handle, const EOS_IntegratedPlatform_SetUserLoginStatusOptions* Options);
 
@@ -50,6 +54,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_IntegratedPlatform_SetUserLoginStatus(EOS_HInt
  * @param CallbackFunction The function that is called when Integrated Platform user logins happen
  * @return A valid notification that can be used to unregister for notifications, or EOS_INVALID_NOTIFICATIONID if input was invalid.
  *
+ * @see EOS_IntegratedPlatform_AddNotifyUserLoginStatusChangedOptions
+ * @see EOS_IntegratedPlatform_OnUserLoginStatusChangedCallback
  * @see EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged(EOS_HIntegratedPlatform Handle, const EOS_IntegratedPlatform_AddNotifyUserLoginStatusChangedOptions* Options, void* ClientData, const EOS_IntegratedPlatform_OnUserLoginStatusChangedCallback CallbackFunction);
@@ -79,10 +85,13 @@ EOS_DECLARE_FUNC(void) EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged
  * @param Options Data that specifies the API version.
  * @param ClientData An optional context pointer that is returned in the callback data.
  * @param CallbackFunction The function that will handle the callback.
- * @return EOS_Success if the platform user logout handler was bound successfully.
- *		   EOS_AlreadyConfigured if there is already a platform user logout handler bound.
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the platform user logout handler was bound successfully.
+ * - EOS_AlreadyConfigured if there is already a platform user logout handler bound.
  *
- * @see EOS_IntegratedPlatform_ClearUserPreLogoutCallback
+ * @see EOS_IntegratedPlatform_SetUserPreLogoutCallbackOptions
+ * @see EOS_IntegratedPlatform_OnUserPreLogoutCallback
  * @see EOS_IntegratedPlatform_FinalizeDeferredUserLogout
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_IntegratedPlatform_SetUserPreLogoutCallback(EOS_HIntegratedPlatform Handle, const EOS_IntegratedPlatform_SetUserPreLogoutCallbackOptions* Options, void* ClientData, EOS_IntegratedPlatform_OnUserPreLogoutCallback CallbackFunction);
@@ -95,7 +104,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_IntegratedPlatform_SetUserPreLogoutCallback(EO
  *
  * @param Options Data for which integrated platform to no longer call a previously-registered callback for.
  *
- * @see EOS_IntegratedPlatform_SetUserPreLogoutCallback
+ * @see EOS_IntegratedPlatform_ClearUserPreLogoutCallbackOptions
  */
 EOS_DECLARE_FUNC(void) EOS_IntegratedPlatform_ClearUserPreLogoutCallback(EOS_HIntegratedPlatform Handle, const EOS_IntegratedPlatform_ClearUserPreLogoutCallbackOptions* Options);
 
@@ -110,11 +119,14 @@ EOS_DECLARE_FUNC(void) EOS_IntegratedPlatform_ClearUserPreLogoutCallback(EOS_HIn
  * If the sign-out was NOT intended and your application believes the user has logged-in again, the UserExpectedLoginState in Options should be EOS_LS_LoggedIn.
  *
  * @param Options Data for which integrated platform and user is now in the expected logged-in/logged-out state.
- * @return EOS_Success if the platform user state matches the UserExpectedLoginState internally.
- *         EOS_NotConfigured if the Integrated Platform was not initialized on platform creation
- *         EOS_InvalidUser if the LocalPlatformUserId is not a valid user id for the provided Integrated Platform, or if there is no deferred logout waiting to be completed for this specified user
- *         EOS_InvalidParameters if any other input was invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the platform user state matches the UserExpectedLoginState internally.
+ * - EOS_NotConfigured if the Integrated Platform was not initialized on platform creation
+ * - EOS_InvalidUser if the LocalPlatformUserId is not a valid user id for the provided Integrated Platform, or if there is no deferred logout waiting to be completed for this specified user
+ * - EOS_InvalidParameters if any other input was invalid
  *
+ * @see EOS_IntegratedPlatform_FinalizeDeferredUserLogoutOptions
  * @see EOS_IntegratedPlatform_SetUserPreLogoutCallback
  * @see EOS_IntegratedPlatform_ClearUserPreLogoutCallback
  * @see EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged

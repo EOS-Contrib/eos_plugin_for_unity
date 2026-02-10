@@ -18,14 +18,17 @@ namespace Epic.OnlineServices.Lobby
 		/// Associate an attribute with this lobby
 		/// An attribute is something may be public or private with the lobby.
 		/// If public, it can be queried for in a search, otherwise the data remains known only to lobby members
+		/// <see cref="LobbyModificationAddAttributeOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options to set the attribute and its visibility state
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this parameter was successful
-		/// <see cref="Result.InvalidParameters" /> if the attribute is missing information or otherwise invalid
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this parameter was successful
+		/// - <see cref="Result.InvalidParameters" /> if the attribute is missing information or otherwise invalid
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result AddAttribute(ref LobbyModificationAddAttributeOptions options)
 		{
@@ -42,14 +45,17 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Associate an attribute with a member of the lobby
 		/// Lobby member data is always private to the lobby
+		/// <see cref="LobbyModificationAddMemberAttributeOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options to set the attribute and its visibility state
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this parameter was successful
-		/// <see cref="Result.InvalidParameters" /> if the attribute is missing information or otherwise invalid
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this parameter was successful
+		/// - <see cref="Result.InvalidParameters" /> if the attribute is missing information or otherwise invalid
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result AddMemberAttribute(ref LobbyModificationAddMemberAttributeOptions options)
 		{
@@ -77,14 +83,17 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Remove an attribute associated with the lobby
+		/// <see cref="LobbyModificationRemoveAttributeOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Specify the key of the attribute to remove
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if removing this parameter was successful
-		/// <see cref="Result.InvalidParameters" /> if the key is <see langword="null" /> or empty
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if removing this parameter was successful
+		/// - <see cref="Result.InvalidParameters" /> if the key is <see langword="null" /> or empty
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result RemoveAttribute(ref LobbyModificationRemoveAttributeOptions options)
 		{
@@ -100,14 +109,17 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Remove an attribute associated with of member of the lobby
+		/// <see cref="LobbyModificationRemoveMemberAttributeOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Specify the key of the member attribute to remove
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if removing this parameter was successful
-		/// <see cref="Result.InvalidParameters" /> if the key is <see langword="null" /> or empty
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if removing this parameter was successful
+		/// - <see cref="Result.InvalidParameters" /> if the key is <see langword="null" /> or empty
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result RemoveMemberAttribute(ref LobbyModificationRemoveMemberAttributeOptions options)
 		{
@@ -123,14 +135,17 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Set the Allowed Platform IDs for the lobby
+		/// <see cref="LobbyModificationSetAllowedPlatformIdsOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options associated with allowed Platform IDs for this lobby
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this parameter was successful
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
-		/// <see cref="Result.InvalidParameters" /> if the AllowedPlatformIds array is <see langword="null" /> but the count is 0 or if the count is greater than 0 and the array is <see langword="null" />.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this parameter was successful
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// - <see cref="Result.InvalidParameters" /> if the AllowedPlatformIds array is <see langword="null" /> but the count is 0 or if the count is greater than 0 and the array is <see langword="null" />.
 		/// </returns>
 		public Result SetAllowedPlatformIds(ref LobbyModificationSetAllowedPlatformIdsOptions options)
 		{
@@ -148,14 +163,17 @@ namespace Epic.OnlineServices.Lobby
 		/// Set the bucket ID associated with this lobby.
 		/// Values such as region, game mode, etc can be combined here depending on game need.
 		/// Setting this is strongly recommended to improve search performance.
+		/// <see cref="LobbyModificationSetBucketIdOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options associated with the bucket ID of the lobby
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this parameter was successful
-		/// <see cref="Result.InvalidParameters" /> if the bucket ID is invalid or <see langword="null" />
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this parameter was successful
+		/// - <see cref="Result.InvalidParameters" /> if the bucket ID is invalid or <see langword="null" />
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result SetBucketId(ref LobbyModificationSetBucketIdOptions options)
 		{
@@ -172,13 +190,16 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Allows enabling or disabling invites for this lobby.
 		/// The lobby will also need to have `bPresenceEnabled` <see langword="true" />.
+		/// <see cref="LobbyModificationSetInvitesAllowedOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options associated with invites allowed flag for this lobby.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this parameter was successful
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this parameter was successful
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result SetInvitesAllowed(ref LobbyModificationSetInvitesAllowedOptions options)
 		{
@@ -195,13 +216,16 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Set the maximum number of members allowed in this lobby.
 		/// When updating the lobby, it is not possible to reduce this number below the current number of existing members
+		/// <see cref="LobbyModificationSetMaxMembersOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options associated with max number of members in this lobby
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this parameter was successful
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this parameter was successful
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result SetMaxMembers(ref LobbyModificationSetMaxMembersOptions options)
 		{
@@ -218,13 +242,16 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Set the permissions associated with this lobby.
 		/// The permissions range from "public" to "invite only" and are described by <see cref="LobbyPermissionLevel" />
+		/// <see cref="LobbyModificationSetPermissionLevelOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Options associated with the permission level of the lobby
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> if setting this parameter was successful
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if setting this parameter was successful
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
 		public Result SetPermissionLevel(ref LobbyModificationSetPermissionLevelOptions options)
 		{

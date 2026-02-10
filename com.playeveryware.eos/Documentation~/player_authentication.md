@@ -1,10 +1,8 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
-
 # Authenticating Players
 
 ## Overview
 
-This file documents how Login works in the PlayEveryWare EOS Plugin for the following platforms:
+This file documents how Login works in the EOS Plugin for the following platforms:
 * Windows
 * Mac 
 * Linux

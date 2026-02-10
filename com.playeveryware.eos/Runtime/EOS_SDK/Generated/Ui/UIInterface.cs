@@ -36,6 +36,14 @@ namespace Epic.OnlineServices.UI
 		/// </summary>
 		public const int ADDNOTIFYMEMORYMONITOR_API_LATEST = 1;
 		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyOnScreenKeyboardRequested" /> API.
+		/// </summary>
+		public const int ADDNOTIFYONSCREENKEYBOARDREQUESTED_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="ConfigureOnScreenKeyboard" /> API.
+		/// </summary>
+		public const int CONFIGUREONSCREENKEYBOARD_API_LATEST = 1;
+		/// <summary>
 		/// An invalid Event Id.
 		/// </summary>
 		public const int EVENTID_INVALID = 0;
@@ -110,6 +118,7 @@ namespace Epic.OnlineServices.UI
 
 		/// <summary>
 		/// Lets the SDK know that the given UI event ID has been acknowledged and should be released.
+		/// <see cref="AcknowledgeEventIdOptions" />
 		/// <see cref="Presence.JoinGameAcceptedCallbackInfo" />
 		/// </summary>
 		/// <returns>
@@ -133,6 +142,8 @@ namespace Epic.OnlineServices.UI
 		/// Register to receive notifications when the overlay display settings are updated.
 		/// Newly registered handlers will always be called the next tick with the current state.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyDisplaySettingsUpdated" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyDisplaySettingsUpdatedOptions" />
+		/// <see cref="OnDisplaySettingsUpdatedCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -173,6 +184,8 @@ namespace Epic.OnlineServices.UI
 		/// Register to receive notifications from the memory monitor.
 		/// Newly registered handlers will always be called the next tick with the current state.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyMemoryMonitor" /> when you no longer wish to have your NotificationHandler called.
+		/// <see cref="AddNotifyMemoryMonitorOptions" />
+		/// <see cref="OnMemoryMonitorCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing information about the request.
@@ -210,7 +223,77 @@ namespace Epic.OnlineServices.UI
 		}
 
 		/// <summary>
+		/// Register to receive notifications for when an on screen keyboard has been requested.
+		/// This API only works on Windows.
+		/// This API will only fire notifications if the on screen keyboard has been configured for it.
+		/// If the returned <see cref="ulong" /> is valid, you must call <see cref="RemoveNotifyOnScreenKeyboardRequested" /> when you no longer wish to receive notifications.
+		/// <see cref="AddNotifyOnScreenKeyboardRequestedOptions" />
+		/// <see cref="OnScreenKeyboardRequestedCallback" />
+		/// </summary>
+		/// <param name="options">
+		/// A structure containing information about the request.
+		/// </param>
+		/// <param name="clientData">
+		/// Arbitrary data that is passed back to you in the NotificationFn.
+		/// </param>
+		/// <param name="notificationFn">
+		/// A callback that is fired when an on screen keyboard has been requested.
+		/// </param>
+		/// <returns>
+		/// A handle representing the registered callback.
+		/// </returns>
+		public ulong AddNotifyOnScreenKeyboardRequested(ref AddNotifyOnScreenKeyboardRequestedOptions options, object clientData, OnScreenKeyboardRequestedCallback notificationFn)
+		{
+			if (notificationFn == null)
+			{
+				throw new ArgumentNullException("notificationFn");
+			}
+
+			var optionsInternal = default(AddNotifyOnScreenKeyboardRequestedOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var clientDataPointer = IntPtr.Zero;
+
+			Helper.AddCallback(out clientDataPointer, clientData, notificationFn);
+
+			var callResult = Bindings.EOS_UI_AddNotifyOnScreenKeyboardRequested(InnerHandle, ref optionsInternal, clientDataPointer, OnScreenKeyboardRequestedCallbackInternalImplementation.Delegate);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.AssignNotificationIdToCallback(clientDataPointer, callResult);
+
+			return callResult;
+		}
+
+		/// <summary>
+		/// Configures the on screen keyboard.
+		/// This API only works on Windows.
+		/// <see cref="ConfigureOnScreenKeyboardOptions" />
+		/// </summary>
+		/// <returns>
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> If the on screen keyboard was successfully configured.
+		/// - <see cref="Result.IncompatibleVersion" /> If the API version passed in is incorrect.
+		/// - <see cref="Result.InvalidParameters" /> If any of the options are incorrect.
+		/// - <see cref="Result.Disabled" /> If the overlay is not available.
+		/// - <see cref="Result.NotConfigured" /> If the overlay is not ready.
+		/// </returns>
+		public Result ConfigureOnScreenKeyboard(ref ConfigureOnScreenKeyboardOptions options)
+		{
+			var optionsInternal = default(ConfigureOnScreenKeyboardOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var callResult = Bindings.EOS_UI_ConfigureOnScreenKeyboard(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			return callResult;
+		}
+
+		/// <summary>
 		/// Gets the friends overlay exclusive input state.
+		/// <see cref="GetFriendsExclusiveInputOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the Epic Account ID of the friends Social Overlay owner.
@@ -234,6 +317,7 @@ namespace Epic.OnlineServices.UI
 
 		/// <summary>
 		/// Gets the friends overlay visibility.
+		/// <see cref="GetFriendsVisibleOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the Epic Account ID of the friends Social Overlay owner.
@@ -271,13 +355,14 @@ namespace Epic.OnlineServices.UI
 		/// <summary>
 		/// Returns the current Toggle Friends Button. This button can be used by the user to toggle the friends
 		/// overlay when available. The default value is <see cref="InputStateButtonFlags.None" />.
+		/// <see cref="GetToggleFriendsButtonOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing any options that are needed to retrieve the button.
 		/// </param>
 		/// <returns>
 		/// A valid button combination which represents any number of buttons.
-		/// <see cref="KeyCombination.None" /> will be returned if any error occurs.
+		/// - <see cref="InputStateButtonFlags.None" /> will be returned if any error occurs.
 		/// </returns>
 		public InputStateButtonFlags GetToggleFriendsButton(ref GetToggleFriendsButtonOptions options)
 		{
@@ -294,13 +379,14 @@ namespace Epic.OnlineServices.UI
 		/// <summary>
 		/// Returns the current Toggle Friends Key. This key can be used by the user to toggle the friends
 		/// overlay when available. The default value represents `Shift + F3` as `((<see cref="int" />)<see cref="KeyCombination.Shift" /> | (<see cref="int" />)<see cref="KeyCombination.F3" />)`.
+		/// <see cref="GetToggleFriendsKeyOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing any options that are needed to retrieve the key.
 		/// </param>
 		/// <returns>
 		/// A valid key combination which represent a single key with zero or more modifier keys.
-		/// <see cref="KeyCombination.None" /> will be returned if any error occurs.
+		/// - <see cref="KeyCombination.None" /> will be returned if any error occurs.
 		/// </returns>
 		public KeyCombination GetToggleFriendsKey(ref GetToggleFriendsKeyOptions options)
 		{
@@ -316,6 +402,8 @@ namespace Epic.OnlineServices.UI
 
 		/// <summary>
 		/// Hides the active Social Overlay.
+		/// <see cref="HideFriendsOptions" />
+		/// <see cref="OnHideFriendsCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the Epic Account ID of the browser to close.
@@ -326,13 +414,6 @@ namespace Epic.OnlineServices.UI
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the request to hide the friends list has been processed, or on an error.
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> If the Social Overlay has been notified about the request.
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
-		/// <see cref="Result.InvalidParameters" /> If any of the options are incorrect.
-		/// <see cref="Result.NotConfigured" /> If the Social Overlay is not properly configured.
-		/// <see cref="Result.NoChange" /> If the Social Overlay is already hidden.
-		/// </returns>
 		public void HideFriends(ref HideFriendsOptions options, object clientData, OnHideFriendsCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -354,6 +435,7 @@ namespace Epic.OnlineServices.UI
 
 		/// <summary>
 		/// Gets the bIsPaused state of the overlay as set by any previous calls to <see cref="PauseSocialOverlay" />().
+		/// <see cref="IsSocialOverlayPausedOptions" />
 		/// <see cref="PauseSocialOverlay" />
 		/// </summary>
 		/// <returns>
@@ -417,12 +499,15 @@ namespace Epic.OnlineServices.UI
 		/// While <see langword="true" /> then the key and button events will not toggle the overlay.
 		/// If the Overlay was visible before being paused then it will be hidden.
 		/// If it is known that the Overlay should now be visible after being paused then it will be shown.
+		/// <see cref="PauseSocialOverlayOptions" />
 		/// </summary>
 		/// <returns>
-		/// <see cref="Result.Success" /> If the overlay has been notified about the request.
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
-		/// <see cref="Result.InvalidParameters" /> If any of the options are incorrect.
-		/// <see cref="Result.NotConfigured" /> If the overlay is not properly configured.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> If the overlay has been notified about the request.
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
+		/// - <see cref="Result.InvalidParameters" /> If any of the options are incorrect.
+		/// - <see cref="Result.NotConfigured" /> If the overlay is not properly configured.
 		/// </returns>
 		public Result PauseSocialOverlay(ref PauseSocialOverlayOptions options)
 		{
@@ -442,6 +527,7 @@ namespace Epic.OnlineServices.UI
 		/// As this process can be involved and rather varied depending on platform we do not plan to make the call
 		/// replace the standard "present" call, but rather expect it to be issued "just before" that call.
 		/// This function has an empty implementation (i.e. returns <see cref="Result.NotImplemented" />) on all non-consoles platforms.
+		/// <see cref="PrePresentOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// will vary from platform to platform.
@@ -489,18 +575,35 @@ namespace Epic.OnlineServices.UI
 		}
 
 		/// <summary>
+		/// Unregister from receiving notifications for when an on screen keyboard has been requested.
+		/// This API only works on Windows.
+		/// </summary>
+		/// <param name="id">
+		/// A handle representing the registered callback.
+		/// </param>
+		public void RemoveNotifyOnScreenKeyboardRequested(ulong id)
+		{
+			Bindings.EOS_UI_RemoveNotifyOnScreenKeyboardRequested(InnerHandle, id);
+
+			Helper.RemoveCallbackByNotificationId(id);
+		}
+
+		/// <summary>
 		/// Pushes platform agnostic input state to the SDK. The state is passed to the EOS Overlay on console platforms.
 		/// This function has an empty implementation (i.e. returns <see cref="Result.NotImplemented" />) on all non-consoles platforms.
+		/// <see cref="ReportInputStateOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the input state
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> If the Social Overlay has been notified about the request.
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
-		/// <see cref="Result.NotConfigured" /> If the Social Overlay is not properly configured.
-		/// <see cref="Result.ApplicationSuspended" /> If the application is suspended.
-		/// <see cref="Result.NotImplemented" /> If this function is not implemented on the current platform.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> If the Social Overlay has been notified about the request.
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
+		/// - <see cref="Result.NotConfigured" /> If the Social Overlay is not properly configured.
+		/// - <see cref="Result.ApplicationSuspended" /> If the application is suspended.
+		/// - <see cref="Result.NotImplemented" /> If this function is not implemented on the current platform.
 		/// </returns>
 		public Result ReportInputState(ref ReportInputStateOptions options)
 		{
@@ -516,16 +619,19 @@ namespace Epic.OnlineServices.UI
 
 		/// <summary>
 		/// Define any preferences for any display settings.
+		/// <see cref="SetDisplayPreferenceOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing any options that are needed to set
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> If the overlay has been notified about the request.
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
-		/// <see cref="Result.InvalidParameters" /> If any of the options are incorrect.
-		/// <see cref="Result.NotConfigured" /> If the overlay is not properly configured.
-		/// <see cref="Result.NoChange" /> If the preferences did not change.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> If the overlay has been notified about the request.
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
+		/// - <see cref="Result.InvalidParameters" /> If any of the options are incorrect.
+		/// - <see cref="Result.NotConfigured" /> If the overlay is not properly configured.
+		/// - <see cref="Result.NoChange" /> If the preferences did not change.
 		/// </returns>
 		public Result SetDisplayPreference(ref SetDisplayPreferenceOptions options)
 		{
@@ -550,6 +656,7 @@ namespace Epic.OnlineServices.UI
 		/// On console platforms, the game must be calling <see cref="ReportInputState" /> to route gamepad input to the EOS Overlay.
 		/// 
 		/// Note: If you do not have a button mapped, it'll suppress the part of the toast notification that prompts the user to press it.
+		/// <see cref="SetToggleFriendsButtonOptions" />
 		/// <see cref="IsValidButtonCombination" />
 		/// <see cref="ReportInputState" />
 		/// </summary>
@@ -557,11 +664,13 @@ namespace Epic.OnlineServices.UI
 		/// Structure containing the button combination to use.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> If the overlay has been notified about the request.
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
-		/// <see cref="Result.InvalidParameters" /> If any of the options are incorrect.
-		/// <see cref="Result.NotConfigured" /> If the overlay is not properly configured.
-		/// <see cref="Result.NoChange" /> If the button combination did not change.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> If the overlay has been notified about the request.
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
+		/// - <see cref="Result.InvalidParameters" /> If any of the options are incorrect.
+		/// - <see cref="Result.NotConfigured" /> If the overlay is not properly configured.
+		/// - <see cref="Result.NoChange" /> If the button combination did not change.
 		/// </returns>
 		public Result SetToggleFriendsButton(ref SetToggleFriendsButtonOptions options)
 		{
@@ -580,17 +689,20 @@ namespace Epic.OnlineServices.UI
 		/// overlay when available. The default value represents `Shift + F3` as `((<see cref="int" />)<see cref="KeyCombination.Shift" /> | (<see cref="int" />)<see cref="KeyCombination.F3" />)`.
 		/// The provided key should satisfy <see cref="IsValidKeyCombination" />. The value <see cref="KeyCombination.None" /> is specially handled
 		/// by resetting the key binding to the system default.
+		/// <see cref="SetToggleFriendsKeyOptions" />
 		/// <see cref="IsValidKeyCombination" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the key combination to use.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.Success" /> If the overlay has been notified about the request.
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
-		/// <see cref="Result.InvalidParameters" /> If any of the options are incorrect.
-		/// <see cref="Result.NotConfigured" /> If the overlay is not properly configured.
-		/// <see cref="Result.NoChange" /> If the key combination did not change.
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> If the overlay has been notified about the request.
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
+		/// - <see cref="Result.InvalidParameters" /> If any of the options are incorrect.
+		/// - <see cref="Result.NotConfigured" /> If the overlay is not properly configured.
+		/// - <see cref="Result.NoChange" /> If the key combination did not change.
 		/// </returns>
 		public Result SetToggleFriendsKey(ref SetToggleFriendsKeyOptions options)
 		{
@@ -606,6 +718,8 @@ namespace Epic.OnlineServices.UI
 
 		/// <summary>
 		/// Requests that the Social Overlay open and display the "Block User" flow for the specified user.
+		/// <see cref="ShowBlockPlayerOptions" />
+		/// <see cref="OnShowBlockPlayerCallback" />
 		/// </summary>
 		/// <param name="clientData">
 		/// Arbitrary data that is passed back to you in the NotificationFn.
@@ -613,13 +727,6 @@ namespace Epic.OnlineServices.UI
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the user exits the Block UI.
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> If the overlay has been notified about the request.
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
-		/// <see cref="Result.InvalidParameters" /> If any of the options are incorrect.
-		/// <see cref="Result.ApplicationSuspended" /> If the application is suspended.
-		/// <see cref="Result.NetworkDisconnected" /> If the network is disconnected.
-		/// </returns>
 		public void ShowBlockPlayer(ref ShowBlockPlayerOptions options, object clientData, OnShowBlockPlayerCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -641,6 +748,8 @@ namespace Epic.OnlineServices.UI
 
 		/// <summary>
 		/// Opens the Social Overlay with a request to show the friends list.
+		/// <see cref="ShowFriendsOptions" />
+		/// <see cref="OnShowFriendsCallback" />
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing the Epic Account ID of the friends list to show.
@@ -651,15 +760,6 @@ namespace Epic.OnlineServices.UI
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the request to show the friends list has been sent to the Social Overlay, or on an error.
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> If the Social Overlay has been notified about the request.
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
-		/// <see cref="Result.InvalidParameters" /> If any of the options are incorrect.
-		/// <see cref="Result.NotConfigured" /> If the Social Overlay is not properly configured.
-		/// <see cref="Result.NoChange" /> If the Social Overlay is already visible.
-		/// <see cref="Result.ApplicationSuspended" /> If the application is suspended.
-		/// <see cref="Result.NetworkDisconnected" /> If the network is disconnected.
-		/// </returns>
 		public void ShowFriends(ref ShowFriendsOptions options, object clientData, OnShowFriendsCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -681,6 +781,8 @@ namespace Epic.OnlineServices.UI
 
 		/// <summary>
 		/// Requests that the native ID for a target player be identified and the native profile be displayed for that player.
+		/// <see cref="ShowNativeProfileOptions" />
+		/// <see cref="OnShowNativeProfileCallback" />
 		/// </summary>
 		/// <param name="clientData">
 		/// Arbitrary data that is passed back to you in the NotificationFn.
@@ -688,14 +790,6 @@ namespace Epic.OnlineServices.UI
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the profile has been shown.
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> If the native SDK has been requested to display a profile.
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
-		/// <see cref="Result.InvalidParameters" /> If any of the options are incorrect.
-		/// <see cref="Result.ApplicationSuspended" /> If the application is suspended.
-		/// <see cref="Result.NetworkDisconnected" /> If the network is disconnected.
-		/// <see cref="Result.NotFound" /> If the platform ID for the target player cannot be found.
-		/// </returns>
 		public void ShowNativeProfile(ref ShowNativeProfileOptions options, object clientData, OnShowNativeProfileCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -717,6 +811,8 @@ namespace Epic.OnlineServices.UI
 
 		/// <summary>
 		/// Requests that the Social Overlay open and display the "Report User" flow for the specified user.
+		/// <see cref="ShowReportPlayerOptions" />
+		/// <see cref="OnShowReportPlayerCallback" />
 		/// </summary>
 		/// <param name="clientData">
 		/// Arbitrary data that is passed back to you in the NotificationFn.
@@ -724,13 +820,6 @@ namespace Epic.OnlineServices.UI
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the user exits the Report UI.
 		/// </param>
-		/// <returns>
-		/// <see cref="Result.Success" /> If the overlay has been notified about the request.
-		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
-		/// <see cref="Result.InvalidParameters" /> If any of the options are incorrect.
-		/// <see cref="Result.ApplicationSuspended" /> If the application is suspended.
-		/// <see cref="Result.NetworkDisconnected" /> If the network is disconnected.
-		/// </returns>
 		public void ShowReportPlayer(ref ShowReportPlayerOptions options, object clientData, OnShowReportPlayerCallback completionDelegate)
 		{
 			if (completionDelegate == null)
