@@ -282,7 +282,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 { RuntimePlatform.GameCoreXboxOne,    Platform.XboxOne},
                 { RuntimePlatform.XboxOne,            Platform.XboxOne},
                 { RuntimePlatform.Switch,             Platform.Switch},
+#if UNITY_6000_0_61_OR_NEWER || UNITY_6000_3_0_OR_NEWER
                 { RuntimePlatform.Switch2,            Platform.Switch2},
+#endif
                 { RuntimePlatform.GameCoreXboxSeries, Platform.XboxSeriesX},
                 { RuntimePlatform.LinuxPlayer,        Platform.Linux},
                 { RuntimePlatform.LinuxEditor,        Platform.Linux},
@@ -324,7 +326,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 { BuildTarget.PS4,                 Platform.PS4         },
                 { BuildTarget.PS5,                 Platform.PS5         },
                 { BuildTarget.Switch,              Platform.Switch      },
+#if UNITY_6000_0_61_OR_NEWER || UNITY_6000_3_0_OR_NEWER
                 { BuildTarget.Switch2,             Platform.Switch2     },
+#endif
                 { BuildTarget.StandaloneOSX,       Platform.macOS       },
                 { BuildTarget.StandaloneWindows,   Platform.Windows     },
                 { BuildTarget.StandaloneWindows64, Platform.Windows     },
