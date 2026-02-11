@@ -1,7 +1,7 @@
 #ifndef STRING_HELPERS_H
 #define STRING_HELPERS_H
 /*
- * Copyright (c) 2021 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
