@@ -56,9 +56,10 @@ namespace PlayEveryWare.EpicOnlineServices
             PS4 = 0x80,
             PS5 = 0x100,
             Switch = 0x200,
+            Switch2 = 0x300,
             Steam = 0x400,
-            Console = PS4 | PS5 | XboxOne | XboxSeriesX | Switch,
-            Any = Unknown | Windows | Android | XboxOne | XboxSeriesX | iOS | Linux | macOS | PS4 | PS5 | Switch | Steam
+            Console = PS4 | PS5 | XboxOne | XboxSeriesX | Switch | Switch2,
+            Any = Unknown | Windows | Android | XboxOne | XboxSeriesX | iOS | Linux | macOS | PS4 | PS5 | Switch | Switch2 | Steam
         }
 
         internal readonly struct PlatformInfo
@@ -89,7 +90,7 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         /// <summary>
-        /// Private collection to store information about each platform.
+        /// Internal collection to store information about each platform.
         /// </summary>
         internal static IDictionary<Platform, PlatformInfo> PlatformInformation = new Dictionary<Platform, PlatformInfo>();
 
@@ -281,6 +282,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 { RuntimePlatform.GameCoreXboxOne,    Platform.XboxOne},
                 { RuntimePlatform.XboxOne,            Platform.XboxOne},
                 { RuntimePlatform.Switch,             Platform.Switch},
+#if UNITY_6000_0_61_OR_NEWER || UNITY_6000_3_0_OR_NEWER
+                { RuntimePlatform.Switch2,            Platform.Switch2},
+#endif
                 { RuntimePlatform.GameCoreXboxSeries, Platform.XboxSeriesX},
                 { RuntimePlatform.LinuxPlayer,        Platform.Linux},
                 { RuntimePlatform.LinuxEditor,        Platform.Linux},
@@ -322,6 +326,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 { BuildTarget.PS4,                 Platform.PS4         },
                 { BuildTarget.PS5,                 Platform.PS5         },
                 { BuildTarget.Switch,              Platform.Switch      },
+#if UNITY_6000_0_61_OR_NEWER || UNITY_6000_3_0_OR_NEWER
+                { BuildTarget.Switch2,             Platform.Switch2     },
+#endif
                 { BuildTarget.StandaloneOSX,       Platform.macOS       },
                 { BuildTarget.StandaloneWindows,   Platform.Windows     },
                 { BuildTarget.StandaloneWindows64, Platform.Windows     },
