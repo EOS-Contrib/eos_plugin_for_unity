@@ -1030,11 +1030,12 @@ using UnityEngine.InputSystem;
 
                 ///TOO(mendsley): Use activating controller index here
                 psnManager.StartLoginWithPSN(0, StartLoginWithLoginTypeAndTokenCallback);
-#elif UNITY_SWITCH && !UNITY_EDITOR
+#elif (UNITY_SWITCH || UNITY_SWITCH2) && !UNITY_EDITOR
+#if UNITY_SWITCH
                 var nintendoManager = EOSManager.Instance.GetOrCreateManager<EOSNintendoManager>();
-                nintendoManager.StartLoginWithNSAPreselectedUser(StartLoginWithLoginTypeAndTokenCallback);
-#elif UNITY_SWITCH2 && !UNITY_EDITOR
+#elif UNITY_SWITCH2
                 var nintendoManager = EOSManager.Instance.GetOrCreateManager<EOSNintendo2Manager>();
+#endif
                 nintendoManager.StartLoginWithNSAPreselectedUser(StartLoginWithLoginTypeAndTokenCallback);
 #elif UNITY_GAMECORE && !UNITY_EDITOR
                 EOSXBLManager xblManager = EOSManager.Instance.GetOrCreateManager<EOSXBLManager>();
@@ -1045,23 +1046,14 @@ using UnityEngine.InputSystem;
             }
             else if (loginType == LoginCredentialType.PersistentAuth)
             {
-#if UNITY_SWITCH && !UNITY_EDITOR
+#if (UNITY_SWITCH || UNITY_SWITCH2) && !UNITY_EDITOR
+#if UNITY_SWITCH
                 var nintendoManager = EOSManager.Instance.GetOrCreateManager<EOSNintendoManager>();
-                nintendoManager.StartLoginWithPersistantAuthPreselectedUser((LoginCallbackInfo callbackInfo) =>
-            {
-                    if (callbackInfo.ResultCode == Result.Success)
-                    {
-                        ConfigureUIForLogout();
-                    }
-                    else
-                    {
-                        ConfigureUIForLogin();
-                    }
-                });
-#elif UNITY_SWITCH2 && !UNITY_EDITOR
+#elif UNITY_SWITCH2
                 var nintendoManager = EOSManager.Instance.GetOrCreateManager<EOSNintendo2Manager>();
+#endif
                 nintendoManager.StartLoginWithPersistantAuthPreselectedUser((LoginCallbackInfo callbackInfo) =>
-            {
+                {
                     if (callbackInfo.ResultCode == Result.Success)
                     {
                         ConfigureUIForLogout();
