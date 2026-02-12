@@ -42,7 +42,6 @@
 #elif UNITY_SWITCH
 #define EOS_PLATFORM_SWITCH
 
-//added for Switch 2
 #elif UNITY_SWITCH2
 #define EOS_PLATFORM_SWITCH2
 
@@ -102,7 +101,7 @@ namespace Epic.OnlineServices
 #elif EOS_PLATFORM_SWITCH
 			"EOSSDK-Switch-Shipping"
 
-#elif EOS_PLATFORM_SWITCH2 //update EOSSDK name for switch 2
+#elif EOS_PLATFORM_SWITCH2
 			"EOSSDK-Switch2-Shipping"
 
 #elif EOS_PLATFORM_XBOXONE_GDK
