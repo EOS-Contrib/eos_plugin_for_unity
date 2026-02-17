@@ -197,6 +197,20 @@ namespace PlayEveryWare.EpicOnlineServices
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectAuthExpirationCallbackHandle;
 
+            // --- Connect reauth hardening (prevents PUID churn / P2P route resets) ---
+            static private readonly object s_connectReauthLock = new object();
+            static private bool s_connectReauthInProgress = false;
+
+            // IMPORTANT: LoginOptions is a struct, so store it as nullable
+            static private Epic.OnlineServices.Connect.LoginOptions? s_lastConnectLoginOptions;
+
+            // Cache last used credential type
+            static private Epic.OnlineServices.ExternalCredentialType s_lastConnectCredentialType
+                = Epic.OnlineServices.ExternalCredentialType.EpicIdToken;
+
+            // Optional: keep last successful PUID so we can detect mid-session changes.
+            static private ProductUserId s_lastKnownProductUserId;
+
             // Setting it twice will cause an exception
             static bool hasSetLoggingCallback;
 
@@ -1163,26 +1177,53 @@ namespace PlayEveryWare.EpicOnlineServices
             public void StartConnectLoginWithOptions(Epic.OnlineServices.Connect.LoginOptions connectLoginOptions,
                 OnConnectLoginCallback onloginCallback)
             {
+                Debug.Log($"[EOS][ConnectLogin] t={Time.realtimeSinceStartup:F1} puid(prev)={s_lastKnownProductUserId} cred={s_lastConnectCredentialType}");
+                // Cache last options for safe re-auth
+                CacheLastConnectLoginOptions(connectLoginOptions);
+
                 var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
                 connectInterface.Login(ref connectLoginOptions, null,
                     (ref Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginData) =>
                     {
-                        if (connectLoginData.ResultCode != Result.Success)
+                        try
                         {
-                            Log($"Connect login was not successful. ResultCode: {connectLoginData.ResultCode}", LogType.Error);
-                        }
+                            if (connectLoginData.ResultCode != Result.Success)
+                            {
+                                Log($"Connect login was not successful. ResultCode: {connectLoginData.ResultCode}", LogType.Error);
+                                OnConnectLogin?.Invoke(connectLoginData);
+                                onloginCallback?.Invoke(connectLoginData);
+                                return;
+                            }
 
-                        if (connectLoginData.LocalUserId != null)
-                        {
-                            SetLocalProductUserId(connectLoginData.LocalUserId);
+                            if (connectLoginData.LocalUserId == null)
+                            {
+                                Log("Connect login succeeded but LocalUserId is null (unexpected).", LogType.Error);
+                                OnConnectLogin?.Invoke(connectLoginData);
+                                return;
+                            }
+
+                            var newPuid = connectLoginData.LocalUserId;
+
+                            if (s_lastKnownProductUserId != null && !s_lastKnownProductUserId.Equals(newPuid))
+                            {
+                                Debug.LogError(
+                                    $"[EOS][PUID] changed {s_lastKnownProductUserId} => {newPuid}. " +
+                                    "This can break P2P socket mapping. Refusing to overwrite silently.");
+                                OnConnectLogin?.Invoke(connectLoginData);
+                                return;
+                            }
+
+                            Debug.Log($"[EOS][PUID] unchanged {newPuid}");
+                            s_lastKnownProductUserId = newPuid;
+
+                            SetLocalProductUserId(newPuid);
                             ConfigureConnectStatusCallback();
-                            ConfigureConnectExpirationCallback(connectLoginOptions);
+                            ConfigureConnectExpirationCallback();
                             OnConnectLogin?.Invoke(connectLoginData);
                         }
-
-                        if (onloginCallback != null)
+                        finally
                         {
-                            onloginCallback(connectLoginData);
+                            onloginCallback?.Invoke(connectLoginData);
                         }
                     });
             }
@@ -1345,24 +1386,28 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            private void ConfigureConnectExpirationCallback(Epic.OnlineServices.Connect.LoginOptions connectLoginOptions)
+            private void ConfigureConnectExpirationCallback()
             {
-                if (s_notifyConnectAuthExpirationCallbackHandle == null)
-                {
-                    var EOSConnectInterface = GetEOSConnectInterface();
-                    var addNotifyAuthExpirationOptions = new AddNotifyAuthExpirationOptions();
-                    ulong callbackHandle = EOSConnectInterface.AddNotifyAuthExpiration(
-                        ref addNotifyAuthExpirationOptions, null, (ref AuthExpirationCallbackInfo callbackInfo) =>
-                        {
-                            StartConnectLoginWithOptions(connectLoginOptions, null);
-                        });
+                if (s_notifyConnectAuthExpirationCallbackHandle != null)
+                    return;
 
-                    s_notifyConnectAuthExpirationCallbackHandle = new NotifyEventHandle(callbackHandle, handle =>
+                var EOSConnectInterface = GetEOSConnectInterface();
+                var addNotifyAuthExpirationOptions = new AddNotifyAuthExpirationOptions();
+
+                ulong callbackHandle = EOSConnectInterface.AddNotifyAuthExpiration(
+                    ref addNotifyAuthExpirationOptions, null,
+                    (ref AuthExpirationCallbackInfo callbackInfo) =>
                     {
-                        GetEOSConnectInterface()?.RemoveNotifyAuthExpiration(handle);
+                        OnConnectAuthExpiration(ref callbackInfo);
                     });
-                }
+                Debug.Log("[EOS][AuthExp] registered");
+                s_notifyConnectAuthExpirationCallbackHandle = new NotifyEventHandle(callbackHandle, handle =>
+                {
+                    GetEOSConnectInterface()?.RemoveNotifyAuthExpiration(handle);
+                });
             }
+
+
 
             //-------------------------------------------------------------------------
             /// <summary>
@@ -1792,6 +1837,130 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 platformSpecifics?.UpdateNetworkStatus();
             }
+
+            private void CacheLastConnectLoginOptions(Epic.OnlineServices.Connect.LoginOptions connectLoginOptions)
+            {
+                // LoginOptions is a struct: cannot be null.
+                // Credentials is nullable: must validate HasValue.
+                if (!connectLoginOptions.Credentials.HasValue)
+                    return;
+
+                var creds = connectLoginOptions.Credentials.Value;
+
+                s_lastConnectCredentialType = creds.Type;
+
+                // Store a copy (LoginOptions is struct anyway)
+                s_lastConnectLoginOptions = new Epic.OnlineServices.Connect.LoginOptions
+                {
+                    Credentials = creds,
+                    UserLoginInfo = connectLoginOptions.UserLoginInfo
+                };
+            }
+
+
+            private void OnConnectAuthExpiration(ref AuthExpirationCallbackInfo callbackInfo)
+            {
+                Debug.Log($"[EOS][AuthExp] fired t={Time.realtimeSinceStartup:F1} puid={s_lastKnownProductUserId} cred={s_lastConnectCredentialType}");
+                lock (s_connectReauthLock)
+                {
+                    if (s_connectReauthInProgress)
+                    {
+                        Debug.Log("[EOS][AuthExp] ignored (reauth already in progress)");
+                        Log($"{nameof(EOSManager)} Connect auth expiration ignored (reauth already in progress).", LogType.Warning);
+                        return;
+                    }
+                    s_connectReauthInProgress = true;
+                }
+
+                try
+                {
+                    Log($"{nameof(EOSManager)} Connect auth expiration received. CredentialType={s_lastConnectCredentialType}.", LogType.Warning);
+
+                    if (s_lastConnectCredentialType == Epic.OnlineServices.ExternalCredentialType.EpicIdToken)
+                    {
+                        RefreshConnectLoginWithFreshEpicIdToken();
+                    }
+                    else
+                    {
+                        Debug.LogWarning(
+                            $"{nameof(EOSManager)} Connect auth expired but last credential type was {s_lastConnectCredentialType}. " +
+                            $"Plugin cannot refresh that token automatically. Game should re-fetch external token and call StartConnectLoginWithOptions again.");
+                    }
+                }
+                finally
+                {
+                    lock (s_connectReauthLock)
+                    {
+                        s_connectReauthInProgress = false;
+                    }
+                }
+            }
+
+
+            private void RefreshConnectLoginWithFreshEpicIdToken()
+            {
+                var authInterface = GetEOSAuthInterface();
+                var connectInterface = GetEOSConnectInterface();
+
+                if (authInterface == null || connectInterface == null)
+                {
+                    Debug.LogError($"{nameof(EOSManager)} RefreshConnectLoginWithFreshEpicIdToken: Auth/Connect interface is null.");
+                    return;
+                }
+
+                var localEpicUserId = GetLocalUserId();
+                if (localEpicUserId == null)
+                {
+                    Debug.LogError($"{nameof(EOSManager)} RefreshConnectLoginWithFreshEpicIdToken: Local EpicAccountId is null.");
+                    return;
+                }
+
+                var copyIdTokenOptions = new Epic.OnlineServices.Auth.CopyIdTokenOptions
+                {
+                    AccountId = localEpicUserId
+                };
+
+                Epic.OnlineServices.Auth.IdToken? idToken;
+                var copyResult = authInterface.CopyIdToken(ref copyIdTokenOptions, out idToken);
+
+                if (copyResult != Result.Success || !idToken.HasValue)
+                {
+                    Debug.LogError($"{nameof(EOSManager)} RefreshConnectLoginWithFreshEpicIdToken: CopyIdToken failed with {copyResult}.");
+                    return;
+                }
+
+                var jwt = idToken.Value.JsonWebToken;
+                if (string.IsNullOrEmpty(jwt))
+                {
+                    Debug.LogError($"{nameof(EOSManager)} RefreshConnectLoginWithFreshEpicIdToken: JWT is empty.");
+                    return;
+                }
+
+                // Reuse cached UserLoginInfo if present
+                Epic.OnlineServices.Connect.UserLoginInfo? cachedUserLoginInfo = null;
+                if (s_lastConnectLoginOptions.HasValue)
+                    cachedUserLoginInfo = s_lastConnectLoginOptions.Value.UserLoginInfo;
+
+                var refreshedLoginOptions = new Epic.OnlineServices.Connect.LoginOptions
+                {
+                    Credentials = new Epic.OnlineServices.Connect.Credentials
+                    {
+                        Type = Epic.OnlineServices.ExternalCredentialType.EpicIdToken,
+                        Token = jwt
+                    },
+                    UserLoginInfo = cachedUserLoginInfo
+                };
+
+                Log($"{nameof(EOSManager)} RefreshConnectLoginWithFreshEpicIdToken: Re-logging Connect with fresh JWT.", LogType.Warning);
+
+                StartConnectLoginWithOptions(refreshedLoginOptions, null);
+            }
+
+            public void Debug_RefreshConnectLoginWithFreshEpicIdToken()
+            {
+                Debug.Log("[EOS][ReauthTest] Manual reauth triggered");
+                RefreshConnectLoginWithFreshEpicIdToken();
+            }
         }
 #endif
 
@@ -1832,6 +2001,9 @@ namespace PlayEveryWare.EpicOnlineServices
         ///     <item><description>Calls <c>Init()</c></description></item>
         /// </list>
         /// </summary>
+        /// 
+      
+
         void Awake()
         {
             // If there's already been an EOSManager,
