@@ -128,12 +128,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="createOptions"></param>
         public override void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions)
         {
-            string pluginPlatformPath =
-#if UNITY_64
-            "x64";
-#else
-            "x86";
-#endif
+            string pluginPlatformPath ="x64";
 
             if (pluginPlatformPath.Length > 0)
             {
