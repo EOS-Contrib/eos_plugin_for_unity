@@ -33,6 +33,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix: Null Reference Error in Sessions & Matchmaking scene when opening the Friends tab.
 - Fix: Deployment resolution when multiple deployments exist and auto-assign single sandbox to the deployments.
 
+## [5.1.3] - 2026-01-13
+
+### Fixed
+- Fix: UINativeLibVersion.cs compile error
+- Fix: RTC initialization error in the Unity editor on Mac.
+
 ## [5.1.2] - 2025-11-25
 
 ### Added
