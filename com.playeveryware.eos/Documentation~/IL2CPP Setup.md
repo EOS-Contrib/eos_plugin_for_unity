@@ -5,6 +5,8 @@
 Some EOS samples and certain custom implementations may rely on **Newtonsoft.Json** for JSON serialization and deserialization.  
 When building with **IL2CPP** and **Managed Code Stripping** enabled, Unity may remove unused or reflection-referenced members from assemblies.  
 Because Newtonsoft.Json uses reflection heavily, this can lead to missing types at runtime (especially in **Android**, **iOS**, and **WebGL** builds).
+Some parts of the *EOS Unity Plugin (PlayEveryWare)* rely on **type converter classes** that IL2CPP may incorrectly remove.
+This affects several authentication flows, including **Exchange Code Auth** where the login callback may never complete and remain stuck in a state.
 
 This section describes how to **prevent code stripping** and ensure consistent runtime behavior.
 
@@ -29,7 +31,14 @@ You should perform this step if **any of the following are true**:
 
 ```xml
 <linker>
-  <assembly fullname="Newtonsoft.Json" preserve="all" />
+<assembly fullname="Newtonsoft.Json" preserve="all" />
+<assembly fullname="com.playeveryware.eos.core">
+    <type fullname="PlayEveryWare.EpicOnlineServices.ListOfStringsToPlatformFlags" preserve="all"/>
+    <type fullname="PlayEveryWare.EpicOnlineServices.ListOfStringsToAuthScopeFlags" preserve="all"/>
+    <type fullname="PlayEveryWare.EpicOnlineServices.ListOfStringsToIntegratedPlatformManagementFlags" preserve="all"/>
+    <type fullname="PlayEveryWare.EpicOnlineServices.ListOfStringsToInputStateButtonFlags" preserve="all"/>
+    <type fullname="PlayEveryWare.EpicOnlineServices.StringToTypeConverter`1" preserve="all"/>
+</assembly>
 </linker>
 ```
 
