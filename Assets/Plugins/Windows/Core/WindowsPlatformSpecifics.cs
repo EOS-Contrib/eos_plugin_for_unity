@@ -128,10 +128,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="createOptions"></param>
         public override void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions)
         {
-            string pluginPlatformPath ="x64";
+            const pluginPlatformPath ="x64";
 
-            if (pluginPlatformPath.Length > 0)
-            {
                 List<string> pluginPaths = DLLHandle.GetPathsToPlugins();
                 var rtcPlatformSpecificOptions = new WindowsRTCOptionsPlatformSpecificOptions();
                 foreach (string pluginPath in pluginPaths)
@@ -201,7 +199,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     }
                 }
 #endif
-            }
         }
 
 #endif
