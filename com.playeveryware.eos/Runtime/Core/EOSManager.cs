@@ -78,6 +78,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Extensions;
     using System.Diagnostics;
     using System.Globalization;
+    using System.Threading;
     using UnityEngine.Assertions;
     using AddNotifyLoginStatusChangedOptions = Epic.OnlineServices.Auth.AddNotifyLoginStatusChangedOptions;
     using Credentials = Epic.OnlineServices.Auth.Credentials;
@@ -198,15 +199,8 @@ namespace PlayEveryWare.EpicOnlineServices
             static private NotifyEventHandle s_notifyConnectAuthExpirationCallbackHandle;
 
             // --- Connect reauth hardening (prevents PUID churn / P2P route resets) ---
-            static private bool s_connectReauthInProgress = false;
-
-            
-
-            // Last Connect credential type used. Used to decide whether we can auto-refresh on auth expiration.
+            static private int s_connectReauthInProgress = 0;// Last Connect credential type used. Used to decide whether we can auto-refresh on auth expiration.
             static private Epic.OnlineServices.ExternalCredentialType s_lastConnectCredentialType;
-
-            // Optional: keep last successful PUID so we can detect mid-session changes.
-            static private ProductUserId s_lastKnownProductUserId;
 
             // Setting it twice will cause an exception
             static bool hasSetLoggingCallback;
@@ -267,8 +261,14 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <param name="localProductUserId"></param>
             protected void SetLocalProductUserId(ProductUserId localProductUserId)
             {
-                Log("Local ProductUserId changed.");
+                var previous = s_localProductUserId;
                 s_localProductUserId = localProductUserId;
+
+                // Do not log user identifiers (PUID/EAS ids).
+                if (previous != null && localProductUserId != null && !previous.Equals(localProductUserId))
+                {
+                    Log("[EOS] Local ProductUserId changed during runtime. This likely indicates account switch or login with different credentials. Game should tear down/rebuild P2P as needed.", LogType.Error);
+                }
             }
 
             //-------------------------------------------------------------------------
@@ -1196,19 +1196,6 @@ namespace PlayEveryWare.EpicOnlineServices
                             }
 
                             var newPuid = connectLoginData.LocalUserId;
-
-                            if (s_lastKnownProductUserId != null && !s_lastKnownProductUserId.Equals(newPuid))
-                            {
-                                Log(
-                                    "[EOS][PUID] Local ProductUserId changed mid-session. " +
-                                    "This can break P2P socket mapping; refusing to overwrite silently.",
-                                    LogType.Error);
-                                return;
-                            }
-
-                            Log("[EOS][PUID] unchanged (stable across Connect.Login).");
-                            s_lastKnownProductUserId = newPuid;
-
                             SetLocalProductUserId(newPuid);
                             ConfigureConnectStatusCallback();
                             ConfigureConnectExpirationCallback();
@@ -1851,18 +1838,16 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 // Do not log user identifiers (PUID/EAS ids).
                 Log($"[EOS][AuthExp] received. CredentialType={s_lastConnectCredentialType}", LogType.Warning);
-                if (s_connectReauthInProgress)
+
+                // Prevent concurrent re-auth attempts from repeated expiration notifications.
+                if (Interlocked.Exchange(ref s_connectReauthInProgress, 1) == 1)
                 {
                     Log($"{nameof(EOSManager)} Connect auth expiration ignored (reauth already in progress).", LogType.Warning);
                     return;
                 }
 
-                s_connectReauthInProgress = true;
-
                 try
                 {
-                    Log($"{nameof(EOSManager)} Connect auth expiration received. CredentialType={s_lastConnectCredentialType}.", LogType.Warning);
-
                     if (s_lastConnectCredentialType == Epic.OnlineServices.ExternalCredentialType.EpicIdToken)
                     {
                         RefreshConnectLoginWithFreshEpicIdToken();
@@ -1876,20 +1861,15 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
                 finally
                 {
-                    s_connectReauthInProgress = false;
+                    Interlocked.Exchange(ref s_connectReauthInProgress, 0);
                 }
             }
 
+            
             private void RefreshConnectLoginWithFreshEpicIdToken()
             {
                 // NOTE: EOS callbacks are expected to run on the same thread that drives PlatformInterface.Tick().
-                // In typical Unity integrations that's the main thread. We keep this as a simple guard to avoid
-                // reauth/login storms during token refresh.
-                if (s_connectReauthInProgress)
-                    return;
-
-                s_connectReauthInProgress = true;
-
+                // In typical Unity integrations that's the main thread.
                 try
                 {
                     var localEpicUserId = GetLocalUserId();
@@ -1901,9 +1881,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
                     StartConnectLoginWithEpicAccount(localEpicUserId, null);
                 }
-                finally
+                catch(System.Exception ex)
                 {
-                    s_connectReauthInProgress = false;
+                    Log($"{nameof(EOSManager)} {nameof(RefreshConnectLoginWithFreshEpicIdToken)} failed:{ex.GetType().Name}: {ex.Message}",LogType.Error);
                 }
             }
         }
