@@ -198,17 +198,12 @@ namespace PlayEveryWare.EpicOnlineServices
             static private NotifyEventHandle s_notifyConnectAuthExpirationCallbackHandle;
 
             // --- Connect reauth hardening (prevents PUID churn / P2P route resets) ---
-            // NOTE: EOS callbacks are expected to run on the same thread that drives PlatformInterface.Tick().
-            // In typical Unity integrations that's the main thread. We keep this as a simple guard to avoid
-            // reauth/login storms during token refresh.
             static private bool s_connectReauthInProgress = false;
 
-            // IMPORTANT: LoginOptions is a struct, so store it as nullable
-            static private Epic.OnlineServices.Connect.LoginOptions? s_lastConnectLoginOptions;
+            
 
-            // Cache last used credential type
-            static private Epic.OnlineServices.ExternalCredentialType s_lastConnectCredentialType
-                = Epic.OnlineServices.ExternalCredentialType.EpicIdToken;
+            // Last Connect credential type used. Used to decide whether we can auto-refresh on auth expiration.
+            static private Epic.OnlineServices.ExternalCredentialType s_lastConnectCredentialType;
 
             // Optional: keep last successful PUID so we can detect mid-session changes.
             static private ProductUserId s_lastKnownProductUserId;
@@ -1178,10 +1173,9 @@ namespace PlayEveryWare.EpicOnlineServices
             public void StartConnectLoginWithOptions(Epic.OnlineServices.Connect.LoginOptions connectLoginOptions,
                 OnConnectLoginCallback onloginCallback)
             {
+                CacheLastConnectCredentialType(connectLoginOptions);
                 // Do not log user identifiers (PUID/EAS ids).
                 Log($"[EOS][ConnectLogin] start cred={s_lastConnectCredentialType}");
-                // Cache last options for safe re-auth
-                CacheLastConnectLoginOptions(connectLoginOptions);
 
                 var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
                 connectInterface.Login(ref connectLoginOptions, null,
@@ -1192,14 +1186,12 @@ namespace PlayEveryWare.EpicOnlineServices
                             if (connectLoginData.ResultCode != Result.Success)
                             {
                                 Log($"Connect login was not successful. ResultCode: {connectLoginData.ResultCode}", LogType.Error);
-                                OnConnectLogin?.Invoke(connectLoginData);
                                 return;
                             }
 
                             if (connectLoginData.LocalUserId == null)
                             {
                                 Log("Connect login succeeded but LocalUserId is null (unexpected).", LogType.Error);
-                                OnConnectLogin?.Invoke(connectLoginData);
                                 return;
                             }
 
@@ -1211,7 +1203,6 @@ namespace PlayEveryWare.EpicOnlineServices
                                     "[EOS][PUID] Local ProductUserId changed mid-session. " +
                                     "This can break P2P socket mapping; refusing to overwrite silently.",
                                     LogType.Error);
-                                OnConnectLogin?.Invoke(connectLoginData);
                                 return;
                             }
 
@@ -1221,10 +1212,11 @@ namespace PlayEveryWare.EpicOnlineServices
                             SetLocalProductUserId(newPuid);
                             ConfigureConnectStatusCallback();
                             ConfigureConnectExpirationCallback();
-                            OnConnectLogin?.Invoke(connectLoginData);
                         }
                         finally
                         {
+                            // Always notify listeners/caller exactly once, regardless of early returns above.
+                            OnConnectLogin?.Invoke(connectLoginData);
                             onloginCallback?.Invoke(connectLoginData);
                         }
                     });
@@ -1398,10 +1390,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 ulong callbackHandle = eosConnectInterface.AddNotifyAuthExpiration(
                     ref addNotifyAuthExpirationOptions, null,
-                    (ref AuthExpirationCallbackInfo callbackInfo) =>
-                    {
-                        OnConnectAuthExpiration(ref callbackInfo);
-                    });
+                    OnConnectAuthExpiration);
                 Log("[EOS][AuthExp] registered");
                 s_notifyConnectAuthExpirationCallbackHandle = new NotifyEventHandle(callbackHandle, handle =>
                 {
@@ -1840,26 +1829,24 @@ namespace PlayEveryWare.EpicOnlineServices
                 platformSpecifics?.UpdateNetworkStatus();
             }
 
-            private void CacheLastConnectLoginOptions(Epic.OnlineServices.Connect.LoginOptions connectLoginOptions)
+            private void CacheLastConnectCredentialType(Epic.OnlineServices.Connect.LoginOptions connectLoginOptions)
             {
-                // LoginOptions is a struct: cannot be null.
                 // Credentials is nullable: must validate HasValue.
                 if (!connectLoginOptions.Credentials.HasValue)
                     return;
 
-                var creds = connectLoginOptions.Credentials.Value;
-
-                s_lastConnectCredentialType = creds.Type;
-
-                // Store a copy (LoginOptions is struct anyway)
-                s_lastConnectLoginOptions = new Epic.OnlineServices.Connect.LoginOptions
-                {
-                    Credentials = creds,
-                    UserLoginInfo = connectLoginOptions.UserLoginInfo
-                };
+                s_lastConnectCredentialType = connectLoginOptions.Credentials.Value.Type;
             }
 
-
+            /// <summary>
+            /// Handles Connect auth-expiration notifications.
+            ///
+            /// Policy:
+            /// - If the last Connect credential type was EpicIdToken, the plugin can refresh by re-running Connect.Login
+            ///   with a fresh Epic ID token (obtained via Auth.CopyIdToken) and restore Connect state.
+            /// - For other external credential types, the plugin cannot refresh tokens automatically; the game must
+            ///   re-fetch the external token from the platform and call StartConnectLoginWithOptions again.
+            /// </summary>
             private void OnConnectAuthExpiration(ref AuthExpirationCallbackInfo callbackInfo)
             {
                 // Do not log user identifiers (PUID/EAS ids).
@@ -1882,10 +1869,9 @@ namespace PlayEveryWare.EpicOnlineServices
                     }
                     else
                     {
-                        Log(
+                        Debug.LogWarning(
                             $"{nameof(EOSManager)} Connect auth expired but last credential type was {s_lastConnectCredentialType}. " +
-                            "Plugin cannot refresh that token automatically. Game should re-fetch external token and call StartConnectLoginWithOptions again.",
-                            LogType.Warning);
+                            "Plugin cannot refresh that token automatically. Game should re-fetch external token and call StartConnectLoginWithOptions again.");
                     }
                 }
                 finally
@@ -1896,6 +1882,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
             private void RefreshConnectLoginWithFreshEpicIdToken()
             {
+                // NOTE: EOS callbacks are expected to run on the same thread that drives PlatformInterface.Tick().
+                // In typical Unity integrations that's the main thread. We keep this as a simple guard to avoid
+                // reauth/login storms during token refresh.
                 if (s_connectReauthInProgress)
                     return;
 
