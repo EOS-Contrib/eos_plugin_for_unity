@@ -128,7 +128,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="createOptions"></param>
         public override void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions)
         {
-            const pluginPlatformPath ="x64";
+            const string pluginPlatformPath ="x64";
 
                 List<string> pluginPaths = DLLHandle.GetPathsToPlugins();
                 var rtcPlatformSpecificOptions = new WindowsRTCOptionsPlatformSpecificOptions();
