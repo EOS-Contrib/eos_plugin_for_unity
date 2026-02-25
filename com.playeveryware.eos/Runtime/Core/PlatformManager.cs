@@ -56,8 +56,8 @@ namespace PlayEveryWare.EpicOnlineServices
             PS4 = 0x80,
             PS5 = 0x100,
             Switch = 0x200,
-            Switch2 = 0x300,
             Steam = 0x400,
+            Switch2 = 0x800,
             Console = PS4 | PS5 | XboxOne | XboxSeriesX | Switch | Switch2,
             Any = Unknown | Windows | Android | XboxOne | XboxSeriesX | iOS | Linux | macOS | PS4 | PS5 | Switch | Switch2 | Steam
         }
@@ -282,7 +282,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 { RuntimePlatform.GameCoreXboxOne,    Platform.XboxOne},
                 { RuntimePlatform.XboxOne,            Platform.XboxOne},
                 { RuntimePlatform.Switch,             Platform.Switch},
-#if UNITY_6000_0_61_OR_NEWER || UNITY_6000_3_0_OR_NEWER
+#if UNITY_6000_0_61_OR_NEWER || UNITY_6000_3_OR_NEWER
                 { RuntimePlatform.Switch2,            Platform.Switch2},
 #endif
                 { RuntimePlatform.GameCoreXboxSeries, Platform.XboxSeriesX},
@@ -326,8 +326,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 { BuildTarget.PS4,                 Platform.PS4         },
                 { BuildTarget.PS5,                 Platform.PS5         },
                 { BuildTarget.Switch,              Platform.Switch      },
-#if UNITY_6000_0_61_OR_NEWER || UNITY_6000_3_0_OR_NEWER
-                { BuildTarget.Switch2,             Platform.Switch2     },
+#if UNITY_6000_0_61_OR_NEWER || UNITY_6000_3_OR_NEWER
+                { BuildTarget.Switch2,            Platform.Switch2},
 #endif
                 { BuildTarget.StandaloneOSX,       Platform.macOS       },
                 { BuildTarget.StandaloneWindows,   Platform.Windows     },
@@ -478,7 +478,6 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 return value.FullName;
             }
-
             return platform.ToString();
         }
     }
