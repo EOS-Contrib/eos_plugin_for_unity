@@ -9,7 +9,7 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyTitleAttribute(L"ManagedToUnmanagedBridge")];
 [assembly:AssemblyDescriptionAttribute(L"Makes some managed plugin code accessible from a native context.")];
 [assembly:AssemblyConfigurationAttribute(L"")];
-[assembly:AssemblyCompanyAttribute(L"2026 Epic Games Inc")];
+[assembly:AssemblyCompanyAttribute(L"Epic Games Inc")];
 [assembly:AssemblyProductAttribute(L"EOS Plugin for Unity")];
 [assembly:AssemblyCopyrightAttribute(L"Copyright © 2026")];
 [assembly:AssemblyTrademarkAttribute(L"")];
