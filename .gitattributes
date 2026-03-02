@@ -5,7 +5,6 @@
 
 # Files to consider text, and enforce the eol being LF
 *.c text eol=lf
-*.cs diff=csharp text eol=lf
 *.cpp text eol=lf
 *.h text eol=lf
 *.md   text eol=lf
