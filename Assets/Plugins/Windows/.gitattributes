@@ -1,2 +1,0 @@
-x64/*.dll filter=lfs diff=lfs merge=lfs binary
-x86/*.dll filter=lfs diff=lfs merge=lfs binary
