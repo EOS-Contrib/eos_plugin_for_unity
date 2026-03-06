@@ -22,7 +22,7 @@ You can follow the standard <a href="/com.playeveryware.eos/README.md#samples">S
 Please note the details in the <a href="#running-the-samples">Running the samples</a> section when running the samples from a build for Android.  
 
 > [!WARNING] 
-> The EOS Overlay is not implemented yet. When it is (due to the limitations of phones) the EOS Overlay will not be set to be openable by a physical button.
+> The Social Overlay is not implemented yet. However, the Ecom Overlay is supported on mobile as of EOS Unity Plugin 4.1.0.
 
 ## Running the samples
 
