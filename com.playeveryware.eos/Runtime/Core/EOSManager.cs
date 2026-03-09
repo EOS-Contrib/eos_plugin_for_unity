@@ -199,7 +199,8 @@ namespace PlayEveryWare.EpicOnlineServices
             static private NotifyEventHandle s_notifyConnectAuthExpirationCallbackHandle;
 
             // --- Connect reauth hardening (prevents PUID churn / P2P route resets) ---
-            static private int s_connectReauthInProgress = 0;// Last Connect credential type used. Used to decide whether we can auto-refresh on auth expiration.
+            static private int s_connectReauthInProgress = 0;
+            // Last Connect credential type used. Used to decide whether we can auto-refresh on auth expiration.
             static private Epic.OnlineServices.ExternalCredentialType s_lastConnectCredentialType;
 
             // Setting it twice will cause an exception
@@ -264,10 +265,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 var previous = s_localProductUserId;
                 s_localProductUserId = localProductUserId;
 
-                // Do not log user identifiers (PUID/EAS ids).
                 if (previous != null && localProductUserId != null && !previous.Equals(localProductUserId))
                 {
-                    Log("[EOS] Local ProductUserId changed during runtime. This likely indicates account switch or login with different credentials. Game should tear down/rebuild P2P as needed.", LogType.Error);
+                    Log("[EOS] Local ProductUserId changed during runtime. This likely indicates account switch or login with different credentials. Game should tear down/rebuild P2P as needed.", LogType.Warning);
                 }
             }
 
@@ -1174,7 +1174,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 OnConnectLoginCallback onloginCallback)
             {
                 CacheLastConnectCredentialType(connectLoginOptions);
-                // Do not log user identifiers (PUID/EAS ids).
+
                 Log($"[EOS][ConnectLogin] start cred={s_lastConnectCredentialType}");
 
                 var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
@@ -1827,12 +1827,13 @@ namespace PlayEveryWare.EpicOnlineServices
 
             /// <summary>
             /// Handles Connect auth-expiration notifications.
-            ///
-            /// Policy:
-            /// - If the last Connect credential type was EpicIdToken, the plugin can refresh by re-running Connect.Login
-            ///   with a fresh Epic ID token (obtained via Auth.CopyIdToken) and restore Connect state.
-            /// - For other external credential types, the plugin cannot refresh tokens automatically; the game must
-            ///   re-fetch the external token from the platform and call StartConnectLoginWithOptions again.
+            /// Behavior depends on the last Connect credential type used:
+            /// - EpicIdToken:
+            ///   The plugin can recover automatically by obtaining a fresh Epic ID token and re-running Connect.Login.
+            /// - Other external credential types:
+            ///   The plugin cannot refresh the external token automatically because that token must be re-fetched by the game/platform integration. In those cases,
+            ///   the game must obtain a fresh external token and call StartConnectLoginWithOptions again.
+            /// This distinction is important because automatic recovery is only supported for credential flows where the plugin can source a fresh token itself.
             /// </summary>
             private void OnConnectAuthExpiration(ref AuthExpirationCallbackInfo callbackInfo)
             {
@@ -1840,7 +1841,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 Log($"[EOS][AuthExp] received. CredentialType={s_lastConnectCredentialType}", LogType.Warning);
 
                 // Prevent concurrent re-auth attempts from repeated expiration notifications.
-                if (Interlocked.Exchange(ref s_connectReauthInProgress, 1) == 1)
+                if (Interlocked.Exchange(ref s_connectReauthInProgress, 1) > 0)
                 {
                     Log($"{nameof(EOSManager)} Connect auth expiration ignored (reauth already in progress).", LogType.Warning);
                     return;
