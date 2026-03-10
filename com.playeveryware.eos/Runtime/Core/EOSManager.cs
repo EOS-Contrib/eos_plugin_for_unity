@@ -1837,7 +1837,6 @@ namespace PlayEveryWare.EpicOnlineServices
             /// </summary>
             private void OnConnectAuthExpiration(ref AuthExpirationCallbackInfo callbackInfo)
             {
-                // Do not log user identifiers (PUID/EAS ids).
                 Log($"[EOS][AuthExp] received. CredentialType={s_lastConnectCredentialType}", LogType.Warning);
 
                 // Prevent concurrent re-auth attempts from repeated expiration notifications.
