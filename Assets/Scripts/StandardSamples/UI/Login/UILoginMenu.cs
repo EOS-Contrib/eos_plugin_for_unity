@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -104,7 +104,7 @@ using UnityEngine.InputSystem;
             tokenInputField.InputField.onEndEdit.AddListener(CacheTokenField);
 #if UNITY_EDITOR
             loginType = LoginCredentialType.AccountPortal; // Default in editor
-#elif UNITY_SWITCH
+#elif UNITY_SWITCH || UNITY_SWITCH2
             loginType = LoginCredentialType.PersistentAuth; // Default on switch
 #elif UNITY_PS4 || UNITY_PS5 || UNITY_GAMECORE
             loginType = LoginCredentialType.ExternalAuth; // Default on other consoles
@@ -117,7 +117,7 @@ using UnityEngine.InputSystem;
             idInputField.InputField.text = "localhost:7777"; //default on pc
 #endif
 
-#if !ENABLE_INPUT_SYSTEM && (UNITY_XBOXONE || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT || UNITY_PS4 || UNITY_PS5 || UNITY_SWITCH)
+#if !ENABLE_INPUT_SYSTEM && (UNITY_XBOXONE || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT || UNITY_PS4 || UNITY_PS5 || UNITY_SWITCH || UNITY_SWITCH2)
             Debug.LogError("Input currently handled by Input Manager. Input System Package is required for controller support on consoles.");
 #endif
         }
@@ -1030,8 +1030,12 @@ using UnityEngine.InputSystem;
 
                 ///TOO(mendsley): Use activating controller index here
                 psnManager.StartLoginWithPSN(0, StartLoginWithLoginTypeAndTokenCallback);
-#elif UNITY_SWITCH && !UNITY_EDITOR
+#elif (UNITY_SWITCH || UNITY_SWITCH2) && !UNITY_EDITOR
+#if UNITY_SWITCH
                 var nintendoManager = EOSManager.Instance.GetOrCreateManager<EOSNintendoManager>();
+#elif UNITY_SWITCH2
+                var nintendoManager = EOSManager.Instance.GetOrCreateManager<EOSNintendo2Manager>();
+#endif
                 nintendoManager.StartLoginWithNSAPreselectedUser(StartLoginWithLoginTypeAndTokenCallback);
 #elif UNITY_GAMECORE && !UNITY_EDITOR
                 EOSXBLManager xblManager = EOSManager.Instance.GetOrCreateManager<EOSXBLManager>();
@@ -1042,10 +1046,14 @@ using UnityEngine.InputSystem;
             }
             else if (loginType == LoginCredentialType.PersistentAuth)
             {
-#if UNITY_SWITCH && !UNITY_EDITOR
+#if (UNITY_SWITCH || UNITY_SWITCH2) && !UNITY_EDITOR
+#if UNITY_SWITCH
                 var nintendoManager = EOSManager.Instance.GetOrCreateManager<EOSNintendoManager>();
+#elif UNITY_SWITCH2
+                var nintendoManager = EOSManager.Instance.GetOrCreateManager<EOSNintendo2Manager>();
+#endif
                 nintendoManager.StartLoginWithPersistantAuthPreselectedUser((LoginCallbackInfo callbackInfo) =>
-            {
+                {
                     if (callbackInfo.ResultCode == Result.Success)
                     {
                         ConfigureUIForLogout();
@@ -1355,7 +1363,7 @@ using UnityEngine.InputSystem;
             {
                 print("Trying Auth link with external account: " + loginCallbackInfo.ContinuanceToken);
                 EOSManager.Instance.AuthLinkExternalAccountWithContinuanceToken(loginCallbackInfo.ContinuanceToken, 
-#if UNITY_SWITCH
+#if UNITY_SWITCH || UNITY_SWITCH2
                                                                                 LinkAccountFlags.NintendoNsaId,
 #else
                                                                                 LinkAccountFlags.NoFlags,

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -128,15 +128,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="createOptions"></param>
         public override void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions)
         {
-            string pluginPlatformPath =
-#if UNITY_64
-            "x64";
-#else
-            "x86";
-#endif
+            const string pluginPlatformPath ="x64";
 
-            if (pluginPlatformPath.Length > 0)
-            {
                 List<string> pluginPaths = DLLHandle.GetPathsToPlugins();
                 var rtcPlatformSpecificOptions = new WindowsRTCOptionsPlatformSpecificOptions();
                 foreach (string pluginPath in pluginPaths)
@@ -206,7 +199,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     }
                 }
 #endif
-            }
         }
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -67,6 +67,11 @@ namespace PlayEveryWare.EpicOnlineServices
         // code file outside of the context of Unity altogether.
 #if !EXTERNAL_TO_UNITY
         public virtual void InitializeOverlay(IEOSCoroutineOwner owner)
+        {
+            // default behavior is to take no action.
+        }
+
+        public virtual void InitializeNetworkChecks(IEOSCoroutineOwner owner)
         {
             // default behavior is to take no action.
         }

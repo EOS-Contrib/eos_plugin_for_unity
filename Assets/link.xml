@@ -1,3 +1,10 @@
 <linker>
 <assembly fullname="Newtonsoft.Json" preserve="all" />
+<assembly fullname="com.playeveryware.eos.core">
+    <type fullname="PlayEveryWare.EpicOnlineServices.ListOfStringsToPlatformFlags" preserve="all"/>
+    <type fullname="PlayEveryWare.EpicOnlineServices.ListOfStringsToAuthScopeFlags" preserve="all"/>
+    <type fullname="PlayEveryWare.EpicOnlineServices.ListOfStringsToIntegratedPlatformManagementFlags" preserve="all"/>
+    <type fullname="PlayEveryWare.EpicOnlineServices.ListOfStringsToInputStateButtonFlags" preserve="all"/>
+    <type fullname="PlayEveryWare.EpicOnlineServices.StringToTypeConverter`1" preserve="all"/>
+</assembly>
 </linker>

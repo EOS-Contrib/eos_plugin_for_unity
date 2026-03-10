@@ -20,7 +20,7 @@ You can follow the standard <a href="/com.playeveryware.eos/README.md#importing-
 You can follow the standard <a href="/com.playeveryware.eos/README.md#samples">Samples</a> process. Please note the details in the <a href="#running-the-samples">Running the samples</a> section when running the samples from a build for iOS.
 
 > [!WARNING]
-> The EOS Overlay is not yet implemented for iOS.
+> The Social Overlay is not implemented yet. However, the Ecom Overlay is supported on mobile as of EOS Unity Plugin 4.1.0.
 
 ## Running the samples
 

@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ManagedPluginCode")]
 [assembly: AssemblyDescription("Contains managed implementation from within the Unity project EOS Plugin for Unity.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("PlayEveryWare, Inc.")]
+[assembly: AssemblyCompany("Epic Games Inc")]
 [assembly: AssemblyProduct("EOS Plugin for Unity")]
-[assembly: AssemblyCopyright("Copyright © 2024")]
+[assembly: AssemblyCopyright("Copyright © 2026")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("en-US")]
 

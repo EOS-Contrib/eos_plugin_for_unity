@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -46,6 +46,8 @@ namespace PlayEveryWare.EpicOnlineServices
         void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptions);
 
         void InitializeOverlay(IEOSCoroutineOwner owner);
+
+        void InitializeNetworkChecks(IEOSCoroutineOwner owner);
 #endif
 
         void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions);
