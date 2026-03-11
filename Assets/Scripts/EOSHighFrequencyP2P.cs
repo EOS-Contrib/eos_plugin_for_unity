@@ -47,6 +47,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public bool sendActive = false;
         private List<float> dataDump;
+        // Coordinate packets are serialized as: "m<x>,<y>".
+        // The leading "m" identifies a coordinate message.
+        // The payload parser intentionally removes this prefix via Substring(1)
+        // before splitting the remaining "<x>,<y>" values.
         public const string CoordinateMessagePrefix = "m";
         
 #if UNITY_EDITOR
