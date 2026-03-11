@@ -50,4 +50,4 @@ You should perform this step if **any of the following are true**:
 </linker>
 ```
 
-If size is critical, you may scope preservation to specific types/members instead of preserve="all". See [Unity’s Link XML reference](https://docs.unity3d.com/6000.3/Documentation/Manual/managed-code-stripping-xml-formatting.html?).
+If size is critical, you may scope preservation to specific types/members instead of preserve="all". See [Unity’s Link XML reference](https://docs.unity3d.com/Manual/managed-code-stripping-xml-formatting.html).
