@@ -241,7 +241,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 string toReturn = null;
                 if (puid != null)
                 {
-                    toReturn = puid.ToString();
+                    toReturn = EgpiRedactionUtility.RedactIdentifier(puid.ToString());
                 }
 
                 if (toReturn == null)
@@ -347,7 +347,8 @@ namespace PlayEveryWare.EpicOnlineServices
             [Conditional("ENABLE_DEBUG_EOSMANAGER")]
             internal static void Log(string toPrint, LogType type = LogType.Log)
             {
-                Debug.LogFormat(type, LogOption.None, null, toPrint);
+                string sanitizedLog = EgpiRedactionUtility.RedactKnownKeyValueIdentifiers(toPrint);
+                Debug.LogFormat(type, LogOption.None, null, sanitizedLog);
             }
 
             //-------------------------------------------------------------------------
@@ -736,6 +737,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     type = LogType.Warning;
                 }
 
+                string sanitizedMessage = EgpiRedactionUtility.RedactKnownKeyValueIdentifiers(message.Message);
                 Debug.LogFormat(
                     type,
                     LogOption.NoStacktrace,
@@ -743,7 +745,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     dateTime.ToString(DateTimeFormatInfo.InvariantInfo),
                     messageCategory,
                     message.Level,
-                    message.Message);
+                    sanitizedMessage);
             }
 
             //-------------------------------------------------------------------------
@@ -853,7 +855,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 var dateTime = DateTime.Now;
                 var messageCategory = message.Category.Length == 0 ? new Utf8String() : message.Category;
 
-                Log(string.Format("{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, message.Message));
+                string sanitizedMessage = EgpiRedactionUtility.RedactKnownKeyValueIdentifiers(message.Message);
+                Log(string.Format("{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, sanitizedMessage));
             }
 
             //-------------------------------------------------------------------------
