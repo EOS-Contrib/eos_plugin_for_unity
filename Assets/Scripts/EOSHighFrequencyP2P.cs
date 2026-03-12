@@ -49,30 +49,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public bool sendActive = false;
         private List<float> dataDump;
         private const string CoordinateMessagePrefix = "m";
-
-        public static string SerializeCoordinatePacket(float x, float y)
-        {
-            // Coordinate packets are serialized as: "m<x>,<y>".
-            // The leading "m" identifies a coordinate message.
-            return string.Format(CultureInfo.InvariantCulture, "{0}{1},{2}", CoordinateMessagePrefix, x, y);
-        }
-
-        public static bool TryDeserializeCoordinatePacket(string packet, out float x, out float y)
-        {
-            x = 0f;
-            y = 0f;
-
-            if (string.IsNullOrEmpty(packet) || !packet.StartsWith(CoordinateMessagePrefix, StringComparison.Ordinal))
-            {
-                return false;
-            }
-
-            // Remove the CoordinateMessagePrefix via Substring(1) before splitting "<x>,<y>".
-            string[] parts = packet.Substring(1).Split(',');
-            return parts.Length == 2
-                && float.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out x)
-                && float.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out y);
-        }
         
 #if UNITY_EDITOR
         void OnPlayModeChanged(UnityEditor.PlayModeStateChange modeChange)
@@ -421,6 +397,30 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogErrorFormat("P2p (OnIncomingConnectionRequest): error while accepting connection, code: {0}", result);
             }
+        }
+
+        public static string SerializeCoordinatePacket(float x, float y)
+        {
+            // Coordinate packets are serialized as: "m<x>,<y>".
+            // The leading "m" identifies a coordinate message.
+            return string.Format(CultureInfo.InvariantCulture, "{0}{1},{2}", CoordinateMessagePrefix, x, y);
+        }
+
+        public static bool TryDeserializeCoordinatePacket(string packet, out float x, out float y)
+        {
+            x = 0f;
+            y = 0f;
+
+            if (string.IsNullOrEmpty(packet) || !packet.StartsWith(CoordinateMessagePrefix, StringComparison.Ordinal))
+            {
+                return false;
+            }
+
+            // Remove the CoordinateMessagePrefix via Substring(1) before splitting "<x>,<y>".
+            string[] parts = packet.Substring(1).Split(',');
+            return parts.Length == 2
+                && float.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out x)
+                && float.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out y);
         }
     }
 }
