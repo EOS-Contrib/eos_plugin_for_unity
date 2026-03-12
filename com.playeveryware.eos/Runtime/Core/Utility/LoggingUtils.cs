@@ -44,6 +44,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
         }
 
+        public static string Redact<T>(T value, int preserveChars = 3)
+            where T : class
+        {
+            return Redact(value?.ToString(), preserveChars);
+        }
+
         public static string Redact(string value, int preserveChars = 3)
         {
             if (!ShouldRedactValues || string.IsNullOrEmpty(value))

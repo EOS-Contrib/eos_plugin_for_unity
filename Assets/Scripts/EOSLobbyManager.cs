@@ -29,6 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices.Lobby;
     using Epic.OnlineServices.RTC;
     using Epic.OnlineServices.RTCAudio;
+    using PlayEveryWare.EpicOnlineServices.Utility;
 
     public enum LobbyChangeType
     {
@@ -885,9 +886,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             Debug.LogFormat("Lobbies (OnRTCRoomParticipantStatusChanged): LocalUserId={0}, Room={1}, ParticipantUserId={2}, ParticipantStatus={3}, MetadataCount={4}",
-                PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(data.LocalUserId?.ToString()),
+                LoggingUtils.Redact(data.LocalUserId),
                 data.RoomName,
-                PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(data.ParticipantId?.ToString()),
+                LoggingUtils.Redact(data.ParticipantId),
                 data.ParticipantStatus == RTCParticipantStatus.Joined ? "Joined" : "Left",
                 metadataCount);
 
@@ -1228,7 +1229,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             options.LobbyId = CurrentLobby.Id;
             options.LocalUserId = EOSManager.Instance.GetProductUserId();
 
-            Debug.LogFormat("Lobbies (LeaveLobby): Attempting to leave lobby: Id='{0}', LocalUserId='{1}'", options.LobbyId, PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(options.LocalUserId?.ToString()));
+            Debug.LogFormat("Lobbies (LeaveLobby): Attempting to leave lobby: Id='{0}', LocalUserId='{1}'", options.LobbyId, LoggingUtils.Redact(options.LocalUserId));
 
             EOSManager.Instance.GetEOSLobbyInterface().LeaveLobby(ref options, LeaveLobbyCompleted, OnLeaveLobbyCompleted);
         }
@@ -1618,7 +1619,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 // Do not allow multiple local mute toggles at the same time
                 if (lobbyMember.RTCState.MuteActionInProgress)
                 {
-                    Debug.LogWarningFormat("Lobbies (MuteMember): 'MuteActionInProgress' for productUserId {0}.", PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(targetProductUserId?.ToString()));
+                    Debug.LogWarningFormat("Lobbies (MuteMember): 'MuteActionInProgress' for productUserId {0}.", LoggingUtils.Redact(targetProductUserId));
                     MuteMemberCompleted?.Invoke(Result.RequestInProgress);
                     return;
                 }
@@ -1645,7 +1646,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     AudioEnabled = shouldUserBeMuted
                 };
 
-                Debug.LogFormat("Lobbies (MuteMember): {0} remote player {1}", recevingOptions.AudioEnabled ? "Unmuting" : "Muting", PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(targetProductUserId?.ToString()));
+                Debug.LogFormat("Lobbies (MuteMember): {0} remote player {1}", recevingOptions.AudioEnabled ? "Unmuting" : "Muting", LoggingUtils.Redact(targetProductUserId));
 
                 rtcAudioHandle.UpdateReceiving(ref recevingOptions, MuteMemberCompleted, OnRTCRoomUpdateReceivingCompleted);
             }
@@ -1728,7 +1729,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Ensure this update is for us
             if(EOSManager.Instance.GetProductUserId() != data.LocalUserId)
             {
-                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Incorrect LocalUserId! LocalProductId={0} != data.LocalUserId", PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(EOSManager.Instance.GetProductUserId()?.ToString()), PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(data.LocalUserId?.ToString()));
+                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Incorrect LocalUserId! LocalProductId={0} != data.LocalUserId", LoggingUtils.Redact(EOSManager.Instance.GetProductUserId()), LoggingUtils.Redact(data.LocalUserId));
                 return;
             }
 
@@ -1744,7 +1745,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 lobbyMember.RTCState.IsAudioOutputDisabled = data.AudioStatus == RTCAudioStatus.Disabled;
                 lobbyMember.RTCState.MuteActionInProgress = false;
 
-                Debug.LogFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Cache updated for '{0}'", PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(lobbyMember.ProductId?.ToString()));
+                Debug.LogFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Cache updated for '{0}'", LoggingUtils.Redact(lobbyMember.ProductId));
 
                 _Dirty = true;
                 break;
@@ -1771,7 +1772,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Debug.LogFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Updated receiving status successfully. LocalUserId={0} Room={1}, IsMuted={2}", PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(data.LocalUserId?.ToString()), data.RoomName, data.AudioEnabled == false);
+            Debug.LogFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Updated receiving status successfully. LocalUserId={0} Room={1}, IsMuted={2}", LoggingUtils.Redact(data.LocalUserId), data.RoomName, data.AudioEnabled == false);
 
             // Ensure this update is for our room
             if (!CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
@@ -1799,7 +1800,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 CurrentLobby.IsLocalUserDeafened = !data.AudioEnabled;
                 _Dirty = true;
 
-                Debug.LogFormat($"Lobbies (OnRTCRoomUpdateReceivingCompleted): Self-deafen cache updated for '{PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(EOSManager.Instance.GetProductUserId()?.ToString())}' (now {CurrentLobby.IsLocalUserDeafened})");
+                Debug.LogFormat($"Lobbies (OnRTCRoomUpdateReceivingCompleted): Self-deafen cache updated for '{LoggingUtils.Redact(EOSManager.Instance.GetProductUserId())}' (now {CurrentLobby.IsLocalUserDeafened})");
                 return;
             }
 
@@ -1814,7 +1815,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 lobbyMember.RTCState.MuteActionInProgress = false;
                 lobbyMember.RTCState.IsLocalMuted = data.AudioEnabled == false;
 
-                Debug.LogFormat($"Lobbies (OnRTCRoomUpdateReceivingCompleted): Mute cache updated for '{PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(lobbyMember.ProductId?.ToString())}'. (now {lobbyMember.RTCState.IsLocalMuted})");
+                Debug.LogFormat($"Lobbies (OnRTCRoomUpdateReceivingCompleted): Mute cache updated for '{LoggingUtils.Redact(lobbyMember.ProductId)}'. (now {lobbyMember.RTCState.IsLocalMuted})");
 
                 _Dirty = true;
                 break;
@@ -1866,7 +1867,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Ensure this update is for us
             if (EOSManager.Instance.GetProductUserId() != data.LocalUserId)
             {
-                Debug.LogErrorFormat("Lobbies (OnRTCBlockParticipantCompleted): Incorrect LocalUserId! LocalProductId={0} != data.LocalUserId", PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(EOSManager.Instance.GetProductUserId()?.ToString()), PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(data.LocalUserId?.ToString()));
+                Debug.LogErrorFormat("Lobbies (OnRTCBlockParticipantCompleted): Incorrect LocalUserId! LocalProductId={0} != data.LocalUserId", LoggingUtils.Redact(EOSManager.Instance.GetProductUserId()), LoggingUtils.Redact(data.LocalUserId));
                 return;
             }
 
@@ -1881,7 +1882,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 lobbyMember.RTCState.IsBlocked = data.Blocked;
 
-                Debug.LogFormat("Lobbies (OnRTCBlockParticipantCompleted): Cache updated for '{0}'", PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(data.ParticipantId?.ToString()));
+                Debug.LogFormat("Lobbies (OnRTCBlockParticipantCompleted): Cache updated for '{0}'", LoggingUtils.Redact(data.ParticipantId));
 
                 _Dirty = true;
                 break;

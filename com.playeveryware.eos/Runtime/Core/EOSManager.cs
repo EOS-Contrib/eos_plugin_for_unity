@@ -74,6 +74,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.UI;
 
     using Epic.OnlineServices.Presence;
+    using PlayEveryWare.EpicOnlineServices.Utility;
 
     using Extensions;
     using System.Diagnostics;
