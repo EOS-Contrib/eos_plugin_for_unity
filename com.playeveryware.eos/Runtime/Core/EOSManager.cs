@@ -199,6 +199,7 @@ namespace PlayEveryWare.EpicOnlineServices
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectAuthExpirationCallbackHandle;
+            static private Action s_connectLoginRefreshAction;
 
             // Setting it twice will cause an exception
             static bool hasSetLoggingCallback;
@@ -1075,6 +1076,11 @@ namespace PlayEveryWare.EpicOnlineServices
             /// </param>
             public async void StartConnectLoginWithEpicAccount(EpicAccountId epicAccountId, OnConnectLoginCallback onConnectLoginCallback)
             {
+                s_connectLoginRefreshAction = () =>
+                {
+                    StartConnectLoginWithEpicAccount(epicAccountId, null);
+                };
+
                 var authInterface = GetEOSPlatformInterface().GetAuthInterface();
 
                 var idOpts = new Epic.OnlineServices.Auth.CopyIdTokenOptions
@@ -1118,6 +1124,11 @@ namespace PlayEveryWare.EpicOnlineServices
             public void StartConnectLoginWithOptions(ExternalCredentialType externalCredentialType, string token,
                 string displayname = null, string nsaIdToken = null, OnConnectLoginCallback onloginCallback = null)
             {
+                s_connectLoginRefreshAction = () =>
+                {
+                    StartConnectLoginWithOptions(externalCredentialType, token, displayname, nsaIdToken, null);
+                };
+
                 var loginOptions = new Epic.OnlineServices.Connect.LoginOptions();
                 loginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
                 {
@@ -1173,6 +1184,12 @@ namespace PlayEveryWare.EpicOnlineServices
             public void StartConnectLoginWithOptions(Epic.OnlineServices.Connect.LoginOptions connectLoginOptions,
                 OnConnectLoginCallback onloginCallback)
             {
+                var loginOptionsToRefresh = CloneConnectLoginOptions(connectLoginOptions);
+                s_connectLoginRefreshAction = () =>
+                {
+                    StartConnectLoginWithOptions(loginOptionsToRefresh, null);
+                };
+
                 var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
                 connectInterface.Login(ref connectLoginOptions, null,
                     (ref Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginData) =>
@@ -1229,6 +1246,28 @@ namespace PlayEveryWare.EpicOnlineServices
                             completionDelegate(ref data);
                         }
                     });
+            }
+
+            //-------------------------------------------------------------------------
+            private static Epic.OnlineServices.Connect.LoginOptions CloneConnectLoginOptions(Epic.OnlineServices.Connect.LoginOptions loginOptions)
+            {
+                return new Epic.OnlineServices.Connect.LoginOptions
+                {
+                    Credentials = loginOptions.Credentials,
+                    UserLoginInfo = loginOptions.UserLoginInfo,
+                };
+            }
+
+            //-------------------------------------------------------------------------
+            private void RefreshConnectLoginSession()
+            {
+                if (s_connectLoginRefreshAction == null)
+                {
+                    Log($"{nameof(EOSManager)} {nameof(RefreshConnectLoginSession)}: Unable to refresh Connect login because no refresh action is available.", LogType.Error);
+                    return;
+                }
+
+                s_connectLoginRefreshAction.Invoke();
             }
 
             //-------------------------------------------------------------------------
@@ -1364,7 +1403,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     ulong callbackHandle = EOSConnectInterface.AddNotifyAuthExpiration(
                         ref addNotifyAuthExpirationOptions, null, (ref AuthExpirationCallbackInfo callbackInfo) =>
                         {
-                            StartConnectLoginWithOptions(connectLoginOptions, null);
+                            RefreshConnectLoginSession();
                         });
 
                     s_notifyConnectAuthExpirationCallbackHandle = new NotifyEventHandle(callbackHandle, handle =>
