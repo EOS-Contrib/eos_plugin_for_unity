@@ -532,7 +532,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
         private void OnPeerConnectionEstablished(ref OnPeerConnectionEstablishedInfo info)
         {
-            Debug.Log($"[P2P] Connection established with {info.RemoteUserId}");
+            Debug.Log($"[P2P] Connection established with {PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(info.RemoteUserId?.ToString())}");
 
             if (!connectionStates.ContainsKey(info.RemoteUserId))
             {

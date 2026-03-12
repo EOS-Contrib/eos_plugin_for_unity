@@ -182,12 +182,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 if (currentLobby.IsOwner(localUserId))
                 {
-                    Debug.LogFormat("EACLobbyTest (OnPeerActionRequired): kicking user for cheating, id: {0}, reason: {1}", peerUserId.ToString(), data.ActionReasonDetailsString);
+                    Debug.LogFormat("EACLobbyTest (OnPeerActionRequired): kicking user for cheating, id: {0}, reason: {1}", PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(peerUserId?.ToString()), data.ActionReasonDetailsString);
                     LobbyManager.KickMember(peerUserId, null);
                 }
                 else if (currentLobby.IsOwner(peerUserId))
                 {
-                    Debug.LogFormat("EACLobbyTest (OnPeerActionRequired): leaving lobby due to owner cheating, id: {0}, reason: {1}", peerUserId.ToString(), data.ActionReasonDetailsString);
+                    Debug.LogFormat("EACLobbyTest (OnPeerActionRequired): leaving lobby due to owner cheating, id: {0}, reason: {1}", PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(peerUserId?.ToString()), data.ActionReasonDetailsString);
                     LobbyManager.LeaveLobby(null);
                 }
             }      

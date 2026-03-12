@@ -138,7 +138,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             ProductUserId userId = GetUserId(clientId);
 
-            Log($"EOSP2PTransport.Send: [ClientId='{clientId}', UserId='{userId}', PayloadBytes='{payload.Count}', SendTimeSec='{Time.realtimeSinceStartup}']");
+            Log($"EOSP2PTransport.Send: [ClientId='{clientId}', UserId='{PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(userId?.ToString())}', PayloadBytes='{payload.Count}', SendTimeSec='{Time.realtimeSinceStartup}']");
 
             Epic.OnlineServices.P2P.PacketReliability reliability = Epic.OnlineServices.P2P.PacketReliability.ReliableOrdered;
             if (networkDelivery == NetworkDelivery.Unreliable)
@@ -196,7 +196,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 payload = new ArraySegment<byte>();
                 receiveTime = Time.realtimeSinceStartup;
                 NetworkEvent networkEventType = evntIsConnectionEvent ? NetworkEvent.Connect : NetworkEvent.Disconnect;
-                Log($"EOSP2PTransport.PollEvent: [{networkEventType}, ClientId='{clientId}', UserId='{evntUserId}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
+                Log($"EOSP2PTransport.PollEvent: [{networkEventType}, ClientId='{clientId}', UserId='{PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(evntUserId?.ToString())}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
                 return networkEventType;
             }
 
@@ -208,7 +208,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 clientId = GetTransportId(userId);
                 payload = new ArraySegment<byte>(packet);
                 receiveTime = Time.realtimeSinceStartup;
-                Log($"EOSP2PTransport.PollEvent: [{NetworkEvent.Data}, ClientId='{clientId}', UserId='{userId}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
+                Log($"EOSP2PTransport.PollEvent: [{NetworkEvent.Data}, ClientId='{clientId}', UserId='{PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(userId?.ToString())}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
                 return NetworkEvent.Data;
             }
 
@@ -253,12 +253,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 // Attempt to connect to the server hosted by ServerUserId - was the request successfully initiated?
                 if (result = P2PManager.OpenConnection(ServerUserId, P2PSocketName))
                 {
-                    Log($"EOSP2PTransport.StartClient: Successful Client start up - REQUESTED outgoing '{P2PSocketName}' socket connection with Server UserId Server UserId='{ServerUserId}'.");
+                    Log($"EOSP2PTransport.StartClient: Successful Client start up - REQUESTED outgoing '{P2PSocketName}' socket connection with Server UserId Server UserId='{PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(ServerUserId?.ToString())}'.");
                     result = true;
                 }
                 else
                 {
-                    LogError($"EOSP2PTransport.StartClient: Failed Client start up - Unable to initiate a connect request with Server UserId='{ServerUserId}'.");
+                    LogError($"EOSP2PTransport.StartClient: Failed Client start up - Unable to initiate a connect request with Server UserId='{PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(ServerUserId?.ToString())}'.");
                 }
             }
             else
@@ -277,7 +277,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         public override bool StartServer()
         {
             Debug.Assert(IsInitialized);
-            Log($"EOSP2PTransport.StartServer: Entering Server mode with EOS UserId='{OurUserId}'.");
+            Log($"EOSP2PTransport.StartServer: Entering Server mode with EOS UserId='{PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(OurUserId?.ToString())}'.");
 #if UNITY_EDITOR
             ServerUserIDForCopying = OurUserId.ToString();
 #endif
@@ -304,7 +304,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             ProductUserId userId = GetUserId(clientId);
 
-            Log($"EOSP2PTransport.DisconnectRemoteClient: Disconnecting ClientId='{clientId}' (UserId='{userId}') from our Server.");
+            Log($"EOSP2PTransport.DisconnectRemoteClient: Disconnecting ClientId='{clientId}' (UserId='{PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(userId?.ToString())}') from our Server.");
             P2PManager.CloseConnection(userId, P2PSocketName, true);
         }
 
@@ -316,7 +316,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             Debug.Assert(IsInitialized);
             Debug.Assert(IsServer == false);
 
-            Log($"EOSP2PTransport.DisconnectLocalClient: Disconnecting our Client from the Server (UserId='{ServerUserId}').");
+            Log($"EOSP2PTransport.DisconnectLocalClient: Disconnecting our Client from the Server (UserId='{PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(ServerUserId?.ToString())}').");
             P2PManager.CloseConnection(ServerUserId, P2PSocketName, true);
         }
 
@@ -464,13 +464,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             if (IsServer && socketName == P2PSocketName)
             {
                 // Accept connection request
-                Log($"EOSP2PTransport.OnIncomingConnectionRequestedCallback: ACCEPTING incoming '{socketName}' socket connection request from UserId='{userId}'.");
+                Log($"EOSP2PTransport.OnIncomingConnectionRequestedCallback: ACCEPTING incoming '{socketName}' socket connection request from UserId='{PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(userId?.ToString())}'.");
                 P2PManager.OpenConnection(userId, socketName);
             }
             else
             {
                 // Reject connection request
-                Log($"EOSP2PTransport.OnIncomingConnectionRequestedCallback: REJECTING incoming '{socketName}' socket connection request from UserId='{userId}'.");
+                Log($"EOSP2PTransport.OnIncomingConnectionRequestedCallback: REJECTING incoming '{socketName}' socket connection request from UserId='{PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(userId?.ToString())}'.");
                 P2PManager.CloseConnection(userId, socketName);
             }
         }
@@ -484,7 +484,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         {
             Debug.Assert(IsInitialized);
 
-            Log($"EOSP2PTransport.OnConnectionOpenedCallback: '{socketName}' socket connection OPENED with UserId='{userId}'.");
+            Log($"EOSP2PTransport.OnConnectionOpenedCallback: '{socketName}' socket connection OPENED with UserId='{PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(userId?.ToString())}'.");
             if (socketName == P2PSocketName)
             {
                 if (IsServer)
@@ -520,7 +520,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         {
             Debug.Assert(IsInitialized);
 
-            Log($"EOSP2PTransport.OnConnectionClosedCallback: '{socketName}' socket connection CLOSED with UserId='{userId}'.");
+            Log($"EOSP2PTransport.OnConnectionClosedCallback: '{socketName}' socket connection CLOSED with UserId='{PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(userId?.ToString())}'.");
             if (socketName == P2PSocketName)
             {
                 // We're the Server?
@@ -623,7 +623,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             if (IsServer == false)
             {
                 Debug.AssertFormat(userId == ServerUserId, "EOSP2PTransport.GetClientId: Unexpected UserId='{0}' given - We're a Client so we should only be dealing with the Server by definition (Server UserId='{1}').",
-                                   userId, ServerUserId);
+                                   PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(userId?.ToString()), PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(ServerUserId?.ToString()));
                 return ServerClientId;
             }
             else

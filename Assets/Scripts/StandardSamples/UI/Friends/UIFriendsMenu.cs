@@ -292,7 +292,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Friends
         public void FriendsOverlayOnClick()
         {
-            Debug.Log("FriendsOverlayOnClick: IsValid=" + EOSManager.Instance.GetLocalUserId().IsValid() + ", accountId" + EOSManager.Instance.GetLocalUserId().ToString());
+            Debug.Log("FriendsOverlayOnClick: IsValid=" + EOSManager.Instance.GetLocalUserId().IsValid() + ", accountId=" + PlayEveryWare.EpicOnlineServices.Utility.LoggingUtils.Redact(EOSManager.Instance.GetLocalUserId()?.ToString()));
             FriendsManager.ShowFriendsOverlay(null);
         }
 

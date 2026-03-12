@@ -241,7 +241,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 string toReturn = null;
                 if (puid != null)
                 {
-                    toReturn = EgpiRedactionUtility.RedactIdentifier(puid.ToString());
+                    toReturn = puid.ToString();
                 }
 
                 if (toReturn == null)
@@ -259,8 +259,8 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <param name="localProductUserId"></param>
             protected void SetLocalProductUserId(ProductUserId localProductUserId)
             {
-                Log("Changing PUID: " + PUIDToString(s_localProductUserId) + " => " +
-                      PUIDToString(localProductUserId));
+                Log("Changing PUID: " + LoggingUtils.Redact(PUIDToString(s_localProductUserId)) + " => " +
+                      LoggingUtils.Redact(PUIDToString(localProductUserId)));
                 s_localProductUserId = localProductUserId;
             }
 
@@ -347,8 +347,7 @@ namespace PlayEveryWare.EpicOnlineServices
             [Conditional("ENABLE_DEBUG_EOSMANAGER")]
             internal static void Log(string toPrint, LogType type = LogType.Log)
             {
-                string sanitizedLog = EgpiRedactionUtility.RedactKnownKeyValueIdentifiers(toPrint);
-                Debug.LogFormat(type, LogOption.None, null, sanitizedLog);
+                Debug.LogFormat(type, LogOption.None, null, toPrint);
             }
 
             //-------------------------------------------------------------------------
@@ -737,7 +736,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     type = LogType.Warning;
                 }
 
-                string sanitizedMessage = EgpiRedactionUtility.RedactKnownKeyValueIdentifiers(message.Message);
                 Debug.LogFormat(
                     type,
                     LogOption.NoStacktrace,
@@ -745,7 +743,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     dateTime.ToString(DateTimeFormatInfo.InvariantInfo),
                     messageCategory,
                     message.Level,
-                    sanitizedMessage);
+                    message.Message);
             }
 
             //-------------------------------------------------------------------------
@@ -855,8 +853,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 var dateTime = DateTime.Now;
                 var messageCategory = message.Category.Length == 0 ? new Utf8String() : message.Category;
 
-                string sanitizedMessage = EgpiRedactionUtility.RedactKnownKeyValueIdentifiers(message.Message);
-                Log(string.Format("{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, sanitizedMessage));
+                Log(string.Format("{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, message.Message));
             }
 
             //-------------------------------------------------------------------------
