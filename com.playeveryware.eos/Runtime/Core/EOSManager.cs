@@ -199,6 +199,7 @@ namespace PlayEveryWare.EpicOnlineServices
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectAuthExpirationCallbackHandle;
+            static private bool s_isConnectAuthExpirationLoginInProgress;
 
             // Setting it twice will cause an exception
             static bool hasSetLoggingCallback;
@@ -1000,6 +1001,8 @@ namespace PlayEveryWare.EpicOnlineServices
                         SetLocalProductUserId(createUserCallbackInfo.LocalUserId);
                     }
 
+                    s_isConnectAuthExpirationLoginInProgress = false;
+
                     if (onCreateUserCallback != null)
                     {
                         onCreateUserCallback(createUserCallbackInfo);
@@ -1177,6 +1180,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 connectInterface.Login(ref connectLoginOptions, null,
                     (ref Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginData) =>
                     {
+                        s_isConnectAuthExpirationLoginInProgress = false;
+
                         if (connectLoginData.ResultCode != Result.Success)
                         {
                             Log($"Connect login was not successful. ResultCode: {connectLoginData.ResultCode}", LogType.Error);
@@ -1364,6 +1369,12 @@ namespace PlayEveryWare.EpicOnlineServices
                     ulong callbackHandle = EOSConnectInterface.AddNotifyAuthExpiration(
                         ref addNotifyAuthExpirationOptions, null, (ref AuthExpirationCallbackInfo callbackInfo) =>
                         {
+                            if (s_isConnectAuthExpirationLoginInProgress)
+                            {
+                                return;
+                            }
+
+                            s_isConnectAuthExpirationLoginInProgress = true;
                             StartConnectLoginWithOptions(connectLoginOptions, null);
                         });
 
