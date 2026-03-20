@@ -73,6 +73,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.TitleStorage
 
         /// <summary>
         /// Queries the title storage with known tags that should retrieve the default items.
+        /// Default items are 3 files using tags "TXT" and/or "Tag1" uploaded to the deployment being used.
         /// </summary>
         [UnityTest]
         [Category(TestCategories.SoloCategory)]
