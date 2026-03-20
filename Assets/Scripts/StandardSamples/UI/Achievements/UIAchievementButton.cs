@@ -36,8 +36,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void SetIconTexture(Texture2D texture)
         {
+            if (this == null || IconImage == null)
+            {
+                return;
+            }
+
             IconImage.texture = texture;
-            LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
+            RectTransform rectTransform = GetComponent<RectTransform>();
+            if (rectTransform != null)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
+            }
         }
 
         public void SetNameText(string Text)

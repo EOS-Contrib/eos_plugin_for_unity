@@ -52,6 +52,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private bool displayDefinition = false;
         private int displayIndex = -1;
+        private int refreshGeneration = 0;
+        private bool isBeingDestroyed = false;
 
         class AchievementData
         {
@@ -77,6 +79,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         protected override void OnDestroy()
         {
+            isBeingDestroyed = true;
+            refreshGeneration++;
             base.OnDestroy();
             AchievementsService.Instance.Updated -= OnAchievementDataUpdated;
         }
@@ -118,6 +122,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Achievements
         private async void OnAchievementDataUpdated()
         {
+            int currentRefreshGeneration = ++refreshGeneration;
+
             foreach (var item in achievementListItems)
             {
                 if (null == item)
@@ -160,20 +166,40 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 List<AchievementData> achievementDataListCopy = new(achievementDataList);
                 foreach (var achievementData in achievementDataListCopy)
                 {
-                    await AddAchievementButton(achievementData);
+                    if (!IsMenuAlive() || currentRefreshGeneration != refreshGeneration)
+                    {
+                        return;
+                    }
+
+                    await AddAchievementButton(achievementData, currentRefreshGeneration);
                 }
             }
             else
             {
+                if (!IsMenuAlive() || definitionsDescription == null)
+                {
+                    return;
+                }
+
                 definitionsDescription.text = "No Achievements Found";
                 definitionsDescription.gameObject.SetActive(true);
+            }
+
+            if (!IsMenuAlive() || currentRefreshGeneration != refreshGeneration)
+            {
+                return;
             }
 
             RefreshDisplayingDefinition();
         }
 
-        private async Task AddAchievementButton(AchievementData achievement)
+        private async Task AddAchievementButton(AchievementData achievement, int currentRefreshGeneration)
         {
+            if (!IsMenuAlive())
+            {
+                return;
+            }
+
             string achievementId = achievement.Definition.AchievementId;
             
             var button = Instantiate(itemTemplate, achievementListContainer);
@@ -188,12 +214,37 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             achievement.UnlockedIcon = 
                 await AchievementsService.Instance.GetAchievementUnlockedIconTexture(achievementId);
 
+            if (!IsMenuAlive() || currentRefreshGeneration != refreshGeneration || button == null)
+            {
+                if (button != null)
+                {
+                    Destroy(button.gameObject);
+                }
+
+                return;
+            }
+
             achievement.LockedIcon =
                 await AchievementsService.Instance.GetAchievementLockedIconTexture(achievementId);
+
+            if (!IsMenuAlive() || currentRefreshGeneration != refreshGeneration || button == null)
+            {
+                if (button != null)
+                {
+                    Destroy(button.gameObject);
+                }
+
+                return;
+            }
 
             Texture2D iconTexture = unlocked ? achievement.UnlockedIcon : achievement.LockedIcon;
 
             button.SetIconTexture(iconTexture);
+        }
+
+        private bool IsMenuAlive()
+        {
+            return !isBeingDestroyed && this != null && gameObject != null;
         }
 
         public void OnShowDefinitionChanged(bool value)
@@ -253,8 +304,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //Show player-specific achievement data
         void DisplayPlayerAchievement(DefinitionV2 definition)
         {
+            var localProductUserId = EOSManager.Instance.GetProductUserId();
+            if (localProductUserId == null || !localProductUserId.IsValid())
+            {
+                definitionsDescription.text = "Player achievement info is unavailable because the current ProductUserId is null or invalid. Re-run the Connect login flow and refresh achievements.";
+                definitionsDescription.gameObject.SetActive(true);
+                achievementUnlockedIcon.gameObject.SetActive(false);
+                achievementLockedIcon.gameObject.SetActive(false);
+                unlockAchievementButton.interactable = false;
+                return;
+            }
+
             PlayerAchievement? achievementNullable = null;
-            foreach (var ach in AchievementsService.Instance.CachedPlayerAchievements(EOSManager.Instance.GetProductUserId()))
+            foreach (var ach in AchievementsService.Instance.CachedPlayerAchievements(localProductUserId))
             {
                 if (ach.AchievementId == definition.AchievementId)
                 {

@@ -35,6 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices;
     using Epic.OnlineServices.Achievements;
     using System.Threading.Tasks;
+    using System.Threading;
     using Debug = UnityEngine.Debug;
 
     /// <summary>
@@ -58,6 +59,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Maps a given user to a list of player achievements.
         /// </summary>
         private ConcurrentDictionary<ProductUserId, List<PlayerAchievement>> _playerAchievements = new();
+
+        /// <summary>
+        /// Serializes recovery attempts so multiple achievement requests do not
+        /// try to reconnect Connect/Auth at the same time after expiration.
+        /// </summary>
+        private readonly SemaphoreSlim _connectRecoverySemaphore = new(1, 1);
 
         #region Singleton Implementation
 
@@ -130,11 +137,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         protected async override Task InternalRefreshAsync()
         {
-            if (!TryGetProductUserId(out ProductUserId productUser)) 
+            ProductUserId productUserId = await EnsureValidProductUserIdAsync();
+            if (productUserId == null || !productUserId.IsValid())
             {
                 return;
             }
-            ProductUserId productUserId = EOSManager.Instance.GetProductUserId();
+
             _achievements = await QueryAchievementsAsync(productUserId);
 
             // If the user is not in the list, then add it.
@@ -287,6 +295,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </returns>
         private Task<List<PlayerAchievement>> QueryPlayerAchievementsAsync(ProductUserId productUserId)
         {
+            return QueryPlayerAchievementsWithReconnectAsync(productUserId, false);
+        }
+
+        private async Task<List<PlayerAchievement>> QueryPlayerAchievementsWithReconnectAsync(ProductUserId productUserId, bool retryingAfterReconnect)
+        {
+            productUserId = await EnsureValidProductUserIdAsync();
+            if (productUserId == null || !productUserId.IsValid())
+            {
+                return new List<PlayerAchievement>();
+            }
+
             Log($"Begin query player achievements for {ProductUserIdToString(productUserId)}");
 
             QueryPlayerAchievementsOptions options = new()
@@ -295,22 +314,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 TargetUserId = productUserId
             };
 
-            TaskCompletionSource<List<PlayerAchievement>> tcs = new();
+            TaskCompletionSource<Result> tcs = new();
 
             GetEOSAchievementInterface().QueryPlayerAchievements(ref options, null, (ref OnQueryPlayerAchievementsCompleteCallbackInfo data) =>
             {
-                if (data.ResultCode != Result.Success)
-                {
-                    Log($"Error querying player achievements. Result code: {data.ResultCode}");
-                    tcs.SetResult(new List<PlayerAchievement>());
-                }
-                else
-                {
-                    tcs.SetResult(GetCachedPlayerAchievements(productUserId));
-                }
+                tcs.TrySetResult(data.ResultCode);
             });
 
-            return tcs.Task;
+            Result result = await tcs.Task;
+            if (result == Result.Success)
+            {
+                return GetCachedPlayerAchievements(productUserId);
+            }
+
+            if (!retryingAfterReconnect && ShouldRetryAfterReconnect(result))
+            {
+                ProductUserId recoveredProductUserId = await EnsureValidProductUserIdAsync(true);
+                if (recoveredProductUserId != null && recoveredProductUserId.IsValid())
+                {
+                    return await QueryPlayerAchievementsWithReconnectAsync(recoveredProductUserId, true);
+                }
+            }
+
+            return new List<PlayerAchievement>();
         }
 
         /// <summary>
@@ -361,6 +387,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </returns>
         private async Task<Texture2D> GetAchievementIconTexture(string achievementId, Func<DefinitionV2, string> uriSelector)
         {
+            if (string.IsNullOrWhiteSpace(achievementId))
+            {
+                Debug.LogWarning($"{nameof(AchievementsService)} {nameof(GetAchievementIconTexture)}: Cannot fetch achievement icon because the achievement id is null or empty.");
+                return null;
+            }
+
             Texture2D textureFromBytes = null;
             
             foreach (var achievementDef in _achievements)
@@ -369,10 +401,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     continue;
 
                 var uri = uriSelector(achievementDef);
+                if (string.IsNullOrWhiteSpace(uri))
+                {
+                    Debug.LogWarning($"{nameof(AchievementsService)} {nameof(GetAchievementIconTexture)}: Achievement '{achievementId}' does not define an icon URL for the requested state.");
+                    break;
+                }
+
                 byte[] iconBytes = null;
 
                 // Download the data
-                if (!_downloadCache.ContainsKey(uri))
+                if (!_downloadCache.TryGetValue(uri, out iconBytes))
                 {
                     TaskCompletionSource<byte[]> downloadTcs = new();
 
@@ -395,11 +433,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         _downloadCache[uri] = iconBytes;
                     }
                 }
-                else
-                {
-                    _downloadCache.TryGetValue(uri, out iconBytes);
-                }
-
 
                 if (null != iconBytes)
                 {
@@ -502,6 +535,25 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </param>
         public Task<PlayerAchievement> UnlockAchievementAsync(string achievementId)
         {
+            return UnlockAchievementInternalAsync(achievementId, false);
+        }
+
+        private async Task<PlayerAchievement> UnlockAchievementInternalAsync(string achievementId, bool retryingAfterReconnect)
+        {
+            if (string.IsNullOrWhiteSpace(achievementId))
+            {
+                throw new ArgumentException("Achievement id must not be null or empty.", nameof(achievementId));
+            }
+
+            if (_achievements.Count == 0)
+            {
+                ProductUserId refreshedProductUserId = await EnsureValidProductUserIdAsync();
+                if (refreshedProductUserId != null && refreshedProductUserId.IsValid())
+                {
+                    _achievements = await QueryAchievementsAsync(refreshedProductUserId);
+                }
+            }
+
             DefinitionV2? definition = null;
             for (int i = 0; i < _achievements.Count; i++)
             {
@@ -515,61 +567,152 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (!definition.HasValue)
             {
-                return Task.FromException<PlayerAchievement>(new Exception($"Achievement definition not found for ID: {achievementId}"));
+                ProductUserId refreshedProductUserId = await EnsureValidProductUserIdAsync();
+                if (refreshedProductUserId != null && refreshedProductUserId.IsValid())
+                {
+                    _achievements = await QueryAchievementsAsync(refreshedProductUserId);
+
+                    for (int i = 0; i < _achievements.Count; i++)
+                    {
+                        DefinitionV2 otherDefinition = _achievements[i];
+                        if (otherDefinition.AchievementId == achievementId)
+                        {
+                            definition = otherDefinition;
+                            break;
+                        }
+                    }
+                }
             }
 
-            var localUserId = EOSManager.Instance.GetProductUserId();
+            if (!definition.HasValue)
+            {
+                throw new Exception($"Achievement definition not found for ID: {achievementId}");
+            }
+
+            var localUserId = await EnsureValidProductUserIdAsync();
+            if (localUserId == null || !localUserId.IsValid())
+            {
+                throw new InvalidOperationException("Cannot unlock achievements because the local ProductUserId is null or invalid and automatic Connect recovery did not succeed.");
+            }
+
             var eosAchievementOption = new UnlockAchievementsOptions
             {
                 UserId = localUserId,
                 AchievementIds = new Utf8String[] { definition.Value.AchievementId }
             };
 
-            var tcs = new TaskCompletionSource<PlayerAchievement>();
+            var tcs = new TaskCompletionSource<Result>();
 
             GetEOSAchievementInterface().UnlockAchievements(ref eosAchievementOption, null,
                 (ref OnUnlockAchievementsCompleteCallbackInfo data) =>
                 {
-                    if (data.ResultCode != Result.Success)
+                    tcs.TrySetResult(data.ResultCode);
+                });
+
+            Result unlockResult = await tcs.Task;
+            if (unlockResult != Result.Success)
+            {
+                if (!retryingAfterReconnect && ShouldRetryAfterReconnect(unlockResult))
+                {
+                    await EnsureValidProductUserIdAsync(true);
+                    return await UnlockAchievementInternalAsync(achievementId, true);
+                }
+
+                throw new Exception($"Could not unlock achievement. Error code: {Enum.GetName(typeof(Result), unlockResult)}");
+            }
+
+            var achievement = new PlayerAchievement()
+            {
+                AchievementId = definition.Value.AchievementId,
+                DisplayName = definition.Value.UnlockedDisplayName,
+                Description = definition.Value.UnlockedDescription,
+                Progress = 1.0,
+                UnlockTime = DateTime.UtcNow,
+                StatInfo = null
+            };
+
+            _playerAchievements.AddOrUpdate(localUserId,
+                new List<PlayerAchievement> { achievement },
+                (id, list) =>
+                {
+                    int index = list.FindIndex(a => a.AchievementId == achievement.AchievementId);
+                    if (index >= 0)
                     {
-                        tcs.SetException(new Exception($"Could not unlock achievement. Error code: {Enum.GetName(typeof(Result), data.ResultCode)}"));
+                        list[index] = achievement;
                     }
                     else
                     {
-                        var achievement = new PlayerAchievement()
-                        {
-                            AchievementId = definition.Value.AchievementId,
-                            DisplayName = definition.Value.UnlockedDisplayName,
-                            Description = definition.Value.UnlockedDescription,
-                            Progress = 1.0,
-                            UnlockTime = DateTime.UtcNow,
-                            StatInfo = null
-                        };
-
-                        _playerAchievements.AddOrUpdate(localUserId,
-                            new List<PlayerAchievement> { achievement },
-                            (id, list) =>
-                            {
-                                int index = list.FindIndex(a => a.AchievementId == achievement.AchievementId);
-                                if (index >= 0)
-                                {
-                                    list[index] = achievement;
-                                }
-                                else
-                                {
-                                    list.Add(achievement);
-                                }
-                                return list;
-                            });
-
-                        NotifyUpdated(); 
-
-                        tcs.SetResult(achievement);
-
+                        list.Add(achievement);
                     }
+                    return list;
                 });
 
-            return tcs.Task;
+            NotifyUpdated();
+
+            return achievement;
+        }
+
+        private static bool ShouldRetryAfterReconnect(Result result)
+        {
+            return result == Result.Canceled ||
+                   result == Result.InvalidAuth ||
+                   result == Result.AuthExpired ||
+                   result == Result.AuthExternalAuthExpired ||
+                   result == Result.ConnectAuthExpired;
+        }
+
+        private async Task<ProductUserId> EnsureValidProductUserIdAsync(bool forceReconnect = false)
+        {
+            ProductUserId currentProductUserId = EOSManager.Instance.GetProductUserId();
+            if (!forceReconnect && currentProductUserId != null && currentProductUserId.IsValid())
+            {
+                return currentProductUserId;
+            }
+
+            EpicAccountId localUserId = EOSManager.Instance.GetLocalUserId();
+            if (localUserId == null || !localUserId.IsValid())
+            {
+                return null;
+            }
+
+            await _connectRecoverySemaphore.WaitAsync();
+            try
+            {
+                currentProductUserId = EOSManager.Instance.GetProductUserId();
+                if (!forceReconnect && currentProductUserId != null && currentProductUserId.IsValid())
+                {
+                    return currentProductUserId;
+                }
+
+                TaskCompletionSource<Result> reconnectTcs = new();
+                EOSManager.Instance.StartConnectLoginWithEpicAccount(localUserId, callback =>
+                {
+                    reconnectTcs.TrySetResult(callback.ResultCode);
+                });
+
+                Result reconnectResult = await reconnectTcs.Task;
+                if (reconnectResult != Result.Success)
+                {
+                    return null;
+                }
+
+                ProductUserId refreshedProductUserId = EOSManager.Instance.GetProductUserId();
+                if (refreshedProductUserId == null || !refreshedProductUserId.IsValid())
+                {
+                    return null;
+                }
+
+                if (_achievements.Count == 0)
+                {
+                    _achievements = await QueryAchievementsAsync(refreshedProductUserId);
+                }
+
+                return refreshedProductUserId;
+            }
+            finally
+            {
+                _connectRecoverySemaphore.Release();
+            }
         }
 
         /// <summary>
@@ -636,8 +779,30 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </param>
         private void GetAndCacheData(string uri, Action<DownloadDataCallback> callback)
         {
+            if (callback == null)
+            {
+                Debug.LogWarning($"{nameof(AchievementsService)} {nameof(GetAndCacheData)}: Callback is null; aborting download.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(uri))
+            {
+                Debug.LogWarning($"{nameof(AchievementsService)} {nameof(GetAndCacheData)}: URI is null or empty; skipping download.");
+                callback(new DownloadDataCallback
+                {
+                    data = null,
+                    result = UnityWebRequest.Result.ProtocolError
+                });
+                return;
+            }
+
             if (_downloadCache.ContainsKey(uri))
             {
+                callback(new DownloadDataCallback
+                {
+                    data = _downloadCache[uri],
+                    result = UnityWebRequest.Result.Success
+                });
                 return;
             }
 
