@@ -116,13 +116,12 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Raised whenever the EOS overlay’s visibility changes, or when the title
         /// loses/regains focus and we must indicate whether the overlay was open
         /// before the interruption. GDK and other platform-specific managers use
-        /// this to synchronize their native overlay state.<br/><br/>
-        /// Parameters:<br/>
-        ///    bool visible              - Current overlay visibility <br/>
-        ///    bool wasOpenBeforeFocus   - Whether overlay was open when focus was lost
+        /// this to synchronize their native overlay state.
         /// </summary>
-        public static event System.Action<bool, bool> OverlayVisibilityChanged;
+        /// <param name="isOcclued">Whether overlay was open when focus was lost</param>
+        public delegate void OnOverlayOccluedChangedDelegate(bool isOcclued);
 
+        public static event OnOverlayOccluedChangedDelegate OverlayOccluedChanged;
         private static event OnAuthLoginCallback OnAuthLogin;
         private static event OnAuthLogoutCallback OnAuthLogout;
         private static event OnConnectLoginCallback OnConnectLogin;
@@ -156,13 +155,15 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <value>True if EOS Overlay is visible and has exclusive input.</value>
         private static bool s_isOverlayVisible;
 
-        private static bool s_wasOverlayOpenBeforeLosingFocus;
+        private static bool s_isOverlayOcclued;
 
         private static bool s_DoesOverlayHaveExcusiveInput;
 
         private static float s_nextAllowedOverlayRestoreTime = 0f;
 
-        private static float s_OverlayRestoreCooldonwSeconds = 0.5f;
+        private static float s_OverlayRestoreCooldownSeconds  = 0.5f;
+
+        private static Coroutine s_restoreOverlayCorutine;
 
         //cached log levels for retrieving later
         private static Dictionary<LogCategory, LogLevel> logLevels;
@@ -514,7 +515,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     {
                         s_isOverlayVisible = data.IsVisible;
                         s_DoesOverlayHaveExcusiveInput = data.IsExclusiveInput;
-                        OverlayVisibilityChanged?.Invoke(s_isOverlayVisible ,s_wasOverlayOpenBeforeLosingFocus);
+                        OverlayOccluedChanged?.Invoke(s_isOverlayOcclued);
                     });
             }
 
@@ -1891,21 +1892,20 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             Instance.OnApplicationFocus(hasFocus);
 
-            if (!hasFocus) 
+            if (!hasFocus)
             {
-                s_wasOverlayOpenBeforeLosingFocus = s_isOverlayVisible;
-                OverlayVisibilityChanged?.Invoke(s_isOverlayVisible, /*s_wasOverlayOpenBeforeLosingFocus*/ true);
+                if (s_isOverlayVisible)
+                {
+                    s_isOverlayOcclued = s_isOverlayVisible;
+                    OverlayOccluedChanged?.Invoke(s_isOverlayOcclued);
+                }
                 return;
             }
-            if (Time.realtimeSinceStartup < s_nextAllowedOverlayRestoreTime)
+
+            if (s_restoreOverlayCorutine == null) 
             {
-                return;
+                s_restoreOverlayCorutine = StartCoroutine(RestoreOverlayAfterDelay());
             }
-
-            StartCoroutine(RestoreOverlayNextFrame());
-            s_nextAllowedOverlayRestoreTime = Time.realtimeSinceStartup + s_OverlayRestoreCooldonwSeconds;
-
-
         }
 
 
@@ -1915,14 +1915,14 @@ namespace PlayEveryWare.EpicOnlineServices
         /// to resume before native overlay state is re-enabled. This delay prevents
         /// race conditions where overlay state is updated too early.
         /// </summary>
-        private System.Collections.IEnumerator RestoreOverlayNextFrame() 
+        private System.Collections.IEnumerator RestoreOverlayAfterDelay()
         {
             yield return null;
             yield return null;
             yield return null;
-            OverlayVisibilityChanged?.Invoke(s_isOverlayVisible,/*s_wasOverlayOpenBeforeLosingFocus*/ false);
-            s_wasOverlayOpenBeforeLosingFocus = false;
-
+            s_isOverlayOcclued = false;
+            OverlayOccluedChanged?.Invoke(s_isOverlayOcclued);
+            s_restoreOverlayCorutine = null;
         }
 
         //-------------------------------------------------------------------------
