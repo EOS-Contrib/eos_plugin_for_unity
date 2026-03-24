@@ -113,7 +113,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public delegate void OnConnectLoginCallback(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);
         /// <summary>
-        /// Raised whenever the EOS overlayís visibility changes, or when the title
+        /// Raised whenever the EOS overlay‚Äôs visibility changes, or when the title
         /// loses/regains focus and we must indicate whether the overlay was open
         /// before the interruption. GDK and other platform-specific managers use
         /// this to synchronize their native overlay state.
@@ -1885,8 +1885,9 @@ namespace PlayEveryWare.EpicOnlineServices
         ///     <item><description>Calls <c>OnApplicationFocus()</c></description></item>
         ///     <item>When the application loses focus (system UI opened), record whether the overlay
         ///     was visible at that moment and immediately notify listeners that the overlay is
-        ///     now considered ìoccludedî. Platform modules use this to maintain correct</item>
-        ///     ApplicationStatus behavior or defer overlay restoration.</list>
+        ///     now considered ‚Äúoccluded‚Äù. Platform modules use this to maintain correct
+        ///     ApplicationStatus behavior or defer overlay restoration.</item>
+        /// </list>
         /// </summary>
         void OnApplicationFocus(bool hasFocus)
         {
