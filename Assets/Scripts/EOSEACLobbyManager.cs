@@ -32,6 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices.Logging;
     using Epic.OnlineServices.AntiCheatClient;
     using Epic.OnlineServices.AntiCheatCommon;
+    using PlayEveryWare.EpicOnlineServices.Utility;
 
     /// <summary>
     /// Class <c>EOSEACLobbyManager</c> manages testing functionality for the <c>EOSAntiCheatClientManager</c> using <c>EOSLobbyManager</c> to manage peer communication.
@@ -182,12 +183,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 if (currentLobby.IsOwner(localUserId))
                 {
-                    Debug.LogFormat("EACLobbyTest (OnPeerActionRequired): kicking user for cheating, id: {0}, reason: {1}", peerUserId.ToString(), data.ActionReasonDetailsString);
+                    Debug.LogFormat("EACLobbyTest (OnPeerActionRequired): kicking user for cheating, id: {0}, reason: {1}", LoggingUtils.Redact(peerUserId), data.ActionReasonDetailsString);
                     LobbyManager.KickMember(peerUserId, null);
                 }
                 else if (currentLobby.IsOwner(peerUserId))
                 {
-                    Debug.LogFormat("EACLobbyTest (OnPeerActionRequired): leaving lobby due to owner cheating, id: {0}, reason: {1}", peerUserId.ToString(), data.ActionReasonDetailsString);
+                    Debug.LogFormat("EACLobbyTest (OnPeerActionRequired): leaving lobby due to owner cheating, id: {0}, reason: {1}", LoggingUtils.Redact(peerUserId), data.ActionReasonDetailsString);
                     LobbyManager.LeaveLobby(null);
                 }
             }      

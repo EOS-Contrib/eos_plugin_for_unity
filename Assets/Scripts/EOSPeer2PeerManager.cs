@@ -28,6 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using UnityEngine;
     using Epic.OnlineServices;
     using Epic.OnlineServices.P2P;
+    using PlayEveryWare.EpicOnlineServices.Utility;
 
     /// <summary>
     /// Struct <c>ChatEntry</c> is used to store cached chat data in <c>UIPeer2PeerMenu</c>.
@@ -532,7 +533,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
         private void OnPeerConnectionEstablished(ref OnPeerConnectionEstablishedInfo info)
         {
-            Debug.Log($"[P2P] Connection established with {info.RemoteUserId}");
+            Debug.Log($"[P2P] Connection established with {LoggingUtils.Redact(info.RemoteUserId)}");
 
             if (!connectionStates.ContainsKey(info.RemoteUserId))
             {
