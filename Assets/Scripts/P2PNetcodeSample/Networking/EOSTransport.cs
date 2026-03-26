@@ -323,7 +323,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
         /// <summary>
         /// Gets the round trip time for a specific client.
-        /// This method is optional, and not currently implemented in this case.
+        /// This transport currently returns <c>0</c> because EOS P2P does not expose a built-in RTT metric.
+        /// 
+        /// If your game requires RTT (for matchmaking, region selection, telemetry, etc.), implement
+        /// an application-level ping/pong message and compute RTT from send/receive timestamps.
         /// </summary>
         /// <param name="clientId">
         /// The transport id to get the RTT from.
@@ -335,18 +338,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         public override ulong GetCurrentRtt(ulong clientId)
         {
             Debug.Assert(IsInitialized);
-            /*
-             * RTT can be calculated by subtracting the time at which
-             * DateTime.Now is sent from the time at which it is returned from
-             * the opponent.
-             *
-             * You can implement it by sending DateTime in your request, and
-             * subsequently subtracting that value from DateTime.Now when the
-             * response is received.
-             *
-             * It is not currently implemented due to the complexity it would
-             * add to the samples.
-             */
             return 0;
         }
 
