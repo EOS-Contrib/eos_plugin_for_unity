@@ -324,12 +324,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Debug.Log($"{nameof(UIHighFrequencyPeer2PeerMenu)} {nameof(ParticlesOnClick)} Mouse click received");
             Vector3 mousePos = Input.mousePosition;
             Vector3 viewportPos = uiCamera.ScreenToViewportPoint(mousePos);
-            messageData message;
-            message.type = messageType.coordinatesMessage;
-            message.xPos = viewportPos.x;
-            message.yPos = viewportPos.y;
-            message.textData = null;
-            string coordinatePayload = EOSHighFrequencyPeer2PeerManager.CoordinateMessagePrefix + message.xPos + "," + message.yPos;
+            string coordinatePayload = EOSHighFrequencyPeer2PeerManager.SerializeCoordinatePacket(viewportPos.x, viewportPos.y);
             Peer2PeerManager.SendMessage(currentChatProductUserId, coordinatePayload);
         }
         private bool HasValidCurrentProductId()

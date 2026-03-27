@@ -376,6 +376,11 @@ PrefabInstance:
       propertyPath: UIParent
       value: 
       objectReference: {fileID: 813126993}
+    - target: {fileID: 7886732589288950931, guid: 43304e7fcdeb60741afd54c0582072ac,
+        type: 3}
+      propertyPath: logoutButton
+      value: 
+      objectReference: {fileID: 942362289}
     - target: {fileID: 7886732589288950940, guid: 43304e7fcdeb60741afd54c0582072ac,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2051,6 +2056,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 942362287}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &942362289 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 242499037774743105, guid: 11e4648022445f041b4c867ff8f3fd94,
+    type: 3}
+  m_PrefabInstance: {fileID: 942362287}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &942362290 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2138711975279902407, guid: 11e4648022445f041b4c867ff8f3fd94,
