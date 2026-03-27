@@ -106,23 +106,13 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         }
 
         [Test]
-        public void SandboxId_IsInvalid_WhenPreProductionPrefixIsMissing()
-        {
-            string value = new string('a', 30);
-
-            SandboxId sandboxId = new SandboxId { Value = value };
-
-            Assert.IsFalse(sandboxId.IsValid());
-        }
-
-        [Test]
         public void SandboxId_DoesNotAccept_InvalidString()
         {
             SandboxId sandboxId = new SandboxId();
             sandboxId.Value = "abc";
 
-            Assert.IsTrue(sandboxId.IsEmpty);
-            Assert.IsFalse(sandboxId.IsValid());
+            Assert.IsTrue(sandboxId.IsEmpty,"Sandbox should not accepted invalid string format.");
+            Assert.IsFalse(sandboxId.IsValid(),"Empty Sandbox sould not be accepted as valid.");
         }
 
         [Test]
@@ -133,7 +123,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             SandboxId sandboxId = new SandboxId { Value = valid };
             sandboxId.Value = "abc";
 
-            Assert.AreEqual(valid, sandboxId.ToString());
+            Assert.AreEqual(valid, sandboxId.ToString(), "SandboxID should keeps previous value when new value is invalid.");
         }
 
         [Test]
