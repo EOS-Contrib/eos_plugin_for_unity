@@ -86,6 +86,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public bool IsValid()
         {
+            if (string.IsNullOrEmpty(_value))
+            {
+                return false;
+            }
+
             return Guid.TryParse(_value, out _) || 
                    Regex.IsMatch(_value, PreProductionEnvironmentRegex);
         }

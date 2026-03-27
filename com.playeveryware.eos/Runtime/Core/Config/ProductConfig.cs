@@ -51,6 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "Enter your product name as it appears in the EOS Dev " +
             "Portal here.",
             0)]
+        [NonEmptyStringFieldValidator]
         public string ProductName;
 
         [ConfigField("Product Id",
@@ -58,12 +59,14 @@ namespace PlayEveryWare.EpicOnlineServices
             "Enter your Product Id as it appears in the EOS Dev " +
             "Portal here.",
             0)]
+        [GUIDFieldValidator]
         public Guid ProductId;
 
         [ConfigField("Version",
             ConfigFieldType.Text,
             "Use this to indicate to the EOS SDK your game version.",
             0)]
+        [NonEmptyStringFieldValidator]
         public string ProductVersion;
 
         /// <summary>
@@ -88,6 +91,7 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType.SetOfClientCredentials,
             "Enter the client credentials you have defined in the " +
             "Epic Dev Portal.", 1)]
+        [ClientCredentialsFieldValidator]
         public SetOfNamed<EOSClientCredentials> Clients = new("Client");
 #endif
 
@@ -100,6 +104,7 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType.ProductionEnvironments,
             "Enter the details of your deployment and sandboxes as they " +
             "exist within the Epic Dev Portal.", 1)]
+        [ProductionEnvironmentsFieldValidator]
         public ProductionEnvironments Environments = new();
 
         /// <summary>
