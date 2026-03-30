@@ -108,7 +108,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         public static void ListOfStringsToEnumConverterTestClass_ReadJson_InvalidTokenType_ThrowsException()
         {
             var converter = new ListOfStringsToEnumConverterTestClass<TestOrderEnum>(TESTORDERENUM_CUSTOM_MAPPING);
-            var invalidJson = JToken.FromObject(new {os = "voce" }); // Invalid type for enum parsing
+            var invalidJson = JToken.FromObject(new { abc = "def" }); // Invalid type for enum parsing
             Assert.Throws<JsonSerializationException>(() => converter.ReadJson(invalidJson.CreateReader(), typeof(TestOrderEnum), null, null));
         }
 
