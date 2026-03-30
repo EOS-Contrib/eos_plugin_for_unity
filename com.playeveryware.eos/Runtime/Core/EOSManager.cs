@@ -115,13 +115,13 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Raised whenever the EOS overlay’s visibility changes, or when the title
         /// loses/regains focus and we must indicate whether the overlay was open
-        /// before the interruption. GDK and other platform-specific managers use
+        /// before the interruption. Some platform-specific managers use
         /// this to synchronize their native overlay state.
         /// </summary>
-        /// <param name="isOcclued">Whether overlay was open when focus was lost</param>
-        public delegate void OnOverlayOccluedChangedDelegate(bool isOcclued);
+        /// <param name="isOccluded">Whether the overlay was open when focus was lost</param>
+        public delegate void OnOverlayOccluedChangedDelegate(bool isOccluded);
 
-        public static event OnOverlayOccluedChangedDelegate OverlayOccluedChanged;
+        public static event OnOverlayOccluedChangedDelegate OnOverlayOccludedChanged;
         private static event OnAuthLoginCallback OnAuthLogin;
         private static event OnAuthLogoutCallback OnAuthLogout;
         private static event OnConnectLoginCallback OnConnectLogin;
@@ -155,15 +155,11 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <value>True if EOS Overlay is visible and has exclusive input.</value>
         private static bool s_isOverlayVisible;
 
-        private static bool s_isOverlayOcclued;
+        private static bool s_isOverlayOccluded;
 
         private static bool s_DoesOverlayHaveExcusiveInput;
 
-        private static float s_nextAllowedOverlayRestoreTime = 0f;
-
-        private static float s_OverlayRestoreCooldownSeconds  = 0.5f;
-
-        private static Coroutine s_restoreOverlayCorutine;
+        private static Coroutine s_restoreOverlayCoroutine;
 
         //cached log levels for retrieving later
         private static Dictionary<LogCategory, LogLevel> logLevels;
@@ -515,7 +511,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     {
                         s_isOverlayVisible = data.IsVisible;
                         s_DoesOverlayHaveExcusiveInput = data.IsExclusiveInput;
-                        OverlayOccluedChanged?.Invoke(s_isOverlayOcclued);
+                        OnOverlayOccludedChanged?.Invoke(s_isOverlayOccluded);
                     });
             }
 
@@ -1897,15 +1893,15 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 if (s_isOverlayVisible)
                 {
-                    s_isOverlayOcclued = s_isOverlayVisible;
-                    OverlayOccluedChanged?.Invoke(s_isOverlayOcclued);
+                    s_isOverlayOccluded = s_isOverlayVisible;
+                    OnOverlayOccludedChanged?.Invoke(s_isOverlayOccluded);
                 }
                 return;
             }
 
-            if (s_restoreOverlayCorutine == null) 
+            if (s_restoreOverlayCoroutine == null) 
             {
-                s_restoreOverlayCorutine = StartCoroutine(RestoreOverlayAfterDelay());
+                s_restoreOverlayCoroutine = StartCoroutine(RestoreOverlayAfterDelay());
             }
         }
 
@@ -1921,9 +1917,9 @@ namespace PlayEveryWare.EpicOnlineServices
             yield return null;
             yield return null;
             yield return null;
-            s_isOverlayOcclued = false;
-            OverlayOccluedChanged?.Invoke(s_isOverlayOcclued);
-            s_restoreOverlayCorutine = null;
+            s_isOverlayOccluded = false;
+            OnOverlayOccludedChanged?.Invoke(s_isOverlayOccluded);
+            s_restoreOverlayCoroutine = null;
         }
 
         //-------------------------------------------------------------------------
