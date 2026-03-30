@@ -52,6 +52,10 @@ namespace Epic.OnlineServices.CustomInvites
 		/// </summary>
 		public const int ADDNOTIFYSENDCUSTOMNATIVEINVITEREQUESTED_API_LATEST = 1;
 		/// <summary>
+		/// The most recent version of the <see cref="DisableRequestToJoin" /> API.
+		/// </summary>
+		public const int DISABLEREQUESTTOJOIN_API_LATEST = 1;
+		/// <summary>
 		/// The most recent version of the <see cref="FinalizeInvite" /> API.
 		/// </summary>
 		public const int FINALIZEINVITE_API_LATEST = 1;
@@ -448,6 +452,37 @@ namespace Epic.OnlineServices.CustomInvites
 			Helper.Dispose(ref optionsInternal);
 
 			Helper.AssignNotificationIdToCallback(clientDataPointer, callResult);
+
+			return callResult;
+		}
+
+		/// <summary>
+		/// Disable the "Request to Join" button in the Social Overlay.
+		/// This is a one-way operation; once disabled, the Request to Join feature cannot be re-enabled
+		/// for the current SDK session.
+		/// 
+		/// This API can be called at any time, including before user login.
+		/// The change will take effect in the Social Overlay on the next user login.
+		/// <see cref="DisableRequestToJoinOptions" />
+		/// </summary>
+		/// <param name="options">
+		/// Structure containing information about the request.
+		/// </param>
+		/// <returns>
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> if the operation completes successfully
+		/// - <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// </returns>
+		public Result DisableRequestToJoin(ref DisableRequestToJoinOptions options)
+		{
+			var optionsInternal = default(DisableRequestToJoinOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var callResult = Bindings.EOS_CustomInvites_DisableRequestToJoin(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
 
 			return callResult;
 		}

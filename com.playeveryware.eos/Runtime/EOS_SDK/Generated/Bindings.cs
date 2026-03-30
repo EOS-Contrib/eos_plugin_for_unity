@@ -175,6 +175,7 @@ namespace Epic.OnlineServices
 		private const string EOS_CustomInvites_AddNotifyRequestToJoinRejectedName = "EOS_CustomInvites_AddNotifyRequestToJoinRejected";
 		private const string EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedName = "EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived";
 		private const string EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedName = "EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested";
+		private const string EOS_CustomInvites_DisableRequestToJoinName = "EOS_CustomInvites_DisableRequestToJoin";
 		private const string EOS_CustomInvites_FinalizeInviteName = "EOS_CustomInvites_FinalizeInvite";
 		private const string EOS_CustomInvites_RejectRequestToJoinName = "EOS_CustomInvites_RejectRequestToJoin";
 		private const string EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedName = "EOS_CustomInvites_RemoveNotifyCustomInviteAccepted";
@@ -813,6 +814,7 @@ namespace Epic.OnlineServices
 		private const string EOS_CustomInvites_AddNotifyRequestToJoinRejectedName = "_EOS_CustomInvites_AddNotifyRequestToJoinRejected";
 		private const string EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedName = "_EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived";
 		private const string EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedName = "_EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested";
+		private const string EOS_CustomInvites_DisableRequestToJoinName = "_EOS_CustomInvites_DisableRequestToJoin";
 		private const string EOS_CustomInvites_FinalizeInviteName = "_EOS_CustomInvites_FinalizeInvite";
 		private const string EOS_CustomInvites_RejectRequestToJoinName = "_EOS_CustomInvites_RejectRequestToJoin";
 		private const string EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedName = "_EOS_CustomInvites_RemoveNotifyCustomInviteAccepted";
@@ -1451,6 +1453,7 @@ namespace Epic.OnlineServices
 		private const string EOS_CustomInvites_AddNotifyRequestToJoinRejectedName = "_EOS_CustomInvites_AddNotifyRequestToJoinRejected@16";
 		private const string EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedName = "_EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived@16";
 		private const string EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedName = "_EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested@16";
+		private const string EOS_CustomInvites_DisableRequestToJoinName = "_EOS_CustomInvites_DisableRequestToJoin@8";
 		private const string EOS_CustomInvites_FinalizeInviteName = "_EOS_CustomInvites_FinalizeInvite@8";
 		private const string EOS_CustomInvites_RejectRequestToJoinName = "_EOS_CustomInvites_RejectRequestToJoin@16";
 		private const string EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedName = "_EOS_CustomInvites_RemoveNotifyCustomInviteAccepted@12";
@@ -2506,6 +2509,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedName);
 			EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested = (EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_DisableRequestToJoinName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_DisableRequestToJoinName);
+			EOS_CustomInvites_DisableRequestToJoin = (EOS_CustomInvites_DisableRequestToJoinDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_DisableRequestToJoinDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_FinalizeInviteName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_FinalizeInviteName);
@@ -4649,6 +4656,7 @@ namespace Epic.OnlineServices
 			EOS_CustomInvites_AddNotifyRequestToJoinRejected = null;
 			EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived = null;
 			EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested = null;
+			EOS_CustomInvites_DisableRequestToJoin = null;
 			EOS_CustomInvites_FinalizeInvite = null;
 			EOS_CustomInvites_RejectRequestToJoin = null;
 			EOS_CustomInvites_RemoveNotifyCustomInviteAccepted = null;
@@ -5694,6 +5702,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate ulong EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedDelegate(IntPtr handle, ref CustomInvites.AddNotifySendCustomNativeInviteRequestedOptionsInternal options, IntPtr clientData, CustomInvites.OnSendCustomNativeInviteRequestedCallbackInternal notificationFn);
 		internal static EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedDelegate EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested;
+
+		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		internal delegate Result EOS_CustomInvites_DisableRequestToJoinDelegate(IntPtr handle, ref CustomInvites.DisableRequestToJoinOptionsInternal options);
+		internal static EOS_CustomInvites_DisableRequestToJoinDelegate EOS_CustomInvites_DisableRequestToJoin;
 
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate Result EOS_CustomInvites_FinalizeInviteDelegate(IntPtr handle, ref CustomInvites.FinalizeInviteOptionsInternal options);
@@ -8102,6 +8114,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern ulong EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested(IntPtr handle, ref CustomInvites.AddNotifySendCustomNativeInviteRequestedOptionsInternal options, IntPtr clientData, CustomInvites.OnSendCustomNativeInviteRequestedCallbackInternal notificationFn);
+
+		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_DisableRequestToJoin", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		internal static extern Result EOS_CustomInvites_DisableRequestToJoin(IntPtr handle, ref CustomInvites.DisableRequestToJoinOptionsInternal options);
 
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_FinalizeInvite", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern Result EOS_CustomInvites_FinalizeInvite(IntPtr handle, ref CustomInvites.FinalizeInviteOptionsInternal options);
