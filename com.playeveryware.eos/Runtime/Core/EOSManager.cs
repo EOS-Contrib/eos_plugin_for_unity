@@ -74,6 +74,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.UI;
 
     using Epic.OnlineServices.Presence;
+    using PlayEveryWare.EpicOnlineServices.Utility;
 
     using Extensions;
     using System.Diagnostics;
@@ -272,8 +273,8 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <param name="localProductUserId"></param>
             protected void SetLocalProductUserId(ProductUserId localProductUserId)
             {
-                Log("Changing PUID: " + PUIDToString(s_localProductUserId) + " => " +
-                      PUIDToString(localProductUserId));
+                Log("Changing PUID: " + LoggingUtils.Redact(PUIDToString(s_localProductUserId)) + " => " +
+                      LoggingUtils.Redact(PUIDToString(localProductUserId)));
                 s_localProductUserId = localProductUserId;
             }
 
