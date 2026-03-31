@@ -120,9 +120,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// this to synchronize their native overlay state.
         /// </summary>
         /// <param name="isOccluded">Whether the overlay was open when focus was lost</param>
-        public delegate void OnOverlayOccluedChangedDelegate(bool isOccluded);
+        public delegate void OnOverlayOccludedChangedDelegate(bool isOccluded);
 
-        public static event OnOverlayOccluedChangedDelegate OnOverlayOccludedChanged;
+        public static event OnOverlayOccludedChangedDelegate OnOverlayOccludedChanged;
         private static event OnAuthLoginCallback OnAuthLogin;
         private static event OnAuthLogoutCallback OnAuthLogout;
         private static event OnConnectLoginCallback OnConnectLogin;
