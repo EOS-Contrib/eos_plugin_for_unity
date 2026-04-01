@@ -292,3 +292,23 @@ EOS_DECLARE_FUNC(void) EOS_CustomInvites_AcceptRequestToJoin(EOS_HCustomInvites 
  * @see EOS_CustomInvites_OnRejectRequestToJoinCallback
  */
 EOS_DECLARE_FUNC(void) EOS_CustomInvites_RejectRequestToJoin(EOS_HCustomInvites Handle, const EOS_CustomInvites_RejectRequestToJoinOptions* Options, void* ClientData, const EOS_CustomInvites_OnRejectRequestToJoinCallback CompletionDelegate);
+
+/**
+ * Disable the "Request to Join" button in the Social Overlay.
+ * This is a one-way operation; once disabled, the Request to Join feature cannot be re-enabled
+ * for the current SDK session.
+ *
+ * This API can be called at any time, including before user login.
+ * The change will take effect in the Social Overlay on the next user login.
+ *
+ * @param Options Structure containing information about the request.
+ *
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the operation completes successfully
+ * - EOS_InvalidParameters if any of the options values are incorrect
+ * - EOS_IncompatibleVersion if the API version passed in is incorrect
+ *
+ * @see EOS_CustomInvites_DisableRequestToJoinOptions
+ */
+EOS_DECLARE_FUNC(EOS_EResult) EOS_CustomInvites_DisableRequestToJoin(EOS_HCustomInvites Handle, const EOS_CustomInvites_DisableRequestToJoinOptions* Options);
