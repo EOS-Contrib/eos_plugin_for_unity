@@ -16,7 +16,7 @@
 *.cginc  text
 *.shader text
 *.plist text
-etc/PlatformSpecificAssets\EOS\Mac\eac_launcher.app\Contents\_CodeSignature\CodeResources text
+etc\PlatformSpecificAssets\EOS\Mac\eac_launcher.app\Contents\_CodeSignature\CodeResources text
 
 
 # Filetypes that should be considered binary files (regardless of if they are
