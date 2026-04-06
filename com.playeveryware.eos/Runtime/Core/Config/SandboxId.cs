@@ -86,7 +86,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public bool IsValid()
         {
-            if (string.IsNullOrWhiteSpace(_value))
+            if (IsNullOrWhiteSpace(_value))
             {
                 return false;
             }
@@ -95,15 +95,15 @@ namespace PlayEveryWare.EpicOnlineServices
                    Regex.IsMatch(_value, PreProductionEnvironmentRegex);
         }
 
-        public static bool IsNullOrEmpty(string sandboxString)
+        public static bool IsNullOrWhiteSpace(string sandboxString)
         {
-            return String.IsNullOrEmpty(sandboxString) || 
-                   Guid.Empty.ToString("N").Equals(sandboxString);
+            return Guid.Empty.ToString("N").Equals(sandboxString) ||
+                   string.IsNullOrWhiteSpace(sandboxString);
         }
 
-        public static bool IsNullOrEmpty(SandboxId sandboxId)
+        public static bool IsNullOrWhiteSpace(SandboxId sandboxId)
         {
-            return IsNullOrEmpty(sandboxId._value);
+            return IsNullOrWhiteSpace(sandboxId._value);
         }
 
         public static SandboxId FromString(string sandboxString)
@@ -126,7 +126,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             get
             {
-                return IsNullOrEmpty(this);
+                return IsNullOrWhiteSpace(this);
             }
         }
 

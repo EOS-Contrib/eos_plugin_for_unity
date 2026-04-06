@@ -161,7 +161,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 Assert.Fail($"Config should have failing attributes.");
             }
 
-            Assert.IsTrue(failuresIncludeExpectedFailure<NonEmptyStringFieldValidatorAttribute>(nameof(ProductConfig.ProductName),
+            Assert.IsTrue(FailuresIncludeExpectedFailure<NonEmptyStringFieldValidatorAttribute>(nameof(ProductConfig.ProductName),
                 failingAttributes,
                 NonEmptyStringFieldValidatorAttribute.FieldIsEmptyMessage),
                 "There should be a failure of the expected type and message.");
@@ -181,7 +181,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 return;
             }
 
-            Assert.IsFalse(failuresIncludeExpectedFailure<NonEmptyStringFieldValidatorAttribute>(
+            Assert.IsFalse(FailuresIncludeExpectedFailure<NonEmptyStringFieldValidatorAttribute>(
                 nameof(ProductConfig.ProductName),
                 failingAttributes,
                 NonEmptyStringFieldValidatorAttribute.FieldIsEmptyMessage),
@@ -200,7 +200,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 Assert.Fail($"Config should have failing attributes.");
             }
 
-            Assert.IsTrue(failuresIncludeExpectedFailure<NonEmptyStringFieldValidatorAttribute>(
+            Assert.IsTrue(FailuresIncludeExpectedFailure<NonEmptyStringFieldValidatorAttribute>(
                 nameof(ProductConfig.ProductVersion),
                 failingAttributes,
                 NonEmptyStringFieldValidatorAttribute.FieldIsEmptyMessage),
@@ -221,7 +221,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 return;
             }
 
-            Assert.IsFalse(failuresIncludeExpectedFailure<NonEmptyStringFieldValidatorAttribute>(
+            Assert.IsFalse(FailuresIncludeExpectedFailure<NonEmptyStringFieldValidatorAttribute>(
                 nameof(ProductConfig.ProductVersion),
                 failingAttributes,
                 NonEmptyStringFieldValidatorAttribute.FieldIsEmptyMessage),
@@ -239,7 +239,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 Assert.Fail($"Config should have failing attributes.");
             }
 
-            Assert.IsTrue(failuresIncludeExpectedFailure<GUIDFieldValidatorAttribute>(
+            Assert.IsTrue(FailuresIncludeExpectedFailure<GUIDFieldValidatorAttribute>(
                 nameof(ProductConfig.ProductId),
                 failingAttributes,
                 GUIDFieldValidatorAttribute.EmptyGuidMessage),
@@ -275,7 +275,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             }
 
             Assert.IsTrue(
-                failuresIncludeExpectedFailure<ProductionEnvironmentsFieldValidatorAttribute>(
+                FailuresIncludeExpectedFailure<ProductionEnvironmentsFieldValidatorAttribute>(
                     nameof(ProductConfig.Environments),
                     failures,
                     ProductionEnvironmentsFieldValidatorAttribute.NoValidDeploymentMessage),
@@ -331,7 +331,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             }
 
             Assert.IsTrue(
-                failuresIncludeExpectedFailure<ClientCredentialsFieldValidatorAttribute>(
+                FailuresIncludeExpectedFailure<ClientCredentialsFieldValidatorAttribute>(
                     nameof(ProductConfig.Clients),
                     failures,
                     ClientCredentialsFieldValidatorAttribute.NoValidClientCredentialsMessage));
