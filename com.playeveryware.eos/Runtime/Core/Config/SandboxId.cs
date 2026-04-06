@@ -86,7 +86,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public bool IsValid()
         {
-            if (string.IsNullOrEmpty(_value))
+            if (string.IsNullOrWhiteSpace(_value))
             {
                 return false;
             }

@@ -27,7 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices
     [AttributeUsage(AttributeTargets.Field)]
     public class SandboxIDFieldValidatorAttribute : FieldValidatorAttribute
     {
-        public const string InvalidSanboxIdMessage = "SandboxId is invalid or empty.";
+        private const string InvalidSandboxIdMessage = "SandboxId is invalid or empty.";
 
         public override bool FieldValueIsValid(object toValidate, out string configurationProblemMessage)
         {
@@ -37,13 +37,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 return false;
             }
 
-            if (sandboxId.IsValid()||sandboxId.IsEmpty)
+            if (sandboxId.IsValid() || sandboxId.IsEmpty)
             {
                 configurationProblemMessage = string.Empty;
                 return true;
             }
 
-            configurationProblemMessage = InvalidSanboxIdMessage;
+            configurationProblemMessage = InvalidSandboxIdMessage;
             return false;
         }
     }

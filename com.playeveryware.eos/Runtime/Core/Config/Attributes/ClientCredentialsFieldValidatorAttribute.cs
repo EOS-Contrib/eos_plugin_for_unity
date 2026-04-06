@@ -35,8 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             if (toValidate is not SetOfNamed<EOSClientCredentials> clients)
             {
-                configurationProblemMessage =
-                    "Field value is not a set of EOSClientCredentials.";
+                configurationProblemMessage = $"Field value type is not {nameof(SetOfNamed<EOSClientCredentials>)}.";
                 return false;
             }
 

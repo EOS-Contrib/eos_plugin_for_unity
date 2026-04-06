@@ -36,7 +36,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 return false;
             }
 
-            if (Guid.Equals(guidValue,Guid.Empty))
+            if (Guid.Equals(guidValue, Guid.Empty))
             {
                 configurationProblemMessage = EmptyGuidMessage;
                 return false;

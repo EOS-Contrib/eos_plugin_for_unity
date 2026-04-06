@@ -49,6 +49,17 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
 
             Assert.IsFalse(sandboxId.IsValid(), "SandboxId should not be valid when its value is empty.");
         }
+        
+        [Test]
+        public void SandboxId_IsInvalid_WhenValueIsWhiteSpace()
+        {
+            SandboxId sandboxId = new SandboxId
+            {
+                Value = " "
+            };
+
+            Assert.IsFalse(sandboxId.IsValid(), "SandboxId should not be valid when its value is whitespace only.");
+        } 
 
         [Test]
         public void SandboxId_GuidEmptyString_IsEmptyButValid()
@@ -139,7 +150,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
 
 
         [Test]
-        public void ProductNameM_MustNotBeEmpty()
+        public void ProductName_MustNotBeEmpty()
         {
             ProductConfig productConfig = ProductConfig.Get<ProductConfig>();
             Assert.NotNull(productConfig, "Product Config should not be null.");
@@ -154,11 +165,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 failingAttributes,
                 NonEmptyStringFieldValidatorAttribute.FieldIsEmptyMessage),
                 "There should be a failure of the expected type and message.");
-
         }
 
         [Test]
-        public void ProductName_SuccessfulParsing()
+        public void ProductName_PassesValidation_WhenValueIsValid()
         {
             ProductConfig productConfig = ProductConfig.Get<ProductConfig>();
             Assert.NotNull(productConfig, "Product Config should not be null.");
@@ -179,7 +189,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         }
 
         [Test]
-        public void ProductVersion_MustNotBeEmpty()
+        public void ProductVersion_FailsValidation_WhenValueIsEmpty()
         {
             ProductConfig productConfig = ProductConfig.Get<ProductConfig>();
             Assert.NotNull(productConfig, "Product Config should not be null.");
@@ -217,9 +227,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 NonEmptyStringFieldValidatorAttribute.FieldIsEmptyMessage),
                 "Product Version should not have errors describing it as an empty field.");
         }
-        /// <summary>
-        /// 
-        /// </summary>
         [Test]
         public void ProductId_MustBeValidGUID()
         {
@@ -401,7 +408,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         /// Optional. If null or empty, this is not used.
         /// </param>
         /// <returns>True if the expected failure is within the list.</returns>
-        private bool failuresIncludeExpectedFailure<T>(string fieldName, List<FieldValidatorFailure> failures, string message = "") where T : FieldValidatorAttribute
+        private bool FailuresIncludeExpectedFailure<T>(string fieldName, List<FieldValidatorFailure> failures, string message = "") where T : FieldValidatorAttribute
         {
             foreach (FieldValidatorFailure currentFailure in failures)
             {
