@@ -97,8 +97,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public static bool IsNullOrWhiteSpace(string sandboxString)
         {
-            return Guid.Empty.ToString("N").Equals(sandboxString) ||
-                   string.IsNullOrWhiteSpace(sandboxString);
+            return string.IsNullOrWhiteSpace(sandboxString);
         }
 
         public static bool IsNullOrWhiteSpace(SandboxId sandboxId)
@@ -126,7 +125,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             get
             {
-                return IsNullOrWhiteSpace(this);
+                return IsNullOrWhiteSpace(this) || Guid.Empty.ToString("N").Equals(this.Value);
             }
         }
 
