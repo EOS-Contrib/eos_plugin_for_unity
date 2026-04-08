@@ -23,27 +23,33 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
+    using Common;
 
     [AttributeUsage(AttributeTargets.Field)]
-    public class GUIDFieldValidatorAttribute : FieldValidatorAttribute
+    public class ClientCredentialsFieldValidatorAttribute : FieldValidatorAttribute
     {
-        public const string EmptyGuidMessage = "The field value is an empty Guid.";
+        public const string NoValidClientCredentialsMessage =
+                "At least one complete Client Credential must be configured.";
+
         public override bool FieldValueIsValid(object toValidate, out string configurationProblemMessage)
         {
-            if (!(toValidate is Guid guidValue))
+            if (toValidate is not SetOfNamed<EOSClientCredentials> clients)
             {
-                configurationProblemMessage = "The field value is not of type Guid.";
+                configurationProblemMessage = $"Field value type is not {nameof(SetOfNamed<EOSClientCredentials>)}.";
                 return false;
             }
 
-            if (Guid.Equals(guidValue, Guid.Empty))
+            foreach (var namedClient in clients)
             {
-                configurationProblemMessage = EmptyGuidMessage;
-                return false;
+                if (namedClient.Value != null && namedClient.Value.IsComplete)
+                {
+                    configurationProblemMessage = string.Empty;
+                    return true;
+                }
             }
 
-            configurationProblemMessage = string.Empty;
-            return true;
+            configurationProblemMessage = NoValidClientCredentialsMessage;
+            return false;
         }
     }
 }

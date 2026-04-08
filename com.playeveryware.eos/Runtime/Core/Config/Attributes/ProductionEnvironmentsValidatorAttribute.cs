@@ -25,20 +25,22 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
 
     [AttributeUsage(AttributeTargets.Field)]
-    public class GUIDFieldValidatorAttribute : FieldValidatorAttribute
+    public class ProductionEnvironmentsFieldValidatorAttribute : FieldValidatorAttribute
     {
-        public const string EmptyGuidMessage = "The field value is an empty Guid.";
+        public const string NoValidDeploymentMessage =
+            "At least one complete deployment must be configured.";
+
         public override bool FieldValueIsValid(object toValidate, out string configurationProblemMessage)
         {
-            if (!(toValidate is Guid guidValue))
+            if (toValidate is not ProductionEnvironments environments)
             {
-                configurationProblemMessage = "The field value is not of type Guid.";
+                configurationProblemMessage = "Field value is not ProductionEnvironments.";
                 return false;
             }
 
-            if (Guid.Equals(guidValue, Guid.Empty))
+            if (!environments.TryGetFirstDefinedNamedDeployment(out _))
             {
-                configurationProblemMessage = EmptyGuidMessage;
+                configurationProblemMessage = NoValidDeploymentMessage;
                 return false;
             }
 
