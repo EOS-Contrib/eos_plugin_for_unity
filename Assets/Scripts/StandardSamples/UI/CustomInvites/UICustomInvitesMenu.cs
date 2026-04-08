@@ -35,6 +35,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Transform PendingInvitesParent;
         public UICustomInviteEntry PendingInviteEntryPrefab;
         public Text InviteLogText;
+        [Tooltip("If true, EOS_CustomInvites_DisableRequestToJoin is called whenever this sample menu is shown.")]
+        public bool DisableRequestToJoinOnShow = true;
 
         private EOSCustomInvitesManager CustomInvitesManager;
         private EOSFriendsManager FriendsManager;
@@ -74,6 +76,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             PayloadInputField.InputField.text = string.Empty;
             CustomInvitesManager.ClearPayload();
+
+            if (DisableRequestToJoinOnShow)
+            {
+                var disableRequestResult = CustomInvitesManager.DisableRequestToJoin();
+                if (disableRequestResult != Result.Success)
+                {
+                    InviteLogText.text += $"DisableRequestToJoin failed: {disableRequestResult}\n";
+                }
+            }
             
             var presenceInterface = EOSManager.Instance.GetEOSPresenceInterface();
             var presenceModificationOptions = new CreatePresenceModificationOptions();
@@ -164,6 +175,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 PayloadSet = true;
             }
             SetDirtyFlag();
+        }
+
+        public void DisableRequestToJoinOnClick()
+        {
+            var disableRequestResult = CustomInvitesManager.DisableRequestToJoin();
+            InviteLogText.text += disableRequestResult == Result.Success
+                ? "RequestToJoin disabled\n"
+                : $"DisableRequestToJoin failed: {disableRequestResult}\n";
         }
 
         public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
