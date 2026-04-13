@@ -52,7 +52,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         public const string SearchBucketIdKey = "bucket";
         public const string LobbyBucketId = "TestServerLobbyBucket";
         public const string LobbyPrivateBucketId = "TestServerPrivateLobbyBucket";
-        public const string SessionBucketId = "TestServerSessionBucket";
+        public const string SessionBucketId = "SessionSample:Region";
         public const string SessionPrivateBucketId = "TestServerPrivateSessionBucket";
         public const string SessionName = "TestServerSession";
         public const string SessionPrivateName = "TestServerPrivateSession";
