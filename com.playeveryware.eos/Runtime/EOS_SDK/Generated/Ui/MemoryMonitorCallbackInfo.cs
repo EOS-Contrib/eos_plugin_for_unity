@@ -19,8 +19,8 @@ namespace Epic.OnlineServices.UI
 		/// <summary>
 		/// This field is for system specific memory monitor report.
 		/// 
-		/// If provided then the structure will be located in eos_<platform>_ui.h
-		/// The structure will be named EOS_<platform>_MemoryMonitorReport.
+		/// If provided then the structure will be located in eos_{platform}_ui.h
+		/// The structure will be named EOS_{platform}_MemoryMonitorReport.
 		/// </summary>
 		public IntPtr SystemMemoryMonitorReport { get; set; }
 

@@ -29,7 +29,7 @@ namespace Epic.OnlineServices.Reports
 		/// <summary>
 		/// Optional plain text <see cref="Utf8String" /> associated with the report as UTF-8 encoded <see langword="null" />-terminated <see cref="Utf8String" />.
 		/// 
-		/// The length of the message can be at maximum up to <see cref="ReportsInterface.REPORTMESSAGE_MAX_LENGTH" /> bytes
+		/// The length of the message can be at maximum up to <see cref="ReportsInterface.REPORTMESSAGE_MAX_LENGTH" /> characters
 		/// and any excess characters will be truncated upon sending the report.
 		/// </summary>
 		public Utf8String Message { get; set; }
@@ -39,7 +39,7 @@ namespace Epic.OnlineServices.Reports
 		/// This is intended as a way to associate arbitrary structured context information with a report.
 		/// 
 		/// This <see cref="Utf8String" /> needs to be valid JSON, report will fail otherwise.
-		/// The length of the context can be at maximum up to <see cref="ReportsInterface.REPORTCONTEXT_MAX_LENGTH" /> bytes, not including the <see langword="null" /> terminator, report will fail otherwise.
+		/// The length of the context can be at maximum up to <see cref="ReportsInterface.REPORTCONTEXT_MAX_LENGTH" /> characters, not including the <see langword="null" /> terminator, report will fail otherwise.
 		/// </summary>
 		public Utf8String Context { get; set; }
 	}

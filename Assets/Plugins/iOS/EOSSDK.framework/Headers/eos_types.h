@@ -121,7 +121,11 @@ EOS_STRUCT(EOS_Platform_Options, (
 	const char* EncryptionKey;
 	/** The override country code to use for the logged in user. (EOS_COUNTRYCODE_MAX_LENGTH)*/
 	const char* OverrideCountryCode;
-	/** The override locale code to use for the logged in user. This follows ISO 639. (EOS_LOCALECODE_MAX_LENGTH)*/
+	/**
+	 * The override locale code to use for the logged in user. This follows ISO 639.
+	 * Supported locale codes: ar, da, de, en, en-GB, es-ES, es-MX, fi, fr, it, ja, ko, nl, no, pl, pt-BR, ru, sv, th, tr, zh-Hans, zh-Hant.
+	 * (EOS_LOCALECODE_MAX_LENGTH)
+	 */
 	const char* OverrideLocaleCode;
 	/** The deployment ID for the running application, found on the dev portal. Max length is EOS_PLATFORM_OPTIONS_DEPLOYMENTID_MAX_LENGTH. */
 	const char* DeploymentId;

@@ -240,6 +240,8 @@ EOS_RESULT_VALUE(EOS_Ecom_CatalogOfferPriceInvalid, 4003)
 EOS_RESULT_VALUE(EOS_Ecom_CheckoutLoadError, 4004)
 /** The player closed the purchase flow overlay after clicking the purchase button. The purchase may still go through, and the game needs to query unredeemed entitlements for a short time. */
 EOS_RESULT_VALUE(EOS_Ecom_PurchaseProcessing, 4005)
+/** The offer is not valid in the catalog for the current sandbox */
+EOS_RESULT_VALUE(EOS_Ecom_CatalogOfferInvalid, 4006)
 /** Session is already in progress */
 EOS_RESULT_VALUE(EOS_Sessions_SessionInProgress, 5000)
 /** Too many players to register with this session */

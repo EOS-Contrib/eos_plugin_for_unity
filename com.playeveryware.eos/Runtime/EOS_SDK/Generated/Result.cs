@@ -464,6 +464,10 @@ namespace Epic.OnlineServices
 		/// </summary>
 		EcomPurchaseProcessing = 4005,
 		/// <summary>
+		/// The offer is not valid in the catalog for the current sandbox
+		/// </summary>
+		EcomCatalogOfferInvalid = 4006,
+		/// <summary>
 		/// Session is already in progress
 		/// </summary>
 		SessionsSessionInProgress = 5000,

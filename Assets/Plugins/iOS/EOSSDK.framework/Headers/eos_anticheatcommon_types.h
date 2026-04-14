@@ -343,7 +343,7 @@ EOS_STRUCT(EOS_AntiCheatCommon_RegisterEventParamDef, (
 EOS_STRUCT(EOS_AntiCheatCommon_RegisterEventOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCOMMON_REGISTEREVENT_API_LATEST. */
 	int32_t ApiVersion;
-	/** Unique event identifier. Must be >= EOS_ANTICHEATCOMMON_REGISTEREVENT_CUSTOMEVENTBASE. */
+	/** Unique event identifier. Must be `>= EOS_ANTICHEATCOMMON_REGISTEREVENT_CUSTOMEVENTBASE`. */
 	uint32_t EventId;
 	/** Name of the custom event. Allowed characters are 0-9, A-Z, a-z, '_', '-' */
 	const char* EventName;

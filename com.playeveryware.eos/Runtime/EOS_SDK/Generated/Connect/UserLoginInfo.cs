@@ -13,7 +13,7 @@ namespace Epic.OnlineServices.Connect
 	{
 		/// <summary>
 		/// The user's display name on the identity provider systems as UTF-8 encoded <see langword="null" />-terminated <see cref="Utf8String" />.
-		/// The length of the name can be at maximum up to <see cref="ConnectInterface.USERLOGININFO_DISPLAYNAME_MAX_LENGTH" /> bytes.
+		/// The length of the name can be at maximum up to <see cref="ConnectInterface.USERLOGININFO_DISPLAYNAME_MAX_LENGTH" /> characters.
 		/// 
 		/// As the display name passed here is client-controlled and not part of user authentication tokens,
 		/// it is only treated as non-authoritative informational data to be used by some of the feature services.

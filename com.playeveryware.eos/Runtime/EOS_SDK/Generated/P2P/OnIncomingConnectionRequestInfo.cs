@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.P2P
 	public struct OnIncomingConnectionRequestInfo : ICallbackInfo
 	{
 		/// <summary>
-		/// Client-specified data passed into <see cref="Presence.PresenceInterface.AddNotifyOnPresenceChanged" />
+		/// Client-specified data passed into <see cref="P2PInterface.AddNotifyPeerConnectionRequest" />
 		/// </summary>
 		public object ClientData { get; set; }
 

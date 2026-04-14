@@ -30,8 +30,7 @@ namespace Epic.OnlineServices.Platform
 		/// The name of the product using the Epic Online Services SDK.
 		/// 
 		/// The name <see cref="Utf8String" /> is required to be non-empty and at maximum of <see cref="PlatformInterface.INITIALIZEOPTIONS_PRODUCTNAME_MAX_LENGTH" /> bytes long.
-		/// The <see cref="Utf8String" /> buffer can consist of the following characters:
-		/// A-Z, a-z, 0-9, dot, underscore, space, exclamation mark, question mark, and sign, hyphen, parenthesis, plus, minus, colon.
+		/// The <see cref="Utf8String" /> buffer can consist of any readable ANSI characters in the range 32-127.
 		/// </summary>
 		public Utf8String ProductName { get; set; }
 
@@ -39,8 +38,7 @@ namespace Epic.OnlineServices.Platform
 		/// Product version of the running application.
 		/// 
 		/// The version <see cref="Utf8String" /> is required to be non-empty and at maximum of <see cref="PlatformInterface.INITIALIZEOPTIONS_PRODUCTVERSION_MAX_LENGTH" /> bytes long.
-		/// The <see cref="Utf8String" /> buffer can consist of the following characters:
-		/// A-Z, a-z, 0-9, dot, underscore, space, exclamation mark, question mark, and sign, hyphen, parenthesis, plus, minus, colon.
+		/// The <see cref="Utf8String" /> buffer can consist of any readable ANSI characters in the range 32-127.
 		/// </summary>
 		public Utf8String ProductVersion { get; set; }
 
@@ -52,8 +50,8 @@ namespace Epic.OnlineServices.Platform
 		/// <summary>
 		/// This field is for system specific initialization if any.
 		/// 
-		/// If provided then the structure will be located in <System>/eos_<system>.h.
-		/// The structure will be named EOS_<System>_InitializeOptions.
+		/// If provided then the structure will be located in {System}/eos_{system}.h.
+		/// The structure will be named EOS_{System}_InitializeOptions.
 		/// </summary>
 		public IntPtr SystemInitializeOptions { get; set; }
 

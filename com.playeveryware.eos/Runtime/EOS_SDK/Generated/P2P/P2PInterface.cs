@@ -138,8 +138,10 @@ namespace Epic.OnlineServices.P2P
 		/// <returns>
 		/// <see cref="Result" /> containing the result of the operation.
 		/// Possible result codes:
-		/// - <see cref="Result.Success" /> - if the provided data is valid
-		/// - <see cref="Result.InvalidParameters" /> - if the provided data is invalid
+		/// - <see cref="Result.Success" /> - If the provided data is valid
+		/// - <see cref="Result.InvalidParameters" /> - If the provided data is invalid
+		/// - <see cref="Result.InvalidUser" /> - If the LocalUserId or RemoteUserId is invalid
+		/// - <see cref="Result.InvalidAuth" /> - If the local user is not logged in
 		/// </returns>
 		public Result AcceptConnection(ref AcceptConnectionOptions options)
 		{
@@ -386,10 +388,11 @@ namespace Epic.OnlineServices.P2P
 		/// <returns>
 		/// <see cref="Result" /> containing the result of the operation.
 		/// Possible result codes:
-		/// - <see cref="Result.Success" /> - if the input options were valid (even if queues were empty and no packets where cleared)
-		/// - <see cref="Result.IncompatibleVersion" /> - if wrong API version
-		/// - <see cref="Result.InvalidUser" /> - if an invalid/remote user was used
-		/// - <see cref="Result.InvalidParameters" /> - if input was invalid in other way
+		/// - <see cref="Result.Success" /> - If the input options were valid (even if queues were empty and no packets were cleared)
+		/// - <see cref="Result.IncompatibleVersion" /> - If wrong API version
+		/// - <see cref="Result.InvalidUser" /> - If an invalid/remote user was used
+		/// - <see cref="Result.InvalidAuth" /> - If the local user is not logged in
+		/// - <see cref="Result.InvalidParameters" /> - If input was invalid in some other way
 		/// </returns>
 		public Result ClearPacketQueue(ref ClearPacketQueueOptions options)
 		{
@@ -417,8 +420,10 @@ namespace Epic.OnlineServices.P2P
 		/// <returns>
 		/// <see cref="Result" /> containing the result of the operation.
 		/// Possible result codes:
-		/// - <see cref="Result.Success" /> - if the provided data is valid
-		/// - <see cref="Result.InvalidParameters" /> - if the provided data is invalid
+		/// - <see cref="Result.Success" /> - If the provided data is valid
+		/// - <see cref="Result.InvalidParameters" /> - If the provided data is invalid
+		/// - <see cref="Result.InvalidUser" /> - If the LocalUserId or RemoteUserId is invalid
+		/// - <see cref="Result.InvalidAuth" /> - If the local user is not logged in
 		/// </returns>
 		public Result CloseConnection(ref CloseConnectionOptions options)
 		{
@@ -442,8 +447,9 @@ namespace Epic.OnlineServices.P2P
 		/// <returns>
 		/// <see cref="Result" /> containing the result of the operation.
 		/// Possible result codes:
-		/// - <see cref="Result.Success" /> - if the provided data is valid
-		/// - <see cref="Result.InvalidParameters" /> - if the provided data is invalid
+		/// - <see cref="Result.Success" /> - If the provided data is valid
+		/// - <see cref="Result.InvalidParameters" /> - If the provided data is invalid
+		/// - <see cref="Result.InvalidUser" /> - If the LocalUserId is invalid
 		/// </returns>
 		public Result CloseConnections(ref CloseConnectionsOptions options)
 		{
@@ -470,7 +476,8 @@ namespace Epic.OnlineServices.P2P
 		/// <returns>
 		/// <see cref="Result" /> containing the result of the operation.
 		/// Possible result codes:
-		/// - <see cref="Result.Success" /> - if we have cached data
+		/// - <see cref="Result.Success" /> - If we have cached data
+		/// - <see cref="Result.InvalidParameters" /> - If the OutNATType parameter is <see langword="null" />
 		/// - <see cref="Result.NotFound" /> - If we do not have queried data cached
 		/// </returns>
 		public Result GetNATType(ref GetNATTypeOptions options, out NATType outNATType)
@@ -501,6 +508,8 @@ namespace Epic.OnlineServices.P2P
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If OutPacketSizeBytes was successfully set and there is data to be received
 		/// - <see cref="Result.InvalidParameters" /> - If input was invalid
+		/// - <see cref="Result.InvalidUser" /> - If the LocalUserId is invalid
+		/// - <see cref="Result.InvalidAuth" /> - If the local user is not logged in
 		/// - <see cref="Result.NotFound" /> - If there are no packets available for the requesting user
 		/// </returns>
 		public Result GetNextReceivedPacketSize(ref GetNextReceivedPacketSizeOptions options, out uint outPacketSizeBytes)
@@ -724,6 +733,8 @@ namespace Epic.OnlineServices.P2P
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If packet was queued to be sent successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input was invalid
+		/// - <see cref="Result.InvalidUser" /> - If the LocalUserId is invalid
+		/// - <see cref="Result.InvalidAuth" /> - If the local user is not logged in
 		/// - <see cref="Result.LimitExceeded" /> - If amount of data being sent is too large, or the outgoing packet queue was full
 		/// - <see cref="Result.NoConnection" /> - If bDisableAutoAcceptConnection was set to <see langword="true" /> and the connection was not currently accepted (call <see cref="AcceptConnection" /> first, or set bDisableAutoAcceptConnection to <see langword="false" />)
 		/// </returns>
@@ -804,8 +815,9 @@ namespace Epic.OnlineServices.P2P
 		/// <returns>
 		/// <see cref="Result" /> containing the result of the operation.
 		/// Possible result codes:
-		/// - <see cref="Result.Success" /> - if the options were set successfully
-		/// - <see cref="Result.InvalidParameters" /> - if the options are invalid in some way
+		/// - <see cref="Result.Success" /> - If the options were set successfully
+		/// - <see cref="Result.InvalidParameters" /> - If the options are invalid in some way
+		/// - <see cref="Result.Disabled" /> - If relay control cannot be changed on this platform
 		/// </returns>
 		public Result SetRelayControl(ref SetRelayControlOptions options)
 		{
