@@ -19,6 +19,8 @@
  * Possible result codes:
  * - EOS_Success           - If packet was queued to be sent successfully
  * - EOS_InvalidParameters - If input was invalid
+ * - EOS_InvalidUser       - If the LocalUserId is invalid
+ * - EOS_InvalidAuth       - If the local user is not logged in
  * - EOS_LimitExceeded     - If amount of data being sent is too large, or the outgoing packet queue was full
  * - EOS_NoConnection      - If bDisableAutoAcceptConnection was set to EOS_TRUE and the connection was not currently accepted (call EOS_P2P_AcceptConnection first, or set bDisableAutoAcceptConnection to EOS_FALSE)
  *
@@ -34,9 +36,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_SendPacket(EOS_HP2P Handle, const EOS_P2P_
  * @param OutPacketSizeBytes The amount of bytes required to store the data of the next packet for the requested user
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
- * - EOS_Success - If OutPacketSizeBytes was successfully set and there is data to be received
+ * - EOS_Success           - If OutPacketSizeBytes was successfully set and there is data to be received
  * - EOS_InvalidParameters - If input was invalid
- * - EOS_NotFound  - If there are no packets available for the requesting user
+ * - EOS_InvalidUser       - If the LocalUserId is invalid
+ * - EOS_InvalidAuth       - If the local user is not logged in
+ * - EOS_NotFound          - If there are no packets available for the requesting user
  *
  * @see EOS_P2P_GetNextReceivedPacketSizeOptions
  */
@@ -53,9 +57,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_GetNextReceivedPacketSize(EOS_HP2P Handle,
  * @param OutBytesWritten The amount of bytes written to OutData. Only set if there was a packet to receive.
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
- * - EOS_Success - If the packet was received successfully
+ * - EOS_Success           - If the packet was received successfully
  * - EOS_InvalidParameters - If input was invalid
- * - EOS_NotFound - If there are no packets available for the requesting user
+ * - EOS_InvalidUser       - If the LocalUserId is invalid
+ * - EOS_InvalidAuth       - If the local user is not logged in
+ * - EOS_NotFound          - If there are no packets available for the requesting user
  *
  * @see EOS_P2P_GetNextReceivedPacketSize
  * @see EOS_P2P_ReceivePacketOptions
@@ -186,8 +192,10 @@ EOS_DECLARE_FUNC(void) EOS_P2P_RemoveNotifyPeerConnectionClosed(EOS_HP2P Handle,
  * @param Options Information about who would like to accept a connection, and which connection
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
- * - EOS_Success - if the provided data is valid
- * - EOS_InvalidParameters - if the provided data is invalid
+ * - EOS_Success           - If the provided data is valid
+ * - EOS_InvalidParameters - If the provided data is invalid
+ * - EOS_InvalidUser       - If the LocalUserId or RemoteUserId is invalid
+ * - EOS_InvalidAuth       - If the local user is not logged in
  *
  * @see EOS_P2P_AcceptConnectionOptions
  */
@@ -203,8 +211,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_AcceptConnection(EOS_HP2P Handle, const EO
  * @param Options Information about who would like to close a connection, and which connection.
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
- * - EOS_Success - if the provided data is valid
- * - EOS_InvalidParameters - if the provided data is invalid
+ * - EOS_Success           - If the provided data is valid
+ * - EOS_InvalidParameters - If the provided data is invalid
+ * - EOS_InvalidUser       - If the LocalUserId or RemoteUserId is invalid
+ * - EOS_InvalidAuth       - If the local user is not logged in
  *
  * @see EOS_P2P_CloseConnectionOptions
  */
@@ -216,8 +226,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_CloseConnection(EOS_HP2P Handle, const EOS
  * @param Options Information about who would like to close connections, and by what socket ID
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
- * - EOS_Success - if the provided data is valid
- * - EOS_InvalidParameters - if the provided data is invalid
+ * - EOS_Success           - If the provided data is valid
+ * - EOS_InvalidParameters - If the provided data is invalid
+ * - EOS_InvalidUser       - If the LocalUserId is invalid
  *
  * @see EOS_P2P_CloseConnectionsOptions
  */
@@ -242,8 +253,9 @@ EOS_DECLARE_FUNC(void) EOS_P2P_QueryNATType(EOS_HP2P Handle, const EOS_P2P_Query
  * @param OutNATType The queried NAT Type, or unknown if unknown
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
- * - EOS_Success - if we have cached data
- * - EOS_NotFound - If we do not have queried data cached
+ * - EOS_Success           - If we have cached data
+ * - EOS_InvalidParameters - If the OutNATType parameter is NULL
+ * - EOS_NotFound          - If we do not have queried data cached
  *
  * @see EOS_P2P_GetNATTypeOptions
  */
@@ -256,8 +268,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_GetNATType(EOS_HP2P Handle, const EOS_P2P_
  * @param Options Information about relay server config options
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
- * - EOS_Success - if the options were set successfully
- * - EOS_InvalidParameters - if the options are invalid in some way
+ * - EOS_Success           - If the options were set successfully
+ * - EOS_InvalidParameters - If the options are invalid in some way
+ * - EOS_Disabled          - If relay control cannot be changed on this platform
  *
  * @see EOS_P2P_SetRelayControlOptions
  * @see EOS_ERelayControl
@@ -367,10 +380,11 @@ EOS_DECLARE_FUNC(void) EOS_P2P_RemoveNotifyIncomingPacketQueueFull(EOS_HP2P Hand
  * @param Options Information about which queues should be cleared
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
- * - EOS_Success - if the input options were valid (even if queues were empty and no packets where cleared)
- * - EOS_IncompatibleVersion - if wrong API version
- * - EOS_InvalidUser - if an invalid/remote user was used
- * - EOS_InvalidParameters - if input was invalid in other way
+ * - EOS_Success              - If the input options were valid (even if queues were empty and no packets were cleared)
+ * - EOS_IncompatibleVersion  - If wrong API version
+ * - EOS_InvalidUser          - If an invalid/remote user was used
+ * - EOS_InvalidAuth          - If the local user is not logged in
+ * - EOS_InvalidParameters    - If input was invalid in some other way
  *
  * @see EOS_P2P_ClearPacketQueueOptions
  */

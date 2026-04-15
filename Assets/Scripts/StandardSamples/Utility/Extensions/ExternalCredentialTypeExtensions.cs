@@ -52,7 +52,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 case ExternalCredentialType.PsnIdToken:
                 case ExternalCredentialType.XblXstsToken:
                 case ExternalCredentialType.Epic:
-                case ExternalCredentialType.ViveportUserToken:
                     return false;
                 default:
                     // Note: This compile conditional is here so that in the

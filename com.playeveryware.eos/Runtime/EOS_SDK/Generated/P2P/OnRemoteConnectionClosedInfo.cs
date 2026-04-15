@@ -7,12 +7,12 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.P2P
 {
 	/// <summary>
-	/// Structure containing information about an connection request that is being closed.
+	/// Structure containing information about a connection being closed.
 	/// </summary>
 	public struct OnRemoteConnectionClosedInfo : ICallbackInfo
 	{
 		/// <summary>
-		/// Client-specified data passed into <see cref="Presence.PresenceInterface.AddNotifyOnPresenceChanged" />
+		/// Client-specified data passed into <see cref="P2PInterface.AddNotifyPeerConnectionClosed" />
 		/// </summary>
 		public object ClientData { get; set; }
 

@@ -7,12 +7,12 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.P2P
 {
 	/// <summary>
-	/// Structure containing information about an connection request that is that was interrupted.
+	/// Structure containing information about a connection that was interrupted.
 	/// </summary>
 	public struct OnPeerConnectionInterruptedInfo : ICallbackInfo
 	{
 		/// <summary>
-		/// Client-specified data passed into <see cref="Presence.PresenceInterface.AddNotifyOnPresenceChanged" />
+		/// Client-specified data passed into <see cref="P2PInterface.AddNotifyPeerConnectionInterrupted" />
 		/// </summary>
 		public object ClientData { get; set; }
 

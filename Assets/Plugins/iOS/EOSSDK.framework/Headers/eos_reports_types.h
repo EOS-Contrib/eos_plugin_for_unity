@@ -53,7 +53,7 @@ EOS_STRUCT(EOS_Reports_SendPlayerBehaviorReportOptions, (
 	/**
 	 * Optional plain text string associated with the report as UTF-8 encoded null-terminated string.
 	 *
-	 * The length of the message can be at maximum up to EOS_REPORTS_REPORTMESSAGE_MAX_LENGTH bytes
+	 * The length of the message can be at maximum up to EOS_REPORTS_REPORTMESSAGE_MAX_LENGTH characters
 	 * and any excess characters will be truncated upon sending the report.
 	 */
 	const char* Message;
@@ -62,7 +62,7 @@ EOS_STRUCT(EOS_Reports_SendPlayerBehaviorReportOptions, (
 	 * This is intended as a way to associate arbitrary structured context information with a report.
 	 *
 	 * This string needs to be valid JSON, report will fail otherwise.
-	 * The length of the context can be at maximum up to EOS_REPORTS_REPORTCONTEXT_MAX_LENGTH bytes, not including the null terminator, report will fail otherwise.
+	 * The length of the context can be at maximum up to EOS_REPORTS_REPORTCONTEXT_MAX_LENGTH characters, not including the null terminator, report will fail otherwise.
 	 */
 	const char* Context;
 ));

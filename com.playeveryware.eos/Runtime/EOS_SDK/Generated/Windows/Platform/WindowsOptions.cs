@@ -58,7 +58,9 @@ namespace Epic.OnlineServices.Platform
 		public Utf8String OverrideCountryCode { get; set; }
 
 		/// <summary>
-		/// The override locale code to use for the logged in user. This follows ISO 639. (<see cref="PlatformInterface.LOCALECODE_MAX_LENGTH" />)
+		/// The override locale code to use for the logged in user. This follows ISO 639.
+		/// Supported locale codes: ar, da, de, en, en-GB, es-ES, es-MX, fi, fr, it, ja, ko, nl, no, pl, pt-BR, ru, sv, th, tr, zh-Hans, zh-Hant.
+		/// (<see cref="PlatformInterface.LOCALECODE_MAX_LENGTH" />)
 		/// </summary>
 		public Utf8String OverrideLocaleCode { get; set; }
 

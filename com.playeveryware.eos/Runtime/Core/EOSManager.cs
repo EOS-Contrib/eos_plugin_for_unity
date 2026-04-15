@@ -89,7 +89,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using LoginOptions = Epic.OnlineServices.Auth.LoginOptions;
     using LoginStatusChangedCallbackInfo = Epic.OnlineServices.Auth.LoginStatusChangedCallbackInfo;
 
-    using Utility;
     using LogoutCallbackInfo = Epic.OnlineServices.Auth.LogoutCallbackInfo;
     using LogoutOptions = Epic.OnlineServices.Auth.LogoutOptions;
     using OnLogoutCallback = Epic.OnlineServices.Auth.OnLogoutCallback;

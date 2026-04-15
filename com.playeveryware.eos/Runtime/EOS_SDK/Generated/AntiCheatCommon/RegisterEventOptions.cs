@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	public struct RegisterEventOptions
 	{
 		/// <summary>
-		/// Unique event identifier. Must be >= <see cref="AntiCheatCommonInterface.REGISTEREVENT_CUSTOMEVENTBASE" />.
+		/// Unique event identifier. Must be `>= <see cref="AntiCheatCommonInterface.REGISTEREVENT_CUSTOMEVENTBASE" />`.
 		/// </summary>
 		public uint EventId { get; set; }
 

@@ -52,7 +52,7 @@ namespace Epic.OnlineServices.P2P
 		/// </summary>
 		NegotiationFailed = 9,
 		/// <summary>
-		/// The connection was accepted, but there was an internal error occurred and the connection cannot be created or continue.
+		/// The connection was accepted, but an internal error occurred and the connection cannot be created or continue.
 		/// </summary>
 		UnexpectedError = 10,
 		/// <summary>
