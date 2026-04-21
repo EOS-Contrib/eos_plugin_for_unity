@@ -1640,6 +1640,9 @@ namespace PlayEveryWare.EpicOnlineServices
                     Log("Waiting for pending finalizers.");
                     System.GC.WaitForPendingFinalizers();
 #endif
+                    Log("Clearing notification callbacks before platform release.");
+                    Helper.ClearNotificationCallbacks();
+
                     Log("Releasing the EOS Platform Interface.");
                     GetEOSPlatformInterface()?.Release();
 
