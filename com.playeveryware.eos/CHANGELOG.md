@@ -18,8 +18,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix: Updated ListOfStringsToEnumConverterTests.
 - Fix: Updated tests to use ProductConfig instead of EOSConfig.
 - Fix: TestCommon now uses the correct SessionBucketId.
-- Fix: Achievements stop working after authorization expires.
-- Fix: Blocks enabling high-frequency sending when no valid peer is selected.
 
 ## [6.0.2] - 2026-03-10
 
