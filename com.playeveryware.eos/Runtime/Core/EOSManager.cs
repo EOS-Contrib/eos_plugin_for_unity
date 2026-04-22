@@ -36,7 +36,7 @@
 #endif
 
 // This define controls if the EOS SDK should be unloaded in the editor at shutdown to work around DLL unload errors.
-//#define EOS_DO_NOT_UNLOAD_SDK_ON_SHUTDOWN
+#define EOS_DO_NOT_UNLOAD_SDK_ON_SHUTDOWN
 
 // On macOS and Linux, there isn't a known reliable way to unload shared libraries, therefore this is the default behavior.
 #if (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)
@@ -1640,8 +1640,15 @@ namespace PlayEveryWare.EpicOnlineServices
                     Log("Waiting for pending finalizers.");
                     System.GC.WaitForPendingFinalizers();
 #endif
-                    Log("Clearing notification callbacks before platform release.");
-                    Helper.ClearNotificationCallbacks();
+                    Log("Disposing notification handles before platform release.");
+                    s_notifyLoginStatusChangedCallbackHandle?.Dispose();
+                    s_notifyLoginStatusChangedCallbackHandle = null;
+
+                    s_notifyConnectLoginStatusChangedCallbackHandle?.Dispose();
+                    s_notifyConnectLoginStatusChangedCallbackHandle = null;
+
+                    s_notifyConnectAuthExpirationCallbackHandle?.Dispose();
+                    s_notifyConnectAuthExpirationCallbackHandle = null;
 
                     Log("Releasing the EOS Platform Interface.");
                     GetEOSPlatformInterface()?.Release();

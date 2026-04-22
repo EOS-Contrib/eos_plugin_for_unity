@@ -191,8 +191,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Friends
 
             yield return new WaitUntilDone(GlobalTestTimeout, () => reportResult != null);
 
-            //yield return new WaitUntil(() => reportResult != null);
-
             if (reportResult != null)
             {
                 Assert.AreEqual(Result.InvalidRequest, reportResult.Value.ResultCode,
