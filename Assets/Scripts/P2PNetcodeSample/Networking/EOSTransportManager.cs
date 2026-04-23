@@ -424,6 +424,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 IsInitialized = true;
                 SubscribeToConnectionRequestNotifications();
                 SubscribeToConnectionClosedNotifications();
+                SubscribeToConnectionEstablishedNotifications();
+                SubscribeToConnectionInterruptedNotifications();
                 QueryNATType();
             }
 
@@ -445,6 +447,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             CloseAllConnections();
             UnsubscribeFromConnectionClosedNotifications();
             UnsubscribeFromConnectionRequestNotifications();
+            UnsubscribeFromConnectionEstablishedNotifications();
+            UnsubscribeFromConnectionInterruptedNotifications();
             Clear();
 
 #if UNITY_EDITOR
@@ -1348,6 +1352,56 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             // Force close (from incoming direction)
             CloseConnection(remoteUserId, socketName, true);
+        }
+
+        private ulong ConnectionEstablishedNotificationsId = 0;
+
+        private void SubscribeToConnectionEstablishedNotifications()
+        {
+            var options = new AddNotifyPeerConnectionEstablishedOptions()
+            {
+                LocalUserId = LocalUserId,
+                SocketId = null,
+            };
+
+            ConnectionEstablishedNotificationsId = P2PHandle.AddNotifyPeerConnectionEstablished(ref options, null, OnConnectionEstablishedNotification);
+        }
+
+        private void UnsubscribeFromConnectionEstablishedNotifications()
+        {
+            P2PHandle?.RemoveNotifyPeerConnectionEstablished(ConnectionEstablishedNotificationsId);
+        }
+
+        private void OnConnectionEstablishedNotification(ref OnPeerConnectionEstablishedInfo data)
+        {
+            Debug.Assert(data.LocalUserId == LocalUserId);
+            Log($"EOSTransportManager.OnConnectionEstablishedNotification: Connection established with remote peer '{LoggingUtils.Redact(data.RemoteUserId)}' " +
+                $"on socket '{data.SocketId?.SocketName}' | type={data.ConnectionType} network={data.NetworkType}");
+        }
+
+        private ulong ConnectionInterruptedNotificationsId = 0;
+
+        private void SubscribeToConnectionInterruptedNotifications()
+        {
+            var options = new AddNotifyPeerConnectionInterruptedOptions()
+            {
+                LocalUserId = LocalUserId,
+                SocketId = null,
+            };
+
+            ConnectionInterruptedNotificationsId = P2PHandle.AddNotifyPeerConnectionInterrupted(ref options, null, OnConnectionInterruptedNotification);
+        }
+
+        private void UnsubscribeFromConnectionInterruptedNotifications()
+        {
+            P2PHandle?.RemoveNotifyPeerConnectionInterrupted(ConnectionInterruptedNotificationsId);
+        }
+
+        private void OnConnectionInterruptedNotification(ref OnPeerConnectionInterruptedInfo data)
+        {
+            Debug.Assert(data.LocalUserId == LocalUserId);
+            LogWarning($"EOSTransportManager.OnConnectionInterruptedNotification: Connection interrupted with remote peer '{LoggingUtils.Redact(data.RemoteUserId)}' " +
+                       $"on socket '{data.SocketId?.SocketName}' - EOS will attempt auto-recovery");
         }
 
         public bool StartHost()
