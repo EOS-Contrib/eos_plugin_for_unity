@@ -1378,6 +1378,18 @@ namespace PlayEveryWare.EpicOnlineServices
                     ulong callbackHandle = EOSConnectInterface.AddNotifyAuthExpiration(
                         ref addNotifyAuthExpirationOptions, null, (ref AuthExpirationCallbackInfo callbackInfo) =>
                         {
+                            if (connectLoginOptions.Credentials.HasValue &&
+                                connectLoginOptions.Credentials.Value.Type == ExternalCredentialType.EpicIdToken)
+                            {
+                                var epicAccountId = GetLocalUserId();
+                                if (epicAccountId != null && epicAccountId.IsValid())
+                                {
+                                    // connectLoginOptions captures the JWT string from initial login; by expiration
+                                    // time that JWT is also stale. Fetch a fresh one from the Auth interface instead.
+                                    StartConnectLoginWithEpicAccount(epicAccountId, null);
+                                    return;
+                                }
+                            }
                             StartConnectLoginWithOptions(connectLoginOptions, null);
                         });
 
