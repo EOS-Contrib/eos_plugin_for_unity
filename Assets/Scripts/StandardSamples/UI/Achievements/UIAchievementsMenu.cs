@@ -142,7 +142,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 var userId = EOSManager.Instance.GetProductUserId();
-                if (userId.IsValid())
+                if (userId != null && userId.IsValid())
                 {
                     foreach (var playerAch in AchievementsService.Instance.CachedPlayerAchievements(userId))
                     {
@@ -253,8 +253,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //Show player-specific achievement data
         void DisplayPlayerAchievement(DefinitionV2 definition)
         {
+            var productUserId = EOSManager.Instance.GetProductUserId();
+            if (productUserId == null || !productUserId.IsValid())
+            {
+                definitionsDescription.text = "Player achievement data unavailable: user is not connected.";
+                definitionsDescription.gameObject.SetActive(true);
+                unlockAchievementButton.interactable = false;
+                return;
+            }
+
             PlayerAchievement? achievementNullable = null;
-            foreach (var ach in AchievementsService.Instance.CachedPlayerAchievements(EOSManager.Instance.GetProductUserId()))
+            foreach (var ach in AchievementsService.Instance.CachedPlayerAchievements(productUserId))
             {
                 if (ach.AchievementId == definition.AchievementId)
                 {
