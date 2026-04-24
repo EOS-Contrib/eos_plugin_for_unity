@@ -8,8 +8,6 @@
         {"src": "SDK/Bin/IOS/EOSSDK.framework/Headers/*.h", "dest": "Assets/Plugins/iOS/EOSSDK.framework/Headers/"},
         {"src": "SDK/Bin/IOS/EOSSDK.framework/Headers/*.inl", "dest": "Assets/Plugins/iOS/EOSSDK.framework/Headers/"},
         {"src": "SDK/Bin/IOS/EOSSDK.framework/EOSSDK", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
-        {"src": "SDK/Bin/IOS/EOSSDK.framework/Info.plist", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
-
-        
+        {"src": "SDK/Bin/IOS/EOSSDK.framework/Info.plist", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"}
     ]
 }

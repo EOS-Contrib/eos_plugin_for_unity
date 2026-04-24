@@ -4,6 +4,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [6.1.0] - 2026-05-12
 
+### Added
+- Added: Arm64 support for Windows.
+- Added: Support for Custom Invites Disable Requests.
+- Added: Utility to remove PUID and other identifiable information from logs.
+
+### Changed
+- Change: Update to EOS SDK 1.19.1.0-CL52894002
+- Change: High Frequency P2P script improvements.
+
+### Fixed
+- Fix: Added a HandleLogout at UIPlayerReportMenu to close Player report menu when the player Logout.
+- Fix: Updated ListOfStringsToEnumConverterTests.
+- Fix: Updated tests to use ProductConfig instead of EOSConfig.
+- Fix: TestCommon now uses the correct SessionBucketId.
+
 ## [6.0.2] - 2026-03-10
 
 ### Fixed
