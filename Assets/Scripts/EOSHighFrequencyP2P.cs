@@ -166,7 +166,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void SendMessage(ProductUserId friendId, string message)
         {
-            if (!friendId.IsValid())
+            if (friendId == null || !friendId.IsValid())
             {
                 Debug.LogError("EOS P2PNAT SendMessage: bad input data: account id is wrong.");
                 return;

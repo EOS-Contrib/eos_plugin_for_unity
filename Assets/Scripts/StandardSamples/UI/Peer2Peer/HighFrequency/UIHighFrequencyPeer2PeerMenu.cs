@@ -79,6 +79,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (Peer2PeerManager != null)
             {
+                if (!Peer2PeerManager.sendActive &&
+                    (currentChatProductUserId == null || !currentChatProductUserId.IsValid()))
+                {
+                    Debug.LogWarning($"{nameof(UIHighFrequencyPeer2PeerMenu)} {nameof(ToggleHighFrequencySending)}: Select a valid peer before enabling high-frequency sending.");
+                    return;
+                }
                 Peer2PeerManager.sendActive = !Peer2PeerManager.sendActive;
             }
         }
