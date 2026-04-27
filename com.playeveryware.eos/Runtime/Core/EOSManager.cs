@@ -1656,13 +1656,13 @@ namespace PlayEveryWare.EpicOnlineServices
                     GetEOSPlatformInterface()?.Release();
 
 #if UNITY_EDITOR
-                    if(s_eosUnloadSDKOnShutdown)
+                    if (s_eosUnloadSDKOnShutdown)
 #endif
                     {
                         Log("Shutting down the platform interface.");
                         ShutdownPlatformInterface();
                     }
-                        SetEOSPlatformInterface(null);
+                    SetEOSPlatformInterface(null);
 
 
 #endif
