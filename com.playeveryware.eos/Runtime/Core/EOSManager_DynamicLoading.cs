@@ -59,7 +59,9 @@ namespace PlayEveryWare.EpicOnlineServices
 #if UNITY_STANDALONE_OSX
                 "GfxPluginNativeRender-macOS";
 #elif UNITY_STANDALONE_WIN
-#if UNITY_64
+#if UNITY_STANDALONE_WIN_ARM64
+                "GfxPluginNativeRender-arm64";
+#elif UNITY_64
                 "GfxPluginNativeRender-x64";
 #else
                 "GfxPluginNativeRender-x86";
