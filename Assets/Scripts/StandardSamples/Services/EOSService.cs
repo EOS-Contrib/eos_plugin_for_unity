@@ -25,6 +25,7 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices;
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -217,6 +218,80 @@ namespace PlayEveryWare.EpicOnlineServices
         protected void NotifyUpdated()
         {
             Updated?.Invoke();
+        }
+
+        /// <summary>
+        /// Returns true when the given EOS result code indicates a transient
+        /// auth connection failure that warrants a single retry after reconnect.
+        /// </summary>
+        protected static bool ShouldRetryAfterReconnect(Result resultCode)
+        {
+            return resultCode == Result.AuthExpired
+                || resultCode == Result.ConnectAuthExpired
+                || resultCode == Result.InvalidAuth
+                || resultCode == Result.InvalidUser;
+        }
+
+        /// <summary>
+        /// Executes the given EOS operation with a valid ProductUserId,
+        /// automatically waiting for re-authentication and retrying once if a
+        /// transient auth connection failure is detected.
+        /// </summary>
+        protected async Task<(Result ResultCode, T Value)> ExecuteWithAuthRetryAsync<T>(
+            Func<ProductUserId, Task<(Result ResultCode, T Value)>> operation)
+        {
+            var userId = EOSManager.Instance.GetProductUserId();
+            if (userId == null || !userId.IsValid())
+            {
+                await WhenAuthenticatedAsync();
+                userId = EOSManager.Instance.GetProductUserId();
+            }
+
+            var (resultCode, value) = await operation(userId);
+
+            if (ShouldRetryAfterReconnect(resultCode))
+            {
+                await WhenAuthenticatedAsync();
+                userId = EOSManager.Instance.GetProductUserId();
+                if (userId != null && userId.IsValid())
+                    (resultCode, value) = await operation(userId);
+            }
+
+            return (resultCode, value);
+        }
+
+        /// <summary>
+        /// Returns a Task that completes the next time a user successfully
+        /// authenticates. Useful for retrying EOS operations that failed due to
+        /// a transient auth connection failure while a proactive token refresh
+        /// was in progress.
+        /// </summary>
+        /// <param name="timeoutMs">
+        /// Maximum time to wait for re-authentication in milliseconds (default 30 s).
+        /// Throws <see cref="TimeoutException"/> if the deadline is exceeded.
+        /// </param>
+        protected async Task WhenAuthenticatedAsync(int timeoutMs = 30_000)
+        {
+            var tcs = new TaskCompletionSource<bool>();
+
+            void OnChanged(bool authenticated, AuthenticationListener.LoginChangeKind changeType)
+            {
+                if (!authenticated)
+                    return;
+
+                AuthenticationListener.Instance.AuthenticationChanged -= OnChanged;
+                tcs.TrySetResult(true);
+            }
+
+            using var cts = new CancellationTokenSource(timeoutMs);
+            cts.Token.Register(() =>
+            {
+                AuthenticationListener.Instance.AuthenticationChanged -= OnChanged;
+                tcs.TrySetException(new TimeoutException("Timed out waiting for re-authentication."));
+            });
+
+            AuthenticationListener.Instance.AuthenticationChanged += OnChanged;
+            await tcs.Task;
         }
     }
 }
