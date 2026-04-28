@@ -1,0 +1,18 @@
+﻿<Solution>
+  <Project Path="com.Epic.OnlineServices.csproj" />
+  <Project Path="com.playeveryware.eos.samples.csproj" />
+  <Project Path="com.playeveryware.eos.tests.common.csproj" />
+  <Project Path="com.playeveryware.eos.core.csproj" />
+  <Project Path="com.playeveryware.eos-Editor.csproj" />
+  <Project Path="com.playeveryware.eos.tests.playmode.csproj" />
+  <Project Path="com.playeveryware.eos.test.csproj" />
+  <Project Path="com.playeveryware.eos.samples.facepunch-steamworks.csproj" />
+  <Project Path="com.playeveryware.eos.samples.oculus.csproj" />
+  <Project Path="com.playeveryware.eos.csproj" />
+  <Project Path="com.playeveryware.eos.samples.appleauth.editor.csproj" />
+  <Project Path="com.playeveryware.eos.samples.networking.csproj" />
+  <Project Path="com.playeveryware.eos.samples.postprocessing.csproj" />
+  <Project Path="com.playeveryware.eos.samples.appleauth.csproj" />
+  <Project Path="com.playeveryware.eos-Editor.steam.utility.csproj" />
+  <Project Path="com.playeveryware.eos.samples.steam.csproj" />
+</Solution>

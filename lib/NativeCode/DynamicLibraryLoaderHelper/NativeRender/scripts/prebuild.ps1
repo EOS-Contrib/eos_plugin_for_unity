@@ -11,14 +11,20 @@ param(
 Write-Host "=============== Start of Prebuild Script =========================="
 
 # If in debug mode, we want to copy the eos sdk dll, the steam app id file, and
-# The steam DLL into the output directory
+# The steam DLL into the output directory.
+# Note: STEAM_API_DLL_NAME may be empty (e.g. ARM64, where Steam has no native binary).
+# In that case the Steam app id file and Steam DLL are skipped.
 if ($Configuration -eq "Debug")
 {
   $filesToCopy = @(
-    (Join-Path $SolutionDir "..\..\..\steam_appid.txt"),
-    (Join-Path $SteamLibraryDirectory $STEAM_API_DLL_NAME),
     (Join-Path $OutputUnityAssetsDirectory $EOS_SDK_DLL_NAME)
   )
+
+  if (-not [string]::IsNullOrWhiteSpace($STEAM_API_DLL_NAME))
+  {
+    $filesToCopy += (Join-Path $SolutionDir "..\..\..\steam_appid.txt")
+    $filesToCopy += (Join-Path $SteamLibraryDirectory $STEAM_API_DLL_NAME)
+  }
 
   $filesToCopy | ForEach-Object {
     if (-Not(Test-Path -LiteralPath $_)) {

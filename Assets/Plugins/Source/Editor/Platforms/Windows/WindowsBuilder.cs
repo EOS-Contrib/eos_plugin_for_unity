@@ -31,13 +31,109 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
     using Config;
     using Config = EpicOnlineServices.Config;
     using System.IO;
+    using System.Reflection;
     using UnityEditor;
     using UnityEditor.Build;
     using UnityEditor.Build.Reporting;
     using UnityEngine;
+    using Utility;
 
     /// <summary>
-    /// WindowsBuilder for 64-bit deployment.
+    /// Scripting define set when targeting the Windows ARM64 architecture sub-option
+    /// of <see cref="BuildTarget.StandaloneWindows64"/>. Unity does not provide a built-in
+    /// scripting define to distinguish ARM64 from x64 on Standalone Windows, so this
+    /// project-local symbol is auto-managed by the Windows builders during preprocess.
+    ///
+    /// IMPORTANT: scripting defines set during build preprocess only affect the *next*
+    /// build's script compilation, not the current one. Switching between x64 and ARM64
+    /// for Windows builds requires running the menu item under "EOS Plugin/Advanced/Windows
+    /// ARM64..." once before the first build, or running a build twice (the first to set
+    /// the define, the second to compile against it).
+    /// </summary>
+    internal static class WindowsArm64Define
+    {
+        public const string Symbol = "EOS_PLATFORM_WINDOWS_ARM64";
+
+#if UNITY_6000_0_OR_NEWER
+        /// <summary>
+        /// True when the active Standalone build is configured to produce ARM64 binaries.
+        /// </summary>
+        /// <remarks>
+        /// Unity does not expose a stable public API for the Windows architecture sub-option
+        /// across all 6.x minor versions. We try (in order):
+        ///   1. <see cref="PlayerSettings.GetArchitecture(NamedBuildTarget)"/> — Unity 6.x.
+        ///   2. <see cref="PlayerSettings.GetArchitecture(BuildTargetGroup)"/> — fallback older overload.
+        ///   3. Presence of <see cref="Symbol"/> in the active scripting defines — manual escape hatch.
+        /// Any thrown exception is swallowed so an API change in a Unity update does not break builds.
+        /// </remarks>
+        public static bool IsArm64Active()
+        {
+            // Try newer NamedBuildTarget overload via reflection so that absence on a given
+            // Unity build does not produce a hard compile failure.
+            try
+            {
+                MethodInfo method = typeof(PlayerSettings).GetMethod(
+                    "GetArchitecture",
+                    new[] { typeof(NamedBuildTarget) });
+                if (method != null)
+                {
+                    object value = method.Invoke(null, new object[] { NamedBuildTarget.Standalone });
+                    if (value is int arch)
+                    {
+                        // Windows architecture sub-option: 0 = x86_64, 1 = ARM64 in Unity 6.
+                        return arch == 1;
+                    }
+                }
+            }
+            catch { /* fall through */ }
+
+            // Older overload accepting BuildTargetGroup is available across all Unity 6.x.
+            try
+            {
+                int arch = PlayerSettings.GetArchitecture(BuildTargetGroup.Standalone);
+                if (arch != 0)
+                {
+                    return true;
+                }
+            }
+            catch { /* fall through */ }
+
+            // Manual escape hatch: respect the scripting define if the user set it explicitly.
+            try
+            {
+                NamedBuildTarget named = NamedBuildTarget.FromBuildTargetGroup(BuildTargetGroup.Standalone);
+                string defines = PlayerSettings.GetScriptingDefineSymbols(named);
+                return !string.IsNullOrEmpty(defines)
+                    && System.Array.IndexOf(defines.Split(';'), Symbol) >= 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+#else
+        public static bool IsArm64Active() => false;
+#endif
+
+#if UNITY_6000_0_OR_NEWER
+        [MenuItem("EOS Plugin/Advanced/Windows ARM64/Enable scripting define")]
+        private static void EnableArm64Define()
+        {
+            ScriptingDefineUtility.AddDefine(BuildTarget.StandaloneWindows64, Symbol);
+            UnityEngine.Debug.Log($"Scripting define '{Symbol}' enabled for Standalone Windows. Build for ARM64 architecture to produce ARM64 binaries.");
+        }
+
+        [MenuItem("EOS Plugin/Advanced/Windows ARM64/Disable scripting define")]
+        private static void DisableArm64Define()
+        {
+            ScriptingDefineUtility.RemoveDefine(BuildTarget.StandaloneWindows64, Symbol);
+            UnityEngine.Debug.Log($"Scripting define '{Symbol}' disabled for Standalone Windows. Subsequent builds will produce x64 binaries.");
+        }
+#endif
+    }
+
+    /// <summary>
+    /// WindowsBuilder for 64-bit (x86_64) deployment.
     /// </summary>
     public class WindowsBuilder64 : WindowsBuilder
     {
@@ -48,7 +144,69 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 "DynamicLibraryLoaderHelper-x64.dll",
                 "GfxPluginNativeRender-x64.dll");
         }
+
+        public override string GetPlatformString()
+        {
+            return "x64";
+        }
+
+        protected override bool ShouldHandle(BuildReport report)
+        {
+            // StandaloneWindows64 covers both x64 and ARM64 in Unity 6; only handle x64 here.
+            if (!base.ShouldHandle(report))
+            {
+                return false;
+            }
+            return !WindowsArm64Define.IsArm64Active();
+        }
+
+        public override void PreBuild(BuildReport report)
+        {
+            // Ensure ARM64 define is cleared on x64 builds so Common.cs picks the x64 SDK name.
+            ScriptingDefineUtility.RemoveDefine(BuildTarget.StandaloneWindows64, WindowsArm64Define.Symbol);
+            base.PreBuild(report);
+        }
     }
+
+#if UNITY_6000_0_OR_NEWER
+    /// <summary>
+    /// WindowsBuilder for ARM64 deployment. Available in Unity 6000.0+ where
+    /// Standalone Windows ARM64 is supported as an architecture sub-option of
+    /// <see cref="BuildTarget.StandaloneWindows64"/>. Steam features are unavailable
+    /// on this architecture (no Steam binaries ship for Windows ARM64).
+    /// </summary>
+    public class WindowsBuilderArm64 : WindowsBuilder
+    {
+        public WindowsBuilderArm64() : base("Plugins/Windows/ARM64", BuildTarget.StandaloneWindows64)
+        {
+            AddProjectFileToBinaryMapping(
+                "DynamicLibraryLoaderHelper/DynamicLibraryLoaderHelper.sln",
+                "DynamicLibraryLoaderHelper-arm64.dll",
+                "GfxPluginNativeRender-arm64.dll");
+        }
+
+        public override string GetPlatformString()
+        {
+            return "ARM64";
+        }
+
+        protected override bool ShouldHandle(BuildReport report)
+        {
+            if (!base.ShouldHandle(report))
+            {
+                return false;
+            }
+            return WindowsArm64Define.IsArm64Active();
+        }
+
+        public override void PreBuild(BuildReport report)
+        {
+            // Set ARM64 define so Common.cs and EOSManager pick ARM64-suffixed binaries.
+            ScriptingDefineUtility.AddDefine(BuildTarget.StandaloneWindows64, WindowsArm64Define.Symbol);
+            base.PreBuild(report);
+        }
+    }
+#endif
 
     /// <summary>
     /// WindowsBuilder for 32-bit deployment.
@@ -64,6 +222,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 "DynamicLibraryLoaderHelper/DynamicLibraryLoaderHelper.sln",
                 "DynamicLibraryLoaderHelper-x86.dll",
                 "GfxPluginNativeRender-x86.dll");
+        }
+
+        public override string GetPlatformString()
+        {
+            return "Win32";
         }
     }
 
