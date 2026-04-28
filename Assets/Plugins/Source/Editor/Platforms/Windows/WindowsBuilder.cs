@@ -181,8 +181,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         {
             AddProjectFileToBinaryMapping(
                 "DynamicLibraryLoaderHelper/DynamicLibraryLoaderHelper.sln",
-                "DynamicLibraryLoaderHelper-arm64.dll",
-                "GfxPluginNativeRender-arm64.dll");
+                // ARM64 binaries are copied into Plugins/Windows/ARM64, but keep
+                // the existing logical DllImport filenames so Unity resolves them
+                // by plugin importer CPU metadata.
+                "DynamicLibraryLoaderHelper-x64.dll",
+                "GfxPluginNativeRender-x64.dll");
         }
 
         public override string GetPlatformString()
@@ -201,7 +204,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
         public override void PreBuild(BuildReport report)
         {
-            // Set ARM64 define so Common.cs and EOSManager pick ARM64-suffixed binaries.
+            // Set ARM64 define so platform-specific code can gate unsupported dependencies such as Steam.
             ScriptingDefineUtility.AddDefine(BuildTarget.StandaloneWindows64, WindowsArm64Define.Symbol);
             base.PreBuild(report);
         }

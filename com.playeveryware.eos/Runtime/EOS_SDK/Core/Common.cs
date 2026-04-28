@@ -12,17 +12,15 @@
 #define EOS_UNITY
 #endif
 
-#if UNITY_STANDALONE_WIN_ARM64
-#define EOS_PLATFORM_WINDOWS_ARM64
+#if EOS_PLATFORM_WINDOWS_ARM64
+// Set externally by the Windows ARM64 build pipeline.
+// Unity does not provide a built-in Windows ARM64 scripting symbol.
 #elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || PLATFORM_64BITS || PLATFORM_32BITS || UNITY_WSA
 #if UNITY_EDITOR_WIN || UNITY_64 || UNITY_EDITOR_64 || PLATFORM_64BITS || UNITY_WSA
 #define EOS_PLATFORM_WINDOWS_64
 #else
 #define EOS_PLATFORM_WINDOWS_32
 #endif
-
-#elif EOS_PLATFORM_WINDOWS_ARM64 && EOS_UNITY
-"EOSSDK-Win64-Shippingarm64"
 
 #elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
 #define EOS_PLATFORM_OSX
@@ -71,12 +69,17 @@ namespace Epic.OnlineServices
 		#elif EOS_PLATFORM_WINDOWS_32
 			"EOSSDK-Win32-Shipping.dll"
 
-		#elif EOS_PLATFORM_WINDOWS_64 && EOS_UNITY
+		#elif EOS_PLATFORM_WINDOWS_ARM64 && EOS_UNITY
 			"EOSSDK-Win64-Shipping"
-#elif EOS_PLATFORM_WINDOWS_64
+		#elif EOS_PLATFORM_WINDOWS_ARM64
 			"EOSSDK-Win64-Shipping.dll"
 
-#elif EOS_PLATFORM_OSX && EOS_UNITY
+		#elif EOS_PLATFORM_WINDOWS_64 && EOS_UNITY
+			"EOSSDK-Win64-Shipping"
+		#elif EOS_PLATFORM_WINDOWS_64
+			"EOSSDK-Win64-Shipping.dll"
+
+		#elif EOS_PLATFORM_OSX && EOS_UNITY
 			"libEOSSDK-Mac-Shipping"
 #elif EOS_PLATFORM_OSX
 			"libEOSSDK-Mac-Shipping.dylib"
@@ -114,13 +117,6 @@ namespace Epic.OnlineServices
 
 #elif EOS_PLATFORM_XSX
 			"EOSSDK-XSX-Shipping"
-
-#elif EOS_PLATFORM_WINDOWS_ARM64 && EOS_UNITY
-    		"EOSSDK-Win64-Shippingarm64"
-
-#elif EOS_PLATFORM_WINDOWS_ARM64
-    		"EOSSDK-Win64-Shippingarm64.dll"
-
 #elif EOS_DISABLE
 #warning Disabling EOS
 
