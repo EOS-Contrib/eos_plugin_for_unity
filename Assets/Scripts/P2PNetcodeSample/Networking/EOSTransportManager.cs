@@ -254,6 +254,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
         private const byte ConnectionConfirmationChannel = byte.MaxValue;
 
+        private ulong ConnectionEstablishedNotificationsId = 0;
+        
+        private ulong ConnectionInterruptedNotificationsId = 0;
+
         [System.Diagnostics.Conditional("EOS_TRANSPORTMANAGER_DEBUG")]
         private void Log(string msg)
         {
@@ -445,10 +449,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             Log($"EOSTransportManager.Shutdown: Shutting down EOSTransportManager... | EOSTransportManager={GetDebugString()}");
             CloseAllConnections();
+            UnsubscribeFromConnectionInterruptedNotifications();
+            UnsubscribeFromConnectionEstablishedNotifications();
             UnsubscribeFromConnectionClosedNotifications();
             UnsubscribeFromConnectionRequestNotifications();
-            UnsubscribeFromConnectionEstablishedNotifications();
-            UnsubscribeFromConnectionInterruptedNotifications();
             Clear();
 
 #if UNITY_EDITOR
@@ -1354,8 +1358,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             CloseConnection(remoteUserId, socketName, true);
         }
 
-        private ulong ConnectionEstablishedNotificationsId = 0;
-
         private void SubscribeToConnectionEstablishedNotifications()
         {
             var options = new AddNotifyPeerConnectionEstablishedOptions()
@@ -1369,7 +1371,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
         private void UnsubscribeFromConnectionEstablishedNotifications()
         {
-            P2PHandle?.RemoveNotifyPeerConnectionEstablished(ConnectionEstablishedNotificationsId);
+            if (ConnectionEstablishedNotificationsId != 0)
+            {
+                P2PHandle?.RemoveNotifyPeerConnectionEstablished(ConnectionEstablishedNotificationsId);
+                ConnectionEstablishedNotificationsId = 0;
+            }
         }
 
         private void OnConnectionEstablishedNotification(ref OnPeerConnectionEstablishedInfo data)
@@ -1378,8 +1384,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             Log($"EOSTransportManager.OnConnectionEstablishedNotification: Connection established with remote peer '{LoggingUtils.Redact(data.RemoteUserId)}' " +
                 $"on socket '{data.SocketId?.SocketName}' | type={data.ConnectionType} network={data.NetworkType}");
         }
-
-        private ulong ConnectionInterruptedNotificationsId = 0;
 
         private void SubscribeToConnectionInterruptedNotifications()
         {
@@ -1394,7 +1398,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
         private void UnsubscribeFromConnectionInterruptedNotifications()
         {
-            P2PHandle?.RemoveNotifyPeerConnectionInterrupted(ConnectionInterruptedNotificationsId);
+            if (ConnectionInterruptedNotificationsId != 0)
+            {
+                P2PHandle?.RemoveNotifyPeerConnectionInterrupted(ConnectionInterruptedNotificationsId);
+                ConnectionInterruptedNotificationsId = 0;
+            }
         }
 
         private void OnConnectionInterruptedNotification(ref OnPeerConnectionInterruptedInfo data)
