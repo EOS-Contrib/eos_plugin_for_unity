@@ -184,8 +184,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 // ARM64 binaries are copied into Plugins/Windows/ARM64, but keep
                 // the existing logical DllImport filenames so Unity resolves them
                 // by plugin importer CPU metadata.
-                "DynamicLibraryLoaderHelper-x64.dll",
-                "GfxPluginNativeRender-x64.dll");
+                "DynamicLibraryLoaderHelper-ARM64.dll",
+                "GfxPluginNativeRender-ARM64.dll");
         }
 
         public override string GetPlatformString()

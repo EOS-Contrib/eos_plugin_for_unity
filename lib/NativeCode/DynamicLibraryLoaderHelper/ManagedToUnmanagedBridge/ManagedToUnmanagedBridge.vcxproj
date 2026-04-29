@@ -93,7 +93,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalUsingDirectories>$(SolutionDir)Build\$(Configuration)\$(Platform)\</AdditionalUsingDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)Build\$(Configuration)\$(Platform)\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>

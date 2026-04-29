@@ -24,7 +24,7 @@
     <STEAM_API_DLL_NAME Condition="'$(NormalizedPlatform)' == 'x86'">steam_api.dll</STEAM_API_DLL_NAME>
 
     <!-- ARM64: EOS SDK ships a Windows ARM64 binary with the "arm64" filename suffix. Steam has no ARM64 binary, so STEAM_API_DLL_NAME is intentionally undefined. -->
-    <EOS_SDK_DLL_NAME Condition="'$(NormalizedPlatform)' == 'ARM64'">EOSSDK-Win64-Shipping.dll</EOS_SDK_DLL_NAME>
+    <EOS_SDK_DLL_NAME Condition="'$(NormalizedPlatform)' == 'ARM64'">EOSSDK-Win64-Shippingarm64.dll</EOS_SDK_DLL_NAME>
 
       <!-- 
       Define a property with the SolutionDir path but with backslashes replaced 

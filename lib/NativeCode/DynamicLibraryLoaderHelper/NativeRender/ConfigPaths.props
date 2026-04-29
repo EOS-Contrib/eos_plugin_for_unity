@@ -22,7 +22,7 @@
 
   <!-- Windows ARM64. Epic ships ARM64 binaries with the "arm64" filename suffix. Steam has no ARM64 binary, so SteamApiDll is intentionally undefined. -->
   <PropertyGroup Condition="'$(Platform)'=='ARM64'">
-    <SdkDllName>EOSSDK-Win64-Shipping.dll</SdkDllName>
-    <OverlayDllName>EOSOVH-Win64-Shipping.dll</OverlayDllName>
+    <SdkDllName>EOSSDK-Win64-Shippingarm64.dll</SdkDllName>
+    <OverlayDllName>EOSOVH-Win64-Shippingarm64.dll</OverlayDllName>
   </PropertyGroup>
 </Project>

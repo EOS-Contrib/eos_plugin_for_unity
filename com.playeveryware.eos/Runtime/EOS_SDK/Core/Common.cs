@@ -70,9 +70,9 @@ namespace Epic.OnlineServices
 			"EOSSDK-Win32-Shipping.dll"
 
 		#elif EOS_PLATFORM_WINDOWS_ARM64 && EOS_UNITY
-			"EOSSDK-Win64-Shipping"
+			"EOSSDK-Win64-Shippingarm64"
 		#elif EOS_PLATFORM_WINDOWS_ARM64
-			"EOSSDK-Win64-Shipping.dll"
+			"EOSSDK-Win64-Shippingarm64.dll"
 
 		#elif EOS_PLATFORM_WINDOWS_64 && EOS_UNITY
 			"EOSSDK-Win64-Shipping"
