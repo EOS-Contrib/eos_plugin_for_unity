@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added: Arm64 support for Windows.
 - Added: Support for Custom Invites Disable Requests.
 - Added: Utility to remove PUID and other identifiable information from logs.
+- Added: AddNotifyPeerConnectionEstablished and AddNotifyPeerConnectionInterrupted callbacks to EOSTransportManager and EOSPeer2PeerManager.
 
 ### Changed
 - Change: Update to EOS SDK 1.19.1.0-CL52894002
@@ -18,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix: Updated ListOfStringsToEnumConverterTests.
 - Fix: Updated tests to use ProductConfig instead of EOSConfig.
 - Fix: TestCommon now uses the correct SessionBucketId.
+- Fix: Achievements no longer stop working after authorization expires.
+- Fix: Blocks enabling high-frequency sending when no valid peer is selected.
+- Fix: Re-authenticates when P2P disconnects mid-session.
 
 ## [6.0.2] - 2026-03-10
 
