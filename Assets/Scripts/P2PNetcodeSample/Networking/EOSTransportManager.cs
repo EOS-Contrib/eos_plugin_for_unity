@@ -254,6 +254,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
         private const byte ConnectionConfirmationChannel = byte.MaxValue;
 
+        private ulong ConnectionEstablishedNotificationsId = 0;
+        
+        private ulong ConnectionInterruptedNotificationsId = 0;
+
         [System.Diagnostics.Conditional("EOS_TRANSPORTMANAGER_DEBUG")]
         private void Log(string msg)
         {
@@ -424,6 +428,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 IsInitialized = true;
                 SubscribeToConnectionRequestNotifications();
                 SubscribeToConnectionClosedNotifications();
+                SubscribeToConnectionEstablishedNotifications();
+                SubscribeToConnectionInterruptedNotifications();
                 QueryNATType();
             }
 
@@ -443,6 +449,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             Log($"EOSTransportManager.Shutdown: Shutting down EOSTransportManager... | EOSTransportManager={GetDebugString()}");
             CloseAllConnections();
+            UnsubscribeFromConnectionInterruptedNotifications();
+            UnsubscribeFromConnectionEstablishedNotifications();
             UnsubscribeFromConnectionClosedNotifications();
             UnsubscribeFromConnectionRequestNotifications();
             Clear();
@@ -1348,6 +1356,60 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             // Force close (from incoming direction)
             CloseConnection(remoteUserId, socketName, true);
+        }
+
+        private void SubscribeToConnectionEstablishedNotifications()
+        {
+            var options = new AddNotifyPeerConnectionEstablishedOptions()
+            {
+                LocalUserId = LocalUserId,
+                SocketId = null,
+            };
+
+            ConnectionEstablishedNotificationsId = P2PHandle.AddNotifyPeerConnectionEstablished(ref options, null, OnConnectionEstablishedNotification);
+        }
+
+        private void UnsubscribeFromConnectionEstablishedNotifications()
+        {
+            if (ConnectionEstablishedNotificationsId != 0)
+            {
+                P2PHandle?.RemoveNotifyPeerConnectionEstablished(ConnectionEstablishedNotificationsId);
+                ConnectionEstablishedNotificationsId = 0;
+            }
+        }
+
+        private void OnConnectionEstablishedNotification(ref OnPeerConnectionEstablishedInfo data)
+        {
+            Debug.Assert(data.LocalUserId == LocalUserId);
+            Log($"EOSTransportManager.OnConnectionEstablishedNotification: Connection established with remote peer '{LoggingUtils.Redact(data.RemoteUserId)}' " +
+                $"on socket '{data.SocketId?.SocketName}' | type={data.ConnectionType} network={data.NetworkType}");
+        }
+
+        private void SubscribeToConnectionInterruptedNotifications()
+        {
+            var options = new AddNotifyPeerConnectionInterruptedOptions()
+            {
+                LocalUserId = LocalUserId,
+                SocketId = null,
+            };
+
+            ConnectionInterruptedNotificationsId = P2PHandle.AddNotifyPeerConnectionInterrupted(ref options, null, OnConnectionInterruptedNotification);
+        }
+
+        private void UnsubscribeFromConnectionInterruptedNotifications()
+        {
+            if (ConnectionInterruptedNotificationsId != 0)
+            {
+                P2PHandle?.RemoveNotifyPeerConnectionInterrupted(ConnectionInterruptedNotificationsId);
+                ConnectionInterruptedNotificationsId = 0;
+            }
+        }
+
+        private void OnConnectionInterruptedNotification(ref OnPeerConnectionInterruptedInfo data)
+        {
+            Debug.Assert(data.LocalUserId == LocalUserId);
+            LogWarning($"EOSTransportManager.OnConnectionInterruptedNotification: Connection interrupted with remote peer '{LoggingUtils.Redact(data.RemoteUserId)}' " +
+                       $"on socket '{data.SocketId?.SocketName}' - EOS will attempt auto-recovery");
         }
 
         public bool StartHost()
