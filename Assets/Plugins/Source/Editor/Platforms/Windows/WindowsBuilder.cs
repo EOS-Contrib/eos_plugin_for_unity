@@ -56,9 +56,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 #if UNITY_6000_0_OR_NEWER
         /// <summary>
         /// True when the active Standalone build is configured to produce ARM64 binaries.
-        /// Uses <see cref="PlayerSettings.GetPlatformArchitecture"/> which is the correct
-        /// Unity 6 API for the Windows ARM64 architecture sub-option of StandaloneWindows64.
-        /// Falls back to the scripting define as a manual escape hatch if the API throws.
+        /// Uses <see cref="PlayerSettings.GetArchitecture"/> which returns 1 for ARM64 on
+        /// the Standalone Windows target in Unity 6. Falls back to the scripting define as
+        /// a manual escape hatch if the API throws.
         /// </summary>
         public static bool IsArm64Active()
         {
@@ -73,7 +73,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
             try
             {
-                return PlayerSettings.GetPlatformArchitecture(BuildTargetGroup.Standalone) == Architecture.ARM64;
+                // GetArchitecture returns an int: 0 = x64 (default), 1 = ARM64.
+                return PlayerSettings.GetArchitecture(BuildTargetGroup.Standalone) == 1;
             }
             catch { /* fall through */ }
 
@@ -142,8 +143,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         public override void PreBuild(BuildReport report)
         {
 #if UNITY_6000_0_OR_NEWER
-            var arch = PlayerSettings.GetPlatformArchitecture(BuildTargetGroup.Standalone);
-            Debug.Log(arch == Architecture.ARM64
+            Debug.Log(PlayerSettings.GetArchitecture(BuildTargetGroup.Standalone) == 1
                 ? "Targeting Windows ARM64"
                 : "Targeting Windows x64 (Intel/AMD)");
 #endif
@@ -189,8 +189,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
         public override void PreBuild(BuildReport report)
         {
-            var arch = PlayerSettings.GetPlatformArchitecture(BuildTargetGroup.Standalone);
-            Debug.Log(arch == Architecture.ARM64
+            Debug.Log(PlayerSettings.GetArchitecture(BuildTargetGroup.Standalone) == 1
                 ? "Targeting Windows ARM64"
                 : "Targeting Windows x64 (Intel/AMD)");
 
