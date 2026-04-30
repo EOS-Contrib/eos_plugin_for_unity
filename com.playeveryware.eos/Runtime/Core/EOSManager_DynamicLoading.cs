@@ -90,6 +90,11 @@ namespace PlayEveryWare.EpicOnlineServices
 #if USE_EOS_GFX_PLUGIN_NATIVE_RENDER
                 if (s_eosPlatformInterface == null && s_state != EOSState.Shutdown)
                 {
+#if EOS_PLATFORM_WINDOWS_ARM64
+                    UnityEngine.Debug.Log($"[EOS] Windows ARM64 — EOS SDK: {EOSBinaryName}, GfxPlugin: {GfxPluginNativeRenderPath}");
+#elif UNITY_STANDALONE_WIN
+                    UnityEngine.Debug.Log($"[EOS] Windows x64 — EOS SDK: {EOSBinaryName}, GfxPlugin: {GfxPluginNativeRenderPath}");
+#endif
                     // Try to log any messages stored when starting up the Plugin.
                     IntPtr logErrorFunctionPointer = Marshal.GetFunctionPointerForDelegate(new PrintDelegateType(SimplePrintStringCallback));
                     SimplePrintStringCallback("Start of Early EOS LOG:");

@@ -31,7 +31,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
     using Config;
     using Config = EpicOnlineServices.Config;
     using System.IO;
-    using System.Reflection;
     using UnityEditor;
     using UnityEditor.Build;
     using UnityEditor.Build.Reporting;
@@ -57,44 +56,24 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 #if UNITY_6000_0_OR_NEWER
         /// <summary>
         /// True when the active Standalone build is configured to produce ARM64 binaries.
+        /// Uses <see cref="PlayerSettings.GetPlatformArchitecture"/> which is the correct
+        /// Unity 6 API for the Windows ARM64 architecture sub-option of StandaloneWindows64.
+        /// Falls back to the scripting define as a manual escape hatch if the API throws.
         /// </summary>
-        /// <remarks>
-        /// Unity does not expose a stable public API for the Windows architecture sub-option
-        /// across all 6.x minor versions. We try (in order):
-        ///   1. <see cref="PlayerSettings.GetArchitecture(NamedBuildTarget)"/> — Unity 6.x.
-        ///   2. <see cref="PlayerSettings.GetArchitecture(BuildTargetGroup)"/> — fallback older overload.
-        ///   3. Presence of <see cref="Symbol"/> in the active scripting defines — manual escape hatch.
-        /// Any thrown exception is swallowed so an API change in a Unity update does not break builds.
-        /// </remarks>
         public static bool IsArm64Active()
         {
-            // Try newer NamedBuildTarget overload via reflection so that absence on a given
-            // Unity build does not produce a hard compile failure.
-            try
+            // BuildTargetGroup.Standalone is shared across Windows, Mac, and Linux.
+            // On Apple Silicon Macs the setting is already ARM64 for Mac builds, so we
+            // must guard against misidentifying a Windows x64 build as ARM64 when the
+            // developer is cross-compiling from a Mac ARM64 host.
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.StandaloneWindows64)
             {
-                MethodInfo method = typeof(PlayerSettings).GetMethod(
-                    "GetArchitecture",
-                    new[] { typeof(NamedBuildTarget) });
-                if (method != null)
-                {
-                    object value = method.Invoke(null, new object[] { NamedBuildTarget.Standalone });
-                    if (value is int arch)
-                    {
-                        // Windows architecture sub-option: 0 = x86_64, 1 = ARM64 in Unity 6.
-                        return arch == 1;
-                    }
-                }
+                return false;
             }
-            catch { /* fall through */ }
 
-            // Older overload accepting BuildTargetGroup is available across all Unity 6.x.
             try
             {
-                int arch = PlayerSettings.GetArchitecture(BuildTargetGroup.Standalone);
-                if (arch != 0)
-                {
-                    return true;
-                }
+                return PlayerSettings.GetPlatformArchitecture(BuildTargetGroup.Standalone) == Architecture.ARM64;
             }
             catch { /* fall through */ }
 
@@ -162,6 +141,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
         public override void PreBuild(BuildReport report)
         {
+#if UNITY_6000_0_OR_NEWER
+            var arch = PlayerSettings.GetPlatformArchitecture(BuildTargetGroup.Standalone);
+            Debug.Log(arch == Architecture.ARM64
+                ? "Targeting Windows ARM64"
+                : "Targeting Windows x64 (Intel/AMD)");
+#endif
             // Ensure ARM64 define is cleared on x64 builds so Common.cs picks the x64 SDK name.
             ScriptingDefineUtility.RemoveDefine(BuildTarget.StandaloneWindows64, WindowsArm64Define.Symbol);
             base.PreBuild(report);
@@ -181,11 +166,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         {
             AddProjectFileToBinaryMapping(
                 "DynamicLibraryLoaderHelper/DynamicLibraryLoaderHelper.sln",
-                // ARM64 binaries are copied into Plugins/Windows/ARM64, but keep
-                // the existing logical DllImport filenames so Unity resolves them
-                // by plugin importer CPU metadata.
-                "DynamicLibraryLoaderHelper-ARM64.dll",
-                "GfxPluginNativeRender-ARM64.dll");
+                // ARM64 binaries live in Plugins/Windows/ARM64 but share the same
+                // logical DllImport filename as the x64 build. Unity selects the
+                // correct binary via CPU=ARM64 in the plugin importer meta.
+                "DynamicLibraryLoaderHelper-x64.dll",
+                "GfxPluginNativeRender-x64.dll");
         }
 
         public override string GetPlatformString()
@@ -204,6 +189,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
         public override void PreBuild(BuildReport report)
         {
+            var arch = PlayerSettings.GetPlatformArchitecture(BuildTargetGroup.Standalone);
+            Debug.Log(arch == Architecture.ARM64
+                ? "Targeting Windows ARM64"
+                : "Targeting Windows x64 (Intel/AMD)");
+
             // Set ARM64 define so platform-specific code can gate unsupported dependencies such as Steam.
             ScriptingDefineUtility.AddDefine(BuildTarget.StandaloneWindows64, WindowsArm64Define.Symbol);
             base.PreBuild(report);
