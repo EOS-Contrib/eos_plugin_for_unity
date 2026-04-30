@@ -62,10 +62,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// </summary>
         public static bool IsArm64Active()
         {
-            // BuildTargetGroup.Standalone is shared across Windows, Mac, and Linux.
-            // On Apple Silicon Macs the setting is already ARM64 for Mac builds, so we
-            // must guard against misidentifying a Windows x64 build as ARM64 when the
-            // developer is cross-compiling from a Mac ARM64 host.
+            // Guard: only meaningful when actively building for Windows 64-bit.
+            // Also protects against Apple Silicon Macs where BuildTargetGroup.Standalone
+            // architecture would otherwise reflect the host Mac architecture.
             if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.StandaloneWindows64)
             {
                 return false;
@@ -73,8 +72,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
             try
             {
-                // GetArchitecture returns an int: 0 = x64 (default), 1 = ARM64.
-                return PlayerSettings.GetArchitecture(BuildTargetGroup.Standalone) == 1;
+                // The "Architecture" dropdown in the Build Settings window is stored as a
+                // platform setting, not in PlayerSettings. "ARM64" is set when the user
+                // selects "ARM 64-bit"; the field is empty or "x64" for Intel 64-bit.
+                string arch = EditorUserBuildSettings.GetPlatformSettings(
+                    BuildPipeline.GetBuildTargetName(BuildTarget.StandaloneWindows64),
+                    "Architecture");
+                if (!string.IsNullOrEmpty(arch))
+                {
+                    return string.Equals(arch, "ARM64", System.StringComparison.OrdinalIgnoreCase);
+                }
             }
             catch { /* fall through */ }
 
@@ -94,6 +101,26 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 #else
         public static bool IsArm64Active() => false;
 #endif
+
+        /// <summary>
+        /// Returns true if <see cref="Symbol"/> is currently present in the Standalone
+        /// scripting defines, regardless of the active build target or architecture setting.
+        /// Used to detect define/architecture mismatches before a build compiles scripts.
+        /// </summary>
+        public static bool IsDefineSet()
+        {
+            try
+            {
+                NamedBuildTarget named = NamedBuildTarget.FromBuildTargetGroup(BuildTargetGroup.Standalone);
+                string defines = PlayerSettings.GetScriptingDefineSymbols(named);
+                return !string.IsNullOrEmpty(defines)
+                    && System.Array.IndexOf(defines.Split(';'), Symbol) >= 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
 #if UNITY_6000_0_OR_NEWER
         [MenuItem("EOS Plugin/Advanced/Windows ARM64/Enable scripting define")]
@@ -143,12 +170,22 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         public override void PreBuild(BuildReport report)
         {
 #if UNITY_6000_0_OR_NEWER
-            Debug.Log(PlayerSettings.GetArchitecture(BuildTargetGroup.Standalone) == 1
+            Debug.Log(WindowsArm64Define.IsArm64Active()
                 ? "Targeting Windows ARM64"
                 : "Targeting Windows x64 (Intel/AMD)");
 #endif
-            // Ensure ARM64 define is cleared on x64 builds so Common.cs picks the x64 SDK name.
-            ScriptingDefineUtility.RemoveDefine(BuildTarget.StandaloneWindows64, WindowsArm64Define.Symbol);
+            // If the ARM64 define was still set from a previous ARM64 build, the current
+            // compilation used the ARM64 SDK name. Clear it and request a recompile so the
+            // next build compiles against the x64 SDK name.
+            if (WindowsArm64Define.IsDefineSet())
+            {
+                ScriptingDefineUtility.RemoveDefine(BuildTarget.StandaloneWindows64, WindowsArm64Define.Symbol);
+                UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
+                throw new BuildFailedException(
+                    $"Scripting define '{WindowsArm64Define.Symbol}' was active from a previous ARM64 build. " +
+                    "It has been removed automatically. Please rebuild to compile with Windows x64 support.");
+            }
+
             base.PreBuild(report);
         }
     }
@@ -189,12 +226,22 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
         public override void PreBuild(BuildReport report)
         {
-            Debug.Log(PlayerSettings.GetArchitecture(BuildTargetGroup.Standalone) == 1
+            Debug.Log(WindowsArm64Define.IsArm64Active()
                 ? "Targeting Windows ARM64"
                 : "Targeting Windows x64 (Intel/AMD)");
 
-            // Set ARM64 define so platform-specific code can gate unsupported dependencies such as Steam.
-            ScriptingDefineUtility.AddDefine(BuildTarget.StandaloneWindows64, WindowsArm64Define.Symbol);
+            // If the ARM64 define was not set before this build, the current compilation
+            // used the x64 SDK name. Set it now and request a recompile so the next build
+            // compiles against the ARM64 SDK name.
+            if (!WindowsArm64Define.IsDefineSet())
+            {
+                ScriptingDefineUtility.AddDefine(BuildTarget.StandaloneWindows64, WindowsArm64Define.Symbol);
+                UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
+                throw new BuildFailedException(
+                    $"Scripting define '{WindowsArm64Define.Symbol}' was not set before this build. " +
+                    "It has been enabled automatically. Please rebuild to compile with Windows ARM64 support.");
+            }
+
             base.PreBuild(report);
         }
     }
