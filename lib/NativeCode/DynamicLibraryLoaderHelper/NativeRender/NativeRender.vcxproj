@@ -46,7 +46,7 @@
   <!-- Common Output Directories -->
   <PropertyGroup>
     <OutDir>$(SolutionDir)Build\$(Configuration)\$(PlatformTarget)\</OutDir>
-    <TargetName>$(ProjectName)-$(LogicalPlatformName)</TargetName>
+    <TargetName>$(ProjectName)-$(NormalizedPlatform)</TargetName>
     <IntDir>$(SolutionDir)Build\Temp\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />

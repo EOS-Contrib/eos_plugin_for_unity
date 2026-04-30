@@ -123,6 +123,52 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         }
 
 #if UNITY_6000_0_OR_NEWER
+        [InitializeOnLoad]
+        private static class BuildGuard
+        {
+            static BuildGuard()
+            {
+                // Intercept the Build button BEFORE Unity compiles scripts, so any define
+                // change takes effect in the same compilation rather than requiring a second build.
+                BuildPlayerWindow.RegisterBuildPlayerHandler(OnBuildPlayer);
+            }
+
+            private static void OnBuildPlayer(BuildPlayerOptions options)
+            {
+                if (options.target == BuildTarget.StandaloneWindows64)
+                {
+                    bool wantsArm64  = IsArm64Active();
+                    bool defineIsSet = IsDefineSet();
+
+                    if (wantsArm64 && !defineIsSet)
+                    {
+                        ScriptingDefineUtility.AddDefine(BuildTarget.StandaloneWindows64, Symbol);
+                        EditorUtility.DisplayDialog(
+                            "EOS Plugin — Windows ARM64",
+                            $"The scripting define '{Symbol}' was missing and has been added.\n\n" +
+                            "Scripts are recompiling. Please click Build again once compilation finishes.",
+                            "OK");
+                        return;
+                    }
+
+                    if (!wantsArm64 && defineIsSet)
+                    {
+                        ScriptingDefineUtility.RemoveDefine(BuildTarget.StandaloneWindows64, Symbol);
+                        EditorUtility.DisplayDialog(
+                            "EOS Plugin — Windows x64",
+                            $"The scripting define '{Symbol}' was left over from a previous ARM64 build and has been removed.\n\n" +
+                            "Scripts are recompiling. Please click Build again once compilation finishes.",
+                            "OK");
+                        return;
+                    }
+                }
+
+                BuildPlayerWindow.DefaultBuildMethods.BuildPlayer(options);
+            }
+        }
+#endif
+
+#if UNITY_6000_0_OR_NEWER
         [MenuItem("EOS Plugin/Advanced/Windows ARM64/Enable scripting define")]
         private static void EnableArm64Define()
         {
@@ -174,16 +220,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 ? "Targeting Windows ARM64"
                 : "Targeting Windows x64 (Intel/AMD)");
 #endif
-            // If the ARM64 define was still set from a previous ARM64 build, the current
-            // compilation used the ARM64 SDK name. Clear it and request a recompile so the
-            // next build compiles against the x64 SDK name.
+            // Safety net for scripted/CI builds that bypass RegisterBuildPlayerHandler.
             if (WindowsArm64Define.IsDefineSet())
             {
                 ScriptingDefineUtility.RemoveDefine(BuildTarget.StandaloneWindows64, WindowsArm64Define.Symbol);
-                UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
                 throw new BuildFailedException(
                     $"Scripting define '{WindowsArm64Define.Symbol}' was active from a previous ARM64 build. " +
-                    "It has been removed automatically. Please rebuild to compile with Windows x64 support.");
+                    "It has been removed. Please rebuild to compile with Windows x64 support.");
             }
 
             base.PreBuild(report);
@@ -203,11 +246,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         {
             AddProjectFileToBinaryMapping(
                 "DynamicLibraryLoaderHelper/DynamicLibraryLoaderHelper.sln",
-                // ARM64 binaries live in Plugins/Windows/ARM64 but share the same
-                // logical DllImport filename as the x64 build. Unity selects the
-                // correct binary via CPU=ARM64 in the plugin importer meta.
-                "DynamicLibraryLoaderHelper-x64.dll",
-                "GfxPluginNativeRender-x64.dll");
+                "DynamicLibraryLoaderHelper-ARM64.dll",
+                "GfxPluginNativeRender-ARM64.dll");
         }
 
         public override string GetPlatformString()
@@ -230,16 +270,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 ? "Targeting Windows ARM64"
                 : "Targeting Windows x64 (Intel/AMD)");
 
-            // If the ARM64 define was not set before this build, the current compilation
-            // used the x64 SDK name. Set it now and request a recompile so the next build
-            // compiles against the ARM64 SDK name.
+            // Safety net for scripted/CI builds that bypass RegisterBuildPlayerHandler.
             if (!WindowsArm64Define.IsDefineSet())
             {
                 ScriptingDefineUtility.AddDefine(BuildTarget.StandaloneWindows64, WindowsArm64Define.Symbol);
-                UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
                 throw new BuildFailedException(
                     $"Scripting define '{WindowsArm64Define.Symbol}' was not set before this build. " +
-                    "It has been enabled automatically. Please rebuild to compile with Windows ARM64 support.");
+                    "It has been added. Please rebuild to compile with Windows ARM64 support.");
             }
 
             base.PreBuild(report);

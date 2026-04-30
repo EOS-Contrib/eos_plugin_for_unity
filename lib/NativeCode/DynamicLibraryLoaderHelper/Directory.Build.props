@@ -17,16 +17,6 @@
     <NormalizedPlatform Condition="'$(Platform)' == 'x64'">x64</NormalizedPlatform>
     <NormalizedPlatform Condition="'$(Platform)' == 'ARM64'">ARM64</NormalizedPlatform>
 
-    <!--
-      LogicalPlatformName is the filename suffix used for DLL outputs and Unity .meta files.
-      ARM64 uses "x64" so that the C# DllImport name "GfxPluginNativeRender-x64" (and
-      "DynamicLibraryLoaderHelper-x64") is satisfied by the ARM64 binary that Unity selects
-      via CPU=ARM64 in the plugin importer meta. The output directory (OutputUnityAssetsDirectory)
-      still routes to Plugins/Windows/ARM64, keeping x64 and ARM64 binaries separate.
-    -->
-    <LogicalPlatformName Condition="'$(NormalizedPlatform)' == 'ARM64'">x64</LogicalPlatformName>
-    <LogicalPlatformName Condition="'$(NormalizedPlatform)' != 'ARM64'">$(NormalizedPlatform)</LogicalPlatformName>
-
     <EOS_SDK_DLL_NAME Condition="'$(NormalizedPlatform)' == 'x64'">EOSSDK-Win64-Shipping.dll</EOS_SDK_DLL_NAME>
     <STEAM_API_DLL_NAME Condition="'$(NormalizedPlatform)' == 'x64'">steam_api64.dll</STEAM_API_DLL_NAME>
 

@@ -60,10 +60,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 "GfxPluginNativeRender-macOS";
 #elif UNITY_STANDALONE_WIN
 #if EOS_PLATFORM_WINDOWS_ARM64
-                // The ARM64 binary is selected by Unity's plugin importer from
-                // Assets/Plugins/Windows/ARM64. Keep the logical import name
-                // aligned with the existing Windows x64 DllImport name.
-                "GfxPluginNativeRender-x64";
+                "GfxPluginNativeRender-ARM64";
 #elif UNITY_64
                 "GfxPluginNativeRender-x64";
 #else
