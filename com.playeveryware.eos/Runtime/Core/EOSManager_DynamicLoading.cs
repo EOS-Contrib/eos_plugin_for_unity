@@ -60,9 +60,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 "GfxPluginNativeRender-macOS";
 #elif UNITY_STANDALONE_WIN && EOS_PLATFORM_WINDOWS_ARM64
     "GfxPluginNativeRender-ARM64";
-#elif UNITY_STANDALONE_WIN && EOS_PLATFORM_WINDOWS_64
+#elif UNITY_STANDALONE_WIN && (EOS_PLATFORM_WINDOWS_64 || UNITY_64)
     "GfxPluginNativeRender-x64";
-#elif UNITY_STANDALONE_WIN && EOS_PLATFORM_WINDOWS_32
+#elif UNITY_STANDALONE_WIN
     "GfxPluginNativeRender-x86";
 #else
                 #error Unknown platform for GfxPluginNativeRenderPath
