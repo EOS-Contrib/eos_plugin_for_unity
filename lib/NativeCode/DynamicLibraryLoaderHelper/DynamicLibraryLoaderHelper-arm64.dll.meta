@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: 4faf2c93e63a4d7d9b5d700d203f0a43
+guid: 94625fd1d248eec4ab040d3e9204f4a6
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
   iconMap: {}
   executionOrder: {}
   defineConstraints: []
-  isPreloaded: 0
+  isPreloaded: 1
   isOverridable: 0
   isExplicitlyReferenced: 0
   validateReferences: 1
@@ -18,14 +18,13 @@ PluginImporter:
       settings:
         Exclude Android: 1
         Exclude Editor: 1
-        Exclude Linux64: 0
-        Exclude OSXUniversal: 0
+        Exclude Linux64: 1
+        Exclude OSXUniversal: 1
         Exclude PS4: 1
         Exclude Switch: 1
-        Exclude Win: 0
+        Exclude Win: 1
         Exclude Win64: 0
         Exclude WindowsStoreApps: 1
-        Exclude XboxOne: 1
   - first:
       Android: Android
     second:
@@ -33,7 +32,7 @@ PluginImporter:
       settings:
         CPU: ARMv7
   - first:
-      Any: 
+      Any:
     second:
       enabled: 0
       settings: {}
@@ -48,19 +47,19 @@ PluginImporter:
   - first:
       Standalone: Linux64
     second:
-      enabled: 1
+      enabled: 0
       settings:
         CPU: None
   - first:
       Standalone: OSXUniversal
     second:
-      enabled: 1
+      enabled: 0
       settings:
         CPU: None
   - first:
       Standalone: Win
     second:
-      enabled: 1
+      enabled: 0
       settings:
         CPU: None
   - first:
@@ -68,7 +67,7 @@ PluginImporter:
     second:
       enabled: 1
       settings:
-        CPU: None
+        CPU: ARM64
   - first:
       Windows Store Apps: WindowsStoreApps
     second:
@@ -76,9 +75,9 @@ PluginImporter:
       settings:
         CPU: ARM64
         DontProcess: false
-        PlaceholderPath: 
+        PlaceholderPath:
         SDK: AnySDK
         ScriptingBackend: AnyScriptingBackend
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+  userData:
+  assetBundleName:
+  assetBundleVariant:
