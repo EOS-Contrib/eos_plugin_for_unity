@@ -58,16 +58,14 @@ namespace PlayEveryWare.EpicOnlineServices
             public const string GfxPluginNativeRenderPath =
 #if UNITY_STANDALONE_OSX
                 "GfxPluginNativeRender-macOS";
-#elif UNITY_STANDALONE_WIN
-#if EOS_PLATFORM_WINDOWS_ARM64
-                "GfxPluginNativeRender-ARM64";
-#elif UNITY_64
-                "GfxPluginNativeRender-x64";
+#elif UNITY_STANDALONE_WIN && EOS_PLATFORM_WINDOWS_ARM64
+    "GfxPluginNativeRender-ARM64";
+#elif UNITY_STANDALONE_WIN && EOS_PLATFORM_WINDOWS_64
+    "GfxPluginNativeRender-x64";
+#elif UNITY_STANDALONE_WIN && EOS_PLATFORM_WINDOWS_32
+    "GfxPluginNativeRender-x86";
 #else
-                "GfxPluginNativeRender-x86";
-#endif // UNITY_64
-#else
-                #error Unknown platform
+                #error Unknown platform for GfxPluginNativeRenderPath
                 "GfxPluginNativeRender-unknown";
 #endif
 
