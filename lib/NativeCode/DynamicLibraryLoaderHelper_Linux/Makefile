@@ -21,7 +21,7 @@
 CC=clang
 CXX=clang++
 
-CXXFLAGS = --std=c++11 -fPIC
+CXXFLAGS = --std=c++20 -fPIC
 SOLIBS = build/libDynamicLibraryLoaderHelper.so
 UNITY_META_FILES = libDynamicLibraryLoaderHelper.so.meta
 
