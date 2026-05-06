@@ -2,7 +2,14 @@
   "source_to_dest": [
 
       {"src": "etc/PlatformSpecificAssets/EOS/*",                   "dest": "PlatformSpecificAssets~/EOS/", "recursive": true },
-      {"src": "tools/bin/*",                                        "dest": "bin~/",                        "recursive": true },
+      {"src": "tools/bin/EOSBootstrapperTool.exe",                  "dest": "bin~/"             },
+      {"src": "tools/bin/EOSBootstrapper.exe",                      "dest": "bin~/"             },
+      {"src": "tools/bin/EAC/Windows/anticheat_integritytool.exe",  "dest": "bin~/EAC/Windows/" },
+      {"src": "tools/bin/EAC/Windows/anticheat_integritytool.cfg",  "dest": "bin~/EAC/Windows/" },
+      {"src": "tools/bin/EAC/Linux/anticheat_integritytool",        "dest": "bin~/EAC/Linux/"   },
+      {"src": "tools/bin/EAC/Linux/anticheat_integritytool.cfg",    "dest": "bin~/EAC/Linux/"   },
+      {"src": "tools/bin/EAC/Mac/anticheat_integritytool",          "dest": "bin~/EAC/Mac/"     },
+      {"src": "tools/bin/EAC/Mac/anticheat_integritytool.cfg",      "dest": "bin~/EAC/Mac/"     },
                          
       {"src": "Assets/EOS.meta",                                    "dest": "Runtime/"     },
       {"src": "Assets/EOS/*.png",                                   "dest": "Runtime/EOS/" },
