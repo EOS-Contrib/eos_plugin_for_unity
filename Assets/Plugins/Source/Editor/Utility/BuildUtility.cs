@@ -405,7 +405,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             }
 
             // construct the msbuild command
-            string platformFlag = string.IsNullOrEmpty(platform) ? "" : $" /p:Platform={platform}";
+            string platformFlag = string.IsNullOrWhiteSpace(platform) ? "" : $" /p:Platform={platform}";
             string msBuildCommand = $"msbuild \"{solutionFilePath}\"" +
                                     $" /t:Clean;Rebuild" +
                                     $" /p:Configuration={configuration}" +

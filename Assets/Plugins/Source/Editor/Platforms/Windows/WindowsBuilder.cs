@@ -30,6 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 #endif
     using Config;
     using Config = EpicOnlineServices.Config;
+    using System;
     using System.IO;
     using UnityEditor;
     using UnityEditor.Build;
@@ -83,7 +84,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                     return string.Equals(arch, "ARM64", System.StringComparison.OrdinalIgnoreCase);
                 }
             }
-            catch { /* fall through */ }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"EOS Plugin: Could not read ARM64 architecture setting: {ex.Message}");
+            }
 
             // Manual escape hatch: respect the scripting define if the user set it explicitly.
             try
@@ -91,10 +95,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 NamedBuildTarget named = NamedBuildTarget.FromBuildTargetGroup(BuildTargetGroup.Standalone);
                 string defines = PlayerSettings.GetScriptingDefineSymbols(named);
                 return !string.IsNullOrEmpty(defines)
-                    && System.Array.IndexOf(defines.Split(';'), Symbol) >= 0;
+                    && Array.IndexOf(defines.Split(';'), Symbol) >= 0;
             }
-            catch
+            catch (Exception ex)
             {
+                Debug.LogWarning($"EOS Plugin: Could not read scripting defines: {ex.Message}");
                 return false;
             }
         }
@@ -114,10 +119,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 NamedBuildTarget named = NamedBuildTarget.FromBuildTargetGroup(BuildTargetGroup.Standalone);
                 string defines = PlayerSettings.GetScriptingDefineSymbols(named);
                 return !string.IsNullOrEmpty(defines)
-                    && System.Array.IndexOf(defines.Split(';'), Symbol) >= 0;
+                    && Array.IndexOf(defines.Split(';'), Symbol) >= 0;
             }
-            catch
+            catch (Exception ex)
             {
+                Debug.LogWarning($"EOS Plugin: Could not read scripting defines: {ex.Message}");
                 return false;
             }
         }
@@ -169,6 +175,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 #endif
 
 #if UNITY_6000_0_OR_NEWER
+        /// <summary>
+        /// Manually enables the ARM64 scripting define. Use this as a workaround before
+        /// the first ARM64 build to ensure scripts compile with ARM64 support on the first
+        /// attempt, without needing to build twice.
+        /// </summary>
         [MenuItem("EOS Plugin/Advanced/Windows ARM64/Enable scripting define")]
         private static void EnableArm64Define()
         {
@@ -176,6 +187,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             UnityEngine.Debug.Log($"Scripting define '{Symbol}' enabled for Standalone Windows. Build for ARM64 architecture to produce ARM64 binaries.");
         }
 
+        /// <summary>
+        /// Manually disables the ARM64 scripting define. Use this as a workaround before
+        /// switching back to an x64 build to ensure scripts compile without ARM64 support
+        /// on the first attempt, without needing to build twice.
+        /// </summary>
         [MenuItem("EOS Plugin/Advanced/Windows ARM64/Disable scripting define")]
         private static void DisableArm64Define()
         {
