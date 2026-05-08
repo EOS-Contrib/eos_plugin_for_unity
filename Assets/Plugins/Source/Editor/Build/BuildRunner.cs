@@ -74,8 +74,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             // Run the static builder's prebuild.
             s_builder?.PreBuild(report);
 
-#if !DISABLESTEAMWORKS
+#if !DISABLESTEAMWORKS && !EOS_PLATFORM_WINDOWS_ARM64
             // If we're using Steamworks, then look at the user's Steam configuration file
+            // (Steamworks does not ship Windows ARM64 binaries, so it is gated off there.)
             // If the "steamApiInterfaceVersionsArray" is empty, try to set it for the user
             SteamConfig config = Config.Get<SteamConfig>();
             if (config != null && (config.steamApiInterfaceVersionsArray == null || config.steamApiInterfaceVersionsArray.Count == 0))
