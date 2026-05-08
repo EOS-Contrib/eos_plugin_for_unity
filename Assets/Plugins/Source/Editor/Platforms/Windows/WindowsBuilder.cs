@@ -53,6 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
     internal static class WindowsArm64Define
     {
         public const string Symbol = "EOS_PLATFORM_WINDOWS_ARM64";
+        internal const string Architecture = "ARM64";
 
 #if UNITY_6000_0_OR_NEWER
         /// <summary>
@@ -81,7 +82,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                     "Architecture");
                 if (!string.IsNullOrEmpty(arch))
                 {
-                    return string.Equals(arch, "ARM64", System.StringComparison.OrdinalIgnoreCase);
+                    return string.Equals(arch, Architecture, System.StringComparison.OrdinalIgnoreCase);
                 }
             }
             catch (Exception ex)
@@ -206,17 +207,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
     /// </summary>
     public class WindowsBuilder64 : WindowsBuilder
     {
-        public WindowsBuilder64() : base("Plugins/Windows/x64", BuildTarget.StandaloneWindows64)
+        private const string PlatformId = "x64";
+
+        public WindowsBuilder64() : base($"Plugins/Windows/{PlatformId}", BuildTarget.StandaloneWindows64)
         {
             AddProjectFileToBinaryMapping(
                 "DynamicLibraryLoaderHelper/DynamicLibraryLoaderHelper.sln",
-                "DynamicLibraryLoaderHelper-x64.dll",
-                "GfxPluginNativeRender-x64.dll");
+                $"DynamicLibraryLoaderHelper-{PlatformId}.dll",
+                $"GfxPluginNativeRender-{PlatformId}.dll");
         }
 
         public override string GetPlatformString()
         {
-            return "x64";
+            return PlatformId;
         }
 
         protected override bool ShouldHandle(BuildReport report)
@@ -258,17 +261,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
     /// </summary>
     public class WindowsBuilderArm64 : WindowsBuilder
     {
-        public WindowsBuilderArm64() : base("Plugins/Windows/ARM64", BuildTarget.StandaloneWindows64)
+        private const string PlatformId = WindowsArm64Define.Architecture;
+
+        public WindowsBuilderArm64() : base($"Plugins/Windows/{PlatformId}", BuildTarget.StandaloneWindows64)
         {
             AddProjectFileToBinaryMapping(
                 "DynamicLibraryLoaderHelper/DynamicLibraryLoaderHelper.sln",
-                "DynamicLibraryLoaderHelper-ARM64.dll",
-                "GfxPluginNativeRender-ARM64.dll");
+                $"DynamicLibraryLoaderHelper-{PlatformId}.dll",
+                $"GfxPluginNativeRender-{PlatformId}.dll");
         }
 
         public override string GetPlatformString()
         {
-            return "ARM64";
+            return PlatformId;
         }
 
         protected override bool ShouldHandle(BuildReport report)
@@ -305,6 +310,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
     /// </summary>
     public class WindowsBuilder32 : WindowsBuilder
     {
+        private const string PlatformId = "Win32";
+
         public WindowsBuilder32() : base("Plugins/Windows/x86", BuildTarget.StandaloneWindows)
         {
             // TODO: These libraries do not appear to be building properly - and the process
@@ -318,7 +325,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
         public override string GetPlatformString()
         {
-            return "Win32";
+            return PlatformId;
         }
     }
 
