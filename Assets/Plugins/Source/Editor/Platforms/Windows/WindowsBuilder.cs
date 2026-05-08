@@ -20,14 +20,10 @@
  * SOFTWARE.
  */
 
-#if !EOS_DISABLE
-
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
-#if !EOS_DISABLE
     using Epic.OnlineServices.Platform;
     using Extensions;
-#endif
     using Config;
     using Config = EpicOnlineServices.Config;
     using System.IO;
@@ -35,6 +31,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
     using UnityEditor.Build;
     using UnityEditor.Build.Reporting;
     using UnityEngine;
+    using Utility;
 
     /// <summary>
     /// WindowsBuilder for 64-bit deployment.
@@ -84,13 +81,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             ConfigureAndInstallBootstrapper(report);
         }
 
-        private static async void ConfigureAndInstallBootstrapper(BuildReport report)
+        private static void ConfigureAndInstallBootstrapper(BuildReport report)
         {
-#if EOS_DISABLE
-            // If EOS_DISABLE is defined, then the bootstrapper should never be included
-            await System.Threading.Tasks.Task.CompletedTask;
-            return;
-#else
+            if (ScriptingDefineUtility.IsEOSDisabled(report))
+            {
+                return;
+            }
+
             // Determine if 'DisableOverlay' is set in Platform Flags. If it is, then the EOSBootstrapper.exe is not included in the build,
             // because without needing the overlay, the EOSBootstrapper.exe is not useful to users of the plugin
             PlatformConfig configuration = PlatformManager.GetPlatformConfig();
@@ -129,15 +126,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
              * that are difficult to diagnose.
              */
 
-            // Determine whether to install EAC
+            ToolsConfig toolsConfig = Config.Get<ToolsConfig>();
 
-            ToolsConfig toolsConfig = await Config.GetAsync<ToolsConfig>();
-
-            string bootstrapperName = null;
-            if (toolsConfig != null)
-            {
-                bootstrapperName = toolsConfig.bootstrapperNameOverride;
-            }
+            string bootstrapperName = toolsConfig?.bootstrapperNameOverride;
 
             if (string.IsNullOrWhiteSpace(bootstrapperName))
             {
@@ -153,11 +144,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
             string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
 
-            string bootstrapperTarget = toolsConfig.useEAC ? "EACLauncher.exe" : Path.GetFileName(report.summary.outputPath);
+            string bootstrapperTarget = toolsConfig?.useEAC == true ? "EACLauncher.exe" : Path.GetFileName(report.summary.outputPath);
 
             InstallBootStrapper(bootstrapperTarget, installDirectory, pathToEOSBootStrapperTool,
                 bootstrapperName);
-#endif
         }
 
         private static void InstallBootStrapper(string appFilenameExe, string installDirectory,
@@ -209,5 +199,3 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         }
     }
 }
-
-#endif

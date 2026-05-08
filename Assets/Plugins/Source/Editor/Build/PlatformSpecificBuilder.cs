@@ -20,12 +20,11 @@
  * SOFTWARE.
  */
 
-#if !EOS_DISABLE
-
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     using Common;
     using Config;
+    using Utility;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -99,6 +98,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// <param name="report">The prebuild report.</param>
         public void OnPreprocessBuild(BuildReport report)
         {
+            if (ScriptingDefineUtility.IsEOSDisabled(report))
+            {
+                return;
+            }
+
             // If the platform being built is one of the platforms that this
             // builder builds to, then set this as the builder with the
             // BuildRunner.
@@ -226,10 +230,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// <summary>
         /// Determines whether the Application Version is supposed to be used as the product version, and (if so) sets it accordingly.
         /// </summary>
-        private static async void AutoSetProductVersion()
+        private static void AutoSetProductVersion()
         {
-            PrebuildConfig prebuildConfig = await Config.GetAsync<PrebuildConfig>();
+            PrebuildConfig prebuildConfig = Config.Get<PrebuildConfig>();
             ProductConfig productConfig = Config.Get<ProductConfig>();
+
+            if (prebuildConfig == null || productConfig == null)
+            {
+                return;
+            }
 
             // If the product version is set by config, or if it already equals the product config, stop here.
             if (!prebuildConfig.useAppVersionAsProductVersion || productConfig.ProductVersion == Application.version)
@@ -239,7 +248,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
             // Otherwise, set the new product version and write the config.
             productConfig.ProductVersion = Application.version;
-            await productConfig.WriteAsync();
+            productConfig.Write(true);
         }
 
         /// <summary>
@@ -301,5 +310,3 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         }
     }
 }
-
-#endif

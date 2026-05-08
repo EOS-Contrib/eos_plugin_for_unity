@@ -19,7 +19,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-#if !EOS_DISABLE
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     using EpicOnlineServices.Utility;
@@ -76,4 +75,3 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         }
     }
 }
-#endif // !EOS_DISABLE
