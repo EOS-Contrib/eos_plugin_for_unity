@@ -21,9 +21,9 @@
 CC=clang
 CXX=clang++
 
-# clang -dynamiclib MicrophoneUtility_macOS.mm -arch x86_64 --std=c++11 -o MicrophoneUtility_macos.dylib
+# clang -dynamiclib MicrophoneUtility_macOS.mm -arch x86_64 --std=c++20 -o MicrophoneUtility_macos.dylib
 
-CXXFLAGS = --std=c++11
+CXXFLAGS = --std=c++20
 DYLIBS = build/libDynamicLibraryLoaderHelper.dylib build/MicrophoneUtility_macos.dylib
 UNITY_META_FILES = libDynamicLibraryLoaderHelper.dylib.meta
 
