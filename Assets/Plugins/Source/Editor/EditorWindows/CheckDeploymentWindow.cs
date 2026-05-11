@@ -40,6 +40,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         private const string WindowsPluginDirectory = "Assets/Plugins/Windows";
         private const string EOSWindows64DllFile = "x64/EOSSDK-Win64-Shipping.dll";
         private const string EOSWindows32DllFile = "x86/EOSSDK-Win32-Shipping.dll";
+        private const string EOSWindowsARM64DllFile = "ARM64/EOSSDK-Win64-Shippingarm64.dll";
 
         private string content;
         private string currentPath;
@@ -82,6 +83,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             if (GUILayout.Button(EOSWindows64DllFile))
             {
                 LoadDLLFile(Path.Combine(FileSystemUtility.GetProjectPath(), WindowsPluginDirectory, EOSWindows64DllFile));
+            }
+
+            if (GUILayout.Button(EOSWindowsARM64DllFile))
+            {
+                LoadDLLFile(Path.Combine(FileSystemUtility.GetProjectPath(), WindowsPluginDirectory, EOSWindowsARM64DllFile));
             }
 
             if (!string.IsNullOrWhiteSpace(currentPath))
