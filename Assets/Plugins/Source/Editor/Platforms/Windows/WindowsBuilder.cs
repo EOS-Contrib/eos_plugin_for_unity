@@ -44,11 +44,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
     /// scripting define to distinguish ARM64 from x64 on Standalone Windows, so this
     /// project-local symbol is auto-managed by the Windows builders during preprocess.
     ///
-    /// IMPORTANT: scripting defines set during build preprocess only affect the *next*
-    /// build's script compilation, not the current one. Switching between x64 and ARM64
-    /// for Windows builds requires running the menu item under "EOS Plugin/Advanced/Windows
-    /// ARM64..." once before the first build, or running a build twice (the first to set
-    /// the define, the second to compile against it).
+    /// ARM64 builds: the symbol is injected via <see cref="BuildPlayerOptions.extraScriptingDefines"/>
+    /// for the current build only, so no second build is required.
+    /// x64 builds after ARM64: if the define is left over it is removed via
+    /// <see cref="ScriptingDefineUtility"/> and the build is stopped; rebuild once to recompile
+    /// without the symbol.
     /// </summary>
     internal static class WindowsArm64Define
     {
@@ -108,6 +108,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         public static bool IsArm64Active() => false;
 #endif
 
+        // Set by OnBuildPlayer when using extraScriptingDefines; suppresses the PreBuild safety net.
+        private static bool s_extraDefineInjected;
+        internal static bool ExtraDefineInjected => s_extraDefineInjected;
+
         /// <summary>
         /// Returns true if <see cref="Symbol"/> is currently present in the Standalone
         /// scripting defines, regardless of the active build target or architecture setting.
@@ -142,6 +146,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
             private static void OnBuildPlayer(BuildPlayerOptions options)
             {
+                s_extraDefineInjected = false;
+
                 if (options.target == BuildTarget.StandaloneWindows64)
                 {
                     bool wantsArm64  = IsArm64Active();
@@ -149,23 +155,30 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
                     if (wantsArm64 && !defineIsSet)
                     {
-                        ScriptingDefineUtility.AddDefine(BuildTarget.StandaloneWindows64, Symbol);
-                        EditorUtility.DisplayDialog(
-                            "EOS Plugin — Windows ARM64",
-                            $"The scripting define '{Symbol}' was missing and has been added.\n\n" +
-                            "Scripts are recompiling. Please click Build again once compilation finishes.",
-                            "OK");
-                        return;
+                        var existing = options.extraScriptingDefines ?? Array.Empty<string>();
+                        var injected = new string[existing.Length + 1];
+                        existing.CopyTo(injected, 0);
+                        injected[existing.Length] = Symbol;
+                        options.extraScriptingDefines = injected;
+                        s_extraDefineInjected = true;
                     }
-
-                    if (!wantsArm64 && defineIsSet)
+                    else if (!wantsArm64 && defineIsSet)
                     {
                         ScriptingDefineUtility.RemoveDefine(BuildTarget.StandaloneWindows64, Symbol);
-                        EditorUtility.DisplayDialog(
-                            "EOS Plugin — Windows x64",
-                            $"The scripting define '{Symbol}' was left over from a previous ARM64 build and has been removed.\n\n" +
-                            "Scripts are recompiling. Please click Build again once compilation finishes.",
-                            "OK");
+                        if (!Application.isBatchMode)
+                        {
+                            EditorUtility.DisplayDialog(
+                                "EOS Plugin — Windows x64",
+                                $"The scripting define '{Symbol}' was left over from a previous ARM64 build and has been removed.\n\n" +
+                                "Scripts are recompiling. Please click Build again once compilation finishes.",
+                                "OK");
+                        }
+                        else
+                        {
+                            throw new BuildFailedException(
+                                $"Scripting define '{Symbol}' was left over from a previous ARM64 build. " +
+                                "It has been removed. Please rebuild to compile with Windows x64 support.");
+                        }
                         return;
                     }
                 }
@@ -292,7 +305,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 : "Targeting Windows x64 (Intel/AMD)");
 
             // Safety net for scripted/CI builds that bypass RegisterBuildPlayerHandler.
-            if (!WindowsArm64Define.IsDefineSet())
+            if (!WindowsArm64Define.IsDefineSet() && !WindowsArm64Define.ExtraDefineInjected)
             {
                 ScriptingDefineUtility.AddDefine(BuildTarget.StandaloneWindows64, WindowsArm64Define.Symbol);
                 throw new BuildFailedException(
