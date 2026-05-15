@@ -139,8 +139,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         {
             static BuildGuard()
             {
-                // Intercept the Build button BEFORE Unity compiles scripts, so any define
-                // change takes effect in the same compilation rather than requiring a second build.
+                // Intercepts builds started via BuildPlayerWindow.BuildPlayer() the Build
+                // button in the Editor or any script that calls BuildPlayerWindow explicitly.
+                // Not triggered by BuildPipeline.BuildPlayer() directly, developers using that
+                // path must include EOS_PLATFORM_WINDOWS_ARM64 in extraScriptingDefines themselves
+                // to avoid a double-build when targeting ARM64.
                 BuildPlayerWindow.RegisterBuildPlayerHandler(OnBuildPlayer);
             }
 
@@ -165,6 +168,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                     else if (!wantsArm64 && defineIsSet)
                     {
                         ScriptingDefineUtility.RemoveDefine(BuildTarget.StandaloneWindows64, Symbol);
+                        // Precaution: this handler only fires via BuildPlayerWindow, so headless CI
+                        // builds using BuildPipeline.BuildPlayer() won't reach here. If a headless
+                        // build does trigger this path, throw rather than blocking on a dialog.
                         if (!Application.isBatchMode)
                         {
                             EditorUtility.DisplayDialog(
