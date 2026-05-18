@@ -20,11 +20,14 @@ Windows ARM64 support for Standalone builds is available in **Unity 6.0 and late
 
 ## How the Plugin Handles ARM64 Builds
 
-The plugin registers a build handler via `BuildPlayerWindow.RegisterBuildPlayerHandler`. When you start a Windows Standalone build targeting ARM64 architecture, the handler automatically injects the `EOS_PLATFORM_WINDOWS_ARM64` scripting define into `BuildPlayerOptions.extraScriptingDefines` for that build, without persisting it to your project settings.
+The plugin registers a build handler via `BuildPlayerWindow.RegisterBuildPlayerHandler`. When you start a Windows Standalone build targeting ARM64 architecture from Unity's Build window, the handler automatically injects the `EOS_PLATFORM_WINDOWS_ARM64` scripting define into `BuildPlayerOptions.extraScriptingDefines` for that build, without persisting it to your project settings.
 
-This means the first ARM64 build works without any manual steps — no need to run a build twice or set the define manually beforehand.
+This means the first ARM64 build works without any manual steps, no need to run a build twice or set the define manually beforehand.
 
 When switching **back from ARM64 to x64**, if the `EOS_PLATFORM_WINDOWS_ARM64` define is still present in your project settings from a prior session, the plugin removes it and stops the build with an error. A second build is required in this direction to recompile without the symbol. See [Known Limitations](#known-limitations).
+
+> [!NOTE]
+> This build hook doesn't apply to all methods of building within Unity, as such you may need to handle this yourself. See also [Builds Using `BuildPipeline.BuildPlayer()` Directly](https://docs.unity3d.com/6000.3/Documentation/ScriptReference/BuildPipeline.BuildPlayer.html)
 
 ### Manual Define Controls
 
@@ -70,7 +73,7 @@ The ARM64 and x64 EOS SDK binaries must be configured so that each is only inclu
 
 ## Required Modifications to the C# EOS SDK
 
-The EOS C# SDK requires manual changes to support Windows ARM64 in Unity. Apply the following to the C# SDK source before building.
+The EOS C# SDK requires manual changes to support Windows ARM64 in Unity. These changes have already been made to the C# SDK source bundled with the plugin. However, if you need to update the EOS C# SDK then apply the following changes before building.
 
 ### `SDK/Source/Core/Common.cs`
 
