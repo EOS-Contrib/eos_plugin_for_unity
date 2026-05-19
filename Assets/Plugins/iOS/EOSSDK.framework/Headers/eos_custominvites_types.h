@@ -364,6 +364,17 @@ EOS_STRUCT(EOS_CustomInvites_RejectRequestToJoinCallbackInfo, (
  */
 EOS_DECLARE_CALLBACK(EOS_CustomInvites_OnRejectRequestToJoinCallback, const EOS_CustomInvites_RejectRequestToJoinCallbackInfo* Data);
 
+/** The most recent version of the EOS_CustomInvites_DisableRequestToJoin API. */
+#define EOS_CUSTOMINVITES_DISABLEREQUESTTOJOIN_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_CustomInvites_DisableRequestToJoin function.
+ */
+EOS_STRUCT(EOS_CustomInvites_DisableRequestToJoinOptions, (
+	/** API Version: Set this to EOS_CUSTOMINVITES_DISABLEREQUESTTOJOIN_API_LATEST. */
+	int32_t ApiVersion;
+));
+
 /** The most recent version of the EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested API. */
 #define EOS_CUSTOMINVITES_ADDNOTIFYSENDCUSTOMNATIVEINVITEREQUESTED_API_LATEST 1
 

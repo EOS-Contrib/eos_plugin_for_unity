@@ -17,7 +17,7 @@ We take multiple factors into account, and decide on the versions that are most 
 
 The current release is using :  
 * Unity 2021.3.16f1.
-* EOS SDK 1.19.0.3.
+* EOS SDK 1.19.1.2.
 * SDK versions of the target platform that supports the given Unity and EOS SDK versions above could be found in their platform forums.
 
 ### Why do we reload the EOS SDK DLL in the editor?

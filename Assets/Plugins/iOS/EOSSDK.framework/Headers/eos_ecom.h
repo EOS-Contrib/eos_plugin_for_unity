@@ -90,7 +90,7 @@ EOS_DECLARE_FUNC(void) EOS_Ecom_QueryEntitlementToken(EOS_HEcom Handle, const EO
 /**
  * Query for a list of catalog offers defined with Epic Online Services.
  * This data will be cached for a limited time and retrieved again from the backend when necessary.
- * When one or more cached offers have an invalid price, the callback returns the result code EOS_EResult::EOS_Ecom_CatalogOfferPriceInvalid.
+ * Cached offers can be accessed using EOS_Ecom_CopyOfferByIndex and EOS_Ecom_CopyOfferById.
  *
  * @param Options structure containing filter criteria
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
@@ -98,6 +98,8 @@ EOS_DECLARE_FUNC(void) EOS_Ecom_QueryEntitlementToken(EOS_HEcom Handle, const EO
  *
  * @see EOS_Ecom_QueryOffersOptions
  * @see EOS_Ecom_OnQueryOffersCallback
+ * @see EOS_Ecom_CopyOfferByIndex
+ * @see EOS_Ecom_CopyOfferById
  */
 EOS_DECLARE_FUNC(void) EOS_Ecom_QueryOffers(EOS_HEcom Handle, const EOS_Ecom_QueryOffersOptions* Options, void* ClientData, const EOS_Ecom_OnQueryOffersCallback CompletionDelegate);
 

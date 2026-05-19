@@ -156,7 +156,7 @@ EOS_STRUCT(EOS_P2P_AddNotifyPeerConnectionRequestOptions, (
  * Structure containing information about an incoming connection request.
  */
 EOS_STRUCT(EOS_P2P_OnIncomingConnectionRequestInfo, (
-	/** Client-specified data passed into EOS_Presence_AddNotifyOnPresenceChanged */
+	/** Client-specified data passed into EOS_P2P_AddNotifyPeerConnectionRequest */
 	void* ClientData;
 	/** The Product User ID of the local user who is being requested to open a P2P session with RemoteUserId */
 	EOS_ProductUserId LocalUserId;
@@ -248,10 +248,10 @@ EOS_STRUCT(EOS_P2P_AddNotifyPeerConnectionInterruptedOptions, (
 ));
 
 /**
- * Structure containing information about an connection request that is that was interrupted.
+ * Structure containing information about a connection that was interrupted.
  */
 EOS_STRUCT(EOS_P2P_OnPeerConnectionInterruptedInfo, (
-	/** Client-specified data passed into EOS_Presence_AddNotifyOnPresenceChanged */
+	/** Client-specified data passed into EOS_P2P_AddNotifyPeerConnectionInterrupted */
 	void* ClientData;
 	/** The local user who is being notified of a connection that was interrupted */
 	EOS_ProductUserId LocalUserId;
@@ -306,17 +306,17 @@ EOS_ENUM(EOS_EConnectionClosedReason,
 	EOS_CCR_ConnectionClosed = 8,
 	/** The connection was locally accepted, but we failed to negotiate a connection with the remote user. This most commonly occurs if the local user goes offline or is logged-out during the connection process. */
 	EOS_CCR_NegotiationFailed = 9,
-	/** The connection was accepted, but there was an internal error occurred and the connection cannot be created or continue. */
+	/** The connection was accepted, but an internal error occurred and the connection cannot be created or continue. */
 	EOS_CCR_UnexpectedError = 10,
 	/** The connection was ignored because no connection listeners were bound. */
 	EOS_CCR_ConnectionIgnored = 11
 );
 
 /**
- * Structure containing information about an connection request that is being closed.
+ * Structure containing information about a connection being closed.
  */
 EOS_STRUCT(EOS_P2P_OnRemoteConnectionClosedInfo, (
-	/** Client-specified data passed into EOS_Presence_AddNotifyOnPresenceChanged */
+	/** Client-specified data passed into EOS_P2P_AddNotifyPeerConnectionClosed */
 	void* ClientData;
 	/** The local user who is being notified of a connection being closed */
 	EOS_ProductUserId LocalUserId;

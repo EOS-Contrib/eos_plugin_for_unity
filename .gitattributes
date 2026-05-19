@@ -25,6 +25,7 @@ etc\PlatformSpecificAssets\EOS\Mac\eac_launcher.app\Contents\_CodeSignature\Code
 *.dylib binary
 *.exe   binary
 *.gif   binary
+*.icns	binary
 *.jpg   binary
 *.png   binary
 *.so    binary
@@ -36,6 +37,7 @@ etc\PlatformSpecificAssets\EOS\Mac\eac_launcher.app\Contents\_CodeSignature\Code
 *.dylib filter=lfs diff=lfs merge=lfs -text
 *.exe filter=lfs diff=lfs merge=lfs -text
 *.gif filter=lfs diff=lfs merge=lfs -text
+*.icns filter=lfs diff=lfs merge=lfs -text
 *.jpg filter=lfs diff=lfs merge=lfs -text
 *.png filter=lfs diff=lfs merge=lfs -text
 *.so filter=lfs diff=lfs merge=lfs -text
@@ -43,6 +45,7 @@ etc\PlatformSpecificAssets\EOS\Mac\eac_launcher.app\Contents\_CodeSignature\Code
 
 # Files without extensions to add to git-lfs
 Assets/Plugins/iOS/EOSSDK.framework/EOSSDK filter=lfs diff=lfs merge=lfs -text
+etc/PlatformSpecificAssets/EOS/Linux/eac_launcher filter=lfs diff=lfs merge=lfs -text
 etc/PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/MacOS/start_protected_game filter=lfs diff=lfs merge=lfs -text
 tools/bin/EAC/Linux/anticheat_integritytool filter=lfs diff=lfs merge=lfs -text
 tools/bin/EAC/Mac/anticheat_integritytool filter=lfs diff=lfs merge=lfs -text

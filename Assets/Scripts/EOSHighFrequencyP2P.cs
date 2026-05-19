@@ -24,6 +24,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Text;
     using UnityEngine;
     using Epic.OnlineServices;
@@ -47,7 +48,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public bool sendActive = false;
         private List<float> dataDump;
-        public const string CoordinateMessagePrefix = "m";
+        private const string CoordinateMessagePrefix = "m";
         
 #if UNITY_EDITOR
         void OnPlayModeChanged(UnityEditor.PlayModeStateChange modeChange)
@@ -165,7 +166,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void SendMessage(ProductUserId friendId, string message)
         {
-            if (!friendId.IsValid())
+            if (friendId == null || !friendId.IsValid())
             {
                 Debug.LogError("EOS P2PNAT SendMessage: bad input data: account id is wrong.");
                 return;
@@ -309,34 +310,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     Debug.LogWarning($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: Received an empty message.");
                     return null;
                 }
-                // Expected message format: <CoordinateMessagePrefix><x>,<y>
-                // The first character is a prefix used to identify coordinate update messages.
-                // We intentionally skip the prefix (Substring(1)) before splitting the payload
-                // so only the numeric coordinate data is parsed.
-                else if (message.StartsWith(CoordinateMessagePrefix))
+                else if (TryDeserializeCoordinatePacket(message, out float xPos, out float yPos))
                 {
-                    string[] parts = message.Substring(1).Split(',');
-                    if (parts.Length == 2 &&
-                        int.TryParse(parts[0], out int xPos) &&
-                        int.TryParse(parts[1], out int yPos))
+                    Debug.Log($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: Particle coordinates received: x={xPos}, y={yPos}");
+
+                    if (owner != null && owner.ParticleManager != null)
                     {
-                        Debug.Log($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: Particle coordinates received: x={xPos}, y={yPos}");
-
-                        if (owner != null && owner.ParticleManager != null)
-                        {
-                            owner.ParticleManager.SpawnParticles(xPos, yPos);
-                        }
-                        else
-                        {
-                            Debug.LogWarning($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: ParticleManager or owner reference is missing.");
-                        }
-
-                        return peerId;
+                        owner.ParticleManager.SpawnParticles(xPos, yPos);
                     }
                     else
                     {
-                        Debug.LogWarning($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: Malformed coordinate message received.");
+                        Debug.LogWarning($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: ParticleManager or owner reference is missing.");
                     }
+
+                    return peerId;
+                }
+                else if (message.StartsWith(CoordinateMessagePrefix, StringComparison.Ordinal))
+                {
+                    Debug.LogWarning($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: Malformed coordinate message received.");
                 }
             }
             return null;
@@ -406,6 +397,30 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogErrorFormat("P2p (OnIncomingConnectionRequest): error while accepting connection, code: {0}", result);
             }
+        }
+
+        public static string SerializeCoordinatePacket(float x, float y)
+        {
+            // Coordinate packets are serialized as: "m<x>,<y>".
+            // The leading "m" identifies a coordinate message.
+            return string.Format(CultureInfo.InvariantCulture, "{0}{1},{2}", CoordinateMessagePrefix, x, y);
+        }
+
+        public static bool TryDeserializeCoordinatePacket(string packet, out float x, out float y)
+        {
+            x = 0f;
+            y = 0f;
+
+            if (string.IsNullOrEmpty(packet) || !packet.StartsWith(CoordinateMessagePrefix, StringComparison.Ordinal))
+            {
+                return false;
+            }
+
+            // Remove the CoordinateMessagePrefix via Substring(1) before splitting "<x>,<y>".
+            string[] parts = packet.Substring(1).Split(',');
+            return parts.Length == 2
+                && float.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out x)
+                && float.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out y);
         }
     }
 }

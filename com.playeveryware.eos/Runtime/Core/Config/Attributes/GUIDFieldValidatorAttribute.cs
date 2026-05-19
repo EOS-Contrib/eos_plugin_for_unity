@@ -23,31 +23,22 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
-    using System.Reflection;
 
     [AttributeUsage(AttributeTargets.Field)]
-
     public class GUIDFieldValidatorAttribute : FieldValidatorAttribute
     {
-        public const string NotAGuidMessage = "The field value could not be parsed into a Guid.";
-
+        public const string EmptyGuidMessage = "The field value is an empty Guid.";
         public override bool FieldValueIsValid(object toValidate, out string configurationProblemMessage)
         {
-            if (!(toValidate is string stringValue))
+            if (!(toValidate is Guid guidValue))
             {
-                configurationProblemMessage = "The field value is not of type string.";
+                configurationProblemMessage = "The field value is not of type Guid.";
                 return false;
             }
 
-            if (string.IsNullOrEmpty(stringValue))
+            if (Guid.Equals(guidValue, Guid.Empty))
             {
-                configurationProblemMessage = "The field value is an empty string.";
-                return false;
-            }
-
-            if (!Guid.TryParse(stringValue, out Guid result))
-            {
-                configurationProblemMessage = NotAGuidMessage;
+                configurationProblemMessage = EmptyGuidMessage;
                 return false;
             }
 

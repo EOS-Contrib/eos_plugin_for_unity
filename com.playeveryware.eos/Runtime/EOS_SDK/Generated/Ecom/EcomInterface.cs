@@ -1135,9 +1135,11 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// Query for a list of catalog offers defined with Epic Online Services.
 		/// This data will be cached for a limited time and retrieved again from the backend when necessary.
-		/// When one or more cached offers have an invalid price, the callback returns the result code <see cref="Result.EcomCatalogOfferPriceInvalid" />.
+		/// Cached offers can be accessed using <see cref="CopyOfferByIndex" /> and <see cref="CopyOfferById" />.
 		/// <see cref="QueryOffersOptions" />
 		/// <see cref="OnQueryOffersCallback" />
+		/// <see cref="CopyOfferByIndex" />
+		/// <see cref="CopyOfferById" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing filter criteria

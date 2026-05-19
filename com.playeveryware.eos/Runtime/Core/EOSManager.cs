@@ -74,6 +74,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.UI;
 
     using Epic.OnlineServices.Presence;
+    using PlayEveryWare.EpicOnlineServices.Utility;
 
     using Extensions;
     using System.Diagnostics;
@@ -88,7 +89,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using LoginOptions = Epic.OnlineServices.Auth.LoginOptions;
     using LoginStatusChangedCallbackInfo = Epic.OnlineServices.Auth.LoginStatusChangedCallbackInfo;
 
-    using Utility;
     using LogoutCallbackInfo = Epic.OnlineServices.Auth.LogoutCallbackInfo;
     using LogoutOptions = Epic.OnlineServices.Auth.LogoutOptions;
     using OnLogoutCallback = Epic.OnlineServices.Auth.OnLogoutCallback;
@@ -112,7 +112,16 @@ namespace PlayEveryWare.EpicOnlineServices
         public delegate void OnAuthLogoutCallback(LogoutCallbackInfo data);
 
         public delegate void OnConnectLoginCallback(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);
+        /// <summary>
+        /// Raised whenever the EOS overlay’s visibility changes, or when the title
+        /// loses/regains focus and we must indicate whether the overlay was open
+        /// before the interruption. Some platform-specific managers use
+        /// this to synchronize their native overlay state.
+        /// </summary>
+        /// <param name="isOccluded">Whether the overlay was open when focus was lost</param>
+        public delegate void OnOverlayOccludedChangedDelegate(bool isOccluded);
 
+        public static event OnOverlayOccludedChangedDelegate OnOverlayOccludedChanged;
         private static event OnAuthLoginCallback OnAuthLogin;
         private static event OnAuthLogoutCallback OnAuthLogout;
         private static event OnConnectLoginCallback OnConnectLogin;
@@ -146,7 +155,11 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <value>True if EOS Overlay is visible and has exclusive input.</value>
         private static bool s_isOverlayVisible;
 
+        private static bool s_isOverlayOccluded;
+
         private static bool s_DoesOverlayHaveExcusiveInput;
+
+        private static Coroutine s_restoreOverlayCoroutine;
 
         //cached log levels for retrieving later
         private static Dictionary<LogCategory, LogLevel> logLevels;
@@ -191,7 +204,7 @@ namespace PlayEveryWare.EpicOnlineServices
         public partial class EOSSingleton
         {
             private const float NetworkStatusUpdateIntervalSecs = 0.5f;
-            
+
             private static float s_nextNetworkStatusUpdateTime = 0.0f;
             static private EpicAccountId s_localUserId;
             static private ProductUserId s_localProductUserId;
@@ -259,8 +272,8 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <param name="localProductUserId"></param>
             protected void SetLocalProductUserId(ProductUserId localProductUserId)
             {
-                Log("Changing PUID: " + PUIDToString(s_localProductUserId) + " => " +
-                      PUIDToString(localProductUserId));
+                Log("Changing PUID: " + LoggingUtils.Redact(PUIDToString(s_localProductUserId)) + " => " +
+                      LoggingUtils.Redact(PUIDToString(localProductUserId)));
                 s_localProductUserId = localProductUserId;
             }
 
@@ -498,6 +511,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     {
                         s_isOverlayVisible = data.IsVisible;
                         s_DoesOverlayHaveExcusiveInput = data.IsExclusiveInput;
+                        OnOverlayOccludedChanged?.Invoke(s_isOverlayOccluded);
                     });
             }
 
@@ -689,7 +703,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 InitializeNetworkChecks(coroutineOwner);
                 InitializeOverlay(coroutineOwner);
-                
+
                 Log("EOS loaded");
             }
 
@@ -1274,7 +1288,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public void StartLoginWithLoginTypeAndToken(LoginCredentialType loginType, string id, string token,
                 OnAuthLoginCallback onLoginCallback)
             {
-                if(loginType == LoginCredentialType.ExchangeCode && string.IsNullOrEmpty(token))
+                if (loginType == LoginCredentialType.ExchangeCode && string.IsNullOrEmpty(token))
                 {
                     Debug.LogError($"{nameof(EOSManager)} {nameof(StartLoginWithLoginTypeAndToken)}: ExchangeCode login attempted with empty token. Abort login.");
                     onLoginCallback?.Invoke(new LoginCallbackInfo
@@ -1364,6 +1378,18 @@ namespace PlayEveryWare.EpicOnlineServices
                     ulong callbackHandle = EOSConnectInterface.AddNotifyAuthExpiration(
                         ref addNotifyAuthExpirationOptions, null, (ref AuthExpirationCallbackInfo callbackInfo) =>
                         {
+                            if (connectLoginOptions.Credentials.HasValue &&
+                                connectLoginOptions.Credentials.Value.Type == ExternalCredentialType.EpicIdToken)
+                            {
+                                var epicAccountId = GetLocalUserId();
+                                if (epicAccountId != null && epicAccountId.IsValid())
+                                {
+                                    // connectLoginOptions captures the JWT string from initial login; by expiration
+                                    // time that JWT is also stale. Fetch a fresh one from the Auth interface instead.
+                                    StartConnectLoginWithEpicAccount(epicAccountId, null);
+                                    return;
+                                }
+                            }
                             StartConnectLoginWithOptions(connectLoginOptions, null);
                         });
 
@@ -1711,21 +1737,6 @@ namespace PlayEveryWare.EpicOnlineServices
                         // Application is in the foreground and running normally
                         SetEOSApplicationStatus(ApplicationStatus.Foreground);
                     }
-                    else // NOT Focused
-                    {
-#if UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT
-                        if (s_isConstrained)
-                        {
-                            // Application is in the background but running with reduced CPU/GPU resouces (it's constrained)
-                            SetEOSApplicationStatus(ApplicationStatus.BackgroundConstrained);
-                        }
-                        else // NOT Constrained
-                        {
-                            // Application is in the background but running normally (should be non-interactable since it's in the background)
-                            SetEOSApplicationStatus(ApplicationStatus.BackgroundUnconstrained);
-                        }
-#endif
-                    }
                 }
             }
 
@@ -1857,7 +1868,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 enabled = false;
                 return;
             }
-            
+
             // Indicate that a EOSManager has been created, and mark it to not be destroyed
             s_EOSManagerInstance = this;
             DontDestroyOnLoad(this.gameObject);
@@ -1880,11 +1891,47 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>Unity [OnApplicationFocus](https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnApplicationFocus.html) is called when the application loses or gains focus.
         /// <list type="bullet">
         ///     <item><description>Calls <c>OnApplicationFocus()</c></description></item>
+        ///     <item>When the application loses focus (system UI opened), record whether the overlay
+        ///     was visible at that moment and immediately notify listeners that the overlay is
+        ///     now considered “occluded”. Platform modules use this to maintain correct
+        ///     ApplicationStatus behavior or defer overlay restoration.</item>
         /// </list>
         /// </summary>
         void OnApplicationFocus(bool hasFocus)
         {
             Instance.OnApplicationFocus(hasFocus);
+
+            if (!hasFocus)
+            {
+                if (s_isOverlayVisible)
+                {
+                    s_isOverlayOccluded = s_isOverlayVisible;
+                    OnOverlayOccludedChanged?.Invoke(s_isOverlayOccluded);
+                }
+                return;
+            }
+
+            if (s_restoreOverlayCoroutine == null) 
+            {
+                s_restoreOverlayCoroutine = StartCoroutine(RestoreOverlayAfterDelay());
+            }
+        }
+
+
+        /// <summary>
+        /// After regaining focus, wait several frames before clearing occlusion state.
+        /// This allows system UI dismissal, swapchain stabilization, and PrePresent
+        /// to resume before native overlay state is re-enabled. This delay prevents
+        /// race conditions where overlay state is updated too early.
+        /// </summary>
+        private System.Collections.IEnumerator RestoreOverlayAfterDelay()
+        {
+            yield return null;
+            yield return null;
+            yield return null;
+            s_isOverlayOccluded = false;
+            OnOverlayOccludedChanged?.Invoke(s_isOverlayOccluded);
+            s_restoreOverlayCoroutine = null;
         }
 
         //-------------------------------------------------------------------------

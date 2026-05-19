@@ -44,7 +44,7 @@ EOS_STRUCT(EOS_Connect_UserLoginInfo, (
 	int32_t ApiVersion;
 	/**
 	 * The user's display name on the identity provider systems as UTF-8 encoded null-terminated string.
-	 * The length of the name can be at maximum up to EOS_CONNECT_USERLOGININFO_DISPLAYNAME_MAX_LENGTH bytes.
+	 * The length of the name can be at maximum up to EOS_CONNECT_USERLOGININFO_DISPLAYNAME_MAX_LENGTH characters.
 	 *
 	 * As the display name passed here is client-controlled and not part of user authentication tokens,
 	 * it is only treated as non-authoritative informational data to be used by some of the feature services.

@@ -12,7 +12,14 @@ namespace Epic.OnlineServices.Ecom
 	public struct QueryOffersCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
-		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
+		/// Possible result codes for the operation:
+		/// - <see cref="Result.Success" />: The request was successful.
+		/// - <see cref="Result.IncompatibleVersion" />: The API version passed in is incorrect.
+		/// - <see cref="Result.InvalidParameters" />: An options parameter is incorrect.
+		/// - <see cref="Result.InvalidUser" />: An invalid Product User Id is specified.
+		/// - <see cref="Result.InvalidAuth" />: A valid Product User Id is specified but the local user is not logged in.
+		/// - <see cref="Result.TooManyRequests" />: There are too many requests in progress at this time.
+		/// - <see cref="Result.PartialResult" />: Only part of the backend response was received and processed by the client.
 		/// </summary>
 		public Result ResultCode { get; set; }
 

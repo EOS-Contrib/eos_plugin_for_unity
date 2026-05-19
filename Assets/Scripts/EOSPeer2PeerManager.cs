@@ -28,6 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using UnityEngine;
     using Epic.OnlineServices;
     using Epic.OnlineServices.P2P;
+    using PlayEveryWare.EpicOnlineServices.Utility;
 
     /// <summary>
     /// Struct <c>ChatEntry</c> is used to store cached chat data in <c>UIPeer2PeerMenu</c>.
@@ -84,6 +85,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private P2PInterface P2PHandle;
 
         private ulong ConnectionNotificationId;
+        private ulong ConnectionEstablishedNotificationId;
+        private ulong ConnectionInterruptedNotificationId;
         private Dictionary<ProductUserId, ChatWithFriendData> ChatDataCache;
         private bool ChatDataCacheDirty;
 
@@ -143,12 +146,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             SubscribeToConnectionRequest();
 
-            var options = new AddNotifyPeerConnectionEstablishedOptions
-            {
-                LocalUserId = EOSManager.Instance.GetProductUserId() 
-            };
+            var localUserId = EOSManager.Instance.GetProductUserId();
 
-            P2PHandle.AddNotifyPeerConnectionEstablished(ref options, null, OnPeerConnectionEstablished);
+            var establishedOptions = new AddNotifyPeerConnectionEstablishedOptions
+            {
+                LocalUserId = localUserId
+            };
+            ConnectionEstablishedNotificationId = P2PHandle.AddNotifyPeerConnectionEstablished(ref establishedOptions, null, OnPeerConnectionEstablished);
+
+            var interruptedOptions = new AddNotifyPeerConnectionInterruptedOptions
+            {
+                LocalUserId = localUserId,
+                SocketId = null
+            };
+            ConnectionInterruptedNotificationId = P2PHandle.AddNotifyPeerConnectionInterrupted(ref interruptedOptions, null, OnPeerConnectionInterrupted);
 
             Debug.Log("EOSPeer2PeerManager initialized: connection listeners registered.");
         }
@@ -187,6 +198,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void OnLoggedOut()
         {
             UnsubscribeFromConnectionRequests();
+
+            if (ConnectionEstablishedNotificationId != 0)
+            {
+                P2PHandle.RemoveNotifyPeerConnectionEstablished(ConnectionEstablishedNotificationId);
+                ConnectionEstablishedNotificationId = 0;
+            }
+
+            if (ConnectionInterruptedNotificationId != 0)
+            {
+                P2PHandle.RemoveNotifyPeerConnectionInterrupted(ConnectionInterruptedNotificationId);
+                ConnectionInterruptedNotificationId = 0;
+            }
         }
 
         private void OnRefreshNATTypeFinished(ref OnQueryNATTypeCompleteInfo data)
@@ -532,7 +555,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
         private void OnPeerConnectionEstablished(ref OnPeerConnectionEstablishedInfo info)
         {
-            Debug.Log($"[P2P] Connection established with {info.RemoteUserId}");
+            Debug.Log($"[P2P] Connection established with {LoggingUtils.Redact(info.RemoteUserId)} | type={info.ConnectionType} network={info.NetworkType}");
 
             if (!connectionStates.ContainsKey(info.RemoteUserId))
             {
@@ -540,6 +563,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 SendHandshakeRequest(info.RemoteUserId);
                 connectionStates[info.RemoteUserId] = PeerConnectionAppState.HandshakePending;
             }
+        }
+
+        private void OnPeerConnectionInterrupted(ref OnPeerConnectionInterruptedInfo info)
+        {
+            Debug.LogWarning($"[P2P] Connection interrupted with {LoggingUtils.Redact(info.RemoteUserId)} on socket '{info.SocketId?.SocketName}' - EOS will attempt auto-recovery");
         }
         public void SendTrigger(ProductUserId peerId)
         {

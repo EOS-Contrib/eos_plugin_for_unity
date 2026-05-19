@@ -634,7 +634,16 @@ EOS_STRUCT(EOS_Ecom_QueryOffersOptions, (
  * Output parameters for the EOS_Ecom_QueryOffers Function.
  */
 EOS_STRUCT(EOS_Ecom_QueryOffersCallbackInfo, (
-	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
+	/**
+	 * Possible result codes for the operation:
+	 * - EOS_Success:                 The request was successful.
+	 * - EOS_IncompatibleVersion:     The API version passed in is incorrect.
+	 * - EOS_InvalidParameters:       An options parameter is incorrect.
+	 * - EOS_InvalidUser:             An invalid Product User Id is specified.
+	 * - EOS_InvalidAuth:             A valid Product User Id is specified but the local user is not logged in.
+	 * - EOS_TooManyRequests:         There are too many requests in progress at this time.
+	 * - EOS_PartialResult:           Only part of the backend response was received and processed by the client.
+	 */
 	EOS_EResult ResultCode;
 	/** Context that was passed into EOS_Ecom_QueryOffers */
 	void* ClientData;

@@ -35,6 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices.Presence;
     using Epic.OnlineServices.UI;
     using Epic.OnlineServices.P2P;
+    using PlayEveryWare.EpicOnlineServices.Utility;
     using System.Text.RegularExpressions;
     using System.Text;
     using UnityEngine.Events;
@@ -3501,7 +3502,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                Log($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsConnectionRequest)}): Successfully accepted connection from {options.RemoteUserId} on socket {P2P_SESSION_STATUS_SOCKET_NAME}");
+                Log($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsConnectionRequest)}): Successfully accepted connection from {LoggingUtils.Redact(options.RemoteUserId)} on socket {P2P_SESSION_STATUS_SOCKET_NAME}");
             }
         }
 
@@ -3531,7 +3532,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                Log($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsDisconnect)}): Successfully closed connection with {closeOptions.RemoteUserId} on socket {P2P_SESSION_STATUS_SOCKET_NAME}");
+                Log($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsDisconnect)}): Successfully closed connection with {LoggingUtils.Redact(closeOptions.RemoteUserId)} on socket {P2P_SESSION_STATUS_SOCKET_NAME}");
             }
         }
 

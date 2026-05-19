@@ -5,7 +5,10 @@
         {"src":"SDK/Source/Generated/Windows/IntegratedPlatform/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Windows/IntegratedPlatform/"},
 
         {"src": "SDK/Bin/EOSSDK-Win64-Shipping.dll", "dest": "Assets/Plugins/Windows/x64/"},
+        {"src": "SDK/Bin/EOSSDK-Win64-Shippingarm64.dll", "dest": "Assets/Plugins/Windows/ARM64/"},
+        {"src": "SDK/Lib/EOSSDK-Win64-Shippingarm64.lib", "dest": "Assets/Plugins/Windows/ARM64/"},
         {"src": "SDK/Bin/x64/", "pattern": "*.dll", "dest": "Assets/Plugins/Windows/x64/"},
+        {"src": "SDK/Bin/arm64/", "pattern": "*.dll", "dest": "Assets/Plugins/Windows/ARM64/"},
 
         {"src": "SDK/Include/Windows/*.h", "dest": "lib/NativeCode/third_party/eos_sdk/include/Windows/"},
 

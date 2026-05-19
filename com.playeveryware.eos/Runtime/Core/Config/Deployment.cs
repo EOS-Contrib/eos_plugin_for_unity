@@ -48,7 +48,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             get
             {
-                return !DeploymentId.Equals(Guid.Empty) && !SandboxId.IsEmpty;
+                return !DeploymentId.Equals(Guid.Empty) && SandboxId.IsValid();
             }
         }
 

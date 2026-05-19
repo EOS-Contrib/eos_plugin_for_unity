@@ -43,6 +43,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject SanctionsListContentParent;
         public GameObject UISanctionsEntryPrefab;
 
+        [SerializeField]
+        private Button logoutButton;
+
         private ProductUserId currentProductUserId;
 
         private EOSReportsManager ReportsManager;
@@ -55,12 +58,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             base.Awake();
             ReportsManager = EOSManager.Instance.GetOrCreateManager<EOSReportsManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
+
+            if (logoutButton != null)
+            {
+                logoutButton.onClick.AddListener(HandleLogoutClicked);
+            }
         }
 
         protected override void OnDestroy()
         {
             EOSManager.Instance.RemoveManager<EOSReportsManager>();
             EOSManager.Instance.RemoveManager<EOSFriendsManager>();
+
+            if(logoutButton != null)
+            {
+                logoutButton.onClick.RemoveListener(HandleLogoutClicked);
+            }
+
             base.OnDestroy();
         }
 
@@ -164,6 +178,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void CancelButtonOnClick()
         {
             ResetPopUp();
+        }
+
+        private void HandleLogoutClicked()
+        {
+            if (UIParent.activeInHierarchy)
+            {
+                ResetPopUp();
+            }
         }
 
         private void ResetPopUp()

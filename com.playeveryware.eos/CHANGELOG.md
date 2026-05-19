@@ -2,6 +2,29 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.1.0] - 2026-05-19
+
+### Added
+- Added: Arm64 support for Windows.
+- Added: Support for Custom Invites Disable Requests.
+- Added: Utility to remove PUID and other identifiable information from logs.
+
+### Changed
+- Change: Update to EOS SDK 1.19.1.2-CL53289219
+- Change: High Frequency P2P script improvements.
+
+### Fixed
+- Fix: Added a HandleLogout at UIPlayerReportMenu to close Player report menu when the player Logout.
+- Fix: Updated ListOfStringsToEnumConverterTests.
+- Fix: Updated tests to use ProductConfig instead of EOSConfig.
+- Fix: TestCommon now uses the correct SessionBucketId.
+- Fix: Achievements no longer stop working after authorization expires.
+- Fix: Blocks enabling high-frequency sending when no valid peer is selected.
+- Fix: Re-authenticates when P2P disconnects mid-session.
+
+### Known Issue
+- There is a benign error message for “Social Overlay: Intent parse failure” that does not cause any issues.
+
 ## [6.0.2] - 2026-03-10
 
 ### Fixed

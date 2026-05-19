@@ -4,7 +4,7 @@ The following document outlines the two methods with which you can add the plugi
 
 ## Adding the package from a git URL
 
-1. Install [git](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html#req) and [git-lfs](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html#req).
+1. Install [git](https://docs.unity3d.com/Manual/upm-git.html#req) and [git-lfs](https://docs.unity3d.com/Manual/upm-git.html#req).
 2.  From the Unity Editor, open the Package Manager. `Window -> Package Manager`.
 
     ![unity tools package manager](/com.playeveryware.eos/Documentation~/images/unity_tools_package_manager.gif)
@@ -19,7 +19,7 @@ The following document outlines the two methods with which you can add the plugi
 8. Finally, [Configure the Plugin](/com.playeveryware.eos/Documentation~/configure_plugin.md).
 
 > [!NOTE]
-> For additional details, see the [Unity Documentation for adding a UPM via Git URL](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-giturl.html).
+> For additional details, see the [Unity Documentation for adding a UPM via Git URL](https://docs.unity3d.com/Manual/upm-ui-giturl.html).
 
 ## Adding the package from a tarball
 
@@ -44,5 +44,5 @@ The following document outlines the two methods with which you can add the plugi
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
 
 > [!NOTE]
-> For additional details, see the [Unity Documentation for adding a UPM via Tarball](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-tarball.html).
+> For additional details, see the [Unity Documentation for adding a UPM via Tarball](https://docs.unity3d.com/Manual/upm-ui-tarball.html).
 

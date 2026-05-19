@@ -9,6 +9,14 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM64">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM64">
+      <Configuration>Release</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -19,14 +27,14 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <!-- Consolidated Configuration Groups -->
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32' Or '$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32' Or '$(Configuration)|$(Platform)'=='Debug|x64' Or '$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32' Or '$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32' Or '$(Configuration)|$(Platform)'=='Release|x64' Or '$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
@@ -38,7 +46,7 @@
   <PropertyGroup>
     <OutDir>$(SolutionDir)Build\$(Configuration)\$(PlatformTarget)\</OutDir>
     <IntDir>$(SolutionDir)Build\Temp\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
-    <TargetName>$(ProjectName)-$(PlatformTarget)</TargetName>
+    <TargetName>$(ProjectName)-$(NormalizedPlatform)</TargetName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
@@ -57,7 +65,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)..\third_party\eos_sdk\include\;$(SolutionDir)..\include;$(SolutionDir)..\include\windows;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -71,14 +79,15 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
-      <!-- Copy the meta file stored in the solution directory, since it's values have been properly set in such a way that Unity interacts with the DLL in the intended manner. -->
+      <!-- Copy the meta file from the solution directory, renaming it to the logical platform name so
+           Unity resolves it by CPU architecture metadata rather than by filename. -->
       <Command>
-      @echo Copying "$(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta" to "$(OutputUnityAssetsDirectory)"
-      copy $(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta $(OutputUnityAssetsDirectory) /Y
+      @echo Copying "$(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta" to "$(OutputUnityAssetsDirectory)$(ProjectName)-$(LogicalPlatformName).dll.meta"
+      copy "$(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta" "$(OutputUnityAssetsDirectory)$(ProjectName)-$(LogicalPlatformName).dll.meta" /Y
       </Command>
-      <!-- Copy the output files into the appropriate assets directory alongside the aforementioned .dll.meta file.-->
+      <!-- Copy the output files into the appropriate assets directory alongside the .meta file. -->
       <Command>
-      @echo Copying "$(TargetDir)$(ProjectName)-$(NormalizedPlatform)*" to "$(OutputUnityAssetsDirectory)"
+      @echo Copying "$(TargetDir)$(ProjectName)*" to "$(OutputUnityAssetsDirectory)"
       copy "$(TargetDir)$(ProjectName)*" "$(OutputUnityAssetsDirectory)" /Y
       </Command>
     </PostBuildEvent>
@@ -96,15 +105,16 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <!-- Copy the meta file stored in the solution directory, since it's values have been properly set in such a way that Unity interacts with the DLL in the intended manner. -->
+      <!-- Copy the meta file from the solution directory, renaming it to the logical platform name so
+           Unity resolves it by CPU architecture metadata rather than by filename. -->
       <Command>
-      @echo Copying "$(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta" to "$(OutputUnityAssetsDirectory)"
-      copy $(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta $(OutputUnityAssetsDirectory) /Y
+      @echo Copying "$(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta" to "$(OutputUnityAssetsDirectory)$(ProjectName)-$(LogicalPlatformName).dll.meta"
+      copy "$(SolutionDir)$(ProjectName)-$(NormalizedPlatform).dll.meta" "$(OutputUnityAssetsDirectory)$(ProjectName)-$(LogicalPlatformName).dll.meta" /Y
       </Command>
-      <!-- Copy just the output .dll file into the appropriate assets directory alongside the aforementioned .dll.meta file.-->
+      <!-- Copy just the output .dll file — use $(TargetPath) so it picks up the logical filename from TargetName. -->
       <Command>
-      @echo Copying "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" to "$(OutputUnityAssetsDirectory)"
-      copy "$(TargetDir)$(ProjectName)-$(NormalizedPlatform).dll" "$(OutputUnityAssetsDirectory)" /Y
+      @echo Copying "$(TargetPath)" to "$(OutputUnityAssetsDirectory)"
+      copy "$(TargetPath)" "$(OutputUnityAssetsDirectory)" /Y
       </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

@@ -202,37 +202,8 @@ namespace Epic.OnlineServices
 		/// Steam Auth Session Ticket
 		/// 
 		/// Generated using the ISteamUser::GetAuthTicketForWebApi API of Steamworks SDK.
-		/// 
-		/// @attention
-		/// The pchIdentity input parameter of GetAuthTicketForWebApi API must be set to a valid non-empty <see cref="Utf8String" /> value.
-		/// The <see cref="Utf8String" /> value used by the game client must match identically to the backend-configured value in EOS Dev Portal.
-		/// The recommended value to use is "epiconlineservices" in lowercase, matching the default value for new Steam identity provider credentials in EOS Dev Portal.
-		/// This identifier is important for security reasons to prevent session hijacking. Applications must use a dedicated unique identity identifier for Session Tickets passed to the EOS SDK APIs.
-		/// Session Tickets using the EOS-assigned identifier must not be used with anything else than the EOS SDK APIs. You must use a different identifier when generating Session Tickets to authenticate with other parties.
-		/// 
-		/// @warning
-		/// To update an already live game to use the new GetAuthTicketForWebApi API instead of the deprecated GetAuthSessionTicket API, follow these steps in this order to prevent breaking the live game for players:
-		/// 1. Update your game client code to use the new ISteamUser::GetAuthTicketForWebApi API.
-		/// 2. Publish the new game client update to end-users.
-		/// 3. Update the existing Steam identity provider credentials entry in EOS Dev Portal to use the same identity <see cref="Utf8String" /> identifier as the game client.
-		/// 
-		/// @example
-		/// SteamUser()->GetAuthTicketForWebApi("epiconlineservices");
-		/// 
-		/// The retrieved Auth Session Ticket byte buffer needs to be converted into a hex-encoded <see cref="Utf8String" /> (e.g. "FA87097A..") before passing it to the <see cref="Auth.AuthInterface.Login" /> or <see cref="Connect.ConnectInterface.Login" /> APIs.
-		/// <see cref="Common.ToString" /> can be used for this conversion.
-		/// 
-		/// Supported with <see cref="Auth.AuthInterface.Login" />, <see cref="Connect.ConnectInterface.Login" />.
-		/// 
-		/// @version 1.15.1+
 		/// </summary>
-		SteamSessionTicket = 18,
-		/// <summary>
-		/// VIVEPORT User Session Token
-		/// 
-		/// Supported with <see cref="Connect.ConnectInterface.Login" />.
-		/// </summary>
-		ViveportUserToken = 19
+		SteamSessionTicket = 18
 	}
 
 }

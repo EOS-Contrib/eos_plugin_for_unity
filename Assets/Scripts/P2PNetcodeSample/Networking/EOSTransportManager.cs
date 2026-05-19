@@ -36,6 +36,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
     using Epic.OnlineServices;
     using Epic.OnlineServices.P2P;
+    using PlayEveryWare.EpicOnlineServices.Utility;
     using System.Text.RegularExpressions;
 
     public class EOSTransportManager : IEOSSubManager
@@ -253,6 +254,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
         private const byte ConnectionConfirmationChannel = byte.MaxValue;
 
+        private ulong ConnectionEstablishedNotificationsId = 0;
+        
+        private ulong ConnectionInterruptedNotificationsId = 0;
+
         [System.Diagnostics.Conditional("EOS_TRANSPORTMANAGER_DEBUG")]
         private void Log(string msg)
         {
@@ -295,7 +300,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             foreach (KeyValuePair<ProductUserId, List<Connection>> entry in Connections)
             {
                 ProductUserId user = entry.Key;
-                res += string.Format("{{\"RemoteUserId\": {0}, \"Connections\": [", user.ToString());
+                res += string.Format("{{\"RemoteUserId\": {0}, \"Connections\": [", LoggingUtils.Redact(user));
                 for (int j = 0; j < entry.Value.Count; ++j)
                 {
                     res += entry.Value[j].DebugStringJSON();
@@ -423,6 +428,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 IsInitialized = true;
                 SubscribeToConnectionRequestNotifications();
                 SubscribeToConnectionClosedNotifications();
+                SubscribeToConnectionEstablishedNotifications();
+                SubscribeToConnectionInterruptedNotifications();
                 QueryNATType();
             }
 
@@ -442,6 +449,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             Log($"EOSTransportManager.Shutdown: Shutting down EOSTransportManager... | EOSTransportManager={GetDebugString()}");
             CloseAllConnections();
+            UnsubscribeFromConnectionInterruptedNotifications();
+            UnsubscribeFromConnectionEstablishedNotifications();
             UnsubscribeFromConnectionClosedNotifications();
             UnsubscribeFromConnectionRequestNotifications();
             Clear();
@@ -460,7 +469,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// </summary>
         public void OnLoggedIn()
         {
-            Log($"EOSTransportManager.OnLoggedIn: Logged in with LocalUserId '{EOSManager.Instance.GetProductUserId()}' - Initializing EOSTransportManager.");
+            Log($"EOSTransportManager.OnLoggedIn: Logged in with LocalUserId '{LoggingUtils.Redact(EOSManager.Instance.GetProductUserId())}' - Initializing EOSTransportManager.");
             Initialize();
         }
 
@@ -469,7 +478,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// </summary>
         public void OnLoggedOut()
         {
-            Log($"EOSTransportManager.OnLoggedOut: Logging out with LocalUserId '{EOSManager.Instance.GetProductUserId()}' - Shutting down EOSTransportManager.");
+            Log($"EOSTransportManager.OnLoggedOut: Logging out with LocalUserId '{LoggingUtils.Redact(EOSManager.Instance.GetProductUserId())}' - Shutting down EOSTransportManager.");
             Shutdown();
         }
 
@@ -599,7 +608,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// <returns><c>true</c> if a connection was requested, a pending connection request was successfully accepted, or the connection has already been locally opened (this case will log a warning), otherwise <c>false</c>.</returns>
         public bool OpenConnection(ProductUserId remoteUserId, string socketName)
         {
-            Log($"EOSTransportManager.OpenConnection: Attempting to locally open (outgoing) socket connection named '{socketName}' with remote peer '{remoteUserId}'...");
+            Log($"EOSTransportManager.OpenConnection: Attempting to locally open (outgoing) socket connection named '{socketName}' with remote peer '{LoggingUtils.Redact(remoteUserId)}'...");
             return Internal_OpenConnection(remoteUserId, socketName, true, out Connection _);
         }
 
@@ -662,7 +671,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 if (connection.IsFullyOpened)
                 {
                     // Nothing left to do
-                    LogWarning($"EOSTransportManager.Internal_OpenConnection: Already have a fully opened socket connection named '{socketName}' with remote peer '{remoteUserId}'.");
+                    LogWarning($"EOSTransportManager.Internal_OpenConnection: Already have a fully opened socket connection named '{socketName}' with remote peer '{LoggingUtils.Redact(remoteUserId)}'.");
                     return true;
                 }
 
@@ -673,7 +682,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                     if (connection.OpenedOutgoing)
                     {
                         // Nothing left to do
-                        LogWarning($"EOSTransportManager.Internal_OpenConnection: Already have a locally opened socket connection named '{socketName}' with remote peer '{remoteUserId}'. Now we're just awaiting a response to our connect request.");
+                        LogWarning($"EOSTransportManager.Internal_OpenConnection: Already have a locally opened socket connection named '{socketName}' with remote peer '{LoggingUtils.Redact(remoteUserId)}'. Now we're just awaiting a response to our connect request.");
                         return true;
                     }
 
@@ -687,7 +696,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                     if (connection.OpenedIncoming)
                     {
                         // Nothing left to do
-                        LogWarning($"EOSTransportManager.Internal_OpenConnection: Already have a remotely opened socket connection named '{socketName}' with remote peer '{remoteUserId}'. Now we just need to respond to their connect request.");
+                        LogWarning($"EOSTransportManager.Internal_OpenConnection: Already have a remotely opened socket connection named '{socketName}' with remote peer '{LoggingUtils.Redact(remoteUserId)}'. Now we just need to respond to their connect request.");
                         return true;
                     }
 
@@ -766,7 +775,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// <returns><c>true</c> if a matching remote peer connection was found and closed, <c>false</c> if not.</returns>
         public bool CloseConnection(ProductUserId remoteUserId, string socketName, bool forceClose = true)
         {
-            Log($"EOSTransportManager.CloseConnection: Attempting to close (cancel or reject) a socket connection named '{socketName}' with remote peer '{remoteUserId}'...");
+            Log($"EOSTransportManager.CloseConnection: Attempting to close (cancel or reject) a socket connection named '{socketName}' with remote peer '{LoggingUtils.Redact(remoteUserId)}'...");
 
             // EOSTransportManager is not initialized?
             if (IsInitialized == false)
@@ -843,7 +852,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
 
             success = false;
-            LogError($"EOSTransportManager.CloseConnection: Failed to close remote peer connection - Unable to find a socket connection named '{socketName}' with remote peer '{remoteUserId}'.");
+            LogError($"EOSTransportManager.CloseConnection: Failed to close remote peer connection - Unable to find a socket connection named '{socketName}' with remote peer '{LoggingUtils.Redact(remoteUserId)}'.");
             return false;
         }
 
@@ -996,7 +1005,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         {
             if (remoteUserId.IsValid() == false)
             {
-                LogError($"EOSTransportManager.SendPacket: Invalid parameters, RemoteUserId '{remoteUserId}' is invalid.");
+                LogError($"EOSTransportManager.SendPacket: Invalid parameters, RemoteUserId '{LoggingUtils.Redact(remoteUserId)}' is invalid.");
                 return;
             }
 
@@ -1015,13 +1024,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             Connection connection = null;
             if (!Connections.TryGetValue(remoteUserId, out List<Connection> userConnections))
             {
-                LogError($"EOSTransportManager.SendPacket: Connection not found to remote user {remoteUserId}.");
+                LogError($"EOSTransportManager.SendPacket: Connection not found to remote user {LoggingUtils.Redact(remoteUserId)}.");
                 return;
             }
             connection = userConnections.Find(x => x.SocketName == socketName);
             if (connection == null)
             {
-                LogError($"EOSTransportManager.SendPacket: Connection not found on socket {socketName} to remote user {remoteUserId}.");
+                LogError($"EOSTransportManager.SendPacket: Connection not found on socket {socketName} to remote user {LoggingUtils.Redact(remoteUserId)}.");
                 return;
             }
 
@@ -1078,13 +1087,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 Result result = P2PHandle.SendPacket(ref options);
                 if (result != Result.Success)
                 {
-                    LogError($"EOSTransportManager.SendPacket: Unable to send {options.Data.Count} byte packet to RemoteUserId '{options.RemoteUserId}' - Error result, {result}.");
+                    LogError($"EOSTransportManager.SendPacket: Unable to send {options.Data.Count} byte packet to RemoteUserId '{LoggingUtils.Redact(options.RemoteUserId)}' - Error result, {result}.");
                     return;
                 }
 
             }
 #if EOS_P2PMANAGER_DEBUG
-            Debug.LogFormat("EOSTransportManager.SendPacket: Successfully sent {0} byte packet to RemoteUserId '{1}'.", packet.Length, remoteUserId);
+            Debug.LogFormat("EOSTransportManager.SendPacket: Successfully sent {0} byte packet to RemoteUserId '{1}'.", packet.Length, LoggingUtils.Redact(remoteUserId));
 #endif
         }
 
@@ -1173,7 +1182,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             // Invalid user?
             if (remoteUserId.IsValid() == false)
             {
-                LogError($"EOSTransportManager.TryReceivePacket: Received {packet.Length} byte packet from invalid RemoteUserId '{remoteUserId}'.");
+                LogError($"EOSTransportManager.TryReceivePacket: Received {packet.Length} byte packet from invalid RemoteUserId '{LoggingUtils.Redact(remoteUserId)}'.");
                 remoteUserId = null;
                 socketName = null;
                 channel = 0;
@@ -1198,13 +1207,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 // Is this a connection confirmation packet?
                 if (channel == ConnectionConfirmationChannel && payload.SequenceEqual(ConnectionConfirmationPacket))
                 {
-                    Log($"EOSTransportManager.TryReceivePacket: Connection confirmation packet received for socket connection named '{socketName}' with remote peer '{remoteUserId}'.");
+                    Log($"EOSTransportManager.TryReceivePacket: Connection confirmation packet received for socket connection named '{socketName}' with remote peer '{LoggingUtils.Redact(remoteUserId)}'.");
 
                     // We've been waiting for our connect request to be accepted on this connection?
                     if (connection.IsPendingOutgoing)
                     {
                         // They've accepted our connection, so we're no longer pending
-                        Log($"EOSTransportManager.TryReceivePacket: Attempting to remotely open (incoming) socket connection named '{socketName}' with remote peer '{remoteUserId}'...");
+                        Log($"EOSTransportManager.TryReceivePacket: Attempting to remotely open (incoming) socket connection named '{socketName}' with remote peer '{LoggingUtils.Redact(remoteUserId)}'...");
                         bool success = Internal_OpenConnection(remoteUserId, socketName, false, out _);
 
                         // Our connection should now be considered fully open
@@ -1221,12 +1230,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
             else
             {
-                LogWarning($"EOSTransportManager.TryReceivePacket: Received a {packet.Length} byte packet from unknown RemoteUserId '{remoteUserId}', discarding packet.");
+                LogWarning($"EOSTransportManager.TryReceivePacket: Received a {packet.Length} byte packet from unknown RemoteUserId '{LoggingUtils.Redact(remoteUserId)}', discarding packet.");
             }
 
             if (connection == null || connection.IsFullyOpened == false)
             {
-                LogWarning($"EOSTransportManager.TryReceivePacket: Received a {packet.Length} byte packet from RemoteUserId '{remoteUserId}', discarding packet.");
+                LogWarning($"EOSTransportManager.TryReceivePacket: Received a {packet.Length} byte packet from RemoteUserId '{LoggingUtils.Redact(remoteUserId)}', discarding packet.");
 
                 // Discard this packet, we only return to the user packets from fully open peer connections
                 remoteUserId = null;
@@ -1270,7 +1279,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             InProgressPackets[index].Clear();
             InProgressPackets.Remove(index);
             // Success
-            Log($"EOSTransportManager.TryReceivePacket: Successfully received {packet.Length} byte packet from RemoteUserId '{remoteUserId}'.");
+            Log($"EOSTransportManager.TryReceivePacket: Successfully received {packet.Length} byte packet from RemoteUserId '{LoggingUtils.Redact(remoteUserId)}'.");
             return true;
         }
 
@@ -1303,7 +1312,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             var remoteUserId = data.RemoteUserId;
 
             // Get/add the connection internally from the incoming direction
-            Log($"EOSTransportManager.OnConnectionRequestNotification: Attempting to remotely open (incoming) socket connection named '{socketName}' with remote peer '{remoteUserId}'...");
+            Log($"EOSTransportManager.OnConnectionRequestNotification: Attempting to remotely open (incoming) socket connection named '{socketName}' with remote peer '{LoggingUtils.Redact(remoteUserId)}'...");
             bool success = Internal_OpenConnection(remoteUserId, socketName, false, out Connection connection);
 
             // Successfully found/added? And is now awaiting our connect accept response?
@@ -1317,7 +1326,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
             else
             {
-                LogError($"EOSTransportManager.OnConnectionRequestNotification: Failed to process connection request notification for socket connection named '{socketName}' with remote peer '{remoteUserId}'...");
+                LogError($"EOSTransportManager.OnConnectionRequestNotification: Failed to process connection request notification for socket connection named '{socketName}' with remote peer '{LoggingUtils.Redact(remoteUserId)}'...");
             }
         }
 
@@ -1347,6 +1356,60 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             // Force close (from incoming direction)
             CloseConnection(remoteUserId, socketName, true);
+        }
+
+        private void SubscribeToConnectionEstablishedNotifications()
+        {
+            var options = new AddNotifyPeerConnectionEstablishedOptions()
+            {
+                LocalUserId = LocalUserId,
+                SocketId = null,
+            };
+
+            ConnectionEstablishedNotificationsId = P2PHandle.AddNotifyPeerConnectionEstablished(ref options, null, OnConnectionEstablishedNotification);
+        }
+
+        private void UnsubscribeFromConnectionEstablishedNotifications()
+        {
+            if (ConnectionEstablishedNotificationsId != 0)
+            {
+                P2PHandle?.RemoveNotifyPeerConnectionEstablished(ConnectionEstablishedNotificationsId);
+                ConnectionEstablishedNotificationsId = 0;
+            }
+        }
+
+        private void OnConnectionEstablishedNotification(ref OnPeerConnectionEstablishedInfo data)
+        {
+            Debug.Assert(data.LocalUserId == LocalUserId);
+            Log($"EOSTransportManager.OnConnectionEstablishedNotification: Connection established with remote peer '{LoggingUtils.Redact(data.RemoteUserId)}' " +
+                $"on socket '{data.SocketId?.SocketName}' | type={data.ConnectionType} network={data.NetworkType}");
+        }
+
+        private void SubscribeToConnectionInterruptedNotifications()
+        {
+            var options = new AddNotifyPeerConnectionInterruptedOptions()
+            {
+                LocalUserId = LocalUserId,
+                SocketId = null,
+            };
+
+            ConnectionInterruptedNotificationsId = P2PHandle.AddNotifyPeerConnectionInterrupted(ref options, null, OnConnectionInterruptedNotification);
+        }
+
+        private void UnsubscribeFromConnectionInterruptedNotifications()
+        {
+            if (ConnectionInterruptedNotificationsId != 0)
+            {
+                P2PHandle?.RemoveNotifyPeerConnectionInterrupted(ConnectionInterruptedNotificationsId);
+                ConnectionInterruptedNotificationsId = 0;
+            }
+        }
+
+        private void OnConnectionInterruptedNotification(ref OnPeerConnectionInterruptedInfo data)
+        {
+            Debug.Assert(data.LocalUserId == LocalUserId);
+            LogWarning($"EOSTransportManager.OnConnectionInterruptedNotification: Connection interrupted with remote peer '{LoggingUtils.Redact(data.RemoteUserId)}' " +
+                       $"on socket '{data.SocketId?.SocketName}' - EOS will attempt auto-recovery");
         }
 
         public bool StartHost()

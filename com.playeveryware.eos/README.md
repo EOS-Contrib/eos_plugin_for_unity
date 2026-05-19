@@ -30,7 +30,7 @@ See [this](/com.playeveryware.eos/Documentation~/plugin_advantages.md) for a mor
 * A Unity project to integrate the plugin into.
 
 > [!NOTE]
-> Your system should also satisfy [Unity's system requirements](https://docs.unity3d.com/2021.3/Documentation/Manual/system-requirements.html) as well as the [EOS system requirements](https://dev.epicgames.com/docs/epic-online-services/eos-get-started/system-requirements)
+> Your system should also satisfy [Unity's system requirements](https://docs.unity3d.com/Manual/system-requirements.html) as well as the [EOS system requirements](https://dev.epicgames.com/docs/epic-online-services/eos-get-started/system-requirements)
 
 # Supported EOS SDK Features
 

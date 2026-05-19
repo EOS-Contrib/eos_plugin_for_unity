@@ -5,7 +5,7 @@
 Some EOS samples and certain custom implementations may rely on **Newtonsoft.Json** for JSON serialization and deserialization.  
 When building with **IL2CPP** and **Managed Code Stripping** enabled, Unity may remove unused or reflection-referenced members from assemblies.  
 Because Newtonsoft.Json uses reflection heavily, this can lead to missing types at runtime (especially in **Android**, **iOS**, and **WebGL** builds).
-Some parts of the *EOS Unity Plugin (PlayEveryWare)* rely on **type converter classes** that IL2CPP may incorrectly remove.
+Some parts of the *EOS Unity Plugin* rely on **type converter classes** that IL2CPP may incorrectly remove.
 This affects several authentication flows, including **Exchange Code Auth** where the login callback may never complete and remain stuck in a state.
 
 This section describes how to **prevent code stripping** and ensure consistent runtime behavior.
@@ -50,4 +50,4 @@ You should perform this step if **any of the following are true**:
 </linker>
 ```
 
-If size is critical, you may scope preservation to specific types/members instead of preserve="all". See [Unity’s Link XML reference](https://docs.unity3d.com/6000.2/Documentation/Manual/managed-code-stripping-xml-formatting.html?).
+If size is critical, you may scope preservation to specific types/members instead of preserve="all". See [Unity’s Link XML reference](https://docs.unity3d.com/Manual/managed-code-stripping-xml-formatting.html).

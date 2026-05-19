@@ -309,6 +309,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>
+        /// Wrapper for functionality of [EOS_CustomInvites_DisableRequestToJoin]
+        /// </summary>
+        /// <returns><see cref="Result" /> of disabling request to join for the current local user.</returns>
+        public Result DisableRequestToJoin()
+        {
+            var options = new DisableRequestToJoinOptions();
+            var result = CustomInvitesHandle.DisableRequestToJoin(ref options);
+
+            if (result == Result.Success)
+            {
+                Debug.Log("CustomInvites (DisableRequestToJoin): request to join disabled");
+            }
+            else
+            {
+                Debug.LogErrorFormat("CustomInvites (DisableRequestToJoin): failed with result {0}", result);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Wrapper for functionality of [EOS_CustomInvites_SendCustomInvite](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/CustomInvites/EOS_CustomInvites_SendCustomInvite/index.html)
         /// </summary>
         /// <param name="RecipientId"><c>ProductUserId</c> of invite recipient</param>

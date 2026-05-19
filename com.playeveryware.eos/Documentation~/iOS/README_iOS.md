@@ -4,7 +4,7 @@
 ## Prerequisites
 
 * The standard <a href="/com.playeveryware.eos/README.md#prerequisites">Prerequisites</a> for all platforms.
-* <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/ios-environment-setup.html">iOS environment setup</a> for Unity.
+* <a href="https://docs.unity3d.com/Manual/ios-environment-setup.html">iOS environment setup</a> for Unity.
 * The iOS Unity <a href="https://docs.unity3d.com/hub/manual/AddModules.html">module</a>.
 * Xcode 10.2.x.
 
@@ -27,7 +27,7 @@ You can follow the standard <a href="/com.playeveryware.eos/README.md#samples">S
 When following the steps to <a href="/com.playeveryware.eos/README.md#running-the-samples">run a sample</a> from a build for iOS, in Xcode, open the `.xcodeproj` from the resulting build folder. Follow the [Apple Developer instructions](https://developer.apple.com/documentation/xcode/running-your-app-in-simulator-or-on-a-device) to build and run the app. If running on a device you may need to <a href="https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device">enable developer mode</a> on the device. This may require you to set up <a href="https://help.apple.com/xcode/mac/current/#/dev80cc24546">automatic signing</a> as well.
 
 > [!NOTE]
-> Find the build steps in the Unity docs <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/iphone-BuildProcess.html">here</a>.
+> Find the build steps in the Unity docs <a href="https://docs.unity3d.com/Manual/iphone-BuildProcess.html">here</a>.
 
 ## Configuring the Plugin
 
