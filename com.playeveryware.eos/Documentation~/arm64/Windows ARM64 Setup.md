@@ -27,7 +27,7 @@ This means the first ARM64 build works without any manual steps, no need to run 
 When switching **back from ARM64 to x64**, if the `EOS_PLATFORM_WINDOWS_ARM64` define is still present in your project settings from a prior session, the plugin removes it and stops the build with an error. A second build is required in this direction to recompile without the symbol. See [Known Limitations](#known-limitations).
 
 > [!NOTE]
-> This build hook doesn't apply to all methods of building within Unity, as such you may need to handle this yourself. See also [Builds Using `BuildPipeline.BuildPlayer()` Directly](https://docs.unity3d.com/6000.3/Documentation/ScriptReference/BuildPipeline.BuildPlayer.html)
+> This build hook doesn't apply to all methods of building within Unity, as such you may need to handle this yourself. See also [Builds Using `BuildPipeline.BuildPlayer()` Directly](#builds-using-buildpipelinebuildplayer-directly)
 
 ### Manual Define Controls
 
