@@ -22,8 +22,8 @@
   - [How do I disable the Overlay?](#how-do-i-disable-the-overlay)
   - [What is the FYMemory error?](#what-is-the-fymemory-error)
   - [What is the Social Overlay: Intent parse failure?](#what-is-the-social-overlay-intent-parse-failure)
-  - [Why does the plugin fail in a standalone build after working in editor?](# why-does-the-plugin-fail-in-a-standalone-build-after-working-in-editor)
-  - [Why is the EOS client config ignored when opened from Epic Games Launcher?](# why-is-the-eos-client-config-ignored-when-opened-from-epic-games-Launcher)
+  - [Why does the plugin fail in a standalone build after working in editor?](#why-does-the-plugin-fail-in-a-standalone-build-after-working-in-editor)
+  - [Why is the EOS client config ignored when opened from Epic Games Launcher?](#why-is-the-eos-client-config-ignored-when-opened-from-epic-games-Launcher)
 
 ## Why does the plugin fail to work after changing configuration?
 
