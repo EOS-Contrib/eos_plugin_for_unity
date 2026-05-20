@@ -20,6 +20,8 @@
   - [Missing Native Libraries?](#missing-native-libraries)
   - [How do I debug the native DLL?](#how-do-i-debug-the-native-dll)
   - [How do I disable the Overlay?](#how-do-i-disable-the-overlay)
+  - [What is the FYMemory error?](#what-is-the-fymemory-error)
+  - [What is the Social Overlay: Intent parse failure?](#what-is-the-Social-Overlay-Intent-parse-failure
 
 ## Why does the plugin fail to work after changing configuration?
 
@@ -151,3 +153,19 @@ Or to install the libraries manually, go to the `lib/NativeCode` folder, find th
 On the EOS Configuration Editor Window there is a setting for `Platform Flags`. By adding `DisableOverlay` to your list of Platform Flags, the Epic Overlay will not be initialized during runtime. When this is configured the `EOSBootstrapper.exe` will not be included in Windows builds.
 
 See [`PlatformFlags.cs`](/com.playeveryware.eos/Runtime/EOS_SDK/Generated/Platform/PlatformFlags.cs)
+
+## What is the FYMemory error?
+
+There is an error log for FYMemory that is used to log information on memory usage of the overlay. This error message does not affect the functionality of the plugin.
+
+## What is the Social Overlay Intent parse failure?
+
+This is a benign error and will not affect the functionality of the Social Overlay.
+
+## Why does the plugin fail in a standalone build after working in editor?
+
+If you're using IL2CPP, it can strip necessary code files from the standalone build. Follow this [IL2CPP Setup guide](/com.playeveryware.eos/Documentation~/IL2CPP%20Setup.md) 
+
+## Why is the EOS client config ignored when opened from Epic Games Launcher?
+
+When starting a client through the Epic Games Launcher, it can include launch parameters for overriding the built in client config. See [Epic Games Store](/com.playeveryware.eos/Documentation~/epic_game_store.md) and [Epic Dev Resources: Manage Artifacts](https://dev.epicgames.com/docs/epic-games-store/store-presence/manage-artifacts#step-5-select-deployment-id-for-epic-online-services-only) for more information.
