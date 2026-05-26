@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
-
 # Steam Integration
 
 The EOS(Epic Online Services) SDK supports logging in with a Steam Account and several other Steam functionalities.  

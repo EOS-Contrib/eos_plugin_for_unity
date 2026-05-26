@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -44,13 +44,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public UIConsoleInputField ChatMessageInput;
         public UIConsoleInputField ProductUserIdInput;
         public UIPeer2PeerParticleController ParticleManager;
-        public Slider refreshRateSlider;
-        
+
         private EOSHighFrequencyPeer2PeerManager Peer2PeerManager;
         private EOSFriendsManager FriendsManager;
 
         private string currentChatDisplayName;
         private ProductUserId currentChatProductUserId;
+
+        private Camera uiCamera;
 
         void Start()
         {
@@ -59,6 +60,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Peer2PeerManager.ParticleController = ParticleManager;
             Peer2PeerManager.owner = this;
             Peer2PeerManager.parent = this.transform;
+            uiCamera = Camera.main;
         }
 
         protected override void OnDestroy()
@@ -77,6 +79,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (Peer2PeerManager != null)
             {
+                if (!Peer2PeerManager.sendActive &&
+                    (currentChatProductUserId == null || !currentChatProductUserId.IsValid()))
+                {
+                    Debug.LogWarning($"{nameof(UIHighFrequencyPeer2PeerMenu)} {nameof(ToggleHighFrequencySending)}: Select a valid peer before enabling high-frequency sending.");
+                    return;
+                }
                 Peer2PeerManager.sendActive = !Peer2PeerManager.sendActive;
             }
         }
@@ -89,15 +97,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 IncomingChat(messageFromPlayer);
             }
 
-            if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
+            if (Input.GetMouseButtonDown(0))
             {
-                return;
+                ParticlesOnClick();
             }
 
-            if(Peer2PeerManager.sendActive && currentChatProductUserId != null)
+            if (Peer2PeerManager.sendActive)
             {
                 Peer2PeerManager.P2PUpdate();
             }
+
         }
 
         public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
@@ -135,10 +144,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 currentChatDisplayName = friend.Name;
                 currentChatProductUserId = friend.UserProductUserId;
-
                 CurrentChatUserText.text = currentChatDisplayName;
 
-                //ChatWindow.SetActive(true);
+                ForceInitialHFPacket();
             }
             else
             {
@@ -172,10 +180,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 currentChatDisplayName = productUserId.ToString();
                 currentChatProductUserId = productUserId;
-
                 CurrentChatUserText.text = currentChatDisplayName;
-
-                //ChatWindow.SetActive(true);
             }
             else
             {
@@ -192,13 +197,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogError("UIPeer2PeerMenu (SetIdOnClick): Invalid ProductUserId.");
                 return;
             }
-
             currentChatDisplayName = productUserIdText;
             currentChatProductUserId = productUserId;
-
             CurrentChatUserText.text = productUserIdText;
-
-           // ChatWindow.SetActive(true);
         }
 
         public void SendOnClick()
@@ -220,9 +221,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             message.xPos = 0;
             message.yPos = 0;
 
-            if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
+            if (!HasValidCurrentProductId())
             {
-                Debug.LogError("UIPeer2PeerMenu (SendOnClick): ProductUserId for '{0}' is not valid!");
                 return;
             }
 
@@ -265,15 +265,55 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void SetRefreshRate(string hz)
         {
-            Peer2PeerManager.refreshRate = int.Parse(hz);
-            Debug.Log("UIPeer2PeerMenu (SetRefresshRate):Updated refresh rate to " + Peer2PeerManager.refreshRate + " Hz.");
+            if (string.IsNullOrEmpty(hz))
+            {
+                Debug.Log("Invalid value: empty or null input.");
+                return;
+            }
+
+            bool attemptParse = int.TryParse(hz, out int refreshRate);
+
+            if (attemptParse)
+            {
+                if (refreshRate < 0)
+                {
+                    Debug.Log("Invalid value (negative): " + hz);
+                    return;
+                }
+                Peer2PeerManager.refreshRate = refreshRate;
+                Debug.Log("Updated refresh rate to " + refreshRate + " Hz.");
+            }
+            else
+            {
+                Debug.Log("Invalid value: " + hz);
+            }
         }
 
         public void SetPacketSize(string mb)
         {
-            Peer2PeerManager.packetSizeMB = float.Parse(mb);
-            Peer2PeerManager.updatePacketSize();
-            Debug.Log("UIPeer2PeerMenu (SetPacketSize):Updated packet size to " + Peer2PeerManager.packetSizeMB + " Mb.");
+            if (string.IsNullOrEmpty(mb))
+            {
+                Debug.Log("Invalid value: empty or null input.");
+                return;
+            }
+
+            bool attemptParse = float.TryParse(mb, out float packetSizeMB);
+
+            if (attemptParse)
+            {
+                if (packetSizeMB < 0)
+                {
+                    Debug.Log("Invalid value (negative): " + mb);
+                    return;
+                }
+                Peer2PeerManager.packetSizeMB = packetSizeMB;
+                Peer2PeerManager.updatePacketSize();
+                Debug.Log("UIPeer2PeerMenu (SetPacketSize):Updated packet size to " + Peer2PeerManager.packetSizeMB + " Mb.");
+            }
+            else
+            {
+                Debug.Log("Invalid value: " + mb);
+            }
         }
 
         protected override void HideInternal()
@@ -283,22 +323,39 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void ParticlesOnClick()
         {
-            Debug.Log("UIPeer2PeerMenu (OnMouseDown): Mouse click recieved");
-            Vector2 mousePos = Input.mousePosition;
-
-            messageData message;
-            message.type = messageType.coordinatesMessage;
-            message.xPos = mousePos.x;
-            message.yPos = mousePos.y;
-            message.textData = null;
-
+            if (!HasValidCurrentProductId())
+            {
+                return;
+            }
+            Debug.Log($"{nameof(UIHighFrequencyPeer2PeerMenu)} {nameof(ParticlesOnClick)} Mouse click received");
+            Vector3 mousePos = Input.mousePosition;
+            Vector3 viewportPos = uiCamera.ScreenToViewportPoint(mousePos);
+            string coordinatePayload = EOSHighFrequencyPeer2PeerManager.SerializeCoordinatePacket(viewportPos.x, viewportPos.y);
+            Peer2PeerManager.SendMessage(currentChatProductUserId, coordinatePayload);
+        }
+        private bool HasValidCurrentProductId()
+        {
             if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
             {
-                Debug.LogError("UIPeer2PeerMenu (SendOnClick): ProductUserId for '{0}' is not valid!");
+                Debug.LogError($"{nameof(UIHighFrequencyPeer2PeerMenu)} {nameof(HasValidCurrentProductId)}: ProductUserId for '{currentChatDisplayName}' is not valid!");
+                return false;
+            }
+            
+            return true;
+        }
+        private void ForceInitialHFPacket()
+        {
+            if (!HasValidCurrentProductId())
+            {
+                Debug.LogWarning($"{nameof(UIHighFrequencyPeer2PeerMenu)} {nameof(ForceInitialHFPacket)}: Cannot send initial HF packet. Invalid ProductUserId.");
                 return;
             }
 
-            Peer2PeerManager.SendMessage(currentChatProductUserId, message.ToString()) ;
+            Peer2PeerManager.SendMessage(
+                currentChatProductUserId,
+                "hf_init"
+            );
+
         }
     }
 }

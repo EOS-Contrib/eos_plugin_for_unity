@@ -1,9 +1,9 @@
 # Epic Online Services Plugin for Unity (UPM package)
 
 ## Overview
-The [eos_plugin_for_unity_upm repository](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm) contains a Unity Package Manager (UPM) plugin for enabling the use of the [Epic Online Services (EOS)](https://dev.epicgames.com/docs/services/en-US/GameServices/Overview/index.html) [C# SDK](https://dev.epicgames.com/docs/services/en-US/GameServices/CSharpGettingStarted/index.html) in Unity.
+The [eos_plugin_for_unity_upm repository](https://github.com/EOS-Contrib/eos_plugin_for_unity_upm) contains a Unity Package Manager (UPM) plugin for enabling the use of the [Epic Online Services (EOS)](https://dev.epicgames.com/docs/services/en-US/GameServices/Overview/index.html) [C# SDK](https://dev.epicgames.com/docs/services/en-US/GameServices/CSharpGettingStarted/index.html) in Unity.
 
-For [support issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) or contributing to this open source project, head over to the [source repository](https://github.com/PlayEveryWare/eos_plugin_for_unity).
+For [support issues](https://github.com/EOS-Contrib/eos_plugin_for_unity/issues) or contributing to this open source project, head over to the [source repository](https://github.com/PlayEveryWare/eos_plugin_for_unity).
 
 ## Highlights
 * Unity GUI tool for configuring EOS product settings, saved out to a JSON file.
@@ -76,12 +76,12 @@ Ensure you have property setup Unity for [Git Dependency](https://docs.unity3d.c
 
     ![Unity Add Git Package](images/unity_package_git.gif)
 
-6. Paste in ```git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git```
-   or ```https://github.com/PlayEveryWare/eos_plugin_for_unity_upm.git```.
+6. Paste in ```git@github.com:EOS-Contrib/eos_plugin_for_unity_upm.git```
+   or ```https://github.com/EOS-Contrib/eos_plugin_for_unity_upm.git```.
 
 
 ## Installing from a tarball
-Download the latest release tarball from https://github.com/PlayEveryWare/eos_plugin_for_unity/releases
+Download the latest release tarball from https://github.com/EOS-Contrib/eos_plugin_for_unity/releases
 1. From the Unity Editor, open the Package Manager.
     * It's listed under ```Window -> Package Manager```.
 2. Click the ```+``` button.
@@ -175,7 +175,7 @@ More specific and up-to-date instructions can also be found on Epic's [website](
 # Open Source: Contribute
 
 This is an Open Source project. If you would like to view and contribute to the development of the EOS Unity Plugin, you can enlist in the development repo located at
-https://github.com/PlayEveryWare/eos_plugin_for_unity
+https://github.com/EOS-Contrib/eos_plugin_for_unity
 
 
 ---
@@ -183,7 +183,7 @@ https://github.com/PlayEveryWare/eos_plugin_for_unity
 
 EOS Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com
 
-For issues related to integration or usage of the Unity plugin, please create a ```New Issue``` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab of the [main repo](https://github.com/PlayEveryWare/eos_plugin_for_unity).
+For issues related to integration or usage of the Unity plugin, please create a ```New Issue``` under the [Issues](https://github.com/EOS-Contrib/eos_plugin_for_unity/issues) tab of the [main repo](https://github.com/PlayEveryWare/eos_plugin_for_unity).
 
 For issues related to Epic Online Services SDK, Epic Dev Portal or general EOS SDK information, please go to [Epic Online Services Community Support](https://eoshelp.epicgames.com/).
 

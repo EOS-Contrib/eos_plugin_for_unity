@@ -1,10 +1,8 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
-
 # Authenticating Players
 
 ## Overview
 
-This file documents how Login works in the PlayEveryWare EOS Plugin for the following platforms:
+This file documents how Login works in the EOS Plugin for the following platforms:
 * Windows
 * Mac 
 * Linux
@@ -30,11 +28,11 @@ For information on how to authenticate a user via Apple, check out our [Apple Si
 * Auth Login functions are declared in EOS Auth Interface
 * **Account Portal** (`EOS_LCT_AccountPortal`) and **Persistent Auth** (`EOS_LCT_PersistentAuth`) are the primary Auth Types (`LoginCredentialType`) to login  
   * **Persistent Auth** will login with credentials of the previous successful **Account Portal** login
-* **Dev Auth**(`EOS_LCT_Developer`) is for quick iteration for developers, which could be done by using the Dev-Auth tool provided with the EOS SDK. Read [this](https://github.com/PlayEveryWare/eos_plugin_for_unity/tree/development/com.playeveryware.eos/Documentation~/Walkthrough.md) for details
+* **Dev Auth**(`EOS_LCT_Developer`) is for quick iteration for developers, which could be done by using the Dev-Auth tool provided with the EOS SDK. Read [this](https://github.com/EOS-Contrib/eos_plugin_for_unity/tree/development/com.playeveryware.eos/Documentation~/Walkthrough.md) for details
 * **External Auth** is currently only for Steam session ticket login on these platforms
 * **Exchange Code** is for logging in on Epic Game Store deployments
 
-A list of which `LoginCredentialType` to use on which platform could be found in our documentation here: [Login Type by Platform](https://github.com/PlayEveryWare/eos_plugin_for_unity/tree/development/com.playeveryware.eos/Documentation~/login_type_by_platform.md)
+A list of which `LoginCredentialType` to use on which platform could be found in our documentation here: [Login Type by Platform](https://github.com/EOS-Contrib/eos_plugin_for_unity/tree/development/com.playeveryware.eos/Documentation~/login_type_by_platform.md)
 
 ### Connect Login
 

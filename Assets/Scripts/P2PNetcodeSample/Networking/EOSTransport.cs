@@ -1,5 +1,5 @@
 ﻿/*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
     using Unity.Netcode;
     using Epic.OnlineServices;
     using System.Collections.Generic;
+    using PlayEveryWare.EpicOnlineServices.Utility;
 
     public class EOSTransport : NetworkTransport
     {
@@ -138,7 +139,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             ProductUserId userId = GetUserId(clientId);
 
-            Log($"EOSP2PTransport.Send: [ClientId='{clientId}', UserId='{userId}', PayloadBytes='{payload.Count}', SendTimeSec='{Time.realtimeSinceStartup}']");
+            Log($"EOSP2PTransport.Send: [ClientId='{clientId}', UserId='{LoggingUtils.Redact(userId)}', PayloadBytes='{payload.Count}', SendTimeSec='{Time.realtimeSinceStartup}']");
 
             Epic.OnlineServices.P2P.PacketReliability reliability = Epic.OnlineServices.P2P.PacketReliability.ReliableOrdered;
             if (networkDelivery == NetworkDelivery.Unreliable)
@@ -196,7 +197,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 payload = new ArraySegment<byte>();
                 receiveTime = Time.realtimeSinceStartup;
                 NetworkEvent networkEventType = evntIsConnectionEvent ? NetworkEvent.Connect : NetworkEvent.Disconnect;
-                Log($"EOSP2PTransport.PollEvent: [{networkEventType}, ClientId='{clientId}', UserId='{evntUserId}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
+                Log($"EOSP2PTransport.PollEvent: [{networkEventType}, ClientId='{clientId}', UserId='{LoggingUtils.Redact(evntUserId)}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
                 return networkEventType;
             }
 
@@ -208,7 +209,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 clientId = GetTransportId(userId);
                 payload = new ArraySegment<byte>(packet);
                 receiveTime = Time.realtimeSinceStartup;
-                Log($"EOSP2PTransport.PollEvent: [{NetworkEvent.Data}, ClientId='{clientId}', UserId='{userId}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
+                Log($"EOSP2PTransport.PollEvent: [{NetworkEvent.Data}, ClientId='{clientId}', UserId='{LoggingUtils.Redact(userId)}', PayloadBytes='{payload.Count}', RecvTimeSec='{receiveTime}']");
                 return NetworkEvent.Data;
             }
 
@@ -253,12 +254,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 // Attempt to connect to the server hosted by ServerUserId - was the request successfully initiated?
                 if (result = P2PManager.OpenConnection(ServerUserId, P2PSocketName))
                 {
-                    Log($"EOSP2PTransport.StartClient: Successful Client start up - REQUESTED outgoing '{P2PSocketName}' socket connection with Server UserId Server UserId='{ServerUserId}'.");
+                    Log($"EOSP2PTransport.StartClient: Successful Client start up - REQUESTED outgoing '{P2PSocketName}' socket connection with Server UserId Server UserId='{LoggingUtils.Redact(ServerUserId)}'.");
                     result = true;
                 }
                 else
                 {
-                    LogError($"EOSP2PTransport.StartClient: Failed Client start up - Unable to initiate a connect request with Server UserId='{ServerUserId}'.");
+                    LogError($"EOSP2PTransport.StartClient: Failed Client start up - Unable to initiate a connect request with Server UserId='{LoggingUtils.Redact(ServerUserId)}'.");
                 }
             }
             else
@@ -277,7 +278,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         public override bool StartServer()
         {
             Debug.Assert(IsInitialized);
-            Log($"EOSP2PTransport.StartServer: Entering Server mode with EOS UserId='{OurUserId}'.");
+            Log($"EOSP2PTransport.StartServer: Entering Server mode with EOS UserId='{LoggingUtils.Redact(OurUserId)}'.");
 #if UNITY_EDITOR
             ServerUserIDForCopying = OurUserId.ToString();
 #endif
@@ -304,7 +305,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             ProductUserId userId = GetUserId(clientId);
 
-            Log($"EOSP2PTransport.DisconnectRemoteClient: Disconnecting ClientId='{clientId}' (UserId='{userId}') from our Server.");
+            Log($"EOSP2PTransport.DisconnectRemoteClient: Disconnecting ClientId='{clientId}' (UserId='{LoggingUtils.Redact(userId)}') from our Server.");
             P2PManager.CloseConnection(userId, P2PSocketName, true);
         }
 
@@ -316,13 +317,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             Debug.Assert(IsInitialized);
             Debug.Assert(IsServer == false);
 
-            Log($"EOSP2PTransport.DisconnectLocalClient: Disconnecting our Client from the Server (UserId='{ServerUserId}').");
+            Log($"EOSP2PTransport.DisconnectLocalClient: Disconnecting our Client from the Server (UserId='{LoggingUtils.Redact(ServerUserId)}').");
             P2PManager.CloseConnection(ServerUserId, P2PSocketName, true);
         }
 
         /// <summary>
         /// Gets the round trip time for a specific client.
-        /// This method is optional, and not currently implemented in this case.
+        /// This transport currently returns <c>0</c> because EOS P2P does not expose a built-in RTT metric.
+        /// 
+        /// If your game requires RTT (for matchmaking, region selection, telemetry, etc.), implement
+        /// an application-level ping/pong message and compute RTT from send/receive timestamps.
         /// </summary>
         /// <param name="clientId">
         /// The transport id to get the RTT from.
@@ -334,18 +338,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         public override ulong GetCurrentRtt(ulong clientId)
         {
             Debug.Assert(IsInitialized);
-            /*
-             * RTT can be calculated by subtracting the time at which
-             * DateTime.Now is sent from the time at which it is returned from
-             * the opponent.
-             *
-             * You can implement it by sending DateTime in your request, and
-             * subsequently subtracting that value from DateTime.Now when the
-             * response is received.
-             *
-             * It is not currently implemented due to the complexity it would
-             * add to the samples.
-             */
             return 0;
         }
 
@@ -464,13 +456,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             if (IsServer && socketName == P2PSocketName)
             {
                 // Accept connection request
-                Log($"EOSP2PTransport.OnIncomingConnectionRequestedCallback: ACCEPTING incoming '{socketName}' socket connection request from UserId='{userId}'.");
+                Log($"EOSP2PTransport.OnIncomingConnectionRequestedCallback: ACCEPTING incoming '{socketName}' socket connection request from UserId='{LoggingUtils.Redact(userId)}'.");
                 P2PManager.OpenConnection(userId, socketName);
             }
             else
             {
                 // Reject connection request
-                Log($"EOSP2PTransport.OnIncomingConnectionRequestedCallback: REJECTING incoming '{socketName}' socket connection request from UserId='{userId}'.");
+                Log($"EOSP2PTransport.OnIncomingConnectionRequestedCallback: REJECTING incoming '{socketName}' socket connection request from UserId='{LoggingUtils.Redact(userId)}'.");
                 P2PManager.CloseConnection(userId, socketName);
             }
         }
@@ -484,7 +476,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         {
             Debug.Assert(IsInitialized);
 
-            Log($"EOSP2PTransport.OnConnectionOpenedCallback: '{socketName}' socket connection OPENED with UserId='{userId}'.");
+            Log($"EOSP2PTransport.OnConnectionOpenedCallback: '{socketName}' socket connection OPENED with UserId='{LoggingUtils.Redact(userId)}'.");
             if (socketName == P2PSocketName)
             {
                 if (IsServer)
@@ -520,7 +512,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         {
             Debug.Assert(IsInitialized);
 
-            Log($"EOSP2PTransport.OnConnectionClosedCallback: '{socketName}' socket connection CLOSED with UserId='{userId}'.");
+            Log($"EOSP2PTransport.OnConnectionClosedCallback: '{socketName}' socket connection CLOSED with UserId='{LoggingUtils.Redact(userId)}'.");
             if (socketName == P2PSocketName)
             {
                 // We're the Server?
@@ -623,7 +615,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             if (IsServer == false)
             {
                 Debug.AssertFormat(userId == ServerUserId, "EOSP2PTransport.GetClientId: Unexpected UserId='{0}' given - We're a Client so we should only be dealing with the Server by definition (Server UserId='{1}').",
-                                   userId, ServerUserId);
+                                   LoggingUtils.Redact(userId), LoggingUtils.Redact(ServerUserId));
                 return ServerClientId;
             }
             else

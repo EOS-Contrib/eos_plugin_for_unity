@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -872,7 +872,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                             nameRect,
                             string.IsNullOrEmpty,
                             item.Name,
-                            "Sandbox Name");
+                            "Deployment Name");
 
                         if (!item.TrySetName(newItemName))
                         {
@@ -930,6 +930,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                             break;
                         }
                     }
+                    else
+                    {
+                        item.Value.SandboxId = productionEnvironmentsCopy.Sandboxes[0].Value;
+                    }
                 },
                 () => productionEnvironmentsCopy.Deployments.Add(),
                 (item) =>
@@ -938,6 +942,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     {
                         // TODO: Tell user why deployment could not be removed
                         //       from the Production Environments.
+                        Debug.LogError($"{nameof(GUIEditorUtility)} {nameof(RenderDeploymentInputs)}: Failed to find deployment with name {item.Name} when trying to remove it.");
                     }
                 });
         }
@@ -987,7 +992,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     item.Value.Value = RenderFieldWithHint(
                         EditorGUI.DelayedTextField,
                         new Rect(currentX, rect.y, remainingWidth - 10f, rect.height),
-                        SandboxId.IsNullOrEmpty,
+                        SandboxId.IsNullOrWhiteSpace,
                         item.Value.Value,
                         "Sandbox Id");
                 },
@@ -997,6 +1002,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     if (!productionEnvironmentsCopy.Sandboxes.Remove(item))
                     {
                         // TODO: Tell user why the sandbox could not be removed.
+                        Debug.LogError($"{nameof(GUIEditorUtility)} {nameof(RenderSandboxInputs)}: Failed to find sandbox with name {item.Name} when trying to remove it.");
                     }
                 }
             );

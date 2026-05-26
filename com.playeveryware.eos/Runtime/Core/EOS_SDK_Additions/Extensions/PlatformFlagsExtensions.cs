@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -51,6 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
                 {"EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL",              PlatformFlags.WindowsEnableOverlayOpengl},
                 {"EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING", PlatformFlags.ConsoleEnableOverlayAutomaticUnloading},
                 {"EOS_PF_RESERVED1",                                  PlatformFlags.Reserved1},
+                {"EOS_PF_ENABLE_OVERLAY_DEBUG_LOGGING",               PlatformFlags.EnableOverlayDebugLogging }
             };
 
         public static string GetDescription(this PlatformFlags platformFlags)
@@ -66,6 +67,7 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
                 PlatformFlags.WindowsEnableOverlayD3D10 => "A bit that indicates your game would like to opt-in to experimental Direct3D 10 support for the overlay. This flag is only relevant on Windows.",
                 PlatformFlags.WindowsEnableOverlayOpengl => "A bit that indicates your game would like to opt-in to experimental OpenGL support for the overlay. This flag is only relevant on Windows.",
                 PlatformFlags.ConsoleEnableOverlayAutomaticUnloading => "A bit that indicates your game would like to opt-in to automatic unloading of the overlay module when possible. This flag is only relevant on Consoles.",
+                PlatformFlags.EnableOverlayDebugLogging => "A bit that indicates your game would like to opt-in to Debug overlay logs.",
                 _ => throw new ArgumentOutOfRangeException(nameof(platformFlags), platformFlags, null),
             };
         }

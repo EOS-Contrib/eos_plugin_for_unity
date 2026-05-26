@@ -40,6 +40,12 @@ EOS_ENUM(EOS_ERTCParticipantStatus,
  */
 #define EOS_RTC_JOINROOMFLAGS_ENABLE_DATACHANNEL 0x04
 
+ /**
+  * The flag is reserved for future use.
+  *
+  * @see EOS_RTC_JoinRoomOptions::Flags
+  */
+#define EOS_RTC_JOINROOMFLAGS_RESERVED_VOICE_FEATURE 0x08
 
 /**
  * This struct is used to call EOS_RTC_JoinRoom.
@@ -70,7 +76,10 @@ EOS_STRUCT(EOS_RTC_JoinRoomOptions, (
 	EOS_Bool bManualAudioOutputEnabled;
 ));
 
+/** The maximum size of the Key string in the EOS_RTC_Option struct. */
 #define EOS_RTC_OPTION_KEY_MAXCHARCOUNT 256
+
+/** The maximum size of the Value string in the EOS_RTC_Option struct. */
 #define EOS_RTC_OPTION_VALUE_MAXCHARCOUNT 256
 
 /** The most recent version of the EOS_RTC_Option struct. */
@@ -238,9 +247,17 @@ EOS_STRUCT(EOS_RTC_DisconnectedCallbackInfo, (
 	const char* RoomName;
 ));
 
+/**
+ * Function prototype definition for notifications that come from EOS_RTC_AddNotifyDisconnected
+ *
+ * @param Data A EOS_RTC_DisconnectedCallbackInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_RTC_OnDisconnectedCallback, const EOS_RTC_DisconnectedCallbackInfo* Data);
 
+/** The maximum size of the Key string in the EOS_RTC_ParticipantMetadata struct. */
 #define EOS_RTC_PARTICIPANTMETADATA_KEY_MAXCHARCOUNT 256
+
+/** The maximum size of the Value string in the EOS_RTC_ParticipantMetadata struct. */
 #define EOS_RTC_PARTICIPANTMETADATA_VALUE_MAXCHARCOUNT 256
 
 /** The most recent version of the EOS_RTC_ParticipantMetadata struct. */
@@ -305,8 +322,44 @@ EOS_STRUCT(EOS_RTC_ParticipantStatusChangedCallbackInfo, (
 	EOS_Bool bParticipantInBlocklist;
 ));
 
+/**
+ * Function prototype definition for notifications that come from EOS_RTC_AddNotifyParticipantStatusChanged
+ *
+ * @param Data A EOS_RTC_ParticipantStatusChangedCallbackInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_RTC_OnParticipantStatusChangedCallback, const EOS_RTC_ParticipantStatusChangedCallbackInfo* Data);
 
+/** The most recent version of the EOS_RTC_AddNotifyRoomBeforeJoin API. */
+#define EOS_RTC_ADDNOTIFYROOMBEFOREJOIN_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_RTC_AddNotifyRoomBeforeJoin function.
+ */
+EOS_STRUCT(EOS_RTC_AddNotifyRoomBeforeJoinOptions, (
+	/** API Version: Set this to EOS_RTC_ADDNOTIFYROOMBEFOREJOIN_API_LATEST. */
+	int32_t ApiVersion;
+	/** The Product User ID of the user trying to request this operation. */
+	EOS_ProductUserId LocalUserId;
+));
+
+/**
+ * This struct is passed in with a call to EOS_RTC_AddNotifyRoomBeforeJoin registered event.
+ */
+EOS_STRUCT(EOS_RTC_RoomBeforeJoinCallbackInfo, (
+	/** Context that was passed into EOS_RTC_AddNotifyRoomBeforeJoin */
+	void* ClientData;
+	/** The Product User ID of the user who initiated this request. */
+	EOS_ProductUserId LocalUserId;
+	/** The room associated with this event. */
+	const char* RoomName;
+));
+
+/**
+ * Function prototype definition for notifications that comes from EOS_RTC_AddNotifyRoomBeforeJoin
+ *
+ * @param Data containing the RTC room name which is about to be created and joined.
+ */
+EOS_DECLARE_CALLBACK(EOS_RTC_OnRoomBeforeJoinCallback, const EOS_RTC_RoomBeforeJoinCallbackInfo* Data);
 
 
 /**
@@ -393,6 +446,11 @@ EOS_STRUCT(EOS_RTC_RoomStatisticsUpdatedInfo, (
 	const char* Statistic;
 ));
 
+/**
+ * Function prototype definition for notifications that come from EOS_RTC_AddNotifyRoomStatisticsUpdated
+ *
+ * @param Data A EOS_RTC_RoomStatisticsUpdatedInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_RTC_OnRoomStatisticsUpdatedCallback, const EOS_RTC_RoomStatisticsUpdatedInfo* Data);
 
 #pragma pack(pop)

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,7 +52,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         public const string SearchBucketIdKey = "bucket";
         public const string LobbyBucketId = "TestServerLobbyBucket";
         public const string LobbyPrivateBucketId = "TestServerPrivateLobbyBucket";
-        public const string SessionBucketId = "TestServerSessionBucket";
+        public const string SessionBucketId = "SessionSample:Region";
         public const string SessionPrivateBucketId = "TestServerPrivateSessionBucket";
         public const string SessionName = "TestServerSession";
         public const string SessionPrivateName = "TestServerPrivateSession";

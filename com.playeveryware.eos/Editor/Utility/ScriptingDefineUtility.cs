@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2023 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,88 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         private static bool DoesScriptingDefineExist(string scriptingDefineSymbols, string defineAsString)
         {
             return scriptingDefineSymbols.Split(';').Any(define => define == defineAsString);
+        }
+
+        //-------------------------------------------------------------------------
+        /// <summary>
+        /// Read the current scripting define symbols for the given build target.
+        /// </summary>
+        private static string GetDefines(BuildTarget buildTarget)
+        {
+#if UNITY_2021_2_OR_NEWER
+            var buildTargetGroup = BuildPipeline.GetBuildTargetGroup(buildTarget);
+            UnityEditor.Build.NamedBuildTarget namedBuildTarget =
+                UnityEditor.Build.NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup);
+            return PlayerSettings.GetScriptingDefineSymbols(namedBuildTarget);
+#else
+            var buildTargetGroup = BuildPipeline.GetBuildTargetGroup(buildTarget);
+            return PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTargetGroup);
+#endif
+        }
+
+        //-------------------------------------------------------------------------
+        /// <summary>
+        /// Write scripting define symbols for the given build target.
+        /// </summary>
+        private static void SetDefines(BuildTarget buildTarget, string defines)
+        {
+#if UNITY_2021_2_OR_NEWER
+            var buildTargetGroup = BuildPipeline.GetBuildTargetGroup(buildTarget);
+            UnityEditor.Build.NamedBuildTarget namedBuildTarget =
+                UnityEditor.Build.NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup);
+            PlayerSettings.SetScriptingDefineSymbols(namedBuildTarget, defines);
+#else
+            var buildTargetGroup = BuildPipeline.GetBuildTargetGroup(buildTarget);
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup, defines);
+#endif
+        }
+
+        //-------------------------------------------------------------------------
+        /// <summary>
+        /// Idempotently add a scripting define symbol for the indicated build target.
+        /// </summary>
+        public static void AddDefine(BuildTarget buildTarget, string define)
+        {
+            string current = GetDefines(buildTarget);
+            if (DoesScriptingDefineExist(current, define))
+            {
+                return;
+            }
+
+            string updated = string.IsNullOrEmpty(current) ? define : current + ";" + define;
+            SetDefines(buildTarget, updated);
+        }
+
+        //-------------------------------------------------------------------------
+        /// <summary>
+        /// Idempotently remove a scripting define symbol for the indicated build target.
+        /// </summary>
+        public static void RemoveDefine(BuildTarget buildTarget, string define)
+        {
+            string current = GetDefines(buildTarget);
+            if (!DoesScriptingDefineExist(current, define))
+            {
+                return;
+            }
+
+            string updated = string.Join(";", current.Split(';').Where(d => d != define));
+            SetDefines(buildTarget, updated);
+        }
+
+        //-------------------------------------------------------------------------
+        /// <summary>
+        /// Set or unset a scripting define for the indicated build target based on <paramref name="enabled"/>.
+        /// </summary>
+        public static void SetDefine(BuildTarget buildTarget, string define, bool enabled)
+        {
+            if (enabled)
+            {
+                AddDefine(buildTarget, define);
+            }
+            else
+            {
+                RemoveDefine(buildTarget, define);
+            }
         }
 
         //-------------------------------------------------------------------------

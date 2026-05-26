@@ -23,9 +23,8 @@
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate A callback that is fired when the operation completes, either successfully or in error
  *
- * @return EOS_Success if the query completes successfully
- *         EOS_InvalidParameters if any of the options are incorrect
- *         EOS_TooManyRequests if the number of allowed queries is exceeded
+ * @see EOS_KWS_QueryAgeGateOptions
+ * @see EOS_KWS_OnQueryAgeGateCallback
  */
 EOS_DECLARE_FUNC(void) EOS_KWS_QueryAgeGate(EOS_HKWS Handle, const EOS_KWS_QueryAgeGateOptions* Options, void* ClientData, const EOS_KWS_OnQueryAgeGateCallback CompletionDelegate);
 
@@ -38,9 +37,8 @@ EOS_DECLARE_FUNC(void) EOS_KWS_QueryAgeGate(EOS_HKWS Handle, const EOS_KWS_Query
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate A callback that is fired when the operation completes, either successfully or in error
  *
- * @return EOS_Success if account creation completes successfully
- *         EOS_InvalidParameters if any of the options are incorrect
- *         EOS_TooManyRequests if the number of allowed requests is exceeded
+ * @see EOS_KWS_CreateUserOptions
+ * @see EOS_KWS_OnCreateUserCallback
  */
 EOS_DECLARE_FUNC(void) EOS_KWS_CreateUser(EOS_HKWS Handle, const EOS_KWS_CreateUserOptions* Options, void* ClientData, const EOS_KWS_OnCreateUserCallback CompletionDelegate);
 
@@ -53,9 +51,8 @@ EOS_DECLARE_FUNC(void) EOS_KWS_CreateUser(EOS_HKWS Handle, const EOS_KWS_CreateU
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate A callback that is fired when the operation completes, either successfully or in error
  *
- * @return EOS_Success if the account query completes successfully
- *         EOS_InvalidParameters if any of the options are incorrect
- *         EOS_TooManyRequests if the number of allowed requests is exceeded
+ * @see EOS_KWS_QueryPermissionsOptions
+ * @see EOS_KWS_OnQueryPermissionsCallback
  */
 EOS_DECLARE_FUNC(void) EOS_KWS_QueryPermissions(EOS_HKWS Handle, const EOS_KWS_QueryPermissionsOptions* Options, void* ClientData, const EOS_KWS_OnQueryPermissionsCallback CompletionDelegate);
 
@@ -68,9 +65,8 @@ EOS_DECLARE_FUNC(void) EOS_KWS_QueryPermissions(EOS_HKWS Handle, const EOS_KWS_Q
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate A callback that is fired when the operation completes, either successfully or in error
  *
- * @return EOS_Success if contact information update completes successfully
- *         EOS_InvalidParameters if any of the options are incorrect
- *         EOS_TooManyRequests if the number of allowed requests is exceeded
+ * @see EOS_KWS_UpdateParentEmailOptions
+ * @see EOS_KWS_OnUpdateParentEmailCallback
  */
 EOS_DECLARE_FUNC(void) EOS_KWS_UpdateParentEmail(EOS_HKWS Handle, const EOS_KWS_UpdateParentEmailOptions* Options, void* ClientData, const EOS_KWS_OnUpdateParentEmailCallback CompletionDelegate);
 
@@ -83,11 +79,8 @@ EOS_DECLARE_FUNC(void) EOS_KWS_UpdateParentEmail(EOS_HKWS Handle, const EOS_KWS_
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate A callback that is fired when the operation completes, either successfully or in error
  *
- * @return EOS_Success if contact information update completes successfully
- *         EOS_InvalidParameters if any of the options are incorrect
- *         EOS_TooManyRequests if the number of allowed requests is exceeded
- *         EOS_KWS_ParentEmailMissing if the account requesting permissions has no parent email associated with it
- *         EOS_LimitExceeded if the number of permissions exceeds EOS_KWS_MAX_PERMISSIONS, or if any permission name exceeds EOS_KWS_MAX_PERMISSION_LENGTH
+ * @see EOS_KWS_RequestPermissionsOptions
+ * @see EOS_KWS_OnRequestPermissionsCallback
  */
 EOS_DECLARE_FUNC(void) EOS_KWS_RequestPermissions(EOS_HKWS Handle, const EOS_KWS_RequestPermissionsOptions* Options, void* ClientData, const EOS_KWS_OnRequestPermissionsCallback CompletionDelegate);
 
@@ -99,6 +92,8 @@ EOS_DECLARE_FUNC(void) EOS_KWS_RequestPermissions(EOS_HKWS Handle, const EOS_KWS
  * @param Options Structure containing the input parameters
  *
  * @return the number of permissions associated with the given user
+ *
+ * @see EOS_KWS_GetPermissionsCountOptions
  */
 EOS_DECLARE_FUNC(int32_t) EOS_KWS_GetPermissionsCount(EOS_HKWS Handle, const EOS_KWS_GetPermissionsCountOptions* Options);
 
@@ -110,13 +105,17 @@ EOS_DECLARE_FUNC(int32_t) EOS_KWS_GetPermissionsCount(EOS_HKWS Handle, const EOS
  * @param Options Structure containing the input parameters
  * @param OutPermission the permission for the given index, if it exists and is valid, use EOS_KWS_PermissionStatus_Release when finished
  *
+ * @see EOS_KWS_CopyPermissionByIndexOptions
+ * @see EOS_KWS_PermissionStatus
  * @see EOS_KWS_CreateUser
  * @see EOS_KWS_QueryPermissions
  * @see EOS_KWS_RequestPermissions
  * @see EOS_KWS_PermissionStatus_Release
  *
- * @return EOS_Success if the permission state is known for the given user and index
- *         EOS_NotFound if the user is not found or the index is invalid
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the permission state is known for the given user and index
+ * - EOS_NotFound if the user is not found or the index is invalid
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_KWS_CopyPermissionByIndex(EOS_HKWS Handle, const EOS_KWS_CopyPermissionByIndexOptions* Options, EOS_KWS_PermissionStatus ** OutPermission);
 
@@ -128,12 +127,16 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_KWS_CopyPermissionByIndex(EOS_HKWS Handle, con
  * @param Options Structure containing the input parameters
  * @param OutPermission the permission for the given key, if it exists and is valid
  *
+ * @see EOS_KWS_GetPermissionByKeyOptions
+ * @see EOS_EKWSPermissionStatus
  * @see EOS_KWS_CreateUser
  * @see EOS_KWS_QueryPermissions
  * @see EOS_KWS_RequestPermissions
  *
- * @return EOS_Success if the permission state is known for the given user and key
- *         EOS_NotFound if the user or the permission is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the permission state is known for the given user and key
+ * - EOS_NotFound if the user or the permission is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_KWS_GetPermissionByKey(EOS_HKWS Handle, const EOS_KWS_GetPermissionByKeyOptions* Options, EOS_EKWSPermissionStatus* OutPermission);
 
@@ -146,6 +149,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_KWS_GetPermissionByKey(EOS_HKWS Handle, const 
  * @param Options Structure containing information about the request.
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate.
  * @param NotificationFn A callback that is fired when a notification is received.
+ *
+ * @see EOS_KWS_AddNotifyPermissionsUpdateReceivedOptions
+ * @see EOS_KWS_OnPermissionsUpdateReceivedCallback
  *
  * @return handle representing the registered callback
  */

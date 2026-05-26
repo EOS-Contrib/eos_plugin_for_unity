@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -190,9 +190,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             bool shouldClose = false;
 
             // Render the prompt text
-            EditorGUILayout.LabelField(_inputPrompt, GUILayout.Width(
-                GUIEditorUtility.MeasureLabelWidth(_inputPrompt))
-            );
+            EditorGUILayout.LabelField(_inputPrompt, GUILayout.Width(EditorStyles.label.CalcSize(new GUIContent(_inputPrompt)).x));
 
             // Display error if it needs to be displayed.
             if (_showError)

@@ -1,4 +1,4 @@
-# Copyright (c) 2021 PlayEveryWare
+# Copyright (c) 2026 Epic Games Inc
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,7 @@
 CC=clang
 CXX=clang++
 
-CXXFLAGS = --std=c++11 -fPIC
+CXXFLAGS = --std=c++20 -fPIC
 SOLIBS = build/libDynamicLibraryLoaderHelper.so
 UNITY_META_FILES = libDynamicLibraryLoaderHelper.so.meta
 

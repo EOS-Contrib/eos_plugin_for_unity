@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
-
 # <div align="center">Connect Login with GoogleID using Credential Manager</div>
 ---
 
@@ -38,7 +36,7 @@ Follow [Set up your Google APIs console project](https://developer.android.com/i
 
 ### Sample Sign In Scripts
 
-Here are some sample scripts tested in PlayEveryWare EOS Unity Plugin
+Here are some sample scripts tested in the EOS Unity Plugin
 
 Starting with the java calls of google APIs
 
@@ -230,7 +228,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 ```
 
 Finally the method that triggers the login process.
-Example from PlayEveryWare EOS Unity Plugin's `UILoginMenu.cs`
+Example from the EOS Unity Plugin's `UILoginMenu.cs`
 
 ```cs
         private void ConnectGoogleId()

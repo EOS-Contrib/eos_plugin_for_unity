@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -748,6 +748,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>Display Social Overlay</summary>
         public void ShowFriendsOverlay(OnFriendsCallback ShowFriendsOverlayCompleted)
         {
+            if (EOSManager.Instance.GetEOSPlatformInterface() == null)
+            {
+                Debug.Log("EOS platform interface is not ready. Attempted to access platform interface before loading finished.");
+                return;
+            }
             ShowFriendsOverlayCallback = ShowFriendsOverlayCompleted;
             var showFriendsOptions = new ShowFriendsOptions() { LocalUserId = EOSManager.Instance.GetLocalUserId() };
             EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface().ShowFriends(ref showFriendsOptions, null, OnShowFriendsCallback);
@@ -817,7 +822,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             var addNotifyFriendsUpdateOptions = new AddNotifyFriendsUpdateOptions();
             ulong notificationId = FriendsHandle.AddNotifyFriendsUpdate(ref addNotifyFriendsUpdateOptions, null, OnFriendsUpdateCallbackHandler);
 
-            if(notificationId == Common.InvalidNotificationid)
+            if(notificationId == Common.INVALID_NOTIFICATIONID)
             {
                 Debug.LogError("Friends (SubscribeToFriendUpdates): Could not subscribe to friend update notifications.");
             }
@@ -830,7 +835,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             var addNotifyOnPresenceChangedOptions = new AddNotifyOnPresenceChangedOptions();
             ulong presenceNotificationId = PresenceHandle.AddNotifyOnPresenceChanged(ref addNotifyOnPresenceChangedOptions , null, OnPresenceChangedCallbackHandler);
 
-            if(presenceNotificationId == Common.InvalidNotificationid)
+            if(presenceNotificationId == Common.INVALID_NOTIFICATIONID)
             {
                 Debug.LogError("Friends (SubscribeToFriendUpdates): Could not subscribe to presence changed notifications.");
             }

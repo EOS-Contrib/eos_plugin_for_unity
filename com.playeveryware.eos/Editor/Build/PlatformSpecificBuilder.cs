@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -99,16 +99,26 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// <param name="report">The prebuild report.</param>
         public void OnPreprocessBuild(BuildReport report)
         {
-            // If the platform being built is one of the platforms that this
-            // builder builds to, then set this as the builder with the
-            // BuildRunner.
-            if (_buildTargets.Contains(report.summary.platform))
+            if (ShouldHandle(report))
             {
                 // Note that in this context, despite being within an abstract
                 // class, the most derived instance will be returned when
                 // "this" is accessed.
                 BuildRunner.Builder = this;
             }
+        }
+
+        /// <summary>
+        /// Determines whether this builder should handle the indicated build.
+        /// Default implementation matches by BuildTarget. Override for
+        /// finer-grained dispatch (e.g. architecture sub-options on Windows
+        /// where x64 and ARM64 share BuildTarget.StandaloneWindows64).
+        /// </summary>
+        /// <param name="report">The build report being processed.</param>
+        /// <returns>True if this builder is responsible for this build.</returns>
+        protected virtual bool ShouldHandle(BuildReport report)
+        {
+            return _buildTargets.Contains(report.summary.platform);
         }
 
         /// <summary>
@@ -138,9 +148,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// <param name="report"></param>
         public virtual void PreBuild(BuildReport report)
         {
-            // Check to make sure that the platform configuration exists
-            CheckPlatformConfiguration();
-
             // Configure the version numbers per user defined preferences
             ConfigureVersion();
 
@@ -170,7 +177,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             // via UPM.
             if (_projectFileToBinaryFilesMap.Keys.All(File.Exists))
             {
-                BuildUtility.BuildNativeBinaries(_projectFileToBinaryFilesMap, _nativeCodeOutputDirectory, true);
+                BuildUtility.BuildNativeBinaries(_projectFileToBinaryFilesMap, _nativeCodeOutputDirectory, true, GetPlatformString());
             }
             else
             {
@@ -205,19 +212,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
                 // Validate that the binaries built are now in the correct location
                 ValidateNativeBinaries();
-            }
-        }
-
-        /// <summary>
-        /// Checks to make sure that the platform configuration file exists where it is expected to be
-        /// TODO: Add configuration validation.
-        /// </summary>
-        private static void CheckPlatformConfiguration()
-        {
-            string configFilePath = PlatformManager.GetConfigFilePath();
-            if (!File.Exists(configFilePath))
-            {
-                throw new BuildFailedException($"Expected config file \"{configFilePath}\" for platform {PlatformManager.GetFullName(PlatformManager.CurrentPlatform)} does not exist.");
             }
         }
 

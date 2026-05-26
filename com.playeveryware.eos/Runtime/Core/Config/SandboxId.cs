@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -88,19 +88,23 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public bool IsValid()
         {
+            if (IsNullOrWhiteSpace(_value))
+            {
+                return false;
+            }
+
             return Guid.TryParse(_value, out _) || 
                    Regex.IsMatch(_value, PreProductionEnvironmentRegex);
         }
 
-        public static bool IsNullOrEmpty(string sandboxString)
+        public static bool IsNullOrWhiteSpace(string sandboxString)
         {
-            return String.IsNullOrEmpty(sandboxString) || 
-                   Guid.Empty.ToString("N").Equals(sandboxString);
+            return string.IsNullOrWhiteSpace(sandboxString);
         }
 
-        public static bool IsNullOrEmpty(SandboxId sandboxId)
+        public static bool IsNullOrWhiteSpace(SandboxId sandboxId)
         {
-            return IsNullOrEmpty(sandboxId._value);
+            return IsNullOrWhiteSpace(sandboxId._value);
         }
 
         public static SandboxId FromString(string sandboxString)
@@ -123,7 +127,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             get
             {
-                return IsNullOrEmpty(this);
+                return IsNullOrWhiteSpace(this) || Guid.Empty.ToString("N").Equals(this.Value);
             }
         }
 

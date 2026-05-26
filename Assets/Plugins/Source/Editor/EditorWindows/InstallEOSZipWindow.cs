@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -128,7 +128,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override void Setup()
         {
-            pathToImportDescDirectory = Path.Combine(FileSystemUtility.GetProjectPath(), "etc/EOSImportDesriptions");
+            pathToImportDescDirectory = Path.Combine(FileSystemUtility.GetProjectPath(), "etc/EOSImportDescriptions");
             importInfoList = JsonUtility.FromJsonFile<PlatformImportInfoList>(Path.Combine(pathToImportDescDirectory, PlatformImportInfoListFileName));
         }
 

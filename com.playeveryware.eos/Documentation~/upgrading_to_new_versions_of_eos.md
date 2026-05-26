@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
-
 # <div align="center">Installing New versions of EOS</div>
 ---
 
@@ -9,8 +7,8 @@ This document covers three different scenarios where one might need to upgrade t
  * When one is a maintainer.
 
 Upgrading the SDK is generally an easy process, mostly involving copying around files.
-However, due to internal changes to how a new version of the SDK will act, it's generally 
-not recommended to do so, and it is _not supported_.
+
+Sometimes it may be preferable to update the SDK for bug fixes while preserving backwards compatibility. To do this, follow the steps in [Update EOS SDK Binary Files Only](#update-eos-sdk-binary-files-only).
 
 ## Upgrading the EOS SDK in an installed plugin
 
@@ -85,3 +83,14 @@ The plugin's `package.json`, and a few other places, mention the version of the 
 When upgrading, the implementor should update all relevant `package.json` files to mention the newer version of the SDK.
 Inside the `CHANGELOG.md` file, it should be noted when new versions of the SDK are implemented.
 Other documentation mentioning the version should also be updated. At time of writing, that is the [supported platforms documentation](supported_platforms.md).
+
+## Update EOS SDK Binary Files Only
+This method involves upgrading only the binary files, but not the header files. This allows taking advantage of bug fixes in more recent SDK releases, or to swap the SDK for a version built against a different platform SDK version. This method does not require a rebuild of the engine or plugins since the headers have not changed. The SDK should continue to operate in the same manner as it did in the SDK version it was written against (the SDK version of the headers).
+
+Do the following depending on the platform you are updating:
+
+* For Windows: replace the .dll files at `Assets\Plugins\Windows\x64` and `Assets\Plugins\Windows\x86`.
+* For Mac: replace the .dylib files at `Assets\Plugins\macOS`.
+* For Android: replace the eos-sdk.aar file at `etc\PlatformSpecificAssets\EOS\Android\static-stdc++\aar`.
+* For IOS: ignore the `Assets\Plugins\iOS\EOSSDK.framework\Headers` folder and just update the other contents of the `Assets\Plugins\iOS\EOSSDK.framework` folder.
+* For Linux: replace the .so files at `Assets\Plugins\Linux`.

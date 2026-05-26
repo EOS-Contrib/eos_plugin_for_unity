@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -70,6 +70,11 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             // default behavior is to take no action.
         }
+
+        public virtual void InitializeNetworkChecks(IEOSCoroutineOwner owner)
+        {
+            // default behavior is to take no action.
+        }
 #endif
 
         public virtual void AddPluginSearchPaths(ref List<string> pluginPaths)
@@ -125,6 +130,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public virtual void UpdateNetworkStatus()
         {
+        }
+
+        public virtual bool CanShowExitButton()
+        {
+            return true;
         }
 
         #endregion

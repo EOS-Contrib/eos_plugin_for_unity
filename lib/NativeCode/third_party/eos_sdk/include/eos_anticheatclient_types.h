@@ -50,7 +50,7 @@ EOS_ENUM(EOS_EAntiCheatClientViolationType,
 	EOS_ACCVT_ForbiddenToolDetected = 11,
 	/** An internal anti-cheat integrity check failed */
 	EOS_ACCVT_InternalAntiCheatViolation = 12,
-	/** Integrity checks on messages between the game client and game server failed */
+	/** Integrity checks on messages between the game client and game server, or between peers, failed */
 	EOS_ACCVT_CorruptedNetworkMessageFlow = 13,
 	/** The game is running inside a disallowed virtual machine */
 	EOS_ACCVT_VirtualMachineNotAllowed = 14,
@@ -135,37 +135,67 @@ EOS_DECLARE_CALLBACK(EOS_AntiCheatClient_OnPeerActionRequiredCallback, const EOS
  */
 EOS_DECLARE_CALLBACK(EOS_AntiCheatClient_OnPeerAuthStatusChangedCallback, const EOS_AntiCheatCommon_OnClientAuthStatusChangedCallbackInfo* Data);
 
+/** The most recent version of the EOS_AntiCheatClient_AddNotifyMessageToServer API. */
 #define EOS_ANTICHEATCLIENT_ADDNOTIFYMESSAGETOSERVER_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_AddNotifyMessageToServer function.
+ */
 EOS_STRUCT(EOS_AntiCheatClient_AddNotifyMessageToServerOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_ADDNOTIFYMESSAGETOSERVER_API_LATEST. */
 	int32_t ApiVersion;
 ));
 
+/** The most recent version of the EOS_AntiCheatClient_AddNotifyMessageToPeer API. */
 #define EOS_ANTICHEATCLIENT_ADDNOTIFYMESSAGETOPEER_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_AddNotifyMessageToPeer function.
+ */
 EOS_STRUCT(EOS_AntiCheatClient_AddNotifyMessageToPeerOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_ADDNOTIFYMESSAGETOPEER_API_LATEST. */
 	int32_t ApiVersion;
 ));
 
+/** The most recent version of the EOS_AntiCheatClient_AddNotifyPeerActionRequired API. */
 #define EOS_ANTICHEATCLIENT_ADDNOTIFYPEERACTIONREQUIRED_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_AddNotifyPeerActionRequired function.
+ */
 EOS_STRUCT(EOS_AntiCheatClient_AddNotifyPeerActionRequiredOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_ADDNOTIFYPEERACTIONREQUIRED_API_LATEST. */
 	int32_t ApiVersion;
 ));
 
+/** The most recent version of the EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged API. */
 #define EOS_ANTICHEATCLIENT_ADDNOTIFYPEERAUTHSTATUSCHANGED_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged function.
+ */
 EOS_STRUCT(EOS_AntiCheatClient_AddNotifyPeerAuthStatusChangedOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_ADDNOTIFYPEERAUTHSTATUSCHANGED_API_LATEST. */
 	int32_t ApiVersion;
 ));
 
+/** The most recent version of the EOS_AntiCheatClient_AddNotifyClientIntegrityViolated API. */
 #define EOS_ANTICHEATCLIENT_ADDNOTIFYCLIENTINTEGRITYVIOLATED_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_AddNotifyClientIntegrityViolated function.
+ */
 EOS_STRUCT(EOS_AntiCheatClient_AddNotifyClientIntegrityViolatedOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_ADDNOTIFYPEERAUTHSTATUSCHANGED_API_LATEST. */
 	int32_t ApiVersion;
 ));
 
+/** The most recent version of the EOS_AntiCheatClient_BeginSession API. */
 #define EOS_ANTICHEATCLIENT_BEGINSESSION_API_LATEST 3
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_BeginSession function.
+ */
 EOS_STRUCT(EOS_AntiCheatClient_BeginSessionOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_BEGINSESSION_API_LATEST. */
 	int32_t ApiVersion;
@@ -175,19 +205,64 @@ EOS_STRUCT(EOS_AntiCheatClient_BeginSessionOptions, (
 	EOS_EAntiCheatClientMode Mode;
 ));
 
+/** The most recent version of the EOS_AntiCheatClient_EndSession API. */
 #define EOS_ANTICHEATCLIENT_ENDSESSION_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_EndSession function.
+ */
 EOS_STRUCT(EOS_AntiCheatClient_EndSessionOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_ENDSESSION_API_LATEST. */
 	int32_t ApiVersion;
 ));
 
+/** The most recent version of the EOS_AntiCheatClient_Reserved01 API. */
 #define EOS_ANTICHEATCLIENT_RESERVED01_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_Reserved01 function.
+ */
 EOS_STRUCT(EOS_AntiCheatClient_Reserved01Options, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_RESERVED01_API_LATEST. */
 	int32_t ApiVersion;
 ));
 
+/** The most recent version of the EOS_AntiCheatClient_Reserved02 API. */
+#define EOS_ANTICHEATCLIENT_RESERVED02_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_Reserved02 function.
+ */
+EOS_STRUCT(EOS_AntiCheatClient_Reserved02Options, (
+	/** API Version: Set this to EOS_ANTICHEATCLIENT_RESERVED02_API_LATEST. */
+	int32_t ApiVersion;
+	/** Field reserved for future use */
+	int64_t Reserved1;
+	/** Field reserved for future use */
+	uint32_t Reserved2;
+	/** Field reserved for future use */
+	uint32_t Reserved3;
+	/** Field reserved for future use */
+	const void* Reserved4;
+));
+
+/** The most recent version of the EOS_AntiCheatClient_GetModuleBuildId API. */
+#define EOS_ANTICHEATCLIENT_GETMODULEBUILDID_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_GetModuleBuildId function.
+ */
+EOS_STRUCT(EOS_AntiCheatClient_GetModuleBuildIdOptions, (
+	/** API Version: Set this to EOS_ANTICHEATCLIENT_GETMODULEBUILDID_API_LATEST. */
+	int32_t ApiVersion;
+));
+
+/** The most recent version of the EOS_AntiCheatClient_AddExternalIntegrityCatalog API. */
 #define EOS_ANTICHEATCLIENT_ADDEXTERNALINTEGRITYCATALOG_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_AddExternalIntegrityCatalog function.
+ */
 EOS_STRUCT(EOS_AntiCheatClient_AddExternalIntegrityCatalogOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_ADDEXTERNALINTEGRITYCATALOG_API_LATEST. */
 	int32_t ApiVersion;
@@ -195,7 +270,12 @@ EOS_STRUCT(EOS_AntiCheatClient_AddExternalIntegrityCatalogOptions, (
 	const char* PathToBinFile;
 ));
 
+/** The most recent version of the EOS_AntiCheatClient_ReceiveMessageFromServer API. */
 #define EOS_ANTICHEATCLIENT_RECEIVEMESSAGEFROMSERVER_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_ReceiveMessageFromServer function.
+ */
 EOS_STRUCT(EOS_AntiCheatClient_ReceiveMessageFromServerOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_RECEIVEMESSAGEFROMSERVER_API_LATEST. */
 	int32_t ApiVersion;
@@ -205,7 +285,12 @@ EOS_STRUCT(EOS_AntiCheatClient_ReceiveMessageFromServerOptions, (
 	const void* Data;
 ));
 
+/** The most recent version of the EOS_AntiCheatClient_GetProtectMessageOutputLength API. */
 #define EOS_ANTICHEATCLIENT_GETPROTECTMESSAGEOUTPUTLENGTH_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_GetProtectMessageOutputLength function.
+ */
 EOS_STRUCT(EOS_AntiCheatClient_GetProtectMessageOutputLengthOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_GETPROTECTMESSAGEOUTPUTLENGTH_API_LATEST. */
 	int32_t ApiVersion;
@@ -213,7 +298,12 @@ EOS_STRUCT(EOS_AntiCheatClient_GetProtectMessageOutputLengthOptions, (
 	uint32_t DataLengthBytes;
 ));
 
+/** The most recent version of the EOS_AntiCheatClient_ProtectMessage API. */
 #define EOS_ANTICHEATCLIENT_PROTECTMESSAGE_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_ProtectMessage function.
+ */
 EOS_STRUCT(EOS_AntiCheatClient_ProtectMessageOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_PROTECTMESSAGE_API_LATEST. */
 	int32_t ApiVersion;
@@ -225,7 +315,12 @@ EOS_STRUCT(EOS_AntiCheatClient_ProtectMessageOptions, (
 	uint32_t OutBufferSizeBytes;
 ));
 
+/** The most recent version of the EOS_AntiCheatClient_UnprotectMessage API. */
 #define EOS_ANTICHEATCLIENT_UNPROTECTMESSAGE_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_UnprotectMessage function.
+ */
 EOS_STRUCT(EOS_AntiCheatClient_UnprotectMessageOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_UNPROTECTMESSAGE_API_LATEST. */
 	int32_t ApiVersion;
@@ -245,10 +340,18 @@ EOS_STRUCT(EOS_AntiCheatClient_UnprotectMessageOptions, (
  */
 #define EOS_ANTICHEATCLIENT_PEER_SELF (EOS_AntiCheatCommon_ClientHandle)(-1)
 
-/** Limits on RegisterTimeoutSeconds parameter */
+/** The minimum value for the AuthenticationTimeout parameter in the EOS_AntiCheatClient_RegisterPeerOptions struct. */
 #define EOS_ANTICHEATCLIENT_REGISTERPEER_MIN_AUTHENTICATIONTIMEOUT 40
+
+/** The maximum value for the AuthenticationTimeout parameter in the EOS_AntiCheatClient_RegisterPeerOptions struct. */
 #define EOS_ANTICHEATCLIENT_REGISTERPEER_MAX_AUTHENTICATIONTIMEOUT 120
+
+/** The most recent version of the EOS_AntiCheatClient_RegisterPeerOptions API. */
 #define EOS_ANTICHEATCLIENT_REGISTERPEER_API_LATEST 3
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_RegisterPeerOptions function.
+ */
 EOS_STRUCT(EOS_AntiCheatClient_RegisterPeerOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_REGISTERPEER_API_LATEST. */
 	int32_t ApiVersion;
@@ -260,6 +363,8 @@ EOS_STRUCT(EOS_AntiCheatClient_RegisterPeerOptions, (
 	EOS_EAntiCheatCommonClientPlatform ClientPlatform;
 	/**
 	 * Time in seconds to allow newly registered peers to send the initial message containing their token.
+	 * Minimum value: EOS_ANTICHEATCLIENT_REGISTERPEER_MIN_AUTHENTICATIONTIMEOUT
+	 * Maximum value: EOS_ANTICHEATCLIENT_REGISTERPEER_MAX_AUTHENTICATIONTIMEOUT
 	 */
 	uint32_t AuthenticationTimeout;
 	/** Deprecated - use PeerProductUserId instead */
@@ -274,7 +379,12 @@ EOS_STRUCT(EOS_AntiCheatClient_RegisterPeerOptions, (
 	EOS_ProductUserId PeerProductUserId;
 ));
 
+/** The most recent version of the EOS_AntiCheatClient_UnregisterPeer API. */
 #define EOS_ANTICHEATCLIENT_UNREGISTERPEER_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_UnregisterPeer function.
+ */
 EOS_STRUCT(EOS_AntiCheatClient_UnregisterPeerOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_UNREGISTERPEER_API_LATEST. */
 	int32_t ApiVersion;
@@ -282,7 +392,12 @@ EOS_STRUCT(EOS_AntiCheatClient_UnregisterPeerOptions, (
 	EOS_AntiCheatCommon_ClientHandle PeerHandle;
 ));
 
+/** The most recent version of the EOS_AntiCheatClient_ReceiveMessageFromPeer API. */
 #define EOS_ANTICHEATCLIENT_RECEIVEMESSAGEFROMPEER_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_ReceiveMessageFromPeer function.
+ */
 EOS_STRUCT(EOS_AntiCheatClient_ReceiveMessageFromPeerOptions, (
 	/** API Version: Set this to EOS_ANTICHEATCLIENT_RECEIVEMESSAGEFROMPEER_API_LATEST. */
 	int32_t ApiVersion;

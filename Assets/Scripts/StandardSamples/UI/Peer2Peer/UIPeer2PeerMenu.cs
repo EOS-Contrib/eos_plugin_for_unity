@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -169,6 +169,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 CurrentChatUserText.text = currentChatDisplayName;
 
                 ChatWindow.SetActive(true);
+                Peer2PeerManager.Initialize();
+                Peer2PeerManager.SendTrigger(currentChatProductUserId);
             }
             else
             {
@@ -206,6 +208,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 CurrentChatUserText.text = currentChatDisplayName;
 
                 ChatWindow.SetActive(true);
+                Peer2PeerManager.SendTrigger(productUserId);
             }
             else
             {

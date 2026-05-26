@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -41,13 +41,6 @@ namespace PlayEveryWare.EpicOnlineServices
     public class ProductConfig : Config
     {
         /// <summary>
-        /// This is the maximum allowed length for the product version field
-        /// according to the EOS SDK documentation. The name of this field was
-        /// selected to mirror the one that exists within the EOS SDK itself.
-        /// </summary>
-        private const int EOS_INITIALIZEOPTIONS_PRODUCTVERSION_MAX_LENGTH = 64;
-
-        /// <summary>
         /// The product ID is a unique GUID labeled "Product ID" in the Epic
         /// Developer Portal. The name for this value can be set to anything -
         /// it is used as a label for user interface purposes - and is allowed
@@ -58,6 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "Enter your product name as it appears in the EOS Dev " +
             "Portal here.",
             0)]
+        [NonEmptyStringFieldValidator]
         public string ProductName;
 
         [ConfigField("Product Id",
@@ -65,14 +59,14 @@ namespace PlayEveryWare.EpicOnlineServices
             "Enter your Product Id as it appears in the EOS Dev " +
             "Portal here.",
             0)]
+        [GUIDFieldValidator]
         public Guid ProductId;
 
         [ConfigField("Version",
             ConfigFieldType.Text,
             "Use this to indicate to the EOS SDK your game version.",
-            0, "https://dev.epicgames.com/docs/api-ref/structs/eos-initialize-options")]
-        [RegexValidation("^[A-Za-z0-9._ !?()+:-]+$", "Product version must consist of only the following characters: A-Z, a-z, 0-9, dot, underscore, space, exclamation mark, question mark, sign, hyphen, parenthesis, plus, minus, or colon characters.")]
-        [LengthValidation(1, EOS_INITIALIZEOPTIONS_PRODUCTVERSION_MAX_LENGTH)]
+            0)]
+        [NonEmptyStringFieldValidator]
         public string ProductVersion;
 
         /// <summary>
@@ -97,6 +91,7 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType.SetOfClientCredentials,
             "Enter the client credentials you have defined in the " +
             "Epic Dev Portal.", 1)]
+        [ClientCredentialsFieldValidator]
         public SetOfNamed<EOSClientCredentials> Clients = new("Client");
 #endif
 
@@ -109,6 +104,7 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType.ProductionEnvironments,
             "Enter the details of your deployment and sandboxes as they " +
             "exist within the Epic Dev Portal.", 1)]
+        [ProductionEnvironmentsFieldValidator]
         public ProductionEnvironments Environments = new();
 
         /// <summary>
@@ -146,18 +142,10 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-#if EXTERNAL_TO_UNITY
-#pragma warning disable CS0067
-#endif
-
         public static event EventHandler<PlatformConfigsUpdatedEventArgs> DeploymentsUpdatedEvent;
 
         public static event EventHandler<PlatformConfigsUpdatedEventArgs>
             ClientCredentialsUpdatedEvent;
-
-#if EXTERNAL_TO_UNITY
-#pragma warning restore CS0067
-#endif
 
         static ProductConfig()
         {
@@ -268,6 +256,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 // Save the config
                 config.Write();
+
             }
 
             // If at least one platform config was updated as a result, trigger
@@ -331,6 +320,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 // Save the config
                 config.Write();
+
             }
 
             // If at least one platform config was updated as a result, trigger
@@ -343,6 +333,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
         protected override void OnWriteCompleted()
         {
+            base.OnWriteCompleted();
+
             // Update the platform config deployments if needed.
             UpdatePlatformConfigDeployments();
 

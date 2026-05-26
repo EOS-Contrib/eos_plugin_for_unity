@@ -1,5 +1,3 @@
-<a href="http://playeveryware.com"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="10%"/></a>
-
 # <div align="center">Command-line Export of Plugin</div>
 ---
 

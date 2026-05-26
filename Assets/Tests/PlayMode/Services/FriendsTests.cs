@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -119,13 +119,13 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Friends
         {
             AddNotifyFriendsUpdateOptions updateOptions = new();
             ulong notificationId = _friendsInterface.AddNotifyFriendsUpdate(ref updateOptions, null, (ref OnFriendsUpdateInfo x) => { });
-            Assert.AreNotEqual(Common.InvalidNotificationid, notificationId, "Could not subscribe to friends update.");
+            Assert.AreNotEqual(Common.INVALID_NOTIFICATIONID, notificationId, "Could not subscribe to friends update.");
 
             _friendsInterface.RemoveNotifyFriendsUpdate(notificationId);
 
             AddNotifyOnPresenceChangedOptions changedOptions = new();
             ulong presenceNotificationId = _presenceInterface.AddNotifyOnPresenceChanged(ref changedOptions, null, (ref PresenceChangedCallbackInfo x) => { });
-            Assert.AreNotEqual(Common.InvalidNotificationid, presenceNotificationId, "Could not subscribe to friends presence change.");
+            Assert.AreNotEqual(Common.INVALID_NOTIFICATIONID, presenceNotificationId, "Could not subscribe to friends presence change.");
 
             _presenceInterface.RemoveNotifyOnPresenceChanged(presenceNotificationId);
         }

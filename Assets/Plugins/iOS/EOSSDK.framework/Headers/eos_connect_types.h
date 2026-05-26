@@ -5,7 +5,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_ConnectHandle* EOS_HConnect;
+EOS_EXTERN_C typedef struct EOS_ConnectHandle* EOS_HConnect;
 
 /** Max length of an external account ID in string form */
 #define EOS_CONNECT_EXTERNAL_ACCOUNT_ID_MAX_LENGTH 256
@@ -44,7 +44,7 @@ EOS_STRUCT(EOS_Connect_UserLoginInfo, (
 	int32_t ApiVersion;
 	/**
 	 * The user's display name on the identity provider systems as UTF-8 encoded null-terminated string.
-	 * The length of the name can be at maximum up to EOS_CONNECT_USERLOGININFO_DISPLAYNAME_MAX_LENGTH bytes.
+	 * The length of the name can be at maximum up to EOS_CONNECT_USERLOGININFO_DISPLAYNAME_MAX_LENGTH characters.
 	 *
 	 * As the display name passed here is client-controlled and not part of user authentication tokens,
 	 * it is only treated as non-authoritative informational data to be used by some of the feature services.
@@ -168,6 +168,11 @@ EOS_STRUCT(EOS_Connect_CreateUserCallbackInfo, (
 	EOS_ProductUserId LocalUserId;
 ));
 
+/**
+ * Function prototype definition for callbacks passed to EOS_Connect_CreateUser.
+ *
+ * @param Data A EOS_Connect_CreateUserCallbackInfo containing the output information and result.
+ */
 EOS_DECLARE_CALLBACK(EOS_Connect_OnCreateUserCallback, const EOS_Connect_CreateUserCallbackInfo* Data);
 
 /** The most recent version of the EOS_Connect_LinkAccount API. */
@@ -282,6 +287,11 @@ EOS_STRUCT(EOS_Connect_CreateDeviceIdCallbackInfo, (
 	void* ClientData;
 ));
 
+/**
+ * Function prototype definition for callbacks passed to EOS_Connect_CreateDeviceId.
+ *
+ * @param Data A EOS_Connect_CreateDeviceIdCallbackInfo containing the output information and result.
+ */
 EOS_DECLARE_CALLBACK(EOS_Connect_OnCreateDeviceIdCallback, const EOS_Connect_CreateDeviceIdCallbackInfo* Data);
 
 /** The most recent version of the EOS_Connect_DeleteDeviceId API. */
@@ -305,6 +315,11 @@ EOS_STRUCT(EOS_Connect_DeleteDeviceIdCallbackInfo, (
 	void* ClientData;
 ));
 
+/**
+ * Function prototype definition for callbacks passed to EOS_Connect_DeleteDeviceId.
+ *
+ * @param Data A EOS_Connect_DeleteDeviceIdCallbackInfo containing the output information and result.
+ */
 EOS_DECLARE_CALLBACK(EOS_Connect_OnDeleteDeviceIdCallback, const EOS_Connect_DeleteDeviceIdCallbackInfo* Data);
 
 /** The most recent version of the EOS_Connect_TransferDeviceIdAccount API. */
@@ -608,9 +623,6 @@ EOS_STRUCT(EOS_Connect_AddNotifyAuthExpirationOptions, (
 	/** API Version: Set this to EOS_CONNECT_ADDNOTIFYAUTHEXPIRATION_API_LATEST. */
 	int32_t ApiVersion;
 ));
-
-/** The most recent version of the EOS_Connect_OnAuthExpirationCallback API. */
-#define EOS_CONNECT_ONAUTHEXPIRATIONCALLBACK_API_LATEST 1
 
 /**
  * Output parameters for the EOS_Connect_OnAuthExpirationCallback function.

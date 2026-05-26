@@ -6,7 +6,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_RTCAdminHandle* EOS_HRTCAdmin;
+EOS_EXTERN_C typedef struct EOS_RTCAdminHandle* EOS_HRTCAdmin;
 
 /** The most recent version of the EOS_RTCAdmin_QueryJoinRoomToken API */
 #define EOS_RTCADMIN_QUERYJOINROOMTOKEN_API_LATEST 2
@@ -183,6 +183,10 @@ EOS_STRUCT(EOS_RTCAdmin_SetParticipantHardMuteCompleteCallbackInfo, (
 	void* ClientData;
 ));
 
+/**
+ * Function prototype definition for callbacks passed to EOS_RTCAdmin_SetParticipantHardMute
+ * @param Data An EOS_RTCAdmin_SetParticipantHardMuteCompleteCallbackInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_RTCAdmin_OnSetParticipantHardMuteCompleteCallback, const EOS_RTCAdmin_SetParticipantHardMuteCompleteCallbackInfo* Data);
 
 #pragma pack(pop)

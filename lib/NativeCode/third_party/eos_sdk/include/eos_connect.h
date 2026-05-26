@@ -18,6 +18,9 @@
  * @param Options structure containing the external account credentials and type to use during the login operation.
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate.
  * @param CompletionDelegate a callback that is fired when the login operation completes, either successfully or in error.
+ *
+ * @see EOS_Connect_LoginOptions
+ * @see EOS_Connect_OnLoginCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Connect_Login(EOS_HConnect Handle, const EOS_Connect_LoginOptions* Options, void* ClientData, const EOS_Connect_OnLoginCallback CompletionDelegate);
 
@@ -28,6 +31,9 @@ EOS_DECLARE_FUNC(void) EOS_Connect_Login(EOS_HConnect Handle, const EOS_Connect_
  * @param Options Structure containing the input parameters for the operation
  * @param ClientData Arbitrary data that is passed back to the caller in the CompletionDelegate.
  * @param CompletionDelegate A callback that is fired when the operation completes, either successfully or in error.
+ *
+ * @see EOS_Connect_LogoutOptions
+ * @see EOS_Connect_OnLogoutCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Connect_Logout(EOS_HConnect Handle, const EOS_Connect_LogoutOptions* Options, void* ClientData, const EOS_Connect_OnLogoutCallback CompletionDelegate);
 
@@ -37,6 +43,9 @@ EOS_DECLARE_FUNC(void) EOS_Connect_Logout(EOS_HConnect Handle, const EOS_Connect
  * @param Options structure containing a continuance token from a "user not found" response during Login (always try login first).
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate.
  * @param CompletionDelegate a callback that is fired when the create operation completes, either successfully or in error.
+ *
+ * @see EOS_Connect_CreateUserOptions
+ * @see EOS_Connect_OnCreateUserCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Connect_CreateUser(EOS_HConnect Handle, const EOS_Connect_CreateUserOptions* Options, void* ClientData, const EOS_Connect_OnCreateUserCallback CompletionDelegate);
 
@@ -46,6 +55,9 @@ EOS_DECLARE_FUNC(void) EOS_Connect_CreateUser(EOS_HConnect Handle, const EOS_Con
  * @param Options structure containing a continuance token from a "user not found" response during Login (always try login first) and a currently logged in user not already associated with this external auth provider.
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate.
  * @param CompletionDelegate a callback that is fired when the link operation completes, either successfully or in error.
+ *
+ * @see EOS_Connect_LinkAccountOptions
+ * @see EOS_Connect_OnLinkAccountCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Connect_LinkAccount(EOS_HConnect Handle, const EOS_Connect_LinkAccountOptions* Options, void* ClientData, const EOS_Connect_OnLinkAccountCallback CompletionDelegate);
 
@@ -76,6 +88,9 @@ EOS_DECLARE_FUNC(void) EOS_Connect_LinkAccount(EOS_HConnect Handle, const EOS_Co
  * @param Options structure containing operation input parameters.
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate.
  * @param CompletionDelegate a callback that is fired when the unlink operation completes, either successfully or in error.
+ *
+ * @see EOS_Connect_UnlinkAccountOptions
+ * @see EOS_Connect_OnUnlinkAccountCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Connect_UnlinkAccount(EOS_HConnect Handle, const EOS_Connect_UnlinkAccountOptions* Options, void* ClientData, const EOS_Connect_OnUnlinkAccountCallback CompletionDelegate);
 
@@ -105,6 +120,9 @@ EOS_DECLARE_FUNC(void) EOS_Connect_UnlinkAccount(EOS_HConnect Handle, const EOS_
  * @param Options structure containing operation input parameters.
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate.
  * @param CompletionDelegate a callback that is fired when the create operation completes, either successfully or in error.
+ *
+ * @see EOS_Connect_CreateDeviceIdOptions
+ * @see EOS_Connect_OnCreateDeviceIdCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Connect_CreateDeviceId(EOS_HConnect Handle, const EOS_Connect_CreateDeviceIdOptions* Options, void* ClientData, const EOS_Connect_OnCreateDeviceIdCallback CompletionDelegate);
 
@@ -124,6 +142,9 @@ EOS_DECLARE_FUNC(void) EOS_Connect_CreateDeviceId(EOS_HConnect Handle, const EOS
  * @param Options structure containing operation input parameters
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the delete operation completes, either successfully or in error
+ *
+ * @see EOS_Connect_DeleteDeviceIdOptions
+ * @see EOS_Connect_OnDeleteDeviceIdCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Connect_DeleteDeviceId(EOS_HConnect Handle, const EOS_Connect_DeleteDeviceIdOptions* Options, void* ClientData, const EOS_Connect_OnDeleteDeviceIdCallback CompletionDelegate);
 
@@ -185,6 +206,8 @@ EOS_DECLARE_FUNC(void) EOS_Connect_DeleteDeviceId(EOS_HConnect Handle, const EOS
  * recovered, so it is very important that the user is guided to make the right choice to avoid
  * accidental loss of all game progression.
  *
+ * @see EOS_Connect_TransferDeviceIdAccountOptions
+ * @see EOS_Connect_OnTransferDeviceIdAccountCallback
  * @see EOS_Connect_Login
  * @see EOS_Connect_CreateDeviceId
  *
@@ -204,6 +227,9 @@ EOS_DECLARE_FUNC(void) EOS_Connect_TransferDeviceIdAccount(EOS_HConnect Handle, 
  * @param Options structure containing a list of external account IDs, in string form, to query for the Product User ID representation.
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate.
  * @param CompletionDelegate a callback that is fired when the query operation completes, either successfully or in error.
+ *
+ * @see EOS_Connect_QueryExternalAccountMappingsOptions
+ * @see EOS_Connect_OnQueryExternalAccountMappingsCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Connect_QueryExternalAccountMappings(EOS_HConnect Handle, const EOS_Connect_QueryExternalAccountMappingsOptions* Options, void* ClientData, const EOS_Connect_OnQueryExternalAccountMappingsCallback CompletionDelegate);
 
@@ -213,6 +239,8 @@ EOS_DECLARE_FUNC(void) EOS_Connect_QueryExternalAccountMappings(EOS_HConnect Han
  * The values will be cached and retrievable via EOS_Connect_GetProductUserIdMapping, EOS_Connect_CopyProductUserExternalAccountByIndex,
  * EOS_Connect_CopyProductUserExternalAccountByAccountType or EOS_Connect_CopyProductUserExternalAccountByAccountId.
  *
+ * @see EOS_Connect_QueryProductUserIdMappingsOptions
+ * @see EOS_Connect_OnQueryProductUserIdMappingsCallback
  * @see EOS_Connect_ExternalAccountInfo
  * @see EOS_Connect_GetProductUserExternalAccountCount
  * @see EOS_Connect_GetProductUserIdMapping
@@ -232,6 +260,8 @@ EOS_DECLARE_FUNC(void) EOS_Connect_QueryProductUserIdMappings(EOS_HConnect Handl
  *
  * @param Options structure containing the local user and target external account ID.
  *
+ * @see EOS_Connect_GetExternalAccountMappingsOptions
+ *
  * @return The Product User ID, previously retrieved from the backend service, for the given target external account.
  */
 EOS_DECLARE_FUNC(EOS_ProductUserId) EOS_Connect_GetExternalAccountMapping(EOS_HConnect Handle, const EOS_Connect_GetExternalAccountMappingsOptions* Options);
@@ -245,11 +275,13 @@ EOS_DECLARE_FUNC(EOS_ProductUserId) EOS_Connect_GetExternalAccountMapping(EOS_HC
  *                          The input buffer should include enough space to be null-terminated.
  *                          When the function returns, this parameter will be filled with the length of the string copied into OutBuffer.
  *
+ * @see EOS_Connect_GetProductUserIdMappingOptions
+ *
  * @return An EOS_EResult that indicates the external account ID was copied into the OutBuffer.
- *         EOS_Success if the information is available and passed out in OutUserInfo.
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter.
- *         EOS_NotFound if the mapping doesn't exist or hasn't been queried yet.
- *         EOS_LimitExceeded if the OutBuffer is not large enough to receive the external account ID. InOutBufferLength contains the required minimum length to perform the operation successfully.
+ * - EOS_Success if the information is available and passed out in OutUserInfo.
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter.
+ * - EOS_NotFound if the mapping doesn't exist or hasn't been queried yet.
+ * - EOS_LimitExceeded if the OutBuffer is not large enough to receive the external account ID. InOutBufferLength contains the required minimum length to perform the operation successfully.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Connect_GetProductUserIdMapping(EOS_HConnect Handle, const EOS_Connect_GetProductUserIdMappingOptions* Options, char* OutBuffer, int32_t* InOutBufferLength);
 
@@ -258,6 +290,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Connect_GetProductUserIdMapping(EOS_HConnect H
  *
  * @param Options The Options associated with retrieving the external account info count.
  *
+ * @see EOS_Connect_GetProductUserExternalAccountCountOptions
  * @see EOS_Connect_CopyProductUserExternalAccountByIndex
  *
  * @return Number of external accounts or 0 otherwise.
@@ -271,12 +304,14 @@ EOS_DECLARE_FUNC(uint32_t) EOS_Connect_GetProductUserExternalAccountCount(EOS_HC
  * @param Options Structure containing the target index.
  * @param OutExternalAccountInfo The external account info data for the user with given index.
  *
+ * @see EOS_Connect_CopyProductUserExternalAccountByIndexOptions
+ * @see EOS_Connect_ExternalAccountInfo
  * @see EOS_Connect_ExternalAccountInfo_Release
  *
  * @return An EOS_EResult that indicates the external account data was copied into the OutExternalAccountInfo.
- *         EOS_Success if the information is available and passed out in OutExternalAccountInfo.
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter.
- *         EOS_NotFound if the account data doesn't exist or hasn't been queried yet.
+ * - EOS_Success if the information is available and passed out in OutExternalAccountInfo.
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter.
+ * - EOS_NotFound if the account data doesn't exist or hasn't been queried yet.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Connect_CopyProductUserExternalAccountByIndex(EOS_HConnect Handle, const EOS_Connect_CopyProductUserExternalAccountByIndexOptions* Options, EOS_Connect_ExternalAccountInfo ** OutExternalAccountInfo);
 
@@ -287,12 +322,14 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Connect_CopyProductUserExternalAccountByIndex(
  * @param Options Structure containing the target external account type.
  * @param OutExternalAccountInfo The external account info data for the user with given external account type.
  *
+ * @see EOS_Connect_CopyProductUserExternalAccountByAccountTypeOptions
+ * @see EOS_Connect_ExternalAccountInfo
  * @see EOS_Connect_ExternalAccountInfo_Release
  *
  * @return An EOS_EResult that indicates the external account data was copied into the OutExternalAccountInfo.
- *         EOS_Success if the information is available and passed out in OutExternalAccountInfo.
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter.
- *         EOS_NotFound if the account data doesn't exist or hasn't been queried yet.
+ * - EOS_Success if the information is available and passed out in OutExternalAccountInfo.
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter.
+ * - EOS_NotFound if the account data doesn't exist or hasn't been queried yet.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Connect_CopyProductUserExternalAccountByAccountType(EOS_HConnect Handle, const EOS_Connect_CopyProductUserExternalAccountByAccountTypeOptions* Options, EOS_Connect_ExternalAccountInfo ** OutExternalAccountInfo);
 
@@ -303,12 +340,14 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Connect_CopyProductUserExternalAccountByAccoun
  * @param Options Structure containing the target external account ID.
  * @param OutExternalAccountInfo The external account info data for the user with given external account ID.
  *
+ * @see EOS_Connect_CopyProductUserExternalAccountByAccountIdOptions
+ * @see EOS_Connect_ExternalAccountInfo
  * @see EOS_Connect_ExternalAccountInfo_Release
  *
  * @return An EOS_EResult that indicates the external account data was copied into the OutExternalAccountInfo.
- *         EOS_Success if the information is available and passed out in OutExternalAccountInfo.
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter.
- *         EOS_NotFound if the account data doesn't exist or hasn't been queried yet.
+ * - EOS_Success if the information is available and passed out in OutExternalAccountInfo.
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter.
+ * - EOS_NotFound if the account data doesn't exist or hasn't been queried yet.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Connect_CopyProductUserExternalAccountByAccountId(EOS_HConnect Handle, const EOS_Connect_CopyProductUserExternalAccountByAccountIdOptions* Options, EOS_Connect_ExternalAccountInfo ** OutExternalAccountInfo);
 
@@ -319,12 +358,14 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Connect_CopyProductUserExternalAccountByAccoun
  * @param Options Structure containing the target external account ID.
  * @param OutExternalAccountInfo The external account info data last logged in for the user.
  *
+ * @see EOS_Connect_CopyProductUserInfoOptions
+ * @see EOS_Connect_ExternalAccountInfo
  * @see EOS_Connect_ExternalAccountInfo_Release
  *
  * @return An EOS_EResult that indicates the external account data was copied into the OutExternalAccountInfo.
- *         EOS_Success if the information is available and passed out in OutExternalAccountInfo.
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter.
- *         EOS_NotFound if the account data doesn't exist or hasn't been queried yet.
+ * - EOS_Success if the information is available and passed out in OutExternalAccountInfo.
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter.
+ * - EOS_NotFound if the account data doesn't exist or hasn't been queried yet.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Connect_CopyProductUserInfo(EOS_HConnect Handle, const EOS_Connect_CopyProductUserInfoOptions* Options, EOS_Connect_ExternalAccountInfo ** OutExternalAccountInfo);
 
@@ -355,7 +396,7 @@ EOS_DECLARE_FUNC(EOS_ELoginStatus) EOS_Connect_GetLoginStatus(EOS_HConnect Handl
 
 /**
  * Register to receive upcoming authentication expiration notifications.
- * Notification is approximately 10 minutes prior to expiration.
+ * Notification is approximately 1 minute prior to expiration.
  * Call EOS_Connect_Login again with valid third party credentials to refresh access.
  *
  * @note If the returned NotificationId is valid, you must call EOS_Connect_RemoveNotifyAuthExpiration when you no longer wish to have your NotificationHandler called.
@@ -363,6 +404,9 @@ EOS_DECLARE_FUNC(EOS_ELoginStatus) EOS_Connect_GetLoginStatus(EOS_HConnect Handl
  * @param Options structure containing the API version of the callback to use.
  * @param ClientData arbitrary data that is passed back to you in the callback.
  * @param Notification a callback that is fired when the authentication is about to expire.
+ *
+ * @see EOS_Connect_AddNotifyAuthExpirationOptions
+ * @see EOS_Connect_OnAuthExpirationCallback
  *
  * @return handle representing the registered callback.
  */
@@ -383,6 +427,9 @@ EOS_DECLARE_FUNC(void) EOS_Connect_RemoveNotifyAuthExpiration(EOS_HConnect Handl
  * @param ClientData arbitrary data that is passed back to you in the callback.
  * @param Notification a callback that is fired when the login status for a user changes.
  *
+ * @see EOS_Connect_AddNotifyLoginStatusChangedOptions
+ * @see EOS_Connect_OnLoginStatusChangedCallback
+ *
  * @return handle representing the registered callback.
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_Connect_AddNotifyLoginStatusChanged(EOS_HConnect Handle, const EOS_Connect_AddNotifyLoginStatusChangedOptions* Options, void* ClientData, const EOS_Connect_OnLoginStatusChangedCallback Notification);
@@ -400,11 +447,15 @@ EOS_DECLARE_FUNC(void) EOS_Connect_RemoveNotifyLoginStatusChanged(EOS_HConnect H
  * @param Options Structure containing information about the ID token to copy.
  * @param OutIdToken The ID token for the given user, if it exists and is valid; use EOS_Connect_IdToken_Release when finished.
  *
+ * @see EOS_Connect_CopyIdTokenOptions
+ * @see EOS_Connect_IdToken
  * @see EOS_Connect_IdToken_Release
  *
- * @return EOS_Success if the information is available and passed out in OutIdToken.
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter.
- *         EOS_NotFound if the ID token is not found or expired.
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutIdToken.
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter.
+ * - EOS_NotFound if the ID token is not found or expired.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Connect_CopyIdToken(EOS_HConnect Handle, const EOS_Connect_CopyIdTokenOptions* Options, EOS_Connect_IdToken ** OutIdToken);
 
@@ -414,5 +465,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Connect_CopyIdToken(EOS_HConnect Handle, const
  * @param Options structure containing information about the ID token to verify.
  * @param ClientData arbitrary data that is passed back to you in the callback.
  * @param CompletionDelegate a callback that is fired when the operation completes, either successfully or in error.
+ *
+ * @see EOS_Connect_VerifyIdTokenOptions
+ * @see EOS_Connect_OnVerifyIdTokenCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Connect_VerifyIdToken(EOS_HConnect Handle, const EOS_Connect_VerifyIdTokenOptions* Options, void* ClientData, const EOS_Connect_OnVerifyIdTokenCallback CompletionDelegate);

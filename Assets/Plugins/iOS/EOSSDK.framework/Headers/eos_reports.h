@@ -14,5 +14,8 @@
  * @param Options Structure containing the player report information.
  * @param ClientData Optional client data provided by the user of the SDK.
  * @param CompletionDelegate This function is called when the send operation completes.
+ *
+ * @see EOS_Reports_SendPlayerBehaviorReportOptions
+ * @see EOS_Reports_OnSendPlayerBehaviorReportCompleteCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Reports_SendPlayerBehaviorReport(EOS_HReports Handle, const EOS_Reports_SendPlayerBehaviorReportOptions* Options, void* ClientData, const EOS_Reports_OnSendPlayerBehaviorReportCompleteCallback CompletionDelegate);

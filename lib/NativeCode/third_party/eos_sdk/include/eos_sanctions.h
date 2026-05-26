@@ -11,6 +11,8 @@
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate A callback that is fired when the async operation completes, either successfully or in error
  *
+ * @see EOS_Sanctions_QueryActivePlayerSanctionsOptions
+ * @see EOS_Sanctions_OnQueryActivePlayerSanctionsCallback
  * @see EOS_Sanctions_GetPlayerSanctionCount
  * @see EOS_Sanctions_CopyPlayerSanctionByIndex
  */
@@ -22,6 +24,7 @@ EOS_DECLARE_FUNC(void) EOS_Sanctions_QueryActivePlayerSanctions(EOS_HSanctions H
  *
  * @param Options Structure containing the input parameters
  *
+ * @see EOS_Sanctions_GetPlayerSanctionCountOptions
  * @see EOS_Sanctions_QueryActivePlayerSanctions
  * @see EOS_Sanctions_CopyPlayerSanctionByIndex
  *
@@ -37,12 +40,16 @@ EOS_DECLARE_FUNC(uint32_t) EOS_Sanctions_GetPlayerSanctionCount(EOS_HSanctions H
  * @param Options Structure containing the input parameters
  * @param OutSanction The player sanction data for the given index, if it exists and is valid
  *
+ * @see EOS_Sanctions_CopyPlayerSanctionByIndexOptions
+ * @see EOS_Sanctions_PlayerSanction
  * @see EOS_Sanctions_QueryActivePlayerSanctions
  * @see EOS_Sanctions_PlayerSanction_Release
  *
- * @return EOS_Success if the information is available and passed out in OutSanction
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the player achievement is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutSanction
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the player achievement is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Sanctions_CopyPlayerSanctionByIndex(EOS_HSanctions Handle, const EOS_Sanctions_CopyPlayerSanctionByIndexOptions* Options, EOS_Sanctions_PlayerSanction ** OutSanction);
 
@@ -53,5 +60,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Sanctions_CopyPlayerSanctionByIndex(EOS_HSanct
  * @param Options Structure containing the player sanction appeal information.
  * @param ClientData Optional client data provided by the user of the SDK.
  * @param CompletionDelegate This function is called when the send operation completes.
+ *
+ * @see EOS_Sanctions_CreatePlayerSanctionAppealOptions
+ * @see EOS_Sanctions_CreatePlayerSanctionAppealCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Sanctions_CreatePlayerSanctionAppeal(EOS_HSanctions Handle, const EOS_Sanctions_CreatePlayerSanctionAppealOptions* Options, void* ClientData, const EOS_Sanctions_CreatePlayerSanctionAppealCallback CompletionDelegate);

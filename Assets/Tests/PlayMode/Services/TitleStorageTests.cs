@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -73,6 +73,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.TitleStorage
 
         /// <summary>
         /// Queries the title storage with known tags that should retrieve the default items.
+        /// Default items are 3 files using tags "TXT" and/or "Tag1" uploaded to the deployment being used.
         /// </summary>
         [UnityTest]
         [Category(TestCategories.SoloCategory)]

@@ -57,6 +57,10 @@ EOS_STRUCT(EOS_RTCAudio_ParticipantUpdatedCallbackInfo, (
 	EOS_ERTCAudioStatus AudioStatus;
 ));
 
+/**
+ * Function prototype definition for callbacks passed to EOS_RTCAudio_AddNotifyParticipantUpdated
+ * @param Data An EOS_RTCAudio_ParticipantUpdatedCallbackInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_RTCAudio_OnParticipantUpdatedCallback, const EOS_RTCAudio_ParticipantUpdatedCallbackInfo* Data);
 
 /** The most recent version of the EOS_RTCAudio_AddNotifyAudioDevicesChanged API. */
@@ -78,6 +82,10 @@ EOS_STRUCT(EOS_RTCAudio_AudioDevicesChangedCallbackInfo, (
 	void* ClientData;
 ));
 
+/**
+ * Function prototype definition for callbacks passed to EOS_RTCAudio_AddNotifyAudioDevicesChanged
+ * @param Data An EOS_RTCAudio_AudioDevicesChangedCallbackInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_RTCAudio_OnAudioDevicesChangedCallback, const EOS_RTCAudio_AudioDevicesChangedCallbackInfo* Data);
 
 /**
@@ -131,6 +139,10 @@ EOS_STRUCT(EOS_RTCAudio_AudioInputStateCallbackInfo, (
 	EOS_ERTCAudioInputStatus Status;
 ));
 
+/**
+ * Function prototype definition for callbacks passed to EOS_RTCAudio_AddNotifyAudioInputState
+ * @param Data An EOS_RTCAudio_AudioInputStateCallbackInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_RTCAudio_OnAudioInputStateCallback, const EOS_RTCAudio_AudioInputStateCallbackInfo* Data);
 
 /**
@@ -174,6 +186,10 @@ EOS_STRUCT(EOS_RTCAudio_AudioOutputStateCallbackInfo, (
 	EOS_ERTCAudioOutputStatus Status;
 ));
 
+/**
+ * Function prototype definition for callbacks passed to EOS_RTCAudio_AddNotifyAudioOutputState
+ * @param Data An EOS_RTCAudio_AudioOutputStateCallbackInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_RTCAudio_OnAudioOutputStateCallback, const EOS_RTCAudio_AudioOutputStateCallbackInfo* Data);
 
 /** The most recent version of the EOS_RTCAudio_AddNotifyAudioBeforeSend API. */
@@ -228,6 +244,10 @@ EOS_STRUCT(EOS_RTCAudio_AudioBeforeSendCallbackInfo, (
 	EOS_RTCAudio_AudioBuffer* Buffer;
 ));
 
+/**
+ * Function prototype definition for callbacks passed to EOS_RTCAudio_AddNotifyAudioBeforeSend
+ * @param Data An EOS_RTCAudio_AudioBeforeSendCallbackInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_RTCAudio_OnAudioBeforeSendCallback, const EOS_RTCAudio_AudioBeforeSendCallbackInfo* Data);
 
 /** The most recent version of the EOS_RTCAudio_AddNotifyAudioBeforeRender API. */
@@ -271,6 +291,10 @@ EOS_STRUCT(EOS_RTCAudio_AudioBeforeRenderCallbackInfo, (
 	EOS_ProductUserId ParticipantId;
 ));
 
+/**
+ * Function prototype definition for callbacks passed to EOS_RTCAudio_AddNotifyAudioBeforeRender
+ * @param Data An EOS_RTCAudio_AudioBeforeRenderCallbackInfo containing the output information and result
+ */
 EOS_DECLARE_CALLBACK(EOS_RTCAudio_OnAudioBeforeRenderCallback, const EOS_RTCAudio_AudioBeforeRenderCallbackInfo* Data);
 
 

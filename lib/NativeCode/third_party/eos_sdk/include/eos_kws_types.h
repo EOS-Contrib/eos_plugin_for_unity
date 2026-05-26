@@ -28,6 +28,9 @@ EOS_ENUM(EOS_EKWSPermissionStatus,
 /** The most recent version of the EOS_KWS_PermissionStatus API. */
 #define EOS_KWS_PERMISSIONSTATUS_API_LATEST 1
 
+/**
+ * Contains information about a KWS permission status.
+ */
 EOS_STRUCT(EOS_KWS_PermissionStatus, (
 	/** API Version: Set this to EOS_KWS_PERMISSIONSTATUS_API_LATEST. */
 	int32_t ApiVersion;
@@ -37,6 +40,13 @@ EOS_STRUCT(EOS_KWS_PermissionStatus, (
 	EOS_EKWSPermissionStatus Status;
 ));
 
+/**
+ * Release the memory associated with a KWS permission status. This must be called on data retrieved from EOS_KWS_CopyPermissionByIndex.
+ *
+ * @param PermissionStatus - A pointer to the KWS permission status to release
+ *
+ * @see EOS_KWS_CopyPermissionByIndex
+ */
 EOS_DECLARE_FUNC(void) EOS_KWS_PermissionStatus_Release(EOS_KWS_PermissionStatus* PermissionStatus);
 
 /** The most recent version of the EOS_KWS_QueryAgeGate API. */
@@ -218,6 +228,7 @@ EOS_STRUCT(EOS_KWS_RequestPermissionsCallbackInfo, (
 EOS_DECLARE_CALLBACK(EOS_KWS_OnRequestPermissionsCallback, const EOS_KWS_RequestPermissionsCallbackInfo* Data);
 
 
+/** The most recent version of the EOS_KWS_GetPermissionsCount API. */
 #define EOS_KWS_GETPERMISSIONSCOUNT_API_LATEST 1
 
 /**
@@ -263,6 +274,9 @@ EOS_STRUCT(EOS_KWS_GetPermissionByKeyOptions, (
 /** The most recent version of the EOS_KWS_AddNotifyPermissionsUpdateReceived API. */
 #define EOS_KWS_ADDNOTIFYPERMISSIONSUPDATERECEIVED_API_LATEST 1
 
+/**
+ * Input parameters for the EOS_KWS_AddNotifyPermissionsUpdateReceived function.
+ */
 EOS_STRUCT(EOS_KWS_AddNotifyPermissionsUpdateReceivedOptions, (
 	/** API Version: Set this to EOS_KWS_ADDNOTIFYPERMISSIONSUPDATERECEIVED_API_LATEST. */
 	int32_t ApiVersion;

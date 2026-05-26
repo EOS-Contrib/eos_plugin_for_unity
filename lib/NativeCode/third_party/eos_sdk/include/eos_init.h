@@ -34,7 +34,7 @@ EOS_EXTERN_C typedef void* (EOS_MEMORY_CALL * EOS_ReallocateMemoryFunc)(void* Po
 EOS_EXTERN_C typedef void (EOS_MEMORY_CALL * EOS_ReleaseMemoryFunc)(void* Pointer);
 
 /** The most recent version of the EOS_Initialize_ThreadAffinity API. */
-#define EOS_INITIALIZE_THREADAFFINITY_API_LATEST 3
+#define EOS_INITIALIZE_THREADAFFINITY_API_LATEST 4
 
 /**
  * Options for initializing defining thread affinity for use by Epic Online Services SDK.
@@ -59,10 +59,12 @@ EOS_STRUCT(EOS_Initialize_ThreadAffinity, (
 	uint64_t EmbeddedOverlayMainThread;
 	/** Worker threads of the external overlay */
 	uint64_t EmbeddedOverlayWorkerThreads;
+	/** Any thread that process cryptography work */
+	uint64_t CryptographyWork;
 ));
 
 /** The most recent version of the EOS_Initialize API. */
-#define EOS_INITIALIZE_API_LATEST 4
+#define EOS_INITIALIZE_API_LATEST 5
 
 /** Max length of a product name, not including the terminating null. */
 #define EOS_INITIALIZEOPTIONS_PRODUCTNAME_MAX_LENGTH 64
@@ -86,16 +88,14 @@ EOS_STRUCT(EOS_InitializeOptions, (
 	 * The name of the product using the Epic Online Services SDK.
 	 *
 	 * The name string is required to be non-empty and at maximum of EOS_INITIALIZEOPTIONS_PRODUCTNAME_MAX_LENGTH bytes long.
-	 * The string buffer can consist of the following characters:
-	 * A-Z, a-z, 0-9, dot, underscore, space, exclamation mark, question mark, and sign, hyphen, parenthesis, plus, minus, colon.
+	 * The string buffer can consist of any readable ANSI characters in the range 32-127.
 	 */
 	const char* ProductName;
 	/**
 	 * Product version of the running application.
 	 *
 	 * The version string is required to be non-empty and at maximum of EOS_INITIALIZEOPTIONS_PRODUCTVERSION_MAX_LENGTH bytes long.
-	 * The string buffer can consist of the following characters:
-	 * A-Z, a-z, 0-9, dot, underscore, space, exclamation mark, question mark, and sign, hyphen, parenthesis, plus, minus, colon.
+	 * The string buffer can consist of any readable ANSI characters in the range 32-127.
 	 */
 	const char* ProductVersion;
 	/** A reserved field that should always be nulled. */
@@ -103,8 +103,8 @@ EOS_STRUCT(EOS_InitializeOptions, (
 	/**
 	 * This field is for system specific initialization if any.
 	 *
-	 * If provided then the structure will be located in <System>/eos_<system>.h.
-	 * The structure will be named EOS_<System>_InitializeOptions.
+	 * If provided then the structure will be located in {System}/eos_{system}.h.
+	 * The structure will be named EOS_{System}_InitializeOptions.
 	 */
 	void* SystemInitializeOptions;
 	/** The thread affinity override values for each category of thread. */

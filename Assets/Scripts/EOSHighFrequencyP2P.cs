@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Text;
     using UnityEngine;
     using Epic.OnlineServices;
@@ -47,7 +48,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public bool sendActive = false;
         private List<float> dataDump;
-
+        private const string CoordinateMessagePrefix = "m";
+        
 #if UNITY_EDITOR
         void OnPlayModeChanged(UnityEditor.PlayModeStateChange modeChange)
         {
@@ -164,7 +166,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void SendMessage(ProductUserId friendId, string message)
         {
-            if (!friendId.IsValid())
+            if (friendId == null || !friendId.IsValid())
             {
                 Debug.LogError("EOS P2PNAT SendMessage: bad input data: account id is wrong.");
                 return;
@@ -299,59 +301,34 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (!peerId.IsValid())
                 {
-                    Debug.LogErrorFormat("EOS P2PNAT HandleReceivedMessages: ProductUserId peerId is not valid!");
+                    Debug.LogError($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: ProductUserId for '{peerId}' is not valid!");
                     return null;
                 }
+                string message = System.Text.Encoding.UTF8.GetString(data);
+                if (string.IsNullOrEmpty(message))
+                {
+                    Debug.LogWarning($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: Received an empty message.");
+                    return null;
+                }
+                else if (TryDeserializeCoordinatePacket(message, out float xPos, out float yPos))
+                {
+                    Debug.Log($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: Particle coordinates received: x={xPos}, y={yPos}");
 
-                /*string message = System.Text.Encoding.UTF8.GetString(data);
-
-                    ChatEntry newMessage = new ChatEntry()
+                    if (owner != null && owner.ParticleManager != null)
                     {
-                        isOwnEntry = false,
-                        Message = message.Substring(1)
-                    };
-
-                    if (ChatDataCache.TryGetValue(peerId, out ChatWithFriendData chatData))
-                    {
-                        // Update existing chat
-                        chatData.ChatLines.Enqueue(newMessage);
-
-                        ChatDataCacheDirty = true;
-                        return peerId;
+                        owner.ParticleManager.SpawnParticles(xPos, yPos);
                     }
                     else
                     {
-                        ChatWithFriendData newChat = new ChatWithFriendData(peerId);
-                        newChat.ChatLines.Enqueue(newMessage);
-
-                        // New Chat Request
-                        ChatDataCache.Add(peerId, newChat);
-
-                        return peerId;
+                        Debug.LogWarning($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: ParticleManager or owner reference is missing.");
                     }
-                }
-            
-                else if (message.StartsWith("m"))
-                {
-                    message = message.Substring(1);
-
-                    string[] coords = message.Split(',');
-                    int xPos = Int32.Parse(coords[0]);
-                    int yPos = Int32.Parse(coords[1]);
-                    Debug.Log("EOS P2PNAT HandleReceivedMessages:  Mouse position Recieved at " + xPos + ", " + yPos);
-
-                    ParticleController.SpawnParticles(xPos, yPos, parent);
 
                     return peerId;
                 }
-
-
-
-                else
+                else if (message.StartsWith(CoordinateMessagePrefix, StringComparison.Ordinal))
                 {
-                    Debug.LogErrorFormat("EOS P2PNAT HandleReceivedMessages: error while reading data, code: {0}", result);
-                    return null;
-                }*/
+                    Debug.LogWarning($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: Malformed coordinate message received.");
+                }
             }
             return null;
         }
@@ -420,6 +397,30 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogErrorFormat("P2p (OnIncomingConnectionRequest): error while accepting connection, code: {0}", result);
             }
+        }
+
+        public static string SerializeCoordinatePacket(float x, float y)
+        {
+            // Coordinate packets are serialized as: "m<x>,<y>".
+            // The leading "m" identifies a coordinate message.
+            return string.Format(CultureInfo.InvariantCulture, "{0}{1},{2}", CoordinateMessagePrefix, x, y);
+        }
+
+        public static bool TryDeserializeCoordinatePacket(string packet, out float x, out float y)
+        {
+            x = 0f;
+            y = 0f;
+
+            if (string.IsNullOrEmpty(packet) || !packet.StartsWith(CoordinateMessagePrefix, StringComparison.Ordinal))
+            {
+                return false;
+            }
+
+            // Remove the CoordinateMessagePrefix via Substring(1) before splitting "<x>,<y>".
+            string[] parts = packet.Substring(1).Split(',');
+            return parts.Length == 2
+                && float.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out x)
+                && float.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out y);
         }
     }
 }

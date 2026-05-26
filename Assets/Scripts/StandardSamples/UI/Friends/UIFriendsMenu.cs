@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -33,6 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices;
     using Epic.OnlineServices.Friends;
     using Epic.OnlineServices.Presence;
+    using PlayEveryWare.EpicOnlineServices.Utility;
 
     /// <summary>
     /// Provides an implementation of requesting friends from the EOS SDK, arranging, and displaying the information.
@@ -292,7 +293,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Friends
         public void FriendsOverlayOnClick()
         {
-            Debug.Log("FriendsOverlayOnClick: IsValid=" + EOSManager.Instance.GetLocalUserId().IsValid() + ", accountId" + EOSManager.Instance.GetLocalUserId().ToString());
+            Debug.Log("FriendsOverlayOnClick: IsValid=" + EOSManager.Instance.GetLocalUserId().IsValid() + ", accountId=" + LoggingUtils.Redact(EOSManager.Instance.GetLocalUserId()));
             FriendsManager.ShowFriendsOverlay(null);
         }
 

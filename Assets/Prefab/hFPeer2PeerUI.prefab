@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -424.5524, y: 89}
-  m_SizeDelta: {x: 68.89522, y: 100}
+  m_AnchoredPosition: {x: -327.7, y: 51.6}
+  m_SizeDelta: {x: 81.92, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4739605010245602328
 MonoBehaviour:
@@ -344,8 +344,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -435.27, y: 79}
-  m_SizeDelta: {x: 90, y: 30}
+  m_AnchoredPosition: {x: -438, y: 86}
+  m_SizeDelta: {x: 60, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5498436407853648522
 CanvasRenderer:
@@ -594,7 +594,20 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnSubmit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5923979916340501358}
+        m_TargetAssemblyTypeName: PlayEveryWare.EpicOnlineServices.Samples.UIHighFrequencyPeer2PeerMenu,
+          com.playeveryware.eos.samples
+        m_MethodName: SetPacketSize
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   m_OnDidEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -645,8 +658,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 157.6, y: -83.8}
-  m_SizeDelta: {x: 120, y: 80}
+  m_AnchoredPosition: {x: 121.2, y: -25}
+  m_SizeDelta: {x: 229.55, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8712196734880726169
 MonoBehaviour:
@@ -1266,7 +1279,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7443171737537963613
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1287,6 +1300,7 @@ RectTransform:
   - {fileID: 4106462842499232576}
   - {fileID: 3981306971049799961}
   - {fileID: 880074398133336029}
+  - {fileID: 5692114666768329888}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1307,7 +1321,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65825c19bd722fc419825bd6ae40e842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Peer2PeerUIParent: {fileID: 7443171737537963610}
+  UIFirstSelected: {fileID: 0}
+  UIParent: {fileID: 7443171737537963610}
   ChatWindow: {fileID: 0}
   CloseChatButton: {fileID: 0}
   NATTypeText: {fileID: 0}
@@ -1316,9 +1331,7 @@ MonoBehaviour:
   ChatEntryPrefab: {fileID: 0}
   ChatMessageInput: {fileID: 0}
   ProductUserIdInput: {fileID: 2774060319215944779}
-  ParticleManager: {fileID: 0}
-  refreshRateSlider: {fileID: 0}
-  UIFirstSelected: {fileID: 0}
+  ParticleManager: {fileID: 2535667023376982277}
 --- !u!1 &7915252236970954418
 GameObject:
   m_ObjectHideFlags: 0
@@ -1399,6 +1412,58 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Enter text...
+--- !u!1 &8572365727480967414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5692114666768329888}
+  - component: {fileID: 2535667023376982277}
+  m_Layer: 5
+  m_Name: Particle System Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5692114666768329888
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8572365727480967414}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7443171737537963613}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -79.38504, y: -93.1162}
+  m_SizeDelta: {x: 1180, y: 494.92957}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2535667023376982277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8572365727480967414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 133c983cf907a2e439144fbc92f76e6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ClickParticles: {fileID: 7835928988481814867, guid: 0685a9739d26617489b31c8e5899b4fe,
+    type: 3}
+  rootCanvas: {fileID: 0}
 --- !u!1 &8776816273703839271
 GameObject:
   m_ObjectHideFlags: 0
@@ -1711,25 +1776,26 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnSubmit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5923979916340501358}
+        m_TargetAssemblyTypeName: PlayEveryWare.EpicOnlineServices.Samples.UIHighFrequencyPeer2PeerMenu,
+          com.playeveryware.eos.samples
+        m_MethodName: SetRefreshRate
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   m_OnDidEndEdit:
     m_PersistentCalls:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
@@ -1853,7 +1919,7 @@ PrefabInstance:
     - target: {fileID: 8911648707042544545, guid: 938b5e90c4f62df45a48e6b0b954e9f2,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8911648707042544545, guid: 938b5e90c4f62df45a48e6b0b954e9f2,
         type: 3}
@@ -1863,17 +1929,17 @@ PrefabInstance:
     - target: {fileID: 8911648707042544545, guid: 938b5e90c4f62df45a48e6b0b954e9f2,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8911648707042544545, guid: 938b5e90c4f62df45a48e6b0b954e9f2,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 229.55
       objectReference: {fileID: 0}
     - target: {fileID: 8911648707042544545, guid: 938b5e90c4f62df45a48e6b0b954e9f2,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8911648707042544545, guid: 938b5e90c4f62df45a48e6b0b954e9f2,
         type: 3}
@@ -1913,12 +1979,12 @@ PrefabInstance:
     - target: {fileID: 8911648707042544545, guid: 938b5e90c4f62df45a48e6b0b954e9f2,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 114.775
       objectReference: {fileID: 0}
     - target: {fileID: 8911648707042544545, guid: 938b5e90c4f62df45a48e6b0b954e9f2,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 8911648707042544545, guid: 938b5e90c4f62df45a48e6b0b954e9f2,
         type: 3}

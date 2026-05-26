@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -108,8 +108,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         public static void ListOfStringsToEnumConverterTestClass_ReadJson_InvalidTokenType_ThrowsException()
         {
             var converter = new ListOfStringsToEnumConverterTestClass<TestOrderEnum>(TESTORDERENUM_CUSTOM_MAPPING);
-            var invalidJson = JToken.FromObject(123); // Invalid type for enum parsing
-
+            var invalidJson = JToken.FromObject(new { abc = "def" }); // Invalid type for enum parsing
             Assert.Throws<JsonSerializationException>(() => converter.ReadJson(invalidJson.CreateReader(), typeof(TestOrderEnum), null, null));
         }
 

@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
-
 # Getting Started - Configuring the Plugin
 
 To function, the plugin needs some information from your EOS project. Be sure to read the Epic Documentation on [getting started](https://dev.epicgames.com/docs/epic-account-services/getting-started?sessionInvalidated=true) with Epic Online Services.
@@ -47,4 +45,4 @@ Either:
 - Attach `EOSManager.cs (Script)` to a Unity object, and it will initialize the plugin with the specified configuration in `OnAwake()` (this is what `Singletons.prefab` does).
 
 > [!NOTE]
-> The included [samples](http://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/com.playeveryware.eos/README.md#samples) already have configuration values set for you to experiment with!
+> The included [samples](http://github.com/EOS-Contrib/eos_plugin_for_unity/blob/development/com.playeveryware.eos/README.md#samples) already have configuration values set for you to experiment with!

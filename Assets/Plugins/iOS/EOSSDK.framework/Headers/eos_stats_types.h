@@ -6,7 +6,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_StatsHandle* EOS_HStats;
+EOS_EXTERN_C typedef struct EOS_StatsHandle* EOS_HStats;
 
 /** The most recent version of the EOS_Stats_IngestData struct. */
 #define EOS_STATS_INGESTDATA_API_LATEST 1
@@ -86,13 +86,13 @@ EOS_STRUCT(EOS_Stats_QueryStatsOptions, (
 	int32_t ApiVersion;
 	/** The Product User ID of the local user requesting the stats. Set to null for dedicated server. */
 	EOS_ProductUserId LocalUserId;
-	/** If not EOS_STATS_TIME_UNDEFINED then this is the POSIX timestamp for start time (Optional). */
+	/** If not EOS_STATS_TIME_UNDEFINED then this is the POSIX timestamp for start time (Optional - set to EOS_STATS_TIME_UNDEFINED to ignore this parameter). */
 	int64_t StartTime;
-	/** If not EOS_STATS_TIME_UNDEFINED then this is the POSIX timestamp for end time (Optional). */
+	/** If not EOS_STATS_TIME_UNDEFINED then this is the POSIX timestamp for end time (Optional - set to EOS_STATS_TIME_UNDEFINED to ignore this parameter). */
 	int64_t EndTime;
-	/** An array of stat names to query for (Optional). */
+	/** An array of stat names to query for (Optional - set to nullptr to query for all stats). */
 	const char** StatNames;
-	/** The number of stat names included in query (Optional), may not exceed EOS_STATS_MAX_QUERY_STATS. */
+	/** The number of stat names included in query (Optional - set to 0 when querying for all stats), may not exceed EOS_STATS_MAX_QUERY_STATS. */
 	uint32_t StatNamesCount;
 	/** The Product User ID for the user whose stats are being retrieved */
 	EOS_ProductUserId TargetUserId;

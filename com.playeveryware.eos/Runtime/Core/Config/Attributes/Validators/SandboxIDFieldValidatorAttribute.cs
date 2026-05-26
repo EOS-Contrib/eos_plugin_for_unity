@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,39 +23,27 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using System.Text;
-    using System.Text.RegularExpressions;
 
     [AttributeUsage(AttributeTargets.Field)]
-
     public class SandboxIDFieldValidatorAttribute : FieldValidatorAttribute
     {
-        const string PreProductionEnvironmentRegex = @"^p\-[a-zA-Z\d]{30}$";
-        public const string FieldDidNotMatchMessage = "The field value is not a GUID, and did not match the regex used for Pre Production Environments: '" + PreProductionEnvironmentRegex + "'.";
+        private const string InvalidSandboxIdMessage = "SandboxId is invalid or empty.";
 
         public override bool FieldValueIsValid(object toValidate, out string configurationProblemMessage)
         {
-            if (!(toValidate is string singleStringValue))
+            if (!(toValidate is SandboxId sandboxId))
             {
-                configurationProblemMessage = $"The field value is not of type string.";
+                configurationProblemMessage = $"The field value is not of type SandboxId.";
                 return false;
             }
 
-            if (Regex.IsMatch(singleStringValue, PreProductionEnvironmentRegex))
+            if (sandboxId.IsValid() || sandboxId.IsEmpty)
             {
                 configurationProblemMessage = string.Empty;
                 return true;
             }
 
-            if (Guid.TryParse(singleStringValue, out _))
-            {
-                configurationProblemMessage = string.Empty;
-                return true;
-            }
-
-            configurationProblemMessage = FieldDidNotMatchMessage;
+            configurationProblemMessage = InvalidSandboxIdMessage;
             return false;
         }
     }

@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
-
 ## **Metrics Demo**
 The Metrics demo showcases the player metrics interface, allowing for game use and analytical data to be collected. This data can then be accessed through the developer portal for the product.
 - ``Display Name`` Allows the user to choose what name their account is tied to.

@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
-
 # <div align="center">Documentation Style Guide</div>
 ---
 
@@ -33,24 +31,9 @@ Fundamentally (and very broadly speaking) every document should contain two or o
 
 # Header 
 
-## Logo:
-
-Each document should start (before the document title) with the PlayEveryWare, Inc. logo. The image should be surrounded by a link (`<a> </a>`) tag with the `href` set to the main [README.md document](/com.playeveryware.eos/README.md), and with the width of the image set to 10%.
-
-Markdown:
-```markdown
-<a href="/com.playeveryware.eos/README.md">
-    <img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/>
-</a>
-```
-
-What it looks like:
-
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
-
 ## Title:
 
-Following the PlayEveryWare, Inc. logo should be the title of the document centered, followed immediately by a horizontal rule. 
+The title of the document should be centered, followed immediately by a horizontal rule. 
 
 As an example of how to properly add a title to the document, below is the markdown used to create the header for _this_ document.
 

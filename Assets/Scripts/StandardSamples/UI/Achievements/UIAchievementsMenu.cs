@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -57,6 +57,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             public DefinitionV2 Definition;
             public PlayerAchievement? PlayerData;
+
+            public Texture2D UnlockedIcon;
+            public Texture2D LockedIcon;
         }
         List<AchievementData> achievementDataList = new();
 
@@ -87,20 +90,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //TODO: refresh achievement data without having to log out
         public async void UnlockAchievement()
         {
-            if (displayIndex < 0 || displayIndex > AchievementsService.GetAchievementsCount())
+            if (displayIndex < 0 || displayIndex >= achievementDataList.Count)
             {
                 return;
             }
 
-            var definition = AchievementsService.Instance.GetAchievementDefinitionAtIndex(displayIndex);
+            var definition = achievementDataList[displayIndex].Definition;
 
             try
             {
-                await AchievementsService.Instance.UnlockAchievementAsync(definition.AchievementId);
+                var playerAchievement = await AchievementsService.Instance.UnlockAchievementAsync(definition.AchievementId);
+                achievementDataList[displayIndex].PlayerData = playerAchievement;
+                DisplayPlayerAchievement(definition);
+                
             }
             catch (Exception e)
             {
-                Debug.LogError(e.Message);
+                Debug.LogError($"{nameof(UIAchievementsMenu)} {nameof(UnlockAchievement)}: Error unlocking achievement: {e.Message}");
             }
         }
 
@@ -136,7 +142,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 var userId = EOSManager.Instance.GetProductUserId();
-                if (userId.IsValid())
+                if (userId != null && userId.IsValid())
                 {
                     foreach (var playerAch in AchievementsService.Instance.CachedPlayerAchievements(userId))
                     {
@@ -179,13 +185,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             bool unlocked = achievement.PlayerData.HasValue && achievement.PlayerData.Value.Progress >= 1;
 
-            Task<Texture2D> getIconTextureTask = unlocked
-                ? AchievementsService.Instance.GetAchievementUnlockedIconTexture(achievementId)
-                : AchievementsService.Instance.GetAchievementLockedIconTexture(achievementId);
+            achievement.UnlockedIcon = 
+                await AchievementsService.Instance.GetAchievementUnlockedIconTexture(achievementId);
 
-            var tex = await getIconTextureTask;
-            
-            button.SetIconTexture(tex);
+            achievement.LockedIcon =
+                await AchievementsService.Instance.GetAchievementLockedIconTexture(achievementId);
+
+            Texture2D iconTexture = unlocked ? achievement.UnlockedIcon : achievement.LockedIcon;
+
+            button.SetIconTexture(iconTexture);
         }
 
         public void OnShowDefinitionChanged(bool value)
@@ -207,7 +215,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             OnDefinitionIdButtonClicked(displayIndex);
         }
 
-        public async void OnDefinitionIdButtonClicked(int i)
+        public void OnDefinitionIdButtonClicked(int i)
         {
             if (i > AchievementsService.GetAchievementsCount())
             {
@@ -225,8 +233,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // Asynchronously retrieve the icons and set the textures
             // DisplayPlayerAchievement then will set the appropriate icon to be visible
-            achievementUnlockedIcon.texture = await AchievementsService.Instance.GetAchievementUnlockedIconTexture(definition.AchievementId);
-            achievementLockedIcon.texture = await AchievementsService.Instance.GetAchievementLockedIconTexture(definition.AchievementId);
+            achievementUnlockedIcon.texture = achievementData.UnlockedIcon;
+            achievementLockedIcon.texture = achievementData.LockedIcon;
 
             unlockAchievementButton.gameObject.SetActive(true);
 
@@ -245,8 +253,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //Show player-specific achievement data
         void DisplayPlayerAchievement(DefinitionV2 definition)
         {
+            var productUserId = EOSManager.Instance.GetProductUserId();
+            if (productUserId == null || !productUserId.IsValid())
+            {
+                definitionsDescription.text = "Player achievement data unavailable: user is not connected.";
+                definitionsDescription.gameObject.SetActive(true);
+                unlockAchievementButton.interactable = false;
+                return;
+            }
+
             PlayerAchievement? achievementNullable = null;
-            foreach (var ach in AchievementsService.Instance.CachedPlayerAchievements(EOSManager.Instance.GetProductUserId()))
+            foreach (var ach in AchievementsService.Instance.CachedPlayerAchievements(productUserId))
             {
                 if (ach.AchievementId == definition.AchievementId)
                 {
@@ -283,6 +300,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             definitionsDescription.gameObject.SetActive(true);
             achievementUnlockedIcon.gameObject.SetActive(!locked);
             achievementLockedIcon.gameObject.SetActive(locked);
+            unlockAchievementButton.interactable = locked;
         }
 
         //Show global achievement definition

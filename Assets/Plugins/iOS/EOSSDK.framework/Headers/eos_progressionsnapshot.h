@@ -21,8 +21,12 @@
  * @param Options Object containing properties that identifies the PUID this Snapshot will belong to.
  * @param OutSnapshotId A progression-snapshot identifier output parameter. Use that identifier to reference the snapshot in the other APIs.
  *
- * @return EOS_Success when successful.
- *          EOS_ProgressionSnapshot_SnapshotIdUnavailable when no IDs are available. This is irrecoverable state.
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success when successful.
+ * - EOS_ProgressionSnapshot_SnapshotIdUnavailable when no IDs are available. This is irrecoverable state.
+ *
+ * @see EOS_ProgressionSnapshot_BeginSnapshotOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_ProgressionSnapshot_BeginSnapshot(EOS_HProgressionSnapshot Handle, const EOS_ProgressionSnapshot_BeginSnapshotOptions* Options, uint32_t* OutSnapshotId);
 
@@ -34,7 +38,12 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_ProgressionSnapshot_BeginSnapshot(EOS_HProgres
  * The order in which the Key/Value pairs are added is stored as is for later retrieval/display.
  * Ideally, you would make multiple calls to AddProgression() followed by a single call to SubmitSnapshot().
  *
- * @return EOS_Success when successful; otherwise, EOS_NotFound
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success when successful
+ * - EOS_NotFound oherwise
+ *
+ * @see EOS_ProgressionSnapshot_AddProgressionOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_ProgressionSnapshot_AddProgression(EOS_HProgressionSnapshot Handle, const EOS_ProgressionSnapshot_AddProgressionOptions* Options);
 
@@ -42,18 +51,29 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_ProgressionSnapshot_AddProgression(EOS_HProgre
  * Saves the previously added Key/Value pairs of a given Snapshot to the service.
  *
  * Note: This will overwrite any prior progression data stored with the service that's associated with the user.
+ *
+ * @see EOS_ProgressionSnapshot_SubmitSnapshotOptions
+ * @see EOS_ProgressionSnapshot_OnSubmitSnapshotCallback
  */
 EOS_DECLARE_FUNC(void) EOS_ProgressionSnapshot_SubmitSnapshot(EOS_HProgressionSnapshot Handle, const EOS_ProgressionSnapshot_SubmitSnapshotOptions* Options, void* ClientData, const EOS_ProgressionSnapshot_OnSubmitSnapshotCallback CompletionDelegate);
 
 /**
  * Cleans up and releases resources associated with the given progression snapshot identifier.
  *
- * @return EOS_Success when successful; otherwise, EOS_NotFound
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success when successful
+ * - EOS_NotFound otherwise
+ *
+ * @see EOS_ProgressionSnapshot_EndSnapshotOptions
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_ProgressionSnapshot_EndSnapshot(EOS_HProgressionSnapshot Handle, const EOS_ProgressionSnapshot_EndSnapshotOptions* Options);
 
 /**
  * Wipes out all progression data for the given user from the service. However, any previous progression data that haven't
  * been submitted yet are retained.
+ *
+ * @see EOS_ProgressionSnapshot_DeleteSnapshotOptions
+ * @see EOS_ProgressionSnapshot_OnDeleteSnapshotCallback
  */
 EOS_DECLARE_FUNC(void) EOS_ProgressionSnapshot_DeleteSnapshot(EOS_HProgressionSnapshot Handle, const EOS_ProgressionSnapshot_DeleteSnapshotOptions* Options, void* ClientData, const EOS_ProgressionSnapshot_OnDeleteSnapshotCallback CompletionDelegate);

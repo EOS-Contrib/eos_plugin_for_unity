@@ -21,9 +21,8 @@
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate.
  * @param CompletionDelegate This function is called when the ingest stat operation completes.
  *
- * @return EOS_Success if the operation completes successfully
- *         EOS_InvalidParameters if any of the options are incorrect
- *         EOS_InvalidUser if target user ID is missing or incorrect
+ * @see EOS_Stats_IngestStatOptions
+ * @see EOS_Stats_OnIngestStatCompleteCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Stats_IngestStat(EOS_HStats Handle, const EOS_Stats_IngestStatOptions* Options, void* ClientData, const EOS_Stats_OnIngestStatCompleteCallback CompletionDelegate);
 
@@ -34,9 +33,8 @@ EOS_DECLARE_FUNC(void) EOS_Stats_IngestStat(EOS_HStats Handle, const EOS_Stats_I
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate This function is called when the query player stats operation completes.
  *
- * @return EOS_Success if the operation completes successfully
- *         EOS_InvalidParameters if any of the options are incorrect
- *         EOS_InvalidUser if target user ID is missing or incorrect
+ * @see EOS_Stats_QueryStatsOptions
+ * @see EOS_Stats_OnQueryStatsCompleteCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Stats_QueryStats(EOS_HStats Handle, const EOS_Stats_QueryStatsOptions* Options, void* ClientData, const EOS_Stats_OnQueryStatsCompleteCallback CompletionDelegate);
 
@@ -45,6 +43,7 @@ EOS_DECLARE_FUNC(void) EOS_Stats_QueryStats(EOS_HStats Handle, const EOS_Stats_Q
  *
  * @param Options The Options associated with retrieving the stat count
  *
+ * @see EOS_Stats_GetStatCountOptions
  * @see EOS_Stats_CopyStatByIndex
  *
  * @return Number of stats or 0 if there is an error
@@ -57,11 +56,15 @@ EOS_DECLARE_FUNC(uint32_t) EOS_Stats_GetStatsCount(EOS_HStats Handle, const EOS_
  * @param Options Structure containing the Product User ID and index being accessed
  * @param OutStat The stat data for the given index, if it exists and is valid
  *
+ * @see EOS_Stats_CopyStatByIndexOptions
+ * @see EOS_Stats_Stat
  * @see EOS_Stats_Stat_Release
  *
- * @return EOS_Success if the information is available and passed out in OutStat
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the stat is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutStat
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the stat is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Stats_CopyStatByIndex(EOS_HStats Handle, const EOS_Stats_CopyStatByIndexOptions* Options, EOS_Stats_Stat ** OutStat);
 
@@ -71,10 +74,14 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Stats_CopyStatByIndex(EOS_HStats Handle, const
  * @param Options Structure containing the Product User ID and name being accessed
  * @param OutStat The stat data for the given name, if it exists and is valid
  *
+ * @see EOS_Stats_CopyStatByNameOptions
+ * @see EOS_Stats_Stat
  * @see EOS_Stats_Stat_Release
  *
- * @return EOS_Success if the information is available and passed out in OutStat
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the stat is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutStat
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the stat is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Stats_CopyStatByName(EOS_HStats Handle, const EOS_Stats_CopyStatByNameOptions* Options, EOS_Stats_Stat ** OutStat);

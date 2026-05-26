@@ -1,16 +1,16 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
-* 
+* Copyright (c) 2026 Epic Games Inc
+*
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
 * furnished to do so, subject to the following conditions:
-* 
+*
 * The above copyright notice and this permission notice shall be included in all
 * copies or substantial portions of the Software.
-* 
+*
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -29,11 +29,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices.Lobby;
     using Epic.OnlineServices.RTC;
     using Epic.OnlineServices.RTCAudio;
-	
+    using PlayEveryWare.EpicOnlineServices.Utility;
+
     public enum LobbyChangeType
-    { 
-        Create, 
-        Join, 
+    {
+        Create,
+        Join,
         Leave,
         Kicked
     }
@@ -230,7 +231,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                     LobbyAttribute newAttribute = new LobbyAttribute();
                     newAttribute.InitFromAttribute(outAttribute);
- 
+
                     Members[memberIndex].MemberAttributes.Add(newAttribute.Key, newAttribute);
                 }
 
@@ -453,7 +454,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private Dictionary<ProductUserId, LobbyInvite> Invites;
         private LobbyInvite CurrentInvite;
 
-        // Search 
+        // Search
         private LobbySearch CurrentSearch;
         private Dictionary<Lobby, LobbyDetails> SearchResults;
 
@@ -482,6 +483,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private List<OnMemberUpdateCallback> MemberUpdateCallbacks;
 
+        //Global Constants
+        public const string ATTRIBUTE_KEY_LEVEL = "LEVEL";
+        public const string ATTRIBUTE_KEY_BUCKET = "bucket";
         public class LobbyChangeEventArgs
         {
             public string LobbyId { get; }
@@ -507,7 +511,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private List<Action> LobbyUpdateCallbacks;
 
         private EOSUserInfoManager UserInfoManager;
-        
+
         public LocalRTCOptions? customLocalRTCOptions;
 
         // Init
@@ -621,14 +625,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void SubscribeToLobbyUpdates()
         {
             if(IsLobbyNotificationValid(LobbyUpdateNotification) ||
-                IsLobbyNotificationValid(LobbyMemberUpdateNotification) || 
+                IsLobbyNotificationValid(LobbyMemberUpdateNotification) ||
                 IsLobbyNotificationValid(LobbyMemberStatusNotification) ||
                 IsLobbyNotificationValid(LeaveLobbyRequestedNotification))
             {
                 Debug.LogError("Lobbies (SubscribeToLobbyUpdates): SubscribeToLobbyUpdates called but already subscribed!");
                 return;
             }
-            
+
 
             var lobbyInterface = EOSManager.Instance.GetEOSLobbyInterface();
             LobbyUpdateNotification = new NotifyEventHandle(AddNotifyLobbyUpdateReceived(lobbyInterface, OnLobbyUpdateReceived), (ulong handle) =>
@@ -636,7 +640,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 EOSManager.Instance.GetEOSLobbyInterface().RemoveNotifyLobbyUpdateReceived(handle);
             });
 
-            LobbyMemberUpdateNotification = new NotifyEventHandle(AddNotifyLobbyMemberUpdateReceived(lobbyInterface, OnMemberUpdateReceived), (ulong handle) => 
+            LobbyMemberUpdateNotification = new NotifyEventHandle(AddNotifyLobbyMemberUpdateReceived(lobbyInterface, OnMemberUpdateReceived), (ulong handle) =>
             {
                 EOSManager.Instance.GetEOSLobbyInterface().RemoveNotifyLobbyMemberUpdateReceived(handle);
             });
@@ -667,8 +671,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         private void SubscribeToLobbyInvites()
         {
-            if (IsLobbyNotificationValid(LobbyInviteNotification) || 
-                IsLobbyNotificationValid(LobbyInviteAcceptedNotification) || 
+            if (IsLobbyNotificationValid(LobbyInviteNotification) ||
+                IsLobbyNotificationValid(LobbyInviteAcceptedNotification) ||
                 IsLobbyNotificationValid(JoinLobbyAcceptedNotification) )
             {
                 Debug.LogError("Lobbies (SubscribeToLobbyInvites): SubscribeToLobbyInvites called but already subscribed!");
@@ -698,8 +702,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //-------------------------------------------------------------------------
         private void UnsubscribeFromLobbyInvites()
         {
-            LobbyInviteNotification.Dispose(); 
-            LobbyInviteAcceptedNotification.Dispose(); 
+            LobbyInviteNotification.Dispose();
+            LobbyInviteAcceptedNotification.Dispose();
             JoinLobbyAcceptedNotification.Dispose();
         }
 
@@ -882,9 +886,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             Debug.LogFormat("Lobbies (OnRTCRoomParticipantStatusChanged): LocalUserId={0}, Room={1}, ParticipantUserId={2}, ParticipantStatus={3}, MetadataCount={4}",
-                data.LocalUserId, 
-                data.RoomName, 
-                data.ParticipantId, 
+                LoggingUtils.Redact(data.LocalUserId),
+                data.RoomName,
+                LoggingUtils.Redact(data.ParticipantId),
                 data.ParticipantStatus == RTCParticipantStatus.Joined ? "Joined" : "Left",
                 metadataCount);
 
@@ -1056,7 +1060,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     createLobbyOptions.LocalRTCOptions = customLocalRTCOptions;
                 }
 
-                createLobbyOptions.EnableRTCRoom = true;      
+                createLobbyOptions.EnableRTCRoom = true;
             }
             else
             {
@@ -1225,7 +1229,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             options.LobbyId = CurrentLobby.Id;
             options.LocalUserId = EOSManager.Instance.GetProductUserId();
 
-            Debug.LogFormat("Lobbies (LeaveLobby): Attempting to leave lobby: Id='{0}', LocalUserId='{1}'", options.LobbyId, options.LocalUserId);
+            Debug.LogFormat("Lobbies (LeaveLobby): Attempting to leave lobby: Id='{0}', LocalUserId='{1}'", options.LobbyId, LoggingUtils.Redact(options.LocalUserId));
 
             EOSManager.Instance.GetEOSLobbyInterface().LeaveLobby(ref options, LeaveLobbyCompleted, OnLeaveLobbyCompleted);
         }
@@ -1615,7 +1619,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 // Do not allow multiple local mute toggles at the same time
                 if (lobbyMember.RTCState.MuteActionInProgress)
                 {
-                    Debug.LogWarningFormat("Lobbies (MuteMember): 'MuteActionInProgress' for productUserId {0}.", targetProductUserId);
+                    Debug.LogWarningFormat("Lobbies (MuteMember): 'MuteActionInProgress' for productUserId {0}.", LoggingUtils.Redact(targetProductUserId));
                     MuteMemberCompleted?.Invoke(Result.RequestInProgress);
                     return;
                 }
@@ -1642,7 +1646,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     AudioEnabled = shouldUserBeMuted
                 };
 
-                Debug.LogFormat("Lobbies (MuteMember): {0} remote player {1}", recevingOptions.AudioEnabled ? "Unmuting" : "Muting", targetProductUserId);
+                Debug.LogFormat("Lobbies (MuteMember): {0} remote player {1}", recevingOptions.AudioEnabled ? "Unmuting" : "Muting", LoggingUtils.Redact(targetProductUserId));
 
                 rtcAudioHandle.UpdateReceiving(ref recevingOptions, MuteMemberCompleted, OnRTCRoomUpdateReceivingCompleted);
             }
@@ -1725,7 +1729,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Ensure this update is for us
             if(EOSManager.Instance.GetProductUserId() != data.LocalUserId)
             {
-                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Incorrect LocalUserId! LocalProductId={0} != data.LocalUserId", EOSManager.Instance.GetProductUserId(), data.LocalUserId);
+                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Incorrect LocalUserId! LocalProductId={0} != data.LocalUserId", LoggingUtils.Redact(EOSManager.Instance.GetProductUserId()), LoggingUtils.Redact(data.LocalUserId));
                 return;
             }
 
@@ -1741,7 +1745,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 lobbyMember.RTCState.IsAudioOutputDisabled = data.AudioStatus == RTCAudioStatus.Disabled;
                 lobbyMember.RTCState.MuteActionInProgress = false;
 
-                Debug.LogFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Cache updated for '{0}'", lobbyMember.ProductId);
+                Debug.LogFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Cache updated for '{0}'", LoggingUtils.Redact(lobbyMember.ProductId));
 
                 _Dirty = true;
                 break;
@@ -1768,7 +1772,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Debug.LogFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Updated receiving status successfully. LocalUserId={0} Room={1}, IsMuted={2}", data.LocalUserId, data.RoomName, data.AudioEnabled == false);
+            Debug.LogFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Updated receiving status successfully. LocalUserId={0} Room={1}, IsMuted={2}", LoggingUtils.Redact(data.LocalUserId), data.RoomName, data.AudioEnabled == false);
 
             // Ensure this update is for our room
             if (!CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
@@ -1796,13 +1800,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 CurrentLobby.IsLocalUserDeafened = !data.AudioEnabled;
                 _Dirty = true;
 
-                Debug.LogFormat($"Lobbies (OnRTCRoomUpdateReceivingCompleted): Self-deafen cache updated for '{EOSManager.Instance.GetProductUserId()}' (now {CurrentLobby.IsLocalUserDeafened})");
+                Debug.LogFormat($"Lobbies (OnRTCRoomUpdateReceivingCompleted): Self-deafen cache updated for '{LoggingUtils.Redact(EOSManager.Instance.GetProductUserId())}' (now {CurrentLobby.IsLocalUserDeafened})");
                 return;
             }
 
             // This must be about another user, find that user and set the status
             foreach (LobbyMember lobbyMember in CurrentLobby.Members)
-            { 
+            {
                 if(lobbyMember.ProductId != data.ParticipantId)
                 {
                     continue;
@@ -1811,7 +1815,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 lobbyMember.RTCState.MuteActionInProgress = false;
                 lobbyMember.RTCState.IsLocalMuted = data.AudioEnabled == false;
 
-                Debug.LogFormat($"Lobbies (OnRTCRoomUpdateReceivingCompleted): Mute cache updated for '{lobbyMember.ProductId}'. (now {lobbyMember.RTCState.IsLocalMuted})");
+                Debug.LogFormat($"Lobbies (OnRTCRoomUpdateReceivingCompleted): Mute cache updated for '{LoggingUtils.Redact(lobbyMember.ProductId)}'. (now {lobbyMember.RTCState.IsLocalMuted})");
 
                 _Dirty = true;
                 break;
@@ -1863,7 +1867,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Ensure this update is for us
             if (EOSManager.Instance.GetProductUserId() != data.LocalUserId)
             {
-                Debug.LogErrorFormat("Lobbies (OnRTCBlockParticipantCompleted): Incorrect LocalUserId! LocalProductId={0} != data.LocalUserId", EOSManager.Instance.GetProductUserId(), data.LocalUserId);
+                Debug.LogErrorFormat("Lobbies (OnRTCBlockParticipantCompleted): Incorrect LocalUserId! LocalProductId={0} != data.LocalUserId", LoggingUtils.Redact(EOSManager.Instance.GetProductUserId()), LoggingUtils.Redact(data.LocalUserId));
                 return;
             }
 
@@ -1878,7 +1882,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 lobbyMember.RTCState.IsBlocked = data.Blocked;
 
-                Debug.LogFormat("Lobbies (OnRTCBlockParticipantCompleted): Cache updated for '{0}'", data.ParticipantId);
+                Debug.LogFormat("Lobbies (OnRTCBlockParticipantCompleted): Cache updated for '{0}'", LoggingUtils.Redact(data.ParticipantId));
 
                 _Dirty = true;
                 break;
@@ -2180,7 +2184,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 SearchCompleted?.Invoke(Result.InvalidProductUserID);
                 return;
             }
-            var createLobbySearchOptions = new CreateLobbySearchOptions() { MaxResults = 10}; 
+            var createLobbySearchOptions = new CreateLobbySearchOptions() { MaxResults = 10};
             Result result = EOSManager.Instance.GetEOSLobbyInterface().CreateLobbySearch(ref createLobbySearchOptions, out LobbySearch outLobbySearchHandle);
 
             if (result != Result.Success)
@@ -2244,7 +2248,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Debug.Log("Lobbies (OnLobbySearchCompleted): Search finished.");
 
             // Process Search Results
-            var lobbySearchGetSearchResultCountOptions = new LobbySearchGetSearchResultCountOptions(); 
+            var lobbySearchGetSearchResultCountOptions = new LobbySearchGetSearchResultCountOptions();
             uint searchResultCount = CurrentSearch.GetSearchResultCount(ref lobbySearchGetSearchResultCountOptions);
 
             Debug.LogFormat("Lobbies (OnLobbySearchCompleted): searchResultCount = {0}", searchResultCount);
@@ -2527,7 +2531,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 // TODO Active Join
-                //ActiveJoin = 
+                //ActiveJoin =
                 LeaveLobby(null);
                 Debug.LogError("Lobbies (JoinLobby): Leaving lobby now (must Join again, Active Join Not Implemented)!");
                 JoinLobbyCompleted?.Invoke(Result.InvalidState);

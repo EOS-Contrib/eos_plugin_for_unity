@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -100,7 +100,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "DynamicLibraryLoaderHelper";
 #elif UNITY_ANDROID
         "DynamicLibraryLoaderHelper_Android";
-#elif UNITY_STANDALONE_OSX
+#elif UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX
         "libDynamicLibraryLoaderHelper";
 #else
         "__Internal";
@@ -116,7 +116,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [DllImport(DLLHBinaryName, SetLastError = true, CharSet = CharSet.Ansi)]
         private static extern IntPtr DLLH_load_library_at_path(IntPtr ctx, string library_path);
 
-#if !UNITY_SWITCH && !UNITY_PS4 && !UNITY_PS5
+#if !UNITY_SWITCH && !UNITY_SWITCH2 && !UNITY_PS4 && !UNITY_PS5
         [DllImport(DLLHBinaryName)]
         private static extern bool DLLH_unload_library_at_path(IntPtr ctx, IntPtr library_handle);
 #endif

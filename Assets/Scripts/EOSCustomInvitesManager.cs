@@ -1,5 +1,5 @@
 ﻿/*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -306,6 +306,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             //payload can be cleared by setting an empty string
             SetPayload(string.Empty);
+        }
+
+        /// <summary>
+        /// Wrapper for functionality of [EOS_CustomInvites_DisableRequestToJoin]
+        /// </summary>
+        /// <returns><see cref="Result" /> of disabling request to join for the current local user.</returns>
+        public Result DisableRequestToJoin()
+        {
+            var options = new DisableRequestToJoinOptions();
+            var result = CustomInvitesHandle.DisableRequestToJoin(ref options);
+
+            if (result == Result.Success)
+            {
+                Debug.Log("CustomInvites (DisableRequestToJoin): request to join disabled");
+            }
+            else
+            {
+                Debug.LogErrorFormat("CustomInvites (DisableRequestToJoin): failed with result {0}", result);
+            }
+
+            return result;
         }
 
         /// <summary>

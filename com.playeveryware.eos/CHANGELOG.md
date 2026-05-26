@@ -2,6 +2,128 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.1.0] - 2026-05-19
+
+### Added
+- Added: Arm64 support for Windows.
+- Added: Support for Custom Invites Disable Requests.
+- Added: Utility to remove PUID and other identifiable information from logs.
+
+### Changed
+- Change: Update to EOS SDK 1.19.1.2-CL53289219
+- Change: High Frequency P2P script improvements.
+
+### Fixed
+- Fix: Added a HandleLogout at UIPlayerReportMenu to close Player report menu when the player Logout.
+- Fix: Updated ListOfStringsToEnumConverterTests.
+- Fix: Updated tests to use ProductConfig instead of EOSConfig.
+- Fix: TestCommon now uses the correct SessionBucketId.
+- Fix: Achievements no longer stop working after authorization expires.
+- Fix: Blocks enabling high-frequency sending when no valid peer is selected.
+- Fix: Re-authenticates when P2P disconnects mid-session.
+
+### Known Issue
+- There is a benign error message for “Social Overlay: Intent parse failure” that does not cause any issues.
+
+## [6.0.2] - 2026-03-10
+
+### Fixed
+- Fix: Preserve ListOfStringsTo* converters to prevent code stripping from breaking ExchangeCode login.
+- Fix: Fix Windows plugin path to resolve editor errors and freezes for Android.
+
+## [6.0.0] - 2026-02-10
+
+### Added
+- Added: documentation on binary-only updates when upgrading to new versions of EOS.
+
+### Removed
+- Removed: Support for Windows 32-bit (x86)
+
+### Changed
+- Change: Update to EOS SDK 1.19.0.3-CL49960398
+- Change: Achievements scene displays updated achievement image right after unlocking for better user feedback and disables unlock button when achievement is already unlocked.
+- Change: Increased ContinuanceToken buffer size.
+- Change: Changed the default logging level for EOS logging to VeryVerbose.
+- Change: EOS Config platform tabs refresh dynamically so that each platform tab displays the current deployment name.
+
+### Fixed
+- Fix: EOS pre-build validator catches and logs missing deployment ID before crash.
+- Fix: Sandbox and Deployment ids provided by command line arguments now apply correctly to the PlatformConfig for platforms where the native libs create the PlatformInterface instance.
+- Fix: Platform friends now show up in the overlay.
+- Fix: Defining the EOS_DISABLE symbol no longer causes build failures for non-Windows platforms.
+- Fix: High-frequency P2P scene improvements (particles-on-click flow optimization, improved logs, readme spelling error, etc.).
+- Fix: Lobbies scene improvements (added search button, fixed Copy ID error, updated readme).
+- Fix: Sanctions and report scene prevents null reference exceptions during popup initialization.
+- Fix: EOS Config window initialization exception.
+- Fix: Overlay now accepts @ as a keyboard input when using a European keyboard.
+- Fix: Store demo Query Offers button now works on mouse click.
+- Fix: Prevent ExchangeCode auth retry loop.
+- Fix: Restored missing references to prevent softlock when navigating some menus with the controller.
+- Fix: Null Reference Error in Sessions & Matchmaking scene when opening the Friends tab.
+- Fix: Deployment resolution when multiple deployments exist and auto-assign single sandbox to the deployments.
+
+## [5.1.3] - 2026-01-13
+
+### Fixed
+- Fix: UINativeLibVersion.cs compile error
+- Fix: RTC initialization error in the Unity editor on Mac.
+
+## [5.1.2] - 2025-11-25
+
+### Added
+- Added: Documentation about IL2CPP Setup to prevent code stripping
+- Added: Add QueryEntitlement and QueryOwnership tests to the Store demo
+
+### Changed
+- Change: Updated Android Documentation
+- Change: Packages no longer include .gitattributes files
+- Change: Improved UIHighFrequencyPeer2PeerMenu input validation
+
+### Fixed
+- Fix: NullReferenceException when using the Copy Log button in the Achievements sample scene
+- Fix: Linux build support
+- Fix: Updating EOS Config in the UI now saves it to the .json
+- Fix: Support for MacOS
+
+## [5.1.0] - 2025-11-04
+
+### Added
+- Added: Android support for 16kb devices.
+
+### Changed
+- Change: Update to EOS SDK 1.18.1.2-CL47370208
+- Change: Android JDK version update to 11
+
+### Fixed
+- Fix: Prevent Newtonsoft from being stripped
+- Fix: Allow macOS application to shut down
+
+### Notice
+- Mac is using the 1.17.1.3 EOS SDK version of libEOSSDK-Mac-Shipping.dylib due to a bug with the 1.18.1.2 version.
+
+## [4.1.1] - 2025-08-26
+
+### Changed
+- Fix: Fixed the error related to Gradle build failures on Android
+
+## [4.1.0] - 2025-08-05
+
+### Changed
+- Update to EOS SDK 1.17.1.3
+- Fix: SendMessage does not verify if the P2P connection is fully established before sending messages
+
+## [4.0.2] - 2025-06-17
+
+### Changed
+- EOS Disable fix
+- Config.cs fix for console support
+
+## [4.0.1] - 2025-02-14
+
+### Changed
+- update to EOS SDK 1.17.0- HF
+
+
 ## [4.0.0] - 2025-02-14
 
 ### Changed
@@ -297,7 +419,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Introduced support for `StatsManager` and async operations.
 - Implemented deployment overrides with `-epicdeploymentid` argument.
 
-**Full Changelog**: https://github.com/PlayEveryWare/eos_plugin_for_unity/compare/v3.2.1...v3.3.0
+**Full Changelog**: https://github.com/EOS-Contrib/eos_plugin_for_unity/compare/v3.2.1...v3.3.0
 
 # [3.2.1] - 2024-06-24
 

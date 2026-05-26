@@ -1,5 +1,3 @@
-<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
-
 # <div align="center"> Frequently Asked Questions (FAQ)</div>
 ---
 
@@ -26,7 +24,7 @@
 ## Why does the plugin fail to work after changing configuration?
 
 To rerun in UnityEditor without rebooting, we must reload the EOS SDK dll between runs.  
-To find out why and how to do so look see our documentation on [Unity Specific aspects of implementing EOS](https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/com.playeveryware.eos/Documentation~/unity_specific.md).
+To find out why and how to do so look see our documentation on [Unity Specific aspects of implementing EOS](https://github.com/EOS-Contrib/eos_plugin_for_unity/blob/development/com.playeveryware.eos/Documentation~/unity_specific.md).
 
 ## How do I override sandbox or deployment IDs when publishing on the Epic Games Store?
 
@@ -124,7 +122,7 @@ Which mainly happens when adding the UPM `via git url`
 To fix this you may do one of the following:
 
 - Initialize git lfs on the package folder (from a command window `git lfs install`).
-- Add the UPM `via tarball` downloaded the [releases](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases) on GitHub instead.
+- Add the UPM `via tarball` downloaded the [releases](https://github.com/EOS-Contrib/eos_plugin_for_unity/releases) on GitHub instead.
 
 ## Why am I getting Overlay Errors?
 Overlay errors are most likely due to not having the overlay installed, this is done in two steps:

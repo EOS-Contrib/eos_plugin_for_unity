@@ -63,10 +63,12 @@ EOS_DECLARE_FUNC(void) EOS_UserInfo_QueryUserInfoByExternalAccount(EOS_HUserInfo
  * @param Options structure containing the input parameters
  * @param OutUserInfo out parameter used to receive the EOS_UserInfo structure.
  *
- * @return EOS_Success if the information is available and passed out in OutUserInfo
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_IncompatibleVersion if the API version passed in is incorrect
- *         EOS_NotFound if the user info is not locally cached. The information must have been previously cached by a call to EOS_UserInfo_QueryUserInfo
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutUserInfo
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_IncompatibleVersion if the API version passed in is incorrect
+ * - EOS_NotFound if the user info is not locally cached. The information must have been previously cached by a call to EOS_UserInfo_QueryUserInfo
  *
  * @see EOS_UserInfo
  * @see EOS_UserInfo_CopyUserInfoOptions
@@ -79,6 +81,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_UserInfo_CopyUserInfo(EOS_HUserInfo Handle, co
  *
  * @param Options The options associated with retrieving the external user info count
  *
+ * @see EOS_UserInfo_GetExternalUserInfoCountOptions
  * @see EOS_UserInfo_CopyExternalUserInfoByIndex
  *
  * @return The number of external user infos, or 0 if there is an error
@@ -91,11 +94,15 @@ EOS_DECLARE_FUNC(uint32_t) EOS_UserInfo_GetExternalUserInfoCount(EOS_HUserInfo H
  * @param Options Structure containing the index being accessed
  * @param OutExternalUserInfo The external user info. If it exists and is valid, use EOS_UserInfo_ExternalUserInfo_Release when finished
  *
+ * @see EOS_UserInfo_CopyExternalUserInfoByIndexOptions
+ * @see EOS_UserInfo_ExternalUserInfo
  * @see EOS_UserInfo_ExternalUserInfo_Release
  *
- * @return EOS_Success if the information is available and passed out in OutExternalUserInfo
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the external user info is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutExternalUserInfo
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the external user info is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_UserInfo_CopyExternalUserInfoByIndex(EOS_HUserInfo Handle, const EOS_UserInfo_CopyExternalUserInfoByIndexOptions* Options, EOS_UserInfo_ExternalUserInfo ** OutExternalUserInfo);
 
@@ -105,11 +112,15 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_UserInfo_CopyExternalUserInfoByIndex(EOS_HUser
  * @param Options Structure containing the account type being accessed
  * @param OutExternalUserInfo The external user info. If it exists and is valid, use EOS_UserInfo_ExternalUserInfo_Release when finished
  *
+ * @see EOS_UserInfo_CopyExternalUserInfoByAccountTypeOptions
+ * @see EOS_UserInfo_ExternalUserInfo
  * @see EOS_UserInfo_ExternalUserInfo_Release
  *
- * @return EOS_Success if the information is available and passed out in OutExternalUserInfo
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the external user info is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutExternalUserInfo
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the external user info is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_UserInfo_CopyExternalUserInfoByAccountType(EOS_HUserInfo Handle, const EOS_UserInfo_CopyExternalUserInfoByAccountTypeOptions* Options, EOS_UserInfo_ExternalUserInfo ** OutExternalUserInfo);
 
@@ -119,11 +130,15 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_UserInfo_CopyExternalUserInfoByAccountType(EOS
  * @param Options Structure containing the account ID being accessed
  * @param OutExternalUserInfo The external user info. If it exists and is valid, use EOS_UserInfo_ExternalUserInfo_Release when finished
  *
+ * @see EOS_UserInfo_CopyExternalUserInfoByAccountIdOptions
+ * @see EOS_UserInfo_ExternalUserInfo
  * @see EOS_UserInfo_ExternalUserInfo_Release
  *
- * @return EOS_Success if the information is available and passed out in OutExternalUserInfo
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the external user info is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutExternalUserInfo
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the external user info is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_UserInfo_CopyExternalUserInfoByAccountId(EOS_HUserInfo Handle, const EOS_UserInfo_CopyExternalUserInfoByAccountIdOptions* Options, EOS_UserInfo_ExternalUserInfo ** OutExternalUserInfo);
 
@@ -139,11 +154,13 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_UserInfo_CopyExternalUserInfoByAccountId(EOS_H
  * @param Options structure containing the input parameters
  * @param OutBestDisplayName out parameter used to receive the EOS_UserInfo_BestDisplayName structure.
  *
- * @return EOS_Success if the information is available and passed out in OutBestDisplayName
- *         EOS_UserInfo_BestDisplayNameIndeterminate unable to determine a cert friendly display name for user, one potential solution would be to call EOS_UserInfo_CopyBestDisplayNameWithPlatform with EOS_OPT_Epic for the platform, see doc for more details
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_IncompatibleVersion if the API version passed in is incorrect
- *         EOS_NotFound if the user info or product user id is not locally cached
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutBestDisplayName
+ * - EOS_UserInfo_BestDisplayNameIndeterminate unable to determine a cert friendly display name for user, one potential solution would be to call EOS_UserInfo_CopyBestDisplayNameWithPlatform with EOS_OPT_Epic for the platform, see doc for more details
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_IncompatibleVersion if the API version passed in is incorrect
+ * - EOS_NotFound if the user info or product user id is not locally cached
  *
  * @see EOS_UserInfo_QueryUserInfo
  * @see EOS_UserInfo_QueryUserInfoByDisplayName
@@ -168,11 +185,13 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_UserInfo_CopyBestDisplayName(EOS_HUserInfo Han
  * @param Options structure containing the input parameters
  * @param OutBestDisplayName out parameter used to receive the EOS_UserInfo_BestDisplayName structure.
  *
- * @return EOS_Success if the information is available and passed out in OutBestDisplayName
- *         EOS_UserInfo_BestDisplayNameIndeterminate unable to determine a cert friendly display name for user
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_IncompatibleVersion if the API version passed in is incorrect
- *         EOS_NotFound if the user info is not locally cached
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutBestDisplayName
+ * - EOS_UserInfo_BestDisplayNameIndeterminate unable to determine a cert friendly display name for user
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_IncompatibleVersion if the API version passed in is incorrect
+ * - EOS_NotFound if the user info is not locally cached
  *
  * @see EOS_UserInfo_QueryUserInfo
  * @see EOS_UserInfo_QueryUserInfoByDisplayName

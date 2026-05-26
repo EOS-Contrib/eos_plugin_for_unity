@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -199,9 +199,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             return ReceiveData(data.Filename, data.DataChunk, data.TotalFileSizeBytes) switch
             {
-                FileTransferResult.FailRequest => ReadResult.RrFailrequest,
-                FileTransferResult.CancelRequest => ReadResult.RrCancelrequest,
-                FileTransferResult.ContinueReading => ReadResult.RrContinuereading,
+                FileTransferResult.FailRequest => ReadResult.RrFailRequest,
+                FileTransferResult.CancelRequest => ReadResult.RrCancelRequest,
+                FileTransferResult.ContinueReading => ReadResult.RrContinueReading,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

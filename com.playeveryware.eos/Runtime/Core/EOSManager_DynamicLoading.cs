@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -52,20 +52,18 @@ namespace PlayEveryWare.EpicOnlineServices
 #if !EOS_DISABLE
             static private PlatformInterface s_eosPlatformInterface;
 
-            public const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
+            public const string EOSBinaryName = Epic.OnlineServices.Common.LIBRARY_NAME;
 
 #if USE_EOS_GFX_PLUGIN_NATIVE_RENDER
             public const string GfxPluginNativeRenderPath =
 #if UNITY_STANDALONE_OSX
                 "GfxPluginNativeRender-macOS";
+#elif UNITY_STANDALONE_WIN && EOS_PLATFORM_WINDOWS_ARM64
+                "GfxPluginNativeRender-ARM64";
 #elif UNITY_STANDALONE_WIN
-#if UNITY_64
                 "GfxPluginNativeRender-x64";
 #else
-                "GfxPluginNativeRender-x86";
-#endif // UNITY_64
-#else
-                #error Unknown platform
+                #error Unknown platform for GfxPluginNativeRenderPath
                 "GfxPluginNativeRender-unknown";
 #endif
 
@@ -85,6 +83,11 @@ namespace PlayEveryWare.EpicOnlineServices
 #if USE_EOS_GFX_PLUGIN_NATIVE_RENDER
                 if (s_eosPlatformInterface == null && s_state != EOSState.Shutdown)
                 {
+#if EOS_PLATFORM_WINDOWS_ARM64
+                    UnityEngine.Debug.Log($"[EOS] Windows ARM64 — EOS SDK: {EOSBinaryName}, GfxPlugin: {GfxPluginNativeRenderPath}");
+#elif UNITY_STANDALONE_WIN
+                    UnityEngine.Debug.Log($"[EOS] Windows x64 — EOS SDK: {EOSBinaryName}, GfxPlugin: {GfxPluginNativeRenderPath}");
+#endif
                     // Try to log any messages stored when starting up the Plugin.
                     IntPtr logErrorFunctionPointer = Marshal.GetFunctionPointerForDelegate(new PrintDelegateType(SimplePrintStringCallback));
                     SimplePrintStringCallback("Start of Early EOS LOG:");

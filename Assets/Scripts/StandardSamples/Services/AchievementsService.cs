@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -130,11 +130,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         protected async override Task InternalRefreshAsync()
         {
-            if (!TryGetProductUserId(out ProductUserId productUser)) 
+            if (!TryGetProductUserId(out ProductUserId productUserId))
             {
                 return;
             }
-            ProductUserId productUserId = EOSManager.Instance.GetProductUserId();
             _achievements = await QueryAchievementsAsync(productUserId);
 
             // If the user is not in the list, then add it.
@@ -176,14 +175,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </param>
         private async Task RefreshPlayerAchievementsAsync(ProductUserId productUserId)
         {
-            var playerAchievements = await QueryPlayerAchievementsAsync(productUserId);
+            var (_, playerAchievements) = await ExecuteWithAuthRetryAsync(
+                userId => QueryPlayerAchievementsAsync(userId));
 
             // TODO: In the lambda function to update achievements, the
             //       achievements could be inspected for equality. If it is
             //       determined they have not changed, then NotifyUpdated()
             //       would not need to be called.
-            _playerAchievements.AddOrUpdate(productUserId, playerAchievements, 
-                (id, previousPlayerAchievements) => playerAchievements);
+            _playerAchievements.AddOrUpdate(productUserId, playerAchievements,
+                (id, _) => playerAchievements);
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <returns>
         /// List of PlayerAchievement objects.
         /// </returns>
-        private Task<List<PlayerAchievement>> QueryPlayerAchievementsAsync(ProductUserId productUserId)
+        private Task<(Result ResultCode, List<PlayerAchievement> Achievements)> QueryPlayerAchievementsAsync(ProductUserId productUserId)
         {
             Log($"Begin query player achievements for {ProductUserIdToString(productUserId)}");
 
@@ -295,18 +295,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 TargetUserId = productUserId
             };
 
-            TaskCompletionSource<List<PlayerAchievement>> tcs = new();
+            TaskCompletionSource<(Result ResultCode, List<PlayerAchievement> Achievements)> tcs = new();
 
             GetEOSAchievementInterface().QueryPlayerAchievements(ref options, null, (ref OnQueryPlayerAchievementsCompleteCallbackInfo data) =>
             {
                 if (data.ResultCode != Result.Success)
                 {
                     Log($"Error querying player achievements. Result code: {data.ResultCode}");
-                    tcs.SetResult(new List<PlayerAchievement>());
+                    tcs.SetResult((data.ResultCode, new List<PlayerAchievement>()));
                 }
                 else
                 {
-                    tcs.SetResult(GetCachedPlayerAchievements(productUserId));
+                    tcs.SetResult((Result.Success, GetCachedPlayerAchievements(productUserId)));
                 }
             });
 
@@ -500,27 +500,78 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="achievementId">
         /// The id of the achievement to unlock for the current player.
         /// </param>
-        public Task UnlockAchievementAsync(string achievementId)
+        public async Task<PlayerAchievement> UnlockAchievementAsync(string achievementId)
         {
-            var localUserId = EOSManager.Instance.GetProductUserId();
-            var eosAchievementOption = new UnlockAchievementsOptions
+            DefinitionV2? definition = null;
+            for (int i = 0; i < _achievements.Count; i++)
             {
-                UserId = localUserId,
-                AchievementIds = new Utf8String[] { achievementId }
+                DefinitionV2 otherDefinition = _achievements[i];
+                if (otherDefinition.AchievementId == achievementId)
+                {
+                    definition = otherDefinition;
+                    break;
+                }
+            }
+
+            if (!definition.HasValue)
+                throw new ArgumentException($"Achievement definition not found for ID: {achievementId}");
+
+            var (resultCode, achievement) = await ExecuteWithAuthRetryAsync(
+                userId => DoUnlockAchievementAsync(userId, definition.Value));
+
+            if (resultCode != Result.Success)
+                throw new Exception($"Could not unlock achievement. Error code: {Enum.GetName(typeof(Result), resultCode)}");
+
+            return achievement;
+        }
+
+        private Task<(Result ResultCode, PlayerAchievement Achievement)> DoUnlockAchievementAsync(
+            ProductUserId userId, DefinitionV2 definition)
+        {
+            if (userId == null || !userId.IsValid())
+                return Task.FromResult((Result.InvalidUser, default(PlayerAchievement)));
+
+            var options = new UnlockAchievementsOptions
+            {
+                UserId = userId,
+                AchievementIds = new Utf8String[] { definition.AchievementId }
             };
 
-            TaskCompletionSource<object> tcs = new();
+            var tcs = new TaskCompletionSource<(Result, PlayerAchievement)>();
 
-            GetEOSAchievementInterface().UnlockAchievements(ref eosAchievementOption, null,
+            GetEOSAchievementInterface().UnlockAchievements(ref options, null,
                 (ref OnUnlockAchievementsCompleteCallbackInfo data) =>
                 {
                     if (data.ResultCode != Result.Success)
                     {
-                        tcs.SetException(new Exception($"Could not unlock achievement. Error code: {Enum.GetName(typeof(Result), data.ResultCode)}"));
+                        tcs.SetResult((data.ResultCode, default));
                     }
                     else
                     {
-                        tcs.SetResult(null);
+                        var achievement = new PlayerAchievement
+                        {
+                            AchievementId = definition.AchievementId,
+                            DisplayName   = definition.UnlockedDisplayName,
+                            Description   = definition.UnlockedDescription,
+                            Progress      = 1.0,
+                            UnlockTime    = DateTime.UtcNow,
+                            StatInfo      = null
+                        };
+
+                        _playerAchievements.AddOrUpdate(userId,
+                            new List<PlayerAchievement> { achievement },
+                            (id, list) =>
+                            {
+                                int index = list.FindIndex(a => a.AchievementId == achievement.AchievementId);
+                                if (index >= 0)
+                                    list[index] = achievement;
+                                else
+                                    list.Add(achievement);
+                                return list;
+                            });
+
+                        NotifyUpdated();
+                        tcs.SetResult((Result.Success, achievement));
                     }
                 });
 

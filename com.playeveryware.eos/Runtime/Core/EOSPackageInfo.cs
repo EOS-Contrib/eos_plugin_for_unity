@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -33,8 +33,9 @@ namespace PlayEveryWare.EpicOnlineServices
          * not involve editing source code files.
          */
       
-        public const string Version = "4.0.0";
-
+        public const string Version = "6.1.0";
+        // Define a string to be used with a future version of Native Libraries
+        public const string NativeLibSDKVersion = "todo value";
         public const string PackageName = "com.playeveryware.eos";
     }
 }

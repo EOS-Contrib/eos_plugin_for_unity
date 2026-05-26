@@ -17,27 +17,43 @@ namespace Epic.OnlineServices
 			Convert(from, out to);
 		}
 
-		internal static void Get<TArray>(ArraySegment<TArray> from, out uint to)
+		internal static void Get(ArraySegment<byte> from, out uint to)
 		{
 			Convert(from, out to);
 		}
 
-		internal static void Get<TTo>(IntPtr from, out TTo to)
-			where TTo : Handle, new()
-		{
-			Convert(from, out to);
-		}
-
-		internal static void Get<TFrom, TTo>(ref TFrom from, out TTo to)
-			where TFrom : struct, IGettable<TTo>
-			where TTo : struct
+		internal static void Get<TInternal, TPublic>(ref TInternal from, out TPublic to)
+			where TInternal : struct, IGettable<TPublic>
+			where TPublic : struct
 		{
 			from.Get(out to);
+		}
+
+		internal static void Get<TInternal, TPublic>(ref TInternal from, out TPublic? to)
+			where TInternal : struct, IGettable<TPublic>
+			where TPublic : struct
+		{
+			TPublic toPublic = default;
+			from.Get(out toPublic);
+			to = toPublic;
+		}
+
+		internal static void Get<T>(T from, out T? to)
+			where T : struct
+		{
+			to = from;
 		}
 
 		internal static void Get(int from, out bool to)
 		{
 			Convert(from, out to);
+		}
+
+		internal static void Get(int from, out bool? to)
+		{
+			bool intermediate;
+			Convert(from, out intermediate);
+			to = intermediate;
 		}
 
 		internal static void Get(bool from, out int to)
@@ -48,26 +64,6 @@ namespace Epic.OnlineServices
 		internal static void Get(long from, out DateTimeOffset? to)
 		{
 			Convert(from, out to);
-		}
-
-		internal static void Get<TTo>(IntPtr from, out TTo[] to, int arrayLength, bool isArrayItemAllocated)
-		{
-			GetAllocation(from, out to, arrayLength, isArrayItemAllocated);
-		}
-
-		internal static void Get<TTo>(IntPtr from, out TTo[] to, uint arrayLength, bool isArrayItemAllocated)
-		{
-			GetAllocation(from, out to, (int)arrayLength, isArrayItemAllocated);
-		}
-
-		internal static void Get<TTo>(IntPtr from, out TTo[] to, int arrayLength)
-		{
-			GetAllocation(from, out to, arrayLength, !typeof(TTo).IsValueType);
-		}
-
-		internal static void Get<TTo>(IntPtr from, out TTo[] to, uint arrayLength)
-		{
-			GetAllocation(from, out to, (int)arrayLength, !typeof(TTo).IsValueType);
 		}
 
 		internal static void Get(IntPtr from, out ArraySegment<byte> to, uint arrayLength)
@@ -81,21 +77,54 @@ namespace Epic.OnlineServices
 			}
 		}
 
-		internal static void GetHandle<THandle>(IntPtr from, out THandle[] to, uint arrayLength)
+		internal static void Get(IntPtr from, out Utf8String[] to, int arrayLength, bool isArrayItemAllocated)
+		{
+			GetAllocation(from, out to, arrayLength, isArrayItemAllocated);
+		}
+
+		internal static void Get(IntPtr from, out Utf8String[] to, uint arrayLength, bool isArrayItemAllocated)
+		{
+			GetAllocation(from, out to, (int)arrayLength, isArrayItemAllocated);
+		}
+
+		internal static void Get<T>(IntPtr from, out T[] to, uint arrayLength, bool isArrayItemAllocated)
+			where T : struct
+		{
+			GetAllocation(from, out to, (int)arrayLength, isArrayItemAllocated);
+		}
+
+		internal static void Get<T>(IntPtr from, out T[] to, int arrayLength, bool isArrayItemAllocated)
+			where T : struct
+		{
+			GetAllocation(from, out to, arrayLength, isArrayItemAllocated);
+		}
+
+		internal static void Get<THandle>(IntPtr from, out THandle to)
+			where THandle : Handle, new()
+		{
+			Convert(from, out to);
+		}
+
+		internal static void Get<THandle>(IntPtr from, out THandle[] to, uint arrayLength)
 			where THandle : Handle, new()
 		{
 			GetAllocation(from, out to, (int)arrayLength);
 		}
 
-		internal static void Get<TFrom, TTo>(TFrom[] from, out TTo[] to)
-			where TFrom : struct, IGettable<TTo>
-			where TTo : struct
+		internal static void Get(IntPtr from, out IntPtr[] to, uint arrayLength)
 		{
-			to = GetDefault<TTo[]>();
+			GetAllocation(from, out to, (int)arrayLength, false);
+		}
+
+		internal static void Get<TInternal, TPublic>(TInternal[] from, out TPublic[] to)
+			where TInternal : struct, IGettable<TPublic>
+			where TPublic : struct
+		{
+			to = default;
 
 			if (from != null)
 			{
-				to = new TTo[from.Length];
+				to = new TPublic[from.Length];
 
 				for (int index = 0; index < from.Length; ++index)
 				{
@@ -104,29 +133,29 @@ namespace Epic.OnlineServices
 			}
 		}
 
-		internal static void Get<TFrom, TTo>(IntPtr from, out TTo[] to, int arrayLength)
-			where TFrom : struct, IGettable<TTo>
-			where TTo : struct
+		internal static void Get<TInternal, TPublic>(IntPtr from, out TPublic[] to, int arrayLength, bool isArrayItemAllocated)
+			where TInternal : struct, IGettable<TPublic>
+			where TPublic : struct
 		{
-			TFrom[] fromIntermediate;
-			Get(from, out fromIntermediate, arrayLength);
-			Get(fromIntermediate, out to);
+			TInternal[] fromInternal;
+			Get(from, out fromInternal, arrayLength, isArrayItemAllocated);
+			Get(fromInternal, out to);
 		}
 
-		internal static void Get<TFrom, TTo>(IntPtr from, out TTo[] to, uint arrayLength)
-			where TFrom : struct, IGettable<TTo>
-			where TTo : struct
+		internal static void Get<TInternal, TPublic>(IntPtr from, out TPublic[] to, uint arrayLength, bool isArrayItemAllocated)
+			where TInternal : struct, IGettable<TPublic>
+			where TPublic : struct
 		{
-			Get<TFrom, TTo>(from, out to, (int)arrayLength);
+			Get<TInternal, TPublic>(from, out to, (int)arrayLength, isArrayItemAllocated);
 		}
 
-		internal static void Get<TTo>(IntPtr from, out TTo? to)
-			where TTo : struct
+		internal static void Get<T>(IntPtr from, out T? to)
+			where T : struct
 		{
 			GetAllocation(from, out to);
 		}
 
-		internal static void Get(byte[] from, out string to)
+		internal static void Get(byte[] from, out Utf8String to)
 		{
 			Convert(from, out to);
 		}
@@ -141,121 +170,45 @@ namespace Epic.OnlineServices
 			GetAllocation(from, out to);
 		}
 
-		internal static void Get<T, TEnum>(T from, out T to, TEnum currentEnum, TEnum expectedEnum)
+		internal static void Get<TInternal, TPublic>(IntPtr from, out TPublic to)
+			where TInternal : struct, IGettable<TPublic>
+			where TPublic : struct
 		{
-			to = GetDefault<T>();
+			to = default;
 
-			if ((int)(object)currentEnum == (int)(object)expectedEnum)
+			TInternal? fromInternal;
+			Get(from, out fromInternal);
+
+			if (fromInternal.HasValue)
 			{
-				to = from;
+				fromInternal.Value.Get(out to);
 			}
 		}
 
-		internal static void Get<TFrom, TTo, TEnum>(ref TFrom from, out TTo to, TEnum currentEnum, TEnum expectedEnum)
-			where TFrom : struct, IGettable<TTo>
-			where TTo : struct
+		internal static void Get<TInternal, TPublic>(IntPtr from, out TPublic? to)
+			where TInternal : struct, IGettable<TPublic>
+			where TPublic : struct
 		{
-			to = GetDefault<TTo>();
+			to = default;
 
-			if ((int)(object)currentEnum == (int)(object)expectedEnum)
+			TInternal? fromInternal;
+			Get(from, out fromInternal);
+
+			if (fromInternal.HasValue)
 			{
-				Get(ref from, out to);
+				TPublic toPublic;
+				fromInternal.Value.Get(out toPublic);
+
+				to = toPublic;
 			}
 		}
 
-		internal static void Get<TEnum>(int from, out bool? to, TEnum currentEnum, TEnum expectedEnum)
-		{
-			to = GetDefault<bool?>();
-
-			if ((int)(object)currentEnum == (int)(object)expectedEnum)
-			{
-				bool fromIntermediate;
-				Convert(from, out fromIntermediate);
-				to = fromIntermediate;
-			}
-		}
-
-		internal static void Get<TFrom, TEnum>(TFrom from, out TFrom? to, TEnum currentEnum, TEnum expectedEnum)
-			where TFrom : struct
-		{
-			to = GetDefault<TFrom?>();
-
-			if ((int)(object)currentEnum == (int)(object)expectedEnum)
-			{
-				to = from;
-			}
-		}
-
-		internal static void Get<TFrom, TEnum>(IntPtr from, out TFrom to, TEnum currentEnum, TEnum expectedEnum)
-			where TFrom : Handle, new()
-		{
-			to = GetDefault<TFrom>();
-
-			if ((int)(object)currentEnum == (int)(object)expectedEnum)
-			{
-				Get(from, out to);
-			}
-		}
-
-		internal static void Get<TEnum>(IntPtr from, out IntPtr? to, TEnum currentEnum, TEnum expectedEnum)
-		{
-			to = GetDefault<IntPtr?>();
-
-			if ((int)(object)currentEnum == (int)(object)expectedEnum)
-			{
-				Get(from, out to);
-			}
-		}
-
-		internal static void Get<TEnum>(IntPtr from, out Utf8String to, TEnum currentEnum, TEnum expectedEnum)
-		{
-			to = GetDefault<Utf8String>();
-
-			if ((int)(object)currentEnum == (int)(object)expectedEnum)
-			{
-				Get(from, out to);
-			}
-		}
-
-		internal static void Get<TFrom, TTo>(IntPtr from, out TTo to)
-			where TFrom : struct, IGettable<TTo>
-			where TTo : struct
-		{
-			to = GetDefault<TTo>();
-
-			TFrom? fromIntermediate;
-			Get(from, out fromIntermediate);
-
-			if (fromIntermediate.HasValue)
-			{
-				fromIntermediate.Value.Get(out to);
-			}
-		}
-
-		internal static void Get<TFrom, TTo>(IntPtr from, out TTo? to)
-			where TFrom : struct, IGettable<TTo>
-			where TTo : struct
-		{
-			to = GetDefault<TTo?>();
-
-			TFrom? fromIntermediate;
-			Get(from, out fromIntermediate);
-
-			if (fromIntermediate.HasValue)
-			{
-				TTo toIntermediate;
-				fromIntermediate.Value.Get(out toIntermediate);
-
-				to = toIntermediate;
-			}
-		}
-
-		internal static void Get<TFrom, TTo>(ref TFrom from, out TTo to, out IntPtr clientDataAddress)
-			where TFrom : struct, ICallbackInfoInternal, IGettable<TTo>
-			where TTo : struct
+		internal static void Get<TInternal, TPublic>(ref TInternal from, out TPublic to, out IntPtr clientDataPointer)
+			where TInternal : struct, ICallbackInfoInternal, IGettable<TPublic>
+			where TPublic : struct
 		{
 			from.Get(out to);
-			clientDataAddress = from.ClientDataAddress;
+			clientDataPointer = from.ClientDataPointer;
 		}
 	}
 }

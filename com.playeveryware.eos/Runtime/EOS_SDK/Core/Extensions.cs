@@ -1,5 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+using System;
+
 namespace Epic.OnlineServices
 {
 	public static class Extensions
@@ -19,10 +21,20 @@ namespace Epic.OnlineServices
 		/// </summary>
 		/// <param name="byteArray">The byte array to convert.</param>
 		/// <returns>A hex string, e.g. "A56904FF".</returns>
-		public static string ToHexString(this byte[] byteArray)
+		public static Utf8String ToHexString(this byte[] byteArray)
 		{
-			var segment = new System.ArraySegment<byte>(byteArray);
-			return Common.ToString(segment);
+			var arraySegment = new ArraySegment<byte>(byteArray);
+			return Common.ToString(arraySegment);
+		}
+
+		/// <summary>
+		/// Converts an array segment into a hex string, e.g. "A56904FF".
+		/// </summary>
+		/// <param name="arraySegment">The array segment to convert.</param>
+		/// <returns>A hex string, e.g. "A56904FF".</returns>
+		public static Utf8String ToHexString(this ArraySegment<byte> arraySegment)
+		{
+			return Common.ToString(arraySegment);
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2026 Epic Games Inc
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using UnityEngine;
     using Epic.OnlineServices;
     using Epic.OnlineServices.P2P;
+    using PlayEveryWare.EpicOnlineServices.Utility;
 
     /// <summary>
     /// Struct <c>ChatEntry</c> is used to store cached chat data in <c>UIPeer2PeerMenu</c>.
@@ -84,11 +85,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private P2PInterface P2PHandle;
 
         private ulong ConnectionNotificationId;
+        private ulong ConnectionEstablishedNotificationId;
+        private ulong ConnectionInterruptedNotificationId;
         private Dictionary<ProductUserId, ChatWithFriendData> ChatDataCache;
         private bool ChatDataCacheDirty;
 
         public UIPeer2PeerParticleController ParticleController;
         public Transform parent;
+        private enum PeerConnectionAppState
+        {
+            NotConnected,
+            IceConnected,
+            HandshakePending,
+            FullyConnected
+        }
+
+        private Dictionary<ProductUserId, PeerConnectionAppState> connectionStates = new();
+
+    private string Request = "hreq";
+    private string Acknowledgement = "hack";
+     private string Ping = "ping";
 
 #if UNITY_EDITOR
         void OnPlayModeChanged(UnityEditor.PlayModeStateChange modeChange)
@@ -126,7 +142,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ChatDataCache = this.ChatDataCache;
             return ChatDataCacheDirty;
         }
+        public void Initialize()
+        {
+            SubscribeToConnectionRequest();
 
+            var localUserId = EOSManager.Instance.GetProductUserId();
+
+            var establishedOptions = new AddNotifyPeerConnectionEstablishedOptions
+            {
+                LocalUserId = localUserId
+            };
+            ConnectionEstablishedNotificationId = P2PHandle.AddNotifyPeerConnectionEstablished(ref establishedOptions, null, OnPeerConnectionEstablished);
+
+            var interruptedOptions = new AddNotifyPeerConnectionInterruptedOptions
+            {
+                LocalUserId = localUserId,
+                SocketId = null
+            };
+            ConnectionInterruptedNotificationId = P2PHandle.AddNotifyPeerConnectionInterrupted(ref interruptedOptions, null, OnPeerConnectionInterrupted);
+
+            Debug.Log("EOSPeer2PeerManager initialized: connection listeners registered.");
+        }
         private void RefreshNATType()
         {
             var options = new QueryNATTypeOptions();
@@ -162,6 +198,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void OnLoggedOut()
         {
             UnsubscribeFromConnectionRequests();
+
+            if (ConnectionEstablishedNotificationId != 0)
+            {
+                P2PHandle.RemoveNotifyPeerConnectionEstablished(ConnectionEstablishedNotificationId);
+                ConnectionEstablishedNotificationId = 0;
+            }
+
+            if (ConnectionInterruptedNotificationId != 0)
+            {
+                P2PHandle.RemoveNotifyPeerConnectionInterrupted(ConnectionInterruptedNotificationId);
+                ConnectionInterruptedNotificationId = 0;
+            }
         }
 
         private void OnRefreshNATTypeFinished(ref OnQueryNATTypeCompleteInfo data)
@@ -188,6 +236,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogError("EOS P2PNAT SendMessage: bad input data: account id is wrong.");
                 return;
             }
+            if (!connectionStates.TryGetValue(friendId, out var state) || state != PeerConnectionAppState.FullyConnected)
+            {
+                Debug.LogWarning($"SendMessage: Cannot send to {friendId}, not fully connected (State={state}).");
+                return;
+            }
+
             if (message.type == messageType.textMessage)
             {
                 if (string.IsNullOrEmpty(message.textData))
@@ -283,6 +337,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public ProductUserId HandleReceivedMessages()
         {
+            
+
             if (P2PHandle == null)
             {
                 return null;
@@ -330,6 +386,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 string message = System.Text.Encoding.UTF8.GetString(data);
+                // --- Handshake protocol ---
+                if (message == Request)
+                {
+                    SendHandshakeAck(peerId);
+                    connectionStates[peerId] = PeerConnectionAppState.FullyConnected;
+                    Debug.Log($"Received handshake request from {peerId}. Sending ack and setting FullyConnected.");
+                    return null;
+                }
+                else if (message == Acknowledgement)
+                {
+                    connectionStates[peerId] = PeerConnectionAppState.FullyConnected;
+                    Debug.Log($"Received handshake ack from {peerId}. Connection is now FullyConnected.");
+                    return null;
+                }
+                // --- End handshake ---
 
                 if (message.StartsWith("t"))
                 {
@@ -367,13 +438,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     int yPos = Int32.Parse(coords[1]);
                     Debug.Log("EOS P2PNAT HandleReceivedMessages:  Mouse position Recieved at " + xPos + ", " + yPos);
 
-                    ParticleController.SpawnParticles(xPos, yPos, parent);
+                    ParticleController.SpawnParticles(xPos, yPos);
 
                     return peerId;
                 }
-
-
-
+                else if (message == Ping)
+                {
+                    Debug.Log($"EOS P2PNAT HandleReceivedMessages: received ping from {peerId}, ignoring.");
+                    return null;
+                }
                 else
                 {
                     Debug.LogErrorFormat("EOS P2PNAT HandleReceivedMessages: error while reading data, code: {0}", result);
@@ -442,11 +515,66 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             };
 
             Result result = P2PHandle.AcceptConnection(ref options);
-
+            SendHandshakeRequest(data.RemoteUserId);
             if (result != Result.Success)
             {
                 Debug.LogErrorFormat("P2p (OnIncomingConnectionRequest): error while accepting connection, code: {0}", result);
             }
         }
+        private void SendHandshakeRequest(ProductUserId remoteUserId)
+        {
+            SendRaw(remoteUserId, "hreq");
+            connectionStates[remoteUserId] = PeerConnectionAppState.HandshakePending;
+        }
+
+        private void SendHandshakeAck(ProductUserId remoteUserId)
+        {
+            SendRaw(remoteUserId, "hack");
+        }
+
+        private void SendRaw(ProductUserId remoteUserId, string rawMessage)
+        {
+            SocketId socketId = new SocketId() { SocketName = "CHAT" };
+
+            SendPacketOptions options = new SendPacketOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RemoteUserId = remoteUserId,
+                SocketId = socketId,
+                AllowDelayedDelivery = true,
+                Channel = 0,
+                Reliability = PacketReliability.ReliableOrdered,
+                Data = new ArraySegment<byte>(Encoding.UTF8.GetBytes(rawMessage))
+            };
+
+            var result = P2PHandle.SendPacket(ref options);
+            if (result != Result.Success)
+            {
+                Debug.LogError($"SendRaw failed: {result}");
+            }
+        }
+        private void OnPeerConnectionEstablished(ref OnPeerConnectionEstablishedInfo info)
+        {
+            Debug.Log($"[P2P] Connection established with {LoggingUtils.Redact(info.RemoteUserId)} | type={info.ConnectionType} network={info.NetworkType}");
+
+            if (!connectionStates.ContainsKey(info.RemoteUserId))
+            {
+                connectionStates[info.RemoteUserId] = PeerConnectionAppState.IceConnected;
+                SendHandshakeRequest(info.RemoteUserId);
+                connectionStates[info.RemoteUserId] = PeerConnectionAppState.HandshakePending;
+            }
+        }
+
+        private void OnPeerConnectionInterrupted(ref OnPeerConnectionInterruptedInfo info)
+        {
+            Debug.LogWarning($"[P2P] Connection interrupted with {LoggingUtils.Redact(info.RemoteUserId)} on socket '{info.SocketId?.SocketName}' - EOS will attempt auto-recovery");
+        }
+        public void SendTrigger(ProductUserId peerId)
+        {
+            if (!peerId.IsValid()) return;
+            string trigger = "ping";
+            SendRaw(peerId, trigger);
+        }
     }
+
 }

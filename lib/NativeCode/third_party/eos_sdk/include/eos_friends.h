@@ -19,6 +19,9 @@
  * @param Options structure containing the account for which to retrieve the friends list
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
+ *
+ * @see EOS_Friends_QueryFriendsOptions
+ * @see EOS_Friends_OnQueryFriendsCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Friends_QueryFriends(EOS_HFriends Handle, const EOS_Friends_QueryFriendsOptions* Options, void* ClientData, const EOS_Friends_OnQueryFriendsCallback CompletionDelegate);
 
@@ -29,6 +32,9 @@ EOS_DECLARE_FUNC(void) EOS_Friends_QueryFriends(EOS_HFriends Handle, const EOS_F
  * @param Options structure containing the account to send the invite from and the account to send the invite to
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
+ *
+ * @see EOS_Friends_SendInviteOptions
+ * @see EOS_Friends_OnSendInviteCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Friends_SendInvite(EOS_HFriends Handle, const EOS_Friends_SendInviteOptions* Options, void* ClientData, const EOS_Friends_OnSendInviteCallback CompletionDelegate);
 
@@ -38,6 +44,9 @@ EOS_DECLARE_FUNC(void) EOS_Friends_SendInvite(EOS_HFriends Handle, const EOS_Fri
  * @param Options structure containing the logged in account and the inviting account
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
+ *
+ * @see EOS_Friends_AcceptInviteOptions
+ * @see EOS_Friends_OnAcceptInviteCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Friends_AcceptInvite(EOS_HFriends Handle, const EOS_Friends_AcceptInviteOptions* Options, void* ClientData, const EOS_Friends_OnAcceptInviteCallback CompletionDelegate);
 
@@ -47,6 +56,9 @@ EOS_DECLARE_FUNC(void) EOS_Friends_AcceptInvite(EOS_HFriends Handle, const EOS_F
  * @param Options structure containing the logged in account and the inviting account
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
+ *
+ * @see EOS_Friends_RejectInviteOptions
+ * @see EOS_Friends_OnRejectInviteCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Friends_RejectInvite(EOS_HFriends Handle, const EOS_Friends_RejectInviteOptions* Options, void* ClientData, const EOS_Friends_OnRejectInviteCallback CompletionDelegate);
 
@@ -56,6 +68,7 @@ EOS_DECLARE_FUNC(void) EOS_Friends_RejectInvite(EOS_HFriends Handle, const EOS_F
  * @param Options structure containing the Epic Account ID of user who owns the friends list
  * @return the number of friends on the list
  *
+ * @see EOS_Friends_GetFriendsCountOptions
  * @see EOS_Friends_GetFriendAtIndex
  */
 EOS_DECLARE_FUNC(int32_t) EOS_Friends_GetFriendsCount(EOS_HFriends Handle, const EOS_Friends_GetFriendsCountOptions* Options);
@@ -68,6 +81,7 @@ EOS_DECLARE_FUNC(int32_t) EOS_Friends_GetFriendsCount(EOS_HFriends Handle, const
  * @param Options structure containing the Epic Account ID of the owner of the friends list and the index into the list
  * @return the Epic Account ID of the friend. Note that if the index provided is out of bounds, the returned Epic Account ID will be a "null" account ID.
  *
+ * @see EOS_Friends_GetFriendAtIndexOptions
  * @see EOS_Friends_GetFriendsCount
  * @see EOS_Friends_GetStatus
  */
@@ -78,11 +92,12 @@ EOS_DECLARE_FUNC(EOS_EpicAccountId) EOS_Friends_GetFriendAtIndex(EOS_HFriends Ha
  *
  * @param Options structure containing the Epic Account ID of the friend list to check and the account of the user to test friendship status
  * @return A value indicating whether the two accounts have a friendship, pending invites in either direction, or no relationship
- *         EOS_FS_Friends is returned for two users that have confirmed friendship
- *         EOS_FS_InviteSent is returned when the local user has sent a friend invitation but the other user has not accepted or rejected it
- *         EOS_FS_InviteReceived is returned when the other user has sent a friend invitation to the local user
- *         EOS_FS_NotFriends is returned when there is no known relationship
+ * - EOS_FS_Friends is returned for two users that have confirmed friendship
+ * - EOS_FS_InviteSent is returned when the local user has sent a friend invitation but the other user has not accepted or rejected it
+ * - EOS_FS_InviteReceived is returned when the other user has sent a friend invitation to the local user
+ * - EOS_FS_NotFriends is returned when there is no known relationship
  *
+ * @see EOS_Friends_GetStatusOptions
  * @see EOS_EFriendsStatus
  */
 EOS_DECLARE_FUNC(EOS_EFriendsStatus) EOS_Friends_GetStatus(EOS_HFriends Handle, const EOS_Friends_GetStatusOptions* Options);
@@ -94,6 +109,9 @@ EOS_DECLARE_FUNC(EOS_EFriendsStatus) EOS_Friends_GetStatus(EOS_HFriends Handle, 
  * @param ClientData This value is returned to the caller when FriendsUpdateHandler is invoked.
  * @param FriendsUpdateHandler The callback to be invoked when a change to any friend status changes.
  * @return A valid notification ID if successfully bound, or EOS_INVALID_NOTIFICATIONID otherwise
+ *
+ * @see EOS_Friends_AddNotifyFriendsUpdateOptions
+ * @see EOS_Friends_OnFriendsUpdateCallback
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_Friends_AddNotifyFriendsUpdate(EOS_HFriends Handle, const EOS_Friends_AddNotifyFriendsUpdateOptions* Options, void* ClientData, const EOS_Friends_OnFriendsUpdateCallback FriendsUpdateHandler);
 
@@ -110,6 +128,7 @@ EOS_DECLARE_FUNC(void) EOS_Friends_RemoveNotifyFriendsUpdate(EOS_HFriends Handle
  * @param Options structure containing the Epic Account ID of user who owns the blocklist.
  * @return the number of users on the blocklist.
  *
+ * @see EOS_Friends_GetBlockedUsersCountOptions
  * @see EOS_Friends_QueryFriends
  */
 EOS_DECLARE_FUNC(int32_t) EOS_Friends_GetBlockedUsersCount(EOS_HFriends Handle, const EOS_Friends_GetBlockedUsersCountOptions* Options);
@@ -120,6 +139,7 @@ EOS_DECLARE_FUNC(int32_t) EOS_Friends_GetBlockedUsersCount(EOS_HFriends Handle, 
  * @param Options structure containing the Epic Account ID of the owner of the blocklist and the index into the list.
  * @return the Epic Account ID of the blocked user. Note that if the index provided is out of bounds, the returned Epic Account ID will be a "null" account ID.
  *
+ * @see EOS_Friends_GetBlockedUserAtIndexOptions
  * @see EOS_Friends_QueryFriends
  * @see EOS_Friends_GetBlockedUsersCount
  */
@@ -132,6 +152,9 @@ EOS_DECLARE_FUNC(EOS_EpicAccountId) EOS_Friends_GetBlockedUserAtIndex(EOS_HFrien
  * @param ClientData This value is returned to the caller when BlockedUsersUpdateHandler is invoked.
  * @param BlockedUsersUpdateHandler The callback to be invoked when a blocklist changes.
  * @return A valid notification ID if successfully bound, or EOS_INVALID_NOTIFICATIONID otherwise.
+ *
+ * @see EOS_Friends_AddNotifyBlockedUsersUpdateOptions
+ * @see EOS_Friends_OnBlockedUsersUpdateCallback
  */
 EOS_DECLARE_FUNC(EOS_NotificationId) EOS_Friends_AddNotifyBlockedUsersUpdate(EOS_HFriends Handle, const EOS_Friends_AddNotifyBlockedUsersUpdateOptions* Options, void* ClientData, const EOS_Friends_OnBlockedUsersUpdateCallback BlockedUsersUpdateHandler);
 

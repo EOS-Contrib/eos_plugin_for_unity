@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -125,8 +125,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// </summary>
         /// <param name="projectFilePath">Path to the project file.</param>
         /// <param name="binaryOutput">Location to output the results to.</param>
+        /// <param name="platform">Optional msbuild Platform value (e.g. "x64", "ARM64"). Empty to omit the flag.</param>
         /// <returns>True if the build was successful, false otherwise.</returns>
-        private delegate bool BuildNativeLibraryDelegate(string projectFilePath, string binaryOutput);
+        private delegate bool BuildNativeLibraryDelegate(string projectFilePath, string binaryOutput, string platform);
 
         static BuildUtility()
         {
@@ -367,14 +368,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// </summary>
         /// <param name="projectFilePath">Fully-qualified path to the project file to build.</param>
         /// <param name="binaryOutput">Fully-qualified path to output the results to.</param>
+        /// <param name="platform">Optional msbuild Platform value (e.g. "x64", "ARM64"). Empty to omit the flag.</param>
         /// <exception cref="BuildFailedException">If building fails, a BuildFailedException is thrown.</exception>
-        public static bool BuildNativeLibrary(string projectFilePath, string binaryOutput)
+        public static bool BuildNativeLibrary(string projectFilePath, string binaryOutput, string platform = "")
         {
-            Debug.Log($"Building native libraries from project file {projectFilePath}");
+            Debug.Log($"Building native libraries from project file {projectFilePath}" +
+                (string.IsNullOrEmpty(platform) ? "" : $" (Platform={platform})"));
 
             var buildDelegate = FindNativeLibraryBuildFunction(projectFilePath);
 
-            return buildDelegate(projectFilePath, binaryOutput);
+            return buildDelegate(projectFilePath, binaryOutput, platform);
         }
 
         /// <summary>
@@ -383,9 +386,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// </summary>
         /// <param name="solutionFilePath">Fully-qualified path to the solution file to build.</param>
         /// <param name="binaryOutput">Fully-qualified path to output the results to.</param>
+        /// <param name="platform">Optional msbuild Platform value (e.g. "x64", "ARM64"). Empty to omit the flag.</param>
         /// <exception cref="BuildFailedException">Thrown if building fails.</exception>
         /// <returns>True if the build was successful, false otherwise.</returns>
-        private static bool BuildFromSolutionFile(string solutionFilePath, string binaryOutput)
+        private static bool BuildFromSolutionFile(string solutionFilePath, string binaryOutput, string platform = "")
         {
             if (!TryGetCompatibleTools(solutionFilePath, out VSInstallation tools))
             {
@@ -401,13 +405,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             }
 
             // construct the msbuild command
+            string platformFlag = string.IsNullOrWhiteSpace(platform) ? "" : $" /p:Platform={platform}";
             string msBuildCommand = $"msbuild \"{solutionFilePath}\"" +
                                     $" /t:Clean;Rebuild" +
                                     $" /p:Configuration={configuration}" +
-                                    // TODO: Re-implement GetPlatformString to re-enable this component?
-                                    // NOTE: This may not be necessary, because typically the platform to build against
-                                    // is defined within the project and/or solution file.
-                                    //$" /p:Platform={PlatformManager.GetPlatformString()}" +
+                                    platformFlag +
                                     $" /p:OutDir={binaryOutput}";
 
             // TODO: Consider running this asynchronously? If only for better user feedback during build.
@@ -450,8 +452,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// </summary>
         /// <param name="makefileFilePath">Fully-qualified path to the Makefile to build.</param>
         /// <param name="binaryOutput">Fully-qualified path to output the results to.</param>
+        /// <param name="platform">Unused for Makefile builds; present for delegate signature compatibility.</param>
         /// <exception cref="BuildFailedException">Thrown if building fails.</exception>
-        private static bool BuildFromMakefile(string makefileFilePath, string binaryOutput)
+        private static bool BuildFromMakefile(string makefileFilePath, string binaryOutput, string platform = "")
         {
             // Check for required packages and install if missing
             const string checkAndInstallPackagesCmd = "bash -c \"which clang || sudo apt-get update && sudo apt-get install -y clang; " +
@@ -676,7 +679,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// <param name="projectToBinaryMap">Dictionary that maps project file (sln or Makefile) with binary output files.</param>
         /// <param name="outputDirectory">The directory to output the native binaries to.</param>
         /// <param name="rebuild">Whether to rebuild the libraries each time.</param>
-        public static void BuildNativeBinaries(IDictionary<string, string[]> projectToBinaryMap, string outputDirectory, bool rebuild = false)
+        /// <param name="platform">Optional msbuild Platform value (e.g. "x64", "ARM64"). Empty to omit the flag.</param>
+        public static void BuildNativeBinaries(IDictionary<string, string[]> projectToBinaryMap, string outputDirectory, bool rebuild = false, string platform = "")
         {
             var projectsToBuild = new HashSet<string>();
 
@@ -719,7 +723,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             // Build any project that needs to be built.
             foreach (string project in projectsToBuild)
             {
-                bool projectBuildSuccessfully = BuildUtility.BuildNativeLibrary(project, outputDirectory);
+                bool projectBuildSuccessfully = BuildUtility.BuildNativeLibrary(project, outputDirectory, platform);
 
                 // if the build was successful, skip processing
                 if (projectBuildSuccessfully) { continue; }

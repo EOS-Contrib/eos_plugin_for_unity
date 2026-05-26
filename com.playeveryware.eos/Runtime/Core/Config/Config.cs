@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -187,9 +187,6 @@ namespace PlayEveryWare.EpicOnlineServices
         private void MigrateConfigIfNeeded()
         {
             MigrateConfigIfNeededInternal();
-#if UNITY_EDITOR
-            Write();
-#endif
         }
 
         /// <summary>
@@ -513,6 +510,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             await FileSystemUtility.WriteFileAsync(FilePath, json);
             OnWriteCompleted();
+            _lastReadJsonString = json;
         }
 
         /// <summary>
@@ -534,9 +532,10 @@ namespace PlayEveryWare.EpicOnlineServices
             // take no action.
             if (json == _lastReadJsonString)
                 return;
-
+             
             FileSystemUtility.WriteFile(FilePath, json);
             OnWriteCompleted();
+            _lastReadJsonString = json;
         }
 
         protected virtual void BeforeWrite()

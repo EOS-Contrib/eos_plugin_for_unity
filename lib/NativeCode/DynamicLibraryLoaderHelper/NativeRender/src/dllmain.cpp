@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,6 +35,7 @@
 #include "io_helpers.h"
 #include "Config/SteamConfig.hpp"
 #include "Config/WindowsConfig.hpp"
+#include <clocale>
 
 using namespace pew::eos;
 using namespace pew::eos::eos_library_helpers;
@@ -112,6 +113,11 @@ PEW_EOS_API_FUNC(void) UnityPluginLoad(void* arg)
     }
     logging::global_log_open("gfx_log.txt");
 #endif
+
+    // Set the locale for UTF-8 character set
+    // This is a interim patch to allow for UTF-8 multibyte characters
+    // Full multibyte support through the native layer to be completed in re-factor
+    std::locale::global(std::locale(".UTF-8"));
 
     std::filesystem::path DllPath;
     logging::log_inform("On UnityPluginLoad");

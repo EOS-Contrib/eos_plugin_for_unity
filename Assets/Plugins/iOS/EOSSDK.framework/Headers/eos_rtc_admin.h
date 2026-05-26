@@ -23,8 +23,8 @@
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate This function is called when the query join room token operation completes.
  *
- * @return EOS_Success if the operation completes successfully
- *         EOS_InvalidParameters if any of the options are incorrect
+ * @see EOS_RTCAdmin_QueryJoinRoomTokenOptions
+ * @see EOS_RTCAdmin_OnQueryJoinRoomTokenCompleteCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTCAdmin_QueryJoinRoomToken(EOS_HRTCAdmin Handle, const EOS_RTCAdmin_QueryJoinRoomTokenOptions* Options, void* ClientData, const EOS_RTCAdmin_OnQueryJoinRoomTokenCompleteCallback CompletionDelegate);
 
@@ -37,11 +37,15 @@ EOS_DECLARE_FUNC(void) EOS_RTCAdmin_QueryJoinRoomToken(EOS_HRTCAdmin Handle, con
  * @note The order of the tokens doesn't necessarily match the order of the EOS_ProductUserId array specified in the EOS_RTCAdmin_QueryJoinRoomTokenOptions when
  * initiating the query.
  *
+ * @see EOS_RTCAdmin_CopyUserTokenByIndexOptions
+ * @see EOS_RTCAdmin_UserToken
  * @see EOS_RTCAdmin_UserToken_Release
  *
- * @return EOS_Success if the information is available and passed out in OutUserToken
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the user token is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutUserToken
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the user token is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_RTCAdmin_CopyUserTokenByIndex(EOS_HRTCAdmin Handle, const EOS_RTCAdmin_CopyUserTokenByIndexOptions* Options, EOS_RTCAdmin_UserToken ** OutUserToken);
 
@@ -51,11 +55,15 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_RTCAdmin_CopyUserTokenByIndex(EOS_HRTCAdmin Ha
  * @param Options Structure containing the user ID being accessed
  * @param OutUserToken The user token for the given user ID, if it exists and is valid. Use EOS_RTCAdmin_UserToken_Release when finished
  *
+ * @see EOS_RTCAdmin_CopyUserTokenByUserIdOptions
+ * @see EOS_RTCAdmin_UserToken
  * @see EOS_RTCAdmin_UserToken_Release
  *
- * @return EOS_Success if the information is available and passed out in OutUserToken
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the user token is not found
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutUserToken
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the user token is not found
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_RTCAdmin_CopyUserTokenByUserId(EOS_HRTCAdmin Handle, const EOS_RTCAdmin_CopyUserTokenByUserIdOptions* Options, EOS_RTCAdmin_UserToken ** OutUserToken);
 
@@ -66,6 +74,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_RTCAdmin_CopyUserTokenByUserId(EOS_HRTCAdmin H
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
  *
+ * @see EOS_RTCAdmin_KickOptions
+ * @see EOS_RTCAdmin_OnKickCompleteCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTCAdmin_Kick(EOS_HRTCAdmin Handle, const EOS_RTCAdmin_KickOptions* Options, void* ClientData, const EOS_RTCAdmin_OnKickCompleteCallback CompletionDelegate);
 
@@ -77,5 +87,8 @@ EOS_DECLARE_FUNC(void) EOS_RTCAdmin_Kick(EOS_HRTCAdmin Handle, const EOS_RTCAdmi
  * @param Options structure containing the room and user to mute.
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
+ *
+ * @see EOS_RTCAdmin_SetParticipantHardMuteOptions
+ * @see EOS_RTCAdmin_OnSetParticipantHardMuteCompleteCallback
  */
 EOS_DECLARE_FUNC(void) EOS_RTCAdmin_SetParticipantHardMute(EOS_HRTCAdmin Handle, const EOS_RTCAdmin_SetParticipantHardMuteOptions* Options, void* ClientData, const EOS_RTCAdmin_OnSetParticipantHardMuteCompleteCallback CompletionDelegate);

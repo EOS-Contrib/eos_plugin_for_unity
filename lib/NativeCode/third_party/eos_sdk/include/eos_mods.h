@@ -21,6 +21,8 @@
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
  *
  * @see the section related to mods in eos_result.h for more details.
+ * @see EOS_Mods_InstallModOptions
+ * @see EOS_Mods_OnInstallModCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Mods_InstallMod(EOS_HMods Handle, const EOS_Mods_InstallModOptions* Options, void* ClientData, const EOS_Mods_OnInstallModCallback CompletionDelegate);
 
@@ -32,6 +34,8 @@ EOS_DECLARE_FUNC(void) EOS_Mods_InstallMod(EOS_HMods Handle, const EOS_Mods_Inst
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
  *
  * @see the section related to mods in eos_result.h for more details.
+ * @see EOS_Mods_UninstallModOptions
+ * @see EOS_Mods_OnUninstallModCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Mods_UninstallMod(EOS_HMods Handle, const EOS_Mods_UninstallModOptions* Options, void* ClientData, const EOS_Mods_OnUninstallModCallback CompletionDelegate);
 
@@ -44,6 +48,8 @@ EOS_DECLARE_FUNC(void) EOS_Mods_UninstallMod(EOS_HMods Handle, const EOS_Mods_Un
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
  *
  * @see the section related to mods in eos_result.h for more details.
+ * @see EOS_Mods_EnumerateModsOptions
+ * @see EOS_Mods_OnEnumerateModsCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Mods_EnumerateMods(EOS_HMods Handle, const EOS_Mods_EnumerateModsOptions* Options, void* ClientData, const EOS_Mods_OnEnumerateModsCallback CompletionDelegate);
 
@@ -56,6 +62,8 @@ EOS_DECLARE_FUNC(void) EOS_Mods_EnumerateMods(EOS_HMods Handle, const EOS_Mods_E
  * @return Success if we have cached data, or an error result if the request was invalid or we do not have cached data.
  *
  * @see EOS_Mods_ModInfo_Release
+ * @see EOS_Mods_CopyModInfoOptions
+ * @see EOS_Mods_ModInfo
  *
  * This request may fail with an EOS_NotFound code if an enumeration of a certain type was not performed before this call.
  */
@@ -69,5 +77,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Mods_CopyModInfo(EOS_HMods Handle, const EOS_M
  * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error. If the mod is up to date then the operation will complete with success.
  *
  * @see the section related to mods in eos_result.h for more details.
+ * @see EOS_Mods_UpdateModOptions
+ * @see EOS_Mods_OnUpdateModCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Mods_UpdateMod(EOS_HMods Handle, const EOS_Mods_UpdateModOptions* Options, void* ClientData, const EOS_Mods_OnUpdateModCallback CompletionDelegate);

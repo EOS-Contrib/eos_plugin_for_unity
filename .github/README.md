@@ -1,9 +1,3 @@
-<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
-
-<div align="center"> <img src="/com.playeveryware.eos/Documentation~/images/EOSPluginLogo.png" alt="PlayEveryWare EOS Plugin for Unity" /> </div>
-
-<br />
-
 <div align="left">
   
 <a href="">[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)</a>
@@ -14,39 +8,39 @@
 
 # Overview
 
-The PlayEveryWare EOS Plugin for Unity brings the free services from Epic that connect players across all platforms and all stores to Unity in an easy-to-use package. Find more information on what services Epic Online Services encompasses, see here: [https://dev.epicgames.com/en-US/services](https://dev.epicgames.com/en-US/services) and to read the developer documentation on those services, see here: [https://dev.epicgames.com/docs/epic-online-services](https://dev.epicgames.com/docs/epic-online-services).
+The EOS Plugin for Unity brings the free services from Epic that connect players across all platforms and all stores to Unity in an easy-to-use package. Find more information on what services Epic Online Services encompasses at [https://dev.epicgames.com/en-US/services](https://dev.epicgames.com/en-US/services) and read the developer documentation at [https://dev.epicgames.com/docs/epic-online-services](https://dev.epicgames.com/docs/epic-online-services).
 
-This repository contains the source code for development and serves as a destination for support for the [PlayEveryWare EOS Plugin for Unity (UPM Package)](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm).
+This repository contains the source code for development of the [EOS Plugin for Unity (UPM Package)](https://github.com/EOS-Contrib/eos_plugin_for_unity_upm).
 
-Out of the box, this project demonstrates (through a collection of sample scenes) each feature of the Epic Online Services SDK[^1]. The sample scenes (coupled with accompanying documentation) can be used to get an idea of how you can implement all the online features you want in your game!
+Out of the box, this project demonstrates (through a collection of sample scenes) each feature of the Epic Online Services SDK[^1]. The sample scenes (coupled with accompanying documentation) can be used to get an idea of how you can implement the online features you want in your game.
 
 See [this](/com.playeveryware.eos/Documentation~/plugin_advantages.md) for a more complete overview of the advantages of using EOS with Unity.
 
 [^1]: See the [supported-eos-sdk-features](#supported-eos-sdk-features) section for which SDK features specifically are demonstrated.
 
 > [!NOTE]
-> If you are **not** interested in the _development_ of the EOS Plugin project (and instead just want to get to using it) you can follow our guide on [Importing the Plugin Package](#importing-the-plugin-package) to start using the most recently released version of the EOS Plugin.
+> If you are **not** interested in the _development_ of the EOS Plugin for Unity project (and instead just want to get to using it) you can follow our guide on [Importing the Plugin Package](#importing-the-plugin-package) to start using the most recently released version of the EOS Plugin for Unity.
 
 # Getting Started
 
 ## Prerequisites
 
-* [Create an Epic Games Account](https://www.epicgames.com/id/register) (_although, most [features](#exploring-supported-eos-features) do not require your users to have an Epic Games Account, you must have one to configure your game with Epic Games Developer Portal_).
+* [An Epic Games account](https://www.epicgames.com/id/register) (_although, most [features](#exploring-supported-eos-features) do not require your users to have an Epic Games account, you must have one to configure your game in the Epic Games Developer Portal_).
 * A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/).
 * A Unity project to integrate the plugin into.
 
 > [!NOTE]
-> Your system should also satisfy [Unity's system requirements](https://docs.unity3d.com/2021.3/Documentation/Manual/system-requirements.html) as well as the [EOS system requirements](https://dev.epicgames.com/docs/epic-online-services/eos-get-started/system-requirements)
+> Your system should also satisfy [Unity's system requirements](https://docs.unity3d.com/Manual/system-requirements.html) as well as the [EOS system requirements](https://dev.epicgames.com/docs/epic-online-services/eos-get-started/system-requirements)
 
 # Supported EOS SDK Features
 
-Below is a table summarizing the level of support the EOS Plugin for Unity provides. Most features are demonstrated via sample scenes provided in the project, and links to the guide for each corresponding sample scene are listed below. In some cases (such as Anti-Cheat) the feature is not very well demonstrated with a scene. In those cases, a link to information about how the plugin utilizes the feature is provided. In some cases (such as logging and overlay) the features are not implemented in any one scene specifically, but in all of them.
+Below is a table summarizing the features the EOS Plugin for Unity supports. Most features are demonstrated via sample scenes provided in the project, and links to the guide for each corresponding sample scene are listed below. In some cases (such as Anti-Cheat) the feature is not able to be demonstrated well with a scene. In those cases, a link to information about how the plugin utilizes the feature is provided. In some cases (such as logging and overlay) the features are not implemented in any one scene specifically, but in all of them.
 
 Use the "Select Demo Scene" dropdown in the application to select the sample scene that corresponds with the walkthrough. 
 
-There are many EOS features that do not require your player to have an Epic Games Account (EGA) - such features are also marked accordingly in the following table.
+There are many EOS features that do not require your player to have an Epic Games account - such features are also marked accordingly in the following table.
 
-| Feature | Status | Sample Scene Walkthrough | Requires EGA |
+| Feature | Status | Sample Scene Walkthrough | Requires Epic Games account |
 | :-- | :-: | :-- | :-: |
 |[Achievements](https://dev.epicgames.com/docs/game-services/achievements)                 | ✅ | ["Achievements"](/com.playeveryware.eos/Documentation~/scene_walkthrough/achievements_walkthrough.md)                                                  |   |
 |[Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat)                     | ✅ | ["Information"](/com.playeveryware.eos/Documentation~/easy_anticheat_configuration.md)                                                                             |  |
@@ -56,11 +50,10 @@ There are many EOS features that do not require your player to have an Epic Game
 |[Ecommerce](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/ecom)[^2]    | ✅ | ["Store"](/com.playeveryware.eos/Documentation~/scene_walkthrough/store_walkthrough.md), [Information](/com.playeveryware.eos/Documentation~/ecom.md)                                        | ✔️ |
 |[Friends](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface)     | ✅ | ["Auth & Friends"](/com.playeveryware.eos/Documentation~/scene_walkthrough/auth&friends_walkthrough.md)                                                               | ✔️ |
 |[Leaderboards](https://dev.epicgames.com/docs/game-services/leaderboards)                 | ✅ | ["Leaderboards"](/com.playeveryware.eos/Documentation~/scene_walkthrough/leaderboards_walkthrough.md)                                                               |   |
-|[Lobby](https://dev.epicgames.com/docs/game-services/lobbies)                             | ✅ | ["Lobbies"](/com.playeveryware.eos/Documentation~/scene_walkthrough/lobbies_walkthrough.md)                                                                    |  |
-|[Lobby with Voice](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies)   | ✅ | ["Lobbies"](/com.playeveryware.eos/Documentation~/scene_walkthrough/lobbies_walkthrough.md), [Information](/com.playeveryware.eos/Documentation~/enabling_voice.md)                            |  |
+|[Lobbies](https://dev.epicgames.com/docs/game-services/lobbies)                             | ✅ | ["Lobbies"](/com.playeveryware.eos/Documentation~/scene_walkthrough/lobbies_walkthrough.md)                                                                    |  |
 |[Logging Interface](https://dev.epicgames.com/docs/game-services/eos-logging-interface)   | ✅ | NA                                                                                                                               |  |
 |[Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface)             | ✅ | ["Metrics"](/com.playeveryware.eos/Documentation~/scene_walkthrough/metrics_walkthrough.md)                                                                    |  |
-|[Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods)      | ❌ | NA                                                                                                                               | ✔️ |
+|[Epic Games Store Mods](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods)      | ❌ | NA                                                                                                                               | ✔️ |
 |[NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p)                                               | ✅ | ["Peer 2 Peer"](/com.playeveryware.eos/Documentation~/scene_walkthrough/P2P_walkthrough.md), ["P2P Netcode"](/com.playeveryware.eos/Documentation~/scene_walkthrough/P2P_netcode_walkthrough.md) |  |
 |[Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface)                   | ✅ | NA |   |
 |[Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage)                     | ✅ | ["Player Data Storage"](/com.playeveryware.eos/Documentation~/scene_walkthrough/player_data_storage_walkthrough.md)                                                        |   |
@@ -73,11 +66,15 @@ There are many EOS features that do not require your player to have an Epic Game
 |[Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface)                 | ✅ | ["Leaderboards"](/com.playeveryware.eos/Documentation~/scene_walkthrough/leaderboards_walkthrough.md)                                                               |  |
 |[Title Storage](https://dev.epicgames.com/docs/game-services/title-storage)               | ✅ | ["Title Storage"](/com.playeveryware.eos/Documentation~/scene_walkthrough/title_storage_walkthrough.md)                                                              |  |
 |[User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface) | ✅ | NA                                                                                                                     | ✔️ |
+|[Voice with Lobbies](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies)   | ✅ | ["Lobbies"](/com.playeveryware.eos/Documentation~/scene_walkthrough/lobbies_walkthrough.md), [Information](/com.playeveryware.eos/Documentation~/enabling_voice.md)                            |  |
 |[Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | ❌ | NA                                                                                                           |  |
 
-Efforts will be made to add corresponding support to features as they are added to the Epic Online Services SDK. The table above reflects the features as of November 2023.
+Efforts will be made to add corresponding support to features as they are added to the Epic Online Services SDK. The table above reflects the features as of December 2025.
 
-[^2]: Overlay Features aren't supported yet on Mobile devices as of EOSSDK 1.16.4. That includes Social Overlay and Store Overlay.
+[^2]: As of EOS Unity Plugin 4.1.0, only the Ecom Overlay is supported on mobile. The Social Overlay isn't supported on mobile.
+
+The mobile Epic Games Store is currently in closed beta. We’re excited to launch our self-publishing tools in the near future.
+Interested in joining our mobile store? Submit your game through our [Leads Intake form](https://e.acct.epicgames.com/click?EZWdzdG9yZS10ZWFtQGVwaWNnYW1lcy5jb20/CeyJtaWQiOiIxNzYzNTcxOTU3NDUzMTk2NTk2OGRjNzFiIiwiY3QiOiJlcGljLXR4LXByb2QtODI0ODA2ZmU0NDUwYjQ4ZTQ3MDVhODM3Y2Q4MzAwNGItMSIsInJkIjoiZXBpY2dhbWVzLmNvbSJ9/VaHR0cHM6Ly9mb3Jtcy51bnJlYWxlbmdpbmUuY29tL3MvZWdzLWxlYWQtaW50YWtlLWZvcm0/SWkhfYWNjdF9OTlRBTjExMTkyMDI1YzE4NjM3NjJiMQ/LYWUx/qP2xhbmd1YWdlPWVuX1VT/gaR35mw/JMTExOTIwMjVDMTg2Mzc2MkIx/s1v93de8f7c)
 
 ## Supported Platforms
 
@@ -88,11 +85,12 @@ We currently support the following platforms, details of each can be found on ou
 * macOS
 * Android
 * iOS
-* Nintendo Switch
+* Nintendo Switch™
+* Nintendo Switch 2™
 * Xbox One
-* Xbox Series X
-* PlayStation 4
-* PlayStation 5
+* Xbox Series X|S
+* PlayStation®4
+* PlayStation®5
 
 ## Importing the Plugin Package
 
@@ -109,17 +107,13 @@ Once imported into your project, be sure to [Configure the Plugin](/com.playever
 
 # Support / Contact
 
-PlayEveryWare EOS Plugin for Unity documentation can be found here on GitHub.
+EOS Plugin for Unity documentation can be found here on GitHub.
 
-For issues related to integration or usage of the EOS Unity plugin, please create a `New Issue` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab.
+For questions or issues related to integration or usage of Epic Online Services, Epic Games Developer Portal, or the EOS Plugin for Unity, please create a discussion on the [EOS Developer Community](https://eoshelp.epicgames.com).
 
-For issues related to Epic Online Services SDK, Epic Dev Portal or for general EOS SDK information, see the [Epic Online Services Community Support](https://eoshelp.epicgames.com/).
+Detailed descriptions and usage for EOS SDK Interfaces can be found on [Epic Developer Resources Documentation](https://dev.epicgames.com/docs/).
 
-Detailed descriptions and usage for EOS SDK Interfaces can be found on [Epic's documentation for Game Services](https://dev.epicgames.com/docs/services/en-US/GameServices/index.html).
-
-For issues of a confidential nature (for instance for support using this Plugin on restricted console platforms), please reach out to us directly at [eos-support@playeveryware.com](mailto:playeos-support@playeveryware.com).
-
-If it is _at all_ unclear to you where to go for support - do not hesitate to open a `New Issue` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab, and we will make certain that you are properly (and promptly) assisted :)
+For issues of a confidential nature (including support using this plugin on console platforms), please create a private discussion on the [EOS Developer Community](https://eoshelp.epicgames.com).
 
 # Contributor Notes
 
@@ -134,5 +128,3 @@ See [our guide](/com.playeveryware.eos/Documentation~/command_line_export.md) on
 For issues of API Level compatibility, please read our [document](/com.playeveryware.eos/Documentation~/dotnet_quirks.md) on .NET Quirks and Unity compatibility.
 
 For more FAQs see [Frequently Asked Questions](/com.playeveryware.eos/Documentation~/frequently_asked_questions.md).
-
-If you have any outstanding questions, please bring them up in the [Discussions](https://github.com/PlayEveryWare/eos_plugin_for_unity/discussions) tab.

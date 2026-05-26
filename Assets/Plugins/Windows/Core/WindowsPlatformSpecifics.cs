@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 PlayEveryWare
+ * Copyright (c) 2026 Epic Games Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -51,15 +51,22 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Runtime.InteropServices;
     using Utility;
 
+#if !EXTERNAL_TO_UNITY
+    // These wrappers reference EOS SDK types that live in `Epic.OnlineServices.Platform`
+    // and are themselves guarded by `#if EOS_PLATFORM_WINDOWS_32 || EOS_PLATFORM_WINDOWS_64`.
+    // Outside of Unity (the EXTERNAL_TO_UNITY ManagedPluginCode build), neither
+    // EOS_PLATFORM_WINDOWS_64 nor EOS_PLATFORM_WINDOWS_32 is defined, so the SDK types
+    // are not compiled and these helper classes must also be excluded from that context.
     public class EOSCreateOptions
     {
-        public WindowsOptions options;
+        public Epic.OnlineServices.Platform.WindowsOptions options;
     }
 
     public class EOSInitializeOptions
     {
-        public InitializeOptions options;
+        public Epic.OnlineServices.Platform.InitializeOptions options;
     }
+#endif
 
     //-------------------------------------------------------------------------
     public class WindowsPlatformSpecifics : PlatformSpecifics<WindowsConfig>
@@ -95,7 +102,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             // In the editor, EOS needs to be dynamically bound.
 #if EOS_DYNAMIC_BINDINGS || UNITY_EDITOR
-            const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
+            const string EOSBinaryName = Epic.OnlineServices.Common.LIBRARY_NAME;
             var eosLibraryHandle = EOSManager.EOSSingleton.LoadDynamicLibrary(EOSBinaryName);
             Epic.OnlineServices.WindowsBindings.Hook<DLLHandle>(eosLibraryHandle, (DLLHandle handle, string functionName) => {
                 return handle.LoadFunctionAsIntPtr(functionName);
@@ -128,15 +135,15 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="createOptions"></param>
         public override void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions)
         {
-            string pluginPlatformPath =
-#if UNITY_64
-            "x64";
+            // EOS_PLATFORM_WINDOWS_ARM64 is set by the Windows ARM64 build pipeline.
+            // xaudio2_9redist.dll ships in both Plugins/Windows/x64/ and Plugins/Windows/ARM64/
+            // — we must point at the architecture-matching copy at runtime.
+#if EOS_PLATFORM_WINDOWS_ARM64
+            const string pluginPlatformPath = "ARM64";
 #else
-            "x86";
+            const string pluginPlatformPath = "x64";
 #endif
 
-            if (pluginPlatformPath.Length > 0)
-            {
                 List<string> pluginPaths = DLLHandle.GetPathsToPlugins();
                 var rtcPlatformSpecificOptions = new WindowsRTCOptionsPlatformSpecificOptions();
                 foreach (string pluginPath in pluginPaths)
@@ -149,6 +156,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     }
 
                     path = FileSystemUtility.CombinePaths(pluginPath, pluginPlatformPath, Xaudio2DllName);
+                    Debug.Log("Plugin path = " + path);
                     if (FileSystemUtility.FileExists(path))
                     {
                         rtcPlatformSpecificOptions.XAudio29DllPath = path;
@@ -206,7 +214,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     }
                 }
 #endif
-            }
         }
 
 #endif

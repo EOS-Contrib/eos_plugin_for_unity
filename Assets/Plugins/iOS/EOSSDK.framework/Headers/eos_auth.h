@@ -17,6 +17,9 @@
  * @param Options structure containing the account credentials to use during the login operation
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the login operation completes, either successfully or in error
+ *
+ * @see EOS_Auth_LoginOptions
+ * @see EOS_Auth_OnLoginCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Auth_Login(EOS_HAuth Handle, const EOS_Auth_LoginOptions* Options, void* ClientData, const EOS_Auth_OnLoginCallback CompletionDelegate);
 
@@ -26,6 +29,9 @@ EOS_DECLARE_FUNC(void) EOS_Auth_Login(EOS_HAuth Handle, const EOS_Auth_LoginOpti
  * @param Options structure containing information about which account to log out.
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the logout operation completes, either successfully or in error
+ *
+ * @see EOS_Auth_LogoutOptions
+ * @see EOS_Auth_OnLogoutCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Auth_Logout(EOS_HAuth Handle, const EOS_Auth_LogoutOptions* Options, void* ClientData, const EOS_Auth_OnLogoutCallback CompletionDelegate);
 
@@ -40,6 +46,9 @@ EOS_DECLARE_FUNC(void) EOS_Auth_Logout(EOS_HAuth Handle, const EOS_Auth_LogoutOp
  * @param Options structure containing the account credentials to use during the link account operation
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the link account operation completes, either successfully or in error
+ *
+ * @see EOS_Auth_LinkAccountOptions
+ * @see EOS_Auth_OnLinkAccountCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Auth_LinkAccount(EOS_HAuth Handle, const EOS_Auth_LinkAccountOptions* Options, void* ClientData, const EOS_Auth_OnLinkAccountCallback CompletionDelegate);
 
@@ -54,6 +63,9 @@ EOS_DECLARE_FUNC(void) EOS_Auth_LinkAccount(EOS_HAuth Handle, const EOS_Auth_Lin
  * @param Options structure containing operation input parameters
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the deletion operation completes, either successfully or in error
+ *
+ * @see EOS_Auth_DeletePersistentAuthOptions
+ * @see EOS_Auth_OnDeletePersistentAuthCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Auth_DeletePersistentAuth(EOS_HAuth Handle, const EOS_Auth_DeletePersistentAuthOptions* Options, void* ClientData, const EOS_Auth_OnDeletePersistentAuthCallback CompletionDelegate);
 
@@ -65,6 +77,8 @@ EOS_DECLARE_FUNC(void) EOS_Auth_DeletePersistentAuth(EOS_HAuth Handle, const EOS
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate a callback that is fired when the logout operation completes, either successfully or in error
  *
+ * @see EOS_Auth_VerifyUserAuthOptions
+ * @see EOS_Auth_OnVerifyUserAuthCallback
  * @see EOS_Auth_CopyUserAuthToken
  */
 EOS_DECLARE_FUNC(void) EOS_Auth_VerifyUserAuth(EOS_HAuth Handle, const EOS_Auth_VerifyUserAuthOptions* Options, void* ClientData, const EOS_Auth_OnVerifyUserAuthCallback CompletionDelegate);
@@ -104,11 +118,15 @@ EOS_DECLARE_FUNC(EOS_ELoginStatus) EOS_Auth_GetLoginStatus(EOS_HAuth Handle, EOS
  * @param LocalUserId The Epic Account ID of the user being queried
  * @param OutUserAuthToken The auth token for the given user, if it exists and is valid; use EOS_Auth_Token_Release when finished
  *
+ * @see EOS_Auth_CopyUserAuthTokenOptions
+ * @see EOS_Auth_Token
  * @see EOS_Auth_Token_Release
  *
- * @return EOS_Success if the information is available and passed out in OutUserAuthToken
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the auth token is not found or expired.
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutUserAuthToken
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the auth token is not found or expired.
  *
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Auth_CopyUserAuthToken(EOS_HAuth Handle, const EOS_Auth_CopyUserAuthTokenOptions* Options, EOS_EpicAccountId LocalUserId, EOS_Auth_Token ** OutUserAuthToken);
@@ -126,11 +144,15 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Auth_CopyUserAuthToken(EOS_HAuth Handle, const
  * @param Options Structure containing the account ID for which to copy an ID token.
  * @param OutIdToken An ID token for the given user, if it exists and is valid; use EOS_Auth_IdToken_Release when finished.
  *
+ * @see EOS_Auth_CopyIdTokenOptions
+ * @see EOS_Auth_IdToken
  * @see EOS_Auth_IdToken_Release
  *
- * @return EOS_Success if the information is available and passed out in OutUserIdToken
- *         EOS_InvalidParameters if you pass a null pointer for the out parameter
- *         EOS_NotFound if the Id token is not found or expired.
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the information is available and passed out in OutUserIdToken
+ * - EOS_InvalidParameters if you pass a null pointer for the out parameter
+ * - EOS_NotFound if the Id token is not found or expired.
  *
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Auth_CopyIdToken(EOS_HAuth Handle, const EOS_Auth_CopyIdTokenOptions* Options, EOS_Auth_IdToken ** OutIdToken);
@@ -145,6 +167,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Auth_CopyIdToken(EOS_HAuth Handle, const EOS_A
  * @param Options Structure containing the merged account ID for which to query an ID token.
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate.
  * @param CompletionDelegate A callback that is fired when the operation completes, either successfully or in error.
+ *
+ * @see EOS_Auth_QueryIdTokenOptions
+ * @see EOS_Auth_OnQueryIdTokenCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Auth_QueryIdToken(EOS_HAuth Handle, const EOS_Auth_QueryIdTokenOptions* Options, void* ClientData, const EOS_Auth_OnQueryIdTokenCallback CompletionDelegate);
 
@@ -154,6 +179,9 @@ EOS_DECLARE_FUNC(void) EOS_Auth_QueryIdToken(EOS_HAuth Handle, const EOS_Auth_Qu
  * @param Options Structure containing information about the ID token to verify.
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate A callback that is fired when the operation completes, either successfully or in error.
+ *
+ * @see EOS_Auth_VerifyIdTokenOptions
+ * @see EOS_Auth_OnVerifyIdTokenCallback
  */
 EOS_DECLARE_FUNC(void) EOS_Auth_VerifyIdToken(EOS_HAuth Handle, const EOS_Auth_VerifyIdTokenOptions* Options, void* ClientData, const EOS_Auth_OnVerifyIdTokenCallback CompletionDelegate);
 
@@ -163,11 +191,13 @@ EOS_DECLARE_FUNC(void) EOS_Auth_VerifyIdToken(EOS_HAuth Handle, const EOS_Auth_V
  * @param LocalUserId The account ID of a currently logged in account.
  * @param OutSelectedAccountId The selected account ID corresponding to the given account ID.
  *
- * @return EOS_Success if the user is logged in and the information is available.
- *         EOS_InvalidParameters if the output parameter is NULL.
- *         EOS_InvalidUser if the input account ID is not locally known.
- *         EOS_InvalidAuth if the input account ID is not locally logged in.
- *         EOS_NotFound otherwise.
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success if the user is logged in and the information is available.
+ * - EOS_InvalidParameters if the output parameter is NULL.
+ * - EOS_InvalidUser if the input account ID is not locally known.
+ * - EOS_InvalidAuth if the input account ID is not locally logged in.
+ * - EOS_NotFound otherwise.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Auth_GetSelectedAccountId(EOS_HAuth Handle, const EOS_EpicAccountId LocalUserId, EOS_EpicAccountId* OutSelectedAccountId);
 
@@ -197,6 +227,9 @@ EOS_DECLARE_FUNC(EOS_EpicAccountId) EOS_Auth_GetMergedAccountByIndex(EOS_HAuth H
  * @param Options structure containing the api version of AddNotifyLoginStatusChanged to use
  * @param ClientData arbitrary data that is passed back to you in the callback
  * @param Notification a callback that is fired when the login status for a user changes
+ *
+ * @see EOS_Auth_AddNotifyLoginStatusChangedOptions
+ * @see EOS_Auth_OnLoginStatusChangedCallback
  *
  * @return handle representing the registered callback
  */

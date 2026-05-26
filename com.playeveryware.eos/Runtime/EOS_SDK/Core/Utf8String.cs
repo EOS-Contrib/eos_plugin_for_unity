@@ -103,29 +103,44 @@ namespace Epic.OnlineServices
 			set { Bytes[index] = value; }
 		}
 
-		public static explicit operator Utf8String(byte[] bytes)
+		public static explicit operator Utf8String(byte[] other)
 		{
-			return new Utf8String(bytes);
-		}
-
-		public static explicit operator byte[](Utf8String u8str)
-		{
-			return u8str.Bytes;
-		}
-
-		public static implicit operator Utf8String(string str)
-		{
-			return new Utf8String(str);
-		}
-
-		public static implicit operator string(Utf8String u8str)
-		{
-			if (u8str != null)
+			if (other == null)
 			{
-				return u8str.ToString();
+				return null;
 			}
 
-			return null;
+			return new Utf8String(other);
+		}
+
+		public static explicit operator byte[](Utf8String other)
+		{
+			if (other == null)
+			{
+				return null;
+			}
+
+			return other.Bytes;
+		}
+
+		public static implicit operator Utf8String(string other)
+		{
+			if (other == null)
+			{
+				return null;
+			}
+
+			return new Utf8String(other);
+		}
+
+		public static implicit operator string(Utf8String other)
+		{
+			if (other == null)
+			{
+				return null;
+			}
+
+			return other.ToString();
 		}
 
 		public static Utf8String operator +(Utf8String left, Utf8String right)
