@@ -141,10 +141,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                if (UIFriendInteractionSource != null && UIFriendInteractionSource.IsFriendsUIDirty())
+                SampleMenuWithFriends friendInteractionSource = UIFriendInteractionSource;
+
+                if (friendInteractionSource != null && friendInteractionSource.IsFriendsUIDirty())
                 {
                     RenderFriendsList(true);
-                    UIFriendInteractionSource.SetDirtyFlag(false);
+                    friendInteractionSource.SetDirtyFlag(false);
                 }
                 else
                 {
@@ -171,13 +173,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void RefreshUIList(Dictionary<EpicAccountId, FriendData>.ValueCollection friendDataList)
         {
+            SampleMenuWithFriends friendInteractionSource = UIFriendInteractionSource;
+
             // Destroy current UI member list
             foreach (Transform child in FriendsListContentParent.transform)
             {
                 GameObject.Destroy(child.gameObject);
             }
 
-            UIFriendInteractionSource?.OnFriendStateChanged();
+            if (friendInteractionSource != null)
+            {
+                friendInteractionSource.OnFriendStateChanged();
+            }
 
             foreach (FriendData friend in friendDataList)
             {
@@ -186,11 +193,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 uiEntry.SetFriendData(friend);
 
-                if (UIFriendInteractionSource != null)
+                if (friendInteractionSource != null)
                 {
-                    var friendButtonState = UIFriendInteractionSource.GetFriendInteractionState(friend);
-                    uiEntry.SetFriendbuttonText(UIFriendInteractionSource.GetFriendInteractButtonText());
-                    uiEntry.FriendInteractOnClick = UIFriendInteractionSource.OnFriendInteractButtonClicked;
+                    var friendButtonState = friendInteractionSource.GetFriendInteractionState(friend);
+                    uiEntry.SetFriendbuttonText(friendInteractionSource.GetFriendInteractButtonText());
+                    uiEntry.FriendInteractOnClick = friendInteractionSource.OnFriendInteractButtonClicked;
                     switch (friendButtonState)
                     {
                         case SampleMenuWithFriends.FriendInteractionState.Hidden:
@@ -271,7 +278,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             panelRT.anchoredPosition = newPos;
 
             FriendOverlayContent.SetActive(false);
-            UIActions.OnCollapseFriendsTab?.Invoke();
+            UIActions.InvokeOnCollapseFriendsTab();
             EventSystem.current.SetSelectedGameObject(SelectedButtonOnClose);
             collapsed = true;
         }
@@ -279,7 +286,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ExpandFriendsTab()
         {  
             FriendOverlayContent.SetActive(true);
-            UIActions.OnExpandFriendsTab?.Invoke();
+            UIActions.InvokeOnExpandFriendsTab();
 
             var panelRT = FriendsPanel.transform as RectTransform;
             var newPos = panelRT.anchoredPosition;

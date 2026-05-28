@@ -23,10 +23,60 @@
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using System;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
 
     public static class UIActions
     {
         public static Action OnCollapseFriendsTab;
         public static Action OnExpandFriendsTab;
+
+        public static void InvokeOnCollapseFriendsTab()
+        {
+            InvokeFriendsTabAction(ref OnCollapseFriendsTab);
+        }
+
+        public static void InvokeOnExpandFriendsTab()
+        {
+            InvokeFriendsTabAction(ref OnExpandFriendsTab);
+        }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void Initialize()
+        {
+            ClearFriendsTabActions();
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
+        }
+
+        private static void OnSceneUnloaded(Scene scene)
+        {
+            ClearFriendsTabActions();
+        }
+
+        private static void ClearFriendsTabActions()
+        {
+            OnCollapseFriendsTab = null;
+            OnExpandFriendsTab = null;
+        }
+
+        private static void InvokeFriendsTabAction(ref Action action)
+        {
+            if (action == null)
+            {
+                return;
+            }
+
+            foreach (Action handler in action.GetInvocationList())
+            {
+                if (handler.Target is UnityEngine.Object target && target == null)
+                {
+                    action -= handler;
+                    continue;
+                }
+
+                handler.Invoke();
+            }
+        }
     }
 }
