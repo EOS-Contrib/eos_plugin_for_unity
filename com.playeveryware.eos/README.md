@@ -26,7 +26,7 @@ See [this](/com.playeveryware.eos/Documentation~/plugin_advantages.md) for a mor
 ## Prerequisites
 
 * [An Epic Games account](https://www.epicgames.com/id/register) (_although, most [features](#exploring-supported-eos-features) do not require your users to have an Epic Games account, you must have one to configure your game in the Epic Games Developer Portal_).
-* A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/).
+* A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/) (see [Full Guide to Implementing the EOS Plugin for Unity](/com.playeveryware.eos/Documentation~/getting_started_guide/README.md) for steps on configuring a product). 
 * A Unity project to integrate the plugin into.
 
 > [!NOTE]
