@@ -25,7 +25,7 @@ PluginImporter:
         Exclude Switch: 1
         Exclude Win: 1
         Exclude Win64: 0
-        Exclude WindowsStoreApps: 1
+        Exclude WindowsStoreApps: 0
         Exclude XboxOne: 1
   - first:
       Android: Android
@@ -43,7 +43,7 @@ PluginImporter:
     second:
       enabled: 0
       settings:
-        CPU: x86
+        CPU: x86_64
         DefaultValueInitialized: true
         OS: Windows
   - first:
@@ -73,7 +73,7 @@ PluginImporter:
   - first:
       Windows Store Apps: WindowsStoreApps
     second:
-      enabled: 0
+      enabled: 1
       settings:
         CPU: X64
         DontProcess: false

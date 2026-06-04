@@ -34,7 +34,7 @@ PluginImporter:
       settings:
         CPU: ARMv7
   - first:
-      Any: 
+      Any:
     second:
       enabled: 0
       settings: {}
@@ -43,7 +43,7 @@ PluginImporter:
     second:
       enabled: 0
       settings:
-        CPU: ARM64
+        CPU: None
         DefaultValueInitialized: true
         OS: Windows
   - first:
@@ -75,11 +75,11 @@ PluginImporter:
     second:
       enabled: 0
       settings:
-        CPU: ARM64
+        CPU: None
         DontProcess: false
-        PlaceholderPath: 
+        PlaceholderPath:
         SDK: AnySDK
         ScriptingBackend: AnyScriptingBackend
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+  userData:
+  assetBundleName:
+  assetBundleVariant:
