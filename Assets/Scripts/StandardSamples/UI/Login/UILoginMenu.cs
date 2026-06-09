@@ -1361,7 +1361,7 @@ using UnityEngine.InputSystem;
             }
             else if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.InvalidUser)
             {
-                print("Trying Auth link with external account: " + loginCallbackInfo.ContinuanceToken);
+                print("Trying Auth link with external account");
                 EOSManager.Instance.AuthLinkExternalAccountWithContinuanceToken(loginCallbackInfo.ContinuanceToken, 
 #if UNITY_SWITCH || UNITY_SWITCH2
                                                                                 LinkAccountFlags.NintendoNsaId,

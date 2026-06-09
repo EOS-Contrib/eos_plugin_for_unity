@@ -35,6 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices;
     using Epic.OnlineServices.Achievements;
     using System.Threading.Tasks;
+    using Utility;
     using Debug = UnityEngine.Debug;
 
     /// <summary>
@@ -287,7 +288,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </returns>
         private Task<(Result ResultCode, List<PlayerAchievement> Achievements)> QueryPlayerAchievementsAsync(ProductUserId productUserId)
         {
-            Log($"Begin query player achievements for {ProductUserIdToString(productUserId)}");
+            Log($"Begin query player achievements for {ProductUserIdToString(productUserId).Redact()}");
 
             QueryPlayerAchievementsOptions options = new()
             {

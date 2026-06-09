@@ -28,7 +28,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices;
     using Epic.OnlineServices.Ecom;
     using Epic.OnlineServices.Auth;
-    
+    using Utility;
+
     /// <summary>
     /// Class <c>EOSStoreManager</c> is a simplified wrapper for EOS [Ecom Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Ecom/index.html).
     /// </summary>
@@ -147,7 +148,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             var uid = EOSManager.Instance.GetLocalUserId();
 
             Debug.Log(
-                $"[StoreManager] QueryEntitlements() → LocalUserId: {uid}, IncludeRedeemed: {includeRedeemed}"
+                $"[StoreManager] QueryEntitlements() → LocalUserId: {uid.Redact()}, IncludeRedeemed: {includeRedeemed}"
             );
 
             var options = new QueryEntitlementsOptions
@@ -221,7 +222,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             var uid = EOSManager.Instance.GetLocalUserId();
 
             Debug.Log(
-                $"[StoreManager] QueryOwnership() → LocalUserId: {uid}, RequestedIds: {string.Join(", ", catalogItemIds)}"
+                $"[StoreManager] QueryOwnership() → LocalUserId: {uid.Redact()}, RequestedIds: {string.Join(", ", catalogItemIds)}"
             );
 
             if (catalogItemIds == null || catalogItemIds.Length == 0)

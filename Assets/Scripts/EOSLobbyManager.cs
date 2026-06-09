@@ -934,9 +934,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             /* Verbose Logging: Uncomment to print each time audio is received.
             Debug.LogFormat("Lobbies (OnRTCRoomParticipantAudioUpdateRecieved): participant audio updated. LocalUserId={0}, Room={1}, ParticipantUserId={2}, IsTalking={3}, IsAudioDisabled={4}",
-                data.LocalUserId,
+                data.LocalUserId.Redact(),
                 data.RoomName,
-                data.ParticipantId,
+                data.ParticipantId.Redact(),
                 data.Speaking,
                 data.AudioStatus != RTCAudioStatus.Enabled);
             */
@@ -1729,7 +1729,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Ensure this update is for us
             if(EOSManager.Instance.GetProductUserId() != data.LocalUserId)
             {
-                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Incorrect LocalUserId! LocalProductId={0} != data.LocalUserId", LoggingUtils.Redact(EOSManager.Instance.GetProductUserId()), LoggingUtils.Redact(data.LocalUserId));
+                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Incorrect LocalUserId! LocalProductId={0} != data.LocalUserId ({1})", LoggingUtils.Redact(EOSManager.Instance.GetProductUserId()), LoggingUtils.Redact(data.LocalUserId));
                 return;
             }
 
@@ -1777,7 +1777,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Ensure this update is for our room
             if (!CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
             {
-                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Incorrect Room! CurrentLobby.RTCRoomName={0} != data.RoomName", CurrentLobby.RTCRoomName, data.RoomName);
+                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Incorrect Room! CurrentLobby.RTCRoomName={0} != data.RoomName ({1})", CurrentLobby.RTCRoomName, data.RoomName);
                 return;
             }
 
@@ -1855,19 +1855,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Debug.LogFormat("Lobbies (OnRTCBlockParticipantCompleted): Blocked Participant successfully. Participant={0}, Room={1}, Blocked={2}", data.ParticipantId, data.RoomName, data.Blocked);
+            Debug.LogFormat("Lobbies (OnRTCBlockParticipantCompleted): Blocked Participant successfully. Participant={0}, Room={1}, Blocked={2}", data.ParticipantId.Redact(), data.RoomName, data.Blocked);
 
             // Ensure this update is for our room
             if (!CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
             {
-                Debug.LogErrorFormat("Lobbies (OnRTCBlockParticipantCompleted): Incorrect Room! CurrentLobby.RTCRoomName={0} != data.RoomName", CurrentLobby.RTCRoomName, data.RoomName);
+                Debug.LogErrorFormat("Lobbies (OnRTCBlockParticipantCompleted): Incorrect Room! CurrentLobby.RTCRoomName={0} != data.RoomName ({1})", CurrentLobby.RTCRoomName, data.RoomName);
                 return;
             }
 
             // Ensure this update is for us
             if (EOSManager.Instance.GetProductUserId() != data.LocalUserId)
             {
-                Debug.LogErrorFormat("Lobbies (OnRTCBlockParticipantCompleted): Incorrect LocalUserId! LocalProductId={0} != data.LocalUserId", LoggingUtils.Redact(EOSManager.Instance.GetProductUserId()), LoggingUtils.Redact(data.LocalUserId));
+                Debug.LogErrorFormat("Lobbies (OnRTCBlockParticipantCompleted): Incorrect LocalUserId! LocalProductId={0} != data.LocalUserId ({1})", LoggingUtils.Redact(EOSManager.Instance.GetProductUserId()), LoggingUtils.Redact(data.LocalUserId));
                 return;
             }
 
