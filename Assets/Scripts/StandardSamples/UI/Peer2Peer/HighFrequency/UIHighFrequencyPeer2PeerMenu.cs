@@ -27,6 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using UnityEngine;
     using UnityEngine.UI;
     using Epic.OnlineServices.Presence;
+    using Utility;
 
     public class UIHighFrequencyPeer2PeerMenu : SampleMenuWithFriends
     {
@@ -337,7 +338,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
             {
-                Debug.LogError($"{nameof(UIHighFrequencyPeer2PeerMenu)} {nameof(HasValidCurrentProductId)}: ProductUserId for '{currentChatDisplayName}' is not valid!");
+                Debug.LogError($"{nameof(UIHighFrequencyPeer2PeerMenu)} {nameof(HasValidCurrentProductId)}: ProductUserId for '{currentChatDisplayName.Redact()}' is not valid!");
                 return false;
             }
             
