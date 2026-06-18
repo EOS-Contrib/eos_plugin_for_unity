@@ -289,7 +289,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             else
             {
                 string connectionString = includeConnections ? ConnectionsJSONFormatString() : "";
-                return $"{{\"LocalUserId\": {LocalUserId}, \"NATType\": {NATType}{connectionString}}}";
+                return $"{{\"LocalUserId\": {LocalUserId.Redact()}, \"NATType\": {NATType}{connectionString}}}";
             }
         }
 
