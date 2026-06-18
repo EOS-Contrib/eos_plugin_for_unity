@@ -377,7 +377,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else if (result == Result.Success)
             {
                 //Do something with chat output
-                Debug.LogFormat("Message received: peerId={0}, socketId={1}, data={2}", peerId.Redact(), socketId, Encoding.UTF8.GetString(data).Redact());
+                Debug.LogFormat("Message received: peerId={0}, socketId={1}, data={2}", peerId.Redact(), socketId.SocketName.Redact(), Encoding.UTF8.GetString(data).Redact());
 
                 if (!peerId.IsValid())
                 {
