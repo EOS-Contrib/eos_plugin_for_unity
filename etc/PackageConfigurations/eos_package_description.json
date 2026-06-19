@@ -1,7 +1,8 @@
 {
   "source_to_dest": [
 
-      {"src": "etc/PlatformSpecificAssets/EOS/*",                   "dest": "PlatformSpecificAssets~/EOS/", "recursive": true },
+      {"ignore_regex": "gitignore"},
+      {"src": "etc/PlatformSpecificAssets/EOS/*",                   "dest": "PlatformSpecificAssets~/EOS/", "recursive": true},
       {"src": "tools/bin/EOSBootstrapperTool.exe",                  "dest": "bin~/"             },
       {"src": "tools/bin/EOSBootstrapper.exe",                      "dest": "bin~/"             },
       {"src": "tools/bin/EAC/Windows/anticheat_integritytool.exe",  "dest": "bin~/EAC/Windows/" },
