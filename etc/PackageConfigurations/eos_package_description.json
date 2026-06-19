@@ -36,7 +36,8 @@
       {"src": "Assets/Plugins/Windows/*",                           "dest": "Runtime/Windows/", "recursive": true },
       {"src": "Assets/Plugins/Linux/*",                             "dest": "Runtime/Linux/",   "recursive": true },
       {"src": "Assets/Plugins/macOS/*",                             "dest": "Runtime/macOS/",   "recursive": true },
-      {"src": "Assets/Plugins/Android/*",                           "dest": "Runtime/Android/", "recursive": true },
+      {"src": "Assets/Plugins/Android/*",                           "dest": "Runtime/Android/", "recursive": false },
+      {"src": "Assets/Plugins/Android/Core/*",                      "dest": "Runtime/Android/Core/", "recursive": true },
       {"src": "Assets/Plugins/iOS/*",                               "dest": "Runtime/iOS/",     "recursive": true },
                          
       {"src": "Assets/link.xml",                                    "dest": "Editor/"  },
