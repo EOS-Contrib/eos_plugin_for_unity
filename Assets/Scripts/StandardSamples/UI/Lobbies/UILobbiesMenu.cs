@@ -681,7 +681,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (kvp.Key.LobbyOwner == null)
                 {
-                    Debug.LogWarningFormat("Lobbies (OnSearchResultsReceived): Found lobby with null LobbyOwner id: ", kvp.Key.Id);
+                    Debug.LogWarningFormat("Lobbies (OnSearchResultsReceived): Found lobby with null LobbyOwner id: {0}", kvp.Key.Id);
                     continue;
                 }
 

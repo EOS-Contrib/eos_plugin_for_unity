@@ -32,6 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
     using System.Collections;
     using UnityEngine;
     using UnityEngine.UI;
+    using Utility;
 
     /// <summary>
     /// This is a test of the authentication managers.
@@ -244,7 +245,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
             }
 
             Debug.Log(
-                $"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): Ticket at start is {tokenAtStart}.");
+                $"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): Ticket at start is set.");
 
             while (true)
             {
@@ -375,7 +376,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
                 if (!string.Equals(tokenAtStart, currentToken))
                 {
                     Debug.LogError(
-                        $"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): The current token ({currentToken}) is different than the starting token ({tokenAtStart}). It must have been reacquired successfully.");
+                        $"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): The current token is different than the starting token. It must have been reacquired successfully.");
                     break;
                 }
 
