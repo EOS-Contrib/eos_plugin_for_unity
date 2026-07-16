@@ -4,11 +4,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [6.1.1] - 2026-07-22
+
+### Added
+- Added: Additional redaction of personal information in logging from the Samples.
+
+### Changed
+- Change: Updated documentation.
+
 ### Fixed
 - Fix: Arm64 builds sometimes failed and required triggering the build again after changing between win64 and arm64 platforms.
-### Added
-- Added: Logs now redact personal information
-- Updated documentation
 
 ## [6.1.0] - 2026-05-19
 
