@@ -33,34 +33,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public static void InvokeOnCollapseFriendsTab()
         {
-            InvokeFriendsTabAction(ref OnCollapseFriendsTab);
+            SafeInvokeAction(ref OnCollapseFriendsTab);
         }
 
         public static void InvokeOnExpandFriendsTab()
         {
-            InvokeFriendsTabAction(ref OnExpandFriendsTab);
+            SafeInvokeAction(ref OnExpandFriendsTab);
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Initialize()
         {
-            ClearFriendsTabActions();
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
+            ClearActions();
         }
 
-        private static void OnSceneUnloaded(Scene scene)
-        {
-            ClearFriendsTabActions();
-        }
-
-        private static void ClearFriendsTabActions()
+        private static void ClearActions()
         {
             OnCollapseFriendsTab = null;
             OnExpandFriendsTab = null;
         }
 
-        private static void InvokeFriendsTabAction(ref Action action)
+        private static void SafeInvokeAction(ref Action action)
         {
             if (action == null)
             {

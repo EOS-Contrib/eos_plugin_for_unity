@@ -141,12 +141,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                SampleMenuWithFriends friendInteractionSource = UIFriendInteractionSource;
-
-                if (friendInteractionSource != null && friendInteractionSource.IsFriendsUIDirty())
+                if (UIFriendInteractionSource != null && UIFriendInteractionSource.IsFriendsUIDirty())
                 {
                     RenderFriendsList(true);
-                    friendInteractionSource.SetDirtyFlag(false);
+                    UIFriendInteractionSource.SetDirtyFlag(false);
                 }
                 else
                 {
@@ -173,17 +171,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void RefreshUIList(Dictionary<EpicAccountId, FriendData>.ValueCollection friendDataList)
         {
-            SampleMenuWithFriends friendInteractionSource = UIFriendInteractionSource;
-
             // Destroy current UI member list
             foreach (Transform child in FriendsListContentParent.transform)
             {
                 GameObject.Destroy(child.gameObject);
             }
 
-            if (friendInteractionSource != null)
+            if (UIFriendInteractionSource != null)
             {
-                friendInteractionSource.OnFriendStateChanged();
+                UIFriendInteractionSource.OnFriendStateChanged();
             }
 
             foreach (FriendData friend in friendDataList)
@@ -193,11 +189,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 uiEntry.SetFriendData(friend);
 
-                if (friendInteractionSource != null)
+                if (UIFriendInteractionSource != null)
                 {
-                    var friendButtonState = friendInteractionSource.GetFriendInteractionState(friend);
-                    uiEntry.SetFriendbuttonText(friendInteractionSource.GetFriendInteractButtonText());
-                    uiEntry.FriendInteractOnClick = friendInteractionSource.OnFriendInteractButtonClicked;
+                    var friendButtonState = UIFriendInteractionSource.GetFriendInteractionState(friend);
+                    uiEntry.SetFriendbuttonText(UIFriendInteractionSource.GetFriendInteractButtonText());
+                    uiEntry.FriendInteractOnClick = UIFriendInteractionSource.OnFriendInteractButtonClicked;
                     switch (friendButtonState)
                     {
                         case SampleMenuWithFriends.FriendInteractionState.Hidden:
