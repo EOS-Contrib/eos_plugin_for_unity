@@ -143,7 +143,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Oculus
             if (msg!=null && !msg.IsError)
             {
                 OculusWrapper.Platform.Models.UserProof userNonce = msg.Data;
-                print("Received user nonce generation success. Nonce: " + userNonce.Value); print("id: " + u.ID); print("ocuid: " + u.OculusID);
+                print("Received user nonce generation success");
 
                 callback?.Invoke($"{u.ID}|{userNonce.Value}", u.OculusID);
             }

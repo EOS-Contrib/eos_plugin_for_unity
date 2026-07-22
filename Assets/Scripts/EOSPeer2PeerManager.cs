@@ -238,7 +238,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             if (!connectionStates.TryGetValue(friendId, out var state) || state != PeerConnectionAppState.FullyConnected)
             {
-                Debug.LogWarning($"SendMessage: Cannot send to {friendId}, not fully connected (State={state}).");
+                Debug.LogWarning($"SendMessage: Cannot send to {friendId.Redact()}, not fully connected (State={state}).");
                 return;
             }
 
@@ -377,7 +377,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else if (result == Result.Success)
             {
                 //Do something with chat output
-                Debug.LogFormat("Message received: peerId={0}, socketId={1}, data={2}", peerId, socketId, Encoding.UTF8.GetString(data));
+                Debug.LogFormat("Message received: peerId={0}, socketId={1}, data={2}", peerId.Redact(), socketId.SocketName.Redact(), Encoding.UTF8.GetString(data).Redact());
 
                 if (!peerId.IsValid())
                 {
@@ -391,13 +391,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 {
                     SendHandshakeAck(peerId);
                     connectionStates[peerId] = PeerConnectionAppState.FullyConnected;
-                    Debug.Log($"Received handshake request from {peerId}. Sending ack and setting FullyConnected.");
+                    Debug.Log($"Received handshake request from {peerId.Redact()}. Sending ack and setting FullyConnected.");
                     return null;
                 }
                 else if (message == Acknowledgement)
                 {
                     connectionStates[peerId] = PeerConnectionAppState.FullyConnected;
-                    Debug.Log($"Received handshake ack from {peerId}. Connection is now FullyConnected.");
+                    Debug.Log($"Received handshake ack from {peerId.Redact()}. Connection is now FullyConnected.");
                     return null;
                 }
                 // --- End handshake ---
@@ -444,7 +444,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
                 else if (message == Ping)
                 {
-                    Debug.Log($"EOS P2PNAT HandleReceivedMessages: received ping from {peerId}, ignoring.");
+                    Debug.Log($"EOS P2PNAT HandleReceivedMessages: received ping from {peerId.Redact()}, ignoring.");
                     return null;
                 }
                 else

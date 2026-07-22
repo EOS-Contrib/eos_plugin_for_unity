@@ -293,7 +293,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
                 else
                 {
-                    Debug.LogFormat("CustomInvites (SetPayload): custom payload set to \"{0}\"", InvitePayload);
+                    Debug.Log("CustomInvites (SetPayload): custom payload set");
                 }
             }
             else

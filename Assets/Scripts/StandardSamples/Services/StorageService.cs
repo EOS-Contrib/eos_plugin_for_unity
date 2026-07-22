@@ -268,7 +268,7 @@ namespace PlayEveryWare.EpicOnlineServices
             if (!_transfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
             {
                 Debug.LogError($"Receiving data for file " +
-                               $"\"{{fileName}},\" but that file is not in " +
+                               $"\"{fileName},\" but that file is not in " +
                                $"the list of current transfers.");
                 return FileTransferResult.CancelRequest;
             }

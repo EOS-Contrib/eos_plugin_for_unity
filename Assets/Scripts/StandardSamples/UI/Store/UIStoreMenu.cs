@@ -28,6 +28,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using UnityEngine.UI;
     using UnityEngine.EventSystems;
     using Epic.OnlineServices.Ecom;
+    using Utility;
+
     public class UIStoreMenu : SampleMenu
     {
         [Header("Store UI")]
@@ -114,7 +116,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void OnQueryOffersClick()
         {
-            print("OnQueryOffersClick: IsValid=" + EOSManager.Instance.GetLocalUserId().IsValid() + ", accountId" + EOSManager.Instance.GetLocalUserId().ToString());
+            print($"OnQueryOffersClick: IsValid={EOSManager.Instance.GetLocalUserId().IsValid()}, accountId={EOSManager.Instance.GetLocalUserId().Redact()}");
             StoreManager.QueryOffers();
         }
 

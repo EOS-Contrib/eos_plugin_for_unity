@@ -29,6 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using UnityEngine;
     using Epic.OnlineServices;
     using Epic.OnlineServices.P2P;
+    using Utility;
 
     public class EOSHighFrequencyPeer2PeerManager : IEOSSubManager
     {
@@ -297,11 +298,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else if (result == Result.Success)
             {
                 //Log the message
-                Debug.LogFormat("Message received: peerId={0}, socketId={1}, data={2}", peerId, socketId, Encoding.UTF8.GetString(data));
+                Debug.LogFormat("Message received: peerId={0}, socketId={1}, data={2}", peerId.Redact(), socketId.SocketName.Redact(), Encoding.UTF8.GetString(data).Redact());
 
                 if (!peerId.IsValid())
                 {
-                    Debug.LogError($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: ProductUserId for '{peerId}' is not valid!");
+                    Debug.LogError($"{nameof(EOSHighFrequencyPeer2PeerManager)} {nameof(HandleReceivedMessages)}: ProductUserId for '{peerId.Redact()}' is not valid!");
                     return null;
                 }
                 string message = System.Text.Encoding.UTF8.GetString(data);

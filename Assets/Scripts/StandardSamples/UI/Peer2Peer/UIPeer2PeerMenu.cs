@@ -273,7 +273,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
             {
-                Debug.LogError("UIPeer2PeerMenu (SendOnClick): ProductUserId for '{0}' is not valid!");
+                Debug.LogError("UIPeer2PeerMenu (SendOnClick): ProductUserId for current chat is not valid!");
                 return;
             }
 
@@ -335,7 +335,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
             {
-                Debug.LogError("UIPeer2PeerMenu (SendOnClick): ProductUserId for '{0}' is not valid!");
+                Debug.LogError("UIPeer2PeerMenu (SendOnClick): ProductUserId for current chat is not valid!");
                 return;
             }
 

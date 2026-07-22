@@ -109,7 +109,7 @@ public class AppleExampleScript : MonoBehaviour
                         appleIDCredential.IdentityToken,
                         0,
                         appleIDCredential.IdentityToken.Length);
-                    Debug.Log("Sign-in with Apple successfully done. IDToken: " + idToken);
+                    Debug.Log("Sign-in with Apple successfully done");
                     Token = idToken;
                     User = appleIDCredential.User;
 

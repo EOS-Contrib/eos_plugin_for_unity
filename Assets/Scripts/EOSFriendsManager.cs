@@ -31,6 +31,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices.UserInfo;
     using System.Collections.Generic;
     using Epic.OnlineServices.UI;
+    using Utility;
 
     /// <summary>Class <c>FriendData</c> stores Friend data.</summary>
     public class FriendData
@@ -202,7 +203,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Debug.LogFormat("Friends (SendInviteCallback): SendInvite Complete for user id: {0}", data.LocalUserId);
+            Debug.LogFormat("Friends (SendInviteCallback): SendInvite Complete for user id: {0}", data.LocalUserId.Redact());
             AddFriendCallback?.Invoke(Result.Success);
         }
 
@@ -242,7 +243,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Debug.LogFormat("Friends (OnAcceptInviteCompleted): Accept Invite Complete for user id: {0}", data.LocalUserId);
+            Debug.LogFormat("Friends (OnAcceptInviteCompleted): Accept Invite Complete for user id: {0}", data.LocalUserId.Redact());
             AcceptInviteCallback?.Invoke(Result.Success);
         }
 
@@ -282,7 +283,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Debug.LogFormat("Friends (OnRejectInviteCompleted): Reject Invite Complete for user id: {0}", data.LocalUserId);
+            Debug.LogFormat("Friends (OnRejectInviteCompleted): Reject Invite Complete for user id: {0}", data.LocalUserId.Redact());
             RejectInviteCallback?.Invoke(Result.Success);
         }
 
@@ -320,7 +321,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Debug.LogFormat("Friends (QueryFriendsCallback): Query Friends Complete for user id: {0}", data.LocalUserId);
+            Debug.LogFormat("Friends (QueryFriendsCallback): Query Friends Complete for user id: {0}", data.LocalUserId.Redact());
 
             GetFriendsCountOptions countOptions = new GetFriendsCountOptions()
             {
@@ -354,7 +355,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                     FriendsStatus friendStatus = FriendsHandle.GetStatus(ref statusOptions);
 
-                    Debug.LogFormat("Friends (QueryFriendsCallback): Friend Status {0} => {1}", friendUserId, friendStatus);
+                    Debug.LogFormat("Friends (QueryFriendsCallback): Friend Status {0} => {1}", friendUserId.Redact(), friendStatus);
 
                     FriendData friendEntry = new FriendData()
                     {
@@ -456,7 +457,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 friendData.Presence = presenceInfo;
                 CachedFriendsDirty = true;
 
-                Debug.LogFormat("Friends (OnQueryPresenceCompleted): PresenceInfo (Status) updated for target user: {0}", data.TargetUserId);
+                Debug.LogFormat("Friends (OnQueryPresenceCompleted): PresenceInfo (Status) updated for target user: {0}", data.TargetUserId.Redact());
             }
             else
             {
@@ -464,7 +465,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if(string.IsNullOrEmpty(targetUserIdString))
 
-                Debug.LogWarningFormat("Friends (OnQueryPresenceCompleted): PresenceInfo not stored, couldn't find target user in friends cache: {0}, ", data.TargetUserId);
+                Debug.LogWarningFormat("Friends (OnQueryPresenceCompleted): PresenceInfo not stored, couldn't find target user in friends cache: {0}, ", data.TargetUserId.Redact());
             }
         }
 
@@ -543,7 +544,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         }
                         else
                         {
-                            Debug.LogWarningFormat("Friends (OnQueryExternalAccountMappingsCompleted): No connected Epic Account associated with EpicAccountId = ({0})", epidAccountIdString);
+                            Debug.LogWarningFormat("Friends (OnQueryExternalAccountMappingsCompleted): No connected Epic Account associated with EpicAccountId = ({0})", epidAccountIdString.Redact());
                         }
                     }
                     else
@@ -561,7 +562,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
                 else
                 {
-                    Debug.LogErrorFormat("Friends (OnQueryExternalAccountMappingsCompleted): Error updating ProductUserId for friend {0}", kvp.Key);
+                    Debug.LogErrorFormat("Friends (OnQueryExternalAccountMappingsCompleted): Error updating ProductUserId for friend {0}", kvp.Key.Redact());
                 }
             }
         }
@@ -614,7 +615,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Debug.LogFormat("Friends (QueryUserInfoByDisplaynameCompleted): Query User Info Complete - UserId: {0}", data.TargetUserId);
+            Debug.LogFormat("Friends (QueryUserInfoByDisplaynameCompleted): Query User Info Complete - UserId: {0}", data.TargetUserId.Redact());
 
             FriendData foundUser = new FriendData()
             {

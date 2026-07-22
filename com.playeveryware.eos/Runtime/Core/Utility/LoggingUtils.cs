@@ -28,6 +28,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
     public static class LoggingUtils
     {
+        public const int DefaultPreserveChars = 3;
+
         public static bool ShouldRedactValues
         {
             get
@@ -44,31 +46,43 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
         }
 
-        public static string Redact<T>(T value, int preserveChars = 3)
-            where T : class
+        public static string Redact<T>(T value, int preserveChars = DefaultPreserveChars)
         {
             return Redact(value?.ToString(), preserveChars);
         }
 
-        public static string Redact(string value, int preserveChars = 3)
+        public static string Redact(string value, int preserveChars = DefaultPreserveChars)
         {
             if (!ShouldRedactValues || string.IsNullOrEmpty(value))
             {
                 return value;
             }
 
+            if (value.Length < preserveChars + 2)
+            {
+                return "<redacted>";
+            }
+
             int charsToKeep = value.Length >= preserveChars * 3
                 ? preserveChars
                 : 1;
 
-            if (value.Length <= charsToKeep * 2)
-            {
-                return value;
-            }
-
             string start = value.Substring(0, charsToKeep);
             string end = value.Substring(value.Length - charsToKeep, charsToKeep);
             return $"{start}...{end}";
+        }
+    }
+
+    public static class LoggingExtensions
+    {
+        public static string Redact<T>(this T value, int preserveChars = LoggingUtils.DefaultPreserveChars)
+        {
+            return LoggingUtils.Redact(value, preserveChars);
+        }
+
+        public static string Redact(this string value, int preserveChars = LoggingUtils.DefaultPreserveChars)
+        {
+            return LoggingUtils.Redact(value, preserveChars);
         }
     }
 }

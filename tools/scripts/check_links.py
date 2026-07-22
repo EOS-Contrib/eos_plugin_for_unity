@@ -8,7 +8,7 @@ import requests
 import argparse
 import json
 from tqdm import tqdm
-from urllib.parse import urlparse
+from urllib.parse import urlparse, unquote
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from bs4 import BeautifulSoup  # Import BeautifulSoup
@@ -169,7 +169,9 @@ def compute_abs_link(md_dir, link):
   Returns:
     str: The normalized absolute path of the link.
   """
-  link_path = link.split('#')[0]
+  # Decode percent-encoded characters (e.g. %20 -> space) so the path matches
+  # the actual file on disk, mirroring how GitHub resolves the link.
+  link_path = unquote(link.split('#')[0])
   abs_path = os.path.normpath(os.path.join(md_dir, link_path))
   abs_path = abs_path.lstrip("/\\")
   return abs_path
@@ -193,8 +195,10 @@ def check_link(session, link, md_file, headers, link_inspection_results):
   result = None
   abs_link = link
 
-  # Cache key includes md_dir for internal links to avoid conflicts
-  cache_key = link if is_external_link(link) else os.path.normpath(os.path.join(md_dir, link))
+  # Cache key includes md_dir for internal links to avoid conflicts.
+  # Internal links are decoded (e.g. %20 -> space) so the key matches the
+  # resolved on-disk path.
+  cache_key = link if is_external_link(link) else os.path.normpath(os.path.join(md_dir, unquote(link)))
 
   # Check if the link has already been inspected
   if cache_key in link_inspection_results:
@@ -222,7 +226,7 @@ def check_link(session, link, md_file, headers, link_inspection_results):
         result = str(e)
     else:
       abs_link = compute_abs_link(md_dir, link)
-      if not os.path.exists(abs_link) and not os.path.exists(link):
+      if not os.path.exists(abs_link) and not os.path.exists(unquote(link)):
         result = 'File not found'
 
     link_inspection_results[cache_key] = result

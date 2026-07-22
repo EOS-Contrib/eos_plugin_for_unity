@@ -67,9 +67,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
             catch (Exception ex)
             {
-                Debug.LogError($"Unable to parse object of type " +
-                               $"\"{typeof(T).FullName}\" from " +
-                               $"JSON: \"{json}\". " +
+                Debug.LogError("Unable to deserialize object of type " +
+                               $"\"{typeof(T).FullName}\" from json. " +
                                $"Exception: \"{ex.Message}\"");
 #if UNITY_EDITOR
                 // If running in the context of the Unity editor, then throw the
@@ -162,9 +161,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
             catch (Exception ex)
             {
-                Debug.LogError($"Unable to populate object of type " +
-                               $"\"{typeof(T).FullName}\" from " +
-                               $"JSON: \"{json}\". " +
+                Debug.LogError("Unable to populate object of type " +
+                               $"\"{typeof(T).FullName}\" from json. " +
                                $"Exception: \"{ex.Message}\"");
 #if UNITY_EDITOR
                 throw;
