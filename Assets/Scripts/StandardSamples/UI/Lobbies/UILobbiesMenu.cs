@@ -99,7 +99,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {                        
             base.OnEnable();
 
-            if (isActiveAndEnabled)
+            if (gameObject.activeSelf)
             {
                 UIActions.OnCollapseFriendsTab += EnableInterferingUIForFriendsTab;
                 UIActions.OnExpandFriendsTab += DisableInterferingUIForFriendsTab;
