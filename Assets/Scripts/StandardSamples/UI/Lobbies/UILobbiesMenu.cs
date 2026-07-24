@@ -97,11 +97,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         protected override void OnEnable()
         {
-            base.OnEnable();
+            // We add the listener to the Action first in OnEnable. Then, if StartsHidden = true, it will be set to Disabled to remove the listener.
             UIActions.OnCollapseFriendsTab += EnableInterferingUIForFriendsTab;
             UIActions.OnExpandFriendsTab += DisableInterferingUIForFriendsTab;
+
+            base.OnEnable();
+
             // Hide Invite Pop-up (Default)
             UIInvitePanel.SetActive(false);
+        }
+
+        void OnDisable()
+        {
+            UIActions.OnCollapseFriendsTab -= EnableInterferingUIForFriendsTab;
+            UIActions.OnExpandFriendsTab -= DisableInterferingUIForFriendsTab;
         }
 
         private void Start()
@@ -151,8 +160,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            UIActions.OnCollapseFriendsTab -= EnableInterferingUIForFriendsTab;
-            UIActions.OnExpandFriendsTab -= DisableInterferingUIForFriendsTab;
 
             LobbyManager?.RemoveNotifyMemberUpdate(OnMemberUpdate);
 
