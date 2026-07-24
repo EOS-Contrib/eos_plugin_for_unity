@@ -177,10 +177,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 GameObject.Destroy(child.gameObject);
             }
 
-            if (UIFriendInteractionSource != null)
-            {
-                UIFriendInteractionSource.OnFriendStateChanged();
-            }
+            UIFriendInteractionSource?.OnFriendStateChanged();
 
             foreach (FriendData friend in friendDataList)
             {
@@ -274,7 +271,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             panelRT.anchoredPosition = newPos;
 
             FriendOverlayContent.SetActive(false);
-            UIActions.InvokeOnCollapseFriendsTab();
+            UIActions.OnCollapseFriendsTab?.Invoke();
             EventSystem.current.SetSelectedGameObject(SelectedButtonOnClose);
             collapsed = true;
         }
@@ -282,7 +279,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ExpandFriendsTab()
         {  
             FriendOverlayContent.SetActive(true);
-            UIActions.InvokeOnExpandFriendsTab();
+            UIActions.OnExpandFriendsTab?.Invoke();
 
             var panelRT = FriendsPanel.transform as RectTransform;
             var newPos = panelRT.anchoredPosition;
