@@ -96,12 +96,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 #endif
 
         protected override void OnEnable()
-        {
-            // We add the listener to the Action first in OnEnable. Then, if StartsHidden = true, it will be set to Disabled to remove the listener.
-            UIActions.OnCollapseFriendsTab += EnableInterferingUIForFriendsTab;
-            UIActions.OnExpandFriendsTab += DisableInterferingUIForFriendsTab;
-
+        {                        
             base.OnEnable();
+
+            if (isActiveAndEnabled)
+            {
+                UIActions.OnCollapseFriendsTab += EnableInterferingUIForFriendsTab;
+                UIActions.OnExpandFriendsTab += DisableInterferingUIForFriendsTab;
+            }
 
             // Hide Invite Pop-up (Default)
             UIInvitePanel.SetActive(false);
