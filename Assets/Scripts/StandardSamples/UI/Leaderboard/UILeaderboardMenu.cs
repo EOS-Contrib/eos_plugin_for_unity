@@ -30,7 +30,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
     using UnityEngine;
     using UnityEngine.UI;
-    
+    using Utility;
+
     public class UILeaderboardMenu : SampleMenu
     {
         private enum LeaderboardGroup
@@ -144,7 +145,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 foreach (LeaderboardRecord record in leaderboardRecords)
                 {
-                    Debug.LogFormat("    Record: UserName={0} ({1}), Rank={2}, Score={3} ", record.UserDisplayName, record.UserId, record.Rank, record.Score);
+                    Debug.LogFormat("    Record: UserName={0} ({1}), Rank={2}, Score={3} ", record.UserDisplayName.Redact(), record.UserId.Redact(), record.Rank, record.Score);
 
                     // Display in UI
 
@@ -280,7 +281,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                     foreach (LeaderboardUserScore userScore in kvp.Value)
                     {
-                        Debug.Log($"    UserScore: UserId={userScore.UserId}, Score={userScore.Score}");
+                        Debug.Log($"    UserScore: UserId={userScore.UserId.Redact()}, Score={userScore.Score}");
 
                         // Display in UI
                         var copyResult = LeaderboardManager.CopyUserScore(userScore.UserId, out LeaderboardRecord? record);

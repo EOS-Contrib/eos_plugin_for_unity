@@ -11,40 +11,74 @@ PluginImporter:
   isExplicitlyReferenced: 0
   validateReferences: 1
   platformData:
-    Any:
+  - first:
+      : Any
+    second:
       enabled: 0
       settings:
+        Exclude Android: 1
         Exclude Editor: 1
         Exclude Linux64: 1
         Exclude OSXUniversal: 1
+        Exclude PS4: 1
+        Exclude Switch: 1
         Exclude Win: 1
         Exclude Win64: 0
-    Editor:
+        Exclude WindowsStoreApps: 1
+        Exclude XboxOne: 1
+  - first:
+      Android: Android
+    second:
+      enabled: 0
+      settings:
+        CPU: ARMv7
+  - first:
+      Any:
+    second:
+      enabled: 0
+      settings: {}
+  - first:
+      Editor: Editor
+    second:
       enabled: 0
       settings:
         CPU: ARM64
         DefaultValueInitialized: true
-        OS: AnyOS
-    Linux64:
-      enabled: 0
-      settings:
-        CPU: x86_64
-    OSXUniversal:
-      enabled: 0
-      settings:
-        CPU: AnyCPU
-    Win:
+        OS: Windows
+  - first:
+      Standalone: Linux64
+    second:
       enabled: 0
       settings:
         CPU: None
-    Win64:
+  - first:
+      Standalone: OSXUniversal
+    second:
+      enabled: 0
+      settings:
+        CPU: None
+  - first:
+      Standalone: Win
+    second:
+      enabled: 0
+      settings:
+        CPU: None
+  - first:
+      Standalone: Win64
+    second:
       enabled: 1
       settings:
         CPU: ARM64
-    WindowsStoreApps:
+  - first:
+      Windows Store Apps: WindowsStoreApps
+    second:
       enabled: 0
       settings:
         CPU: ARM64
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+        DontProcess: false
+        PlaceholderPath:
+        SDK: AnySDK
+        ScriptingBackend: AnyScriptingBackend
+  userData:
+  assetBundleName:
+  assetBundleVariant:

@@ -60,7 +60,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Apple
                             appleIDCredential.IdentityToken,
                             0,
                             appleIDCredential.IdentityToken.Length);
-                        Debug.Log("Sign-in with Apple successfully done. IDToken: " + idToken);
+                        Debug.Log("Sign-in with Apple successfully done");
 
                         callback?.Invoke(idToken, appleIDCredential.User);
                     }
