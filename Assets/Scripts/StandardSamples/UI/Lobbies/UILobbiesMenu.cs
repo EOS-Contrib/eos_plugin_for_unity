@@ -98,10 +98,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         protected override void OnEnable()
         {
             base.OnEnable();
-            UIActions.OnCollapseFriendsTab += EnableInterferingUIForFriendsTab;
-            UIActions.OnExpandFriendsTab += DisableInterferingUIForFriendsTab;
+
+            if (gameObject.activeSelf)
+            {
+                UIActions.OnCollapseFriendsTab += EnableInterferingUIForFriendsTab;
+                UIActions.OnExpandFriendsTab += DisableInterferingUIForFriendsTab;
+            }
+
             // Hide Invite Pop-up (Default)
             UIInvitePanel.SetActive(false);
+        }
+
+        void OnDisable()
+        {
+            UIActions.OnCollapseFriendsTab -= EnableInterferingUIForFriendsTab;
+            UIActions.OnExpandFriendsTab -= DisableInterferingUIForFriendsTab;
         }
 
         private void Start()
@@ -151,8 +162,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            UIActions.OnCollapseFriendsTab -= EnableInterferingUIForFriendsTab;
-            UIActions.OnExpandFriendsTab -= DisableInterferingUIForFriendsTab;
 
             LobbyManager?.RemoveNotifyMemberUpdate(OnMemberUpdate);
 
