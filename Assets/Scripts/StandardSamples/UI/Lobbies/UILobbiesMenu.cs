@@ -96,7 +96,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 #endif
 
         protected override void OnEnable()
-        {                        
+        {
             base.OnEnable();
 
             if (gameObject.activeSelf)
