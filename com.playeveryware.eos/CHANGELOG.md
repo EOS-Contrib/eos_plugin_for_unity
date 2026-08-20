@@ -5,7 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [6.1.2] - YYYY-MM-DD
 
 ### Fixed
-- Fix: Corrected a bug that prevented some platforms to show in the EOS Configuration tool.
+- Fix: Corrected a bug that prevented some platforms from showing in the EOS Configuration tool.
 
 ## [6.1.1] - 2026-07-22
 
