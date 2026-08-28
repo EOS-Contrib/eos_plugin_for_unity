@@ -1174,6 +1174,11 @@ using UnityEngine.InputSystem;
 
         private void CreateDeviceCallback(ref Epic.OnlineServices.Connect.CreateDeviceIdCallbackInfo callbackInfo)
         {
+            if (!callbackInfo.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             if (callbackInfo.ResultCode == Result.Success || callbackInfo.ResultCode == Result.DuplicateNotAllowed)
             {
                 //this may return "Unknown" on some platforms
