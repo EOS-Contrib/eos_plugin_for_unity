@@ -1345,13 +1345,7 @@ using UnityEngine.InputSystem;
         //-------------------------------------------------------------------------
         public void StartLoginWithLoginTypeAndTokenCallback(LoginCallbackInfo loginCallbackInfo)
         {
-            if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.AuthMFARequired)
-            {
-                // collect MFA
-                // do something to give the MFA to the SDK
-                print("MFA Authentication not supported in sample. [" + loginCallbackInfo.ResultCode + "]");
-            }
-            else if (loginCallbackInfo.ResultCode == Result.AuthPinGrantCode)
+            if (loginCallbackInfo.ResultCode == Result.AuthPinGrantCode)
             {
                 ///TODO(mendsley): Handle pin-grant in a more reasonable way
                 Debug.LogError("------------PIN GRANT------------");
@@ -1385,7 +1379,10 @@ using UnityEngine.InputSystem;
                     }
                 });
             }
-
+            else if (!loginCallbackInfo.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
             else
             {
                 print("Error logging in. [" + loginCallbackInfo.ResultCode + "]");
