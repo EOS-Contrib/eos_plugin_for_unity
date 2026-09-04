@@ -156,6 +156,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    return;
             //}
 
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("P2p (OnRefreshNATTypeFinished): RefreshNATType error: {0}", data.ResultCode);

@@ -165,6 +165,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnQueryEntitlements(ref QueryEntitlementsCallbackInfo info)
         {
+            if (!info.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             Debug.Log($"[StoreManager] OnQueryEntitlements() → Result: {info.ResultCode}");
 
             _entitlements.Clear();
@@ -251,6 +256,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnQueryOwnership(ref QueryOwnershipCallbackInfo info)
         {
+            if (!info.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             Debug.Log($"[StoreManager] OnQueryOwnership() → ResultCode: {info.ResultCode}");
 
             _ownedDurableItemIds.Clear();
@@ -293,6 +303,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnQueryOffers(ref QueryOffersCallbackInfo info)
         {
+            if (!info.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             CatalogOffers.Clear();
 
             Debug.Log($"[StoreManager] OnQueryOffers() → ResultCode: {info.ResultCode}");
@@ -380,6 +395,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         
         public void OnCheckout(ref CheckoutCallbackInfo checkoutCallbackInfo)
         {
+            if (!checkoutCallbackInfo.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             Debug.Log($"Checkout {checkoutCallbackInfo.ResultCode}");
             if (checkoutCallbackInfo.ResultCode == Epic.OnlineServices.Result.Success)
             {

@@ -426,6 +426,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
 
             EOSManager.Instance.StartLoginWithLoginTypeAndToken(Epic.OnlineServices.Auth.LoginCredentialType.AccountPortal, null, null, (Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo) =>
             {
+                if (!loginCallbackInfo.ResultCode.IsOperationComplete())
+                {
+                    return;
+                }
+
                 waiting = false;
                 resultCode = loginCallbackInfo.ResultCode;
                 continuanceToken = loginCallbackInfo.ContinuanceToken;
