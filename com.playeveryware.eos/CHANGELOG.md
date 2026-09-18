@@ -2,6 +2,21 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.2.0] - 2026-09-22
+
+### Changed
+- Change: New EOS SDK version 1.19.2.1-CL58105819
+- Change: Improvements in logging redaction: now the it fully replace the string to redact if it's short. Pull request [#1295](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1295).
+- Change: More logs in the sample app are now redacted. Pull request [#1301](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1301).
+
+### Added
+- Add: The sandbox ID and the the deployment ID are logged when the command line supplies one on test apps. Pull request [#1300](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1300).
+- Add: Adds a warning when a sandbox ID arrives without a matching deployment ID. Pull request [#1300](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1300).
+
+### Fixed
+- Fix: Address bug that could cause the friends tab to become irresponsibe on the test apps. Pull request [#1297](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1297).
+- Fix: Debug.LogWarningFormat entry was wrongly not logging an id to the console. [`d7431cd2`](https://github.com/EOS-Contrib/eos_plugin_for_unity/commit/d7431cd24ddfc751fc4be19b32f6b2c2b23d86f1).
+
 ## [6.1.2] - 2026-08-25
 
 ### Changed

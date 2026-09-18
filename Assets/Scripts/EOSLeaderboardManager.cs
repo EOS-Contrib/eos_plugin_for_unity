@@ -217,6 +217,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    return;
             //}
 
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("Leaderboard (LeaderboardDefinitionsReceivedCallbackFn): QueryDefinitions error: {0}", data.ResultCode);
@@ -282,6 +287,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    QueryRanksCallback?.Invoke(Result.InvalidState);
             //    return;
             //}
+
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
 
             if (data.ResultCode != Result.Success)
             {
@@ -427,6 +437,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    QueryUserScoresCallback?.Invoke(Result.InvalidState);
             //    return;
             //}
+
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
 
             if (data.ResultCode != Result.Success)
             {

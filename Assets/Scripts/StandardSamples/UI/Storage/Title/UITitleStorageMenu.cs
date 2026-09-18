@@ -187,7 +187,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Check if it's already been downloaded
             if (TitleStorageService.Instance.GetLocallyCachedData().TryGetValue(FileNameTextBox.InputField.text, out string cachedData))
             {
-                Debug.Log("UITitleStorageMenu - FileName '{0}' already downloaded. Display content.");
+                Debug.Log("UITitleStorageMenu - File already downloaded. Display content.");
 
                 // Update UI
                 FileContent.text = cachedData;
