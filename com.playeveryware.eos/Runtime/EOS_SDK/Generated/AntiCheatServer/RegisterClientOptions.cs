@@ -52,6 +52,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Reserved for future use. Must be set to 0.
 		/// </summary>
 		public int Reserved01 { get; set; }
+
+		/// <summary>
+		/// Reserved for future use. Must be set to 0.
+		/// </summary>
+		public int Reserved02 { get; set; }
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -65,6 +70,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		private IntPtr m_IpAddress;
 		private IntPtr m_UserId;
 		private int m_Reserved01;
+		private int m_Reserved02;
 
 		public void Set(ref RegisterClientOptions other)
 		{
@@ -78,6 +84,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 			Helper.Set(other.IpAddress, ref m_IpAddress);
 			Helper.Set(other.UserId, ref m_UserId);
 			m_Reserved01 = other.Reserved01;
+			m_Reserved02 = other.Reserved02;
 		}
 
 		public void Dispose()

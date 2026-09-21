@@ -75,6 +75,7 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_EndSessionName = "EOS_AntiCheatClient_EndSession";
 		private const string EOS_AntiCheatClient_GetModuleBuildIdName = "EOS_AntiCheatClient_GetModuleBuildId";
 		private const string EOS_AntiCheatClient_GetProtectMessageOutputLengthName = "EOS_AntiCheatClient_GetProtectMessageOutputLength";
+		private const string EOS_AntiCheatClient_GetSystemRequirementStatusName = "EOS_AntiCheatClient_GetSystemRequirementStatus";
 		private const string EOS_AntiCheatClient_PollStatusName = "EOS_AntiCheatClient_PollStatus";
 		private const string EOS_AntiCheatClient_ProtectMessageName = "EOS_AntiCheatClient_ProtectMessage";
 		private const string EOS_AntiCheatClient_ReceiveMessageFromPeerName = "EOS_AntiCheatClient_ReceiveMessageFromPeer";
@@ -714,6 +715,7 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_EndSessionName = "_EOS_AntiCheatClient_EndSession";
 		private const string EOS_AntiCheatClient_GetModuleBuildIdName = "_EOS_AntiCheatClient_GetModuleBuildId";
 		private const string EOS_AntiCheatClient_GetProtectMessageOutputLengthName = "_EOS_AntiCheatClient_GetProtectMessageOutputLength";
+		private const string EOS_AntiCheatClient_GetSystemRequirementStatusName = "_EOS_AntiCheatClient_GetSystemRequirementStatus";
 		private const string EOS_AntiCheatClient_PollStatusName = "_EOS_AntiCheatClient_PollStatus";
 		private const string EOS_AntiCheatClient_ProtectMessageName = "_EOS_AntiCheatClient_ProtectMessage";
 		private const string EOS_AntiCheatClient_ReceiveMessageFromPeerName = "_EOS_AntiCheatClient_ReceiveMessageFromPeer";
@@ -1353,6 +1355,7 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_EndSessionName = "_EOS_AntiCheatClient_EndSession@8";
 		private const string EOS_AntiCheatClient_GetModuleBuildIdName = "_EOS_AntiCheatClient_GetModuleBuildId@12";
 		private const string EOS_AntiCheatClient_GetProtectMessageOutputLengthName = "_EOS_AntiCheatClient_GetProtectMessageOutputLength@12";
+		private const string EOS_AntiCheatClient_GetSystemRequirementStatusName = "_EOS_AntiCheatClient_GetSystemRequirementStatus@16";
 		private const string EOS_AntiCheatClient_PollStatusName = "_EOS_AntiCheatClient_PollStatus@16";
 		private const string EOS_AntiCheatClient_ProtectMessageName = "_EOS_AntiCheatClient_ProtectMessage@16";
 		private const string EOS_AntiCheatClient_ReceiveMessageFromPeerName = "_EOS_AntiCheatClient_ReceiveMessageFromPeer@8";
@@ -2109,6 +2112,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_GetProtectMessageOutputLengthName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_GetProtectMessageOutputLengthName);
 			EOS_AntiCheatClient_GetProtectMessageOutputLength = (EOS_AntiCheatClient_GetProtectMessageOutputLengthDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_GetProtectMessageOutputLengthDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_GetSystemRequirementStatusName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_GetSystemRequirementStatusName);
+			EOS_AntiCheatClient_GetSystemRequirementStatus = (EOS_AntiCheatClient_GetSystemRequirementStatusDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_GetSystemRequirementStatusDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_PollStatusName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_PollStatusName);
@@ -4556,6 +4563,7 @@ namespace Epic.OnlineServices
 			EOS_AntiCheatClient_EndSession = null;
 			EOS_AntiCheatClient_GetModuleBuildId = null;
 			EOS_AntiCheatClient_GetProtectMessageOutputLength = null;
+			EOS_AntiCheatClient_GetSystemRequirementStatus = null;
 			EOS_AntiCheatClient_PollStatus = null;
 			EOS_AntiCheatClient_ProtectMessage = null;
 			EOS_AntiCheatClient_ReceiveMessageFromPeer = null;
@@ -5302,6 +5310,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_GetProtectMessageOutputLengthDelegate(IntPtr handle, ref AntiCheatClient.GetProtectMessageOutputLengthOptionsInternal options, out uint outBufferSizeBytes);
 		internal static EOS_AntiCheatClient_GetProtectMessageOutputLengthDelegate EOS_AntiCheatClient_GetProtectMessageOutputLength;
+
+		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		internal delegate Result EOS_AntiCheatClient_GetSystemRequirementStatusDelegate(IntPtr handle, ref AntiCheatClient.GetSystemRequirementStatusOptionsInternal options, out AntiCheatCommon.AntiCheatClientSystemRequirementStatus outRequirementStatus, IntPtr outReason);
+		internal static EOS_AntiCheatClient_GetSystemRequirementStatusDelegate EOS_AntiCheatClient_GetSystemRequirementStatus;
 
 		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_PollStatusDelegate(IntPtr handle, ref AntiCheatClient.PollStatusOptionsInternal options, out AntiCheatClient.AntiCheatClientViolationType outViolationType, IntPtr outMessage);
@@ -7814,6 +7826,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_GetProtectMessageOutputLength", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_GetProtectMessageOutputLength(IntPtr handle, ref AntiCheatClient.GetProtectMessageOutputLengthOptionsInternal options, out uint outBufferSizeBytes);
+
+		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_GetSystemRequirementStatus", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		internal static extern Result EOS_AntiCheatClient_GetSystemRequirementStatus(IntPtr handle, ref AntiCheatClient.GetSystemRequirementStatusOptionsInternal options, out AntiCheatCommon.AntiCheatClientSystemRequirementStatus outRequirementStatus, IntPtr outReason);
 
 		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_PollStatus", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_PollStatus(IntPtr handle, ref AntiCheatClient.PollStatusOptionsInternal options, out AntiCheatClient.AntiCheatClientViolationType outViolationType, IntPtr outMessage);

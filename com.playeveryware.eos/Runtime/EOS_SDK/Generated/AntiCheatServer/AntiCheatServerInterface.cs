@@ -62,7 +62,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <summary>
 		/// The most recent version of the <see cref="RegisterClient" /> API.
 		/// </summary>
-		public const int REGISTERCLIENT_API_LATEST = 3;
+		public const int REGISTERCLIENT_API_LATEST = 4;
 		/// <summary>
 		/// The most recent version of the <see cref="SetClientNetworkState" /> API.
 		/// </summary>

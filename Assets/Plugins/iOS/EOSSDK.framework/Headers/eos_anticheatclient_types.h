@@ -257,6 +257,21 @@ EOS_STRUCT(EOS_AntiCheatClient_GetModuleBuildIdOptions, (
 	int32_t ApiVersion;
 ));
 
+/** The most recent version of the EOS_AntiCheatClient_GetSystemRequirementStatus API. */
+#define EOS_ANTICHEATCLIENT_GETSYSTEMREQUIREMENTSTATUS_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_GetSystemRequirementStatus function.
+ */
+EOS_STRUCT(EOS_AntiCheatClient_GetSystemRequirementStatusOptions, (
+	/** API Version: Set this to EOS_ANTICHEATCLIENT_GETSYSTEMREQUIREMENTSTATUS_API_LATEST */
+	int32_t ApiVersion;
+	/** The configuration for which we wish to query the status, note that only one flag should be set. */
+	EOS_EAntiCheatCommonClientSystemConfig ClientSystemConfig;
+	/** The size of OutReason in bytes. Recommended size is 512 bytes. */
+	uint32_t OutReasonLength;
+));
+
 /** The most recent version of the EOS_AntiCheatClient_AddExternalIntegrityCatalog API. */
 #define EOS_ANTICHEATCLIENT_ADDEXTERNALINTEGRITYCATALOG_API_LATEST 1
 
