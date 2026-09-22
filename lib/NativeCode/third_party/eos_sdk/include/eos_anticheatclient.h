@@ -204,6 +204,24 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_Reserved02(EOS_HAntiCheatClien
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_GetModuleBuildId(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_GetModuleBuildIdOptions* Options, uint32_t* OutModuleBuildId);
 
 /**
+ * Get the status of the specified system requirement.
+ * Note: This function must only be called for a single requirement at a time.
+ * Mode: All
+ *
+ * @param Options Structure containing input data.
+ * @param OutRequirementStatus Status for the queried requirement, if not EOS_ACCSRS_FullyMet the provided OutReason should be displayed to the player.
+ * @param OutReason Provides details in the case the queried system requirement was not EOS_ACCSRS_FullyMet on the client.
+ *
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the system requirement information was provided successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotImplemented - If the platform does not use anti-cheat client modules or the loaded anti-cheat client module is too old to support this function.
+ * - EOS_NotFound - If the platform supports anti-cheat client modules but none is currently loaded (failsafe NullClient mode, launched without bootstrapper, etc).
+ */
+EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_GetSystemRequirementStatus(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_GetSystemRequirementStatusOptions* Options, EOS_EAntiCheatClientSystemRequirementStatus* OutRequirementStatus, char* OutReason);
+
+/**
  * Optional. Adds an integrity catalog and certificate pair from outside the game directory,
  * for example to support mods that load from elsewhere.
  * Mode: All

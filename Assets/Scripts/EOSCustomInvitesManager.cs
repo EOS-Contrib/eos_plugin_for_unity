@@ -375,6 +375,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnSendCustomInvite(ref SendCustomInviteCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             if (data.ResultCode == Result.Success)
             {
                 Debug.Log("CustomInvites (OnSendCustomInvite): custom invite sent");

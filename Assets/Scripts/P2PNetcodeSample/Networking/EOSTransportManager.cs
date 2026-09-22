@@ -289,7 +289,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             else
             {
                 string connectionString = includeConnections ? ConnectionsJSONFormatString() : "";
-                return $"{{\"LocalUserId\": {LocalUserId}, \"NATType\": {NATType}{connectionString}}}";
+                return $"{{\"LocalUserId\": {LocalUserId.Redact()}, \"NATType\": {NATType}{connectionString}}}";
             }
         }
 
@@ -498,6 +498,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
         private void OnQueryNATTypeCompleted(ref OnQueryNATTypeCompleteInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             if (data.ResultCode != Result.Success)
             {
                 // Don't warn for certain errors if they're common

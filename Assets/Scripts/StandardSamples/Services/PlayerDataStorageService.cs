@@ -106,6 +106,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             var queryFileOptions = new QueryFileOptions { Filename = fileName, LocalUserId = localUserId };
             EOSManager.Instance.GetPlayerDataStorageInterface().QueryFile(ref queryFileOptions, null, (ref QueryFileCallbackInfo data) =>
             {
+                if (!data.ResultCode.IsOperationComplete())
+                {
+                    return;
+                }
+
                 if(data.ResultCode == Result.Success)
                 {
 
@@ -389,6 +394,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //-------------------------------------------------------------------------
         private void OnQueryFileListCompleted(ref QueryFileListCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             if (data.ResultCode != Result.Success && data.ResultCode != Result.NotFound)
             {
                 Debug.LogErrorFormat("[EOS SDK] Player data storage: file list retrieval error: {0}", data.ResultCode);
@@ -475,6 +485,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnFileSent(ref WriteFileCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             var callback = data.ClientData as Action;
 
             if (data.ResultCode != Result.Success)
@@ -497,6 +512,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnFileCopied(ref DuplicateFileCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("[EOS SDK] Player data storage: error while copying the file: {0}", data.ResultCode);
@@ -508,6 +528,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnFileRemoved(ref DeleteFileCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("[EOS SDK] Player data storage: error while removing file: {0}", data.ResultCode);

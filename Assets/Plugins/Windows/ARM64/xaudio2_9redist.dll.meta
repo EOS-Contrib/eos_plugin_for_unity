@@ -69,7 +69,7 @@ PluginImporter:
     second:
       enabled: 1
       settings:
-        CPU: None
+        CPU: ARM64
   - first:
       Windows Store Apps: WindowsStoreApps
     second:
