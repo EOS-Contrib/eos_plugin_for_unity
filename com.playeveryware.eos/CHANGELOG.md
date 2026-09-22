@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix: Address bug that could cause the friends tab to become irresponsibe on the test apps. Pull request [#1297](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1297).
 - Fix: Debug.LogWarningFormat entry was wrongly not logging an id to the console. [`d7431cd2`](https://github.com/EOS-Contrib/eos_plugin_for_unity/commit/d7431cd24ddfc751fc4be19b32f6b2c2b23d86f1).
+- Fix: Arm64 builds did not include xaudio2_9redis.dll in the build artifact.
 
 ## [6.1.2] - 2026-08-25
 
