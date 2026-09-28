@@ -38,6 +38,6 @@
     }
   ],
   "com_playeveryware": {
-    "git_build_sha": "%COMMIT_PLACEHOLDER%"
+    "git_build_sha": "65e44063d5f908002e74a3080343fb0be561dacb"
   }
 }
