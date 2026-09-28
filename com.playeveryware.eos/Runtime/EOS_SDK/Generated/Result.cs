@@ -468,6 +468,10 @@ namespace Epic.OnlineServices
 		/// </summary>
 		EcomCatalogOfferInvalid = 4006,
 		/// <summary>
+		/// The purchase was blocked because the external purchase (CTC) token required for this paid purchase could not be resolved on this device (for example, the OS version cannot determine the catalog region).
+		/// </summary>
+		EcomCheckoutCTCUnavailable = 4007,
+		/// <summary>
 		/// Session is already in progress
 		/// </summary>
 		SessionsSessionInProgress = 5000,

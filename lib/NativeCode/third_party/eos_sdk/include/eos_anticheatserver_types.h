@@ -116,7 +116,7 @@ EOS_STRUCT(EOS_AntiCheatServer_EndSessionOptions, (
 ));
 
 /** The most recent version of the EOS_AntiCheatServer_RegisterClient API. */
-#define EOS_ANTICHEATSERVER_REGISTERCLIENT_API_LATEST 3
+#define EOS_ANTICHEATSERVER_REGISTERCLIENT_API_LATEST 4
 
 /**
  * Input parameters for the EOS_AntiCheatServer_RegisterClient function.
@@ -149,6 +149,8 @@ EOS_STRUCT(EOS_AntiCheatServer_RegisterClientOptions, (
 	EOS_ProductUserId UserId;
 	/** Reserved for future use. Must be set to 0. */
 	int32_t Reserved01;
+	/** Reserved for future use. Must be set to 0. */
+	int32_t Reserved02;
 ));
 
 /** The most recent version of the EOS_AntiCheatServer_UnregisterClient API. */

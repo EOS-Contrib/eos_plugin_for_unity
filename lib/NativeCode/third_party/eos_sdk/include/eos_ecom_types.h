@@ -704,6 +704,16 @@ EOS_STRUCT(EOS_Ecom_CheckoutCallbackInfo, (
 	EOS_EpicAccountId LocalUserId;
 	/** The transaction ID which can be used to obtain an EOS_Ecom_HTransaction using EOS_Ecom_CopyTransactionById. */
 	const char* TransactionId;
+	/**
+	 * The Apple external purchase (CTC) token that was sent with this purchase, or NULL when no token was sent.
+	 * Reported for both successful and failed purchases, so the purchase can be reconciled with the report Apple receives.
+	 * Always NULL outside of iOS, for free acquisitions, and when the user's catalog region does not require CTC reporting.
+	 */
+	const char* CTCToken;
+	/** The type of CTCToken, or NULL when CTCToken is NULL. */
+	const char* CTCTokenType;
+	/** The catalog region that CTCToken was resolved for, as an uppercase country code, or NULL when CTCToken is NULL. */
+	const char* CatalogRegion;
 ));
 
 /**

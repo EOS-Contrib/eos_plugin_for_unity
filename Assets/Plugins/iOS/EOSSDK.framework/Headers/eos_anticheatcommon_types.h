@@ -228,6 +228,41 @@ EOS_ENUM(EOS_EAntiCheatCommonPlayerTakeDamageResult,
 	EOS_ACCPTDR_DownedToEliminated = 5
 );
 
+/** Flags describing a client's system configuration */
+EOS_ENUM(EOS_EAntiCheatCommonClientSystemConfig,
+	/** No particular flags relevant for this client */
+	EOS_ACCCSC_None = 0,
+	/** The client has a Trusted Platform Module or equivalent hardware security device active */
+	EOS_ACCCSC_CryptoProcessor = (1 << 0),
+	/** The client has secure boot active */
+	EOS_ACCCSC_SecureBoot = (1 << 1),
+	/** The client has kernel code integrity active */
+	EOS_ACCCSC_KernelCodeIntegrity = (1 << 2),
+	/** The client has IOMMU support active */
+	EOS_ACCCSC_IOMMU = (1 << 3),
+	/** The client has to be running non-insider/pre-release OS version. */
+	EOS_ACCCSC_StableOSVersion = (1 << 4),
+	/** The client is configured to block 3rd party software from injecting into the game process */
+	EOS_ACCCSC_StrictInjectionPolicy = (1 << 5),
+	/** The client has AMD PSP / Intel Boot Guard and no vulnerable firmware */
+	EOS_ACCCSC_SecureFirmware = (1 << 6),
+	/** The client is forced to have DMA remapping enabled for drivers which support it */
+	EOS_ACCCSC_DmaRemapping = (1 << 7),
+	/** The client has to be running the latest OS version available */
+	EOS_ACCCSC_NoOutdatedOS = (1 << 8)
+);
+EOS_ENUM_BOOLEAN_OPERATORS(EOS_EAntiCheatCommonClientSystemConfig);
+
+/** Status flags for the client system requirements */
+EOS_ENUM(EOS_EAntiCheatClientSystemRequirementStatus,
+	/** Requirement is not met */
+	EOS_ACCSRS_NotMet = 0,
+	/** Requirement is met but may be enforced more strictly in the future */
+	EOS_ACCSRS_MetWithWarning = 1,
+	/** Requirement is fully met */
+	EOS_ACCSRS_FullyMet = 2
+);
+
 /** Vector using left-handed coordinate system (as in Unreal Engine) */
 EOS_STRUCT(EOS_AntiCheatCommon_Vec3f, (
 	/** X axis coordinate - forward direction */

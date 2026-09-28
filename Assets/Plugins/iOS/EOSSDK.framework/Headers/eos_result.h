@@ -242,6 +242,8 @@ EOS_RESULT_VALUE(EOS_Ecom_CheckoutLoadError, 4004)
 EOS_RESULT_VALUE(EOS_Ecom_PurchaseProcessing, 4005)
 /** The offer is not valid in the catalog for the current sandbox */
 EOS_RESULT_VALUE(EOS_Ecom_CatalogOfferInvalid, 4006)
+/** The purchase was blocked because the external purchase (CTC) token required for this paid purchase could not be resolved on this device (for example, the OS version cannot determine the catalog region). */
+EOS_RESULT_VALUE(EOS_Ecom_CheckoutCTCUnavailable, 4007)
 /** Session is already in progress */
 EOS_RESULT_VALUE(EOS_Sessions_SessionInProgress, 5000)
 /** Too many players to register with this session */
