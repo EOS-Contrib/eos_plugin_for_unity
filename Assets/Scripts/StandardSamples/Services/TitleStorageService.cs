@@ -103,6 +103,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnQueryFileListCompleted(ref QueryFileListCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("Title storage: file list retrieval error: {0}", data.ResultCode);
@@ -145,8 +150,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             var queryFileOptions = new QueryFileOptions { Filename = fileName, LocalUserId = localUserId };
-            EOSManager.Instance.GetEOSTitleStorageInterface().QueryFile(ref queryFileOptions, null, (ref QueryFileCallbackInfo data) => 
+            EOSManager.Instance.GetEOSTitleStorageInterface().QueryFile(ref queryFileOptions, null, (ref QueryFileCallbackInfo data) =>
             {
+                if (!data.ResultCode.IsOperationComplete())
+                {
+                    return;
+                }
+
                 if(data.ResultCode == Result.Success)
                 {
                     var copyFileMetadataByFilenameOptions = new CopyFileMetadataByFilenameOptions { Filename = fileName, LocalUserId = localUserId };

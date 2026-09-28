@@ -56,6 +56,10 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// </summary>
 		public const int GETPROTECTMESSAGEOUTPUTLENGTH_API_LATEST = 1;
 		/// <summary>
+		/// The most recent version of the <see cref="GetSystemRequirementStatus" /> API.
+		/// </summary>
+		public const int GETSYSTEMREQUIREMENTSTATUS_API_LATEST = 1;
+		/// <summary>
 		/// Maximum size of an individual message provided through <see cref="OnMessageToPeerCallback" />.
 		/// </summary>
 		public const int ONMESSAGETOPEERCALLBACK_MAX_MESSAGE_SIZE = 512;
@@ -458,6 +462,45 @@ namespace Epic.OnlineServices.AntiCheatClient
 			var callResult = Bindings.EOS_AntiCheatClient_GetProtectMessageOutputLength(InnerHandle, ref optionsInternal, out outBufferSizeBytes);
 
 			Helper.Dispose(ref optionsInternal);
+
+			return callResult;
+		}
+
+		/// <summary>
+		/// Get the status of the specified system requirement.
+		/// Note: This function must only be called for a single requirement at a time.
+		/// Mode: All
+		/// </summary>
+		/// <param name="options">
+		/// Structure containing input data.
+		/// </param>
+		/// <param name="outRequirementStatus">
+		/// Status for the queried requirement, if not <see cref="AntiCheatCommon.AntiCheatClientSystemRequirementStatus.FullyMet" /> the provided OutReason should be displayed to the player.
+		/// </param>
+		/// <param name="outReason">
+		/// Provides details in the case the queried system requirement was not <see cref="AntiCheatCommon.AntiCheatClientSystemRequirementStatus.FullyMet" /> on the client.
+		/// </param>
+		/// <returns>
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the system requirement information was provided successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotImplemented" /> - If the platform does not use anti-cheat client modules or the loaded anti-cheat client module is too old to support this function.
+		/// - <see cref="Result.NotFound" /> - If the platform supports anti-cheat client modules but none is currently loaded (failsafe NullClient mode, launched without bootstrapper, etc).
+		/// </returns>
+		public Result GetSystemRequirementStatus(ref GetSystemRequirementStatusOptions options, out AntiCheatCommon.AntiCheatClientSystemRequirementStatus outRequirementStatus, out Utf8String outReason)
+		{
+			var optionsInternal = default(GetSystemRequirementStatusOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var outReasonPointer = Helper.AddAllocation(options.OutReasonLength);
+
+			var callResult = Bindings.EOS_AntiCheatClient_GetSystemRequirementStatus(InnerHandle, ref optionsInternal, out outRequirementStatus, outReasonPointer);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.Get(outReasonPointer, out outReason);
+			Helper.Dispose(ref outReasonPointer);
 
 			return callResult;
 		}

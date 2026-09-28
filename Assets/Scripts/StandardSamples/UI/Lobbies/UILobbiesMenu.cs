@@ -98,10 +98,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         protected override void OnEnable()
         {
             base.OnEnable();
-            UIActions.OnCollapseFriendsTab += EnableInterferingUIForFriendsTab;
-            UIActions.OnExpandFriendsTab += DisableInterferingUIForFriendsTab;
+
+            if (gameObject.activeSelf)
+            {
+                UIActions.OnCollapseFriendsTab += EnableInterferingUIForFriendsTab;
+                UIActions.OnExpandFriendsTab += DisableInterferingUIForFriendsTab;
+            }
+
             // Hide Invite Pop-up (Default)
             UIInvitePanel.SetActive(false);
+        }
+
+        void OnDisable()
+        {
+            UIActions.OnCollapseFriendsTab -= EnableInterferingUIForFriendsTab;
+            UIActions.OnExpandFriendsTab -= DisableInterferingUIForFriendsTab;
         }
 
         private void Start()
@@ -151,8 +162,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            UIActions.OnCollapseFriendsTab -= EnableInterferingUIForFriendsTab;
-            UIActions.OnExpandFriendsTab -= DisableInterferingUIForFriendsTab;
 
             LobbyManager?.RemoveNotifyMemberUpdate(OnMemberUpdate);
 
@@ -681,7 +690,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (kvp.Key.LobbyOwner == null)
                 {
-                    Debug.LogWarningFormat("Lobbies (OnSearchResultsReceived): Found lobby with null LobbyOwner id: ", kvp.Key.Id);
+                    Debug.LogWarningFormat("Lobbies (OnSearchResultsReceived): Found lobby with null LobbyOwner id: {0}", kvp.Key.Id);
                     continue;
                 }
 

@@ -154,6 +154,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnQueryUserInfoIdCompleted(ref QueryUserInfoCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             OnUserInfoQueryIdCallback Callback = data.ClientData as OnUserInfoQueryIdCallback;
 
             if (data.ResultCode != Result.Success)
@@ -208,6 +213,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnQueryUserInfoDisplayNameCompleted(ref QueryUserInfoByDisplayNameCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             OnUserInfoQueryDisplayNameCallback Callback = data.ClientData as OnUserInfoQueryDisplayNameCallback;
 
             //QueryUserInfoByDisplayNameCallbackInfo.DisplayName memory is only valid within callback scope, so copy for safety

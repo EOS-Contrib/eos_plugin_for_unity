@@ -266,7 +266,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             {
                 LogError("EOSP2PTransport.StartClient: Failed Client start up - 'ServerUserIdToConnectTo' is null or invalid."
                     + " Please set a valid EOS ProductUserId of the Server host this Client should try connecting to in the 'ServerUserIdToConnectTo' property before calling StartClient"
-                    + $" (ServerUserIdToConnectTo='{ServerUserIdToConnectTo}').");
+                    + $" (ServerUserIdToConnectTo='{ServerUserIdToConnectTo.Redact()}').");
             }
 
             return result;

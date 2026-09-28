@@ -196,6 +196,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    return;
             //}
 
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("Friends (SendInviteCallback): SendInvite error: {0}", data.ResultCode);
@@ -235,6 +240,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    AcceptInviteCallback?.Invoke(Result.InvalidState);
             //    return;
             //}
+
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
 
             if (data.ResultCode != Result.Success)
             {
@@ -276,6 +286,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    return;
             //}
 
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("Friends (OnRejectInviteCompleted): RejectInvite error: {0}", data.ResultCode);
@@ -313,6 +328,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    QueryFriendCallback?.Invoke(Result.InvalidState);
             //    return;
             //}
+
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
 
             if (data.ResultCode != Result.Success)
             {
@@ -404,6 +424,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    Debug.LogError("Friends (OnQueryPresenceCompleted): data is null");
             //    return;
             //}
+
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
 
             if (data.ResultCode != Result.Success)
             {
@@ -512,6 +537,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    return;
             //}
 
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("Friends (OnQueryExternalAccountMappingsCompleted): Error calling QueryExternalAccountMappings: " + data.ResultCode);
@@ -609,6 +639,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    return;
             //}
 
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("Friends (QueryUserInfoByDisplaynameCompleted): ResultCode error: {0}", data.ResultCode);
@@ -654,6 +689,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    return;
             //}
 
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("Friends (SendInviteCompleted): ResultCode error: {0}", data.ResultCode);
@@ -695,6 +735,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    QueryUserInfoCallback?.Invoke(Result.InvalidState);
             //    return;
             //}
+
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
 
             if (data.ResultCode != Result.Success)
             {
@@ -768,6 +813,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    return;
             //}
 
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("Friends (OnShowFriendsCallback): Error calling ShowFriends: " + data.ResultCode);
@@ -797,6 +847,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    HideFriendsOverlayCallback?.Invoke(Result.InvalidState);
             //    return;
             //}
+
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
 
             if (data.ResultCode != Result.Success)
             {

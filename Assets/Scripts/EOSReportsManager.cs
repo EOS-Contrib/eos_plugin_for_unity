@@ -89,6 +89,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    return;
             //}
 
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("Reports (OnSendPlayerBehaviorReportCompleted): error: {0}", data.ResultCode);
@@ -123,6 +128,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    QueryActivePlayerSanctionsCallback?.Invoke(Result.InvalidState);
             //    return;
             //}
+
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
 
             if (data.ResultCode != Result.Success)
             {

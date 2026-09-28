@@ -531,8 +531,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 ProductConfig productConfig = Config.Get<ProductConfig>();
 
-                if (!string.IsNullOrEmpty(epicArgs.epicSandboxID))
+                bool sandboxIdOverrideByCommandLine = !string.IsNullOrEmpty(epicArgs.epicSandboxID);
+                if (sandboxIdOverrideByCommandLine)
                 {
+                    Debug.Log($"Found sandbox id command line arg: {epicArgs.epicSandboxID}");
+
                     bool sandboxDefined = false;
                     SandboxId sandboxFromCommandLine = SandboxId.FromString(epicArgs.epicSandboxID);
                     foreach (var namedSandbox in productConfig.Environments.Sandboxes)
@@ -559,6 +562,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (!string.IsNullOrEmpty(epicArgs.epicDeploymentID))
                 {
+                    Debug.Log($"Found deployment id command line arg: {epicArgs.epicDeploymentID}");
+
                     bool deploymentDefined = false;
 
                     foreach (var namedDeployment in productConfig.Environments.Deployments)
@@ -607,6 +612,10 @@ namespace PlayEveryWare.EpicOnlineServices
                             $"found in the product config. Attempting to use " +
                             $"it regardless.");
                     }
+                }
+                else if (sandboxIdOverrideByCommandLine)
+                {
+                    Debug.LogWarning("[Warning] DeploymentID wasn't provided on the command line, while SandboxID was provided. If this is an EGS build this suggests that the configuration in the Epic Dev Portal is incorrect");
                 }
             }
 

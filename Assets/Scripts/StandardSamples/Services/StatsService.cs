@@ -212,6 +212,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
             statInterface.QueryStats(ref statsOptions, null, (ref OnQueryStatsCompleteCallbackInfo queryStatsCompleteCallbackInfo) =>
             {
+                if (!queryStatsCompleteCallbackInfo.ResultCode.IsOperationComplete())
+                {
+                    return;
+                }
+
                 if (queryStatsCompleteCallbackInfo.ResultCode != Result.Success)
                 {
                     tcs.SetException(new Exception($"Failed to query stats, result code: {queryStatsCompleteCallbackInfo.ResultCode}"));

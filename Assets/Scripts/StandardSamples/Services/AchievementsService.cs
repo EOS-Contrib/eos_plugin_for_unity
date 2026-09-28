@@ -225,6 +225,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             GetEOSAchievementInterface().QueryDefinitions(ref options, null, (ref OnQueryDefinitionsCompleteCallbackInfo data) =>
             {
+                if (!data.ResultCode.IsOperationComplete())
+                {
+                    return;
+                }
+
                 if (data.ResultCode != Result.Success)
                 {
                     Log($"Unable to query achievement definitions. Result code: {data.ResultCode}");
@@ -300,6 +305,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             GetEOSAchievementInterface().QueryPlayerAchievements(ref options, null, (ref OnQueryPlayerAchievementsCompleteCallbackInfo data) =>
             {
+                if (!data.ResultCode.IsOperationComplete())
+                {
+                    return;
+                }
+
                 if (data.ResultCode != Result.Success)
                 {
                     Log($"Error querying player achievements. Result code: {data.ResultCode}");
@@ -543,6 +553,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             GetEOSAchievementInterface().UnlockAchievements(ref options, null,
                 (ref OnUnlockAchievementsCompleteCallbackInfo data) =>
                 {
+                    if (!data.ResultCode.IsOperationComplete())
+                    {
+                        return;
+                    }
+
                     if (data.ResultCode != Result.Success)
                     {
                         tcs.SetResult((data.ResultCode, default));

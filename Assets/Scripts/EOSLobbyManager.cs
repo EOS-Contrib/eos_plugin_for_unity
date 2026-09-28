@@ -1320,6 +1320,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnSendInviteCompleted(ref SendInviteCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             //if (data == null)
             //{
             //    Debug.LogError("Lobbies (OnSendInviteCompleted): SendInviteCallbackInfo data is null");
@@ -1337,6 +1342,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnCreateLobbyCompleted(ref CreateLobbyCallbackInfo createLobbyCallbackInfo)
         {
+            if (!createLobbyCallbackInfo.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             OnLobbyCallback LobbyCreatedCallback = createLobbyCallbackInfo.ClientData as OnLobbyCallback;
 
             //if (createLobbyCallbackInfo == null)
@@ -1387,6 +1397,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnUpdateLobbyCallBack(ref UpdateLobbyCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             OnLobbyCallback LobbyModifyCallback = data.ClientData as OnLobbyCallback;
 
             //if (data == null)
@@ -1481,6 +1496,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnDestroyLobbyCompleted(ref DestroyLobbyCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             OnLobbyCallback DestroyLobbyCallback = data.ClientData as OnLobbyCallback;
 
             //if (data == null)
@@ -1701,6 +1721,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnRTCRoomUpdateSendingCompleted(ref UpdateSendingCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             OnLobbyCallback ToggleMuteCallback = data.ClientData as OnLobbyCallback;
 
             //if (data == null)
@@ -1756,6 +1781,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnRTCRoomUpdateReceivingCompleted(ref UpdateReceivingCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             OnLobbyCallback ToggleMuteCallback = data.ClientData as OnLobbyCallback;
 
             //if (data == null)
@@ -1846,6 +1876,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnRTCBlockParticipantCompleted(ref BlockParticipantCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             OnLobbyCallback BlockParticipantCallback = data.ClientData as OnLobbyCallback;
 
             if (data.ResultCode != Result.Success)
@@ -1923,6 +1958,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnKickMemberCompleted(ref KickMemberCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             OnLobbyCallback KickMemberCallback = data.ClientData as OnLobbyCallback;
 
             //if (data == null)
@@ -1988,6 +2028,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnPromoteMemberCompleted(ref PromoteMemberCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             OnLobbyCallback PromoteMemberCallback = data.ClientData as OnLobbyCallback;
 
             //if (data == null)
@@ -2222,6 +2267,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnLobbySearchCompleted(ref LobbySearchFindCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             //if (data == null)
             //{
             //    Debug.LogError("Lobbies (OnLobbySearchCompleted): LobbySearchFindCallbackInfo data is null");
@@ -2552,6 +2602,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnJoinLobbyCompleted(ref JoinLobbyCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             OnLobbyCallback JoinLobbyCallback = data.ClientData as OnLobbyCallback;
 
             //if (data == null)
@@ -2595,6 +2650,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnLeaveLobbyCompleted(ref LeaveLobbyCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             OnLobbyCallback LeaveLobbyCallback = data.ClientData as OnLobbyCallback;
 
             //if (data == null)
@@ -2648,6 +2708,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnDeclineInviteCompleted(ref RejectInviteCallbackInfo data)
         {
+            if (!data.ResultCode.IsOperationComplete())
+            {
+                return;
+            }
+
             //if (data == null)
             //{
             //    Debug.LogError("Lobbies (OnDeclineInviteCompleted): RejectInviteCallbackInfo data is null");

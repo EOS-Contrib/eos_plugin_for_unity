@@ -31,6 +31,23 @@ namespace Epic.OnlineServices.Ecom
 		/// </summary>
 		public Utf8String TransactionId { get; set; }
 
+		/// <summary>
+		/// The Apple external purchase (CTC) token that was sent with this purchase, or <see langword="null" /> when no token was sent.
+		/// Reported for both successful and failed purchases, so the purchase can be reconciled with the report Apple receives.
+		/// Always <see langword="null" /> outside of iOS, for free acquisitions, and when the user's catalog region does not require CTC reporting.
+		/// </summary>
+		public Utf8String CTCToken { get; set; }
+
+		/// <summary>
+		/// The type of CTCToken, or <see langword="null" /> when CTCToken is <see langword="null" />.
+		/// </summary>
+		public Utf8String CTCTokenType { get; set; }
+
+		/// <summary>
+		/// The catalog region that CTCToken was resolved for, as an uppercase country code, or <see langword="null" /> when CTCToken is <see langword="null" />.
+		/// </summary>
+		public Utf8String CatalogRegion { get; set; }
+
 		public object GetClientData()
 		{
 			return ClientData;
@@ -49,6 +66,9 @@ namespace Epic.OnlineServices.Ecom
 		private IntPtr m_ClientData;
 		private IntPtr m_LocalUserId;
 		private IntPtr m_TransactionId;
+		private IntPtr m_CTCToken;
+		private IntPtr m_CTCTokenType;
+		private IntPtr m_CatalogRegion;
 
 		public IntPtr ClientDataPointer
 		{
@@ -72,6 +92,15 @@ namespace Epic.OnlineServices.Ecom
 			Utf8String TransactionIdPublic;
 			Helper.Get(m_TransactionId, out TransactionIdPublic);
 			other.TransactionId = TransactionIdPublic;
+			Utf8String CTCTokenPublic;
+			Helper.Get(m_CTCToken, out CTCTokenPublic);
+			other.CTCToken = CTCTokenPublic;
+			Utf8String CTCTokenTypePublic;
+			Helper.Get(m_CTCTokenType, out CTCTokenTypePublic);
+			other.CTCTokenType = CTCTokenTypePublic;
+			Utf8String CatalogRegionPublic;
+			Helper.Get(m_CatalogRegion, out CatalogRegionPublic);
+			other.CatalogRegion = CatalogRegionPublic;
 		}
 	}
 }

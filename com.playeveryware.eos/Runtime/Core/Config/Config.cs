@@ -222,7 +222,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             Debug.LogWarning(
-                $"Config file with schemaVersion \"{CURRENT_SCHEMA_VERSION}\"" +
+                $"Config file with schemaVersion \"{schemaVersion}\"" +
                 " has been read into memory, and needs to be migrated to " +
                 $"schemaVersion \"{CURRENT_SCHEMA_VERSION}\".");
 
