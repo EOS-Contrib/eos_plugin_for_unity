@@ -1,4 +1,5 @@
 using PlayEveryWare.EpicOnlineServices;
+using PlayEveryWare.EpicOnlineServices.Editor.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -113,6 +114,11 @@ public class EOSConfigBuildValidator : IPreprocessBuildWithReport
     /// <exception cref="BuildFailedException">An exception class that represents a failed build.</exception>
     public void OnPreprocessBuild(BuildReport report)
     {
+        if (ScriptingDefineUtility.IsEOSDisabled(report))
+        {
+            return;
+        }
+
         errorCode = ErrorCode.None;
         BuildTarget target = report.summary.platform;
         if (!PlatformManager.TryGetConfigFilePath(target, out string configFilePath))
