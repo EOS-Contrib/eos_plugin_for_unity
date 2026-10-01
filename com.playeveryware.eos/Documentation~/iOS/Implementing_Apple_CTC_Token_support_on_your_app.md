@@ -1,0 +1,101 @@
+
+CTC stands for "Core Technology Commission", which replaces the Core Technology Fee, or CTF. 
+
+CTC is a fee that applies to your app if you distribute your iOS app on an alternative marketplace like Epic Games Store for Mobile.
+
+From Apple:  
+The Core Technology Fee (CTF) is an element of the business terms in the European Union (EU) if a developer chooses to adopt the Alternative Terms Addendum for Apps in the EU. The fee reflects the value Apple provides developers through ongoing investments in the tools, technologies, and services that enable them to build and share innovative apps with users.
+
+- [Core Technology Fee overview - Understanding the Core Technology Fee - App Store Connect - Help - Apple Developer](https://developer.apple.com/help/app-store-connect/understanding-the-core-technology-fee/core-technology-fee-overview/)
+
+The CTC requires you to report your purchases to Apple by generating a special token that must be attached to the purchase data.
+
+By using [EOS SDK 1.19.2.1](https://dev.epicgames.com/docs/epic-online-services/release-notes#ecom) or later this is mostly taken care of for you, but you still need to set up your Unity Project to enable CTC. This document explains how to do it.
+
+# Requirements
+
+- You must be in an eligible region.  
+- The device must run iOS 26.4 or later.  
+- Your application must be built for distribution on an external marketplace.  
+- You must add the `MKSellsDigitalGoods` property to your app's target configuration in Xcode with a value of `YES`.  
+    
+  > Note: This step is required, and you must do it before you send the build for the notarization process to Apple. But you can set up your Xcode project to simulate distribution for testing (see [Testing](#testing)).
+
+# Adding MKSellsDigitalGoods to the Info.plist
+
+As this property is not exposed in the ProjectSettings, we need to add it using a [`PostProcessBuild` script](https://docs.unity3d.com/ScriptReference/Callbacks.PostProcessBuildAttribute.html). 
+
+Here's an example snippet showing how to do it:
+
+```c#
+#if UNITY_IOS
+using System.IO;
+using UnityEditor;
+using UnityEditor.Callbacks;
+using UnityEditor.iOS.Xcode;
+using UnityEngine;
+
+public static class InfoPlistPostProcessor
+{
+    [PostProcessBuild(1)]
+    public static void OnPostProcessBuild(BuildTarget target, string pathToBuiltProject)
+    {
+        if (target != BuildTarget.iOS) 
+        {
+            return;
+        }
+
+        string plistPath = Path.Combine(pathToBuiltProject, "Info.plist");
+
+        var plist = new PlistDocument();
+        plist.ReadFromFile(plistPath);
+
+        PlistElementDict root = plist.root;
+
+        root.SetBoolean("MKSellsDigitalGoods", true);
+
+        plist.WriteToFile(plistPath);
+    }
+}
+#endif
+```
+
+# Testing {#testing}
+
+## Prerequisites
+
+- You must build a version of your app with [purchases](https://dev.epicgames.com/docs/epic-games-store/mobile-early-adopter/manage-offers) enabled - ideally as close to distribution as possible.   
+- Set your build system to generate an Xcode project. CTC requires an alternative marketplace distribution and thus it **does not work on** **TestFlight** because apps on TestFlight target Apple’s App Store.  
+- You must fulfil the requirements above for iOS 26.4 or later.  
+- `MKSellsDigitalGoods` property must be in the `Info.plist` file and set to `YES`.  
+- Your test app does not need notarization for distribution on an alternative marketplace. for testing, but you must set up your Xcode project to simulate distribution from an alternative marketplace. See Apple's documentation for the steps:  
+  - [Test your app during development \- Distributing your app on an alternative app marketplace | Apple Developer Documentation](https://developer.apple.com/documentation/marketplacekit/distributing-your-app-on-an-alternative-marketplace#Test-your-app-during-development)  
+- You must set the EOS SDK log level to `Info` at least, so that you can verify the behavior through the logs. We do recommend logging at least at the `Verbose` level in general while testing/debugging.
+
+## Testing steps
+
+To test whether the CTC token is generated and attached to the purchase, start a purchase of a paid item in your app. You only need to start the purchase and let the Epic Games Store overlay appear. You **do not** need to complete the purchase. 
+
+After the EOS Overlay appears, search for a log similar to this:
+
+```
+LogEOSEcom(Info): Attaching CTC to purchase-token request
+```
+
+If you find this log, the CTC token is being generated.
+
+If `MKSellsDigitalGoods` is missing or set to `NO`, the log looks like this:
+
+```
+LogEOSEcom(Info): CTC: proceeding without a token (MKSellsDigitalGoods must be YES; token-failure blocking disabled).
+```
+
+# References
+
+- [Configure Your App to Declare Whether It Sells Digital Goods - Epic Developer Resources](https://dev.epicgames.com/docs/epic-games-store/services/ecom/report-ctc-tokens-on-ios#configure-your-app-to-declare-whether-it-sells-digital-goods)  
+- [Guide: View EOS SDK Log Messages - 2. Find and Analyze Your Log Messages | Epic Online Services Developer](https://dev.epicgames.com/docs/epic-online-services/eos-fundamentals/logging-interface/logging-guide/find-and-analyze-your-log-messages)  
+- [Test your app during development - Distributing your app on an alternative app marketplace | Apple Developer Documentation](https://developer.apple.com/documentation/marketplacekit/distributing-your-app-on-an-alternative-marketplace#Test-your-app-during-development)  
+- [Changes for apps in the European Union - Support - Apple Developer](https://developer.apple.com/support/apps-in-the-eu#notarization-for-ios-apps)  
+- [MKSellsDigitalGoods | Apple Developer Documentation](https://developer.apple.com/documentation/bundleresources/information-property-list/mksellsdigitalgoods)  
+- [Unity - Scripting API: PostProcessBuildAttribute](https://docs.unity3d.com/Documentation/ScriptReference/Callbacks.PostProcessBuildAttribute.html)
+
