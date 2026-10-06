@@ -98,10 +98,8 @@ using UnityEngine.InputSystem;
         public static string IdGlobalCache = string.Empty;
         public static string TokenGlobalCache = string.Empty;
 
-        // default invalid type to -2, because -1 is used at above for external credential type
-        private const LoginCredentialType InvalidLoginType = (LoginCredentialType)(-2);
         // Cache the Login option from last success login
-        private static LoginCredentialType LastSuccessLoginType = InvalidLoginType; 
+        private static LoginCredentialType? LastSuccessLoginType = null; 
 
         private void Awake()
         {
@@ -126,9 +124,9 @@ using UnityEngine.InputSystem;
             Debug.LogError("Input currently handled by Input Manager. Input System Package is required for controller support on consoles.");
 #endif
 
-            if (LastSuccessLoginType != InvalidLoginType)
+            if (LastSuccessLoginType != null)
             {
-                loginType = LastSuccessLoginType;
+                loginType = LastSuccessLoginType.Value;
             }
         }
 
