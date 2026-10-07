@@ -1524,6 +1524,18 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <param name="onLogoutCallback"></param>
             public void StartLogout(EpicAccountId accountId, OnLogoutCallback onLogoutCallback)
             {
+                StartLogout(accountId, GetProductUserId(), onLogoutCallback);
+            }
+
+            //-------------------------------------------------------------------------
+            /// <summary>
+            /// Starts a logout for Auth with product user id
+            /// </summary>
+            /// <param name="accountId"></param>
+            /// <param name="productUserId"></param>
+            /// <param name="onLogoutCallback"></param>
+            public void StartLogout(EpicAccountId accountId, ProductUserId productUserId, OnLogoutCallback onLogoutCallback)
+            {
                 var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
                 LogoutOptions options = new LogoutOptions { LocalUserId = accountId };
 
@@ -1540,6 +1552,26 @@ namespace PlayEveryWare.EpicOnlineServices
 
                     OnAuthLogout?.Invoke(data);
                 });
+
+                var EOSConnectInterface = GetEOSPlatformInterface().GetConnectInterface();
+                Epic.OnlineServices.Connect.LogoutOptions connectOptions = new Epic.OnlineServices.Connect.LogoutOptions
+                {
+                    LocalUserId = productUserId,
+                };
+
+                EOSConnectInterface.Logout(ref connectOptions, null, (ref Epic.OnlineServices.Connect.LogoutCallbackInfo data) =>
+                {
+                    if (!data.ResultCode.IsOperationComplete())
+                    {
+                        return;
+                    }
+
+                    if (data.ResultCode == Result.Success)
+                    {
+                        print($"Logout Successful. ProductUserId : {data.LocalUserId}");
+                    }
+                });
+
             }
 
             //Clears a local ProductUserId since the Connect interface doesn't have a logout function
