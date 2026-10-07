@@ -98,6 +98,9 @@ using UnityEngine.InputSystem;
         public static string IdGlobalCache = string.Empty;
         public static string TokenGlobalCache = string.Empty;
 
+        // Cache the Login option from last success login
+        private static LoginCredentialType? LastSuccessLoginType = null; 
+
         private void Awake()
         {
             idInputField.InputField.onEndEdit.AddListener(CacheIdInputField);
@@ -120,6 +123,11 @@ using UnityEngine.InputSystem;
 #if !ENABLE_INPUT_SYSTEM && (UNITY_XBOXONE || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT || UNITY_PS4 || UNITY_PS5 || UNITY_SWITCH || UNITY_SWITCH2)
             Debug.LogError("Input currently handled by Input Manager. Input System Package is required for controller support on consoles.");
 #endif
+
+            if (LastSuccessLoginType != null)
+            {
+                loginType = LastSuccessLoginType.Value;
+            }
         }
 
         private void CacheIdInputField(string value)
@@ -1392,6 +1400,10 @@ using UnityEngine.InputSystem;
             if (loginCallbackInfo.ResultCode != Epic.OnlineServices.Result.Success)
             {
                 ConfigureUIForLogin();
+            }
+            else
+            {
+                LastSuccessLoginType = loginType;
             }
         }
 
