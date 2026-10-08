@@ -44,6 +44,7 @@ using UnityEngine.InputSystem;
 #endif
 
     using PlayEveryWare.EpicOnlineServices;
+    using PlayEveryWare.EpicOnlineServices.Utility;
 
     public class UILoginMenu : MonoBehaviour
     {
@@ -883,12 +884,18 @@ using UnityEngine.InputSystem;
 
             if (EOSManager.Instance.GetLocalUserId() == null)
             {
-                EOSManager.Instance.ClearConnectId(EOSManager.Instance.GetProductUserId());
-                ConfigureUIForLogin();
+                EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo data) =>
+                {
+                    if (data.ResultCode == Result.Success)
+                    {
+                        print($"Logout Successful. ProductUserId : {data.LocalUserId}");
+                        ConfigureUIForLogin();
+                    }
+                });
                 return;
             }
 
-            EOSManager.Instance.StartLogout(EOSManager.Instance.GetLocalUserId(), (ref LogoutCallbackInfo data) => {
+            EOSManager.Instance.StartAuthLogout(EOSManager.Instance.GetLocalUserId(), (ref LogoutCallbackInfo data) => {
                 if (data.ResultCode == Result.Success)
                 {
 #if (UNITY_PS4 || UNITY_PS5) && !UNITY_EDITOR
@@ -903,8 +910,14 @@ using UnityEngine.InputSystem;
 #endif
                     print("Logout Successful. [" + data.ResultCode + "]");
                     ConfigureUIForLogin();
+                    EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo data) =>
+                    {
+                        if (data.ResultCode == Result.Success)
+                        {
+                            print($"Logout Successful. ProductUserId : {data.LocalUserId.Redact()}");
+                        }
+                    });
                 }
-
             });
         }
 
