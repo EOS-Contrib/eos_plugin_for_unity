@@ -1592,7 +1592,6 @@ namespace PlayEveryWare.EpicOnlineServices
                         return;
                     }
                     
-                    ClearConnectId(data.LocalUserId);
                     OnLogoutCallback?.Invoke(data);
 
                     OnConnectLogout?.Invoke(data);

@@ -889,6 +889,7 @@ using UnityEngine.InputSystem;
                     if (data.ResultCode == Result.Success)
                     {
                         print($"Logout Successful. ProductUserId : {data.LocalUserId}");
+                        EOSManager.Instance.ClearConnectId(data.LocalUserId);
                         ConfigureUIForLogin();
                     }
                 });
