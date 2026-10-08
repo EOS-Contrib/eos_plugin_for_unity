@@ -92,7 +92,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using LogoutCallbackInfo = Epic.OnlineServices.Auth.LogoutCallbackInfo;
     using LogoutOptions = Epic.OnlineServices.Auth.LogoutOptions;
     using OnLogoutCallback = Epic.OnlineServices.Auth.OnLogoutCallback;
-
     using System.Threading.Tasks;
 #endif
     /// <summary>
@@ -474,7 +473,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     {
                         RemoveAuthLogoutListener(manager as IEOSOnAuthLogout);
                     }
-
 
                     s_subManagers.Remove(type);
                 }
@@ -1564,7 +1562,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     OnAuthLogout?.Invoke(data);
                 });
             }
-            
+
             public void ClearConnectId(ProductUserId userId)
             {
                 if (GetProductUserId() == userId)
