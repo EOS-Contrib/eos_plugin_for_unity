@@ -23,7 +23,7 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     /// <summary>
-    /// Interface for classes using <c>OnAuthLogout</c>
+    /// Interface for classes using <c>OnConnectLogout</c>
     /// </summary>
     public interface IEOSOnConnectLogout
     {

@@ -180,10 +180,10 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         /// <summary>
-        /// Called by EOSManager when connect login has taken place.
+        /// Called by EOSManager when connect logout has taken place.
         /// </summary>
-        /// <param name="loginCallbackInfo">
-        /// Callback parameters for the connect login operation.
+        /// <param name="logoutCallbackInfo">
+        /// Callback parameters for the connect logout operation.
         /// </param>
         public void OnConnectLogout(Epic.OnlineServices.Connect.LogoutCallbackInfo logoutCallbackInfo)
         {

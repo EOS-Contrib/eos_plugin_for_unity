@@ -911,11 +911,11 @@ using UnityEngine.InputSystem;
 #endif
                     print("Logout Successful. [" + data.ResultCode + "]");
                     ConfigureUIForLogin();
-                    EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo data) =>
+                    EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo connectData) =>
                     {
-                        if (data.ResultCode == Result.Success)
+                        if (connectData.ResultCode == Result.Success)
                         {
-                            print($"Logout Successful. ProductUserId : {data.LocalUserId.Redact()}");
+                            print($"Logout Successful. ProductUserId : {connectData.LocalUserId.Redact()}");
                         }
                     });
                 }
