@@ -1421,6 +1421,12 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <param name="onLoginCallback"></param>
             public void StartLoginWithLoginOptions(LoginOptions loginOptions, OnAuthLoginCallback onLoginCallback)
             {
+                if (loginOptions.Credentials?.Type == LoginCredentialType.Password)
+                {
+                    Debug.LogWarning($"{nameof(LoginCredentialType.Password)} login is restricted to " +
+                        "internal use. The login will fail.");
+                }
+
                 // start login things
                 var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
 
