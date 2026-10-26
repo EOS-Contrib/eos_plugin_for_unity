@@ -14,7 +14,8 @@ You can follow the standard <a href="/com.playeveryware.eos/README.md#importing-
 
 > [!WARNING]
 > If you choose the tarball method, when downloading the release on mac it may convert the `.tgz` into a `.tar` which is not compatible with unity. Changing the file extension back to a `.tgz` should fix this.
-
+### Apple CTC Support
+Please refer to the  <a href="./Implementing_Apple_CTC_Token_support_on_your_app.md">CTC Token support guide</a>
 ## Samples
 
 You can follow the standard <a href="/com.playeveryware.eos/README.md#samples">Samples</a> process. Please note the details in the <a href="#running-the-samples">Running the samples</a> section when running the samples from a build for iOS.
@@ -44,3 +45,4 @@ You can follow the standard <a href="/com.playeveryware.eos/README.md#configurin
 # FAQ
 
 See [frequently_asked_questions.md](/com.playeveryware.eos/Documentation~/frequently_asked_questions.md).
+
