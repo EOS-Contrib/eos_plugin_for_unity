@@ -395,6 +395,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Bucket Id
             lobbyProperties.BucketId = BucketIdVal.InputField.text;
 
+            // An empty input falls back to the current BucketId, because an empty BucketId is an invalid parameter.
+            // This happens mostly a client promoted to lobby host has never filled in the field.
+            if (string.IsNullOrEmpty(lobbyProperties.BucketId))
+            {
+                Debug.Log($"UILobbiesMenu (ModifyLobbyButtonOnClick): No BucketId entered, keeping current BucketId ({currentLobby.BucketId}).");
+                lobbyProperties.BucketId = currentLobby.BucketId;
+            }
+
             // Max Players
             lobbyProperties.MaxNumLobbyMembers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
 
