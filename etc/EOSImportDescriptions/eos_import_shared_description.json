@@ -38,6 +38,8 @@
         {"src":"SDK/Source/Generated/Version/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Version/"},
         
 
-        {"src":"SDK/Include/*.h", "dest": "lib/NativeCode/third_party/eos_sdk/include/"}
+        {"src":"SDK/Include/*.h", "dest": "lib/NativeCode/third_party/eos_sdk/include/"},
+        
+        {"src":"SDK/Symbols/*", "dest": "Symbols/", "recursive": true}
     ]
 }
