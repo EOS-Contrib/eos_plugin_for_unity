@@ -36,8 +36,6 @@
         {"src":"SDK/Source/Generated/Ui/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Ui/"},
         {"src":"SDK/Source/Generated/UserInfo/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/UserInfo/"},
         {"src":"SDK/Source/Generated/Version/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Version/"},
-        {"src":"SDK/Source/Generated/Linux/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Linux/"},
-        {"src":"SDK/Source/Generated/Mac/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Mac/"},
         
 
         {"src":"SDK/Include/*.h", "dest": "lib/NativeCode/third_party/eos_sdk/include/"},
