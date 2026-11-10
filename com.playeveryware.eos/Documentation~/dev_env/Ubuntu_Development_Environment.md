@@ -7,12 +7,12 @@ This is the second part of the guide for using Hyper-V to set up a Linux environ
 
 ## Setup your Linux Guest VM in Hyper-V
 
-If you want to set up your linux environment inside a virtual machine, and have not yet done so, follow [this](/com.playeveryware.eos/Documentation~/dev_env/HyperV_Linux_Guest_VM.md) guide first.
+If you want to set up your linux environment inside a virtual machine, and have not yet done so, follow [this](./HyperV_Linux_Guest_VM.md) guide first.
 
 ## Setting up your Linux Environment:
 
 > [!NOTE]
-> If you would like to take care of many of the following steps by simply running a script, feel free to make use of the provided [setup-linux.sh](/tools/scripts/setup-linux.sh) script. After running it, you will need to return to this guide and skip to [this](#configure-ssh-access-to-github-required) section.
+> If you would like to take care of many of the following steps by simply running a script, feel free to make use of the provided [setup-linux.sh](/tools/scripts/setup-linux.sh) script. After running it, you will need to return to this guide and skip to [this](#step-3-configure-ssh-access-to-github-required) section.
 
 After setting up the Linux Virtual Machine (outlined in the link provided in the preceding section) or (if you're not using Hyper-V) you've just set up your linux machine, there are some standard things that you can do right out of the gate that will cover a lot of the bases we will need, so take the following preliminary steps:
 
@@ -102,15 +102,15 @@ If you are using Hyper-V, and failed to increase the size of the disk before ins
 
 1. In Hyper-V, edit the virtual machine and navigate to "Hard Drive"
     
-    ![](/com.playeveryware.eos/Documentation~/images/ubuntu_dev_env/vm-settings.png)
+    ![](../images/ubuntu_dev_env/vm-settings.png)
 
 2. Select "Edit"
 
-    ![](/com.playeveryware.eos/Documentation~/images/ubuntu_dev_env/edit-disk.png)
+    ![](../images/ubuntu_dev_env/edit-disk.png)
 
 1. If "Edit" is greyed out, you will need to disable Checkpoints. Navigate to Checkpoints and unselect the checkbox that says "Enable checkpoints"
 
-    ![](/com.playeveryware.eos/Documentation~/images/ubuntu_dev_env/disable-checkpoints.png)
+    ![](../images/ubuntu_dev_env/disable-checkpoints.png)
 
 3. The edit window will ask you to locate the disk. This should already be filled out. Select "Next"
 4. Choose "Expand"

@@ -11,7 +11,7 @@
 
 If you want to do that work manually, please refer to the following:
 
-* The standard <a href="/com.playeveryware.eos/README.md#prerequisites">Prerequisites</a> for all platforms.
+* The standard [Prerequisites](../../README.md#prerequisites) for all platforms.
 * macOS Device
 * Unity macOS build module
 * XCode

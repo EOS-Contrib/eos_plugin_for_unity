@@ -4,10 +4,10 @@
 
 - **Windows (Standalone x86 & x64)**
 - **Universal Windows Platform (x64)**
-- **[Android](/com.playeveryware.eos/Documentation~/android/README_Android.md)** [^1]
-- **[iOS](/com.playeveryware.eos/Documentation~/iOS/README_iOS.md)** [^1]
-- **[Linux](/com.playeveryware.eos/Documentation~/dev_env/Ubuntu_Development_Environment.md)** [^1]
-- **[MacOS](/com.playeveryware.eos/Documentation~/macOS/README_macOS.md)**
+- **[Android](./android/README_Android.md)** [^1]
+- **[iOS](./iOS/README_iOS.md)** [^1]
+- **[Linux](./dev_env/Ubuntu_Development_Environment.md)** [^1]
+- **[MacOS](./macOS/README_macOS.md)**
 - **Nintendo (Switch & Switch 2)**<br>
 - **Xbox (One & Xbox Series X)**<br>
 - **PlayStation (4 & 5)**<br>

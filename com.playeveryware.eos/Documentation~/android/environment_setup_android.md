@@ -18,7 +18,7 @@ The following Unity versions support 16 KB memory page sizes required by Android
 
 2. Open the "Add modules" window.
 
-    <img src="/com.playeveryware.eos/Documentation~/images/unity_add_modules.png" width="500" />
+    <img src="../images/unity_add_modules.png" width="500" />
 
 2. Select and install the following modules:
 
@@ -426,7 +426,7 @@ The following methods will show how to install the missing build-tool 33.0.2, an
 1. [Install Android Studio](https://developer.android.com/studio)
 2. Run the SDK Manager
 
-    <img src="/com.playeveryware.eos/Documentation~/images/android_studio_sdk_manager.png" width="500" />
+    <img src="../images/android_studio_sdk_manager.png" width="500" />
 
 ### Manage SDK through command prompt
 

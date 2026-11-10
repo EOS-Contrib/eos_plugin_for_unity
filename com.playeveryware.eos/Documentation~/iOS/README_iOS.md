@@ -3,46 +3,45 @@
 
 ## Prerequisites
 
-* The standard <a href="/com.playeveryware.eos/README.md#prerequisites">Prerequisites</a> for all platforms.
+* The standard [Prerequisites](../../README.md#prerequisites) for all platforms.
 * <a href="https://docs.unity3d.com/Manual/ios-environment-setup.html">iOS environment setup</a> for Unity.
 * The iOS Unity <a href="https://docs.unity3d.com/hub/manual/AddModules.html">module</a>.
 * Xcode 10.2.x.
 
 ## Importing the Plugin
 
-You can follow the standard <a href="/com.playeveryware.eos/README.md#importing-the-plugin">Importing the Plugin</a> process. With a few changes here when <a href="#running-the-samples">running the samples</a> and <a href="#configuring-the-plugin">configuring the plugin</a>.
+You can follow the standard [Importing the Plugin](../../README.md#importing-the-plugin-package) process. With a few changes here when [running the samples](#running-the-samples) and [configuring the plugin](#configuring-the-plugin).
 
 > [!WARNING]
 > If you choose the tarball method, when downloading the release on mac it may convert the `.tgz` into a `.tar` which is not compatible with unity. Changing the file extension back to a `.tgz` should fix this.
 ### Apple CTC Support
-Please refer to the  <a href="./Implementing_Apple_CTC_Token_support_on_your_app.md">CTC Token support guide</a>
+Please refer to the  [CTC Token support guide](./Implementing_Apple_CTC_Token_support_on_your_app.md)
 ## Samples
 
-You can follow the standard <a href="/com.playeveryware.eos/README.md#samples">Samples</a> process. Please note the details in the <a href="#running-the-samples">Running the samples</a> section when running the samples from a build for iOS.
+You can follow the standard [Samples](../samples.md) process. Please note the details in the [Running the samples](#running-the-samples) section when running the samples from a build for iOS.
 
 > [!WARNING]
 > The Social Overlay is not implemented yet. However, the Ecom Overlay is supported on mobile as of EOS Unity Plugin 4.1.0.
 
 ## Running the samples
 
-When following the steps to <a href="/com.playeveryware.eos/README.md#running-the-samples">run a sample</a> from a build for iOS, in Xcode, open the `.xcodeproj` from the resulting build folder. Follow the [Apple Developer instructions](https://developer.apple.com/documentation/xcode/running-your-app-in-simulator-or-on-a-device) to build and run the app. If running on a device you may need to <a href="https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device">enable developer mode</a> on the device. This may require you to set up <a href="https://help.apple.com/xcode/mac/current/#/dev80cc24546">automatic signing</a> as well.
+When following the steps to [run a sample](../samples.md#running-the-samples) from a build for iOS, in Xcode, open the `.xcodeproj` from the resulting build folder. Follow the [Apple Developer instructions](https://developer.apple.com/documentation/xcode/running-your-app-in-simulator-or-on-a-device) to build and run the app. If running on a device you may need to <a href="https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device">enable developer mode</a> on the device. This may require you to set up <a href="https://help.apple.com/xcode/mac/current/#/dev80cc24546">automatic signing</a> as well.
 
 > [!NOTE]
 > Find the build steps in the Unity docs <a href="https://docs.unity3d.com/Manual/iphone-BuildProcess.html">here</a>.
 
 ## Configuring the Plugin
 
-You can follow the standard <a href="/com.playeveryware.eos/README.md#configuring-the-plugin">Configuring the Plugin</a> process. With the additional steps after saving the Main EOS Config.
+You can follow the standard [Configuring the Plugin](../configure_plugin.md) process. With the additional steps after saving the Main EOS Config.
 
 ## Additional Configuration Steps
 
 1. Select the `iOS` button.
 
-    ![EOS Config UI](/com.playeveryware.eos/Documentation~/images/eosconfig_ui_ios.gif)
+    ![EOS Config UI](../images/eosconfig_ui_ios.gif)
 
 2. Press `Save All Changes`.
 
 # FAQ
 
-See [frequently_asked_questions.md](/com.playeveryware.eos/Documentation~/frequently_asked_questions.md).
-
+See [frequently_asked_questions.md](../frequently_asked_questions.md).
