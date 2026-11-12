@@ -1,5 +1,7 @@
 {
     "source_to_dest": [
+        {"src":"SDK/Source/Generated/Mac/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Mac/"},
+        
         {"src": "SDK/Bin/libEOSSDK-Mac-Shipping.dylib", "dest": "Assets/Plugins/macOS/"},
 
         {"src": "SDK/Include/Mac/*.h", "dest": "lib/NativeCode/third_party/eos_sdk/include/Mac/"}
