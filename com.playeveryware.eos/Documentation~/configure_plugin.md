@@ -4,9 +4,9 @@ To function, the plugin needs some information from your EOS project. Be sure to
 
 ## In the Unity editor, Open ```EOS Plugin -> EOS Configuration```.
 
-![EOS Config Menu](/com.playeveryware.eos/Documentation~/images/eos-configuration-menu.png)
+![EOS Config Menu](./images/eos-configuration-menu.png)
 
-![EOS Configuration](/com.playeveryware.eos/Documentation~/images/eos_configuration.png)
+![EOS Configuration](./images/eos_configuration.png)
 
 ## Set product settings from Epic Developer Portal
 
@@ -45,4 +45,4 @@ Either:
 - Attach `EOSManager.cs (Script)` to a Unity object, and it will initialize the plugin with the specified configuration in `OnAwake()` (this is what `Singletons.prefab` does).
 
 > [!NOTE]
-> The included [samples](http://github.com/EOS-Contrib/eos_plugin_for_unity/blob/development/com.playeveryware.eos/README.md#samples) already have configuration values set for you to experiment with!
+> The included [samples](./samples.md) already have configuration values set for you to experiment with!

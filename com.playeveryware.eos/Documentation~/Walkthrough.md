@@ -22,7 +22,7 @@ The Debug log provides a filterable on screen debug output
 ## Scene selection
 The yellow dropdown in the top of the window allows the user to select which demo scene they would like to log into
 
-There is a standard sample pack, and several extra packs in the EOS Unity Plugin. If a scene doesn't load, remember to import the wanted extra pack, and [add them in the build settings](/com.playeveryware.eos/README.md#importing-samples)
+There is a standard sample pack, and several extra packs in the EOS Unity Plugin. If a scene doesn't load, remember to import the wanted extra pack, and [add them in the build settings](./samples.md#importing-samples)
 
 
 ## Login Page
@@ -31,7 +31,7 @@ The login options are as follows:
 - ``Dev Auth``: Uses Epic Games’ [Developer Authentication Tool](https://dev.epicgames.com/docs/epic-account-services/developer-authentication-tool).
     1. Launch the [Developer Authentication Tool](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/DeveloperAuthenticationTool/index.html).
 
-    ![Dev Auth Tool](/com.playeveryware.eos/Documentation~/images/dev_auth_tool.gif)
+    ![Dev Auth Tool](./images/dev_auth_tool.gif)
 
     2. Pick a port to use on the computer. 8888 is a good quick to type number that isn't usually used by a process.
     3. Log in with one's user credentials that are registered with Epic.
@@ -54,22 +54,22 @@ The login options are as follows:
     - Discord Access Token  
     - Openid Access Token
 
-For information about login methods per platform, see our documentation: [Login Type by Platform](/com.playeveryware.eos/Documentation~/login_type_by_platform.md).
+For information about login methods per platform, see our documentation: [Login Type by Platform](./login_type_by_platform.md).
 
 ## Individual Scene Walkthroughs
-- [Achievements](/com.playeveryware.eos/Documentation~/scene_walkthrough/achievements_walkthrough.md)
-- [Auth & Friends](/com.playeveryware.eos/Documentation~/scene_walkthrough/auth&friends_walkthrough.md)
-- [Custom Invites](/com.playeveryware.eos/Documentation~/scene_walkthrough/customInvites_walkthrough.md)
-- [Leaderboards](/com.playeveryware.eos/Documentation~/scene_walkthrough/leaderboards_walkthrough.md)
-- [Lobbies](/com.playeveryware.eos/Documentation~/scene_walkthrough/lobbies_walkthrough.md)
-- [Metrics](/com.playeveryware.eos/Documentation~/scene_walkthrough/metrics_walkthrough.md)
-- [Peer 2 Peer](/com.playeveryware.eos/Documentation~/scene_walkthrough/P2P_walkthrough.md)
-- [Performance Stress Test](/com.playeveryware.eos/Documentation~/scene_walkthrough/performance_stress_test_walkthrough.md)
-- [Player Data Storage](/com.playeveryware.eos/Documentation~/scene_walkthrough/player_data_storage_walkthrough.md)
-- [Player Reports and Sanctions](/com.playeveryware.eos/Documentation~/scene_walkthrough/player_reports_and_sanctions_walkthrough.md)
-- [Sessions and Matchmaking](/com.playeveryware.eos/Documentation~/scene_walkthrough/sessions_and_matchmaking_walkthrough.md)
-- [Store](/com.playeveryware.eos/Documentation~/scene_walkthrough/store_walkthrough.md)
-- [P2PNetcode](/com.playeveryware.eos/Documentation~/scene_walkthrough/P2P_netcode_walkthrough.md)
+- [Achievements](./scene_walkthrough/achievements_walkthrough.md)
+- [Auth & Friends](./scene_walkthrough/auth&friends_walkthrough.md)
+- [Custom Invites](./scene_walkthrough/customInvites_walkthrough.md)
+- [Leaderboards](./scene_walkthrough/leaderboards_walkthrough.md)
+- [Lobbies](./scene_walkthrough/lobbies_walkthrough.md)
+- [Metrics](./scene_walkthrough/metrics_walkthrough.md)
+- [Peer 2 Peer](./scene_walkthrough/P2P_walkthrough.md)
+- [Performance Stress Test](./scene_walkthrough/performance_stress_test_walkthrough.md)
+- [Player Data Storage](./scene_walkthrough/player_data_storage_walkthrough.md)
+- [Player Reports and Sanctions](./scene_walkthrough/player_reports_and_sanctions_walkthrough.md)
+- [Sessions and Matchmaking](./scene_walkthrough/sessions_and_matchmaking_walkthrough.md)
+- [Store](./scene_walkthrough/store_walkthrough.md)
+- [P2PNetcode](./scene_walkthrough/P2P_netcode_walkthrough.md)
 
 > [!NOTE]
 > For more information about Epic Online Services (and information about other resources) checkout the [Epic Developer Resources Documentation](https://dev.epicgames.com/docs).

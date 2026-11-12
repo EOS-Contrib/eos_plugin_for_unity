@@ -21,7 +21,7 @@ There are two login interfaces:
 
 More information about the distinction can be found in the Epic news release ["A Brief Summary of Auth VS Connect Interfaces"](https://dev.epicgames.com/en-US/news/accessing-eos-game-services-with-the-connect-interface#a-brief-summary-of-auth-vs-connect-interfaces).
 
-For information on how to authenticate a user via Apple, check out our [Apple Sign-In guide](/com.playeveryware.eos/Documentation~/apple_signin.md).
+For information on how to authenticate a user via Apple, check out our [Apple Sign-In guide](./apple_signin.md).
 
 ### Auth Login
 
