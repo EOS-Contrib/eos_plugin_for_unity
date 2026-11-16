@@ -32,13 +32,6 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_CustomInvites_SetCustomInvite(EOS_HCustomInvit
  *
  * @see EOS_CustomInvites_SendCustomInviteOptions
  * @see EOS_CustomInvites_OnSendCustomInviteCallback
- *
- * @return EOS_EResult containing the result of the operation.
- * Possible result codes:
- * - EOS_Success if the query completes successfully
- * - EOS_InvalidParameters if any of the options values are incorrect
- * - EOS_TooManyRequests if the number of allowed queries is exceeded
- * - EOS_NotFound if SetCustomInvite has not been previously successfully called for this user
  */
 EOS_DECLARE_FUNC(void) EOS_CustomInvites_SendCustomInvite(EOS_HCustomInvites Handle, const EOS_CustomInvites_SendCustomInviteOptions* Options, void* ClientData, const EOS_CustomInvites_OnSendCustomInviteCallback CompletionDelegate);
 
@@ -133,11 +126,6 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_CustomInvites_FinalizeInvite(EOS_HCustomInvite
  *
  * @see EOS_CustomInvites_SendRequestToJoinOptions
  * @see EOS_CustomInvites_OnSendRequestToJoinCallback
- *
- * @return EOS_EResult containing the result of the operation.
- * Possible result codes:
- * - EOS_Success if the query completes successfully
- * - EOS_InvalidParameters if any of the options values are incorrect
  */
 EOS_DECLARE_FUNC(void) EOS_CustomInvites_SendRequestToJoin(EOS_HCustomInvites Handle, const EOS_CustomInvites_SendRequestToJoinOptions* Options, void* ClientData, const EOS_CustomInvites_OnSendRequestToJoinCallback CompletionDelegate);
 
@@ -266,11 +254,6 @@ EOS_DECLARE_FUNC(void) EOS_CustomInvites_RemoveNotifyRequestToJoinRejected(EOS_H
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate A callback that is fired when the operation completes, either successfully or in error
  *
- * @return EOS_EResult containing the result of the operation.
- * Possible result codes:
- * - EOS_Success if the query completes successfully
- * - EOS_InvalidParameters if any of the options values are incorrect
- *
  * @see EOS_CustomInvites_AcceptRequestToJoinOptions
  * @see EOS_CustomInvites_OnAcceptRequestToJoinCallback
  */
@@ -282,11 +265,6 @@ EOS_DECLARE_FUNC(void) EOS_CustomInvites_AcceptRequestToJoin(EOS_HCustomInvites 
  * @param Options Structure containing information about the request.
  * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
  * @param CompletionDelegate A callback that is fired when the operation completes, either successfully or in error
- *
- * @return EOS_EResult containing the result of the operation.
- * Possible result codes:
- * - EOS_Success if the query completes successfully
- * - EOS_InvalidParameters if any of the options values are incorrect
  *
  * @see EOS_CustomInvites_RejectRequestToJoinOptions
  * @see EOS_CustomInvites_OnRejectRequestToJoinCallback

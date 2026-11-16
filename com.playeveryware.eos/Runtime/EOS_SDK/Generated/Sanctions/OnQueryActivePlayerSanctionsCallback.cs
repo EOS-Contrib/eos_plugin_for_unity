@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sanctions
 	/// </param>
 	public delegate void OnQueryActivePlayerSanctionsCallback(ref QueryActivePlayerSanctionsCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnQueryActivePlayerSanctionsCallbackInternal(ref QueryActivePlayerSanctionsCallbackInfoInternal data);
 
 	internal static class OnQueryActivePlayerSanctionsCallbackInternalImplementation

@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.P2P
 	/// </summary>
 	public delegate void OnPeerConnectionEstablishedCallback(ref OnPeerConnectionEstablishedInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnPeerConnectionEstablishedCallbackInternal(ref OnPeerConnectionEstablishedInfoInternal data);
 
 	internal static class OnPeerConnectionEstablishedCallbackInternalImplementation

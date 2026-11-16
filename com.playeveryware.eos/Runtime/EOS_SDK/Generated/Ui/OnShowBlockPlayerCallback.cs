@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.UI
 	/// </param>
 	public delegate void OnShowBlockPlayerCallback(ref OnShowBlockPlayerCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnShowBlockPlayerCallbackInternal(ref OnShowBlockPlayerCallbackInfoInternal data);
 
 	internal static class OnShowBlockPlayerCallbackInternalImplementation

@@ -17,8 +17,10 @@ EOS_UI_KEY_MODIFIER(EOS_UIK_, Control, (2 << EOS_UIK_ModifierShift))
 EOS_UI_KEY_MODIFIER(EOS_UIK_, Alt, (4 << EOS_UIK_ModifierShift))
 /** The Windows key on a Windows keyboard or the Command key on a Mac keyboard */
 EOS_UI_KEY_MODIFIER(EOS_UIK_, Meta, (8 << EOS_UIK_ModifierShift))
+/** The AltGr key */
+EOS_UI_KEY_MODIFIER(EOS_UIK_, AltGr, (16 << EOS_UIK_ModifierShift))
 /** A mask which contains all of the modifier keys */
-EOS_UI_KEY_CONSTANT(EOS_UIK_, ValidModifierMask, (EOS_UIK_Shift | EOS_UIK_Control | EOS_UIK_Alt | EOS_UIK_Meta))
+EOS_UI_KEY_CONSTANT(EOS_UIK_, ValidModifierMask, (EOS_UIK_Shift | EOS_UIK_Control | EOS_UIK_Alt | EOS_UIK_Meta | EOS_UIK_AltGr))
 
 /** The default value, not assigned to a key */
 EOS_UI_KEY_ENTRY_FIRST(EOS_UIK_, None, 0)

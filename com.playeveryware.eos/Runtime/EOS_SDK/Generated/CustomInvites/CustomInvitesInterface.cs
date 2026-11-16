@@ -94,12 +94,6 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result" /> containing the result of the operation.
-		/// Possible result codes:
-		/// - <see cref="Result.Success" /> if the query completes successfully
-		/// - <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
-		/// </returns>
 		public void AcceptRequestToJoin(ref AcceptRequestToJoinOptions options, object clientData, OnAcceptRequestToJoinCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -526,12 +520,6 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result" /> containing the result of the operation.
-		/// Possible result codes:
-		/// - <see cref="Result.Success" /> if the query completes successfully
-		/// - <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
-		/// </returns>
 		public void RejectRequestToJoin(ref RejectRequestToJoinOptions options, object clientData, OnRejectRequestToJoinCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -669,14 +657,6 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result" /> containing the result of the operation.
-		/// Possible result codes:
-		/// - <see cref="Result.Success" /> if the query completes successfully
-		/// - <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
-		/// - <see cref="Result.TooManyRequests" /> if the number of allowed queries is exceeded
-		/// - <see cref="Result.NotFound" /> if SetCustomInvite has not been previously successfully called for this user
-		/// </returns>
 		public void SendCustomInvite(ref SendCustomInviteOptions options, object clientData, OnSendCustomInviteCallback completionDelegate)
 		{
 			if (completionDelegate == null)
@@ -710,12 +690,6 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the operation completes, either successfully or in error
 		/// </param>
-		/// <returns>
-		/// <see cref="Result" /> containing the result of the operation.
-		/// Possible result codes:
-		/// - <see cref="Result.Success" /> if the query completes successfully
-		/// - <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
-		/// </returns>
 		public void SendRequestToJoin(ref SendRequestToJoinOptions options, object clientData, OnSendRequestToJoinCallback completionDelegate)
 		{
 			if (completionDelegate == null)

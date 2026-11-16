@@ -171,6 +171,9 @@ EOS_DECLARE_FUNC(void) EOS_RTC_RemoveNotifyRoomBeforeJoin(EOS_HRTC Handle, EOS_N
  *
  * The available settings are documented as part of EOS_RTC_SetSettingOptions.
  *
+ * @note This sets the default value used when joining all future rooms. Settings must be configured before calling
+ * EOS_RTC_JoinRoom. Changes made after joining a room will not take effect.
+ *
  * @param Options structure containing the parameters for the operation
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
@@ -186,6 +189,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_RTC_SetSetting(EOS_HRTC Handle, const EOS_RTC_
  * Use this function to control settings for the specific room.
  *
  * The available settings are documented as part of EOS_RTC_SetRoomSettingOptions.
+ *
+ * @note The room must exist before calling this function (e.g. by registering a notification via EOS_RTC_AddNotifyRoomBeforeJoin).
+ * Settings must be configured before calling EOS_RTC_JoinRoom. Changes made after joining a room will not take effect.
  *
  * @param Options structure containing the parameters for the operation
  * @return EOS_EResult containing the result of the operation.

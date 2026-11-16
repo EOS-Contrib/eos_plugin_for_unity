@@ -134,6 +134,20 @@ EOS_STRUCT(EOS_Presence_HasPresenceOptions, (
 ));
 
 
+/** The most recent version of the EOS_Presence_HasExplicitPresence API. */
+#define EOS_PRESENCE_HASEXPLICITPRESENCE_API_LATEST 1
+
+/**
+ * Data for the EOS_Presence_HasExplicitPresence function.
+ */
+EOS_STRUCT(EOS_Presence_HasExplicitPresenceOptions, (
+	/** API Version: Set this to EOS_PRESENCE_HASEXPLICITPRESENCE_API_LATEST. */
+	int32_t ApiVersion;
+	/** The Epic Account ID of the local, logged-in user making the request */
+	EOS_EpicAccountId LocalUserId;
+));
+
+
 /** The most recent version of the EOS_Presence_CopyPresence API. */
 #define EOS_PRESENCE_COPYPRESENCE_API_LATEST 3
 

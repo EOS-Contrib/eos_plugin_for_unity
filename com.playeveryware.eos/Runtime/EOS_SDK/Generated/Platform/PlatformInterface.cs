@@ -403,15 +403,9 @@ namespace Epic.OnlineServices.Platform
 		}
 
 		/// <summary>
-		/// Windows only.
-		/// Checks that the application is ready to use desktop crossplay functionality, with the necessary prerequisites having been met.
-		/// 
-		/// This function verifies that the application was launched through the Bootstrapper application,
-		/// the redistributable service has been installed and is running in the background,
-		/// and that the overlay has been loaded successfully.
-		/// 
-		/// On Windows, the desktop crossplay functionality is required to use Epic accounts login
-		/// with applications that are distributed outside the Epic Games Store.
+		/// Checks the status of desktop crossplay and whether it is ready for use with this application.
+		/// The status indicates whether the application was launched with the bootstrapper, that the redistributable service has been installed and is running, and that the overlay was loaded successfully.
+		/// The desktop crossplay service has been deprecated in the SDK and this function is only for informational purposes. It is recommended not to use this function for enforcement.
 		/// <see cref="GetDesktopCrossplayStatusOptions" />
 		/// <see cref="DesktopCrossplayStatusInfo" />
 		/// </summary>

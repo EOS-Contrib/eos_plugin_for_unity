@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Auth
 	/// </param>
 	public delegate void OnDeletePersistentAuthCallback(ref DeletePersistentAuthCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnDeletePersistentAuthCallbackInternal(ref DeletePersistentAuthCallbackInfoInternal data);
 
 	internal static class OnDeletePersistentAuthCallbackInternalImplementation

@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.IntegratedPlatform
 	/// </summary>
 	public delegate IntegratedPlatformPreLogoutAction OnUserPreLogoutCallback(ref UserPreLogoutCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate IntegratedPlatformPreLogoutAction OnUserPreLogoutCallbackInternal(ref UserPreLogoutCallbackInfoInternal data);
 
 	internal static class OnUserPreLogoutCallbackInternalImplementation

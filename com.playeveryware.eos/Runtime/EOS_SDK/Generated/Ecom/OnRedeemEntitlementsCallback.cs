@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Ecom
 	/// </param>
 	public delegate void OnRedeemEntitlementsCallback(ref RedeemEntitlementsCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnRedeemEntitlementsCallbackInternal(ref RedeemEntitlementsCallbackInfoInternal data);
 
 	internal static class OnRedeemEntitlementsCallbackInternalImplementation

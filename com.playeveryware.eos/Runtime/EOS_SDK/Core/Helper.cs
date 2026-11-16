@@ -128,6 +128,14 @@ namespace Epic.OnlineServices
 			}
 		}
 
+		internal static void Copy(Utf8String from, IntPtr to)
+		{
+			if (from != null && to != IntPtr.Zero)
+			{
+				Marshal.Copy(from.Bytes, 0, to, from.Length);
+			}
+		}
+
 		internal static void Dispose(ref IntPtr value)
 		{
 			RemoveAllocation(ref value);

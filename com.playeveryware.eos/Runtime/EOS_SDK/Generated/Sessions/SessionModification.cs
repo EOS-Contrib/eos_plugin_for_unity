@@ -14,6 +14,7 @@ namespace Epic.OnlineServices.Sessions
 		public SessionModification(IntPtr innerHandle) : base(innerHandle)
 		{
 		}
+
 		/// <summary>
 		/// Associate an attribute with this session
 		/// An attribute is something that may or may not be advertised with the session.

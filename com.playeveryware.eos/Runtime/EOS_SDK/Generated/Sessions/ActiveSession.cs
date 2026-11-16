@@ -14,6 +14,7 @@ namespace Epic.OnlineServices.Sessions
 		public ActiveSession(IntPtr innerHandle) : base(innerHandle)
 		{
 		}
+
 		/// <summary>
 		/// <see cref="CopyInfo" /> is used to immediately retrieve a copy of active session information
 		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutActiveSessionInfo, must be passed to <see cref="Release" /> to release the memory associated with it.

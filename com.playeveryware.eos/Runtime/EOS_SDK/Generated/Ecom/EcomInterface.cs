@@ -1208,6 +1208,7 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// Query the ownership status of all catalog item IDs under the given list of Sandbox IDs defined with Epic Online Services.
 		/// This data will be cached for a limited time and retrieved again from the backend when necessary.
+		/// Note: This will return both the Audience Item ID and Game Item ID listed in Dev Portal. The Game Item ID is used by the Launcher to store game metadata, and can be ignored.
 		/// <see cref="QueryOwnershipBySandboxIdsOptions" />
 		/// <see cref="OnQueryOwnershipBySandboxIdsCallback" />
 		/// </summary>

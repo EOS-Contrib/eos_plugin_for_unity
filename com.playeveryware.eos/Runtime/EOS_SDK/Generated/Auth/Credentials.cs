@@ -12,7 +12,6 @@ namespace Epic.OnlineServices.Auth
 	/// Required input parameters to be set depend on the login credential type.
 	/// Any parameters not being used must be set to <see langword="null" />. Otherwise, <see cref="Result.InvalidParameters" /> error is returned.
 	/// 
-	/// <see cref="LoginCredentialType.Password" /> | ID is the email address, and Token is the password.
 	/// <see cref="LoginCredentialType.ExchangeCode" /> | Set ID to <see langword="null" />. Token is the exchange code.
 	/// <see cref="LoginCredentialType.PersistentAuth" /> | Set ID to <see langword="null" />. On console platforms, Token is the long-lived refresh token. Otherwise, set to <see langword="null" />.
 	/// <see cref="LoginCredentialType.Developer" /> | Set ID as the host (e.g. localhost:6547). Token is the credential name registered in the EOS Developer Authentication Tool.

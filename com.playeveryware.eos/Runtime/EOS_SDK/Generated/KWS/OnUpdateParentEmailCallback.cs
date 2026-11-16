@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.KWS
 	/// </param>
 	public delegate void OnUpdateParentEmailCallback(ref UpdateParentEmailCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnUpdateParentEmailCallbackInternal(ref UpdateParentEmailCallbackInfoInternal data);
 
 	internal static class OnUpdateParentEmailCallbackInternalImplementation

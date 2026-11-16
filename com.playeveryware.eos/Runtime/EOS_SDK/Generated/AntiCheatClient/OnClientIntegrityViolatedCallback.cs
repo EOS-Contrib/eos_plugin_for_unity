@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 	/// </summary>
 	public delegate void OnClientIntegrityViolatedCallback(ref OnClientIntegrityViolatedCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnClientIntegrityViolatedCallbackInternal(ref OnClientIntegrityViolatedCallbackInfoInternal data);
 
 	internal static class OnClientIntegrityViolatedCallbackInternalImplementation

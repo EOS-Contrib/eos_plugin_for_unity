@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.Logging
 	/// </param>
 	public delegate void LogMessageFunc(ref LogMessage message);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void LogMessageFuncInternal(ref LogMessageInternal message);
 
 	internal static class LogMessageFuncInternalImplementation

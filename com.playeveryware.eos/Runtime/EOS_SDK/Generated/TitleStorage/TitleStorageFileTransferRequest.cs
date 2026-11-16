@@ -14,6 +14,7 @@ namespace Epic.OnlineServices.TitleStorage
 		public TitleStorageFileTransferRequest(IntPtr innerHandle) : base(innerHandle)
 		{
 		}
+
 		/// <summary>
 		/// Attempt to cancel this file request in progress. This is a best-effort command and is not guaranteed to be successful if the request has completed before this function is called.
 		/// </summary>

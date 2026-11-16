@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.UI
 	/// </param>
 	public delegate void OnDisplaySettingsUpdatedCallback(ref OnDisplaySettingsUpdatedCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnDisplaySettingsUpdatedCallbackInternal(ref OnDisplaySettingsUpdatedCallbackInfoInternal data);
 
 	internal static class OnDisplaySettingsUpdatedCallbackInternalImplementation

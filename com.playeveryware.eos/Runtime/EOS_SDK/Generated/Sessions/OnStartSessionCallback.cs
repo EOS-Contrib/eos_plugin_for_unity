@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sessions
 	/// </param>
 	public delegate void OnStartSessionCallback(ref StartSessionCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnStartSessionCallbackInternal(ref StartSessionCallbackInfoInternal data);
 
 	internal static class OnStartSessionCallbackInternalImplementation

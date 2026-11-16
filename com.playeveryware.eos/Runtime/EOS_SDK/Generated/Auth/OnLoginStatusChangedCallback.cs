@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Auth
 	/// </param>
 	public delegate void OnLoginStatusChangedCallback(ref LoginStatusChangedCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnLoginStatusChangedCallbackInternal(ref LoginStatusChangedCallbackInfoInternal data);
 
 	internal static class OnLoginStatusChangedCallbackInternalImplementation

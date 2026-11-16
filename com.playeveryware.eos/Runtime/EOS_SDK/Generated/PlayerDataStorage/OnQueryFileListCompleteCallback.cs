@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// </summary>
 	public delegate void OnQueryFileListCompleteCallback(ref QueryFileListCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnQueryFileListCompleteCallbackInternal(ref QueryFileListCallbackInfoInternal data);
 
 	internal static class OnQueryFileListCompleteCallbackInternalImplementation

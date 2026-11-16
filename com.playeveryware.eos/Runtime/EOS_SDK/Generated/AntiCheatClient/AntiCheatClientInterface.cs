@@ -52,9 +52,17 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// </summary>
 		public const int GETMODULEBUILDID_API_LATEST = 1;
 		/// <summary>
+		/// The most recent version of the <see cref="GetPersistentSetting" /> API.
+		/// </summary>
+		public const int GETPERSISTENTSETTING_API_LATEST = 1;
+		/// <summary>
 		/// The most recent version of the <see cref="GetProtectMessageOutputLength" /> API.
 		/// </summary>
 		public const int GETPROTECTMESSAGEOUTPUTLENGTH_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="GetSystemConfig" /> API.
+		/// </summary>
+		public const int GETSYSTEMCONFIG_API_LATEST = 1;
 		/// <summary>
 		/// The most recent version of the <see cref="GetSystemRequirementStatus" /> API.
 		/// </summary>
@@ -74,6 +82,10 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// that they will not be able to join online play.
 		/// </summary>
 		public static readonly IntPtr PEER_SELF = (IntPtr)(-1);
+		/// <summary>
+		/// The maximum length in bytes of a <see cref="Utf8String" /> valued persistent setting, including the <see langword="null" /> terminator.
+		/// </summary>
+		public const int PERSISTENTSETTING_MAX_VALUE_LENGTH = 256;
 		/// <summary>
 		/// The most recent version of the <see cref="PollStatus" /> API.
 		/// </summary>
@@ -103,13 +115,13 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// </summary>
 		public const int REGISTERPEER_MIN_AUTHENTICATIONTIMEOUT = 40;
 		/// <summary>
-		/// The most recent version of the <see cref="Reserved01" /> API.
-		/// </summary>
-		public const int RESERVED01_API_LATEST = 1;
-		/// <summary>
 		/// The most recent version of the <see cref="Reserved02" /> API.
 		/// </summary>
 		public const int RESERVED02_API_LATEST = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="SetPersistentSetting" /> API.
+		/// </summary>
+		public const int SETPERSISTENTSETTING_API_LATEST = 1;
 		/// <summary>
 		/// The most recent version of the <see cref="UnprotectMessage" /> API.
 		/// </summary>
@@ -132,6 +144,8 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the integrity catalog was added successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotImplemented" /> - If called on a platform without client anti-cheat protection
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result AddExternalIntegrityCatalog(ref AddExternalIntegrityCatalogOptions options)
 		{
@@ -350,6 +364,10 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// anti-cheat messages with a game server or peer(s). When leaving one game session and connecting to a
 		/// different one, a new anti-cheat session must be created by calling <see cref="EndSession" /> and <see cref="BeginSession" /> again.
 		/// Mode: All
+		/// 
+		/// The notification handlers required before calling this function depend on the requested mode.
+		/// In <see cref="AntiCheatClientMode.ClientServer" /> mode, <see cref="AddNotifyMessageToServer" /> must be bound.
+		/// In <see cref="AntiCheatClientMode.PeerToPeer" /> mode, <see cref="AddNotifyMessageToPeer" /> and <see cref="AddNotifyPeerActionRequired" /> must be bound.
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing input data.
@@ -360,6 +378,12 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// - <see cref="Result.Success" /> - If the session was started successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// - <see cref="Result.NotConfigured" /> - If the required notification handlers for the requested mode have not been bound
+		/// - <see cref="Result.AlreadyConfigured" /> - If a session is already active
+		/// - <see cref="Result.InvalidUser" /> - If LocalUserId is not a valid Product User ID or has no Connect auth token
+		/// - <see cref="Result.InvalidAuth" /> - If LocalUserId is not currently logged in to the Connect interface
+		/// - <see cref="Result.NotImplemented" /> - If <see cref="AntiCheatClientMode.ClientServer" /> mode is requested on a platform without client anti-cheat protection
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result BeginSession(ref BeginSessionOptions options)
 		{
@@ -388,6 +412,8 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// - <see cref="Result.Success" /> - If the session was ended normally
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// - <see cref="Result.NotConfigured" /> - If no session is active
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result EndSession(ref EndSessionOptions options)
 		{
@@ -422,6 +448,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// - <see cref="Result.NotImplemented" /> - If the platform does not use anti-cheat client modules or the loaded anti-cheat client module is too old to support this function.
 		/// - <see cref="Result.NotFound" /> - If the platform supports anti-cheat client modules but none is currently loaded (failsafe NullClient mode, launched without bootstrapper, etc).
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result GetModuleBuildId(ref GetModuleBuildIdOptions options, out uint outModuleBuildId)
 		{
@@ -431,6 +458,64 @@ namespace Epic.OnlineServices.AntiCheatClient
 			var callResult = Bindings.EOS_AntiCheatClient_GetModuleBuildId(InnerHandle, ref optionsInternal, out outModuleBuildId);
 
 			Helper.Dispose(ref optionsInternal);
+
+			return callResult;
+		}
+
+		/// <summary>
+		/// Read a setting which the anti-cheat client persists across game sessions.
+		/// Mode: All
+		/// 
+		/// NOTE: Persistent settings are currently implemented on Windows only. On every other platform this
+		/// function does nothing and returns <see cref="Result.NotImplemented" />.
+		/// 
+		/// NOTE: On a supported platform this function may be called at any time, including before
+		/// <see cref="BeginSession" /> and after <see cref="EndSession" />, and does not require an
+		/// anti-cheat client module to be loaded. This allows settings to be displayed and modified from a
+		/// game's user interface at startup.
+		/// 
+		/// NOTE: When no value has previously been stored for the requested setting, this function succeeds
+		/// and returns the setting's default value with bIsDefaultValue set to <see langword="true" />. Callers do not need
+		/// to provide their own default values.
+		/// <see cref="SetPersistentSetting" />
+		/// </summary>
+		/// <param name="options">
+		/// Structure containing the setting to read.
+		/// </param>
+		/// <param name="outValue">
+		/// On success, receives the value of the setting.
+		/// </param>
+		/// <param name="outValueStringBuffer">
+		/// Buffer which receives the value of a <see cref="Utf8String" /> valued setting, and which
+		/// OutValue.Value.AsUtf8 points to on success. Only used when the requested
+		/// setting is <see cref="Utf8String" /> valued, and may be <see langword="null" /> for any other setting.
+		/// </param>
+		/// <returns>
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the value was provided successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.LimitExceeded" /> - If OutValueStringBuffer is too small to receive the value. Call again with a larger OutValueStringBuffer.
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
+		/// - <see cref="Result.NotImplemented" /> - If the platform does not support persistent settings.
+		/// </returns>
+		public Result GetPersistentSetting(ref GetPersistentSettingOptions options, out PersistentSettingValue outValue, out Utf8String outValueStringBuffer)
+		{
+			var optionsInternal = default(GetPersistentSettingOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var outValueInternal = default(PersistentSettingValueInternal);
+
+			var outValueStringBufferPointer = Helper.AddAllocation(options.OutValueStringBufferLength);
+
+			var callResult = Bindings.EOS_AntiCheatClient_GetPersistentSetting(InnerHandle, ref optionsInternal, out outValueInternal, outValueStringBufferPointer);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.Get(ref outValueInternal, out outValue);
+
+			Helper.Get(outValueStringBufferPointer, out outValueStringBuffer);
+			Helper.Dispose(ref outValueStringBufferPointer);
 
 			return callResult;
 		}
@@ -453,6 +538,8 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// - <see cref="Result.Success" /> - If the output length was calculated successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// - <see cref="Result.NotImplemented" /> - If called on a platform without client anti-cheat protection
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result GetProtectMessageOutputLength(ref GetProtectMessageOutputLengthOptions options, out uint outBufferSizeBytes)
 		{
@@ -460,6 +547,35 @@ namespace Epic.OnlineServices.AntiCheatClient
 			optionsInternal.Set(ref options);
 
 			var callResult = Bindings.EOS_AntiCheatClient_GetProtectMessageOutputLength(InnerHandle, ref optionsInternal, out outBufferSizeBytes);
+
+			Helper.Dispose(ref optionsInternal);
+
+			return callResult;
+		}
+
+		/// <summary>
+		/// Queries the configuration of system security settings.
+		/// Mode: All
+		/// </summary>
+		/// <param name="options">
+		/// Structure containing input data.
+		/// </param>
+		/// <param name="outSystemConfig">
+		/// On success, receives flags describing the current system configuration.
+		/// </param>
+		/// <returns>
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the system configuration was provided successfully
+		/// - <see cref="Result.NotImplemented" /> - If the platform does not use anti-cheat client modules, no module is loaded (failsafe NullClient mode, launched without bootstrapper, etc), or the loaded anti-cheat client module is too old to support this function.
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
+		/// </returns>
+		public Result GetSystemConfig(ref GetSystemConfigOptions options, out AntiCheatCommon.AntiCheatCommonClientSystemConfig outSystemConfig)
+		{
+			var optionsInternal = default(GetSystemConfigOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var callResult = Bindings.EOS_AntiCheatClient_GetSystemConfig(InnerHandle, ref optionsInternal, out outSystemConfig);
 
 			Helper.Dispose(ref optionsInternal);
 
@@ -487,6 +603,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// - <see cref="Result.NotImplemented" /> - If the platform does not use anti-cheat client modules or the loaded anti-cheat client module is too old to support this function.
 		/// - <see cref="Result.NotFound" /> - If the platform supports anti-cheat client modules but none is currently loaded (failsafe NullClient mode, launched without bootstrapper, etc).
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result GetSystemRequirementStatus(ref GetSystemRequirementStatusOptions options, out AntiCheatCommon.AntiCheatClientSystemRequirementStatus outRequirementStatus, out Utf8String outReason)
 		{
@@ -537,6 +654,9 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// - <see cref="Result.Success" /> - If violation information was returned successfully
 		/// - <see cref="Result.LimitExceeded" /> - If OutMessage is too small to receive the message <see cref="Utf8String" />. Call again with a larger OutMessage.
 		/// - <see cref="Result.NotFound" /> - If no violation has occurred since the last call
+		/// - <see cref="Result.InvalidRequest" /> - If an <see cref="AddNotifyClientIntegrityViolated" /> handler is bound; the callback replaces this function
+		/// - <see cref="Result.NotImplemented" /> - If called on a platform without client anti-cheat protection
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result PollStatus(ref PollStatusOptions options, out AntiCheatClientViolationType outViolationType, out Utf8String outMessage)
 		{
@@ -577,6 +697,8 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// - <see cref="Result.Success" /> - If the message was protected successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// - <see cref="Result.NotImplemented" /> - If called on a platform without client anti-cheat protection
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result ProtectMessage(ref ProtectMessageOptions options, ArraySegment<byte> outBuffer, out uint outBytesWritten)
 		{
@@ -607,6 +729,8 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// - <see cref="Result.Success" /> - If the message was processed successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// - <see cref="Result.AntiCheatPeerNotFound" /> - If PeerHandle is not registered
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result ReceiveMessageFromPeer(ref ReceiveMessageFromPeerOptions options)
 		{
@@ -634,6 +758,8 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// - <see cref="Result.InvalidRequest" /> - If message contents were corrupt and could not be processed
 		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// - <see cref="Result.NotImplemented" /> - If called on a platform without client anti-cheat protection
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result ReceiveMessageFromServer(ref ReceiveMessageFromServerOptions options)
 		{
@@ -663,6 +789,10 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// - <see cref="Result.Success" /> - If the player was registered successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// - <see cref="Result.NotConfigured" /> - If no session is active
+		/// - <see cref="Result.AntiCheatPeerAlreadyRegistered" /> - If PeerHandle is already registered
+		/// - <see cref="Result.InvalidUser" /> - If PeerProductUserId is not a valid Product User ID (ApiVersion 2 and later)
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result RegisterPeer(ref RegisterPeerOptions options)
 		{
@@ -747,37 +877,23 @@ namespace Epic.OnlineServices.AntiCheatClient
 		}
 
 		/// <summary>
-		/// This function is reserved for future use and must not be called.
-		/// </summary>
-		/// <param name="options">
-		/// Structure containing input data.
-		/// </param>
-		/// <param name="outValue">
-		/// Reserved.
-		/// </param>
-		/// <returns>
-		/// <see cref="Result.NotImplemented" /> - Always
-		/// </returns>
-		public Result Reserved01(ref Reserved01Options options, out int outValue)
-		{
-			var optionsInternal = default(Reserved01OptionsInternal);
-			optionsInternal.Set(ref options);
-
-			var callResult = Bindings.EOS_AntiCheatClient_Reserved01(InnerHandle, ref optionsInternal, out outValue);
-
-			Helper.Dispose(ref optionsInternal);
-
-			return callResult;
-		}
-
-		/// <summary>
-		/// This function is reserved for future use and must not be called.
+		/// Optional gameplay data collection functionality.
+		/// Logs a client gameplay event described by the provided options. The event is cached by the SDK and
+		/// forwarded to the anti-cheat client module asynchronously, so Options and the data it points to may be
+		/// released as soon as this call returns.
+		/// Mode: All
 		/// </summary>
 		/// <param name="options">
 		/// Structure containing input data.
 		/// </param>
 		/// <returns>
-		/// <see cref="Result.NotImplemented" /> - Always
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the event was accepted for processing
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid, including a non-zero Reserved3 length with a <see langword="null" /> Reserved4 data <see cref="IntPtr" />
+		/// - <see cref="Result.UnexpectedError" /> - If the SDK's internal event queue is full and the event could not be stored
+		/// - <see cref="Result.NotImplemented" /> - If the platform does not use anti-cheat client modules, no module is loaded (failsafe NullClient mode, launched without bootstrapper, etc), or the loaded anti-cheat client module is too old to support this function.
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result Reserved02(ref Reserved02Options options)
 		{
@@ -785,6 +901,46 @@ namespace Epic.OnlineServices.AntiCheatClient
 			optionsInternal.Set(ref options);
 
 			var callResult = Bindings.EOS_AntiCheatClient_Reserved02(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			return callResult;
+		}
+
+		/// <summary>
+		/// Write a setting which the anti-cheat client persists across game sessions.
+		/// Mode: All
+		/// 
+		/// NOTE: Persistent settings are currently implemented on Windows only. On every other platform this
+		/// function does nothing and returns <see cref="Result.NotImplemented" />.
+		/// 
+		/// NOTE: On a supported platform this function may be called at any time, including before
+		/// <see cref="BeginSession" /> and after <see cref="EndSession" />, and does not require an
+		/// anti-cheat client module to be loaded.
+		/// 
+		/// NOTE: A stored value is applied by the anti-cheat client the next time it starts. Changing a
+		/// setting does not affect the behavior of an anti-cheat client module which is already running.
+		/// <see cref="GetPersistentSetting" />
+		/// </summary>
+		/// <param name="options">
+		/// Structure containing the setting to write and its new value.
+		/// </param>
+		/// <returns>
+		/// <see cref="Result" /> containing the result of the operation.
+		/// Possible result codes:
+		/// - <see cref="Result.Success" /> - If the value was stored successfully
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid, including a ValueType which does not match the value type of the requested setting
+		/// - <see cref="Result.LimitExceeded" /> - If no space remains to store an additional setting, or if a <see cref="Utf8String" /> value is longer than <see cref="PERSISTENTSETTING_MAX_VALUE_LENGTH" /> permits
+		/// - <see cref="Result.UnexpectedError" /> - If the value could not be written to persistent storage
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
+		/// - <see cref="Result.NotImplemented" /> - If the platform does not support persistent settings.
+		/// </returns>
+		public Result SetPersistentSetting(ref SetPersistentSettingOptions options)
+		{
+			var optionsInternal = default(SetPersistentSettingOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var callResult = Bindings.EOS_AntiCheatClient_SetPersistentSetting(InnerHandle, ref optionsInternal);
 
 			Helper.Dispose(ref optionsInternal);
 
@@ -813,6 +969,8 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// - <see cref="Result.Success" /> - If the message was unprotected successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// - <see cref="Result.NotImplemented" /> - If called on a platform without client anti-cheat protection
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result UnprotectMessage(ref UnprotectMessageOptions options, ArraySegment<byte> outBuffer, out uint outBytesWritten)
 		{
@@ -845,6 +1003,9 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// - <see cref="Result.Success" /> - If the player was unregistered successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// - <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
+		/// - <see cref="Result.NotConfigured" /> - If no session is active
+		/// - <see cref="Result.AntiCheatPeerNotFound" /> - If PeerHandle is not registered
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result UnregisterPeer(ref UnregisterPeerOptions options)
 		{

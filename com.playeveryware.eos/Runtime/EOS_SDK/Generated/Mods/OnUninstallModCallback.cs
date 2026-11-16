@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Mods
 	/// </param>
 	public delegate void OnUninstallModCallback(ref UninstallModCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnUninstallModCallbackInternal(ref UninstallModCallbackInfoInternal data);
 
 	internal static class OnUninstallModCallbackInternalImplementation

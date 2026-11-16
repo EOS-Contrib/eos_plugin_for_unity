@@ -142,7 +142,7 @@ namespace Epic.OnlineServices.Connect
 
 		/// <summary>
 		/// Register to receive upcoming authentication expiration notifications.
-		/// Notification is approximately 1 minute prior to expiration.
+		/// The notification fires a configurable lead time before expiration. This lead time is controlled by the service and defaults to approximately 1 minute; it may be larger to allow more time to refresh.
 		/// Call <see cref="Login" /> again with valid third party credentials to refresh access.
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyAuthExpiration" /> when you no longer wish to have your NotificationHandler called.
 		/// <see cref="AddNotifyAuthExpirationOptions" />
@@ -659,7 +659,7 @@ namespace Epic.OnlineServices.Connect
 		/// </param>
 		/// <returns>
 		/// An <see cref="Result" /> that indicates the external account ID was copied into the OutBuffer.
-		/// - <see cref="Result.Success" /> if the information is available and passed out in OutUserInfo.
+		/// - <see cref="Result.Success" /> if the information is available and passed out in OutBuffer.
 		/// - <see cref="Result.InvalidParameters" /> if you pass a <see langword="null" /> <see cref="IntPtr" /> for the out parameter.
 		/// - <see cref="Result.NotFound" /> if the mapping doesn't exist or hasn't been queried yet.
 		/// - <see cref="Result.LimitExceeded" /> if the OutBuffer is not large enough to receive the external account ID. InOutBufferLength contains the required minimum length to perform the operation successfully.
@@ -717,8 +717,12 @@ namespace Epic.OnlineServices.Connect
 
 		/// <summary>
 		/// Login/Authenticate given a valid set of external auth credentials.
+		/// Connect auth tokens expire after a period of time. Register for expiration notifications
+		/// using <see cref="AddNotifyAuthExpiration" /> and call <see cref="Login" /> again to refresh
+		/// access before the token expires.
 		/// <see cref="LoginOptions" />
 		/// <see cref="OnLoginCallback" />
+		/// <see cref="AddNotifyAuthExpiration" />
 		/// </summary>
 		/// <param name="options">
 		/// structure containing the external account credentials and type to use during the login operation.

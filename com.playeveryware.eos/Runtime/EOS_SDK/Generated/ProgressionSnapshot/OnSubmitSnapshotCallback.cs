@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 	/// </param>
 	public delegate void OnSubmitSnapshotCallback(ref SubmitSnapshotCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnSubmitSnapshotCallbackInternal(ref SubmitSnapshotCallbackInfoInternal data);
 
 	internal static class OnSubmitSnapshotCallbackInternalImplementation

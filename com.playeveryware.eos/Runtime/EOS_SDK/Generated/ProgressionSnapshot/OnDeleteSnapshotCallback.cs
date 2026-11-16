@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 	/// </param>
 	public delegate void OnDeleteSnapshotCallback(ref DeleteSnapshotCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnDeleteSnapshotCallbackInternal(ref DeleteSnapshotCallbackInfoInternal data);
 
 	internal static class OnDeleteSnapshotCallbackInternalImplementation

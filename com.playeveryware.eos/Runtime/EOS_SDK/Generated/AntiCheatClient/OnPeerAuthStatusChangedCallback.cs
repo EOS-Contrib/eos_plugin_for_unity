@@ -13,7 +13,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 	/// </summary>
 	public delegate void OnPeerAuthStatusChangedCallback(ref AntiCheatCommon.OnClientAuthStatusChangedCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnPeerAuthStatusChangedCallbackInternal(ref AntiCheatCommon.OnClientAuthStatusChangedCallbackInfoInternal data);
 
 	internal static class OnPeerAuthStatusChangedCallbackInternalImplementation

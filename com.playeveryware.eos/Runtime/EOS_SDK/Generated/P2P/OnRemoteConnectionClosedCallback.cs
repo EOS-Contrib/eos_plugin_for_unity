@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.P2P
 	/// </summary>
 	public delegate void OnRemoteConnectionClosedCallback(ref OnRemoteConnectionClosedInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnRemoteConnectionClosedCallbackInternal(ref OnRemoteConnectionClosedInfoInternal data);
 
 	internal static class OnRemoteConnectionClosedCallbackInternalImplementation

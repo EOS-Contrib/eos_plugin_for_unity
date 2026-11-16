@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.KWS
 	/// </param>
 	public delegate void OnQueryPermissionsCallback(ref QueryPermissionsCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnQueryPermissionsCallbackInternal(ref QueryPermissionsCallbackInfoInternal data);
 
 	internal static class OnQueryPermissionsCallbackInternalImplementation

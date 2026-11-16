@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Connect
 	/// </param>
 	public delegate void OnQueryProductUserIdMappingsCallback(ref QueryProductUserIdMappingsCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnQueryProductUserIdMappingsCallbackInternal(ref QueryProductUserIdMappingsCallbackInfoInternal data);
 
 	internal static class OnQueryProductUserIdMappingsCallbackInternalImplementation

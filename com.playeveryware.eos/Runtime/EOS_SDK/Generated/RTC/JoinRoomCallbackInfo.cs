@@ -18,6 +18,7 @@ namespace Epic.OnlineServices.RTC
 		/// <see cref="Result.InvalidAuth" />: if the token is invalid (not retryable).
 		/// <see cref="Result.TooManyParticipants" />: if the room cannot accept more participants (not retryable).
 		/// <see cref="Result.AccessDenied" />: if the room name belongs to the Lobby voice system (not retryable).
+		/// <see cref="Result.RoomNotFound" />: if the media server rejected the request because the room was not found (not retryable).
 		/// <see cref="Result.UnexpectedError" /> otherwise (retryable).
 		/// </summary>
 		public Result ResultCode { get; set; }

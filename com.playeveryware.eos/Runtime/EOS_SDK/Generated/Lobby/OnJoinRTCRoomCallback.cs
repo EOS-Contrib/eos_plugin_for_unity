@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	/// </param>
 	public delegate void OnJoinRTCRoomCallback(ref JoinRTCRoomCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnJoinRTCRoomCallbackInternal(ref JoinRTCRoomCallbackInfoInternal data);
 
 	internal static class OnJoinRTCRoomCallbackInternalImplementation

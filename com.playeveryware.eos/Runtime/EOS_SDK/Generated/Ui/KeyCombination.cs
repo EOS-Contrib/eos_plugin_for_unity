@@ -42,9 +42,13 @@ namespace Epic.OnlineServices.UI
 		/// </summary>
 		Meta = (8 << ModifierShift),
 		/// <summary>
+		/// The AltGr key
+		/// </summary>
+		AltGr = (16 << ModifierShift),
+		/// <summary>
 		/// A mask which contains all of the modifier keys
 		/// </summary>
-		ValidModifierMask = (Shift | Control | Alt | Meta),
+		ValidModifierMask = (Shift | Control | Alt | Meta | AltGr),
 		/// <summary>
 		/// The default value, not assigned to a key
 		/// </summary>

@@ -23,17 +23,20 @@
 	#endif
 #endif
 
-#if UNITY_EDITOR_WIN
+#if UNITY_EDITOR
+	#define EOS_EDITOR
+#endif
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WSA
+	#define EOS_UNITY
+#endif
+#if EOS_PLATFORM_WINDOWS_ARM64
+	// Note: Unity does not provide a built-in Windows ARM64 scripting symbol.
+	// If you are NOT using the EOS Plugin for Unity then you must configure your build pipeline to set this symbol.
+#elif UNITY_EDITOR_WIN || ((UNITY_STANDALONE_WIN || UNITY_WSA) && !UNITY_EDITOR && !EOS_PLATFORM_WINGDK)
 	#define EOS_PLATFORM_WINDOWS_64
-#elif UNITY_STANDALONE_WIN
-	#if UNITY_64
-		#define EOS_PLATFORM_WINDOWS_64
-	#else
-		#define EOS_PLATFORM_WINDOWS_32
-	#endif
 #endif
 
-#if EOS_PLATFORM_WINDOWS_32 || EOS_PLATFORM_WINDOWS_64
+#if EOS_PLATFORM_WINDOWS_64 || EOS_PLATFORM_WINDOWS_ARM64
 using System;
 using System.Runtime.InteropServices;
 
@@ -78,18 +81,18 @@ namespace Epic.OnlineServices
 			EOS_Platform_Create_Windows = null;
 		}
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_IntegratedPlatformOptionsContainer_Add_WindowsSteamDelegate(IntPtr handle, ref IntegratedPlatform.WindowsSteamIntegratedPlatformOptionsContainerAddOptionsInternal inOptions);
 		internal static EOS_IntegratedPlatformOptionsContainer_Add_WindowsSteamDelegate EOS_IntegratedPlatformOptionsContainer_Add_WindowsSteam;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_Create_WindowsDelegate(ref Platform.WindowsOptionsInternal options);
 		internal static EOS_Platform_Create_WindowsDelegate EOS_Platform_Create_Windows;
 #else
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_IntegratedPlatformOptionsContainer_Add", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_IntegratedPlatformOptionsContainer_Add", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_IntegratedPlatformOptionsContainer_Add_WindowsSteam(IntPtr handle, ref IntegratedPlatform.WindowsSteamIntegratedPlatformOptionsContainerAddOptionsInternal inOptions);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_Create", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_Create", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_Create_Windows(ref Platform.WindowsOptionsInternal options);
 #endif
 	}

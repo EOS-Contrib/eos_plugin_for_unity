@@ -12,8 +12,15 @@
 /**
  * Adds an integrated platform options to the container.
  *
- * @param InOptions Object containing properties related to setting a user's Status
- * @return Success if modification was added successfully, otherwise an error code related to the problem
+ * @param InOptions Structure containing the integrated platform options to add.
+ *
+ * @see EOS_IntegratedPlatformOptionsContainer_AddOptions
+ *
+ * @return EOS_EResult containing the result of the operation.
+ * - EOS_Success if the options were added to the container.
+ * - EOS_IncompatibleVersion if an API version is incorrect.
+ * - EOS_InvalidParameters if the options or flags are invalid.
+ * - EOS_UnexpectedError if the options could not be copied into the container.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_IntegratedPlatformOptionsContainer_Add(EOS_HIntegratedPlatformOptionsContainer Handle, const EOS_IntegratedPlatformOptionsContainer_AddOptions* InOptions);
 
@@ -26,10 +33,13 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_IntegratedPlatformOptionsContainer_Add(EOS_HIn
  * If the login status of a user changes, a Integrated Platform User Login Status Changed notification will fire, and depending on the state
  * of the user's login and the platform, the EOS SDK might start fetching data for the user, it may clear cached data, or it may do nothing.
  *
+ * Call this function only after the local user's EOS_Connect_Login has completed; otherwise integrated platform
+ * data such as the friends and block lists may not be fetched for that user.
+ *
  * If the login status of a user is not different from a previous call to this function, the function will do nothing and return EOS_Success.
  * This will not trigger a call to the Integrated Platform User Login Status Changed.
  *
- * @param Options
+ * @param Options Object containing properties related to setting a user login status
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
  * - EOS_Success if the call was successful
@@ -82,7 +92,7 @@ EOS_DECLARE_FUNC(void) EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged
  * If a logout is deferred, applications are expected to eventually call EOS_IntegratedPlatform_FinalizeDeferredUserLogout when they
  * have decided a user meant to logout, or if they have logged in again.
  *
- * @param Options Data that specifies the API version.
+ * @param Options Object containing properties related to setting a user's pre logout callback.
  * @param ClientData An optional context pointer that is returned in the callback data.
  * @param CallbackFunction The function that will handle the callback.
  * @return EOS_EResult containing the result of the operation.
