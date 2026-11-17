@@ -797,6 +797,9 @@ EOS_STRUCT(EOS_Lobby_AddNotifyLobbyMemberStatusReceivedOptions, (
 
 /**
  * Output parameters for the EOS_Lobby_AddNotifyLobbyMemberStatusReceived function.
+ *
+ * This status is authoritative. When it reports the local user (TargetUserId) leaving (EOS_LMS_LEFT/DISCONNECTED/KICKED/CLOSED), an EOS_HLobbyDetails
+ * handle copied earlier may still list them; rely on this notification rather than re-querying the handle.
  */
 EOS_STRUCT(EOS_Lobby_LobbyMemberStatusReceivedCallbackInfo, (
 	/** Context that was passed into EOS_Lobby_AddNotifyLobbyMemberStatusReceived */
@@ -1256,6 +1259,7 @@ EOS_STRUCT(EOS_Lobby_RTCRoomConnectionChangedCallbackInfo, (
 	 * EOS_NoConnection: There was a network issue connecting to the server. We will attempt to reconnect soon.
 	 * EOS_RTC_UserKicked: The user has been kicked by the server. We will not reconnect.
 	 * EOS_RTC_UserBanned: The user has been banned by the server. We will not reconnect.
+	 * EOS_RTC_DuplicateSession: The same user joined this room from another session, which now holds the room. We will not reconnect, as doing so would displace the newer session.
 	 * EOS_ServiceFailure: A known error occurred during interaction with the server. We will attempt to reconnect soon.
 	 * EOS_UnexpectedError: Unexpected error. We will attempt to reconnect soon.
 	 */

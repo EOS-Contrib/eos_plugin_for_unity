@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Connect
 	/// </param>
 	public delegate void OnLoginCallback(ref LoginCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnLoginCallbackInternal(ref LoginCallbackInfoInternal data);
 
 	internal static class OnLoginCallbackInternalImplementation

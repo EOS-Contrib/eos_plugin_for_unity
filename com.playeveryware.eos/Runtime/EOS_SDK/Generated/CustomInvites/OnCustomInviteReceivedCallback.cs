@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.CustomInvites
 	/// </param>
 	public delegate void OnCustomInviteReceivedCallback(ref OnCustomInviteReceivedCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnCustomInviteReceivedCallbackInternal(ref OnCustomInviteReceivedCallbackInfoInternal data);
 
 	internal static class OnCustomInviteReceivedCallbackInternalImplementation

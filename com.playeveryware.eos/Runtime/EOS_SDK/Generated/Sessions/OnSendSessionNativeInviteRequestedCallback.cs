@@ -17,7 +17,7 @@ namespace Epic.OnlineServices.Sessions
 	/// </param>
 	public delegate void OnSendSessionNativeInviteRequestedCallback(ref SendSessionNativeInviteRequestedCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnSendSessionNativeInviteRequestedCallbackInternal(ref SendSessionNativeInviteRequestedCallbackInfoInternal data);
 
 	internal static class OnSendSessionNativeInviteRequestedCallbackInternalImplementation

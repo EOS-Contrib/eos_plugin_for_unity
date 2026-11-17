@@ -7,30 +7,29 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.Auth
 {
 	/// <summary>
-	/// Intermediate data for completing Epic account login, when neither the in-game overlay or a platform browser is used.
-	/// The <see cref="PinGrantInfo" /> struct is returned as part of the <see cref="LoginCallbackInfo" /> and <see cref="LinkAccountCallbackInfo" /> structs.
-	/// The data inside should be exposed to the user for entry on a secondary device.
-	/// All data must be copied out before the completion of this callback.
+	/// Account Portal details that the user must be presented with when neither the overlay nor the platform browser can be used.
 	/// </summary>
 	public struct PinGrantInfo
 	{
 		/// <summary>
-		/// Code the user must input on an external device to activate the login.
+		/// The code that the user must be presented with to enter on the Account Portal.
 		/// </summary>
 		public Utf8String UserCode { get; set; }
 
 		/// <summary>
-		/// The end-user verification URI. Users can be asked to manually type this into their browser.
+		/// The Account Portal url that the user must go to. This can be presented to the user for them to visit manually.
 		/// </summary>
 		public Utf8String VerificationURI { get; set; }
 
 		/// <summary>
-		/// Time the user has, in seconds, to complete the process or else timeout.
+		/// The seconds that the user has to complete the process before the flow expires.
 		/// </summary>
 		public int ExpiresIn { get; set; }
 
 		/// <summary>
-		/// A verification URI that includes the user code. Useful for non-textual transmission.
+		/// A complete Account Portal url that contains the user code.
+		/// This is useful for automatically opening the Account Portal somewhere because it has necessary details pre-filled.
+		/// It can also be presented as a QR code for the user to login off-device.
 		/// </summary>
 		public Utf8String VerificationURIComplete { get; set; }
 	}

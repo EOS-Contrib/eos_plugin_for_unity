@@ -14,6 +14,7 @@ namespace Epic.OnlineServices.Lobby
 		public LobbySearch(IntPtr innerHandle) : base(innerHandle)
 		{
 		}
+
 		/// <summary>
 		/// <see cref="CopySearchResultByIndex" /> is used to immediately retrieve a handle to the lobby information from a given search result.
 		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutLobbyDetailsHandle, must be passed to <see cref="LobbyDetails.Release" /> to release the memory associated with it.

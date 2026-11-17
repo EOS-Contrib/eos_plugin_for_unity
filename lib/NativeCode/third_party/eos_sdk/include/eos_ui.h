@@ -243,7 +243,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_UI_PrePresent(EOS_HUI Handle, const EOS_UI_Pre
 /**
  * Requests that the Social Overlay open and display the "Block User" flow for the specified user.
  *
- * @param ClientData Arbitrary data that is passed back to you in the NotificationFn.
+ * @param Options Object containing properties related to showing a blocked player.
+ * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate.
  * @param CompletionDelegate A callback that is fired when the user exits the Block UI.
  *
  * @see EOS_UI_ShowBlockPlayerOptions
@@ -254,7 +255,8 @@ EOS_DECLARE_FUNC(void) EOS_UI_ShowBlockPlayer(EOS_HUI Handle, const EOS_UI_ShowB
 /**
  * Requests that the Social Overlay open and display the "Report User" flow for the specified user.
  *
- * @param ClientData Arbitrary data that is passed back to you in the NotificationFn.
+ * @param Options Object containing properties related to reporting a player.
+ * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate.
  * @param CompletionDelegate A callback that is fired when the user exits the Report UI.
  *
  * @see EOS_UI_ShowReportPlayerOptions
@@ -283,6 +285,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_UI_PauseSocialOverlay(EOS_HUI Handle, const EO
 /**
  * Gets the bIsPaused state of the overlay as set by any previous calls to EOS_UI_PauseSocialOverlay().
  *
+ * @param Options Object containing properties get the overlay paused status.
  * @return EOS_TRUE If the overlay is paused.
  *
  * @see EOS_UI_IsSocialOverlayPausedOptions
@@ -316,7 +319,8 @@ EOS_DECLARE_FUNC(void) EOS_UI_RemoveNotifyMemoryMonitor(EOS_HUI Handle, EOS_Noti
 /**
  * Requests that the native ID for a target player be identified and the native profile be displayed for that player.
  *
- * @param ClientData Arbitrary data that is passed back to you in the NotificationFn.
+ * @param Options Object containing properties related to showing a native profile to the player.
+ * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate.
  * @param CompletionDelegate A callback that is fired when the profile has been shown.
  *
  * @see EOS_UI_ShowNativeProfileOptions

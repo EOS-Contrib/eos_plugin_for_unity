@@ -8,10 +8,11 @@ namespace Epic.OnlineServices.RTC
 {
 	/// <summary>
 	/// This struct is used to call <see cref="RTCInterface.SetRoomSetting" />
-	/// 
+	/// The room must exist before calling this function (e.g. by registering a notification via <see cref="RTCInterface.AddNotifyRoomBeforeJoin" />).
+	/// Settings must be configured before calling <see cref="RTCInterface.JoinRoom" />. Changes made after joining a room will not take effect.
 	/// Available values of SettingName:
 	/// - DisableEchoCancelation: Disables the use of echo cancellation for the audio channel. Default "False".
-	/// - DisableNoiseSupression: Disables the use of noise suppression for the audio channel. Default "False".
+	/// - DisableNoiseSuppression: Disables the use of noise suppression for the audio channel. Default "False".
 	/// - DisableAutoGainControl: Disables the use of auto gain control for the audio channel. Default "False".
 	/// - DisableDtx: Allows to disable the use of DTX. Default "False".
 	/// </summary>

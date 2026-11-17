@@ -23,7 +23,16 @@ namespace Epic.OnlineServices.Auth
 		/// when the user needs to perform some action. With this flag, an error such as <see cref="Result.AuthUserInterfaceRequired" /> is returned
 		/// to the login callback, and no user interface is shown in those cases.
 		/// </summary>
-		NoUserInterface = 0x00001
+		NoUserInterface = 0x00001,
+		/// <summary>
+		/// Specify that login should not internally retry on transient errors.
+		/// 
+		/// By default, and without this flag, the SDK retries transient backend errors internally and reports
+		/// <see cref="Result.OperationWillRetry" /> to the login callback while doing so. With this flag, the SDK does not retry;
+		/// on a transient failure the login callback is invoked once with a terminal result (<see cref="Result.TimedOut" />) so
+		/// the game can decide how to proceed.
+		/// </summary>
+		NoInternalRetry = 0x00002
 	}
 
 }

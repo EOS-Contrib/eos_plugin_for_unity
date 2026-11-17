@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	/// </param>
 	public delegate void OnKickMemberCallback(ref KickMemberCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnKickMemberCallbackInternal(ref KickMemberCallbackInfoInternal data);
 
 	internal static class OnKickMemberCallbackInternalImplementation

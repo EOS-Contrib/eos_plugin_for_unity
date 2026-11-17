@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Ecom
 	/// </param>
 	public delegate void OnCheckoutCallback(ref CheckoutCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnCheckoutCallbackInternal(ref CheckoutCallbackInfoInternal data);
 
 	internal static class OnCheckoutCallbackInternalImplementation

@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.RTC
 	/// </param>
 	public delegate void OnRoomStatisticsUpdatedCallback(ref RoomStatisticsUpdatedInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnRoomStatisticsUpdatedCallbackInternal(ref RoomStatisticsUpdatedInfoInternal data);
 
 	internal static class OnRoomStatisticsUpdatedCallbackInternalImplementation

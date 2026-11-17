@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Ecom
 	/// </param>
 	public delegate void OnQueryOwnershipTokenCallback(ref QueryOwnershipTokenCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnQueryOwnershipTokenCallbackInternal(ref QueryOwnershipTokenCallbackInfoInternal data);
 
 	internal static class OnQueryOwnershipTokenCallbackInternalImplementation

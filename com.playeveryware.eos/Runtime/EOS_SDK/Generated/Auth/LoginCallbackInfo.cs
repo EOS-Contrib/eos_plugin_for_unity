@@ -27,13 +27,13 @@ namespace Epic.OnlineServices.Auth
 		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
-		/// Optional data that may be returned in the middle of the login flow, when neither the in-game overlay or a platform browser is used.
-		/// This data is present when the ResultCode is <see cref="Result.AuthPinGrantCode" />.
+		/// Account Portal details returned to the application when the SDK cannot manage it with either the overlay or the platform browser.
+		/// This is set when ResultCode is <see cref="Result.AuthPinGrantCode" />.
 		/// </summary>
 		public PinGrantInfo? PinGrantInfo { get; set; }
 
 		/// <summary>
-		/// If the user was not found with external auth credentials passed into <see cref="AuthInterface.Login" />, this continuance token can be passed to <see cref="AuthInterface.LinkAccount" /> to continue the flow.
+		/// If this field is set when <see cref="LoginCredentialType.ExternalAuth" /> was used and ResultCode is <see cref="Result.InvalidUser" />, the application must call <see cref="AuthInterface.LinkAccount" /> with this continuation token to begin linking.
 		/// </summary>
 		public ContinuanceToken ContinuanceToken { get; set; }
 
@@ -43,13 +43,9 @@ namespace Epic.OnlineServices.Auth
 		public AccountFeatureRestrictedInfo? AccountFeatureRestrictedInfo_DEPRECATED { get; set; }
 
 		/// <summary>
-		/// The Epic Account ID that has been previously selected to be used for the current application.
-		/// Applications should use this ID to authenticate with online backend services that store game-scoped data for users.
-		/// 
-		/// Note: This ID may be different from LocalUserId if the user has previously merged Epic accounts into the account
-		/// represented by LocalUserId, and one of the accounts that got merged had game data associated with it for the application.
+		/// Deprecated field that is no longer used.
 		/// </summary>
-		public EpicAccountId SelectedAccountId { get; set; }
+		public EpicAccountId SelectedAccountId_DEPRECATED { get; set; }
 
 		public object GetClientData()
 		{
@@ -71,7 +67,7 @@ namespace Epic.OnlineServices.Auth
 		private IntPtr m_PinGrantInfo;
 		private IntPtr m_ContinuanceToken;
 		private IntPtr m_AccountFeatureRestrictedInfo_DEPRECATED;
-		private IntPtr m_SelectedAccountId;
+		private IntPtr m_SelectedAccountId_DEPRECATED;
 
 		public IntPtr ClientDataPointer
 		{
@@ -101,9 +97,9 @@ namespace Epic.OnlineServices.Auth
 			AccountFeatureRestrictedInfo? AccountFeatureRestrictedInfo_DEPRECATEDPublic;
 			Helper.Get<AccountFeatureRestrictedInfoInternal, AccountFeatureRestrictedInfo>(m_AccountFeatureRestrictedInfo_DEPRECATED, out AccountFeatureRestrictedInfo_DEPRECATEDPublic);
 			other.AccountFeatureRestrictedInfo_DEPRECATED = AccountFeatureRestrictedInfo_DEPRECATEDPublic;
-			EpicAccountId SelectedAccountIdPublic;
-			Helper.Get(m_SelectedAccountId, out SelectedAccountIdPublic);
-			other.SelectedAccountId = SelectedAccountIdPublic;
+			EpicAccountId SelectedAccountId_DEPRECATEDPublic;
+			Helper.Get(m_SelectedAccountId_DEPRECATED, out SelectedAccountId_DEPRECATEDPublic);
+			other.SelectedAccountId_DEPRECATED = SelectedAccountId_DEPRECATEDPublic;
 		}
 	}
 }

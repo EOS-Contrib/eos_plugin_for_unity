@@ -41,11 +41,18 @@ EOS_ENUM(EOS_ERTCParticipantStatus,
 #define EOS_RTC_JOINROOMFLAGS_ENABLE_DATACHANNEL 0x04
 
  /**
-  * The flag is reserved for future use.
+  * Flag value reserved for future use.
   *
   * @see EOS_RTC_JoinRoomOptions::Flags
   */
 #define EOS_RTC_JOINROOMFLAGS_RESERVED_VOICE_FEATURE 0x08
+
+  /**
+   * Flag value reserved for future use.
+   *
+   * @see EOS_RTC_JoinRoomOptions::Flags
+   */
+#define EOS_RTC_JOINROOMFLAGS_RESERVED_VOICE_FEATURE_2 0x010
 
 /**
  * This struct is used to call EOS_RTC_JoinRoom.
@@ -107,6 +114,7 @@ EOS_STRUCT(EOS_RTC_JoinRoomCallbackInfo, (
 	 * EOS_InvalidAuth: if the token is invalid (not retryable).
 	 * EOS_RTC_TooManyParticipants: if the room cannot accept more participants (not retryable).
 	 * EOS_AccessDenied: if the room name belongs to the Lobby voice system (not retryable).
+	 * EOS_RTC_RoomNotFound: if the media server rejected the request because the room was not found (not retryable).
 	 * EOS_UnexpectedError otherwise (retryable).
 	 */
 	EOS_EResult ResultCode;
@@ -235,6 +243,7 @@ EOS_STRUCT(EOS_RTC_DisconnectedCallbackInfo, (
 	 * EOS_Success The room was left cleanly.
 	 * EOS_NoConnection: There was a network issue connecting to the server (retryable).
 	 * EOS_RTC_UserKicked: The user has been kicked by the server (retryable).
+	 * EOS_RTC_DuplicateSession: The same user joined this room from another session, which now holds the room (not retryable).
 	 * EOS_ServiceFailure: A known error occurred during interaction with the server (retryable).
 	 * EOS_UnexpectedError Unexpected error (retryable).
 	 */
@@ -372,9 +381,12 @@ EOS_DECLARE_CALLBACK(EOS_RTC_OnRoomBeforeJoinCallback, const EOS_RTC_RoomBeforeJ
 /**
  * This struct is used to call EOS_RTC_SetSetting
  *
+ * @note This sets the default value used when joining all future rooms. Settings must be configured before calling
+ * EOS_RTC_JoinRoom. Changes made after joining a room will not take effect.
+ *
  * Available values of SettingName:
  * - DisableEchoCancelation: Disables the use of echo cancellation for the audio channel. Default "False".
- * - DisableNoiseSupression: Disables the use of noise suppression for the audio channel. Default "False".
+ * - DisableNoiseSuppression: Disables the use of noise suppression for the audio channel. Default "False".
  * - DisableAutoGainControl: Disables the use of auto gain control for the audio channel. Default "False".
  * - DisableDtx: Allows to disable the use of DTX.  Default "False".
  */
@@ -393,9 +405,12 @@ EOS_STRUCT(EOS_RTC_SetSettingOptions, (
 /**
  * This struct is used to call EOS_RTC_SetRoomSetting
  *
+ * @note The room must exist before calling this function (e.g. by registering a notification via EOS_RTC_AddNotifyRoomBeforeJoin).
+ * Settings must be configured before calling EOS_RTC_JoinRoom. Changes made after joining a room will not take effect.
+ *
  * Available values of SettingName:
  * - DisableEchoCancelation: Disables the use of echo cancellation for the audio channel. Default "False".
- * - DisableNoiseSupression: Disables the use of noise suppression for the audio channel. Default "False".
+ * - DisableNoiseSuppression: Disables the use of noise suppression for the audio channel. Default "False".
  * - DisableAutoGainControl: Disables the use of auto gain control for the audio channel. Default "False".
  * - DisableDtx: Allows to disable the use of DTX.  Default "False".
  */

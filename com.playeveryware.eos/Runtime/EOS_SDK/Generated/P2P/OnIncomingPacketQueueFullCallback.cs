@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.P2P
 	/// </summary>
 	public delegate void OnIncomingPacketQueueFullCallback(ref OnIncomingPacketQueueFullInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnIncomingPacketQueueFullCallbackInternal(ref OnIncomingPacketQueueFullInfoInternal data);
 
 	internal static class OnIncomingPacketQueueFullCallbackInternalImplementation

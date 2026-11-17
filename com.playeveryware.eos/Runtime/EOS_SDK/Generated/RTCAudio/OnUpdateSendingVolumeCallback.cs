@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.RTCAudio
 	/// </summary>
 	public delegate void OnUpdateSendingVolumeCallback(ref UpdateSendingVolumeCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnUpdateSendingVolumeCallbackInternal(ref UpdateSendingVolumeCallbackInfoInternal data);
 
 	internal static class OnUpdateSendingVolumeCallbackInternalImplementation

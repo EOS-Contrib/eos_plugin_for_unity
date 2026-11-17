@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.P2P
 	/// </summary>
 	public delegate void OnPeerConnectionInterruptedCallback(ref OnPeerConnectionInterruptedInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnPeerConnectionInterruptedCallbackInternal(ref OnPeerConnectionInterruptedInfoInternal data);
 
 	internal static class OnPeerConnectionInterruptedCallbackInternalImplementation

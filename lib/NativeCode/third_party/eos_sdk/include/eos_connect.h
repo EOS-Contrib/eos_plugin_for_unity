@@ -21,6 +21,10 @@
  *
  * @see EOS_Connect_LoginOptions
  * @see EOS_Connect_OnLoginCallback
+ * @see EOS_Connect_AddNotifyAuthExpiration
+ * @note Connect auth tokens expire after a period of time. Register for expiration notifications
+ *       using EOS_Connect_AddNotifyAuthExpiration and call EOS_Connect_Login again to refresh
+ *       access before the token expires.
  */
 EOS_DECLARE_FUNC(void) EOS_Connect_Login(EOS_HConnect Handle, const EOS_Connect_LoginOptions* Options, void* ClientData, const EOS_Connect_OnLoginCallback CompletionDelegate);
 
@@ -278,7 +282,7 @@ EOS_DECLARE_FUNC(EOS_ProductUserId) EOS_Connect_GetExternalAccountMapping(EOS_HC
  * @see EOS_Connect_GetProductUserIdMappingOptions
  *
  * @return An EOS_EResult that indicates the external account ID was copied into the OutBuffer.
- * - EOS_Success if the information is available and passed out in OutUserInfo.
+ * - EOS_Success if the information is available and passed out in OutBuffer.
  * - EOS_InvalidParameters if you pass a null pointer for the out parameter.
  * - EOS_NotFound if the mapping doesn't exist or hasn't been queried yet.
  * - EOS_LimitExceeded if the OutBuffer is not large enough to receive the external account ID. InOutBufferLength contains the required minimum length to perform the operation successfully.
@@ -396,7 +400,7 @@ EOS_DECLARE_FUNC(EOS_ELoginStatus) EOS_Connect_GetLoginStatus(EOS_HConnect Handl
 
 /**
  * Register to receive upcoming authentication expiration notifications.
- * Notification is approximately 1 minute prior to expiration.
+ * The notification fires a configurable lead time before expiration. This lead time is controlled by the service and defaults to approximately 1 minute; it may be larger to allow more time to refresh.
  * Call EOS_Connect_Login again with valid third party credentials to refresh access.
  *
  * @note If the returned NotificationId is valid, you must call EOS_Connect_RemoveNotifyAuthExpiration when you no longer wish to have your NotificationHandler called.

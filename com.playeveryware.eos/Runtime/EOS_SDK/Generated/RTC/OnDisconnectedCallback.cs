@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.RTC
 	/// </param>
 	public delegate void OnDisconnectedCallback(ref DisconnectedCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnDisconnectedCallbackInternal(ref DisconnectedCallbackInfoInternal data);
 
 	internal static class OnDisconnectedCallbackInternalImplementation

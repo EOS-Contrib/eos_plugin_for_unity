@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.RTCAudio
 	/// </summary>
 	public delegate void OnQueryInputDevicesInformationCallback(ref OnQueryInputDevicesInformationCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnQueryInputDevicesInformationCallbackInternal(ref OnQueryInputDevicesInformationCallbackInfoInternal data);
 
 	internal static class OnQueryInputDevicesInformationCallbackInternalImplementation

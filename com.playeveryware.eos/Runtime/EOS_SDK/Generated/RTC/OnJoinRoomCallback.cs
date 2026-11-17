@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.RTC
 	/// </summary>
 	public delegate void OnJoinRoomCallback(ref JoinRoomCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnJoinRoomCallbackInternal(ref JoinRoomCallbackInfoInternal data);
 
 	internal static class OnJoinRoomCallbackInternalImplementation

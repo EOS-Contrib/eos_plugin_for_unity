@@ -12,7 +12,16 @@ namespace Epic.OnlineServices.CustomInvites
 	public struct SendCustomInviteCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
-		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
+		/// The result code for the send custom invite operation.
+		/// - <see cref="Result.Success" /> if the invite operation completes successfully.
+		/// - <see cref="Result.PartialResult" /> if the invite was sent to some, but not all, of the target users.
+		/// - <see cref="Result.InvalidParameters" /> if any option values are incorrect.
+		/// - <see cref="Result.InvalidUser" /> if LocalUserId does not identify a known local user.
+		/// - <see cref="Result.InvalidAuth" /> if the local user is not logged in.
+		/// - <see cref="Result.TooManyRequests" /> if the allowed request limit is exceeded.
+		/// - <see cref="Result.NotFound" /> if SetCustomInvite was not previously called successfully for this user.
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
+		/// - <see cref="Result.UnexpectedError" /> if the backend request failed.
 		/// </summary>
 		public Result ResultCode { get; set; }
 

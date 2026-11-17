@@ -147,8 +147,8 @@ EOS_STRUCT(EOS_AntiCheatServer_RegisterClientOptions, (
 	const char* IpAddress;
 	/** The Product User ID for the remote user who is being registered. */
 	EOS_ProductUserId UserId;
-	/** Reserved for future use. Must be set to 0. */
-	int32_t Reserved01;
+	/** System configuration required for this client to join the protected session. */
+	EOS_EAntiCheatCommonClientSystemConfig RequiredSystemConfig;
 	/** Reserved for future use. Must be set to 0. */
 	int32_t Reserved02;
 ));

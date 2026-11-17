@@ -16,6 +16,6 @@ namespace Epic.OnlineServices.Platform
 	/// The SDK will always call the provided function with an Alignment that is a power of 2.
 	/// Allocation failures should return a <see langword="null" /> <see cref="IntPtr" />.
 	/// </summary>
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	public delegate IntPtr AllocateMemoryFunc(UIntPtr sizeInBytes, UIntPtr alignment);
 }

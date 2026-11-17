@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.Presence
 	/// </summary>
 	public delegate void SetPresenceCompleteCallback(ref SetPresenceCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void SetPresenceCompleteCallbackInternal(ref SetPresenceCallbackInfoInternal data);
 
 	internal static class SetPresenceCompleteCallbackInternalImplementation

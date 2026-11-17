@@ -14,6 +14,7 @@ namespace Epic.OnlineServices.Presence
 		public PresenceModification(IntPtr innerHandle) : base(innerHandle)
 		{
 		}
+
 		/// <summary>
 		/// Removes one or more rows of user-defined presence data for a local user. At least one DeleteDataInfo object
 		/// must be specified.
@@ -125,12 +126,17 @@ namespace Epic.OnlineServices.Presence
 
 		/// <summary>
 		/// Modifies a user's online status to be the new state.
+		/// <see cref="PresenceModificationSetStatusOptions" />
 		/// </summary>
 		/// <param name="options">
 		/// Object containing properties related to setting a user's Status
 		/// </param>
 		/// <returns>
-		/// Success if modification was added successfully, otherwise an error code related to the problem
+		/// <see cref="Result" /> containing the result of the operation.
+		/// - <see cref="Result.Success" /> if the status was set on the modification.
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version is incorrect.
+		/// - <see cref="Result.InvalidParameters" /> if Options or the handle is invalid.
+		/// - <see cref="Result.PresenceStatusInvalid" /> if the status value is unsupported.
 		/// </returns>
 		public Result SetStatus(ref PresenceModificationSetStatusOptions options)
 		{
@@ -147,13 +153,22 @@ namespace Epic.OnlineServices.Presence
 		/// <summary>
 		/// Adds variable data to a Presence Update template much like a format-arg would. This value will be localized
 		/// by the backend and displayed to users. This function can be called multiple times for each variable. Subsequent
-		/// calls for the sane variable will replace the value with the latest version.
+		/// calls for the same variable will replace the value with the latest version.
+		/// <see cref="PresenceModificationSetTemplateDataOptions" />
+		/// <see cref="SetTemplateId" />
 		/// </summary>
 		/// <param name="options">
 		/// Object containing properties related to setting a named variable value on a Localized Presence Template
 		/// </param>
 		/// <returns>
-		/// Success if the value was updated successfully, otherwise an error code related to the problem
+		/// <see cref="Result" /> containing the result of the operation.
+		/// - <see cref="Result.Success" /> if the template data was set on the modification.
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version is incorrect.
+		/// - <see cref="Result.InvalidParameters" /> if Options or the handle is invalid.
+		/// - <see cref="Result.PresenceTemplateNotSupported" /> if no template ID is set on the modification.
+		/// - <see cref="Result.PresenceTemplateKeyInvalid" /> if Key is <see langword="null" /> or empty.
+		/// - <see cref="Result.PresenceTemplateValueInvalid" /> if a <see cref="Utf8String" /> value is <see langword="null" />.
+		/// - <see cref="Result.PresenceTemplateTypeInvalid" /> if ValueType is unsupported.
 		/// </returns>
 		public Result SetTemplateData(ref PresenceModificationSetTemplateDataOptions options)
 		{
@@ -171,12 +186,18 @@ namespace Epic.OnlineServices.Presence
 		/// Modifies a user's Rich Presence <see cref="Utf8String" /> to a new state using a localized template. This <see cref="Utf8String" /> represents
 		/// a template ID that may contain one or more variables that must be supplied via SetTemplateData. This
 		/// function is mutually exclusive with SetRawRichText meaning only one can be used on a modification.
+		/// <see cref="PresenceModificationSetTemplateIdOptions" />
 		/// </summary>
 		/// <param name="options">
-		/// Object containing the TemplateId for a pre-cofnigured a Localized Presence Template
+		/// Object containing the TemplateId for a preconfigured Localized Presence Template.
 		/// </param>
 		/// <returns>
-		/// Success if the value was updated successfully, otherwise an error code related to the problem
+		/// <see cref="Result" /> containing the result of the operation.
+		/// - <see cref="Result.Success" /> if the template ID was set on the modification.
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version is incorrect.
+		/// - <see cref="Result.InvalidParameters" /> if Options or the handle is invalid.
+		/// - <see cref="Result.PresenceTemplateNotSupported" /> if raw rich text is already set.
+		/// - <see cref="Result.PresenceTemplateIdInvalid" /> if TemplateId is <see langword="null" /> or empty.
 		/// </returns>
 		public Result SetTemplateId(ref PresenceModificationSetTemplateIdOptions options)
 		{

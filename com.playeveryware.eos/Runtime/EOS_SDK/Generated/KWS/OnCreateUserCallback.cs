@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.KWS
 	/// </param>
 	public delegate void OnCreateUserCallback(ref CreateUserCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnCreateUserCallbackInternal(ref CreateUserCallbackInfoInternal data);
 
 	internal static class OnCreateUserCallbackInternalImplementation

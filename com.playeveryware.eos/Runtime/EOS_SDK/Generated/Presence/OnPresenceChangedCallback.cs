@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.Presence
 	/// </summary>
 	public delegate void OnPresenceChangedCallback(ref PresenceChangedCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnPresenceChangedCallbackInternal(ref PresenceChangedCallbackInfoInternal data);
 
 	internal static class OnPresenceChangedCallbackInternalImplementation

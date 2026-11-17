@@ -18,7 +18,7 @@ namespace Epic.OnlineServices.Version
 		/// <summary>
 		/// The Hotfix version number
 		/// </summary>
-		public const int HOTFIX = 1;
+		public const int HOTFIX = 3;
 		/// <summary>
 		/// The Major version number
 		/// </summary>
@@ -26,11 +26,11 @@ namespace Epic.OnlineServices.Version
 		/// <summary>
 		/// The Minor version number
 		/// </summary>
-		public const int MINOR = 19;
+		public const int MINOR = 20;
 		/// <summary>
 		/// The Patch version number
 		/// </summary>
-		public const int PATCH = 2;
+		public const int PATCH = 0;
 		/// <summary>
 		/// The product identifier
 		/// </summary>
@@ -42,7 +42,12 @@ namespace Epic.OnlineServices.Version
 
 		/// <summary>
 		/// Get the version of the compiled EOSSDK binary
-		/// MAJOR.MINOR.PATCH.HOTFIX-CHANGELIST#-PLATFORMSDKVERSION
+		/// MAJOR.MINOR.PATCH.HOTFIX[-CHANGELIST][+PLATFORM_SDK_VERSION][@BUILD_PROFILE]
+		/// 
+		/// Optional segments:
+		/// - CHANGELIST: present when built from Perforce via CI
+		/// - PLATFORM_SDK_VERSION: present on console platforms
+		/// - BUILD_PROFILE: present when built with a named build profile
 		/// 
 		/// It is the version available at runtime
 		/// It should match the version of the headers being used

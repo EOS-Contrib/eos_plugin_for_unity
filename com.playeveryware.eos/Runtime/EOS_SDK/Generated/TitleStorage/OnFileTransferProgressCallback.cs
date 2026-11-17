@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.TitleStorage
 	/// </summary>
 	public delegate void OnFileTransferProgressCallback(ref FileTransferProgressCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnFileTransferProgressCallbackInternal(ref FileTransferProgressCallbackInfoInternal data);
 
 	internal static class OnFileTransferProgressCallbackInternalImplementation

@@ -18,7 +18,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// </returns>
 	public delegate ReadResult OnReadFileDataCallback(ref ReadFileDataCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate ReadResult OnReadFileDataCallbackInternal(ref ReadFileDataCallbackInfoInternal data);
 
 	internal static class OnReadFileDataCallbackInternalImplementation

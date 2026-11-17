@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Ecom
 	/// </param>
 	public delegate void OnQueryOwnershipBySandboxIdsCallback(ref QueryOwnershipBySandboxIdsCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnQueryOwnershipBySandboxIdsCallbackInternal(ref QueryOwnershipBySandboxIdsCallbackInfoInternal data);
 
 	internal static class OnQueryOwnershipBySandboxIdsCallbackInternalImplementation

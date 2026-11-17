@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.Stats
 	/// </param>
 	public delegate void OnQueryStatsCompleteCallback(ref OnQueryStatsCompleteCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnQueryStatsCompleteCallbackInternal(ref OnQueryStatsCompleteCallbackInfoInternal data);
 
 	internal static class OnQueryStatsCompleteCallbackInternalImplementation

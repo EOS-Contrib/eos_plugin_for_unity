@@ -7,23 +7,23 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.AntiCheatClient
 {
 	/// <summary>
-	/// Input parameters for the <see cref="AntiCheatClientInterface.Reserved01" /> function.
+	/// Input parameters for the <see cref="AntiCheatClientInterface.GetSystemConfig" /> function.
 	/// </summary>
-	public struct Reserved01Options
+	public struct GetSystemConfigOptions
 	{
 		
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	internal struct Reserved01OptionsInternal : ISettable<Reserved01Options>
+	internal struct GetSystemConfigOptionsInternal : ISettable<GetSystemConfigOptions>
 	{
 		private int m_ApiVersion;
 
-		public void Set(ref Reserved01Options other)
+		public void Set(ref GetSystemConfigOptions other)
 		{
 			Dispose();
 
-			m_ApiVersion = AntiCheatClientInterface.RESERVED01_API_LATEST;
+			m_ApiVersion = AntiCheatClientInterface.GETSYSTEMCONFIG_API_LATEST;
 		}
 
 		public void Dispose()

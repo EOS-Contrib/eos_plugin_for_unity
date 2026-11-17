@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Reports
 	/// </param>
 	public delegate void OnSendPlayerBehaviorReportCompleteCallback(ref SendPlayerBehaviorReportCompleteCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnSendPlayerBehaviorReportCompleteCallbackInternal(ref SendPlayerBehaviorReportCompleteCallbackInfoInternal data);
 
 	internal static class OnSendPlayerBehaviorReportCompleteCallbackInternalImplementation

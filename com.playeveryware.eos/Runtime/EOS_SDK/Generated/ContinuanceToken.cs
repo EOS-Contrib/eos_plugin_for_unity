@@ -14,6 +14,7 @@ namespace Epic.OnlineServices
 		public ContinuanceToken(IntPtr innerHandle) : base(innerHandle)
 		{
 		}
+
 		/// <summary>
 		/// Retrieve a <see langword="null" />-terminated stringified continuance token from an <see cref="ContinuanceToken" />.
 		/// 

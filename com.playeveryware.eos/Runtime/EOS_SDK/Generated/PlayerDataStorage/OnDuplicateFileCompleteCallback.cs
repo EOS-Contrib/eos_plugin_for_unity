@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// </summary>
 	public delegate void OnDuplicateFileCompleteCallback(ref DuplicateFileCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnDuplicateFileCompleteCallbackInternal(ref DuplicateFileCallbackInfoInternal data);
 
 	internal static class OnDuplicateFileCompleteCallbackInternalImplementation

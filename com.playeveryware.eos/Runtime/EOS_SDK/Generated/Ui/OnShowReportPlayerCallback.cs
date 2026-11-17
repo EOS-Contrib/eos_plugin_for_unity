@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.UI
 	/// </param>
 	public delegate void OnShowReportPlayerCallback(ref OnShowReportPlayerCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnShowReportPlayerCallbackInternal(ref OnShowReportPlayerCallbackInfoInternal data);
 
 	internal static class OnShowReportPlayerCallbackInternalImplementation

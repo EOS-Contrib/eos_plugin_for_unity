@@ -8,6 +8,9 @@ namespace Epic.OnlineServices.Lobby
 {
 	/// <summary>
 	/// Output parameters for the <see cref="LobbyInterface.AddNotifyLobbyMemberStatusReceived" /> function.
+	/// 
+	/// This status is authoritative. When it reports the local user (TargetUserId) leaving (<see cref="LobbyMemberStatus.Left" />/DISCONNECTED/KICKED/CLOSED), an <see cref="LobbyDetails" />
+	/// handle copied earlier may still list them; rely on this notification rather than re-querying the handle.
 	/// </summary>
 	public struct LobbyMemberStatusReceivedCallbackInfo : ICallbackInfo
 	{

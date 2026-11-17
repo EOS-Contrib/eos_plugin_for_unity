@@ -677,7 +677,8 @@ namespace Epic.OnlineServices.Lobby
 		/// from the RTC room when a lobby is left or disconnected.
 		/// 
 		/// This notification is entirely informational and requires no action in response by the application. If the connected status is offline
-		/// (bIsConnected is <see langword="false" />), the connection will automatically attempt to reconnect. The purpose of this notification is to allow
+		/// (bIsConnected is <see langword="false" />), the connection will automatically attempt to reconnect, except for terminal disconnect reasons such as
+		/// <see cref="Result.UserKicked" />, <see cref="Result.UserBanned" /> and <see cref="Result.DuplicateSession" /> - see DisconnectReason. The purpose of this notification is to allow
 		/// applications to show the current connection status of the RTC room when the connection is not established.
 		/// 
 		/// Unlike <see cref="RTC.RTCInterface.AddNotifyDisconnected" />, <see cref="RTC.RTCInterface.LeaveRoom" /> should not be called when the RTC room is disconnected.
@@ -772,6 +773,12 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Create a handle to an existing lobby.
 		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutLobbyDetailsHandle, must be passed to <see cref="LobbyDetails.Release" /> to release the memory associated with it.
+		/// 
+		/// While the local user remains a member, this handle is a live view of the lobby: it reflects later membership and
+		/// data changes, so you may keep and re-query it. When the local user leaves or is kicked, the SDK stops updating the
+		/// handle; it freezes as a snapshot of the membership just before departure (and still lists the local user). Treat the
+		/// <see cref="AddNotifyLobbyMemberStatusReceived" /> notification as the authoritative signal for your own leave/kick rather
+		/// than re-querying, and release the handle. A fresh <see cref="CopyLobbyDetailsHandle" /> call then returns <see cref="Result.NotFound" />.
 		/// <see cref="CopyLobbyDetailsHandleOptions" />
 		/// <see cref="LobbyDetails" />
 		/// </summary>

@@ -12,6 +12,6 @@ namespace Epic.OnlineServices.Platform
 	/// 
 	/// When the SDK is done with memory that has been allocated by a custom allocator passed to <see cref="PlatformInterface.Initialize" />, it will call the corresponding memory release function.
 	/// </summary>
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	public delegate void ReleaseMemoryFunc(IntPtr pointer);
 }

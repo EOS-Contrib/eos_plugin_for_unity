@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Connect
 	/// </param>
 	public delegate void OnCreateDeviceIdCallback(ref CreateDeviceIdCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnCreateDeviceIdCallbackInternal(ref CreateDeviceIdCallbackInfoInternal data);
 
 	internal static class OnCreateDeviceIdCallbackInternalImplementation

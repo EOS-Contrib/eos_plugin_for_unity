@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Ecom
 	/// </param>
 	public delegate void OnQueryEntitlementsCallback(ref QueryEntitlementsCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnQueryEntitlementsCallbackInternal(ref QueryEntitlementsCallbackInfoInternal data);
 
 	internal static class OnQueryEntitlementsCallbackInternalImplementation

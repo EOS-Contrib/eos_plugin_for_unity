@@ -14,6 +14,7 @@ namespace Epic.OnlineServices.Sessions
 		public SessionSearch(IntPtr innerHandle) : base(innerHandle)
 		{
 		}
+
 		/// <summary>
 		/// <see cref="CopySearchResultByIndex" /> is used to immediately retrieve a handle to the session information from a given search result.
 		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutSessionHandle, must be passed to <see cref="SessionDetails.Release" /> to release the memory associated with it.

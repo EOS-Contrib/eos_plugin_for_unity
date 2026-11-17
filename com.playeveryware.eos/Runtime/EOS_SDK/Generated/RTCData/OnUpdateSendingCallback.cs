@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.RTCData
 	/// </param>
 	public delegate void OnUpdateSendingCallback(ref UpdateSendingCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnUpdateSendingCallbackInternal(ref UpdateSendingCallbackInfoInternal data);
 
 	internal static class OnUpdateSendingCallbackInternalImplementation

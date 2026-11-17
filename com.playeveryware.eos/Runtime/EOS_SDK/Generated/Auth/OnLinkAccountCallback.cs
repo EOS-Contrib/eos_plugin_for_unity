@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Auth
 	/// </param>
 	public delegate void OnLinkAccountCallback(ref LinkAccountCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnLinkAccountCallbackInternal(ref LinkAccountCallbackInfoInternal data);
 
 	internal static class OnLinkAccountCallbackInternalImplementation
