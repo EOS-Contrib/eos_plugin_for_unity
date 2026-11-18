@@ -65,6 +65,11 @@
 
       {"src": "Assets/Readme/*.txt",                                "dest": "Samples~/Samples/StandardSamples/Readme/" },
 
+      {"src": "Symbols/Android/*",                                        "dest": "Symbols~/Android/", "recursive": true },
+      {"src": "Symbols/Linux/*",                                          "dest": "Symbols~/Linux/"},
+      {"src": "Symbols/Win64/*",                                          "dest": "Symbols~/Win64/"},
+      {"src": "Symbols/WinArm64/*",                                       "dest": "Symbols~/WinArm64/"},
+
       {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api\\.dll"   },                 
       {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api64\\.dll" },
       {"ignore_regex": "EOSUnitTestSettingsWindow"                   },

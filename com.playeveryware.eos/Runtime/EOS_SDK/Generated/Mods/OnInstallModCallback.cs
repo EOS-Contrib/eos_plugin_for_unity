@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Mods
 	/// </param>
 	public delegate void OnInstallModCallback(ref InstallModCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnInstallModCallbackInternal(ref InstallModCallbackInfoInternal data);
 
 	internal static class OnInstallModCallbackInternalImplementation

@@ -19,7 +19,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 	/// </summary>
 	public delegate void OnMessageToServerCallback(ref OnMessageToServerCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnMessageToServerCallbackInternal(ref OnMessageToServerCallbackInfoInternal data);
 
 	internal static class OnMessageToServerCallbackInternalImplementation

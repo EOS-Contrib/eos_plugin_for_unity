@@ -14,6 +14,7 @@ namespace Epic.OnlineServices.Ecom
 		public Transaction(IntPtr innerHandle) : base(innerHandle)
 		{
 		}
+
 		/// <summary>
 		/// Fetches an entitlement from a given index.
 		/// <see cref="TransactionCopyEntitlementByIndexOptions" />
@@ -78,16 +79,21 @@ namespace Epic.OnlineServices.Ecom
 		}
 
 		/// <summary>
-		/// The Ecom Transaction Interface exposes getters for accessing information about a completed transaction.
-		/// All Ecom Transaction Interface calls take a handle of type <see cref="Transaction" /> as the first parameter.
-		/// An <see cref="Transaction" /> handle is originally returned as part of the <see cref="CheckoutCallbackInfo" /> struct.
-		/// An <see cref="Transaction" /> handle can also be retrieved from an <see cref="EcomInterface" /> handle using <see cref="EcomInterface.CopyTransactionByIndex" />.
-		/// It is expected that after a transaction that <see cref="Release" /> is called.
-		/// When <see cref="Platform.PlatformInterface.Release" /> is called any remaining transactions will also be released.
-		/// <see cref="CheckoutCallbackInfo" />
-		/// <see cref="EcomInterface.GetTransactionCount" />
-		/// <see cref="EcomInterface.CopyTransactionByIndex" />
+		/// Copies the transaction ID into a buffer.
+		/// <see cref="Release" />
 		/// </summary>
+		/// <param name="outBuffer">
+		/// Buffer to receive the <see langword="null" />-terminated transaction ID, or <see langword="null" /> to get the required size.
+		/// </param>
+		/// <param name="inOutBufferLength">
+		/// On input, the size of OutBuffer; on output, the required size including the <see langword="null" /> terminator.
+		/// </param>
+		/// <returns>
+		/// <see cref="Result" /> containing the result of the operation.
+		/// - <see cref="Result.Success" /> if the transaction ID was copied into OutBuffer.
+		/// - <see cref="Result.InvalidParameters" /> if InOutBufferLength is <see langword="null" /> or the transaction handle is invalid.
+		/// - <see cref="Result.LimitExceeded" /> if OutBuffer is <see langword="null" /> or too small; InOutBufferLength is set to the required size.
+		/// </returns>
 		public Result GetTransactionId(out Utf8String outBuffer)
 		{
 			int inOutBufferLength = EcomInterface.TRANSACTIONID_MAXIMUM_LENGTH + 1;

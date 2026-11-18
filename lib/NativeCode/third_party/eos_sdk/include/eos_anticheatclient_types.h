@@ -59,6 +59,26 @@ EOS_ENUM(EOS_EAntiCheatClientViolationType,
 );
 
 /**
+ * Settings which are stored by the anti-cheat client and persist across game sessions.
+ *
+ * Each setting has a single value type which is documented alongside it and must be used
+ * consistently by all callers. The storage is local to the machine and to the running product
+ * and deployment; it is not associated with any user account and is not synchronized with the
+ * backend.
+ */
+EOS_ENUM(EOS_EAntiCheatClientPersistentSetting,
+	/** Not used */
+	EOS_ACCPS_Invalid = 0,
+	/**
+	 * Strict mode enabled. When true, all third party libraries non essential to the function
+	 * of the game are prevented from being injected.
+	 *
+	 * Value type: EOS_AT_BOOLEAN. Default value: EOS_FALSE.
+	 */
+	EOS_ACCPS_StrictInjectionPolicy = 1
+);
+
+/**
  * Structure containing details about a new message that must be dispatched to the game server.
  */
 EOS_STRUCT(EOS_AntiCheatClient_OnMessageToServerCallbackInfo, (
@@ -216,14 +236,14 @@ EOS_STRUCT(EOS_AntiCheatClient_EndSessionOptions, (
 	int32_t ApiVersion;
 ));
 
-/** The most recent version of the EOS_AntiCheatClient_Reserved01 API. */
-#define EOS_ANTICHEATCLIENT_RESERVED01_API_LATEST 1
+/** The most recent version of the EOS_AntiCheatClient_GetSystemConfig API. */
+#define EOS_ANTICHEATCLIENT_GETSYSTEMCONFIG_API_LATEST 1
 
 /**
- * Input parameters for the EOS_AntiCheatClient_Reserved01 function.
+ * Input parameters for the EOS_AntiCheatClient_GetSystemConfig function.
  */
-EOS_STRUCT(EOS_AntiCheatClient_Reserved01Options, (
-	/** API Version: Set this to EOS_ANTICHEATCLIENT_RESERVED01_API_LATEST. */
+EOS_STRUCT(EOS_AntiCheatClient_GetSystemConfigOptions, (
+	/** API Version: Set this to EOS_ANTICHEATCLIENT_GETSYSTEMCONFIG_API_LATEST. */
 	int32_t ApiVersion;
 ));
 
@@ -422,6 +442,82 @@ EOS_STRUCT(EOS_AntiCheatClient_ReceiveMessageFromPeerOptions, (
 	uint32_t DataLengthBytes;
 	/** The data received */
 	const void* Data;
+));
+
+/**
+ * The maximum length in bytes of a string valued persistent setting, including the null terminator.
+ */
+#define EOS_ANTICHEATCLIENT_PERSISTENTSETTING_MAX_VALUE_LENGTH 256
+
+/**
+ * Contains the value of a single persistent setting.
+ *
+ * Only EOS_AT_BOOLEAN, EOS_AT_INT64 and EOS_AT_STRING are supported as persistent setting value types.
+ */
+EOS_STRUCT(EOS_AntiCheatClient_PersistentSettingValue, (
+	/** Type of value stored in the union. One of EOS_AT_BOOLEAN, EOS_AT_INT64 or EOS_AT_STRING. */
+	EOS_EAttributeType ValueType;
+	/**
+	 * EOS_TRUE if no value has been explicitly stored for this setting, in which case Value
+	 * contains the setting's default value.
+	 */
+	EOS_Bool bIsDefaultValue;
+	/** Value of the setting */
+	union
+	{
+		/** Stored as a boolean */
+		EOS_Bool AsBool;
+		/** Stored as an 8 byte integer */
+		int64_t AsInt64;
+		/** Stored as a null terminated UTF-8 string in the OutValueStringBuffer supplied by the caller. */
+		const char* AsUtf8;
+	} Value;
+));
+
+/** The most recent version of the EOS_AntiCheatClient_GetPersistentSetting API. */
+#define EOS_ANTICHEATCLIENT_GETPERSISTENTSETTING_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_GetPersistentSetting function.
+ */
+EOS_STRUCT(EOS_AntiCheatClient_GetPersistentSettingOptions, (
+	/** API Version: Set this to EOS_ANTICHEATCLIENT_GETPERSISTENTSETTING_API_LATEST. */
+	int32_t ApiVersion;
+	/** The setting to read */
+	EOS_EAntiCheatClientPersistentSetting Setting;
+	/**
+	 * The size of OutValueStringBuffer in bytes. Only used when the requested setting is string
+	 * valued, in which case the recommended size is EOS_ANTICHEATCLIENT_PERSISTENTSETTING_MAX_VALUE_LENGTH.
+	 */
+	uint32_t OutValueStringBufferLength;
+));
+
+/** The most recent version of the EOS_AntiCheatClient_SetPersistentSetting API. */
+#define EOS_ANTICHEATCLIENT_SETPERSISTENTSETTING_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_AntiCheatClient_SetPersistentSetting function.
+ */
+EOS_STRUCT(EOS_AntiCheatClient_SetPersistentSettingOptions, (
+	/** API Version: Set this to EOS_ANTICHEATCLIENT_SETPERSISTENTSETTING_API_LATEST. */
+	int32_t ApiVersion;
+	/** The setting to write */
+	EOS_EAntiCheatClientPersistentSetting Setting;
+	/**
+	 * Type of value stored in the union. Must match the value type of Setting, and must be one of
+	 * EOS_AT_BOOLEAN, EOS_AT_INT64 or EOS_AT_STRING.
+	 */
+	EOS_EAttributeType ValueType;
+	/** Value to store */
+	union
+	{
+		/** Stored as a boolean */
+		EOS_Bool AsBool;
+		/** Stored as an 8 byte integer */
+		int64_t AsInt64;
+		/** Stored as a null terminated UTF-8 string. */
+		const char* AsUtf8;
+	} Value;
 ));
 
 #pragma pack(pop)

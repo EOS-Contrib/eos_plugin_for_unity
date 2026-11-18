@@ -23,4 +23,29 @@ EOS_STRUCT(EOS_Android_InitializeOptions, (
 	const char* OptionalExternalDirectory;
 ));
 
+/** The most recent version of the EOS_Android_Auth_CredentialsOptions structure. */
+#define EOS_ANDROID_AUTH_CREDENTIALSOPTIONS_API_LATEST 1
+
+/**
+ * Options for initializing login for Android.
+ */
+EOS_STRUCT(EOS_Android_Auth_CredentialsOptions, (
+	/** API version of EOS_Android_Auth_CredentialsOptions. */
+	int32_t ApiVersion;
+
+	/** Optional App Link URL for Auth
+	 *  
+	 * By default, if null value is provided, EOS uses deeplinks.
+	 * We recommend configuring Android App Links instead.
+	 *
+	 * An example value would be: "https://mygame.com/auth/`client_id".
+	 * Replace the example "https://mygame.com/auth/" prefix to match your Android App Link configuration.
+	 * Note the "`client_id", this special substring will be replaced by SDK with actual client id value.
+	 *
+	 * App Links require additional changes in the AndroidManifest.xml, on the website, and in Dev Portal.
+	 * See EOS and Android documentation for more information.
+	 */
+	const char* AccountPortalRedirectURL;
+));
+
 #pragma pack(pop)

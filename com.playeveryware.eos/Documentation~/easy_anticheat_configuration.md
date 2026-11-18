@@ -29,7 +29,7 @@ If you would like to test the functionality of EAC as it pertains to file integr
 
     If, when launching with `EACBootstrapper.exe` you get a message akin to the following:
 
-    <img src="/com.playeveryware.eos/Documentation~/images/EAC_not_installed.png" width="450" />
+    <img src="./images/EAC_not_installed.png" width="450" />
 
     Then open an elevated (Administrator) terminal window within the `EasyAntiCheat` directory at the root of your build directory, and type the following command:
 
@@ -41,11 +41,11 @@ If you would like to test the functionality of EAC as it pertains to file integr
 
 3. Navigate to a file that will have been hashed and covered by EAC. If using the included project replete with Sample Scenes, you could modify any of the files within the Demo_Data directory (for example you could add a property to the JSON file `EOS Unity Plugin - Demo_Data\StreamingAssets\EOS\EpicOnlineServicesConfig.json`) like so:
 
-    <img src="/com.playeveryware.eos/Documentation~/images/eac_added_property.png" width="400" />
+    <img src="./images/eac_added_property.png" width="400" />
 
 4. After saving changes made to that file, launch the sample scene "Lobbies," and look at the log. You should see an error logged there indicating that the file integrity of that modified file has been violated.
 
-    <img src="/com.playeveryware.eos/Documentation~/images/file_integrity_violation.png" />
+    <img src="./images/file_integrity_violation.png" />
 
 > [!NOTE]
 > The "Lobbies" sample scene was selected to implement an example of EAC file integrity testing because lobbies themselves have some additional EAC features connected, so it seemed like a natural place to demonstrate that functionality. The relevant lines of code that trigger the notification of file integrity violation can be found within `Assets/Scripts/EOSEACLobbyManager.cs`:

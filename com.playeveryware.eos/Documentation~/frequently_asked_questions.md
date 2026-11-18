@@ -28,11 +28,11 @@
 ## Why does the plugin fail to work after changing configuration?
 
 To rerun in UnityEditor without rebooting, we must reload the EOS SDK dll between runs.  
-To find out why and how to do so look see our documentation on [Unity Specific aspects of implementing EOS](https://github.com/EOS-Contrib/eos_plugin_for_unity/blob/development/com.playeveryware.eos/Documentation~/unity_specific.md).
+To find out why and how to do so look see our documentation on [Unity Specific aspects of implementing EOS](./unity_specific.md).
 
 ## How do I override sandbox or deployment IDs when publishing on the Epic Games Store?
 
-This functionality is outlined in our [document on the Epic Game Store](/com.playeveryware.eos/Documentation~/epic_game_store.md#overriding-sandbox-andor-deployment-id).
+This functionality is outlined in our [document on the Epic Game Store](./epic_game_store.md#overriding-sandbox-and-deployment-ids).
 
 ## How do I get the Epic Username?
 It depends on what one means by "Username".
@@ -87,12 +87,12 @@ The config file has to be in StreamingAssets so that the GfxPluginNativeRender c
 all of Unity has been bootstrapped so that the Plugin can hook all the appropriate things before the first graphics call by the Unity engine.
 
 > [!NOTE]
-> See [eos_config_security.md](/com.playeveryware.eos/Documentation~/eos_config_security.md) for more information. 
+> See [eos_config_security.md](./eos_config_security.md) for more information. 
 
 ## Why does the Demo Scene fail to load?
 
 There is a standard sample pack, and several extra packs in the EOS Unity Plugin. If a scene doesn't load, remember to import the wanted extra pack.
-Additionally, make sure all wanted sample scenes are included in the build settings as shown in steps 4.-6. of <a href="/com.playeveryware.eos/README.md#importing-samples">Importing the samples</a>.
+Additionally, make sure all wanted sample scenes are included in the build settings as shown in steps 4.-6. of [Importing the samples](./samples.md#importing-samples).
 
 ## What is the correct way to log into the Epic Games Store?
 The correct way to connect to the Epic Games Store through your application would be to use the exchange code login method:
@@ -116,7 +116,7 @@ EOSManager.Instance.StartLoginWithLoginTypeAndToken(
 As a developer you will need to have an Epic Games account in order to interact with the [EOS Developer Portal](https://dev.epicgames.com/portal) and manage your product.
 
 ### As a player
-Players are given multiple login options, which are slightly different from platform to platform. Details of which login methods are supported by each platform are listed in our documentation outlining [login type by platform](/com.playeveryware.eos/Documentation~/login_type_by_platform.md).
+Players are given multiple login options, which are slightly different from platform to platform. Details of which login methods are supported by each platform are listed in our documentation outlining [login type by platform](./login_type_by_platform.md).
 
 ## What does the "DllNotFoundException" error mean? 
 
@@ -154,7 +154,7 @@ Or to install the libraries manually, go to the `lib/NativeCode` folder, find th
 
 On the EOS Configuration Editor Window there is a setting for `Platform Flags`. By adding `DisableOverlay` to your list of Platform Flags, the Epic Overlay will not be initialized during runtime. When this is configured the `EOSBootstrapper.exe` will not be included in Windows builds.
 
-See [`PlatformFlags.cs`](/com.playeveryware.eos/Runtime/EOS_SDK/Generated/Platform/PlatformFlags.cs)
+`PlatformFlags` is wrapped by:  [`WrappedPlatformFlags.cs`](../Runtime/Core/EOS_SDK_Additions/WrappedPlatformFlags.cs)
 
 ## What is the FYMemory error?
 
@@ -166,8 +166,8 @@ This is a benign error and will not affect the functionality of the Social Overl
 
 ## Why does the plugin fail in a standalone build after working in editor?
 
-If you're using IL2CPP, it can strip necessary code files from the standalone build. Follow this [IL2CPP Setup guide](/com.playeveryware.eos/Documentation~/IL2CPP%20Setup.md) 
+If you're using IL2CPP, it can strip necessary code files from the standalone build. Follow this [IL2CPP Setup guide](./IL2CPP%20Setup.md) 
 
 ## Why is the EOS client config ignored when opened from Epic Games Launcher?
 
-When starting a client through the Epic Games Launcher, it can include launch parameters for overriding the built in client config. See [Epic Games Store](/com.playeveryware.eos/Documentation~/epic_game_store.md) and [Epic Dev Resources: Manage Artifacts](https://dev.epicgames.com/docs/epic-games-store/store-presence/manage-artifacts#step-5-select-deployment-id-for-epic-online-services-only) for more information.
+When starting a client through the Epic Games Launcher, it can include launch parameters for overriding the built in client config. See [Epic Games Store](./epic_game_store.md) and [Epic Dev Resources: Manage Artifacts](https://dev.epicgames.com/docs/epic-games-store/store-presence/manage-artifacts#step-5-select-deployment-id-for-epic-online-services-only) for more information.

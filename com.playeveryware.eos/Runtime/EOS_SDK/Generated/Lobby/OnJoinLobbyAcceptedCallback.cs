@@ -18,7 +18,7 @@ namespace Epic.OnlineServices.Lobby
 	/// </param>
 	public delegate void OnJoinLobbyAcceptedCallback(ref JoinLobbyAcceptedCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnJoinLobbyAcceptedCallbackInternal(ref JoinLobbyAcceptedCallbackInfoInternal data);
 
 	internal static class OnJoinLobbyAcceptedCallbackInternalImplementation

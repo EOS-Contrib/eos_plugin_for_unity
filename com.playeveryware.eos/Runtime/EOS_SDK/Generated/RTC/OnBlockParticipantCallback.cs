@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.RTC
 	/// </summary>
 	public delegate void OnBlockParticipantCallback(ref BlockParticipantCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnBlockParticipantCallbackInternal(ref BlockParticipantCallbackInfoInternal data);
 
 	internal static class OnBlockParticipantCallbackInternalImplementation

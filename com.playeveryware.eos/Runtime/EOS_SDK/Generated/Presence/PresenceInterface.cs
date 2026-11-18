@@ -57,6 +57,10 @@ namespace Epic.OnlineServices.Presence
 		/// </summary>
 		public const int GETJOININFO_API_LATEST = 1;
 		/// <summary>
+		/// The most recent version of the <see cref="HasExplicitPresence" /> API.
+		/// </summary>
+		public const int HASEXPLICITPRESENCE_API_LATEST = 1;
+		/// <summary>
 		/// The most recent version of the <see cref="HasPresence" /> API.
 		/// </summary>
 		public const int HASPRESENCE_API_LATEST = 1;
@@ -328,6 +332,34 @@ namespace Epic.OnlineServices.Presence
 			Helper.Dispose(ref outBufferPointer);
 
 			return callResult;
+		}
+
+		/// <summary>
+		/// Check whether the local user has presence explicitly set in the product (deployment) namespace.
+		/// This returns <see langword="true" /> once the user is logged in and connected: the SDK seeds
+		/// product presence on connect. It does NOT distinguish "the game called SetPresence"
+		/// from "the SDK seeded presence on connect".
+		/// <see cref="HasExplicitPresenceOptions" />
+		/// </summary>
+		/// <param name="options">
+		/// Object containing the local user making the request
+		/// </param>
+		/// <returns>
+		/// <see langword="true" /> if product-namespace presence has been set for the user, otherwise <see langword="false" />
+		/// (including when the request is invalid or the user has no cached state)
+		/// </returns>
+		public bool HasExplicitPresence(ref HasExplicitPresenceOptions options)
+		{
+			var optionsInternal = default(HasExplicitPresenceOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var callResult = Bindings.EOS_Presence_HasExplicitPresence(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			bool callResultReturn;
+			Helper.Get(callResult, out callResultReturn);
+			return callResultReturn;
 		}
 
 		/// <summary>

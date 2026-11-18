@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.RTC
 	/// </param>
 	public delegate void OnParticipantStatusChangedCallback(ref ParticipantStatusChangedCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnParticipantStatusChangedCallbackInternal(ref ParticipantStatusChangedCallbackInfoInternal data);
 
 	internal static class OnParticipantStatusChangedCallbackInternalImplementation

@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.UI
 	/// </param>
 	public delegate void OnMemoryMonitorCallback(ref MemoryMonitorCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnMemoryMonitorCallbackInternal(ref MemoryMonitorCallbackInfoInternal data);
 
 	internal static class OnMemoryMonitorCallbackInternalImplementation

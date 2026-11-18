@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.CustomInvites
 	/// </param>
 	public delegate void OnRejectRequestToJoinCallback(ref RejectRequestToJoinCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnRejectRequestToJoinCallbackInternal(ref RejectRequestToJoinCallbackInfoInternal data);
 
 	internal static class OnRejectRequestToJoinCallbackInternalImplementation

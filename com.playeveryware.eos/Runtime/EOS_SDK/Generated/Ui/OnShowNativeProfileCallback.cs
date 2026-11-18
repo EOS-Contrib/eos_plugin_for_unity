@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.UI
 	/// </param>
 	public delegate void OnShowNativeProfileCallback(ref ShowNativeProfileCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnShowNativeProfileCallbackInternal(ref ShowNativeProfileCallbackInfoInternal data);
 
 	internal static class OnShowNativeProfileCallbackInternalImplementation

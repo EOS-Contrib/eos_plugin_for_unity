@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.KWS
 	/// </param>
 	public delegate void OnPermissionsUpdateReceivedCallback(ref PermissionsUpdateReceivedCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnPermissionsUpdateReceivedCallbackInternal(ref PermissionsUpdateReceivedCallbackInfoInternal data);
 
 	internal static class OnPermissionsUpdateReceivedCallbackInternalImplementation

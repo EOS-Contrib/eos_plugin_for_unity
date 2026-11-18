@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.UI
 	/// </param>
 	public delegate void OnShowFriendsCallback(ref ShowFriendsCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnShowFriendsCallbackInternal(ref ShowFriendsCallbackInfoInternal data);
 
 	internal static class OnShowFriendsCallbackInternalImplementation

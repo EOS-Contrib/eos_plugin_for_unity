@@ -33,10 +33,15 @@ namespace Epic.OnlineServices.RTC
 		/// </summary>
 		EnableDatachannel = 0x04,
 		/// <summary>
-		/// The flag is reserved for future use.
+		/// Flag value reserved for future use.
 		/// <see cref="JoinRoomOptions.Flags" />
 		/// </summary>
-		ReservedVoiceFeature = 0x08
+		ReservedVoiceFeature = 0x08,
+		/// <summary>
+		/// Flag value reserved for future use.
+		/// <see cref="JoinRoomOptions.Flags" />
+		/// </summary>
+		ReservedVoiceFeature2 = 0x010
 	}
 
 }

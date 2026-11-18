@@ -17,7 +17,7 @@ namespace Epic.OnlineServices.Auth
 		public Credentials? Credentials { get; set; }
 
 		/// <summary>
-		/// Auth scope flags are permissions to request from the user while they are logging in. This is a bitwise-or union of <see cref="AuthScopeFlags" /> flags defined above.
+		/// Auth scope flags are permissions to request from the user while they are logging in. This is a bitwise-or union of <see cref="AuthScopeFlags" /> flags.
 		/// </summary>
 		public AuthScopeFlags ScopeFlags { get; set; }
 

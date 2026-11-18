@@ -37,7 +37,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 case LoginCredentialType.ExternalAuth:
                     return true;
                 case LoginCredentialType.DeviceCode:
-                case LoginCredentialType.Password:
                 default:
                     return false;
             }

@@ -8,7 +8,6 @@
 #include "eos_ui_types.h"
 #include "eos_friends_types.h"
 #include "eos_presence_types.h"
-#include "eos_p2p_types.h"
 #include "eos_sessions_types.h"
 #include "eos_lobby_types.h"
 #include "eos_userinfo_types.h"
@@ -29,6 +28,7 @@
 #include "eos_progressionsnapshot_types.h"
 #include "eos_custominvites_types.h"
 #include "eos_integratedplatform_types.h"
+#include "eos_p2p_types.h"
 
 /**
  * The Platform Instance is used to gain access to all other Epic Online Service interfaces and to drive internal operations through the Tick.
@@ -419,15 +419,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Platform_SetOverrideLocaleCode(EOS_HPlatform H
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Platform_CheckForLauncherAndRestart(EOS_HPlatform Handle);
 
 /**
- * Windows only.
- * Checks that the application is ready to use desktop crossplay functionality, with the necessary prerequisites having been met.
+ * Checks the status of desktop crossplay and whether it is ready for use with this application.
+ * The status indicates whether the application was launched with the bootstrapper, that the redistributable service has been installed and is running, and that the overlay was loaded successfully.
  *
- * This function verifies that the application was launched through the Bootstrapper application,
- * the redistributable service has been installed and is running in the background,
- * and that the overlay has been loaded successfully.
- *
- * On Windows, the desktop crossplay functionality is required to use Epic accounts login
- * with applications that are distributed outside the Epic Games Store.
+ * @note The desktop crossplay service has been deprecated in the SDK and this function is only for informational purposes. It is recommended not to use this function for enforcement.
  *
  * @param Options input structure that specifies the API version.
  * @param OutDesktopCrossplayStatusInfo output structure to receive the desktop crossplay status information.

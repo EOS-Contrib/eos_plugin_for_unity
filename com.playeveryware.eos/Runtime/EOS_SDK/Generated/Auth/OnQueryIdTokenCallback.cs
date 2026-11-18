@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Auth
 	/// </param>
 	public delegate void OnQueryIdTokenCallback(ref QueryIdTokenCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnQueryIdTokenCallbackInternal(ref QueryIdTokenCallbackInfoInternal data);
 
 	internal static class OnQueryIdTokenCallbackInternalImplementation

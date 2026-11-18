@@ -205,6 +205,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the initialization succeeded
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotConfigured" /> - If <see cref="AddNotifyMessageToClient" /> or <see cref="AddNotifyClientActionRequired" /> has not been bound
+		/// - <see cref="Result.AlreadyConfigured" /> - If a session is already active
+		/// - <see cref="Result.InvalidUser" /> - If LocalUserId is required and is not an authenticated local user
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
+		/// - <see cref="Result.InvalidState" /> - If called from a thread other than the one that created the EOS SDK platform
 		/// </returns>
 		public Result BeginSession(ref BeginSessionOptions options)
 		{
@@ -229,6 +234,9 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the initialization succeeded
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotConfigured" /> - If no session is active
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
+		/// - <see cref="Result.InvalidState" /> - If called from a thread other than the one that created the EOS SDK platform
 		/// </returns>
 		public Result EndSession(ref EndSessionOptions options)
 		{
@@ -257,7 +265,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <see cref="Result" /> containing the result of the operation.
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the output length was calculated successfully
-		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result GetProtectMessageOutputLength(ref GetProtectMessageOutputLengthOptions options, out uint outBufferSizeBytes)
 		{
@@ -285,8 +293,10 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <see cref="Result" /> containing the result of the operation.
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the event was logged successfully
-		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid, or the event type does not match the presence of ClientHandle (player events require it, game events must not set it)
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries, if bEnableGameplayData was <see langword="false" /> in <see cref="BeginSession" />, or if EventId was not registered with <see cref="RegisterEvent" />
+		/// - <see cref="Result.NotFound" /> - If ClientHandle is not a registered client
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result LogEvent(ref AntiCheatCommon.LogEventOptions options)
 		{
@@ -315,7 +325,8 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the event was logged successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was <see langword="false" /> in <see cref="BeginSession" />
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result LogGameRoundEnd(ref AntiCheatCommon.LogGameRoundEndOptions options)
 		{
@@ -344,7 +355,8 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the event was logged successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was <see langword="false" /> in <see cref="BeginSession" />
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result LogGameRoundStart(ref AntiCheatCommon.LogGameRoundStartOptions options)
 		{
@@ -374,7 +386,8 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the event was logged successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was <see langword="false" /> in <see cref="BeginSession" />
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result LogPlayerDespawn(ref AntiCheatCommon.LogPlayerDespawnOptions options)
 		{
@@ -403,7 +416,8 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the event was logged successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was <see langword="false" /> in <see cref="BeginSession" />
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result LogPlayerRevive(ref AntiCheatCommon.LogPlayerReviveOptions options)
 		{
@@ -432,7 +446,8 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the event was logged successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was <see langword="false" /> in <see cref="BeginSession" />
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result LogPlayerSpawn(ref AntiCheatCommon.LogPlayerSpawnOptions options)
 		{
@@ -461,7 +476,8 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the event was logged successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was <see langword="false" /> in <see cref="BeginSession" />
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result LogPlayerTakeDamage(ref AntiCheatCommon.LogPlayerTakeDamageOptions options)
 		{
@@ -490,7 +506,8 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the event was logged successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was <see langword="false" /> in <see cref="BeginSession" />
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result LogPlayerTick(ref AntiCheatCommon.LogPlayerTickOptions options)
 		{
@@ -520,7 +537,8 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the event was logged successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was <see langword="false" /> in <see cref="BeginSession" />
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result LogPlayerUseAbility(ref AntiCheatCommon.LogPlayerUseAbilityOptions options)
 		{
@@ -549,7 +567,8 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the event was logged successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
-		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
+		/// - <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was <see langword="false" /> in <see cref="BeginSession" />
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result LogPlayerUseWeapon(ref AntiCheatCommon.LogPlayerUseWeaponOptions options)
 		{
@@ -582,8 +601,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <see cref="Result" /> containing the result of the operation.
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the message was protected successfully
-		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid, or OutBuffer is too small for the protected message
 		/// - <see cref="Result.InvalidUser" /> - If the specified ClientHandle was invalid or not currently registered. See RegisterClient.
+		/// - <see cref="Result.AntiCheatProtectMessageInitializationFailed" /> - If the message encryption state for the client could not be initialized
+		/// - <see cref="Result.UnexpectedError" /> - If the encryption operation failed
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result ProtectMessage(ref ProtectMessageOptions options, ArraySegment<byte> outBuffer, out uint outBytesWritten)
 		{
@@ -614,8 +636,12 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <see cref="Result" /> containing the result of the operation.
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the message was processed successfully
-		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid, or ClientHandle is not a registered client
 		/// - <see cref="Result.InvalidRequest" /> - If message contents were corrupt and could not be processed
+		/// - <see cref="Result.NotConfigured" /> - If no session is active
+		/// - <see cref="Result.UnexpectedError" /> - If the message produced an unrecognised internal result
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
+		/// - <see cref="Result.InvalidState" /> - If called from a thread other than the one that created the EOS SDK platform
 		/// </returns>
 		public Result ReceiveMessageFromClient(ref ReceiveMessageFromClientOptions options)
 		{
@@ -643,6 +669,10 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the player was registered successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotConfigured" /> - If no session is active
+		/// - <see cref="Result.UnexpectedError" /> - If ClientHandle is already registered
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
+		/// - <see cref="Result.InvalidState" /> - If called from a thread other than the one that created the EOS SDK platform
 		/// </returns>
 		public Result RegisterClient(ref RegisterClientOptions options)
 		{
@@ -670,7 +700,9 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <see cref="Result" /> containing the result of the operation.
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the event was registered successfully
-		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid, or EventId has already been registered
+		/// - <see cref="Result.InvalidState" /> - If called after <see cref="BeginSession" /> has been called for the first time
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
 		/// </returns>
 		public Result RegisterEvent(ref AntiCheatCommon.RegisterEventOptions options)
 		{
@@ -736,7 +768,10 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <see cref="Result" /> containing the result of the operation.
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the flags were updated successfully
-		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid, or ClientHandle is not a registered client
+		/// - <see cref="Result.NotConfigured" /> - If no session is active
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
+		/// - <see cref="Result.InvalidState" /> - If called from a thread other than the one that created the EOS SDK platform
 		/// </returns>
 		public Result SetClientDetails(ref AntiCheatCommon.SetClientDetailsOptions options)
 		{
@@ -767,7 +802,10 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <see cref="Result" /> containing the result of the operation.
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the network state was updated successfully
-		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid, or ClientHandle is not a registered client
+		/// - <see cref="Result.NotConfigured" /> - If no session is active
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
+		/// - <see cref="Result.InvalidState" /> - If called from a thread other than the one that created the EOS SDK platform
 		/// </returns>
 		public Result SetClientNetworkState(ref SetClientNetworkStateOptions options)
 		{
@@ -796,6 +834,9 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the game session identifier was set successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotConfigured" /> - If no session is active
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
+		/// - <see cref="Result.InvalidState" /> - If called from a thread other than the one that created the EOS SDK platform
 		/// </returns>
 		public Result SetGameSessionId(ref AntiCheatCommon.SetGameSessionIdOptions options)
 		{
@@ -828,7 +869,13 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <see cref="Result" /> containing the result of the operation.
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the message was unprotected successfully
-		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid, Data is shorter than a protected message, or OutBuffer is too small for the decrypted message
+		/// - <see cref="Result.InvalidUser" /> - If the specified ClientHandle was invalid or not currently registered. See RegisterClient.
+		/// - <see cref="Result.AntiCheatProtectMessageValidationFailed" /> - If the message number was rejected, for example a replayed or badly out of order message
+		/// - <see cref="Result.AntiCheatProtectMessageSessionKeyRequired" /> - If the message was encrypted with a session key that this side has not received yet
+		/// - <see cref="Result.AntiCheatProtectMessageInitializationFailed" /> - If the message encryption state for the client could not be initialized
+		/// - <see cref="Result.UnexpectedError" /> - If the decryption or authentication tag check failed
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK, or the message was produced by a newer message format than this SDK understands
 		/// </returns>
 		public Result UnprotectMessage(ref UnprotectMessageOptions options, ArraySegment<byte> outBuffer, out uint outBytesWritten)
 		{
@@ -860,6 +907,9 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// Possible result codes:
 		/// - <see cref="Result.Success" /> - If the player was unregistered successfully
 		/// - <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// - <see cref="Result.NotConfigured" /> - If no session is active
+		/// - <see cref="Result.IncompatibleVersion" /> - If the ApiVersion of Options is not supported by this version of the SDK
+		/// - <see cref="Result.InvalidState" /> - If called from a thread other than the one that created the EOS SDK platform
 		/// </returns>
 		public Result UnregisterClient(ref UnregisterClientOptions options)
 		{

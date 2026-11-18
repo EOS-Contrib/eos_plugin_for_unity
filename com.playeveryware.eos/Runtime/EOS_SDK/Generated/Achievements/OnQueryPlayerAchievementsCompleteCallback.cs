@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.Achievements
 	/// </param>
 	public delegate void OnQueryPlayerAchievementsCompleteCallback(ref OnQueryPlayerAchievementsCompleteCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnQueryPlayerAchievementsCompleteCallbackInternal(ref OnQueryPlayerAchievementsCompleteCallbackInfoInternal data);
 
 	internal static class OnQueryPlayerAchievementsCompleteCallbackInternalImplementation

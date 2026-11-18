@@ -14,6 +14,7 @@ namespace Epic.OnlineServices
 		public ProductUserId(IntPtr innerHandle) : base(innerHandle)
 		{
 		}
+
 		/// <summary>
 		/// Retrieve an <see cref="ProductUserId" /> from a raw <see cref="Utf8String" /> representing an Epic Online Services Product User ID. The input <see cref="Utf8String" /> must be <see langword="null" />-terminated.
 		/// NOTE: There is no validation on the <see cref="Utf8String" /> format, this should only be used with values serialized from legitimate sources such as <see cref="ToString" />

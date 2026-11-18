@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Leaderboards
 	/// </param>
 	public delegate void OnQueryLeaderboardDefinitionsCompleteCallback(ref OnQueryLeaderboardDefinitionsCompleteCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnQueryLeaderboardDefinitionsCompleteCallbackInternal(ref OnQueryLeaderboardDefinitionsCompleteCallbackInfoInternal data);
 
 	internal static class OnQueryLeaderboardDefinitionsCompleteCallbackInternalImplementation

@@ -109,6 +109,10 @@ EOS_DECLARE_FUNC(void) EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolated(E
  * different one, a new anti-cheat session must be created by calling EOS_AntiCheatClient_EndSession and EOS_AntiCheatClient_BeginSession again.
  * Mode: All
  *
+ * The notification handlers required before calling this function depend on the requested mode.
+ * In EOS_ACCM_ClientServer mode, EOS_AntiCheatClient_AddNotifyMessageToServer must be bound.
+ * In EOS_ACCM_PeerToPeer mode, EOS_AntiCheatClient_AddNotifyMessageToPeer and EOS_AntiCheatClient_AddNotifyPeerActionRequired must be bound.
+ *
  * @param Options Structure containing input data.
  *
  * @return EOS_EResult containing the result of the operation.
@@ -116,6 +120,12 @@ EOS_DECLARE_FUNC(void) EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolated(E
  * - EOS_Success - If the session was started successfully
  * - EOS_InvalidParameters - If input data was invalid
  * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * - EOS_NotConfigured - If the required notification handlers for the requested mode have not been bound
+ * - EOS_AlreadyConfigured - If a session is already active
+ * - EOS_InvalidUser - If LocalUserId is not a valid Product User ID or has no Connect auth token
+ * - EOS_InvalidAuth - If LocalUserId is not currently logged in to the Connect interface
+ * - EOS_NotImplemented - If EOS_ACCM_ClientServer mode is requested on a platform without client anti-cheat protection
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_BeginSession(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_BeginSessionOptions* Options);
 
@@ -132,6 +142,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_BeginSession(EOS_HAntiCheatCli
  * - EOS_Success - If the session was ended normally
  * - EOS_InvalidParameters - If input data was invalid
  * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * - EOS_NotConfigured - If no session is active
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_EndSession(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_EndSessionOptions* Options);
 
@@ -161,25 +173,43 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_EndSession(EOS_HAntiCheatClien
  * - EOS_Success - If violation information was returned successfully
  * - EOS_LimitExceeded - If OutMessage is too small to receive the message string. Call again with a larger OutMessage.
  * - EOS_NotFound - If no violation has occurred since the last call
+ * - EOS_InvalidRequest - If an EOS_AntiCheatClient_AddNotifyClientIntegrityViolated handler is bound; the callback replaces this function
+ * - EOS_NotImplemented - If called on a platform without client anti-cheat protection
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_PollStatus(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_PollStatusOptions* Options, EOS_EAntiCheatClientViolationType* OutViolationType, char* OutMessage);
 
 /**
- * This function is reserved for future use and must not be called.
+ * Queries the configuration of system security settings.
+ * Mode: All
  *
  * @param Options Structure containing input data.
- * @param OutValue Reserved.
+ * @param OutSystemConfig On success, receives flags describing the current system configuration.
  *
- * @return EOS_NotImplemented - Always
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the system configuration was provided successfully
+ * - EOS_NotImplemented - If the platform does not use anti-cheat client modules, no module is loaded (failsafe NullClient mode, launched without bootstrapper, etc), or the loaded anti-cheat client module is too old to support this function.
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
-EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_Reserved01(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_Reserved01Options* Options, int32_t* OutValue);
+EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_GetSystemConfig(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_GetSystemConfigOptions* Options, EOS_EAntiCheatCommonClientSystemConfig* OutSystemConfig);
 
 /**
- * This function is reserved for future use and must not be called.
+ * Optional gameplay data collection functionality.
+ * Logs a client gameplay event described by the provided options. The event is cached by the SDK and
+ * forwarded to the anti-cheat client module asynchronously, so Options and the data it points to may be
+ * released as soon as this call returns.
+ * Mode: All
  *
  * @param Options Structure containing input data.
  *
- * @return EOS_NotImplemented - Always
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the event was accepted for processing
+ * - EOS_InvalidParameters - If input data was invalid, including a non-zero Reserved3 length with a null Reserved4 data pointer
+ * - EOS_UnexpectedError - If the SDK's internal event queue is full and the event could not be stored
+ * - EOS_NotImplemented - If the platform does not use anti-cheat client modules, no module is loaded (failsafe NullClient mode, launched without bootstrapper, etc), or the loaded anti-cheat client module is too old to support this function.
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_Reserved02(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_Reserved02Options* Options);
 
@@ -189,7 +219,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_Reserved02(EOS_HAntiCheatClien
  *
  * NOTE: This is intended for analytics or troubleshooting purposes only. The build identifier should be treated as an arbitrary value
  * and never used in relative comparisons. For example, it is incorrect to assume that a change in the behavior of the anti-cheat module
- * introduced with build N is also present in build N+1 because we may backport bugfixes and compatibility fixes to older releases. 
+ * introduced with build N is also present in build N+1 because we may backport bugfixes and compatibility fixes to older releases.
  *
  * @param Options Structure containing input data.
  * @param OutModuleBuildId On success, the build id of the loaded anti-cheat client module.
@@ -200,6 +230,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_Reserved02(EOS_HAntiCheatClien
  * - EOS_InvalidParameters - If input data was invalid
  * - EOS_NotImplemented - If the platform does not use anti-cheat client modules or the loaded anti-cheat client module is too old to support this function.
  * - EOS_NotFound - If the platform supports anti-cheat client modules but none is currently loaded (failsafe NullClient mode, launched without bootstrapper, etc).
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_GetModuleBuildId(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_GetModuleBuildIdOptions* Options, uint32_t* OutModuleBuildId);
 
@@ -218,8 +249,72 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_GetModuleBuildId(EOS_HAntiChea
  * - EOS_InvalidParameters - If input data was invalid
  * - EOS_NotImplemented - If the platform does not use anti-cheat client modules or the loaded anti-cheat client module is too old to support this function.
  * - EOS_NotFound - If the platform supports anti-cheat client modules but none is currently loaded (failsafe NullClient mode, launched without bootstrapper, etc).
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_GetSystemRequirementStatus(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_GetSystemRequirementStatusOptions* Options, EOS_EAntiCheatClientSystemRequirementStatus* OutRequirementStatus, char* OutReason);
+
+/**
+ * Read a setting which the anti-cheat client persists across game sessions.
+ * Mode: All
+ *
+ * NOTE: Persistent settings are currently implemented on Windows only. On every other platform this
+ * function does nothing and returns EOS_NotImplemented.
+ *
+ * NOTE: On a supported platform this function may be called at any time, including before
+ * EOS_AntiCheatClient_BeginSession and after EOS_AntiCheatClient_EndSession, and does not require an
+ * anti-cheat client module to be loaded. This allows settings to be displayed and modified from a
+ * game's user interface at startup.
+ *
+ * NOTE: When no value has previously been stored for the requested setting, this function succeeds
+ * and returns the setting's default value with bIsDefaultValue set to EOS_TRUE. Callers do not need
+ * to provide their own default values.
+ *
+ * @param Options Structure containing the setting to read.
+ * @param OutValue On success, receives the value of the setting.
+ * @param OutValueStringBuffer Buffer which receives the value of a string valued setting, and which
+ *                             OutValue.Value.AsUtf8 points to on success. Only used when the requested
+ *                             setting is string valued, and may be NULL for any other setting.
+ *
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the value was provided successfully
+ * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_LimitExceeded - If OutValueStringBuffer is too small to receive the value. Call again with a larger OutValueStringBuffer.
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
+ * - EOS_NotImplemented - If the platform does not support persistent settings.
+ *
+ * @see EOS_AntiCheatClient_SetPersistentSetting
+ */
+EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_GetPersistentSetting(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_GetPersistentSettingOptions* Options, EOS_AntiCheatClient_PersistentSettingValue* OutValue, char* OutValueStringBuffer);
+
+/**
+ * Write a setting which the anti-cheat client persists across game sessions.
+ * Mode: All
+ *
+ * NOTE: Persistent settings are currently implemented on Windows only. On every other platform this
+ * function does nothing and returns EOS_NotImplemented.
+ *
+ * NOTE: On a supported platform this function may be called at any time, including before
+ * EOS_AntiCheatClient_BeginSession and after EOS_AntiCheatClient_EndSession, and does not require an
+ * anti-cheat client module to be loaded.
+ *
+ * NOTE: A stored value is applied by the anti-cheat client the next time it starts. Changing a
+ * setting does not affect the behavior of an anti-cheat client module which is already running.
+ *
+ * @param Options Structure containing the setting to write and its new value.
+ *
+ * @return EOS_EResult containing the result of the operation.
+ * Possible result codes:
+ * - EOS_Success - If the value was stored successfully
+ * - EOS_InvalidParameters - If input data was invalid, including a ValueType which does not match the value type of the requested setting
+ * - EOS_LimitExceeded - If no space remains to store an additional setting, or if a string value is longer than EOS_ANTICHEATCLIENT_PERSISTENTSETTING_MAX_VALUE_LENGTH permits
+ * - EOS_UnexpectedError - If the value could not be written to persistent storage
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
+ * - EOS_NotImplemented - If the platform does not support persistent settings.
+ *
+ * @see EOS_AntiCheatClient_GetPersistentSetting
+ */
+EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_SetPersistentSetting(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_SetPersistentSettingOptions* Options);
 
 /**
  * Optional. Adds an integrity catalog and certificate pair from outside the game directory,
@@ -232,6 +327,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_GetSystemRequirementStatus(EOS
  * Possible result codes:
  * - EOS_Success - If the integrity catalog was added successfully
  * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotImplemented - If called on a platform without client anti-cheat protection
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_AddExternalIntegrityCatalog(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_AddExternalIntegrityCatalogOptions* Options);
 
@@ -247,6 +344,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_AddExternalIntegrityCatalog(EO
  * - EOS_InvalidParameters - If input data was invalid
  * - EOS_InvalidRequest - If message contents were corrupt and could not be processed
  * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * - EOS_NotImplemented - If called on a platform without client anti-cheat protection
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_ReceiveMessageFromServer(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_ReceiveMessageFromServerOptions* Options);
 
@@ -264,6 +363,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_ReceiveMessageFromServer(EOS_H
  * - EOS_Success - If the output length was calculated successfully
  * - EOS_InvalidParameters - If input data was invalid
  * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * - EOS_NotImplemented - If called on a platform without client anti-cheat protection
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_GetProtectMessageOutputLength(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_GetProtectMessageOutputLengthOptions* Options, uint32_t* OutBufferSizeBytes);
 
@@ -283,6 +384,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_GetProtectMessageOutputLength(
  * - EOS_Success - If the message was protected successfully
  * - EOS_InvalidParameters - If input data was invalid
  * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * - EOS_NotImplemented - If called on a platform without client anti-cheat protection
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_ProtectMessage(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_ProtectMessageOptions* Options, void* OutBuffer, uint32_t* OutBytesWritten);
 
@@ -302,6 +405,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_ProtectMessage(EOS_HAntiCheatC
  * - EOS_Success - If the message was unprotected successfully
  * - EOS_InvalidParameters - If input data was invalid
  * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * - EOS_NotImplemented - If called on a platform without client anti-cheat protection
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_UnprotectMessage(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_UnprotectMessageOptions* Options, void* OutBuffer, uint32_t* OutBytesWritten);
 
@@ -319,6 +424,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_UnprotectMessage(EOS_HAntiChea
  * - EOS_Success - If the player was registered successfully
  * - EOS_InvalidParameters - If input data was invalid
  * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * - EOS_NotConfigured - If no session is active
+ * - EOS_AntiCheat_PeerAlreadyRegistered - If PeerHandle is already registered
+ * - EOS_InvalidUser - If PeerProductUserId is not a valid Product User ID (ApiVersion 2 and later)
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_RegisterPeer(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_RegisterPeerOptions* Options);
 
@@ -335,6 +444,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_RegisterPeer(EOS_HAntiCheatCli
  * - EOS_Success - If the player was unregistered successfully
  * - EOS_InvalidParameters - If input data was invalid
  * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * - EOS_NotConfigured - If no session is active
+ * - EOS_AntiCheat_PeerNotFound - If PeerHandle is not registered
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_UnregisterPeer(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_UnregisterPeerOptions* Options);
 
@@ -349,5 +461,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_UnregisterPeer(EOS_HAntiCheatC
  * - EOS_Success - If the message was processed successfully
  * - EOS_InvalidParameters - If input data was invalid
  * - EOS_AntiCheat_InvalidMode - If the current mode does not support this function
+ * - EOS_AntiCheat_PeerNotFound - If PeerHandle is not registered
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_ReceiveMessageFromPeer(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_ReceiveMessageFromPeerOptions* Options);

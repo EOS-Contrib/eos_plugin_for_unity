@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Achievements
 	/// </param>
 	public delegate void OnAchievementsUnlockedCallbackV2(ref OnAchievementsUnlockedCallbackV2Info data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnAchievementsUnlockedCallbackV2Internal(ref OnAchievementsUnlockedCallbackV2InfoInternal data);
 
 	internal static class OnAchievementsUnlockedCallbackV2InternalImplementation

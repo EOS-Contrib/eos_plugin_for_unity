@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Connect
 	/// </param>
 	public delegate void OnAuthExpirationCallback(ref AuthExpirationCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnAuthExpirationCallbackInternal(ref AuthExpirationCallbackInfoInternal data);
 
 	internal static class OnAuthExpirationCallbackInternalImplementation

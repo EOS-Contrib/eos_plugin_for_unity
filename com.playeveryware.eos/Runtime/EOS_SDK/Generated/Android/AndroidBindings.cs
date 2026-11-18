@@ -19,11 +19,17 @@
 	#endif
 #endif
 
+#if UNITY_EDITOR
+	#define EOS_EDITOR
+#endif
+#if UNITY_EDITOR || UNITY_ANDROID
+	#define EOS_UNITY
+#endif
 #if UNITY_ANDROID || __ANDROID__
 	#define EOS_PLATFORM_ANDROID
 #endif
 
-#if EOS_PLATFORM_ANDROID
+#if EOS_PLATFORM_ANDROID && !EOS_EDITOR
 using System;
 using System.Runtime.InteropServices;
 
@@ -32,6 +38,7 @@ namespace Epic.OnlineServices
 	public static partial class AndroidBindings
 	{
 #if EOS_DYNAMIC_BINDINGS_MANGLING_STANDARD
+		private const string EOS_Auth_Login_AndroidName = "EOS_Auth_Login";
 		private const string EOS_Initialize_AndroidName = "EOS_Initialize";
 #endif
 
@@ -45,6 +52,10 @@ namespace Epic.OnlineServices
 		{
 			IntPtr functionPointer;
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Auth_Login_AndroidName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Auth_Login_AndroidName);
+			EOS_Auth_Login_Android = (EOS_Auth_Login_AndroidDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_Login_AndroidDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Initialize_AndroidName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Initialize_AndroidName);
 			EOS_Initialize_Android = (EOS_Initialize_AndroidDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Initialize_AndroidDelegate));
@@ -55,14 +66,22 @@ namespace Epic.OnlineServices
 		/// </summary>
 		public static void Unhook()
 		{
+			EOS_Auth_Login_Android = null;
 			EOS_Initialize_Android = null;
 		}
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
+		internal delegate void EOS_Auth_Login_AndroidDelegate(IntPtr handle, ref Auth.AndroidLoginOptionsInternal options, IntPtr clientData, Auth.OnLoginCallbackInternal completionDelegate);
+		internal static EOS_Auth_Login_AndroidDelegate EOS_Auth_Login_Android;
+
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Initialize_AndroidDelegate(ref Platform.AndroidInitializeOptionsInternal options);
 		internal static EOS_Initialize_AndroidDelegate EOS_Initialize_Android;
 #else
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Initialize", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_Login", CallingConvention=Library.CALLING_CONVENTION)]
+		internal static extern void EOS_Auth_Login_Android(IntPtr handle, ref Auth.AndroidLoginOptionsInternal options, IntPtr clientData, Auth.OnLoginCallbackInternal completionDelegate);
+
+		[DllImport(Library.NAME, EntryPoint="EOS_Initialize", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Initialize_Android(ref Platform.AndroidInitializeOptionsInternal options);
 #endif
 	}

@@ -7,7 +7,7 @@ This will walk you through the steps to set up your project, supplemented by lin
 
 This guide can be followed from a blank Unity project, or from an already implemented game. There are no steps required before you can start following this guide.
 
-See [the Supported Version of Unity Documentation](/com.playeveryware.eos/Documentation~/supported_versions_of_unity.md) to see if your version of Unity is supported.
+See [the Supported Version of Unity Documentation](../supported_versions_of_unity.md) to see if your version of Unity is supported.
 
 Your development team and the users of your game need to be able to access certain endpoints for the EOS Plugin for Unity to function. See [Epic's documentation on Firewall Considerations](https://dev.epicgames.com/docs/epic-online-services/eos-get-started/firewall-considerations) for a list of addresses.
 
@@ -19,7 +19,7 @@ This leads to [the Developer Portal landing page](https://dev.epicgames.com/port
 Pressing Sign In will present you with a screen where you can sign up for a new account.
 If you already have an Epic Games Account, perhaps because you've played games on the Epic Games Store, you can sign in with that existing account.
 
-<p align="center" width="100%"><a href="https://www.epicgames.com/id/login?"><img src="/com.playeveryware.eos/Documentation~/getting_started_guide/epic_developerportal_signin_or_createaccount.png" alt="You can either sign in to an existing account, or create a new account, on the Epic Developer Portal."/></a><br/>
+<p align="center" width="100%"><a href="https://www.epicgames.com/id/login?"><img src="./epic_developerportal_signin_or_createaccount.png" alt="You can either sign in to an existing account, or create a new account, on the Epic Developer Portal."/></a><br/>
 <em>You can either sign in to an existing account, or create a new account, on the Epic Developer Portal.</em></p>
 
 After acquiring an account, if you are not using an existing Organization, you will be required to create an Organization.
@@ -69,7 +69,7 @@ For more information on Products, see [Epic's documentation on Products](https:/
 
 On the `Product Settings` page for your Product within the Epic Developer Portal, you will see sections for your Product, Clients, Sandboxes, and Deployments.
 
-<p align="center" width="100%"><img src="/com.playeveryware.eos/Documentation~/getting_started_guide/epic_developerportal_productlanding.png" alt="The first thing on the Product landing page is your Product, Clients, Sandboxes, and Deployments. Other than Product, these likely haven't been configured yet."/><br/>
+<p align="center" width="100%"><img src="./epic_developerportal_productlanding.png" alt="The first thing on the Product landing page is your Product, Clients, Sandboxes, and Deployments. Other than Product, these likely haven't been configured yet."/><br/>
 <em>The first thing on the Product landing page is your Product, Clients, Sandboxes, and Deployments. Other than Product, these likely haven't been configured yet.</em></p>
 
 In order to get the most out of the EOS Plugin for Unity, you'll need to create and configure a Product, a Client, Sandboxes, and Deployments in the developer portal.
@@ -132,15 +132,15 @@ For more information on Applications, see [Epic's documentation on Applications 
 # Add the EOS Plugin for Unity to Your Game
 
 With a Client Policy, Client, and Application created, you're ready to start adding the EOS Plugin for Unity to your game.
-Follow [our documentation for adding the plugin to your project](/com.playeveryware.eos/Documentation~/add_plugin.md).
-Once successfully included, follow [the guidance on Importing the Samples](/com.playeveryware.eos/Documentation~/samples.md).
+Follow [our documentation for adding the plugin to your project](../add_plugin.md).
+Once successfully included, follow [the guidance on Importing the Samples](../samples.md).
 In the EOS Plugin for Unity project, the provided code with the plugin will give you the ability to use EOS SDK's interfaces using a convenient C# wrapper.
 The Samples come with scenes that demonstrate the usage of the EOS Plugin for Unity's Manager classes for each Sample's domain.
 
-Next, follow [our documentation regarding how to configure the plugin](/com.playeveryware.eos/Documentation~/configure_plugin.md).
+Next, follow [our documentation regarding how to configure the plugin](../configure_plugin.md).
 Inside of Unity (using the menu bar), navigate to `EOS Plugin` -> `EOS Configuration`.
 
-<p align="center" width="100%"><img src="/com.playeveryware.eos/Documentation~/getting_started_guide/plugin_eosconfiguration.png" alt="The EOS Configuration popup can be filled out using information in the Product Settings page."/><br/>
+<p align="center" width="100%"><img src="./plugin_eosconfiguration.png" alt="The EOS Configuration popup can be filled out using information in the Product Settings page."/><br/>
 <em>The EOS Configuration popup can be filled out using information in the Product Settings page.</em></p>
 
 All of these values can be pulled from the `Product Settings` page and inner dialogues within the EOS Developer Portal.
@@ -156,8 +156,8 @@ For more information on the use of the Encryption Key, see [Epic's documentation
 ## Starting to Use the Samples
 
 At this moment your game is set up to utilize the EOS Plugin for Unity.
-The samples are documented [in the EOS Plugin for Unity Walkthrough documentation](https://github.com/EOS-Contrib/eos_plugin_for_unity/blob/stable/com.playeveryware.eos/Documentation~/Walkthrough.md), which leads to individual Scene walk throughs.
-Assuming your Client Policy is set up to be permissive, consider validating the plugin inclusion by using [the Lobbies Sample](/com.playeveryware.eos/Documentation~/scene_walkthrough/lobbies_walkthrough.md).
+The samples are documented [in the EOS Plugin for Unity Walkthrough documentation](../Walkthrough.md), which leads to individual Scene walk throughs.
+Assuming your Client Policy is set up to be permissive, consider validating the plugin inclusion by using [the Lobbies Sample](../scene_walkthrough/lobbies_walkthrough.md).
 Open the Lobbies sample in the scene, and start running the game. Note if there are any errors in the logs from the EOS SDK Plugin.
 
 The Lobbies sample is chosen because, assuming a permissive Client Policy, there's no needed further setup in the Epic Developer Portal.
@@ -193,8 +193,8 @@ If another `EOSManager` is created, perhaps because of a scene navigation, the o
 Before the plugin can be utilized, the user of your game needs to log in to EOS.
 The samples include a `UILoginMenu` component in each of the scenes, which demonstrates handling logging in.
 The kind of login your users should use is based on your game's platform, and the needs of your game.
-See [our documentation on Login Types by Platform](/com.playeveryware.eos/Documentation~/login_type_by_platform.md) to determine the valid options for your platform.
-Then follow [our documentation on Authenticating Players](/com.playeveryware.eos/Documentation~/player_authentication.md) to understand the login workflow.
+See [our documentation on Login Types by Platform](../login_type_by_platform.md) to determine the valid options for your platform.
+Then follow [our documentation on Authenticating Players](../player_authentication.md) to understand the login workflow.
 
 The most common use case is to follow the below process:
 

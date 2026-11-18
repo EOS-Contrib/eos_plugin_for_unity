@@ -14,6 +14,7 @@ namespace Epic.OnlineServices.Lobby
 		public LobbyDetails(IntPtr innerHandle) : base(innerHandle)
 		{
 		}
+
 		/// <summary>
 		/// <see cref="CopyAttributeByIndex" /> is used to immediately retrieve a copy of a lobby attribute from a given source such as a existing lobby or a search result.
 		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutAttribute, must be passed to <see cref="LobbyInterface.Release" /> to release the memory associated with it.

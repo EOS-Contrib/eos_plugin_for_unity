@@ -74,7 +74,9 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_BeginSessionName = "EOS_AntiCheatClient_BeginSession";
 		private const string EOS_AntiCheatClient_EndSessionName = "EOS_AntiCheatClient_EndSession";
 		private const string EOS_AntiCheatClient_GetModuleBuildIdName = "EOS_AntiCheatClient_GetModuleBuildId";
+		private const string EOS_AntiCheatClient_GetPersistentSettingName = "EOS_AntiCheatClient_GetPersistentSetting";
 		private const string EOS_AntiCheatClient_GetProtectMessageOutputLengthName = "EOS_AntiCheatClient_GetProtectMessageOutputLength";
+		private const string EOS_AntiCheatClient_GetSystemConfigName = "EOS_AntiCheatClient_GetSystemConfig";
 		private const string EOS_AntiCheatClient_GetSystemRequirementStatusName = "EOS_AntiCheatClient_GetSystemRequirementStatus";
 		private const string EOS_AntiCheatClient_PollStatusName = "EOS_AntiCheatClient_PollStatus";
 		private const string EOS_AntiCheatClient_ProtectMessageName = "EOS_AntiCheatClient_ProtectMessage";
@@ -86,8 +88,8 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_RemoveNotifyMessageToServerName = "EOS_AntiCheatClient_RemoveNotifyMessageToServer";
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerActionRequiredName = "EOS_AntiCheatClient_RemoveNotifyPeerActionRequired";
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedName = "EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged";
-		private const string EOS_AntiCheatClient_Reserved01Name = "EOS_AntiCheatClient_Reserved01";
 		private const string EOS_AntiCheatClient_Reserved02Name = "EOS_AntiCheatClient_Reserved02";
+		private const string EOS_AntiCheatClient_SetPersistentSettingName = "EOS_AntiCheatClient_SetPersistentSetting";
 		private const string EOS_AntiCheatClient_UnprotectMessageName = "EOS_AntiCheatClient_UnprotectMessage";
 		private const string EOS_AntiCheatClient_UnregisterPeerName = "EOS_AntiCheatClient_UnregisterPeer";
 		private const string EOS_AntiCheatServer_AddNotifyClientActionRequiredName = "EOS_AntiCheatServer_AddNotifyClientActionRequired";
@@ -119,6 +121,7 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatServer_UnprotectMessageName = "EOS_AntiCheatServer_UnprotectMessage";
 		private const string EOS_AntiCheatServer_UnregisterClientName = "EOS_AntiCheatServer_UnregisterClient";
 		private const string EOS_Auth_AddNotifyLoginStatusChangedName = "EOS_Auth_AddNotifyLoginStatusChanged";
+		private const string EOS_Auth_CancelLoginName = "EOS_Auth_CancelLogin";
 		private const string EOS_Auth_CopyIdTokenName = "EOS_Auth_CopyIdToken";
 		private const string EOS_Auth_CopyUserAuthTokenName = "EOS_Auth_CopyUserAuthToken";
 		private const string EOS_Auth_DeletePersistentAuthName = "EOS_Auth_DeletePersistentAuth";
@@ -472,6 +475,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Presence_CopyPresenceName = "EOS_Presence_CopyPresence";
 		private const string EOS_Presence_CreatePresenceModificationName = "EOS_Presence_CreatePresenceModification";
 		private const string EOS_Presence_GetJoinInfoName = "EOS_Presence_GetJoinInfo";
+		private const string EOS_Presence_HasExplicitPresenceName = "EOS_Presence_HasExplicitPresence";
 		private const string EOS_Presence_HasPresenceName = "EOS_Presence_HasPresence";
 		private const string EOS_Presence_Info_ReleaseName = "EOS_Presence_Info_Release";
 		private const string EOS_Presence_QueryPresenceName = "EOS_Presence_QueryPresence";
@@ -714,7 +718,9 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_BeginSessionName = "_EOS_AntiCheatClient_BeginSession";
 		private const string EOS_AntiCheatClient_EndSessionName = "_EOS_AntiCheatClient_EndSession";
 		private const string EOS_AntiCheatClient_GetModuleBuildIdName = "_EOS_AntiCheatClient_GetModuleBuildId";
+		private const string EOS_AntiCheatClient_GetPersistentSettingName = "_EOS_AntiCheatClient_GetPersistentSetting";
 		private const string EOS_AntiCheatClient_GetProtectMessageOutputLengthName = "_EOS_AntiCheatClient_GetProtectMessageOutputLength";
+		private const string EOS_AntiCheatClient_GetSystemConfigName = "_EOS_AntiCheatClient_GetSystemConfig";
 		private const string EOS_AntiCheatClient_GetSystemRequirementStatusName = "_EOS_AntiCheatClient_GetSystemRequirementStatus";
 		private const string EOS_AntiCheatClient_PollStatusName = "_EOS_AntiCheatClient_PollStatus";
 		private const string EOS_AntiCheatClient_ProtectMessageName = "_EOS_AntiCheatClient_ProtectMessage";
@@ -726,8 +732,8 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_RemoveNotifyMessageToServerName = "_EOS_AntiCheatClient_RemoveNotifyMessageToServer";
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerActionRequiredName = "_EOS_AntiCheatClient_RemoveNotifyPeerActionRequired";
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedName = "_EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged";
-		private const string EOS_AntiCheatClient_Reserved01Name = "_EOS_AntiCheatClient_Reserved01";
 		private const string EOS_AntiCheatClient_Reserved02Name = "_EOS_AntiCheatClient_Reserved02";
+		private const string EOS_AntiCheatClient_SetPersistentSettingName = "_EOS_AntiCheatClient_SetPersistentSetting";
 		private const string EOS_AntiCheatClient_UnprotectMessageName = "_EOS_AntiCheatClient_UnprotectMessage";
 		private const string EOS_AntiCheatClient_UnregisterPeerName = "_EOS_AntiCheatClient_UnregisterPeer";
 		private const string EOS_AntiCheatServer_AddNotifyClientActionRequiredName = "_EOS_AntiCheatServer_AddNotifyClientActionRequired";
@@ -759,6 +765,7 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatServer_UnprotectMessageName = "_EOS_AntiCheatServer_UnprotectMessage";
 		private const string EOS_AntiCheatServer_UnregisterClientName = "_EOS_AntiCheatServer_UnregisterClient";
 		private const string EOS_Auth_AddNotifyLoginStatusChangedName = "_EOS_Auth_AddNotifyLoginStatusChanged";
+		private const string EOS_Auth_CancelLoginName = "_EOS_Auth_CancelLogin";
 		private const string EOS_Auth_CopyIdTokenName = "_EOS_Auth_CopyIdToken";
 		private const string EOS_Auth_CopyUserAuthTokenName = "_EOS_Auth_CopyUserAuthToken";
 		private const string EOS_Auth_DeletePersistentAuthName = "_EOS_Auth_DeletePersistentAuth";
@@ -1112,6 +1119,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Presence_CopyPresenceName = "_EOS_Presence_CopyPresence";
 		private const string EOS_Presence_CreatePresenceModificationName = "_EOS_Presence_CreatePresenceModification";
 		private const string EOS_Presence_GetJoinInfoName = "_EOS_Presence_GetJoinInfo";
+		private const string EOS_Presence_HasExplicitPresenceName = "_EOS_Presence_HasExplicitPresence";
 		private const string EOS_Presence_HasPresenceName = "_EOS_Presence_HasPresence";
 		private const string EOS_Presence_Info_ReleaseName = "_EOS_Presence_Info_Release";
 		private const string EOS_Presence_QueryPresenceName = "_EOS_Presence_QueryPresence";
@@ -1354,7 +1362,9 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_BeginSessionName = "_EOS_AntiCheatClient_BeginSession@8";
 		private const string EOS_AntiCheatClient_EndSessionName = "_EOS_AntiCheatClient_EndSession@8";
 		private const string EOS_AntiCheatClient_GetModuleBuildIdName = "_EOS_AntiCheatClient_GetModuleBuildId@12";
+		private const string EOS_AntiCheatClient_GetPersistentSettingName = "_EOS_AntiCheatClient_GetPersistentSetting@16";
 		private const string EOS_AntiCheatClient_GetProtectMessageOutputLengthName = "_EOS_AntiCheatClient_GetProtectMessageOutputLength@12";
+		private const string EOS_AntiCheatClient_GetSystemConfigName = "_EOS_AntiCheatClient_GetSystemConfig@12";
 		private const string EOS_AntiCheatClient_GetSystemRequirementStatusName = "_EOS_AntiCheatClient_GetSystemRequirementStatus@16";
 		private const string EOS_AntiCheatClient_PollStatusName = "_EOS_AntiCheatClient_PollStatus@16";
 		private const string EOS_AntiCheatClient_ProtectMessageName = "_EOS_AntiCheatClient_ProtectMessage@16";
@@ -1366,8 +1376,8 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatClient_RemoveNotifyMessageToServerName = "_EOS_AntiCheatClient_RemoveNotifyMessageToServer@12";
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerActionRequiredName = "_EOS_AntiCheatClient_RemoveNotifyPeerActionRequired@12";
 		private const string EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedName = "_EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged@12";
-		private const string EOS_AntiCheatClient_Reserved01Name = "_EOS_AntiCheatClient_Reserved01@12";
 		private const string EOS_AntiCheatClient_Reserved02Name = "_EOS_AntiCheatClient_Reserved02@8";
+		private const string EOS_AntiCheatClient_SetPersistentSettingName = "_EOS_AntiCheatClient_SetPersistentSetting@8";
 		private const string EOS_AntiCheatClient_UnprotectMessageName = "_EOS_AntiCheatClient_UnprotectMessage@16";
 		private const string EOS_AntiCheatClient_UnregisterPeerName = "_EOS_AntiCheatClient_UnregisterPeer@8";
 		private const string EOS_AntiCheatServer_AddNotifyClientActionRequiredName = "_EOS_AntiCheatServer_AddNotifyClientActionRequired@16";
@@ -1399,6 +1409,7 @@ namespace Epic.OnlineServices
 		private const string EOS_AntiCheatServer_UnprotectMessageName = "_EOS_AntiCheatServer_UnprotectMessage@16";
 		private const string EOS_AntiCheatServer_UnregisterClientName = "_EOS_AntiCheatServer_UnregisterClient@8";
 		private const string EOS_Auth_AddNotifyLoginStatusChangedName = "_EOS_Auth_AddNotifyLoginStatusChanged@16";
+		private const string EOS_Auth_CancelLoginName = "_EOS_Auth_CancelLogin@16";
 		private const string EOS_Auth_CopyIdTokenName = "_EOS_Auth_CopyIdToken@12";
 		private const string EOS_Auth_CopyUserAuthTokenName = "_EOS_Auth_CopyUserAuthToken@16";
 		private const string EOS_Auth_DeletePersistentAuthName = "_EOS_Auth_DeletePersistentAuth@16";
@@ -1752,6 +1763,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Presence_CopyPresenceName = "_EOS_Presence_CopyPresence@12";
 		private const string EOS_Presence_CreatePresenceModificationName = "_EOS_Presence_CreatePresenceModification@12";
 		private const string EOS_Presence_GetJoinInfoName = "_EOS_Presence_GetJoinInfo@16";
+		private const string EOS_Presence_HasExplicitPresenceName = "_EOS_Presence_HasExplicitPresence@8";
 		private const string EOS_Presence_HasPresenceName = "_EOS_Presence_HasPresence@8";
 		private const string EOS_Presence_Info_ReleaseName = "_EOS_Presence_Info_Release@4";
 		private const string EOS_Presence_QueryPresenceName = "_EOS_Presence_QueryPresence@16";
@@ -2109,9 +2121,17 @@ namespace Epic.OnlineServices
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_GetModuleBuildIdName);
 			EOS_AntiCheatClient_GetModuleBuildId = (EOS_AntiCheatClient_GetModuleBuildIdDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_GetModuleBuildIdDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_GetPersistentSettingName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_GetPersistentSettingName);
+			EOS_AntiCheatClient_GetPersistentSetting = (EOS_AntiCheatClient_GetPersistentSettingDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_GetPersistentSettingDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_GetProtectMessageOutputLengthName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_GetProtectMessageOutputLengthName);
 			EOS_AntiCheatClient_GetProtectMessageOutputLength = (EOS_AntiCheatClient_GetProtectMessageOutputLengthDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_GetProtectMessageOutputLengthDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_GetSystemConfigName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_GetSystemConfigName);
+			EOS_AntiCheatClient_GetSystemConfig = (EOS_AntiCheatClient_GetSystemConfigDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_GetSystemConfigDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_GetSystemRequirementStatusName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_GetSystemRequirementStatusName);
@@ -2157,13 +2177,13 @@ namespace Epic.OnlineServices
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedName);
 			EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged = (EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedDelegate));
 
-			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_Reserved01Name);
-			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_Reserved01Name);
-			EOS_AntiCheatClient_Reserved01 = (EOS_AntiCheatClient_Reserved01Delegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_Reserved01Delegate));
-
 			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_Reserved02Name);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_Reserved02Name);
 			EOS_AntiCheatClient_Reserved02 = (EOS_AntiCheatClient_Reserved02Delegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_Reserved02Delegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_SetPersistentSettingName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_SetPersistentSettingName);
+			EOS_AntiCheatClient_SetPersistentSetting = (EOS_AntiCheatClient_SetPersistentSettingDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_SetPersistentSettingDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_AntiCheatClient_UnprotectMessageName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_AntiCheatClient_UnprotectMessageName);
@@ -2288,6 +2308,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Auth_AddNotifyLoginStatusChangedName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Auth_AddNotifyLoginStatusChangedName);
 			EOS_Auth_AddNotifyLoginStatusChanged = (EOS_Auth_AddNotifyLoginStatusChangedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_AddNotifyLoginStatusChangedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Auth_CancelLoginName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Auth_CancelLoginName);
+			EOS_Auth_CancelLogin = (EOS_Auth_CancelLoginDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_CancelLoginDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Auth_CopyIdTokenName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Auth_CopyIdTokenName);
@@ -3701,6 +3725,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Presence_GetJoinInfoName);
 			EOS_Presence_GetJoinInfo = (EOS_Presence_GetJoinInfoDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Presence_GetJoinInfoDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Presence_HasExplicitPresenceName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Presence_HasExplicitPresenceName);
+			EOS_Presence_HasExplicitPresence = (EOS_Presence_HasExplicitPresenceDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Presence_HasExplicitPresenceDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Presence_HasPresenceName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Presence_HasPresenceName);
 			EOS_Presence_HasPresence = (EOS_Presence_HasPresenceDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Presence_HasPresenceDelegate));
@@ -4562,7 +4590,9 @@ namespace Epic.OnlineServices
 			EOS_AntiCheatClient_BeginSession = null;
 			EOS_AntiCheatClient_EndSession = null;
 			EOS_AntiCheatClient_GetModuleBuildId = null;
+			EOS_AntiCheatClient_GetPersistentSetting = null;
 			EOS_AntiCheatClient_GetProtectMessageOutputLength = null;
+			EOS_AntiCheatClient_GetSystemConfig = null;
 			EOS_AntiCheatClient_GetSystemRequirementStatus = null;
 			EOS_AntiCheatClient_PollStatus = null;
 			EOS_AntiCheatClient_ProtectMessage = null;
@@ -4574,8 +4604,8 @@ namespace Epic.OnlineServices
 			EOS_AntiCheatClient_RemoveNotifyMessageToServer = null;
 			EOS_AntiCheatClient_RemoveNotifyPeerActionRequired = null;
 			EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged = null;
-			EOS_AntiCheatClient_Reserved01 = null;
 			EOS_AntiCheatClient_Reserved02 = null;
+			EOS_AntiCheatClient_SetPersistentSetting = null;
 			EOS_AntiCheatClient_UnprotectMessage = null;
 			EOS_AntiCheatClient_UnregisterPeer = null;
 			EOS_AntiCheatServer_AddNotifyClientActionRequired = null;
@@ -4607,6 +4637,7 @@ namespace Epic.OnlineServices
 			EOS_AntiCheatServer_UnprotectMessage = null;
 			EOS_AntiCheatServer_UnregisterClient = null;
 			EOS_Auth_AddNotifyLoginStatusChanged = null;
+			EOS_Auth_CancelLogin = null;
 			EOS_Auth_CopyIdToken = null;
 			EOS_Auth_CopyUserAuthToken = null;
 			EOS_Auth_DeletePersistentAuth = null;
@@ -4960,6 +4991,7 @@ namespace Epic.OnlineServices
 			EOS_Presence_CopyPresence = null;
 			EOS_Presence_CreatePresenceModification = null;
 			EOS_Presence_GetJoinInfo = null;
+			EOS_Presence_HasExplicitPresence = null;
 			EOS_Presence_HasPresence = null;
 			EOS_Presence_Info_Release = null;
 			EOS_Presence_QueryPresence = null;
@@ -5167,4470 +5199,4498 @@ namespace Epic.OnlineServices
 			EOS_UserInfo_Release = null;
 		}
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Achievements_AddNotifyAchievementsUnlockedDelegate(IntPtr handle, ref Achievements.AddNotifyAchievementsUnlockedOptionsInternal options, IntPtr clientData, Achievements.OnAchievementsUnlockedCallbackInternal notificationFn);
 		internal static EOS_Achievements_AddNotifyAchievementsUnlockedDelegate EOS_Achievements_AddNotifyAchievementsUnlocked;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Achievements_AddNotifyAchievementsUnlockedV2Delegate(IntPtr handle, ref Achievements.AddNotifyAchievementsUnlockedV2OptionsInternal options, IntPtr clientData, Achievements.OnAchievementsUnlockedCallbackV2Internal notificationFn);
 		internal static EOS_Achievements_AddNotifyAchievementsUnlockedV2Delegate EOS_Achievements_AddNotifyAchievementsUnlockedV2;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Achievements_CopyAchievementDefinitionByAchievementIdDelegate(IntPtr handle, ref Achievements.CopyAchievementDefinitionByAchievementIdOptionsInternal options, out IntPtr outDefinition);
 		internal static EOS_Achievements_CopyAchievementDefinitionByAchievementIdDelegate EOS_Achievements_CopyAchievementDefinitionByAchievementId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Achievements_CopyAchievementDefinitionByIndexDelegate(IntPtr handle, ref Achievements.CopyAchievementDefinitionByIndexOptionsInternal options, out IntPtr outDefinition);
 		internal static EOS_Achievements_CopyAchievementDefinitionByIndexDelegate EOS_Achievements_CopyAchievementDefinitionByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Achievements_CopyAchievementDefinitionV2ByAchievementIdDelegate(IntPtr handle, ref Achievements.CopyAchievementDefinitionV2ByAchievementIdOptionsInternal options, out IntPtr outDefinition);
 		internal static EOS_Achievements_CopyAchievementDefinitionV2ByAchievementIdDelegate EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Achievements_CopyAchievementDefinitionV2ByIndexDelegate(IntPtr handle, ref Achievements.CopyAchievementDefinitionV2ByIndexOptionsInternal options, out IntPtr outDefinition);
 		internal static EOS_Achievements_CopyAchievementDefinitionV2ByIndexDelegate EOS_Achievements_CopyAchievementDefinitionV2ByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Achievements_CopyPlayerAchievementByAchievementIdDelegate(IntPtr handle, ref Achievements.CopyPlayerAchievementByAchievementIdOptionsInternal options, out IntPtr outAchievement);
 		internal static EOS_Achievements_CopyPlayerAchievementByAchievementIdDelegate EOS_Achievements_CopyPlayerAchievementByAchievementId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Achievements_CopyPlayerAchievementByIndexDelegate(IntPtr handle, ref Achievements.CopyPlayerAchievementByIndexOptionsInternal options, out IntPtr outAchievement);
 		internal static EOS_Achievements_CopyPlayerAchievementByIndexDelegate EOS_Achievements_CopyPlayerAchievementByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Achievements_CopyUnlockedAchievementByAchievementIdDelegate(IntPtr handle, ref Achievements.CopyUnlockedAchievementByAchievementIdOptionsInternal options, out IntPtr outAchievement);
 		internal static EOS_Achievements_CopyUnlockedAchievementByAchievementIdDelegate EOS_Achievements_CopyUnlockedAchievementByAchievementId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Achievements_CopyUnlockedAchievementByIndexDelegate(IntPtr handle, ref Achievements.CopyUnlockedAchievementByIndexOptionsInternal options, out IntPtr outAchievement);
 		internal static EOS_Achievements_CopyUnlockedAchievementByIndexDelegate EOS_Achievements_CopyUnlockedAchievementByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Achievements_DefinitionV2_ReleaseDelegate(IntPtr achievementDefinition);
 		internal static EOS_Achievements_DefinitionV2_ReleaseDelegate EOS_Achievements_DefinitionV2_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Achievements_Definition_ReleaseDelegate(IntPtr achievementDefinition);
 		internal static EOS_Achievements_Definition_ReleaseDelegate EOS_Achievements_Definition_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Achievements_GetAchievementDefinitionCountDelegate(IntPtr handle, ref Achievements.GetAchievementDefinitionCountOptionsInternal options);
 		internal static EOS_Achievements_GetAchievementDefinitionCountDelegate EOS_Achievements_GetAchievementDefinitionCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Achievements_GetPlayerAchievementCountDelegate(IntPtr handle, ref Achievements.GetPlayerAchievementCountOptionsInternal options);
 		internal static EOS_Achievements_GetPlayerAchievementCountDelegate EOS_Achievements_GetPlayerAchievementCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Achievements_GetUnlockedAchievementCountDelegate(IntPtr handle, ref Achievements.GetUnlockedAchievementCountOptionsInternal options);
 		internal static EOS_Achievements_GetUnlockedAchievementCountDelegate EOS_Achievements_GetUnlockedAchievementCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Achievements_PlayerAchievement_ReleaseDelegate(IntPtr achievement);
 		internal static EOS_Achievements_PlayerAchievement_ReleaseDelegate EOS_Achievements_PlayerAchievement_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Achievements_QueryDefinitionsDelegate(IntPtr handle, ref Achievements.QueryDefinitionsOptionsInternal options, IntPtr clientData, Achievements.OnQueryDefinitionsCompleteCallbackInternal completionDelegate);
 		internal static EOS_Achievements_QueryDefinitionsDelegate EOS_Achievements_QueryDefinitions;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Achievements_QueryPlayerAchievementsDelegate(IntPtr handle, ref Achievements.QueryPlayerAchievementsOptionsInternal options, IntPtr clientData, Achievements.OnQueryPlayerAchievementsCompleteCallbackInternal completionDelegate);
 		internal static EOS_Achievements_QueryPlayerAchievementsDelegate EOS_Achievements_QueryPlayerAchievements;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Achievements_RemoveNotifyAchievementsUnlockedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Achievements_RemoveNotifyAchievementsUnlockedDelegate EOS_Achievements_RemoveNotifyAchievementsUnlocked;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Achievements_UnlockAchievementsDelegate(IntPtr handle, ref Achievements.UnlockAchievementsOptionsInternal options, IntPtr clientData, Achievements.OnUnlockAchievementsCompleteCallbackInternal completionDelegate);
 		internal static EOS_Achievements_UnlockAchievementsDelegate EOS_Achievements_UnlockAchievements;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Achievements_UnlockedAchievement_ReleaseDelegate(IntPtr achievement);
 		internal static EOS_Achievements_UnlockedAchievement_ReleaseDelegate EOS_Achievements_UnlockedAchievement_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_ActiveSession_CopyInfoDelegate(IntPtr handle, ref Sessions.ActiveSessionCopyInfoOptionsInternal options, out IntPtr outActiveSessionInfo);
 		internal static EOS_ActiveSession_CopyInfoDelegate EOS_ActiveSession_CopyInfo;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_ActiveSession_GetRegisteredPlayerByIndexDelegate(IntPtr handle, ref Sessions.ActiveSessionGetRegisteredPlayerByIndexOptionsInternal options);
 		internal static EOS_ActiveSession_GetRegisteredPlayerByIndexDelegate EOS_ActiveSession_GetRegisteredPlayerByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_ActiveSession_GetRegisteredPlayerCountDelegate(IntPtr handle, ref Sessions.ActiveSessionGetRegisteredPlayerCountOptionsInternal options);
 		internal static EOS_ActiveSession_GetRegisteredPlayerCountDelegate EOS_ActiveSession_GetRegisteredPlayerCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_ActiveSession_Info_ReleaseDelegate(IntPtr activeSessionInfo);
 		internal static EOS_ActiveSession_Info_ReleaseDelegate EOS_ActiveSession_Info_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_ActiveSession_ReleaseDelegate(IntPtr activeSessionHandle);
 		internal static EOS_ActiveSession_ReleaseDelegate EOS_ActiveSession_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_AddExternalIntegrityCatalogDelegate(IntPtr handle, ref AntiCheatClient.AddExternalIntegrityCatalogOptionsInternal options);
 		internal static EOS_AntiCheatClient_AddExternalIntegrityCatalogDelegate EOS_AntiCheatClient_AddExternalIntegrityCatalog;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_AntiCheatClient_AddNotifyClientIntegrityViolatedDelegate(IntPtr handle, ref AntiCheatClient.AddNotifyClientIntegrityViolatedOptionsInternal options, IntPtr clientData, AntiCheatClient.OnClientIntegrityViolatedCallbackInternal notificationFn);
 		internal static EOS_AntiCheatClient_AddNotifyClientIntegrityViolatedDelegate EOS_AntiCheatClient_AddNotifyClientIntegrityViolated;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_AntiCheatClient_AddNotifyMessageToPeerDelegate(IntPtr handle, ref AntiCheatClient.AddNotifyMessageToPeerOptionsInternal options, IntPtr clientData, AntiCheatClient.OnMessageToPeerCallbackInternal notificationFn);
 		internal static EOS_AntiCheatClient_AddNotifyMessageToPeerDelegate EOS_AntiCheatClient_AddNotifyMessageToPeer;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_AntiCheatClient_AddNotifyMessageToServerDelegate(IntPtr handle, ref AntiCheatClient.AddNotifyMessageToServerOptionsInternal options, IntPtr clientData, AntiCheatClient.OnMessageToServerCallbackInternal notificationFn);
 		internal static EOS_AntiCheatClient_AddNotifyMessageToServerDelegate EOS_AntiCheatClient_AddNotifyMessageToServer;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_AntiCheatClient_AddNotifyPeerActionRequiredDelegate(IntPtr handle, ref AntiCheatClient.AddNotifyPeerActionRequiredOptionsInternal options, IntPtr clientData, AntiCheatClient.OnPeerActionRequiredCallbackInternal notificationFn);
 		internal static EOS_AntiCheatClient_AddNotifyPeerActionRequiredDelegate EOS_AntiCheatClient_AddNotifyPeerActionRequired;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_AntiCheatClient_AddNotifyPeerAuthStatusChangedDelegate(IntPtr handle, ref AntiCheatClient.AddNotifyPeerAuthStatusChangedOptionsInternal options, IntPtr clientData, AntiCheatClient.OnPeerAuthStatusChangedCallbackInternal notificationFn);
 		internal static EOS_AntiCheatClient_AddNotifyPeerAuthStatusChangedDelegate EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_BeginSessionDelegate(IntPtr handle, ref AntiCheatClient.BeginSessionOptionsInternal options);
 		internal static EOS_AntiCheatClient_BeginSessionDelegate EOS_AntiCheatClient_BeginSession;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_EndSessionDelegate(IntPtr handle, ref AntiCheatClient.EndSessionOptionsInternal options);
 		internal static EOS_AntiCheatClient_EndSessionDelegate EOS_AntiCheatClient_EndSession;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_GetModuleBuildIdDelegate(IntPtr handle, ref AntiCheatClient.GetModuleBuildIdOptionsInternal options, out uint outModuleBuildId);
 		internal static EOS_AntiCheatClient_GetModuleBuildIdDelegate EOS_AntiCheatClient_GetModuleBuildId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
+		internal delegate Result EOS_AntiCheatClient_GetPersistentSettingDelegate(IntPtr handle, ref AntiCheatClient.GetPersistentSettingOptionsInternal options, out AntiCheatClient.PersistentSettingValueInternal outValue, IntPtr outValueStringBuffer);
+		internal static EOS_AntiCheatClient_GetPersistentSettingDelegate EOS_AntiCheatClient_GetPersistentSetting;
+
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_GetProtectMessageOutputLengthDelegate(IntPtr handle, ref AntiCheatClient.GetProtectMessageOutputLengthOptionsInternal options, out uint outBufferSizeBytes);
 		internal static EOS_AntiCheatClient_GetProtectMessageOutputLengthDelegate EOS_AntiCheatClient_GetProtectMessageOutputLength;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
+		internal delegate Result EOS_AntiCheatClient_GetSystemConfigDelegate(IntPtr handle, ref AntiCheatClient.GetSystemConfigOptionsInternal options, out AntiCheatCommon.AntiCheatCommonClientSystemConfig outSystemConfig);
+		internal static EOS_AntiCheatClient_GetSystemConfigDelegate EOS_AntiCheatClient_GetSystemConfig;
+
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_GetSystemRequirementStatusDelegate(IntPtr handle, ref AntiCheatClient.GetSystemRequirementStatusOptionsInternal options, out AntiCheatCommon.AntiCheatClientSystemRequirementStatus outRequirementStatus, IntPtr outReason);
 		internal static EOS_AntiCheatClient_GetSystemRequirementStatusDelegate EOS_AntiCheatClient_GetSystemRequirementStatus;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_PollStatusDelegate(IntPtr handle, ref AntiCheatClient.PollStatusOptionsInternal options, out AntiCheatClient.AntiCheatClientViolationType outViolationType, IntPtr outMessage);
 		internal static EOS_AntiCheatClient_PollStatusDelegate EOS_AntiCheatClient_PollStatus;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_ProtectMessageDelegate(IntPtr handle, ref AntiCheatClient.ProtectMessageOptionsInternal options, IntPtr outBuffer, out uint outBytesWritten);
 		internal static EOS_AntiCheatClient_ProtectMessageDelegate EOS_AntiCheatClient_ProtectMessage;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_ReceiveMessageFromPeerDelegate(IntPtr handle, ref AntiCheatClient.ReceiveMessageFromPeerOptionsInternal options);
 		internal static EOS_AntiCheatClient_ReceiveMessageFromPeerDelegate EOS_AntiCheatClient_ReceiveMessageFromPeer;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_ReceiveMessageFromServerDelegate(IntPtr handle, ref AntiCheatClient.ReceiveMessageFromServerOptionsInternal options);
 		internal static EOS_AntiCheatClient_ReceiveMessageFromServerDelegate EOS_AntiCheatClient_ReceiveMessageFromServer;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_RegisterPeerDelegate(IntPtr handle, ref AntiCheatClient.RegisterPeerOptionsInternal options);
 		internal static EOS_AntiCheatClient_RegisterPeerDelegate EOS_AntiCheatClient_RegisterPeer;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolatedDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolatedDelegate EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolated;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_AntiCheatClient_RemoveNotifyMessageToPeerDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_AntiCheatClient_RemoveNotifyMessageToPeerDelegate EOS_AntiCheatClient_RemoveNotifyMessageToPeer;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_AntiCheatClient_RemoveNotifyMessageToServerDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_AntiCheatClient_RemoveNotifyMessageToServerDelegate EOS_AntiCheatClient_RemoveNotifyMessageToServer;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_AntiCheatClient_RemoveNotifyPeerActionRequiredDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_AntiCheatClient_RemoveNotifyPeerActionRequiredDelegate EOS_AntiCheatClient_RemoveNotifyPeerActionRequired;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedDelegate EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
-		internal delegate Result EOS_AntiCheatClient_Reserved01Delegate(IntPtr handle, ref AntiCheatClient.Reserved01OptionsInternal options, out int outValue);
-		internal static EOS_AntiCheatClient_Reserved01Delegate EOS_AntiCheatClient_Reserved01;
-
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_Reserved02Delegate(IntPtr handle, ref AntiCheatClient.Reserved02OptionsInternal options);
 		internal static EOS_AntiCheatClient_Reserved02Delegate EOS_AntiCheatClient_Reserved02;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
+		internal delegate Result EOS_AntiCheatClient_SetPersistentSettingDelegate(IntPtr handle, ref AntiCheatClient.SetPersistentSettingOptionsInternal options);
+		internal static EOS_AntiCheatClient_SetPersistentSettingDelegate EOS_AntiCheatClient_SetPersistentSetting;
+
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_UnprotectMessageDelegate(IntPtr handle, ref AntiCheatClient.UnprotectMessageOptionsInternal options, IntPtr outBuffer, out uint outBytesWritten);
 		internal static EOS_AntiCheatClient_UnprotectMessageDelegate EOS_AntiCheatClient_UnprotectMessage;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatClient_UnregisterPeerDelegate(IntPtr handle, ref AntiCheatClient.UnregisterPeerOptionsInternal options);
 		internal static EOS_AntiCheatClient_UnregisterPeerDelegate EOS_AntiCheatClient_UnregisterPeer;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_AntiCheatServer_AddNotifyClientActionRequiredDelegate(IntPtr handle, ref AntiCheatServer.AddNotifyClientActionRequiredOptionsInternal options, IntPtr clientData, AntiCheatServer.OnClientActionRequiredCallbackInternal notificationFn);
 		internal static EOS_AntiCheatServer_AddNotifyClientActionRequiredDelegate EOS_AntiCheatServer_AddNotifyClientActionRequired;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_AntiCheatServer_AddNotifyClientAuthStatusChangedDelegate(IntPtr handle, ref AntiCheatServer.AddNotifyClientAuthStatusChangedOptionsInternal options, IntPtr clientData, AntiCheatServer.OnClientAuthStatusChangedCallbackInternal notificationFn);
 		internal static EOS_AntiCheatServer_AddNotifyClientAuthStatusChangedDelegate EOS_AntiCheatServer_AddNotifyClientAuthStatusChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_AntiCheatServer_AddNotifyMessageToClientDelegate(IntPtr handle, ref AntiCheatServer.AddNotifyMessageToClientOptionsInternal options, IntPtr clientData, AntiCheatServer.OnMessageToClientCallbackInternal notificationFn);
 		internal static EOS_AntiCheatServer_AddNotifyMessageToClientDelegate EOS_AntiCheatServer_AddNotifyMessageToClient;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_BeginSessionDelegate(IntPtr handle, ref AntiCheatServer.BeginSessionOptionsInternal options);
 		internal static EOS_AntiCheatServer_BeginSessionDelegate EOS_AntiCheatServer_BeginSession;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_EndSessionDelegate(IntPtr handle, ref AntiCheatServer.EndSessionOptionsInternal options);
 		internal static EOS_AntiCheatServer_EndSessionDelegate EOS_AntiCheatServer_EndSession;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_GetProtectMessageOutputLengthDelegate(IntPtr handle, ref AntiCheatServer.GetProtectMessageOutputLengthOptionsInternal options, out uint outBufferSizeBytes);
 		internal static EOS_AntiCheatServer_GetProtectMessageOutputLengthDelegate EOS_AntiCheatServer_GetProtectMessageOutputLength;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_LogEventDelegate(IntPtr handle, ref AntiCheatCommon.LogEventOptionsInternal options);
 		internal static EOS_AntiCheatServer_LogEventDelegate EOS_AntiCheatServer_LogEvent;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_LogGameRoundEndDelegate(IntPtr handle, ref AntiCheatCommon.LogGameRoundEndOptionsInternal options);
 		internal static EOS_AntiCheatServer_LogGameRoundEndDelegate EOS_AntiCheatServer_LogGameRoundEnd;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_LogGameRoundStartDelegate(IntPtr handle, ref AntiCheatCommon.LogGameRoundStartOptionsInternal options);
 		internal static EOS_AntiCheatServer_LogGameRoundStartDelegate EOS_AntiCheatServer_LogGameRoundStart;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_LogPlayerDespawnDelegate(IntPtr handle, ref AntiCheatCommon.LogPlayerDespawnOptionsInternal options);
 		internal static EOS_AntiCheatServer_LogPlayerDespawnDelegate EOS_AntiCheatServer_LogPlayerDespawn;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_LogPlayerReviveDelegate(IntPtr handle, ref AntiCheatCommon.LogPlayerReviveOptionsInternal options);
 		internal static EOS_AntiCheatServer_LogPlayerReviveDelegate EOS_AntiCheatServer_LogPlayerRevive;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_LogPlayerSpawnDelegate(IntPtr handle, ref AntiCheatCommon.LogPlayerSpawnOptionsInternal options);
 		internal static EOS_AntiCheatServer_LogPlayerSpawnDelegate EOS_AntiCheatServer_LogPlayerSpawn;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_LogPlayerTakeDamageDelegate(IntPtr handle, ref AntiCheatCommon.LogPlayerTakeDamageOptionsInternal options);
 		internal static EOS_AntiCheatServer_LogPlayerTakeDamageDelegate EOS_AntiCheatServer_LogPlayerTakeDamage;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_LogPlayerTickDelegate(IntPtr handle, ref AntiCheatCommon.LogPlayerTickOptionsInternal options);
 		internal static EOS_AntiCheatServer_LogPlayerTickDelegate EOS_AntiCheatServer_LogPlayerTick;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_LogPlayerUseAbilityDelegate(IntPtr handle, ref AntiCheatCommon.LogPlayerUseAbilityOptionsInternal options);
 		internal static EOS_AntiCheatServer_LogPlayerUseAbilityDelegate EOS_AntiCheatServer_LogPlayerUseAbility;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_LogPlayerUseWeaponDelegate(IntPtr handle, ref AntiCheatCommon.LogPlayerUseWeaponOptionsInternal options);
 		internal static EOS_AntiCheatServer_LogPlayerUseWeaponDelegate EOS_AntiCheatServer_LogPlayerUseWeapon;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_ProtectMessageDelegate(IntPtr handle, ref AntiCheatServer.ProtectMessageOptionsInternal options, IntPtr outBuffer, out uint outBytesWritten);
 		internal static EOS_AntiCheatServer_ProtectMessageDelegate EOS_AntiCheatServer_ProtectMessage;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_ReceiveMessageFromClientDelegate(IntPtr handle, ref AntiCheatServer.ReceiveMessageFromClientOptionsInternal options);
 		internal static EOS_AntiCheatServer_ReceiveMessageFromClientDelegate EOS_AntiCheatServer_ReceiveMessageFromClient;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_RegisterClientDelegate(IntPtr handle, ref AntiCheatServer.RegisterClientOptionsInternal options);
 		internal static EOS_AntiCheatServer_RegisterClientDelegate EOS_AntiCheatServer_RegisterClient;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_RegisterEventDelegate(IntPtr handle, ref AntiCheatCommon.RegisterEventOptionsInternal options);
 		internal static EOS_AntiCheatServer_RegisterEventDelegate EOS_AntiCheatServer_RegisterEvent;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_AntiCheatServer_RemoveNotifyClientActionRequiredDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_AntiCheatServer_RemoveNotifyClientActionRequiredDelegate EOS_AntiCheatServer_RemoveNotifyClientActionRequired;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChangedDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChangedDelegate EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_AntiCheatServer_RemoveNotifyMessageToClientDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_AntiCheatServer_RemoveNotifyMessageToClientDelegate EOS_AntiCheatServer_RemoveNotifyMessageToClient;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_SetClientDetailsDelegate(IntPtr handle, ref AntiCheatCommon.SetClientDetailsOptionsInternal options);
 		internal static EOS_AntiCheatServer_SetClientDetailsDelegate EOS_AntiCheatServer_SetClientDetails;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_SetClientNetworkStateDelegate(IntPtr handle, ref AntiCheatServer.SetClientNetworkStateOptionsInternal options);
 		internal static EOS_AntiCheatServer_SetClientNetworkStateDelegate EOS_AntiCheatServer_SetClientNetworkState;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_SetGameSessionIdDelegate(IntPtr handle, ref AntiCheatCommon.SetGameSessionIdOptionsInternal options);
 		internal static EOS_AntiCheatServer_SetGameSessionIdDelegate EOS_AntiCheatServer_SetGameSessionId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_UnprotectMessageDelegate(IntPtr handle, ref AntiCheatServer.UnprotectMessageOptionsInternal options, IntPtr outBuffer, out uint outBytesWritten);
 		internal static EOS_AntiCheatServer_UnprotectMessageDelegate EOS_AntiCheatServer_UnprotectMessage;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_AntiCheatServer_UnregisterClientDelegate(IntPtr handle, ref AntiCheatServer.UnregisterClientOptionsInternal options);
 		internal static EOS_AntiCheatServer_UnregisterClientDelegate EOS_AntiCheatServer_UnregisterClient;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Auth_AddNotifyLoginStatusChangedDelegate(IntPtr handle, ref Auth.AddNotifyLoginStatusChangedOptionsInternal options, IntPtr clientData, Auth.OnLoginStatusChangedCallbackInternal notification);
 		internal static EOS_Auth_AddNotifyLoginStatusChangedDelegate EOS_Auth_AddNotifyLoginStatusChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
+		internal delegate void EOS_Auth_CancelLoginDelegate(IntPtr handle, ref Auth.CancelLoginOptionsInternal options, IntPtr clientData, Auth.OnCancelLoginCallbackInternal completionDelegate);
+		internal static EOS_Auth_CancelLoginDelegate EOS_Auth_CancelLogin;
+
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Auth_CopyIdTokenDelegate(IntPtr handle, ref Auth.CopyIdTokenOptionsInternal options, out IntPtr outIdToken);
 		internal static EOS_Auth_CopyIdTokenDelegate EOS_Auth_CopyIdToken;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Auth_CopyUserAuthTokenDelegate(IntPtr handle, ref Auth.CopyUserAuthTokenOptionsInternal options, IntPtr localUserId, out IntPtr outUserAuthToken);
 		internal static EOS_Auth_CopyUserAuthTokenDelegate EOS_Auth_CopyUserAuthToken;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Auth_DeletePersistentAuthDelegate(IntPtr handle, ref Auth.DeletePersistentAuthOptionsInternal options, IntPtr clientData, Auth.OnDeletePersistentAuthCallbackInternal completionDelegate);
 		internal static EOS_Auth_DeletePersistentAuthDelegate EOS_Auth_DeletePersistentAuth;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Auth_GetLoggedInAccountByIndexDelegate(IntPtr handle, int index);
 		internal static EOS_Auth_GetLoggedInAccountByIndexDelegate EOS_Auth_GetLoggedInAccountByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate int EOS_Auth_GetLoggedInAccountsCountDelegate(IntPtr handle);
 		internal static EOS_Auth_GetLoggedInAccountsCountDelegate EOS_Auth_GetLoggedInAccountsCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate LoginStatus EOS_Auth_GetLoginStatusDelegate(IntPtr handle, IntPtr localUserId);
 		internal static EOS_Auth_GetLoginStatusDelegate EOS_Auth_GetLoginStatus;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Auth_GetMergedAccountByIndexDelegate(IntPtr handle, IntPtr localUserId, uint index);
 		internal static EOS_Auth_GetMergedAccountByIndexDelegate EOS_Auth_GetMergedAccountByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Auth_GetMergedAccountsCountDelegate(IntPtr handle, IntPtr localUserId);
 		internal static EOS_Auth_GetMergedAccountsCountDelegate EOS_Auth_GetMergedAccountsCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Auth_GetSelectedAccountIdDelegate(IntPtr handle, IntPtr localUserId, out IntPtr outSelectedAccountId);
 		internal static EOS_Auth_GetSelectedAccountIdDelegate EOS_Auth_GetSelectedAccountId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Auth_IdToken_ReleaseDelegate(IntPtr idToken);
 		internal static EOS_Auth_IdToken_ReleaseDelegate EOS_Auth_IdToken_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Auth_LinkAccountDelegate(IntPtr handle, ref Auth.LinkAccountOptionsInternal options, IntPtr clientData, Auth.OnLinkAccountCallbackInternal completionDelegate);
 		internal static EOS_Auth_LinkAccountDelegate EOS_Auth_LinkAccount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Auth_LoginDelegate(IntPtr handle, ref Auth.LoginOptionsInternal options, IntPtr clientData, Auth.OnLoginCallbackInternal completionDelegate);
 		internal static EOS_Auth_LoginDelegate EOS_Auth_Login;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Auth_LogoutDelegate(IntPtr handle, ref Auth.LogoutOptionsInternal options, IntPtr clientData, Auth.OnLogoutCallbackInternal completionDelegate);
 		internal static EOS_Auth_LogoutDelegate EOS_Auth_Logout;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Auth_QueryIdTokenDelegate(IntPtr handle, ref Auth.QueryIdTokenOptionsInternal options, IntPtr clientData, Auth.OnQueryIdTokenCallbackInternal completionDelegate);
 		internal static EOS_Auth_QueryIdTokenDelegate EOS_Auth_QueryIdToken;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Auth_RemoveNotifyLoginStatusChangedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Auth_RemoveNotifyLoginStatusChangedDelegate EOS_Auth_RemoveNotifyLoginStatusChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Auth_Token_ReleaseDelegate(IntPtr authToken);
 		internal static EOS_Auth_Token_ReleaseDelegate EOS_Auth_Token_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Auth_VerifyIdTokenDelegate(IntPtr handle, ref Auth.VerifyIdTokenOptionsInternal options, IntPtr clientData, Auth.OnVerifyIdTokenCallbackInternal completionDelegate);
 		internal static EOS_Auth_VerifyIdTokenDelegate EOS_Auth_VerifyIdToken;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Auth_VerifyUserAuthDelegate(IntPtr handle, ref Auth.VerifyUserAuthOptionsInternal options, IntPtr clientData, Auth.OnVerifyUserAuthCallbackInternal completionDelegate);
 		internal static EOS_Auth_VerifyUserAuthDelegate EOS_Auth_VerifyUserAuth;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_ByteArray_ToStringDelegate(IntPtr byteArray, uint length, IntPtr outBuffer, ref uint inOutBufferLength);
 		internal static EOS_ByteArray_ToStringDelegate EOS_ByteArray_ToString;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Connect_AddNotifyAuthExpirationDelegate(IntPtr handle, ref Connect.AddNotifyAuthExpirationOptionsInternal options, IntPtr clientData, Connect.OnAuthExpirationCallbackInternal notification);
 		internal static EOS_Connect_AddNotifyAuthExpirationDelegate EOS_Connect_AddNotifyAuthExpiration;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Connect_AddNotifyLoginStatusChangedDelegate(IntPtr handle, ref Connect.AddNotifyLoginStatusChangedOptionsInternal options, IntPtr clientData, Connect.OnLoginStatusChangedCallbackInternal notification);
 		internal static EOS_Connect_AddNotifyLoginStatusChangedDelegate EOS_Connect_AddNotifyLoginStatusChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Connect_CopyIdTokenDelegate(IntPtr handle, ref Connect.CopyIdTokenOptionsInternal options, out IntPtr outIdToken);
 		internal static EOS_Connect_CopyIdTokenDelegate EOS_Connect_CopyIdToken;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Connect_CopyProductUserExternalAccountByAccountIdDelegate(IntPtr handle, ref Connect.CopyProductUserExternalAccountByAccountIdOptionsInternal options, out IntPtr outExternalAccountInfo);
 		internal static EOS_Connect_CopyProductUserExternalAccountByAccountIdDelegate EOS_Connect_CopyProductUserExternalAccountByAccountId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Connect_CopyProductUserExternalAccountByAccountTypeDelegate(IntPtr handle, ref Connect.CopyProductUserExternalAccountByAccountTypeOptionsInternal options, out IntPtr outExternalAccountInfo);
 		internal static EOS_Connect_CopyProductUserExternalAccountByAccountTypeDelegate EOS_Connect_CopyProductUserExternalAccountByAccountType;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Connect_CopyProductUserExternalAccountByIndexDelegate(IntPtr handle, ref Connect.CopyProductUserExternalAccountByIndexOptionsInternal options, out IntPtr outExternalAccountInfo);
 		internal static EOS_Connect_CopyProductUserExternalAccountByIndexDelegate EOS_Connect_CopyProductUserExternalAccountByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Connect_CopyProductUserInfoDelegate(IntPtr handle, ref Connect.CopyProductUserInfoOptionsInternal options, out IntPtr outExternalAccountInfo);
 		internal static EOS_Connect_CopyProductUserInfoDelegate EOS_Connect_CopyProductUserInfo;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Connect_CreateDeviceIdDelegate(IntPtr handle, ref Connect.CreateDeviceIdOptionsInternal options, IntPtr clientData, Connect.OnCreateDeviceIdCallbackInternal completionDelegate);
 		internal static EOS_Connect_CreateDeviceIdDelegate EOS_Connect_CreateDeviceId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Connect_CreateUserDelegate(IntPtr handle, ref Connect.CreateUserOptionsInternal options, IntPtr clientData, Connect.OnCreateUserCallbackInternal completionDelegate);
 		internal static EOS_Connect_CreateUserDelegate EOS_Connect_CreateUser;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Connect_DeleteDeviceIdDelegate(IntPtr handle, ref Connect.DeleteDeviceIdOptionsInternal options, IntPtr clientData, Connect.OnDeleteDeviceIdCallbackInternal completionDelegate);
 		internal static EOS_Connect_DeleteDeviceIdDelegate EOS_Connect_DeleteDeviceId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Connect_ExternalAccountInfo_ReleaseDelegate(IntPtr externalAccountInfo);
 		internal static EOS_Connect_ExternalAccountInfo_ReleaseDelegate EOS_Connect_ExternalAccountInfo_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Connect_GetExternalAccountMappingDelegate(IntPtr handle, ref Connect.GetExternalAccountMappingsOptionsInternal options);
 		internal static EOS_Connect_GetExternalAccountMappingDelegate EOS_Connect_GetExternalAccountMapping;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Connect_GetLoggedInUserByIndexDelegate(IntPtr handle, int index);
 		internal static EOS_Connect_GetLoggedInUserByIndexDelegate EOS_Connect_GetLoggedInUserByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate int EOS_Connect_GetLoggedInUsersCountDelegate(IntPtr handle);
 		internal static EOS_Connect_GetLoggedInUsersCountDelegate EOS_Connect_GetLoggedInUsersCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate LoginStatus EOS_Connect_GetLoginStatusDelegate(IntPtr handle, IntPtr localUserId);
 		internal static EOS_Connect_GetLoginStatusDelegate EOS_Connect_GetLoginStatus;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Connect_GetProductUserExternalAccountCountDelegate(IntPtr handle, ref Connect.GetProductUserExternalAccountCountOptionsInternal options);
 		internal static EOS_Connect_GetProductUserExternalAccountCountDelegate EOS_Connect_GetProductUserExternalAccountCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Connect_GetProductUserIdMappingDelegate(IntPtr handle, ref Connect.GetProductUserIdMappingOptionsInternal options, IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_Connect_GetProductUserIdMappingDelegate EOS_Connect_GetProductUserIdMapping;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Connect_IdToken_ReleaseDelegate(IntPtr idToken);
 		internal static EOS_Connect_IdToken_ReleaseDelegate EOS_Connect_IdToken_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Connect_LinkAccountDelegate(IntPtr handle, ref Connect.LinkAccountOptionsInternal options, IntPtr clientData, Connect.OnLinkAccountCallbackInternal completionDelegate);
 		internal static EOS_Connect_LinkAccountDelegate EOS_Connect_LinkAccount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Connect_LoginDelegate(IntPtr handle, ref Connect.LoginOptionsInternal options, IntPtr clientData, Connect.OnLoginCallbackInternal completionDelegate);
 		internal static EOS_Connect_LoginDelegate EOS_Connect_Login;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Connect_LogoutDelegate(IntPtr handle, ref Connect.LogoutOptionsInternal options, IntPtr clientData, Connect.OnLogoutCallbackInternal completionDelegate);
 		internal static EOS_Connect_LogoutDelegate EOS_Connect_Logout;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Connect_QueryExternalAccountMappingsDelegate(IntPtr handle, ref Connect.QueryExternalAccountMappingsOptionsInternal options, IntPtr clientData, Connect.OnQueryExternalAccountMappingsCallbackInternal completionDelegate);
 		internal static EOS_Connect_QueryExternalAccountMappingsDelegate EOS_Connect_QueryExternalAccountMappings;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Connect_QueryProductUserIdMappingsDelegate(IntPtr handle, ref Connect.QueryProductUserIdMappingsOptionsInternal options, IntPtr clientData, Connect.OnQueryProductUserIdMappingsCallbackInternal completionDelegate);
 		internal static EOS_Connect_QueryProductUserIdMappingsDelegate EOS_Connect_QueryProductUserIdMappings;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Connect_RemoveNotifyAuthExpirationDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Connect_RemoveNotifyAuthExpirationDelegate EOS_Connect_RemoveNotifyAuthExpiration;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Connect_RemoveNotifyLoginStatusChangedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Connect_RemoveNotifyLoginStatusChangedDelegate EOS_Connect_RemoveNotifyLoginStatusChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Connect_TransferDeviceIdAccountDelegate(IntPtr handle, ref Connect.TransferDeviceIdAccountOptionsInternal options, IntPtr clientData, Connect.OnTransferDeviceIdAccountCallbackInternal completionDelegate);
 		internal static EOS_Connect_TransferDeviceIdAccountDelegate EOS_Connect_TransferDeviceIdAccount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Connect_UnlinkAccountDelegate(IntPtr handle, ref Connect.UnlinkAccountOptionsInternal options, IntPtr clientData, Connect.OnUnlinkAccountCallbackInternal completionDelegate);
 		internal static EOS_Connect_UnlinkAccountDelegate EOS_Connect_UnlinkAccount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Connect_VerifyIdTokenDelegate(IntPtr handle, ref Connect.VerifyIdTokenOptionsInternal options, IntPtr clientData, Connect.OnVerifyIdTokenCallbackInternal completionDelegate);
 		internal static EOS_Connect_VerifyIdTokenDelegate EOS_Connect_VerifyIdToken;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_ContinuanceToken_ToStringDelegate(IntPtr continuanceToken, IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_ContinuanceToken_ToStringDelegate EOS_ContinuanceToken_ToString;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_CustomInvites_AcceptRequestToJoinDelegate(IntPtr handle, ref CustomInvites.AcceptRequestToJoinOptionsInternal options, IntPtr clientData, CustomInvites.OnAcceptRequestToJoinCallbackInternal completionDelegate);
 		internal static EOS_CustomInvites_AcceptRequestToJoinDelegate EOS_CustomInvites_AcceptRequestToJoin;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_CustomInvites_AddNotifyCustomInviteAcceptedDelegate(IntPtr handle, ref CustomInvites.AddNotifyCustomInviteAcceptedOptionsInternal options, IntPtr clientData, CustomInvites.OnCustomInviteAcceptedCallbackInternal notificationFn);
 		internal static EOS_CustomInvites_AddNotifyCustomInviteAcceptedDelegate EOS_CustomInvites_AddNotifyCustomInviteAccepted;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_CustomInvites_AddNotifyCustomInviteReceivedDelegate(IntPtr handle, ref CustomInvites.AddNotifyCustomInviteReceivedOptionsInternal options, IntPtr clientData, CustomInvites.OnCustomInviteReceivedCallbackInternal notificationFn);
 		internal static EOS_CustomInvites_AddNotifyCustomInviteReceivedDelegate EOS_CustomInvites_AddNotifyCustomInviteReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_CustomInvites_AddNotifyCustomInviteRejectedDelegate(IntPtr handle, ref CustomInvites.AddNotifyCustomInviteRejectedOptionsInternal options, IntPtr clientData, CustomInvites.OnCustomInviteRejectedCallbackInternal notificationFn);
 		internal static EOS_CustomInvites_AddNotifyCustomInviteRejectedDelegate EOS_CustomInvites_AddNotifyCustomInviteRejected;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_CustomInvites_AddNotifyRequestToJoinAcceptedDelegate(IntPtr handle, ref CustomInvites.AddNotifyRequestToJoinAcceptedOptionsInternal options, IntPtr clientData, CustomInvites.OnRequestToJoinAcceptedCallbackInternal notificationFn);
 		internal static EOS_CustomInvites_AddNotifyRequestToJoinAcceptedDelegate EOS_CustomInvites_AddNotifyRequestToJoinAccepted;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_CustomInvites_AddNotifyRequestToJoinReceivedDelegate(IntPtr handle, ref CustomInvites.AddNotifyRequestToJoinReceivedOptionsInternal options, IntPtr clientData, CustomInvites.OnRequestToJoinReceivedCallbackInternal notificationFn);
 		internal static EOS_CustomInvites_AddNotifyRequestToJoinReceivedDelegate EOS_CustomInvites_AddNotifyRequestToJoinReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_CustomInvites_AddNotifyRequestToJoinRejectedDelegate(IntPtr handle, ref CustomInvites.AddNotifyRequestToJoinRejectedOptionsInternal options, IntPtr clientData, CustomInvites.OnRequestToJoinRejectedCallbackInternal notificationFn);
 		internal static EOS_CustomInvites_AddNotifyRequestToJoinRejectedDelegate EOS_CustomInvites_AddNotifyRequestToJoinRejected;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedDelegate(IntPtr handle, ref CustomInvites.AddNotifyRequestToJoinResponseReceivedOptionsInternal options, IntPtr clientData, CustomInvites.OnRequestToJoinResponseReceivedCallbackInternal notificationFn);
 		internal static EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedDelegate EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedDelegate(IntPtr handle, ref CustomInvites.AddNotifySendCustomNativeInviteRequestedOptionsInternal options, IntPtr clientData, CustomInvites.OnSendCustomNativeInviteRequestedCallbackInternal notificationFn);
 		internal static EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedDelegate EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_CustomInvites_DisableRequestToJoinDelegate(IntPtr handle, ref CustomInvites.DisableRequestToJoinOptionsInternal options);
 		internal static EOS_CustomInvites_DisableRequestToJoinDelegate EOS_CustomInvites_DisableRequestToJoin;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_CustomInvites_FinalizeInviteDelegate(IntPtr handle, ref CustomInvites.FinalizeInviteOptionsInternal options);
 		internal static EOS_CustomInvites_FinalizeInviteDelegate EOS_CustomInvites_FinalizeInvite;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_CustomInvites_RejectRequestToJoinDelegate(IntPtr handle, ref CustomInvites.RejectRequestToJoinOptionsInternal options, IntPtr clientData, CustomInvites.OnRejectRequestToJoinCallbackInternal completionDelegate);
 		internal static EOS_CustomInvites_RejectRequestToJoinDelegate EOS_CustomInvites_RejectRequestToJoin;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedDelegate EOS_CustomInvites_RemoveNotifyCustomInviteAccepted;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_CustomInvites_RemoveNotifyCustomInviteReceivedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_CustomInvites_RemoveNotifyCustomInviteReceivedDelegate EOS_CustomInvites_RemoveNotifyCustomInviteReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_CustomInvites_RemoveNotifyCustomInviteRejectedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_CustomInvites_RemoveNotifyCustomInviteRejectedDelegate EOS_CustomInvites_RemoveNotifyCustomInviteRejected;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_CustomInvites_RemoveNotifyRequestToJoinAcceptedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_CustomInvites_RemoveNotifyRequestToJoinAcceptedDelegate EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_CustomInvites_RemoveNotifyRequestToJoinReceivedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_CustomInvites_RemoveNotifyRequestToJoinReceivedDelegate EOS_CustomInvites_RemoveNotifyRequestToJoinReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_CustomInvites_RemoveNotifyRequestToJoinRejectedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_CustomInvites_RemoveNotifyRequestToJoinRejectedDelegate EOS_CustomInvites_RemoveNotifyRequestToJoinRejected;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceivedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceivedDelegate EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequestedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequestedDelegate EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_CustomInvites_SendCustomInviteDelegate(IntPtr handle, ref CustomInvites.SendCustomInviteOptionsInternal options, IntPtr clientData, CustomInvites.OnSendCustomInviteCallbackInternal completionDelegate);
 		internal static EOS_CustomInvites_SendCustomInviteDelegate EOS_CustomInvites_SendCustomInvite;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_CustomInvites_SendRequestToJoinDelegate(IntPtr handle, ref CustomInvites.SendRequestToJoinOptionsInternal options, IntPtr clientData, CustomInvites.OnSendRequestToJoinCallbackInternal completionDelegate);
 		internal static EOS_CustomInvites_SendRequestToJoinDelegate EOS_CustomInvites_SendRequestToJoin;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_CustomInvites_SetCustomInviteDelegate(IntPtr handle, ref CustomInvites.SetCustomInviteOptionsInternal options);
 		internal static EOS_CustomInvites_SetCustomInviteDelegate EOS_CustomInvites_SetCustomInvite;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_EApplicationStatus_ToStringDelegate(Platform.ApplicationStatus applicationStatus);
 		internal static EOS_EApplicationStatus_ToStringDelegate EOS_EApplicationStatus_ToString;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_ENetworkStatus_ToStringDelegate(Platform.NetworkStatus networkStatus);
 		internal static EOS_ENetworkStatus_ToStringDelegate EOS_ENetworkStatus_ToString;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate int EOS_EResult_IsOperationCompleteDelegate(Result result);
 		internal static EOS_EResult_IsOperationCompleteDelegate EOS_EResult_IsOperationComplete;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_EResult_ToStringDelegate(Result result);
 		internal static EOS_EResult_ToStringDelegate EOS_EResult_ToString;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Ecom_CatalogItem_ReleaseDelegate(IntPtr catalogItem);
 		internal static EOS_Ecom_CatalogItem_ReleaseDelegate EOS_Ecom_CatalogItem_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Ecom_CatalogOffer_ReleaseDelegate(IntPtr catalogOffer);
 		internal static EOS_Ecom_CatalogOffer_ReleaseDelegate EOS_Ecom_CatalogOffer_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Ecom_CatalogRelease_ReleaseDelegate(IntPtr catalogRelease);
 		internal static EOS_Ecom_CatalogRelease_ReleaseDelegate EOS_Ecom_CatalogRelease_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Ecom_CheckoutDelegate(IntPtr handle, ref Ecom.CheckoutOptionsInternal options, IntPtr clientData, Ecom.OnCheckoutCallbackInternal completionDelegate);
 		internal static EOS_Ecom_CheckoutDelegate EOS_Ecom_Checkout;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_CopyEntitlementByIdDelegate(IntPtr handle, ref Ecom.CopyEntitlementByIdOptionsInternal options, out IntPtr outEntitlement);
 		internal static EOS_Ecom_CopyEntitlementByIdDelegate EOS_Ecom_CopyEntitlementById;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_CopyEntitlementByIndexDelegate(IntPtr handle, ref Ecom.CopyEntitlementByIndexOptionsInternal options, out IntPtr outEntitlement);
 		internal static EOS_Ecom_CopyEntitlementByIndexDelegate EOS_Ecom_CopyEntitlementByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_CopyEntitlementByNameAndIndexDelegate(IntPtr handle, ref Ecom.CopyEntitlementByNameAndIndexOptionsInternal options, out IntPtr outEntitlement);
 		internal static EOS_Ecom_CopyEntitlementByNameAndIndexDelegate EOS_Ecom_CopyEntitlementByNameAndIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_CopyItemByIdDelegate(IntPtr handle, ref Ecom.CopyItemByIdOptionsInternal options, out IntPtr outItem);
 		internal static EOS_Ecom_CopyItemByIdDelegate EOS_Ecom_CopyItemById;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_CopyItemImageInfoByIndexDelegate(IntPtr handle, ref Ecom.CopyItemImageInfoByIndexOptionsInternal options, out IntPtr outImageInfo);
 		internal static EOS_Ecom_CopyItemImageInfoByIndexDelegate EOS_Ecom_CopyItemImageInfoByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_CopyItemReleaseByIndexDelegate(IntPtr handle, ref Ecom.CopyItemReleaseByIndexOptionsInternal options, out IntPtr outRelease);
 		internal static EOS_Ecom_CopyItemReleaseByIndexDelegate EOS_Ecom_CopyItemReleaseByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexDelegate(IntPtr handle, ref Ecom.CopyLastRedeemEntitlementsResultByIndexOptionsInternal options, IntPtr outEntitlementId, ref int inOutEntitlementIdLength);
 		internal static EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexDelegate EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_CopyLastRedeemedEntitlementByIndexDelegate(IntPtr handle, ref Ecom.CopyLastRedeemedEntitlementByIndexOptionsInternal options, IntPtr outRedeemedEntitlementId, ref int inOutRedeemedEntitlementIdLength);
 		internal static EOS_Ecom_CopyLastRedeemedEntitlementByIndexDelegate EOS_Ecom_CopyLastRedeemedEntitlementByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_CopyOfferByIdDelegate(IntPtr handle, ref Ecom.CopyOfferByIdOptionsInternal options, out IntPtr outOffer);
 		internal static EOS_Ecom_CopyOfferByIdDelegate EOS_Ecom_CopyOfferById;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_CopyOfferByIndexDelegate(IntPtr handle, ref Ecom.CopyOfferByIndexOptionsInternal options, out IntPtr outOffer);
 		internal static EOS_Ecom_CopyOfferByIndexDelegate EOS_Ecom_CopyOfferByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_CopyOfferImageInfoByIndexDelegate(IntPtr handle, ref Ecom.CopyOfferImageInfoByIndexOptionsInternal options, out IntPtr outImageInfo);
 		internal static EOS_Ecom_CopyOfferImageInfoByIndexDelegate EOS_Ecom_CopyOfferImageInfoByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_CopyOfferItemByIndexDelegate(IntPtr handle, ref Ecom.CopyOfferItemByIndexOptionsInternal options, out IntPtr outItem);
 		internal static EOS_Ecom_CopyOfferItemByIndexDelegate EOS_Ecom_CopyOfferItemByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_CopyTransactionByIdDelegate(IntPtr handle, ref Ecom.CopyTransactionByIdOptionsInternal options, out IntPtr outTransaction);
 		internal static EOS_Ecom_CopyTransactionByIdDelegate EOS_Ecom_CopyTransactionById;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_CopyTransactionByIndexDelegate(IntPtr handle, ref Ecom.CopyTransactionByIndexOptionsInternal options, out IntPtr outTransaction);
 		internal static EOS_Ecom_CopyTransactionByIndexDelegate EOS_Ecom_CopyTransactionByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Ecom_Entitlement_ReleaseDelegate(IntPtr entitlement);
 		internal static EOS_Ecom_Entitlement_ReleaseDelegate EOS_Ecom_Entitlement_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Ecom_GetEntitlementsByNameCountDelegate(IntPtr handle, ref Ecom.GetEntitlementsByNameCountOptionsInternal options);
 		internal static EOS_Ecom_GetEntitlementsByNameCountDelegate EOS_Ecom_GetEntitlementsByNameCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Ecom_GetEntitlementsCountDelegate(IntPtr handle, ref Ecom.GetEntitlementsCountOptionsInternal options);
 		internal static EOS_Ecom_GetEntitlementsCountDelegate EOS_Ecom_GetEntitlementsCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Ecom_GetItemImageInfoCountDelegate(IntPtr handle, ref Ecom.GetItemImageInfoCountOptionsInternal options);
 		internal static EOS_Ecom_GetItemImageInfoCountDelegate EOS_Ecom_GetItemImageInfoCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Ecom_GetItemReleaseCountDelegate(IntPtr handle, ref Ecom.GetItemReleaseCountOptionsInternal options);
 		internal static EOS_Ecom_GetItemReleaseCountDelegate EOS_Ecom_GetItemReleaseCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Ecom_GetLastRedeemEntitlementsResultCountDelegate(IntPtr handle, ref Ecom.GetLastRedeemEntitlementsResultCountOptionsInternal options);
 		internal static EOS_Ecom_GetLastRedeemEntitlementsResultCountDelegate EOS_Ecom_GetLastRedeemEntitlementsResultCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Ecom_GetLastRedeemedEntitlementsCountDelegate(IntPtr handle, ref Ecom.GetLastRedeemedEntitlementsCountOptionsInternal options);
 		internal static EOS_Ecom_GetLastRedeemedEntitlementsCountDelegate EOS_Ecom_GetLastRedeemedEntitlementsCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Ecom_GetOfferCountDelegate(IntPtr handle, ref Ecom.GetOfferCountOptionsInternal options);
 		internal static EOS_Ecom_GetOfferCountDelegate EOS_Ecom_GetOfferCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Ecom_GetOfferImageInfoCountDelegate(IntPtr handle, ref Ecom.GetOfferImageInfoCountOptionsInternal options);
 		internal static EOS_Ecom_GetOfferImageInfoCountDelegate EOS_Ecom_GetOfferImageInfoCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Ecom_GetOfferItemCountDelegate(IntPtr handle, ref Ecom.GetOfferItemCountOptionsInternal options);
 		internal static EOS_Ecom_GetOfferItemCountDelegate EOS_Ecom_GetOfferItemCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Ecom_GetTransactionCountDelegate(IntPtr handle, ref Ecom.GetTransactionCountOptionsInternal options);
 		internal static EOS_Ecom_GetTransactionCountDelegate EOS_Ecom_GetTransactionCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Ecom_KeyImageInfo_ReleaseDelegate(IntPtr keyImageInfo);
 		internal static EOS_Ecom_KeyImageInfo_ReleaseDelegate EOS_Ecom_KeyImageInfo_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Ecom_QueryEntitlementTokenDelegate(IntPtr handle, ref Ecom.QueryEntitlementTokenOptionsInternal options, IntPtr clientData, Ecom.OnQueryEntitlementTokenCallbackInternal completionDelegate);
 		internal static EOS_Ecom_QueryEntitlementTokenDelegate EOS_Ecom_QueryEntitlementToken;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Ecom_QueryEntitlementsDelegate(IntPtr handle, ref Ecom.QueryEntitlementsOptionsInternal options, IntPtr clientData, Ecom.OnQueryEntitlementsCallbackInternal completionDelegate);
 		internal static EOS_Ecom_QueryEntitlementsDelegate EOS_Ecom_QueryEntitlements;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Ecom_QueryOffersDelegate(IntPtr handle, ref Ecom.QueryOffersOptionsInternal options, IntPtr clientData, Ecom.OnQueryOffersCallbackInternal completionDelegate);
 		internal static EOS_Ecom_QueryOffersDelegate EOS_Ecom_QueryOffers;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Ecom_QueryOwnershipDelegate(IntPtr handle, ref Ecom.QueryOwnershipOptionsInternal options, IntPtr clientData, Ecom.OnQueryOwnershipCallbackInternal completionDelegate);
 		internal static EOS_Ecom_QueryOwnershipDelegate EOS_Ecom_QueryOwnership;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Ecom_QueryOwnershipBySandboxIdsDelegate(IntPtr handle, ref Ecom.QueryOwnershipBySandboxIdsOptionsInternal options, IntPtr clientData, Ecom.OnQueryOwnershipBySandboxIdsCallbackInternal completionDelegate);
 		internal static EOS_Ecom_QueryOwnershipBySandboxIdsDelegate EOS_Ecom_QueryOwnershipBySandboxIds;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Ecom_QueryOwnershipTokenDelegate(IntPtr handle, ref Ecom.QueryOwnershipTokenOptionsInternal options, IntPtr clientData, Ecom.OnQueryOwnershipTokenCallbackInternal completionDelegate);
 		internal static EOS_Ecom_QueryOwnershipTokenDelegate EOS_Ecom_QueryOwnershipToken;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Ecom_RedeemEntitlementsDelegate(IntPtr handle, ref Ecom.RedeemEntitlementsOptionsInternal options, IntPtr clientData, Ecom.OnRedeemEntitlementsCallbackInternal completionDelegate);
 		internal static EOS_Ecom_RedeemEntitlementsDelegate EOS_Ecom_RedeemEntitlements;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_Transaction_CopyEntitlementByIndexDelegate(IntPtr handle, ref Ecom.TransactionCopyEntitlementByIndexOptionsInternal options, out IntPtr outEntitlement);
 		internal static EOS_Ecom_Transaction_CopyEntitlementByIndexDelegate EOS_Ecom_Transaction_CopyEntitlementByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Ecom_Transaction_GetEntitlementsCountDelegate(IntPtr handle, ref Ecom.TransactionGetEntitlementsCountOptionsInternal options);
 		internal static EOS_Ecom_Transaction_GetEntitlementsCountDelegate EOS_Ecom_Transaction_GetEntitlementsCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Ecom_Transaction_GetTransactionIdDelegate(IntPtr handle, IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_Ecom_Transaction_GetTransactionIdDelegate EOS_Ecom_Transaction_GetTransactionId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Ecom_Transaction_ReleaseDelegate(IntPtr transaction);
 		internal static EOS_Ecom_Transaction_ReleaseDelegate EOS_Ecom_Transaction_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_EpicAccountId_FromStringDelegate(IntPtr accountIdString);
 		internal static EOS_EpicAccountId_FromStringDelegate EOS_EpicAccountId_FromString;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate int EOS_EpicAccountId_IsValidDelegate(IntPtr accountId);
 		internal static EOS_EpicAccountId_IsValidDelegate EOS_EpicAccountId_IsValid;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_EpicAccountId_ToStringDelegate(IntPtr accountId, IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_EpicAccountId_ToStringDelegate EOS_EpicAccountId_ToString;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Friends_AcceptInviteDelegate(IntPtr handle, ref Friends.AcceptInviteOptionsInternal options, IntPtr clientData, Friends.OnAcceptInviteCallbackInternal completionDelegate);
 		internal static EOS_Friends_AcceptInviteDelegate EOS_Friends_AcceptInvite;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Friends_AddNotifyBlockedUsersUpdateDelegate(IntPtr handle, ref Friends.AddNotifyBlockedUsersUpdateOptionsInternal options, IntPtr clientData, Friends.OnBlockedUsersUpdateCallbackInternal blockedUsersUpdateHandler);
 		internal static EOS_Friends_AddNotifyBlockedUsersUpdateDelegate EOS_Friends_AddNotifyBlockedUsersUpdate;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Friends_AddNotifyFriendsUpdateDelegate(IntPtr handle, ref Friends.AddNotifyFriendsUpdateOptionsInternal options, IntPtr clientData, Friends.OnFriendsUpdateCallbackInternal friendsUpdateHandler);
 		internal static EOS_Friends_AddNotifyFriendsUpdateDelegate EOS_Friends_AddNotifyFriendsUpdate;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Friends_GetBlockedUserAtIndexDelegate(IntPtr handle, ref Friends.GetBlockedUserAtIndexOptionsInternal options);
 		internal static EOS_Friends_GetBlockedUserAtIndexDelegate EOS_Friends_GetBlockedUserAtIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate int EOS_Friends_GetBlockedUsersCountDelegate(IntPtr handle, ref Friends.GetBlockedUsersCountOptionsInternal options);
 		internal static EOS_Friends_GetBlockedUsersCountDelegate EOS_Friends_GetBlockedUsersCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Friends_GetFriendAtIndexDelegate(IntPtr handle, ref Friends.GetFriendAtIndexOptionsInternal options);
 		internal static EOS_Friends_GetFriendAtIndexDelegate EOS_Friends_GetFriendAtIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate int EOS_Friends_GetFriendsCountDelegate(IntPtr handle, ref Friends.GetFriendsCountOptionsInternal options);
 		internal static EOS_Friends_GetFriendsCountDelegate EOS_Friends_GetFriendsCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Friends.FriendsStatus EOS_Friends_GetStatusDelegate(IntPtr handle, ref Friends.GetStatusOptionsInternal options);
 		internal static EOS_Friends_GetStatusDelegate EOS_Friends_GetStatus;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Friends_QueryFriendsDelegate(IntPtr handle, ref Friends.QueryFriendsOptionsInternal options, IntPtr clientData, Friends.OnQueryFriendsCallbackInternal completionDelegate);
 		internal static EOS_Friends_QueryFriendsDelegate EOS_Friends_QueryFriends;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Friends_RejectInviteDelegate(IntPtr handle, ref Friends.RejectInviteOptionsInternal options, IntPtr clientData, Friends.OnRejectInviteCallbackInternal completionDelegate);
 		internal static EOS_Friends_RejectInviteDelegate EOS_Friends_RejectInvite;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Friends_RemoveNotifyBlockedUsersUpdateDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_Friends_RemoveNotifyBlockedUsersUpdateDelegate EOS_Friends_RemoveNotifyBlockedUsersUpdate;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Friends_RemoveNotifyFriendsUpdateDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_Friends_RemoveNotifyFriendsUpdateDelegate EOS_Friends_RemoveNotifyFriendsUpdate;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Friends_SendInviteDelegate(IntPtr handle, ref Friends.SendInviteOptionsInternal options, IntPtr clientData, Friends.OnSendInviteCallbackInternal completionDelegate);
 		internal static EOS_Friends_SendInviteDelegate EOS_Friends_SendInvite;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_GetVersionDelegate();
 		internal static EOS_GetVersionDelegate EOS_GetVersion;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_InitializeDelegate(ref Platform.InitializeOptionsInternal options);
 		internal static EOS_InitializeDelegate EOS_Initialize;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_IntegratedPlatformOptionsContainer_AddDelegate(IntPtr handle, ref IntegratedPlatform.IntegratedPlatformOptionsContainerAddOptionsInternal inOptions);
 		internal static EOS_IntegratedPlatformOptionsContainer_AddDelegate EOS_IntegratedPlatformOptionsContainer_Add;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_IntegratedPlatformOptionsContainer_ReleaseDelegate(IntPtr integratedPlatformOptionsContainerHandle);
 		internal static EOS_IntegratedPlatformOptionsContainer_ReleaseDelegate EOS_IntegratedPlatformOptionsContainer_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_IntegratedPlatform_AddNotifyUserLoginStatusChangedDelegate(IntPtr handle, ref IntegratedPlatform.AddNotifyUserLoginStatusChangedOptionsInternal options, IntPtr clientData, IntegratedPlatform.OnUserLoginStatusChangedCallbackInternal callbackFunction);
 		internal static EOS_IntegratedPlatform_AddNotifyUserLoginStatusChangedDelegate EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_IntegratedPlatform_ClearUserPreLogoutCallbackDelegate(IntPtr handle, ref IntegratedPlatform.ClearUserPreLogoutCallbackOptionsInternal options);
 		internal static EOS_IntegratedPlatform_ClearUserPreLogoutCallbackDelegate EOS_IntegratedPlatform_ClearUserPreLogoutCallback;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerDelegate(ref IntegratedPlatform.CreateIntegratedPlatformOptionsContainerOptionsInternal options, out IntPtr outIntegratedPlatformOptionsContainerHandle);
 		internal static EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerDelegate EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_IntegratedPlatform_FinalizeDeferredUserLogoutDelegate(IntPtr handle, ref IntegratedPlatform.FinalizeDeferredUserLogoutOptionsInternal options);
 		internal static EOS_IntegratedPlatform_FinalizeDeferredUserLogoutDelegate EOS_IntegratedPlatform_FinalizeDeferredUserLogout;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChangedDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChangedDelegate EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_IntegratedPlatform_SetUserLoginStatusDelegate(IntPtr handle, ref IntegratedPlatform.SetUserLoginStatusOptionsInternal options);
 		internal static EOS_IntegratedPlatform_SetUserLoginStatusDelegate EOS_IntegratedPlatform_SetUserLoginStatus;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_IntegratedPlatform_SetUserPreLogoutCallbackDelegate(IntPtr handle, ref IntegratedPlatform.SetUserPreLogoutCallbackOptionsInternal options, IntPtr clientData, IntegratedPlatform.OnUserPreLogoutCallbackInternal callbackFunction);
 		internal static EOS_IntegratedPlatform_SetUserPreLogoutCallbackDelegate EOS_IntegratedPlatform_SetUserPreLogoutCallback;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_KWS_AddNotifyPermissionsUpdateReceivedDelegate(IntPtr handle, ref KWS.AddNotifyPermissionsUpdateReceivedOptionsInternal options, IntPtr clientData, KWS.OnPermissionsUpdateReceivedCallbackInternal notificationFn);
 		internal static EOS_KWS_AddNotifyPermissionsUpdateReceivedDelegate EOS_KWS_AddNotifyPermissionsUpdateReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_KWS_CopyPermissionByIndexDelegate(IntPtr handle, ref KWS.CopyPermissionByIndexOptionsInternal options, out IntPtr outPermission);
 		internal static EOS_KWS_CopyPermissionByIndexDelegate EOS_KWS_CopyPermissionByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_KWS_CreateUserDelegate(IntPtr handle, ref KWS.CreateUserOptionsInternal options, IntPtr clientData, KWS.OnCreateUserCallbackInternal completionDelegate);
 		internal static EOS_KWS_CreateUserDelegate EOS_KWS_CreateUser;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_KWS_GetPermissionByKeyDelegate(IntPtr handle, ref KWS.GetPermissionByKeyOptionsInternal options, out KWS.KWSPermissionStatus outPermission);
 		internal static EOS_KWS_GetPermissionByKeyDelegate EOS_KWS_GetPermissionByKey;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate int EOS_KWS_GetPermissionsCountDelegate(IntPtr handle, ref KWS.GetPermissionsCountOptionsInternal options);
 		internal static EOS_KWS_GetPermissionsCountDelegate EOS_KWS_GetPermissionsCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_KWS_PermissionStatus_ReleaseDelegate(IntPtr permissionStatus);
 		internal static EOS_KWS_PermissionStatus_ReleaseDelegate EOS_KWS_PermissionStatus_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_KWS_QueryAgeGateDelegate(IntPtr handle, ref KWS.QueryAgeGateOptionsInternal options, IntPtr clientData, KWS.OnQueryAgeGateCallbackInternal completionDelegate);
 		internal static EOS_KWS_QueryAgeGateDelegate EOS_KWS_QueryAgeGate;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_KWS_QueryPermissionsDelegate(IntPtr handle, ref KWS.QueryPermissionsOptionsInternal options, IntPtr clientData, KWS.OnQueryPermissionsCallbackInternal completionDelegate);
 		internal static EOS_KWS_QueryPermissionsDelegate EOS_KWS_QueryPermissions;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_KWS_RemoveNotifyPermissionsUpdateReceivedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_KWS_RemoveNotifyPermissionsUpdateReceivedDelegate EOS_KWS_RemoveNotifyPermissionsUpdateReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_KWS_RequestPermissionsDelegate(IntPtr handle, ref KWS.RequestPermissionsOptionsInternal options, IntPtr clientData, KWS.OnRequestPermissionsCallbackInternal completionDelegate);
 		internal static EOS_KWS_RequestPermissionsDelegate EOS_KWS_RequestPermissions;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_KWS_UpdateParentEmailDelegate(IntPtr handle, ref KWS.UpdateParentEmailOptionsInternal options, IntPtr clientData, KWS.OnUpdateParentEmailCallbackInternal completionDelegate);
 		internal static EOS_KWS_UpdateParentEmailDelegate EOS_KWS_UpdateParentEmail;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Leaderboards_CopyLeaderboardDefinitionByIndexDelegate(IntPtr handle, ref Leaderboards.CopyLeaderboardDefinitionByIndexOptionsInternal options, out IntPtr outLeaderboardDefinition);
 		internal static EOS_Leaderboards_CopyLeaderboardDefinitionByIndexDelegate EOS_Leaderboards_CopyLeaderboardDefinitionByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardIdDelegate(IntPtr handle, ref Leaderboards.CopyLeaderboardDefinitionByLeaderboardIdOptionsInternal options, out IntPtr outLeaderboardDefinition);
 		internal static EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardIdDelegate EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Leaderboards_CopyLeaderboardRecordByIndexDelegate(IntPtr handle, ref Leaderboards.CopyLeaderboardRecordByIndexOptionsInternal options, out IntPtr outLeaderboardRecord);
 		internal static EOS_Leaderboards_CopyLeaderboardRecordByIndexDelegate EOS_Leaderboards_CopyLeaderboardRecordByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Leaderboards_CopyLeaderboardRecordByUserIdDelegate(IntPtr handle, ref Leaderboards.CopyLeaderboardRecordByUserIdOptionsInternal options, out IntPtr outLeaderboardRecord);
 		internal static EOS_Leaderboards_CopyLeaderboardRecordByUserIdDelegate EOS_Leaderboards_CopyLeaderboardRecordByUserId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Leaderboards_CopyLeaderboardUserScoreByIndexDelegate(IntPtr handle, ref Leaderboards.CopyLeaderboardUserScoreByIndexOptionsInternal options, out IntPtr outLeaderboardUserScore);
 		internal static EOS_Leaderboards_CopyLeaderboardUserScoreByIndexDelegate EOS_Leaderboards_CopyLeaderboardUserScoreByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Leaderboards_CopyLeaderboardUserScoreByUserIdDelegate(IntPtr handle, ref Leaderboards.CopyLeaderboardUserScoreByUserIdOptionsInternal options, out IntPtr outLeaderboardUserScore);
 		internal static EOS_Leaderboards_CopyLeaderboardUserScoreByUserIdDelegate EOS_Leaderboards_CopyLeaderboardUserScoreByUserId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Leaderboards_Definition_ReleaseDelegate(IntPtr leaderboardDefinition);
 		internal static EOS_Leaderboards_Definition_ReleaseDelegate EOS_Leaderboards_Definition_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Leaderboards_GetLeaderboardDefinitionCountDelegate(IntPtr handle, ref Leaderboards.GetLeaderboardDefinitionCountOptionsInternal options);
 		internal static EOS_Leaderboards_GetLeaderboardDefinitionCountDelegate EOS_Leaderboards_GetLeaderboardDefinitionCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Leaderboards_GetLeaderboardRecordCountDelegate(IntPtr handle, ref Leaderboards.GetLeaderboardRecordCountOptionsInternal options);
 		internal static EOS_Leaderboards_GetLeaderboardRecordCountDelegate EOS_Leaderboards_GetLeaderboardRecordCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Leaderboards_GetLeaderboardUserScoreCountDelegate(IntPtr handle, ref Leaderboards.GetLeaderboardUserScoreCountOptionsInternal options);
 		internal static EOS_Leaderboards_GetLeaderboardUserScoreCountDelegate EOS_Leaderboards_GetLeaderboardUserScoreCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Leaderboards_LeaderboardRecord_ReleaseDelegate(IntPtr leaderboardRecord);
 		internal static EOS_Leaderboards_LeaderboardRecord_ReleaseDelegate EOS_Leaderboards_LeaderboardRecord_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Leaderboards_LeaderboardUserScore_ReleaseDelegate(IntPtr leaderboardUserScore);
 		internal static EOS_Leaderboards_LeaderboardUserScore_ReleaseDelegate EOS_Leaderboards_LeaderboardUserScore_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Leaderboards_QueryLeaderboardDefinitionsDelegate(IntPtr handle, ref Leaderboards.QueryLeaderboardDefinitionsOptionsInternal options, IntPtr clientData, Leaderboards.OnQueryLeaderboardDefinitionsCompleteCallbackInternal completionDelegate);
 		internal static EOS_Leaderboards_QueryLeaderboardDefinitionsDelegate EOS_Leaderboards_QueryLeaderboardDefinitions;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Leaderboards_QueryLeaderboardRanksDelegate(IntPtr handle, ref Leaderboards.QueryLeaderboardRanksOptionsInternal options, IntPtr clientData, Leaderboards.OnQueryLeaderboardRanksCompleteCallbackInternal completionDelegate);
 		internal static EOS_Leaderboards_QueryLeaderboardRanksDelegate EOS_Leaderboards_QueryLeaderboardRanks;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Leaderboards_QueryLeaderboardUserScoresDelegate(IntPtr handle, ref Leaderboards.QueryLeaderboardUserScoresOptionsInternal options, IntPtr clientData, Leaderboards.OnQueryLeaderboardUserScoresCompleteCallbackInternal completionDelegate);
 		internal static EOS_Leaderboards_QueryLeaderboardUserScoresDelegate EOS_Leaderboards_QueryLeaderboardUserScores;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbyDetails_CopyAttributeByIndexDelegate(IntPtr handle, ref Lobby.LobbyDetailsCopyAttributeByIndexOptionsInternal options, out IntPtr outAttribute);
 		internal static EOS_LobbyDetails_CopyAttributeByIndexDelegate EOS_LobbyDetails_CopyAttributeByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbyDetails_CopyAttributeByKeyDelegate(IntPtr handle, ref Lobby.LobbyDetailsCopyAttributeByKeyOptionsInternal options, out IntPtr outAttribute);
 		internal static EOS_LobbyDetails_CopyAttributeByKeyDelegate EOS_LobbyDetails_CopyAttributeByKey;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbyDetails_CopyInfoDelegate(IntPtr handle, ref Lobby.LobbyDetailsCopyInfoOptionsInternal options, out IntPtr outLobbyDetailsInfo);
 		internal static EOS_LobbyDetails_CopyInfoDelegate EOS_LobbyDetails_CopyInfo;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbyDetails_CopyMemberAttributeByIndexDelegate(IntPtr handle, ref Lobby.LobbyDetailsCopyMemberAttributeByIndexOptionsInternal options, out IntPtr outAttribute);
 		internal static EOS_LobbyDetails_CopyMemberAttributeByIndexDelegate EOS_LobbyDetails_CopyMemberAttributeByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbyDetails_CopyMemberAttributeByKeyDelegate(IntPtr handle, ref Lobby.LobbyDetailsCopyMemberAttributeByKeyOptionsInternal options, out IntPtr outAttribute);
 		internal static EOS_LobbyDetails_CopyMemberAttributeByKeyDelegate EOS_LobbyDetails_CopyMemberAttributeByKey;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbyDetails_CopyMemberInfoDelegate(IntPtr handle, ref Lobby.LobbyDetailsCopyMemberInfoOptionsInternal options, out IntPtr outLobbyDetailsMemberInfo);
 		internal static EOS_LobbyDetails_CopyMemberInfoDelegate EOS_LobbyDetails_CopyMemberInfo;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_LobbyDetails_GetAttributeCountDelegate(IntPtr handle, ref Lobby.LobbyDetailsGetAttributeCountOptionsInternal options);
 		internal static EOS_LobbyDetails_GetAttributeCountDelegate EOS_LobbyDetails_GetAttributeCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_LobbyDetails_GetLobbyOwnerDelegate(IntPtr handle, ref Lobby.LobbyDetailsGetLobbyOwnerOptionsInternal options);
 		internal static EOS_LobbyDetails_GetLobbyOwnerDelegate EOS_LobbyDetails_GetLobbyOwner;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_LobbyDetails_GetMemberAttributeCountDelegate(IntPtr handle, ref Lobby.LobbyDetailsGetMemberAttributeCountOptionsInternal options);
 		internal static EOS_LobbyDetails_GetMemberAttributeCountDelegate EOS_LobbyDetails_GetMemberAttributeCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_LobbyDetails_GetMemberByIndexDelegate(IntPtr handle, ref Lobby.LobbyDetailsGetMemberByIndexOptionsInternal options);
 		internal static EOS_LobbyDetails_GetMemberByIndexDelegate EOS_LobbyDetails_GetMemberByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_LobbyDetails_GetMemberCountDelegate(IntPtr handle, ref Lobby.LobbyDetailsGetMemberCountOptionsInternal options);
 		internal static EOS_LobbyDetails_GetMemberCountDelegate EOS_LobbyDetails_GetMemberCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_LobbyDetails_Info_ReleaseDelegate(IntPtr lobbyDetailsInfo);
 		internal static EOS_LobbyDetails_Info_ReleaseDelegate EOS_LobbyDetails_Info_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_LobbyDetails_MemberInfo_ReleaseDelegate(IntPtr lobbyDetailsMemberInfo);
 		internal static EOS_LobbyDetails_MemberInfo_ReleaseDelegate EOS_LobbyDetails_MemberInfo_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_LobbyDetails_ReleaseDelegate(IntPtr lobbyHandle);
 		internal static EOS_LobbyDetails_ReleaseDelegate EOS_LobbyDetails_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbyModification_AddAttributeDelegate(IntPtr handle, ref Lobby.LobbyModificationAddAttributeOptionsInternal options);
 		internal static EOS_LobbyModification_AddAttributeDelegate EOS_LobbyModification_AddAttribute;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbyModification_AddMemberAttributeDelegate(IntPtr handle, ref Lobby.LobbyModificationAddMemberAttributeOptionsInternal options);
 		internal static EOS_LobbyModification_AddMemberAttributeDelegate EOS_LobbyModification_AddMemberAttribute;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_LobbyModification_ReleaseDelegate(IntPtr lobbyModificationHandle);
 		internal static EOS_LobbyModification_ReleaseDelegate EOS_LobbyModification_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbyModification_RemoveAttributeDelegate(IntPtr handle, ref Lobby.LobbyModificationRemoveAttributeOptionsInternal options);
 		internal static EOS_LobbyModification_RemoveAttributeDelegate EOS_LobbyModification_RemoveAttribute;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbyModification_RemoveMemberAttributeDelegate(IntPtr handle, ref Lobby.LobbyModificationRemoveMemberAttributeOptionsInternal options);
 		internal static EOS_LobbyModification_RemoveMemberAttributeDelegate EOS_LobbyModification_RemoveMemberAttribute;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbyModification_SetAllowedPlatformIdsDelegate(IntPtr handle, ref Lobby.LobbyModificationSetAllowedPlatformIdsOptionsInternal options);
 		internal static EOS_LobbyModification_SetAllowedPlatformIdsDelegate EOS_LobbyModification_SetAllowedPlatformIds;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbyModification_SetBucketIdDelegate(IntPtr handle, ref Lobby.LobbyModificationSetBucketIdOptionsInternal options);
 		internal static EOS_LobbyModification_SetBucketIdDelegate EOS_LobbyModification_SetBucketId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbyModification_SetInvitesAllowedDelegate(IntPtr handle, ref Lobby.LobbyModificationSetInvitesAllowedOptionsInternal options);
 		internal static EOS_LobbyModification_SetInvitesAllowedDelegate EOS_LobbyModification_SetInvitesAllowed;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbyModification_SetMaxMembersDelegate(IntPtr handle, ref Lobby.LobbyModificationSetMaxMembersOptionsInternal options);
 		internal static EOS_LobbyModification_SetMaxMembersDelegate EOS_LobbyModification_SetMaxMembers;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbyModification_SetPermissionLevelDelegate(IntPtr handle, ref Lobby.LobbyModificationSetPermissionLevelOptionsInternal options);
 		internal static EOS_LobbyModification_SetPermissionLevelDelegate EOS_LobbyModification_SetPermissionLevel;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbySearch_CopySearchResultByIndexDelegate(IntPtr handle, ref Lobby.LobbySearchCopySearchResultByIndexOptionsInternal options, out IntPtr outLobbyDetailsHandle);
 		internal static EOS_LobbySearch_CopySearchResultByIndexDelegate EOS_LobbySearch_CopySearchResultByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_LobbySearch_FindDelegate(IntPtr handle, ref Lobby.LobbySearchFindOptionsInternal options, IntPtr clientData, Lobby.LobbySearchOnFindCallbackInternal completionDelegate);
 		internal static EOS_LobbySearch_FindDelegate EOS_LobbySearch_Find;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_LobbySearch_GetSearchResultCountDelegate(IntPtr handle, ref Lobby.LobbySearchGetSearchResultCountOptionsInternal options);
 		internal static EOS_LobbySearch_GetSearchResultCountDelegate EOS_LobbySearch_GetSearchResultCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_LobbySearch_ReleaseDelegate(IntPtr lobbySearchHandle);
 		internal static EOS_LobbySearch_ReleaseDelegate EOS_LobbySearch_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbySearch_RemoveParameterDelegate(IntPtr handle, ref Lobby.LobbySearchRemoveParameterOptionsInternal options);
 		internal static EOS_LobbySearch_RemoveParameterDelegate EOS_LobbySearch_RemoveParameter;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbySearch_SetLobbyIdDelegate(IntPtr handle, ref Lobby.LobbySearchSetLobbyIdOptionsInternal options);
 		internal static EOS_LobbySearch_SetLobbyIdDelegate EOS_LobbySearch_SetLobbyId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbySearch_SetMaxResultsDelegate(IntPtr handle, ref Lobby.LobbySearchSetMaxResultsOptionsInternal options);
 		internal static EOS_LobbySearch_SetMaxResultsDelegate EOS_LobbySearch_SetMaxResults;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbySearch_SetParameterDelegate(IntPtr handle, ref Lobby.LobbySearchSetParameterOptionsInternal options);
 		internal static EOS_LobbySearch_SetParameterDelegate EOS_LobbySearch_SetParameter;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_LobbySearch_SetTargetUserIdDelegate(IntPtr handle, ref Lobby.LobbySearchSetTargetUserIdOptionsInternal options);
 		internal static EOS_LobbySearch_SetTargetUserIdDelegate EOS_LobbySearch_SetTargetUserId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Lobby_AddNotifyJoinLobbyAcceptedDelegate(IntPtr handle, ref Lobby.AddNotifyJoinLobbyAcceptedOptionsInternal options, IntPtr clientData, Lobby.OnJoinLobbyAcceptedCallbackInternal notificationFn);
 		internal static EOS_Lobby_AddNotifyJoinLobbyAcceptedDelegate EOS_Lobby_AddNotifyJoinLobbyAccepted;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Lobby_AddNotifyLeaveLobbyRequestedDelegate(IntPtr handle, ref Lobby.AddNotifyLeaveLobbyRequestedOptionsInternal options, IntPtr clientData, Lobby.OnLeaveLobbyRequestedCallbackInternal notificationFn);
 		internal static EOS_Lobby_AddNotifyLeaveLobbyRequestedDelegate EOS_Lobby_AddNotifyLeaveLobbyRequested;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Lobby_AddNotifyLobbyInviteAcceptedDelegate(IntPtr handle, ref Lobby.AddNotifyLobbyInviteAcceptedOptionsInternal options, IntPtr clientData, Lobby.OnLobbyInviteAcceptedCallbackInternal notificationFn);
 		internal static EOS_Lobby_AddNotifyLobbyInviteAcceptedDelegate EOS_Lobby_AddNotifyLobbyInviteAccepted;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Lobby_AddNotifyLobbyInviteReceivedDelegate(IntPtr handle, ref Lobby.AddNotifyLobbyInviteReceivedOptionsInternal options, IntPtr clientData, Lobby.OnLobbyInviteReceivedCallbackInternal notificationFn);
 		internal static EOS_Lobby_AddNotifyLobbyInviteReceivedDelegate EOS_Lobby_AddNotifyLobbyInviteReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Lobby_AddNotifyLobbyInviteRejectedDelegate(IntPtr handle, ref Lobby.AddNotifyLobbyInviteRejectedOptionsInternal options, IntPtr clientData, Lobby.OnLobbyInviteRejectedCallbackInternal notificationFn);
 		internal static EOS_Lobby_AddNotifyLobbyInviteRejectedDelegate EOS_Lobby_AddNotifyLobbyInviteRejected;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Lobby_AddNotifyLobbyMemberStatusReceivedDelegate(IntPtr handle, ref Lobby.AddNotifyLobbyMemberStatusReceivedOptionsInternal options, IntPtr clientData, Lobby.OnLobbyMemberStatusReceivedCallbackInternal notificationFn);
 		internal static EOS_Lobby_AddNotifyLobbyMemberStatusReceivedDelegate EOS_Lobby_AddNotifyLobbyMemberStatusReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Lobby_AddNotifyLobbyMemberUpdateReceivedDelegate(IntPtr handle, ref Lobby.AddNotifyLobbyMemberUpdateReceivedOptionsInternal options, IntPtr clientData, Lobby.OnLobbyMemberUpdateReceivedCallbackInternal notificationFn);
 		internal static EOS_Lobby_AddNotifyLobbyMemberUpdateReceivedDelegate EOS_Lobby_AddNotifyLobbyMemberUpdateReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Lobby_AddNotifyLobbyUpdateReceivedDelegate(IntPtr handle, ref Lobby.AddNotifyLobbyUpdateReceivedOptionsInternal options, IntPtr clientData, Lobby.OnLobbyUpdateReceivedCallbackInternal notificationFn);
 		internal static EOS_Lobby_AddNotifyLobbyUpdateReceivedDelegate EOS_Lobby_AddNotifyLobbyUpdateReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Lobby_AddNotifyRTCRoomConnectionChangedDelegate(IntPtr handle, ref Lobby.AddNotifyRTCRoomConnectionChangedOptionsInternal options, IntPtr clientData, Lobby.OnRTCRoomConnectionChangedCallbackInternal notificationFn);
 		internal static EOS_Lobby_AddNotifyRTCRoomConnectionChangedDelegate EOS_Lobby_AddNotifyRTCRoomConnectionChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Lobby_AddNotifySendLobbyNativeInviteRequestedDelegate(IntPtr handle, ref Lobby.AddNotifySendLobbyNativeInviteRequestedOptionsInternal options, IntPtr clientData, Lobby.OnSendLobbyNativeInviteRequestedCallbackInternal notificationFn);
 		internal static EOS_Lobby_AddNotifySendLobbyNativeInviteRequestedDelegate EOS_Lobby_AddNotifySendLobbyNativeInviteRequested;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_Attribute_ReleaseDelegate(IntPtr lobbyAttribute);
 		internal static EOS_Lobby_Attribute_ReleaseDelegate EOS_Lobby_Attribute_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Lobby_CopyLobbyDetailsHandleDelegate(IntPtr handle, ref Lobby.CopyLobbyDetailsHandleOptionsInternal options, out IntPtr outLobbyDetailsHandle);
 		internal static EOS_Lobby_CopyLobbyDetailsHandleDelegate EOS_Lobby_CopyLobbyDetailsHandle;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Lobby_CopyLobbyDetailsHandleByInviteIdDelegate(IntPtr handle, ref Lobby.CopyLobbyDetailsHandleByInviteIdOptionsInternal options, out IntPtr outLobbyDetailsHandle);
 		internal static EOS_Lobby_CopyLobbyDetailsHandleByInviteIdDelegate EOS_Lobby_CopyLobbyDetailsHandleByInviteId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Lobby_CopyLobbyDetailsHandleByUiEventIdDelegate(IntPtr handle, ref Lobby.CopyLobbyDetailsHandleByUiEventIdOptionsInternal options, out IntPtr outLobbyDetailsHandle);
 		internal static EOS_Lobby_CopyLobbyDetailsHandleByUiEventIdDelegate EOS_Lobby_CopyLobbyDetailsHandleByUiEventId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_CreateLobbyDelegate(IntPtr handle, ref Lobby.CreateLobbyOptionsInternal options, IntPtr clientData, Lobby.OnCreateLobbyCallbackInternal completionDelegate);
 		internal static EOS_Lobby_CreateLobbyDelegate EOS_Lobby_CreateLobby;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Lobby_CreateLobbySearchDelegate(IntPtr handle, ref Lobby.CreateLobbySearchOptionsInternal options, out IntPtr outLobbySearchHandle);
 		internal static EOS_Lobby_CreateLobbySearchDelegate EOS_Lobby_CreateLobbySearch;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_DestroyLobbyDelegate(IntPtr handle, ref Lobby.DestroyLobbyOptionsInternal options, IntPtr clientData, Lobby.OnDestroyLobbyCallbackInternal completionDelegate);
 		internal static EOS_Lobby_DestroyLobbyDelegate EOS_Lobby_DestroyLobby;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Lobby_GetConnectStringDelegate(IntPtr handle, ref Lobby.GetConnectStringOptionsInternal options, IntPtr outBuffer, ref uint inOutBufferLength);
 		internal static EOS_Lobby_GetConnectStringDelegate EOS_Lobby_GetConnectString;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Lobby_GetInviteCountDelegate(IntPtr handle, ref Lobby.GetInviteCountOptionsInternal options);
 		internal static EOS_Lobby_GetInviteCountDelegate EOS_Lobby_GetInviteCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Lobby_GetInviteIdByIndexDelegate(IntPtr handle, ref Lobby.GetInviteIdByIndexOptionsInternal options, IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_Lobby_GetInviteIdByIndexDelegate EOS_Lobby_GetInviteIdByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Lobby_GetRTCRoomNameDelegate(IntPtr handle, ref Lobby.GetRTCRoomNameOptionsInternal options, IntPtr outBuffer, ref uint inOutBufferLength);
 		internal static EOS_Lobby_GetRTCRoomNameDelegate EOS_Lobby_GetRTCRoomName;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_HardMuteMemberDelegate(IntPtr handle, ref Lobby.HardMuteMemberOptionsInternal options, IntPtr clientData, Lobby.OnHardMuteMemberCallbackInternal completionDelegate);
 		internal static EOS_Lobby_HardMuteMemberDelegate EOS_Lobby_HardMuteMember;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Lobby_IsRTCRoomConnectedDelegate(IntPtr handle, ref Lobby.IsRTCRoomConnectedOptionsInternal options, out int outIsConnected);
 		internal static EOS_Lobby_IsRTCRoomConnectedDelegate EOS_Lobby_IsRTCRoomConnected;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_JoinLobbyDelegate(IntPtr handle, ref Lobby.JoinLobbyOptionsInternal options, IntPtr clientData, Lobby.OnJoinLobbyCallbackInternal completionDelegate);
 		internal static EOS_Lobby_JoinLobbyDelegate EOS_Lobby_JoinLobby;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_JoinLobbyByIdDelegate(IntPtr handle, ref Lobby.JoinLobbyByIdOptionsInternal options, IntPtr clientData, Lobby.OnJoinLobbyByIdCallbackInternal completionDelegate);
 		internal static EOS_Lobby_JoinLobbyByIdDelegate EOS_Lobby_JoinLobbyById;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_JoinRTCRoomDelegate(IntPtr handle, ref Lobby.JoinRTCRoomOptionsInternal options, IntPtr clientData, Lobby.OnJoinRTCRoomCallbackInternal completionDelegate);
 		internal static EOS_Lobby_JoinRTCRoomDelegate EOS_Lobby_JoinRTCRoom;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_KickMemberDelegate(IntPtr handle, ref Lobby.KickMemberOptionsInternal options, IntPtr clientData, Lobby.OnKickMemberCallbackInternal completionDelegate);
 		internal static EOS_Lobby_KickMemberDelegate EOS_Lobby_KickMember;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_LeaveLobbyDelegate(IntPtr handle, ref Lobby.LeaveLobbyOptionsInternal options, IntPtr clientData, Lobby.OnLeaveLobbyCallbackInternal completionDelegate);
 		internal static EOS_Lobby_LeaveLobbyDelegate EOS_Lobby_LeaveLobby;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_LeaveRTCRoomDelegate(IntPtr handle, ref Lobby.LeaveRTCRoomOptionsInternal options, IntPtr clientData, Lobby.OnLeaveRTCRoomCallbackInternal completionDelegate);
 		internal static EOS_Lobby_LeaveRTCRoomDelegate EOS_Lobby_LeaveRTCRoom;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Lobby_ParseConnectStringDelegate(IntPtr handle, ref Lobby.ParseConnectStringOptionsInternal options, IntPtr outBuffer, ref uint inOutBufferLength);
 		internal static EOS_Lobby_ParseConnectStringDelegate EOS_Lobby_ParseConnectString;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_PromoteMemberDelegate(IntPtr handle, ref Lobby.PromoteMemberOptionsInternal options, IntPtr clientData, Lobby.OnPromoteMemberCallbackInternal completionDelegate);
 		internal static EOS_Lobby_PromoteMemberDelegate EOS_Lobby_PromoteMember;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_QueryInvitesDelegate(IntPtr handle, ref Lobby.QueryInvitesOptionsInternal options, IntPtr clientData, Lobby.OnQueryInvitesCallbackInternal completionDelegate);
 		internal static EOS_Lobby_QueryInvitesDelegate EOS_Lobby_QueryInvites;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_RejectInviteDelegate(IntPtr handle, ref Lobby.RejectInviteOptionsInternal options, IntPtr clientData, Lobby.OnRejectInviteCallbackInternal completionDelegate);
 		internal static EOS_Lobby_RejectInviteDelegate EOS_Lobby_RejectInvite;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_RemoveNotifyJoinLobbyAcceptedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Lobby_RemoveNotifyJoinLobbyAcceptedDelegate EOS_Lobby_RemoveNotifyJoinLobbyAccepted;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_RemoveNotifyLeaveLobbyRequestedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Lobby_RemoveNotifyLeaveLobbyRequestedDelegate EOS_Lobby_RemoveNotifyLeaveLobbyRequested;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_RemoveNotifyLobbyInviteAcceptedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Lobby_RemoveNotifyLobbyInviteAcceptedDelegate EOS_Lobby_RemoveNotifyLobbyInviteAccepted;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_RemoveNotifyLobbyInviteReceivedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Lobby_RemoveNotifyLobbyInviteReceivedDelegate EOS_Lobby_RemoveNotifyLobbyInviteReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_RemoveNotifyLobbyInviteRejectedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Lobby_RemoveNotifyLobbyInviteRejectedDelegate EOS_Lobby_RemoveNotifyLobbyInviteRejected;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_RemoveNotifyLobbyMemberStatusReceivedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Lobby_RemoveNotifyLobbyMemberStatusReceivedDelegate EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceivedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceivedDelegate EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_RemoveNotifyLobbyUpdateReceivedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Lobby_RemoveNotifyLobbyUpdateReceivedDelegate EOS_Lobby_RemoveNotifyLobbyUpdateReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_RemoveNotifyRTCRoomConnectionChangedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Lobby_RemoveNotifyRTCRoomConnectionChangedDelegate EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_RemoveNotifySendLobbyNativeInviteRequestedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Lobby_RemoveNotifySendLobbyNativeInviteRequestedDelegate EOS_Lobby_RemoveNotifySendLobbyNativeInviteRequested;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_SendInviteDelegate(IntPtr handle, ref Lobby.SendInviteOptionsInternal options, IntPtr clientData, Lobby.OnSendInviteCallbackInternal completionDelegate);
 		internal static EOS_Lobby_SendInviteDelegate EOS_Lobby_SendInvite;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Lobby_UpdateLobbyDelegate(IntPtr handle, ref Lobby.UpdateLobbyOptionsInternal options, IntPtr clientData, Lobby.OnUpdateLobbyCallbackInternal completionDelegate);
 		internal static EOS_Lobby_UpdateLobbyDelegate EOS_Lobby_UpdateLobby;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Lobby_UpdateLobbyModificationDelegate(IntPtr handle, ref Lobby.UpdateLobbyModificationOptionsInternal options, out IntPtr outLobbyModificationHandle);
 		internal static EOS_Lobby_UpdateLobbyModificationDelegate EOS_Lobby_UpdateLobbyModification;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Logging_SetCallbackDelegate(Logging.LogMessageFuncInternal callback);
 		internal static EOS_Logging_SetCallbackDelegate EOS_Logging_SetCallback;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Logging_SetLogLevelDelegate(Logging.LogCategory logCategory, Logging.LogLevel logLevel);
 		internal static EOS_Logging_SetLogLevelDelegate EOS_Logging_SetLogLevel;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Metrics_BeginPlayerSessionDelegate(IntPtr handle, ref Metrics.BeginPlayerSessionOptionsInternal options);
 		internal static EOS_Metrics_BeginPlayerSessionDelegate EOS_Metrics_BeginPlayerSession;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Metrics_EndPlayerSessionDelegate(IntPtr handle, ref Metrics.EndPlayerSessionOptionsInternal options);
 		internal static EOS_Metrics_EndPlayerSessionDelegate EOS_Metrics_EndPlayerSession;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Mods_CopyModInfoDelegate(IntPtr handle, ref Mods.CopyModInfoOptionsInternal options, out IntPtr outEnumeratedMods);
 		internal static EOS_Mods_CopyModInfoDelegate EOS_Mods_CopyModInfo;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Mods_EnumerateModsDelegate(IntPtr handle, ref Mods.EnumerateModsOptionsInternal options, IntPtr clientData, Mods.OnEnumerateModsCallbackInternal completionDelegate);
 		internal static EOS_Mods_EnumerateModsDelegate EOS_Mods_EnumerateMods;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Mods_InstallModDelegate(IntPtr handle, ref Mods.InstallModOptionsInternal options, IntPtr clientData, Mods.OnInstallModCallbackInternal completionDelegate);
 		internal static EOS_Mods_InstallModDelegate EOS_Mods_InstallMod;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Mods_ModInfo_ReleaseDelegate(IntPtr modInfo);
 		internal static EOS_Mods_ModInfo_ReleaseDelegate EOS_Mods_ModInfo_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Mods_UninstallModDelegate(IntPtr handle, ref Mods.UninstallModOptionsInternal options, IntPtr clientData, Mods.OnUninstallModCallbackInternal completionDelegate);
 		internal static EOS_Mods_UninstallModDelegate EOS_Mods_UninstallMod;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Mods_UpdateModDelegate(IntPtr handle, ref Mods.UpdateModOptionsInternal options, IntPtr clientData, Mods.OnUpdateModCallbackInternal completionDelegate);
 		internal static EOS_Mods_UpdateModDelegate EOS_Mods_UpdateMod;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_P2P_AcceptConnectionDelegate(IntPtr handle, ref P2P.AcceptConnectionOptionsInternal options);
 		internal static EOS_P2P_AcceptConnectionDelegate EOS_P2P_AcceptConnection;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_P2P_AddNotifyIncomingPacketQueueFullDelegate(IntPtr handle, ref P2P.AddNotifyIncomingPacketQueueFullOptionsInternal options, IntPtr clientData, P2P.OnIncomingPacketQueueFullCallbackInternal incomingPacketQueueFullHandler);
 		internal static EOS_P2P_AddNotifyIncomingPacketQueueFullDelegate EOS_P2P_AddNotifyIncomingPacketQueueFull;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_P2P_AddNotifyPeerConnectionClosedDelegate(IntPtr handle, ref P2P.AddNotifyPeerConnectionClosedOptionsInternal options, IntPtr clientData, P2P.OnRemoteConnectionClosedCallbackInternal connectionClosedHandler);
 		internal static EOS_P2P_AddNotifyPeerConnectionClosedDelegate EOS_P2P_AddNotifyPeerConnectionClosed;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_P2P_AddNotifyPeerConnectionEstablishedDelegate(IntPtr handle, ref P2P.AddNotifyPeerConnectionEstablishedOptionsInternal options, IntPtr clientData, P2P.OnPeerConnectionEstablishedCallbackInternal connectionEstablishedHandler);
 		internal static EOS_P2P_AddNotifyPeerConnectionEstablishedDelegate EOS_P2P_AddNotifyPeerConnectionEstablished;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_P2P_AddNotifyPeerConnectionInterruptedDelegate(IntPtr handle, ref P2P.AddNotifyPeerConnectionInterruptedOptionsInternal options, IntPtr clientData, P2P.OnPeerConnectionInterruptedCallbackInternal connectionInterruptedHandler);
 		internal static EOS_P2P_AddNotifyPeerConnectionInterruptedDelegate EOS_P2P_AddNotifyPeerConnectionInterrupted;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_P2P_AddNotifyPeerConnectionRequestDelegate(IntPtr handle, ref P2P.AddNotifyPeerConnectionRequestOptionsInternal options, IntPtr clientData, P2P.OnIncomingConnectionRequestCallbackInternal connectionRequestHandler);
 		internal static EOS_P2P_AddNotifyPeerConnectionRequestDelegate EOS_P2P_AddNotifyPeerConnectionRequest;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_P2P_ClearPacketQueueDelegate(IntPtr handle, ref P2P.ClearPacketQueueOptionsInternal options);
 		internal static EOS_P2P_ClearPacketQueueDelegate EOS_P2P_ClearPacketQueue;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_P2P_CloseConnectionDelegate(IntPtr handle, ref P2P.CloseConnectionOptionsInternal options);
 		internal static EOS_P2P_CloseConnectionDelegate EOS_P2P_CloseConnection;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_P2P_CloseConnectionsDelegate(IntPtr handle, ref P2P.CloseConnectionsOptionsInternal options);
 		internal static EOS_P2P_CloseConnectionsDelegate EOS_P2P_CloseConnections;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_P2P_GetNATTypeDelegate(IntPtr handle, ref P2P.GetNATTypeOptionsInternal options, out P2P.NATType outNATType);
 		internal static EOS_P2P_GetNATTypeDelegate EOS_P2P_GetNATType;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_P2P_GetNextReceivedPacketSizeDelegate(IntPtr handle, ref P2P.GetNextReceivedPacketSizeOptionsInternal options, out uint outPacketSizeBytes);
 		internal static EOS_P2P_GetNextReceivedPacketSizeDelegate EOS_P2P_GetNextReceivedPacketSize;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_P2P_GetPacketQueueInfoDelegate(IntPtr handle, ref P2P.GetPacketQueueInfoOptionsInternal options, out P2P.PacketQueueInfoInternal outPacketQueueInfo);
 		internal static EOS_P2P_GetPacketQueueInfoDelegate EOS_P2P_GetPacketQueueInfo;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_P2P_GetPortRangeDelegate(IntPtr handle, ref P2P.GetPortRangeOptionsInternal options, out ushort outPort, out ushort outNumAdditionalPortsToTry);
 		internal static EOS_P2P_GetPortRangeDelegate EOS_P2P_GetPortRange;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_P2P_GetRelayControlDelegate(IntPtr handle, ref P2P.GetRelayControlOptionsInternal options, out P2P.RelayControl outRelayControl);
 		internal static EOS_P2P_GetRelayControlDelegate EOS_P2P_GetRelayControl;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_P2P_QueryNATTypeDelegate(IntPtr handle, ref P2P.QueryNATTypeOptionsInternal options, IntPtr clientData, P2P.OnQueryNATTypeCompleteCallbackInternal completionDelegate);
 		internal static EOS_P2P_QueryNATTypeDelegate EOS_P2P_QueryNATType;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_P2P_ReceivePacketDelegate(IntPtr handle, ref P2P.ReceivePacketOptionsInternal options, out IntPtr outPeerId, IntPtr outSocketId, out byte outChannel, IntPtr outData, out uint outBytesWritten);
 		internal static EOS_P2P_ReceivePacketDelegate EOS_P2P_ReceivePacket;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_P2P_RemoveNotifyIncomingPacketQueueFullDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_P2P_RemoveNotifyIncomingPacketQueueFullDelegate EOS_P2P_RemoveNotifyIncomingPacketQueueFull;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_P2P_RemoveNotifyPeerConnectionClosedDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_P2P_RemoveNotifyPeerConnectionClosedDelegate EOS_P2P_RemoveNotifyPeerConnectionClosed;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_P2P_RemoveNotifyPeerConnectionEstablishedDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_P2P_RemoveNotifyPeerConnectionEstablishedDelegate EOS_P2P_RemoveNotifyPeerConnectionEstablished;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_P2P_RemoveNotifyPeerConnectionInterruptedDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_P2P_RemoveNotifyPeerConnectionInterruptedDelegate EOS_P2P_RemoveNotifyPeerConnectionInterrupted;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_P2P_RemoveNotifyPeerConnectionRequestDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_P2P_RemoveNotifyPeerConnectionRequestDelegate EOS_P2P_RemoveNotifyPeerConnectionRequest;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_P2P_SendPacketDelegate(IntPtr handle, ref P2P.SendPacketOptionsInternal options);
 		internal static EOS_P2P_SendPacketDelegate EOS_P2P_SendPacket;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_P2P_SetPacketQueueSizeDelegate(IntPtr handle, ref P2P.SetPacketQueueSizeOptionsInternal options);
 		internal static EOS_P2P_SetPacketQueueSizeDelegate EOS_P2P_SetPacketQueueSize;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_P2P_SetPortRangeDelegate(IntPtr handle, ref P2P.SetPortRangeOptionsInternal options);
 		internal static EOS_P2P_SetPortRangeDelegate EOS_P2P_SetPortRange;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_P2P_SetRelayControlDelegate(IntPtr handle, ref P2P.SetRelayControlOptionsInternal options);
 		internal static EOS_P2P_SetRelayControlDelegate EOS_P2P_SetRelayControl;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Platform_CheckForLauncherAndRestartDelegate(IntPtr handle);
 		internal static EOS_Platform_CheckForLauncherAndRestartDelegate EOS_Platform_CheckForLauncherAndRestart;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_CreateDelegate(ref Platform.OptionsInternal options);
 		internal static EOS_Platform_CreateDelegate EOS_Platform_Create;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetAchievementsInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetAchievementsInterfaceDelegate EOS_Platform_GetAchievementsInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Platform_GetActiveCountryCodeDelegate(IntPtr handle, IntPtr localUserId, IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_Platform_GetActiveCountryCodeDelegate EOS_Platform_GetActiveCountryCode;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Platform_GetActiveLocaleCodeDelegate(IntPtr handle, IntPtr localUserId, IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_Platform_GetActiveLocaleCodeDelegate EOS_Platform_GetActiveLocaleCode;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetAntiCheatClientInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetAntiCheatClientInterfaceDelegate EOS_Platform_GetAntiCheatClientInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetAntiCheatServerInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetAntiCheatServerInterfaceDelegate EOS_Platform_GetAntiCheatServerInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Platform.ApplicationStatus EOS_Platform_GetApplicationStatusDelegate(IntPtr handle);
 		internal static EOS_Platform_GetApplicationStatusDelegate EOS_Platform_GetApplicationStatus;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetAuthInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetAuthInterfaceDelegate EOS_Platform_GetAuthInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetConnectInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetConnectInterfaceDelegate EOS_Platform_GetConnectInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetCustomInvitesInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetCustomInvitesInterfaceDelegate EOS_Platform_GetCustomInvitesInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Platform_GetDesktopCrossplayStatusDelegate(IntPtr handle, ref Platform.GetDesktopCrossplayStatusOptionsInternal options, out Platform.DesktopCrossplayStatusInfoInternal outDesktopCrossplayStatusInfo);
 		internal static EOS_Platform_GetDesktopCrossplayStatusDelegate EOS_Platform_GetDesktopCrossplayStatus;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetEcomInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetEcomInterfaceDelegate EOS_Platform_GetEcomInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetFriendsInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetFriendsInterfaceDelegate EOS_Platform_GetFriendsInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetIntegratedPlatformInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetIntegratedPlatformInterfaceDelegate EOS_Platform_GetIntegratedPlatformInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetKWSInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetKWSInterfaceDelegate EOS_Platform_GetKWSInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetLeaderboardsInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetLeaderboardsInterfaceDelegate EOS_Platform_GetLeaderboardsInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetLobbyInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetLobbyInterfaceDelegate EOS_Platform_GetLobbyInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetMetricsInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetMetricsInterfaceDelegate EOS_Platform_GetMetricsInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetModsInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetModsInterfaceDelegate EOS_Platform_GetModsInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Platform.NetworkStatus EOS_Platform_GetNetworkStatusDelegate(IntPtr handle);
 		internal static EOS_Platform_GetNetworkStatusDelegate EOS_Platform_GetNetworkStatus;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Platform_GetOverrideCountryCodeDelegate(IntPtr handle, IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_Platform_GetOverrideCountryCodeDelegate EOS_Platform_GetOverrideCountryCode;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Platform_GetOverrideLocaleCodeDelegate(IntPtr handle, IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_Platform_GetOverrideLocaleCodeDelegate EOS_Platform_GetOverrideLocaleCode;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetP2PInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetP2PInterfaceDelegate EOS_Platform_GetP2PInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetPlayerDataStorageInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetPlayerDataStorageInterfaceDelegate EOS_Platform_GetPlayerDataStorageInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetPresenceInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetPresenceInterfaceDelegate EOS_Platform_GetPresenceInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetProgressionSnapshotInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetProgressionSnapshotInterfaceDelegate EOS_Platform_GetProgressionSnapshotInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetRTCAdminInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetRTCAdminInterfaceDelegate EOS_Platform_GetRTCAdminInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetRTCInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetRTCInterfaceDelegate EOS_Platform_GetRTCInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetReportsInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetReportsInterfaceDelegate EOS_Platform_GetReportsInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetSanctionsInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetSanctionsInterfaceDelegate EOS_Platform_GetSanctionsInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetSessionsInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetSessionsInterfaceDelegate EOS_Platform_GetSessionsInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetStatsInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetStatsInterfaceDelegate EOS_Platform_GetStatsInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetTitleStorageInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetTitleStorageInterfaceDelegate EOS_Platform_GetTitleStorageInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetUIInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetUIInterfaceDelegate EOS_Platform_GetUIInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_Platform_GetUserInfoInterfaceDelegate(IntPtr handle);
 		internal static EOS_Platform_GetUserInfoInterfaceDelegate EOS_Platform_GetUserInfoInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Platform_ReleaseDelegate(IntPtr handle);
 		internal static EOS_Platform_ReleaseDelegate EOS_Platform_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Platform_SetApplicationStatusDelegate(IntPtr handle, Platform.ApplicationStatus newStatus);
 		internal static EOS_Platform_SetApplicationStatusDelegate EOS_Platform_SetApplicationStatus;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Platform_SetNetworkStatusDelegate(IntPtr handle, Platform.NetworkStatus newStatus);
 		internal static EOS_Platform_SetNetworkStatusDelegate EOS_Platform_SetNetworkStatus;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Platform_SetOverrideCountryCodeDelegate(IntPtr handle, IntPtr newCountryCode);
 		internal static EOS_Platform_SetOverrideCountryCodeDelegate EOS_Platform_SetOverrideCountryCode;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Platform_SetOverrideLocaleCodeDelegate(IntPtr handle, IntPtr newLocaleCode);
 		internal static EOS_Platform_SetOverrideLocaleCodeDelegate EOS_Platform_SetOverrideLocaleCode;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Platform_TickDelegate(IntPtr handle);
 		internal static EOS_Platform_TickDelegate EOS_Platform_Tick;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_PlayerDataStorageFileTransferRequest_CancelRequestDelegate(IntPtr handle);
 		internal static EOS_PlayerDataStorageFileTransferRequest_CancelRequestDelegate EOS_PlayerDataStorageFileTransferRequest_CancelRequest;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_PlayerDataStorageFileTransferRequest_GetFileRequestStateDelegate(IntPtr handle);
 		internal static EOS_PlayerDataStorageFileTransferRequest_GetFileRequestStateDelegate EOS_PlayerDataStorageFileTransferRequest_GetFileRequestState;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_PlayerDataStorageFileTransferRequest_GetFilenameDelegate(IntPtr handle, uint filenameStringBufferSizeBytes, IntPtr outStringBuffer, out int outStringLength);
 		internal static EOS_PlayerDataStorageFileTransferRequest_GetFilenameDelegate EOS_PlayerDataStorageFileTransferRequest_GetFilename;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_PlayerDataStorageFileTransferRequest_ReleaseDelegate(IntPtr playerDataStorageFileTransferHandle);
 		internal static EOS_PlayerDataStorageFileTransferRequest_ReleaseDelegate EOS_PlayerDataStorageFileTransferRequest_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_PlayerDataStorage_CopyFileMetadataAtIndexDelegate(IntPtr handle, ref PlayerDataStorage.CopyFileMetadataAtIndexOptionsInternal copyFileMetadataOptions, out IntPtr outMetadata);
 		internal static EOS_PlayerDataStorage_CopyFileMetadataAtIndexDelegate EOS_PlayerDataStorage_CopyFileMetadataAtIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_PlayerDataStorage_CopyFileMetadataByFilenameDelegate(IntPtr handle, ref PlayerDataStorage.CopyFileMetadataByFilenameOptionsInternal copyFileMetadataOptions, out IntPtr outMetadata);
 		internal static EOS_PlayerDataStorage_CopyFileMetadataByFilenameDelegate EOS_PlayerDataStorage_CopyFileMetadataByFilename;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_PlayerDataStorage_DeleteCacheDelegate(IntPtr handle, ref PlayerDataStorage.DeleteCacheOptionsInternal options, IntPtr clientData, PlayerDataStorage.OnDeleteCacheCompleteCallbackInternal completionCallback);
 		internal static EOS_PlayerDataStorage_DeleteCacheDelegate EOS_PlayerDataStorage_DeleteCache;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_PlayerDataStorage_DeleteFileDelegate(IntPtr handle, ref PlayerDataStorage.DeleteFileOptionsInternal deleteOptions, IntPtr clientData, PlayerDataStorage.OnDeleteFileCompleteCallbackInternal completionCallback);
 		internal static EOS_PlayerDataStorage_DeleteFileDelegate EOS_PlayerDataStorage_DeleteFile;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_PlayerDataStorage_DuplicateFileDelegate(IntPtr handle, ref PlayerDataStorage.DuplicateFileOptionsInternal duplicateOptions, IntPtr clientData, PlayerDataStorage.OnDuplicateFileCompleteCallbackInternal completionCallback);
 		internal static EOS_PlayerDataStorage_DuplicateFileDelegate EOS_PlayerDataStorage_DuplicateFile;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_PlayerDataStorage_FileMetadata_ReleaseDelegate(IntPtr fileMetadata);
 		internal static EOS_PlayerDataStorage_FileMetadata_ReleaseDelegate EOS_PlayerDataStorage_FileMetadata_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_PlayerDataStorage_GetFileMetadataCountDelegate(IntPtr handle, ref PlayerDataStorage.GetFileMetadataCountOptionsInternal getFileMetadataCountOptions, out int outFileMetadataCount);
 		internal static EOS_PlayerDataStorage_GetFileMetadataCountDelegate EOS_PlayerDataStorage_GetFileMetadataCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_PlayerDataStorage_QueryFileDelegate(IntPtr handle, ref PlayerDataStorage.QueryFileOptionsInternal queryFileOptions, IntPtr clientData, PlayerDataStorage.OnQueryFileCompleteCallbackInternal completionCallback);
 		internal static EOS_PlayerDataStorage_QueryFileDelegate EOS_PlayerDataStorage_QueryFile;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_PlayerDataStorage_QueryFileListDelegate(IntPtr handle, ref PlayerDataStorage.QueryFileListOptionsInternal queryFileListOptions, IntPtr clientData, PlayerDataStorage.OnQueryFileListCompleteCallbackInternal completionCallback);
 		internal static EOS_PlayerDataStorage_QueryFileListDelegate EOS_PlayerDataStorage_QueryFileList;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_PlayerDataStorage_ReadFileDelegate(IntPtr handle, ref PlayerDataStorage.ReadFileOptionsInternal readOptions, IntPtr clientData, PlayerDataStorage.OnReadFileCompleteCallbackInternal completionCallback);
 		internal static EOS_PlayerDataStorage_ReadFileDelegate EOS_PlayerDataStorage_ReadFile;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_PlayerDataStorage_WriteFileDelegate(IntPtr handle, ref PlayerDataStorage.WriteFileOptionsInternal writeOptions, IntPtr clientData, PlayerDataStorage.OnWriteFileCompleteCallbackInternal completionCallback);
 		internal static EOS_PlayerDataStorage_WriteFileDelegate EOS_PlayerDataStorage_WriteFile;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_PresenceModification_DeleteDataDelegate(IntPtr handle, ref Presence.PresenceModificationDeleteDataOptionsInternal options);
 		internal static EOS_PresenceModification_DeleteDataDelegate EOS_PresenceModification_DeleteData;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_PresenceModification_ReleaseDelegate(IntPtr presenceModificationHandle);
 		internal static EOS_PresenceModification_ReleaseDelegate EOS_PresenceModification_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_PresenceModification_SetDataDelegate(IntPtr handle, ref Presence.PresenceModificationSetDataOptionsInternal options);
 		internal static EOS_PresenceModification_SetDataDelegate EOS_PresenceModification_SetData;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_PresenceModification_SetJoinInfoDelegate(IntPtr handle, ref Presence.PresenceModificationSetJoinInfoOptionsInternal options);
 		internal static EOS_PresenceModification_SetJoinInfoDelegate EOS_PresenceModification_SetJoinInfo;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_PresenceModification_SetRawRichTextDelegate(IntPtr handle, ref Presence.PresenceModificationSetRawRichTextOptionsInternal options);
 		internal static EOS_PresenceModification_SetRawRichTextDelegate EOS_PresenceModification_SetRawRichText;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_PresenceModification_SetStatusDelegate(IntPtr handle, ref Presence.PresenceModificationSetStatusOptionsInternal options);
 		internal static EOS_PresenceModification_SetStatusDelegate EOS_PresenceModification_SetStatus;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_PresenceModification_SetTemplateDataDelegate(IntPtr handle, ref Presence.PresenceModificationSetTemplateDataOptionsInternal options);
 		internal static EOS_PresenceModification_SetTemplateDataDelegate EOS_PresenceModification_SetTemplateData;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_PresenceModification_SetTemplateIdDelegate(IntPtr handle, ref Presence.PresenceModificationSetTemplateIdOptionsInternal options);
 		internal static EOS_PresenceModification_SetTemplateIdDelegate EOS_PresenceModification_SetTemplateId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Presence_AddNotifyJoinGameAcceptedDelegate(IntPtr handle, ref Presence.AddNotifyJoinGameAcceptedOptionsInternal options, IntPtr clientData, Presence.OnJoinGameAcceptedCallbackInternal notificationFn);
 		internal static EOS_Presence_AddNotifyJoinGameAcceptedDelegate EOS_Presence_AddNotifyJoinGameAccepted;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Presence_AddNotifyOnPresenceChangedDelegate(IntPtr handle, ref Presence.AddNotifyOnPresenceChangedOptionsInternal options, IntPtr clientData, Presence.OnPresenceChangedCallbackInternal notificationHandler);
 		internal static EOS_Presence_AddNotifyOnPresenceChangedDelegate EOS_Presence_AddNotifyOnPresenceChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Presence_CopyPresenceDelegate(IntPtr handle, ref Presence.CopyPresenceOptionsInternal options, out IntPtr outPresence);
 		internal static EOS_Presence_CopyPresenceDelegate EOS_Presence_CopyPresence;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Presence_CreatePresenceModificationDelegate(IntPtr handle, ref Presence.CreatePresenceModificationOptionsInternal options, out IntPtr outPresenceModificationHandle);
 		internal static EOS_Presence_CreatePresenceModificationDelegate EOS_Presence_CreatePresenceModification;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Presence_GetJoinInfoDelegate(IntPtr handle, ref Presence.GetJoinInfoOptionsInternal options, IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_Presence_GetJoinInfoDelegate EOS_Presence_GetJoinInfo;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
+		internal delegate int EOS_Presence_HasExplicitPresenceDelegate(IntPtr handle, ref Presence.HasExplicitPresenceOptionsInternal options);
+		internal static EOS_Presence_HasExplicitPresenceDelegate EOS_Presence_HasExplicitPresence;
+
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate int EOS_Presence_HasPresenceDelegate(IntPtr handle, ref Presence.HasPresenceOptionsInternal options);
 		internal static EOS_Presence_HasPresenceDelegate EOS_Presence_HasPresence;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Presence_Info_ReleaseDelegate(IntPtr presenceInfo);
 		internal static EOS_Presence_Info_ReleaseDelegate EOS_Presence_Info_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Presence_QueryPresenceDelegate(IntPtr handle, ref Presence.QueryPresenceOptionsInternal options, IntPtr clientData, Presence.OnQueryPresenceCompleteCallbackInternal completionDelegate);
 		internal static EOS_Presence_QueryPresenceDelegate EOS_Presence_QueryPresence;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Presence_RemoveNotifyJoinGameAcceptedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Presence_RemoveNotifyJoinGameAcceptedDelegate EOS_Presence_RemoveNotifyJoinGameAccepted;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Presence_RemoveNotifyOnPresenceChangedDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_Presence_RemoveNotifyOnPresenceChangedDelegate EOS_Presence_RemoveNotifyOnPresenceChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Presence_SetPresenceDelegate(IntPtr handle, ref Presence.SetPresenceOptionsInternal options, IntPtr clientData, Presence.SetPresenceCompleteCallbackInternal completionDelegate);
 		internal static EOS_Presence_SetPresenceDelegate EOS_Presence_SetPresence;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_ProductUserId_FromStringDelegate(IntPtr productUserIdString);
 		internal static EOS_ProductUserId_FromStringDelegate EOS_ProductUserId_FromString;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate int EOS_ProductUserId_IsValidDelegate(IntPtr accountId);
 		internal static EOS_ProductUserId_IsValidDelegate EOS_ProductUserId_IsValid;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_ProductUserId_ToStringDelegate(IntPtr accountId, IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_ProductUserId_ToStringDelegate EOS_ProductUserId_ToString;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_ProgressionSnapshot_AddProgressionDelegate(IntPtr handle, ref ProgressionSnapshot.AddProgressionOptionsInternal options);
 		internal static EOS_ProgressionSnapshot_AddProgressionDelegate EOS_ProgressionSnapshot_AddProgression;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_ProgressionSnapshot_BeginSnapshotDelegate(IntPtr handle, ref ProgressionSnapshot.BeginSnapshotOptionsInternal options, out uint outSnapshotId);
 		internal static EOS_ProgressionSnapshot_BeginSnapshotDelegate EOS_ProgressionSnapshot_BeginSnapshot;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_ProgressionSnapshot_DeleteSnapshotDelegate(IntPtr handle, ref ProgressionSnapshot.DeleteSnapshotOptionsInternal options, IntPtr clientData, ProgressionSnapshot.OnDeleteSnapshotCallbackInternal completionDelegate);
 		internal static EOS_ProgressionSnapshot_DeleteSnapshotDelegate EOS_ProgressionSnapshot_DeleteSnapshot;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_ProgressionSnapshot_EndSnapshotDelegate(IntPtr handle, ref ProgressionSnapshot.EndSnapshotOptionsInternal options);
 		internal static EOS_ProgressionSnapshot_EndSnapshotDelegate EOS_ProgressionSnapshot_EndSnapshot;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_ProgressionSnapshot_SubmitSnapshotDelegate(IntPtr handle, ref ProgressionSnapshot.SubmitSnapshotOptionsInternal options, IntPtr clientData, ProgressionSnapshot.OnSubmitSnapshotCallbackInternal completionDelegate);
 		internal static EOS_ProgressionSnapshot_SubmitSnapshotDelegate EOS_ProgressionSnapshot_SubmitSnapshot;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_RTCAdmin_CopyUserTokenByIndexDelegate(IntPtr handle, ref RTCAdmin.CopyUserTokenByIndexOptionsInternal options, out IntPtr outUserToken);
 		internal static EOS_RTCAdmin_CopyUserTokenByIndexDelegate EOS_RTCAdmin_CopyUserTokenByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_RTCAdmin_CopyUserTokenByUserIdDelegate(IntPtr handle, ref RTCAdmin.CopyUserTokenByUserIdOptionsInternal options, out IntPtr outUserToken);
 		internal static EOS_RTCAdmin_CopyUserTokenByUserIdDelegate EOS_RTCAdmin_CopyUserTokenByUserId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAdmin_KickDelegate(IntPtr handle, ref RTCAdmin.KickOptionsInternal options, IntPtr clientData, RTCAdmin.OnKickCompleteCallbackInternal completionDelegate);
 		internal static EOS_RTCAdmin_KickDelegate EOS_RTCAdmin_Kick;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAdmin_QueryJoinRoomTokenDelegate(IntPtr handle, ref RTCAdmin.QueryJoinRoomTokenOptionsInternal options, IntPtr clientData, RTCAdmin.OnQueryJoinRoomTokenCompleteCallbackInternal completionDelegate);
 		internal static EOS_RTCAdmin_QueryJoinRoomTokenDelegate EOS_RTCAdmin_QueryJoinRoomToken;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAdmin_SetParticipantHardMuteDelegate(IntPtr handle, ref RTCAdmin.SetParticipantHardMuteOptionsInternal options, IntPtr clientData, RTCAdmin.OnSetParticipantHardMuteCompleteCallbackInternal completionDelegate);
 		internal static EOS_RTCAdmin_SetParticipantHardMuteDelegate EOS_RTCAdmin_SetParticipantHardMute;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAdmin_UserToken_ReleaseDelegate(IntPtr userToken);
 		internal static EOS_RTCAdmin_UserToken_ReleaseDelegate EOS_RTCAdmin_UserToken_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_RTCAudio_AddNotifyAudioBeforeRenderDelegate(IntPtr handle, ref RTCAudio.AddNotifyAudioBeforeRenderOptionsInternal options, IntPtr clientData, RTCAudio.OnAudioBeforeRenderCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_AddNotifyAudioBeforeRenderDelegate EOS_RTCAudio_AddNotifyAudioBeforeRender;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_RTCAudio_AddNotifyAudioBeforeSendDelegate(IntPtr handle, ref RTCAudio.AddNotifyAudioBeforeSendOptionsInternal options, IntPtr clientData, RTCAudio.OnAudioBeforeSendCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_AddNotifyAudioBeforeSendDelegate EOS_RTCAudio_AddNotifyAudioBeforeSend;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_RTCAudio_AddNotifyAudioDevicesChangedDelegate(IntPtr handle, ref RTCAudio.AddNotifyAudioDevicesChangedOptionsInternal options, IntPtr clientData, RTCAudio.OnAudioDevicesChangedCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_AddNotifyAudioDevicesChangedDelegate EOS_RTCAudio_AddNotifyAudioDevicesChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_RTCAudio_AddNotifyAudioInputStateDelegate(IntPtr handle, ref RTCAudio.AddNotifyAudioInputStateOptionsInternal options, IntPtr clientData, RTCAudio.OnAudioInputStateCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_AddNotifyAudioInputStateDelegate EOS_RTCAudio_AddNotifyAudioInputState;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_RTCAudio_AddNotifyAudioOutputStateDelegate(IntPtr handle, ref RTCAudio.AddNotifyAudioOutputStateOptionsInternal options, IntPtr clientData, RTCAudio.OnAudioOutputStateCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_AddNotifyAudioOutputStateDelegate EOS_RTCAudio_AddNotifyAudioOutputState;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_RTCAudio_AddNotifyParticipantUpdatedDelegate(IntPtr handle, ref RTCAudio.AddNotifyParticipantUpdatedOptionsInternal options, IntPtr clientData, RTCAudio.OnParticipantUpdatedCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_AddNotifyParticipantUpdatedDelegate EOS_RTCAudio_AddNotifyParticipantUpdated;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_RTCAudio_CopyInputDeviceInformationByIndexDelegate(IntPtr handle, ref RTCAudio.CopyInputDeviceInformationByIndexOptionsInternal options, out IntPtr outInputDeviceInformation);
 		internal static EOS_RTCAudio_CopyInputDeviceInformationByIndexDelegate EOS_RTCAudio_CopyInputDeviceInformationByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_RTCAudio_CopyOutputDeviceInformationByIndexDelegate(IntPtr handle, ref RTCAudio.CopyOutputDeviceInformationByIndexOptionsInternal options, out IntPtr outOutputDeviceInformation);
 		internal static EOS_RTCAudio_CopyOutputDeviceInformationByIndexDelegate EOS_RTCAudio_CopyOutputDeviceInformationByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_RTCAudio_GetAudioInputDeviceByIndexDelegate(IntPtr handle, ref RTCAudio.GetAudioInputDeviceByIndexOptionsInternal options);
 		internal static EOS_RTCAudio_GetAudioInputDeviceByIndexDelegate EOS_RTCAudio_GetAudioInputDeviceByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_RTCAudio_GetAudioInputDevicesCountDelegate(IntPtr handle, ref RTCAudio.GetAudioInputDevicesCountOptionsInternal options);
 		internal static EOS_RTCAudio_GetAudioInputDevicesCountDelegate EOS_RTCAudio_GetAudioInputDevicesCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_RTCAudio_GetAudioOutputDeviceByIndexDelegate(IntPtr handle, ref RTCAudio.GetAudioOutputDeviceByIndexOptionsInternal options);
 		internal static EOS_RTCAudio_GetAudioOutputDeviceByIndexDelegate EOS_RTCAudio_GetAudioOutputDeviceByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_RTCAudio_GetAudioOutputDevicesCountDelegate(IntPtr handle, ref RTCAudio.GetAudioOutputDevicesCountOptionsInternal options);
 		internal static EOS_RTCAudio_GetAudioOutputDevicesCountDelegate EOS_RTCAudio_GetAudioOutputDevicesCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_RTCAudio_GetInputDevicesCountDelegate(IntPtr handle, ref RTCAudio.GetInputDevicesCountOptionsInternal options);
 		internal static EOS_RTCAudio_GetInputDevicesCountDelegate EOS_RTCAudio_GetInputDevicesCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_RTCAudio_GetOutputDevicesCountDelegate(IntPtr handle, ref RTCAudio.GetOutputDevicesCountOptionsInternal options);
 		internal static EOS_RTCAudio_GetOutputDevicesCountDelegate EOS_RTCAudio_GetOutputDevicesCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_InputDeviceInformation_ReleaseDelegate(IntPtr deviceInformation);
 		internal static EOS_RTCAudio_InputDeviceInformation_ReleaseDelegate EOS_RTCAudio_InputDeviceInformation_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_OutputDeviceInformation_ReleaseDelegate(IntPtr deviceInformation);
 		internal static EOS_RTCAudio_OutputDeviceInformation_ReleaseDelegate EOS_RTCAudio_OutputDeviceInformation_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_QueryInputDevicesInformationDelegate(IntPtr handle, ref RTCAudio.QueryInputDevicesInformationOptionsInternal options, IntPtr clientData, RTCAudio.OnQueryInputDevicesInformationCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_QueryInputDevicesInformationDelegate EOS_RTCAudio_QueryInputDevicesInformation;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_QueryOutputDevicesInformationDelegate(IntPtr handle, ref RTCAudio.QueryOutputDevicesInformationOptionsInternal options, IntPtr clientData, RTCAudio.OnQueryOutputDevicesInformationCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_QueryOutputDevicesInformationDelegate EOS_RTCAudio_QueryOutputDevicesInformation;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_RTCAudio_RegisterPlatformAudioUserDelegate(IntPtr handle, ref RTCAudio.RegisterPlatformAudioUserOptionsInternal options);
 		internal static EOS_RTCAudio_RegisterPlatformAudioUserDelegate EOS_RTCAudio_RegisterPlatformAudioUser;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_RegisterPlatformUserDelegate(IntPtr handle, ref RTCAudio.RegisterPlatformUserOptionsInternal options, IntPtr clientData, RTCAudio.OnRegisterPlatformUserCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_RegisterPlatformUserDelegate EOS_RTCAudio_RegisterPlatformUser;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_RemoveNotifyAudioBeforeRenderDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_RTCAudio_RemoveNotifyAudioBeforeRenderDelegate EOS_RTCAudio_RemoveNotifyAudioBeforeRender;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_RemoveNotifyAudioBeforeSendDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_RTCAudio_RemoveNotifyAudioBeforeSendDelegate EOS_RTCAudio_RemoveNotifyAudioBeforeSend;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_RemoveNotifyAudioDevicesChangedDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_RTCAudio_RemoveNotifyAudioDevicesChangedDelegate EOS_RTCAudio_RemoveNotifyAudioDevicesChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_RemoveNotifyAudioInputStateDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_RTCAudio_RemoveNotifyAudioInputStateDelegate EOS_RTCAudio_RemoveNotifyAudioInputState;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_RemoveNotifyAudioOutputStateDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_RTCAudio_RemoveNotifyAudioOutputStateDelegate EOS_RTCAudio_RemoveNotifyAudioOutputState;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_RemoveNotifyParticipantUpdatedDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_RTCAudio_RemoveNotifyParticipantUpdatedDelegate EOS_RTCAudio_RemoveNotifyParticipantUpdated;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_RTCAudio_SendAudioDelegate(IntPtr handle, ref RTCAudio.SendAudioOptionsInternal options);
 		internal static EOS_RTCAudio_SendAudioDelegate EOS_RTCAudio_SendAudio;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_RTCAudio_SetAudioInputSettingsDelegate(IntPtr handle, ref RTCAudio.SetAudioInputSettingsOptionsInternal options);
 		internal static EOS_RTCAudio_SetAudioInputSettingsDelegate EOS_RTCAudio_SetAudioInputSettings;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_RTCAudio_SetAudioOutputSettingsDelegate(IntPtr handle, ref RTCAudio.SetAudioOutputSettingsOptionsInternal options);
 		internal static EOS_RTCAudio_SetAudioOutputSettingsDelegate EOS_RTCAudio_SetAudioOutputSettings;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_SetInputDeviceSettingsDelegate(IntPtr handle, ref RTCAudio.SetInputDeviceSettingsOptionsInternal options, IntPtr clientData, RTCAudio.OnSetInputDeviceSettingsCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_SetInputDeviceSettingsDelegate EOS_RTCAudio_SetInputDeviceSettings;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_SetOutputDeviceSettingsDelegate(IntPtr handle, ref RTCAudio.SetOutputDeviceSettingsOptionsInternal options, IntPtr clientData, RTCAudio.OnSetOutputDeviceSettingsCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_SetOutputDeviceSettingsDelegate EOS_RTCAudio_SetOutputDeviceSettings;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_RTCAudio_UnregisterPlatformAudioUserDelegate(IntPtr handle, ref RTCAudio.UnregisterPlatformAudioUserOptionsInternal options);
 		internal static EOS_RTCAudio_UnregisterPlatformAudioUserDelegate EOS_RTCAudio_UnregisterPlatformAudioUser;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_UnregisterPlatformUserDelegate(IntPtr handle, ref RTCAudio.UnregisterPlatformUserOptionsInternal options, IntPtr clientData, RTCAudio.OnUnregisterPlatformUserCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_UnregisterPlatformUserDelegate EOS_RTCAudio_UnregisterPlatformUser;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_UpdateParticipantVolumeDelegate(IntPtr handle, ref RTCAudio.UpdateParticipantVolumeOptionsInternal options, IntPtr clientData, RTCAudio.OnUpdateParticipantVolumeCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_UpdateParticipantVolumeDelegate EOS_RTCAudio_UpdateParticipantVolume;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_UpdateReceivingDelegate(IntPtr handle, ref RTCAudio.UpdateReceivingOptionsInternal options, IntPtr clientData, RTCAudio.OnUpdateReceivingCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_UpdateReceivingDelegate EOS_RTCAudio_UpdateReceiving;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_UpdateReceivingVolumeDelegate(IntPtr handle, ref RTCAudio.UpdateReceivingVolumeOptionsInternal options, IntPtr clientData, RTCAudio.OnUpdateReceivingVolumeCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_UpdateReceivingVolumeDelegate EOS_RTCAudio_UpdateReceivingVolume;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_UpdateSendingDelegate(IntPtr handle, ref RTCAudio.UpdateSendingOptionsInternal options, IntPtr clientData, RTCAudio.OnUpdateSendingCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_UpdateSendingDelegate EOS_RTCAudio_UpdateSending;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCAudio_UpdateSendingVolumeDelegate(IntPtr handle, ref RTCAudio.UpdateSendingVolumeOptionsInternal options, IntPtr clientData, RTCAudio.OnUpdateSendingVolumeCallbackInternal completionDelegate);
 		internal static EOS_RTCAudio_UpdateSendingVolumeDelegate EOS_RTCAudio_UpdateSendingVolume;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_RTCData_AddNotifyDataReceivedDelegate(IntPtr handle, ref RTCData.AddNotifyDataReceivedOptionsInternal options, IntPtr clientData, RTCData.OnDataReceivedCallbackInternal completionDelegate);
 		internal static EOS_RTCData_AddNotifyDataReceivedDelegate EOS_RTCData_AddNotifyDataReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_RTCData_AddNotifyParticipantUpdatedDelegate(IntPtr handle, ref RTCData.AddNotifyParticipantUpdatedOptionsInternal options, IntPtr clientData, RTCData.OnParticipantUpdatedCallbackInternal completionDelegate);
 		internal static EOS_RTCData_AddNotifyParticipantUpdatedDelegate EOS_RTCData_AddNotifyParticipantUpdated;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCData_RemoveNotifyDataReceivedDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_RTCData_RemoveNotifyDataReceivedDelegate EOS_RTCData_RemoveNotifyDataReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCData_RemoveNotifyParticipantUpdatedDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_RTCData_RemoveNotifyParticipantUpdatedDelegate EOS_RTCData_RemoveNotifyParticipantUpdated;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_RTCData_SendDataDelegate(IntPtr handle, ref RTCData.SendDataOptionsInternal options);
 		internal static EOS_RTCData_SendDataDelegate EOS_RTCData_SendData;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCData_UpdateReceivingDelegate(IntPtr handle, ref RTCData.UpdateReceivingOptionsInternal options, IntPtr clientData, RTCData.OnUpdateReceivingCallbackInternal completionDelegate);
 		internal static EOS_RTCData_UpdateReceivingDelegate EOS_RTCData_UpdateReceiving;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTCData_UpdateSendingDelegate(IntPtr handle, ref RTCData.UpdateSendingOptionsInternal options, IntPtr clientData, RTCData.OnUpdateSendingCallbackInternal completionDelegate);
 		internal static EOS_RTCData_UpdateSendingDelegate EOS_RTCData_UpdateSending;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_RTC_AddNotifyDisconnectedDelegate(IntPtr handle, ref RTC.AddNotifyDisconnectedOptionsInternal options, IntPtr clientData, RTC.OnDisconnectedCallbackInternal completionDelegate);
 		internal static EOS_RTC_AddNotifyDisconnectedDelegate EOS_RTC_AddNotifyDisconnected;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_RTC_AddNotifyParticipantStatusChangedDelegate(IntPtr handle, ref RTC.AddNotifyParticipantStatusChangedOptionsInternal options, IntPtr clientData, RTC.OnParticipantStatusChangedCallbackInternal completionDelegate);
 		internal static EOS_RTC_AddNotifyParticipantStatusChangedDelegate EOS_RTC_AddNotifyParticipantStatusChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_RTC_AddNotifyRoomBeforeJoinDelegate(IntPtr handle, ref RTC.AddNotifyRoomBeforeJoinOptionsInternal options, IntPtr clientData, RTC.OnRoomBeforeJoinCallbackInternal completionDelegate);
 		internal static EOS_RTC_AddNotifyRoomBeforeJoinDelegate EOS_RTC_AddNotifyRoomBeforeJoin;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_RTC_AddNotifyRoomStatisticsUpdatedDelegate(IntPtr handle, ref RTC.AddNotifyRoomStatisticsUpdatedOptionsInternal options, IntPtr clientData, RTC.OnRoomStatisticsUpdatedCallbackInternal completionDelegate);
 		internal static EOS_RTC_AddNotifyRoomStatisticsUpdatedDelegate EOS_RTC_AddNotifyRoomStatisticsUpdated;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTC_BlockParticipantDelegate(IntPtr handle, ref RTC.BlockParticipantOptionsInternal options, IntPtr clientData, RTC.OnBlockParticipantCallbackInternal completionDelegate);
 		internal static EOS_RTC_BlockParticipantDelegate EOS_RTC_BlockParticipant;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_RTC_GetAudioInterfaceDelegate(IntPtr handle);
 		internal static EOS_RTC_GetAudioInterfaceDelegate EOS_RTC_GetAudioInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_RTC_GetDataInterfaceDelegate(IntPtr handle);
 		internal static EOS_RTC_GetDataInterfaceDelegate EOS_RTC_GetDataInterface;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTC_JoinRoomDelegate(IntPtr handle, ref RTC.JoinRoomOptionsInternal options, IntPtr clientData, RTC.OnJoinRoomCallbackInternal completionDelegate);
 		internal static EOS_RTC_JoinRoomDelegate EOS_RTC_JoinRoom;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTC_LeaveRoomDelegate(IntPtr handle, ref RTC.LeaveRoomOptionsInternal options, IntPtr clientData, RTC.OnLeaveRoomCallbackInternal completionDelegate);
 		internal static EOS_RTC_LeaveRoomDelegate EOS_RTC_LeaveRoom;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTC_RemoveNotifyDisconnectedDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_RTC_RemoveNotifyDisconnectedDelegate EOS_RTC_RemoveNotifyDisconnected;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTC_RemoveNotifyParticipantStatusChangedDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_RTC_RemoveNotifyParticipantStatusChangedDelegate EOS_RTC_RemoveNotifyParticipantStatusChanged;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTC_RemoveNotifyRoomBeforeJoinDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_RTC_RemoveNotifyRoomBeforeJoinDelegate EOS_RTC_RemoveNotifyRoomBeforeJoin;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_RTC_RemoveNotifyRoomStatisticsUpdatedDelegate(IntPtr handle, ulong notificationId);
 		internal static EOS_RTC_RemoveNotifyRoomStatisticsUpdatedDelegate EOS_RTC_RemoveNotifyRoomStatisticsUpdated;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_RTC_SetRoomSettingDelegate(IntPtr handle, ref RTC.SetRoomSettingOptionsInternal options);
 		internal static EOS_RTC_SetRoomSettingDelegate EOS_RTC_SetRoomSetting;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_RTC_SetSettingDelegate(IntPtr handle, ref RTC.SetSettingOptionsInternal options);
 		internal static EOS_RTC_SetSettingDelegate EOS_RTC_SetSetting;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Reports_SendPlayerBehaviorReportDelegate(IntPtr handle, ref Reports.SendPlayerBehaviorReportOptionsInternal options, IntPtr clientData, Reports.OnSendPlayerBehaviorReportCompleteCallbackInternal completionDelegate);
 		internal static EOS_Reports_SendPlayerBehaviorReportDelegate EOS_Reports_SendPlayerBehaviorReport;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Sanctions_CopyPlayerSanctionByIndexDelegate(IntPtr handle, ref Sanctions.CopyPlayerSanctionByIndexOptionsInternal options, out IntPtr outSanction);
 		internal static EOS_Sanctions_CopyPlayerSanctionByIndexDelegate EOS_Sanctions_CopyPlayerSanctionByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sanctions_CreatePlayerSanctionAppealDelegate(IntPtr handle, ref Sanctions.CreatePlayerSanctionAppealOptionsInternal options, IntPtr clientData, Sanctions.CreatePlayerSanctionAppealCallbackInternal completionDelegate);
 		internal static EOS_Sanctions_CreatePlayerSanctionAppealDelegate EOS_Sanctions_CreatePlayerSanctionAppeal;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Sanctions_GetPlayerSanctionCountDelegate(IntPtr handle, ref Sanctions.GetPlayerSanctionCountOptionsInternal options);
 		internal static EOS_Sanctions_GetPlayerSanctionCountDelegate EOS_Sanctions_GetPlayerSanctionCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sanctions_PlayerSanction_ReleaseDelegate(IntPtr sanction);
 		internal static EOS_Sanctions_PlayerSanction_ReleaseDelegate EOS_Sanctions_PlayerSanction_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sanctions_QueryActivePlayerSanctionsDelegate(IntPtr handle, ref Sanctions.QueryActivePlayerSanctionsOptionsInternal options, IntPtr clientData, Sanctions.OnQueryActivePlayerSanctionsCallbackInternal completionDelegate);
 		internal static EOS_Sanctions_QueryActivePlayerSanctionsDelegate EOS_Sanctions_QueryActivePlayerSanctions;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_SessionDetails_Attribute_ReleaseDelegate(IntPtr sessionAttribute);
 		internal static EOS_SessionDetails_Attribute_ReleaseDelegate EOS_SessionDetails_Attribute_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionDetails_CopyInfoDelegate(IntPtr handle, ref Sessions.SessionDetailsCopyInfoOptionsInternal options, out IntPtr outSessionInfo);
 		internal static EOS_SessionDetails_CopyInfoDelegate EOS_SessionDetails_CopyInfo;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionDetails_CopySessionAttributeByIndexDelegate(IntPtr handle, ref Sessions.SessionDetailsCopySessionAttributeByIndexOptionsInternal options, out IntPtr outSessionAttribute);
 		internal static EOS_SessionDetails_CopySessionAttributeByIndexDelegate EOS_SessionDetails_CopySessionAttributeByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionDetails_CopySessionAttributeByKeyDelegate(IntPtr handle, ref Sessions.SessionDetailsCopySessionAttributeByKeyOptionsInternal options, out IntPtr outSessionAttribute);
 		internal static EOS_SessionDetails_CopySessionAttributeByKeyDelegate EOS_SessionDetails_CopySessionAttributeByKey;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_SessionDetails_GetSessionAttributeCountDelegate(IntPtr handle, ref Sessions.SessionDetailsGetSessionAttributeCountOptionsInternal options);
 		internal static EOS_SessionDetails_GetSessionAttributeCountDelegate EOS_SessionDetails_GetSessionAttributeCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_SessionDetails_Info_ReleaseDelegate(IntPtr sessionInfo);
 		internal static EOS_SessionDetails_Info_ReleaseDelegate EOS_SessionDetails_Info_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_SessionDetails_ReleaseDelegate(IntPtr sessionHandle);
 		internal static EOS_SessionDetails_ReleaseDelegate EOS_SessionDetails_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionModification_AddAttributeDelegate(IntPtr handle, ref Sessions.SessionModificationAddAttributeOptionsInternal options);
 		internal static EOS_SessionModification_AddAttributeDelegate EOS_SessionModification_AddAttribute;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_SessionModification_ReleaseDelegate(IntPtr sessionModificationHandle);
 		internal static EOS_SessionModification_ReleaseDelegate EOS_SessionModification_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionModification_RemoveAttributeDelegate(IntPtr handle, ref Sessions.SessionModificationRemoveAttributeOptionsInternal options);
 		internal static EOS_SessionModification_RemoveAttributeDelegate EOS_SessionModification_RemoveAttribute;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionModification_SetAllowedPlatformIdsDelegate(IntPtr handle, ref Sessions.SessionModificationSetAllowedPlatformIdsOptionsInternal options);
 		internal static EOS_SessionModification_SetAllowedPlatformIdsDelegate EOS_SessionModification_SetAllowedPlatformIds;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionModification_SetBucketIdDelegate(IntPtr handle, ref Sessions.SessionModificationSetBucketIdOptionsInternal options);
 		internal static EOS_SessionModification_SetBucketIdDelegate EOS_SessionModification_SetBucketId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionModification_SetHostAddressDelegate(IntPtr handle, ref Sessions.SessionModificationSetHostAddressOptionsInternal options);
 		internal static EOS_SessionModification_SetHostAddressDelegate EOS_SessionModification_SetHostAddress;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionModification_SetInvitesAllowedDelegate(IntPtr handle, ref Sessions.SessionModificationSetInvitesAllowedOptionsInternal options);
 		internal static EOS_SessionModification_SetInvitesAllowedDelegate EOS_SessionModification_SetInvitesAllowed;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionModification_SetJoinInProgressAllowedDelegate(IntPtr handle, ref Sessions.SessionModificationSetJoinInProgressAllowedOptionsInternal options);
 		internal static EOS_SessionModification_SetJoinInProgressAllowedDelegate EOS_SessionModification_SetJoinInProgressAllowed;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionModification_SetMaxPlayersDelegate(IntPtr handle, ref Sessions.SessionModificationSetMaxPlayersOptionsInternal options);
 		internal static EOS_SessionModification_SetMaxPlayersDelegate EOS_SessionModification_SetMaxPlayers;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionModification_SetPermissionLevelDelegate(IntPtr handle, ref Sessions.SessionModificationSetPermissionLevelOptionsInternal options);
 		internal static EOS_SessionModification_SetPermissionLevelDelegate EOS_SessionModification_SetPermissionLevel;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionSearch_CopySearchResultByIndexDelegate(IntPtr handle, ref Sessions.SessionSearchCopySearchResultByIndexOptionsInternal options, out IntPtr outSessionHandle);
 		internal static EOS_SessionSearch_CopySearchResultByIndexDelegate EOS_SessionSearch_CopySearchResultByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_SessionSearch_FindDelegate(IntPtr handle, ref Sessions.SessionSearchFindOptionsInternal options, IntPtr clientData, Sessions.SessionSearchOnFindCallbackInternal completionDelegate);
 		internal static EOS_SessionSearch_FindDelegate EOS_SessionSearch_Find;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_SessionSearch_GetSearchResultCountDelegate(IntPtr handle, ref Sessions.SessionSearchGetSearchResultCountOptionsInternal options);
 		internal static EOS_SessionSearch_GetSearchResultCountDelegate EOS_SessionSearch_GetSearchResultCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_SessionSearch_ReleaseDelegate(IntPtr sessionSearchHandle);
 		internal static EOS_SessionSearch_ReleaseDelegate EOS_SessionSearch_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionSearch_RemoveParameterDelegate(IntPtr handle, ref Sessions.SessionSearchRemoveParameterOptionsInternal options);
 		internal static EOS_SessionSearch_RemoveParameterDelegate EOS_SessionSearch_RemoveParameter;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionSearch_SetMaxResultsDelegate(IntPtr handle, ref Sessions.SessionSearchSetMaxResultsOptionsInternal options);
 		internal static EOS_SessionSearch_SetMaxResultsDelegate EOS_SessionSearch_SetMaxResults;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionSearch_SetParameterDelegate(IntPtr handle, ref Sessions.SessionSearchSetParameterOptionsInternal options);
 		internal static EOS_SessionSearch_SetParameterDelegate EOS_SessionSearch_SetParameter;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionSearch_SetSessionIdDelegate(IntPtr handle, ref Sessions.SessionSearchSetSessionIdOptionsInternal options);
 		internal static EOS_SessionSearch_SetSessionIdDelegate EOS_SessionSearch_SetSessionId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_SessionSearch_SetTargetUserIdDelegate(IntPtr handle, ref Sessions.SessionSearchSetTargetUserIdOptionsInternal options);
 		internal static EOS_SessionSearch_SetTargetUserIdDelegate EOS_SessionSearch_SetTargetUserId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Sessions_AddNotifyJoinSessionAcceptedDelegate(IntPtr handle, ref Sessions.AddNotifyJoinSessionAcceptedOptionsInternal options, IntPtr clientData, Sessions.OnJoinSessionAcceptedCallbackInternal notificationFn);
 		internal static EOS_Sessions_AddNotifyJoinSessionAcceptedDelegate EOS_Sessions_AddNotifyJoinSessionAccepted;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Sessions_AddNotifyLeaveSessionRequestedDelegate(IntPtr handle, ref Sessions.AddNotifyLeaveSessionRequestedOptionsInternal options, IntPtr clientData, Sessions.OnLeaveSessionRequestedCallbackInternal notificationFn);
 		internal static EOS_Sessions_AddNotifyLeaveSessionRequestedDelegate EOS_Sessions_AddNotifyLeaveSessionRequested;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Sessions_AddNotifySendSessionNativeInviteRequestedDelegate(IntPtr handle, ref Sessions.AddNotifySendSessionNativeInviteRequestedOptionsInternal options, IntPtr clientData, Sessions.OnSendSessionNativeInviteRequestedCallbackInternal notificationFn);
 		internal static EOS_Sessions_AddNotifySendSessionNativeInviteRequestedDelegate EOS_Sessions_AddNotifySendSessionNativeInviteRequested;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Sessions_AddNotifySessionInviteAcceptedDelegate(IntPtr handle, ref Sessions.AddNotifySessionInviteAcceptedOptionsInternal options, IntPtr clientData, Sessions.OnSessionInviteAcceptedCallbackInternal notificationFn);
 		internal static EOS_Sessions_AddNotifySessionInviteAcceptedDelegate EOS_Sessions_AddNotifySessionInviteAccepted;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Sessions_AddNotifySessionInviteReceivedDelegate(IntPtr handle, ref Sessions.AddNotifySessionInviteReceivedOptionsInternal options, IntPtr clientData, Sessions.OnSessionInviteReceivedCallbackInternal notificationFn);
 		internal static EOS_Sessions_AddNotifySessionInviteReceivedDelegate EOS_Sessions_AddNotifySessionInviteReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_Sessions_AddNotifySessionInviteRejectedDelegate(IntPtr handle, ref Sessions.AddNotifySessionInviteRejectedOptionsInternal options, IntPtr clientData, Sessions.OnSessionInviteRejectedCallbackInternal notificationFn);
 		internal static EOS_Sessions_AddNotifySessionInviteRejectedDelegate EOS_Sessions_AddNotifySessionInviteRejected;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Sessions_CopyActiveSessionHandleDelegate(IntPtr handle, ref Sessions.CopyActiveSessionHandleOptionsInternal options, out IntPtr outSessionHandle);
 		internal static EOS_Sessions_CopyActiveSessionHandleDelegate EOS_Sessions_CopyActiveSessionHandle;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Sessions_CopySessionHandleByInviteIdDelegate(IntPtr handle, ref Sessions.CopySessionHandleByInviteIdOptionsInternal options, out IntPtr outSessionHandle);
 		internal static EOS_Sessions_CopySessionHandleByInviteIdDelegate EOS_Sessions_CopySessionHandleByInviteId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Sessions_CopySessionHandleByUiEventIdDelegate(IntPtr handle, ref Sessions.CopySessionHandleByUiEventIdOptionsInternal options, out IntPtr outSessionHandle);
 		internal static EOS_Sessions_CopySessionHandleByUiEventIdDelegate EOS_Sessions_CopySessionHandleByUiEventId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Sessions_CopySessionHandleForPresenceDelegate(IntPtr handle, ref Sessions.CopySessionHandleForPresenceOptionsInternal options, out IntPtr outSessionHandle);
 		internal static EOS_Sessions_CopySessionHandleForPresenceDelegate EOS_Sessions_CopySessionHandleForPresence;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Sessions_CreateSessionModificationDelegate(IntPtr handle, ref Sessions.CreateSessionModificationOptionsInternal options, out IntPtr outSessionModificationHandle);
 		internal static EOS_Sessions_CreateSessionModificationDelegate EOS_Sessions_CreateSessionModification;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Sessions_CreateSessionSearchDelegate(IntPtr handle, ref Sessions.CreateSessionSearchOptionsInternal options, out IntPtr outSessionSearchHandle);
 		internal static EOS_Sessions_CreateSessionSearchDelegate EOS_Sessions_CreateSessionSearch;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sessions_DestroySessionDelegate(IntPtr handle, ref Sessions.DestroySessionOptionsInternal options, IntPtr clientData, Sessions.OnDestroySessionCallbackInternal completionDelegate);
 		internal static EOS_Sessions_DestroySessionDelegate EOS_Sessions_DestroySession;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Sessions_DumpSessionStateDelegate(IntPtr handle, ref Sessions.DumpSessionStateOptionsInternal options);
 		internal static EOS_Sessions_DumpSessionStateDelegate EOS_Sessions_DumpSessionState;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sessions_EndSessionDelegate(IntPtr handle, ref Sessions.EndSessionOptionsInternal options, IntPtr clientData, Sessions.OnEndSessionCallbackInternal completionDelegate);
 		internal static EOS_Sessions_EndSessionDelegate EOS_Sessions_EndSession;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Sessions_GetInviteCountDelegate(IntPtr handle, ref Sessions.GetInviteCountOptionsInternal options);
 		internal static EOS_Sessions_GetInviteCountDelegate EOS_Sessions_GetInviteCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Sessions_GetInviteIdByIndexDelegate(IntPtr handle, ref Sessions.GetInviteIdByIndexOptionsInternal options, IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_Sessions_GetInviteIdByIndexDelegate EOS_Sessions_GetInviteIdByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Sessions_IsUserInSessionDelegate(IntPtr handle, ref Sessions.IsUserInSessionOptionsInternal options);
 		internal static EOS_Sessions_IsUserInSessionDelegate EOS_Sessions_IsUserInSession;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sessions_JoinSessionDelegate(IntPtr handle, ref Sessions.JoinSessionOptionsInternal options, IntPtr clientData, Sessions.OnJoinSessionCallbackInternal completionDelegate);
 		internal static EOS_Sessions_JoinSessionDelegate EOS_Sessions_JoinSession;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sessions_QueryInvitesDelegate(IntPtr handle, ref Sessions.QueryInvitesOptionsInternal options, IntPtr clientData, Sessions.OnQueryInvitesCallbackInternal completionDelegate);
 		internal static EOS_Sessions_QueryInvitesDelegate EOS_Sessions_QueryInvites;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sessions_RegisterPlayersDelegate(IntPtr handle, ref Sessions.RegisterPlayersOptionsInternal options, IntPtr clientData, Sessions.OnRegisterPlayersCallbackInternal completionDelegate);
 		internal static EOS_Sessions_RegisterPlayersDelegate EOS_Sessions_RegisterPlayers;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sessions_RejectInviteDelegate(IntPtr handle, ref Sessions.RejectInviteOptionsInternal options, IntPtr clientData, Sessions.OnRejectInviteCallbackInternal completionDelegate);
 		internal static EOS_Sessions_RejectInviteDelegate EOS_Sessions_RejectInvite;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sessions_RemoveNotifyJoinSessionAcceptedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Sessions_RemoveNotifyJoinSessionAcceptedDelegate EOS_Sessions_RemoveNotifyJoinSessionAccepted;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sessions_RemoveNotifyLeaveSessionRequestedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Sessions_RemoveNotifyLeaveSessionRequestedDelegate EOS_Sessions_RemoveNotifyLeaveSessionRequested;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sessions_RemoveNotifySendSessionNativeInviteRequestedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Sessions_RemoveNotifySendSessionNativeInviteRequestedDelegate EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sessions_RemoveNotifySessionInviteAcceptedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Sessions_RemoveNotifySessionInviteAcceptedDelegate EOS_Sessions_RemoveNotifySessionInviteAccepted;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sessions_RemoveNotifySessionInviteReceivedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Sessions_RemoveNotifySessionInviteReceivedDelegate EOS_Sessions_RemoveNotifySessionInviteReceived;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sessions_RemoveNotifySessionInviteRejectedDelegate(IntPtr handle, ulong inId);
 		internal static EOS_Sessions_RemoveNotifySessionInviteRejectedDelegate EOS_Sessions_RemoveNotifySessionInviteRejected;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sessions_SendInviteDelegate(IntPtr handle, ref Sessions.SendInviteOptionsInternal options, IntPtr clientData, Sessions.OnSendInviteCallbackInternal completionDelegate);
 		internal static EOS_Sessions_SendInviteDelegate EOS_Sessions_SendInvite;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sessions_StartSessionDelegate(IntPtr handle, ref Sessions.StartSessionOptionsInternal options, IntPtr clientData, Sessions.OnStartSessionCallbackInternal completionDelegate);
 		internal static EOS_Sessions_StartSessionDelegate EOS_Sessions_StartSession;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sessions_UnregisterPlayersDelegate(IntPtr handle, ref Sessions.UnregisterPlayersOptionsInternal options, IntPtr clientData, Sessions.OnUnregisterPlayersCallbackInternal completionDelegate);
 		internal static EOS_Sessions_UnregisterPlayersDelegate EOS_Sessions_UnregisterPlayers;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Sessions_UpdateSessionDelegate(IntPtr handle, ref Sessions.UpdateSessionOptionsInternal options, IntPtr clientData, Sessions.OnUpdateSessionCallbackInternal completionDelegate);
 		internal static EOS_Sessions_UpdateSessionDelegate EOS_Sessions_UpdateSession;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Sessions_UpdateSessionModificationDelegate(IntPtr handle, ref Sessions.UpdateSessionModificationOptionsInternal options, out IntPtr outSessionModificationHandle);
 		internal static EOS_Sessions_UpdateSessionModificationDelegate EOS_Sessions_UpdateSessionModification;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_ShutdownDelegate();
 		internal static EOS_ShutdownDelegate EOS_Shutdown;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Stats_CopyStatByIndexDelegate(IntPtr handle, ref Stats.CopyStatByIndexOptionsInternal options, out IntPtr outStat);
 		internal static EOS_Stats_CopyStatByIndexDelegate EOS_Stats_CopyStatByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_Stats_CopyStatByNameDelegate(IntPtr handle, ref Stats.CopyStatByNameOptionsInternal options, out IntPtr outStat);
 		internal static EOS_Stats_CopyStatByNameDelegate EOS_Stats_CopyStatByName;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_Stats_GetStatsCountDelegate(IntPtr handle, ref Stats.GetStatCountOptionsInternal options);
 		internal static EOS_Stats_GetStatsCountDelegate EOS_Stats_GetStatsCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Stats_IngestStatDelegate(IntPtr handle, ref Stats.IngestStatOptionsInternal options, IntPtr clientData, Stats.OnIngestStatCompleteCallbackInternal completionDelegate);
 		internal static EOS_Stats_IngestStatDelegate EOS_Stats_IngestStat;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Stats_QueryStatsDelegate(IntPtr handle, ref Stats.QueryStatsOptionsInternal options, IntPtr clientData, Stats.OnQueryStatsCompleteCallbackInternal completionDelegate);
 		internal static EOS_Stats_QueryStatsDelegate EOS_Stats_QueryStats;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Stats_Stat_ReleaseDelegate(IntPtr stat);
 		internal static EOS_Stats_Stat_ReleaseDelegate EOS_Stats_Stat_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_TitleStorageFileTransferRequest_CancelRequestDelegate(IntPtr handle);
 		internal static EOS_TitleStorageFileTransferRequest_CancelRequestDelegate EOS_TitleStorageFileTransferRequest_CancelRequest;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_TitleStorageFileTransferRequest_GetFileRequestStateDelegate(IntPtr handle);
 		internal static EOS_TitleStorageFileTransferRequest_GetFileRequestStateDelegate EOS_TitleStorageFileTransferRequest_GetFileRequestState;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_TitleStorageFileTransferRequest_GetFilenameDelegate(IntPtr handle, uint filenameStringBufferSizeBytes, IntPtr outStringBuffer, out int outStringLength);
 		internal static EOS_TitleStorageFileTransferRequest_GetFilenameDelegate EOS_TitleStorageFileTransferRequest_GetFilename;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_TitleStorageFileTransferRequest_ReleaseDelegate(IntPtr titleStorageFileTransferHandle);
 		internal static EOS_TitleStorageFileTransferRequest_ReleaseDelegate EOS_TitleStorageFileTransferRequest_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_TitleStorage_CopyFileMetadataAtIndexDelegate(IntPtr handle, ref TitleStorage.CopyFileMetadataAtIndexOptionsInternal options, out IntPtr outMetadata);
 		internal static EOS_TitleStorage_CopyFileMetadataAtIndexDelegate EOS_TitleStorage_CopyFileMetadataAtIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_TitleStorage_CopyFileMetadataByFilenameDelegate(IntPtr handle, ref TitleStorage.CopyFileMetadataByFilenameOptionsInternal options, out IntPtr outMetadata);
 		internal static EOS_TitleStorage_CopyFileMetadataByFilenameDelegate EOS_TitleStorage_CopyFileMetadataByFilename;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_TitleStorage_DeleteCacheDelegate(IntPtr handle, ref TitleStorage.DeleteCacheOptionsInternal options, IntPtr clientData, TitleStorage.OnDeleteCacheCompleteCallbackInternal completionCallback);
 		internal static EOS_TitleStorage_DeleteCacheDelegate EOS_TitleStorage_DeleteCache;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_TitleStorage_FileMetadata_ReleaseDelegate(IntPtr fileMetadata);
 		internal static EOS_TitleStorage_FileMetadata_ReleaseDelegate EOS_TitleStorage_FileMetadata_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_TitleStorage_GetFileMetadataCountDelegate(IntPtr handle, ref TitleStorage.GetFileMetadataCountOptionsInternal options);
 		internal static EOS_TitleStorage_GetFileMetadataCountDelegate EOS_TitleStorage_GetFileMetadataCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_TitleStorage_QueryFileDelegate(IntPtr handle, ref TitleStorage.QueryFileOptionsInternal options, IntPtr clientData, TitleStorage.OnQueryFileCompleteCallbackInternal completionCallback);
 		internal static EOS_TitleStorage_QueryFileDelegate EOS_TitleStorage_QueryFile;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_TitleStorage_QueryFileListDelegate(IntPtr handle, ref TitleStorage.QueryFileListOptionsInternal options, IntPtr clientData, TitleStorage.OnQueryFileListCompleteCallbackInternal completionCallback);
 		internal static EOS_TitleStorage_QueryFileListDelegate EOS_TitleStorage_QueryFileList;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate IntPtr EOS_TitleStorage_ReadFileDelegate(IntPtr handle, ref TitleStorage.ReadFileOptionsInternal options, IntPtr clientData, TitleStorage.OnReadFileCompleteCallbackInternal completionCallback);
 		internal static EOS_TitleStorage_ReadFileDelegate EOS_TitleStorage_ReadFile;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_UI_AcknowledgeEventIdDelegate(IntPtr handle, ref UI.AcknowledgeEventIdOptionsInternal options);
 		internal static EOS_UI_AcknowledgeEventIdDelegate EOS_UI_AcknowledgeEventId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_UI_AddNotifyDisplaySettingsUpdatedDelegate(IntPtr handle, ref UI.AddNotifyDisplaySettingsUpdatedOptionsInternal options, IntPtr clientData, UI.OnDisplaySettingsUpdatedCallbackInternal notificationFn);
 		internal static EOS_UI_AddNotifyDisplaySettingsUpdatedDelegate EOS_UI_AddNotifyDisplaySettingsUpdated;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_UI_AddNotifyMemoryMonitorDelegate(IntPtr handle, ref UI.AddNotifyMemoryMonitorOptionsInternal options, IntPtr clientData, UI.OnMemoryMonitorCallbackInternal notificationFn);
 		internal static EOS_UI_AddNotifyMemoryMonitorDelegate EOS_UI_AddNotifyMemoryMonitor;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate ulong EOS_UI_AddNotifyOnScreenKeyboardRequestedDelegate(IntPtr handle, ref UI.AddNotifyOnScreenKeyboardRequestedOptionsInternal options, IntPtr clientData, UI.OnScreenKeyboardRequestedCallbackInternal notificationFn);
 		internal static EOS_UI_AddNotifyOnScreenKeyboardRequestedDelegate EOS_UI_AddNotifyOnScreenKeyboardRequested;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_UI_ConfigureOnScreenKeyboardDelegate(IntPtr handle, ref UI.ConfigureOnScreenKeyboardOptionsInternal options);
 		internal static EOS_UI_ConfigureOnScreenKeyboardDelegate EOS_UI_ConfigureOnScreenKeyboard;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate int EOS_UI_GetFriendsExclusiveInputDelegate(IntPtr handle, ref UI.GetFriendsExclusiveInputOptionsInternal options);
 		internal static EOS_UI_GetFriendsExclusiveInputDelegate EOS_UI_GetFriendsExclusiveInput;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate int EOS_UI_GetFriendsVisibleDelegate(IntPtr handle, ref UI.GetFriendsVisibleOptionsInternal options);
 		internal static EOS_UI_GetFriendsVisibleDelegate EOS_UI_GetFriendsVisible;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate UI.NotificationLocation EOS_UI_GetNotificationLocationPreferenceDelegate(IntPtr handle);
 		internal static EOS_UI_GetNotificationLocationPreferenceDelegate EOS_UI_GetNotificationLocationPreference;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate UI.InputStateButtonFlags EOS_UI_GetToggleFriendsButtonDelegate(IntPtr handle, ref UI.GetToggleFriendsButtonOptionsInternal options);
 		internal static EOS_UI_GetToggleFriendsButtonDelegate EOS_UI_GetToggleFriendsButton;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate UI.KeyCombination EOS_UI_GetToggleFriendsKeyDelegate(IntPtr handle, ref UI.GetToggleFriendsKeyOptionsInternal options);
 		internal static EOS_UI_GetToggleFriendsKeyDelegate EOS_UI_GetToggleFriendsKey;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_UI_HideFriendsDelegate(IntPtr handle, ref UI.HideFriendsOptionsInternal options, IntPtr clientData, UI.OnHideFriendsCallbackInternal completionDelegate);
 		internal static EOS_UI_HideFriendsDelegate EOS_UI_HideFriends;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate int EOS_UI_IsSocialOverlayPausedDelegate(IntPtr handle, ref UI.IsSocialOverlayPausedOptionsInternal options);
 		internal static EOS_UI_IsSocialOverlayPausedDelegate EOS_UI_IsSocialOverlayPaused;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate int EOS_UI_IsValidButtonCombinationDelegate(IntPtr handle, UI.InputStateButtonFlags buttonCombination);
 		internal static EOS_UI_IsValidButtonCombinationDelegate EOS_UI_IsValidButtonCombination;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate int EOS_UI_IsValidKeyCombinationDelegate(IntPtr handle, UI.KeyCombination keyCombination);
 		internal static EOS_UI_IsValidKeyCombinationDelegate EOS_UI_IsValidKeyCombination;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_UI_PauseSocialOverlayDelegate(IntPtr handle, ref UI.PauseSocialOverlayOptionsInternal options);
 		internal static EOS_UI_PauseSocialOverlayDelegate EOS_UI_PauseSocialOverlay;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_UI_PrePresentDelegate(IntPtr handle, ref UI.PrePresentOptionsInternal options);
 		internal static EOS_UI_PrePresentDelegate EOS_UI_PrePresent;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_UI_RemoveNotifyDisplaySettingsUpdatedDelegate(IntPtr handle, ulong id);
 		internal static EOS_UI_RemoveNotifyDisplaySettingsUpdatedDelegate EOS_UI_RemoveNotifyDisplaySettingsUpdated;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_UI_RemoveNotifyMemoryMonitorDelegate(IntPtr handle, ulong id);
 		internal static EOS_UI_RemoveNotifyMemoryMonitorDelegate EOS_UI_RemoveNotifyMemoryMonitor;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_UI_RemoveNotifyOnScreenKeyboardRequestedDelegate(IntPtr handle, ulong id);
 		internal static EOS_UI_RemoveNotifyOnScreenKeyboardRequestedDelegate EOS_UI_RemoveNotifyOnScreenKeyboardRequested;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_UI_ReportInputStateDelegate(IntPtr handle, ref UI.ReportInputStateOptionsInternal options);
 		internal static EOS_UI_ReportInputStateDelegate EOS_UI_ReportInputState;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_UI_SetDisplayPreferenceDelegate(IntPtr handle, ref UI.SetDisplayPreferenceOptionsInternal options);
 		internal static EOS_UI_SetDisplayPreferenceDelegate EOS_UI_SetDisplayPreference;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_UI_SetToggleFriendsButtonDelegate(IntPtr handle, ref UI.SetToggleFriendsButtonOptionsInternal options);
 		internal static EOS_UI_SetToggleFriendsButtonDelegate EOS_UI_SetToggleFriendsButton;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_UI_SetToggleFriendsKeyDelegate(IntPtr handle, ref UI.SetToggleFriendsKeyOptionsInternal options);
 		internal static EOS_UI_SetToggleFriendsKeyDelegate EOS_UI_SetToggleFriendsKey;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_UI_ShowBlockPlayerDelegate(IntPtr handle, ref UI.ShowBlockPlayerOptionsInternal options, IntPtr clientData, UI.OnShowBlockPlayerCallbackInternal completionDelegate);
 		internal static EOS_UI_ShowBlockPlayerDelegate EOS_UI_ShowBlockPlayer;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_UI_ShowFriendsDelegate(IntPtr handle, ref UI.ShowFriendsOptionsInternal options, IntPtr clientData, UI.OnShowFriendsCallbackInternal completionDelegate);
 		internal static EOS_UI_ShowFriendsDelegate EOS_UI_ShowFriends;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_UI_ShowNativeProfileDelegate(IntPtr handle, ref UI.ShowNativeProfileOptionsInternal options, IntPtr clientData, UI.OnShowNativeProfileCallbackInternal completionDelegate);
 		internal static EOS_UI_ShowNativeProfileDelegate EOS_UI_ShowNativeProfile;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_UI_ShowReportPlayerDelegate(IntPtr handle, ref UI.ShowReportPlayerOptionsInternal options, IntPtr clientData, UI.OnShowReportPlayerCallbackInternal completionDelegate);
 		internal static EOS_UI_ShowReportPlayerDelegate EOS_UI_ShowReportPlayer;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_UserInfo_BestDisplayName_ReleaseDelegate(IntPtr bestDisplayName);
 		internal static EOS_UserInfo_BestDisplayName_ReleaseDelegate EOS_UserInfo_BestDisplayName_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_UserInfo_CopyBestDisplayNameDelegate(IntPtr handle, ref UserInfo.CopyBestDisplayNameOptionsInternal options, out IntPtr outBestDisplayName);
 		internal static EOS_UserInfo_CopyBestDisplayNameDelegate EOS_UserInfo_CopyBestDisplayName;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_UserInfo_CopyBestDisplayNameWithPlatformDelegate(IntPtr handle, ref UserInfo.CopyBestDisplayNameWithPlatformOptionsInternal options, out IntPtr outBestDisplayName);
 		internal static EOS_UserInfo_CopyBestDisplayNameWithPlatformDelegate EOS_UserInfo_CopyBestDisplayNameWithPlatform;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_UserInfo_CopyExternalUserInfoByAccountIdDelegate(IntPtr handle, ref UserInfo.CopyExternalUserInfoByAccountIdOptionsInternal options, out IntPtr outExternalUserInfo);
 		internal static EOS_UserInfo_CopyExternalUserInfoByAccountIdDelegate EOS_UserInfo_CopyExternalUserInfoByAccountId;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_UserInfo_CopyExternalUserInfoByAccountTypeDelegate(IntPtr handle, ref UserInfo.CopyExternalUserInfoByAccountTypeOptionsInternal options, out IntPtr outExternalUserInfo);
 		internal static EOS_UserInfo_CopyExternalUserInfoByAccountTypeDelegate EOS_UserInfo_CopyExternalUserInfoByAccountType;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_UserInfo_CopyExternalUserInfoByIndexDelegate(IntPtr handle, ref UserInfo.CopyExternalUserInfoByIndexOptionsInternal options, out IntPtr outExternalUserInfo);
 		internal static EOS_UserInfo_CopyExternalUserInfoByIndexDelegate EOS_UserInfo_CopyExternalUserInfoByIndex;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate Result EOS_UserInfo_CopyUserInfoDelegate(IntPtr handle, ref UserInfo.CopyUserInfoOptionsInternal options, out IntPtr outUserInfo);
 		internal static EOS_UserInfo_CopyUserInfoDelegate EOS_UserInfo_CopyUserInfo;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_UserInfo_ExternalUserInfo_ReleaseDelegate(IntPtr externalUserInfo);
 		internal static EOS_UserInfo_ExternalUserInfo_ReleaseDelegate EOS_UserInfo_ExternalUserInfo_Release;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_UserInfo_GetExternalUserInfoCountDelegate(IntPtr handle, ref UserInfo.GetExternalUserInfoCountOptionsInternal options);
 		internal static EOS_UserInfo_GetExternalUserInfoCountDelegate EOS_UserInfo_GetExternalUserInfoCount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate uint EOS_UserInfo_GetLocalPlatformTypeDelegate(IntPtr handle, ref UserInfo.GetLocalPlatformTypeOptionsInternal options);
 		internal static EOS_UserInfo_GetLocalPlatformTypeDelegate EOS_UserInfo_GetLocalPlatformType;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_UserInfo_QueryUserInfoDelegate(IntPtr handle, ref UserInfo.QueryUserInfoOptionsInternal options, IntPtr clientData, UserInfo.OnQueryUserInfoCallbackInternal completionDelegate);
 		internal static EOS_UserInfo_QueryUserInfoDelegate EOS_UserInfo_QueryUserInfo;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_UserInfo_QueryUserInfoByDisplayNameDelegate(IntPtr handle, ref UserInfo.QueryUserInfoByDisplayNameOptionsInternal options, IntPtr clientData, UserInfo.OnQueryUserInfoByDisplayNameCallbackInternal completionDelegate);
 		internal static EOS_UserInfo_QueryUserInfoByDisplayNameDelegate EOS_UserInfo_QueryUserInfoByDisplayName;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_UserInfo_QueryUserInfoByExternalAccountDelegate(IntPtr handle, ref UserInfo.QueryUserInfoByExternalAccountOptionsInternal options, IntPtr clientData, UserInfo.OnQueryUserInfoByExternalAccountCallbackInternal completionDelegate);
 		internal static EOS_UserInfo_QueryUserInfoByExternalAccountDelegate EOS_UserInfo_QueryUserInfoByExternalAccount;
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_UserInfo_ReleaseDelegate(IntPtr userInfo);
 		internal static EOS_UserInfo_ReleaseDelegate EOS_UserInfo_Release;
 #else
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_AddNotifyAchievementsUnlocked", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_AddNotifyAchievementsUnlocked", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Achievements_AddNotifyAchievementsUnlocked(IntPtr handle, ref Achievements.AddNotifyAchievementsUnlockedOptionsInternal options, IntPtr clientData, Achievements.OnAchievementsUnlockedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_AddNotifyAchievementsUnlockedV2", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_AddNotifyAchievementsUnlockedV2", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Achievements_AddNotifyAchievementsUnlockedV2(IntPtr handle, ref Achievements.AddNotifyAchievementsUnlockedV2OptionsInternal options, IntPtr clientData, Achievements.OnAchievementsUnlockedCallbackV2Internal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_CopyAchievementDefinitionByAchievementId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_CopyAchievementDefinitionByAchievementId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Achievements_CopyAchievementDefinitionByAchievementId(IntPtr handle, ref Achievements.CopyAchievementDefinitionByAchievementIdOptionsInternal options, out IntPtr outDefinition);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_CopyAchievementDefinitionByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_CopyAchievementDefinitionByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Achievements_CopyAchievementDefinitionByIndex(IntPtr handle, ref Achievements.CopyAchievementDefinitionByIndexOptionsInternal options, out IntPtr outDefinition);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId(IntPtr handle, ref Achievements.CopyAchievementDefinitionV2ByAchievementIdOptionsInternal options, out IntPtr outDefinition);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_CopyAchievementDefinitionV2ByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_CopyAchievementDefinitionV2ByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Achievements_CopyAchievementDefinitionV2ByIndex(IntPtr handle, ref Achievements.CopyAchievementDefinitionV2ByIndexOptionsInternal options, out IntPtr outDefinition);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_CopyPlayerAchievementByAchievementId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_CopyPlayerAchievementByAchievementId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Achievements_CopyPlayerAchievementByAchievementId(IntPtr handle, ref Achievements.CopyPlayerAchievementByAchievementIdOptionsInternal options, out IntPtr outAchievement);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_CopyPlayerAchievementByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_CopyPlayerAchievementByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Achievements_CopyPlayerAchievementByIndex(IntPtr handle, ref Achievements.CopyPlayerAchievementByIndexOptionsInternal options, out IntPtr outAchievement);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_CopyUnlockedAchievementByAchievementId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_CopyUnlockedAchievementByAchievementId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Achievements_CopyUnlockedAchievementByAchievementId(IntPtr handle, ref Achievements.CopyUnlockedAchievementByAchievementIdOptionsInternal options, out IntPtr outAchievement);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_CopyUnlockedAchievementByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_CopyUnlockedAchievementByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Achievements_CopyUnlockedAchievementByIndex(IntPtr handle, ref Achievements.CopyUnlockedAchievementByIndexOptionsInternal options, out IntPtr outAchievement);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_DefinitionV2_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_DefinitionV2_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Achievements_DefinitionV2_Release(IntPtr achievementDefinition);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_Definition_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_Definition_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Achievements_Definition_Release(IntPtr achievementDefinition);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_GetAchievementDefinitionCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_GetAchievementDefinitionCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Achievements_GetAchievementDefinitionCount(IntPtr handle, ref Achievements.GetAchievementDefinitionCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_GetPlayerAchievementCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_GetPlayerAchievementCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Achievements_GetPlayerAchievementCount(IntPtr handle, ref Achievements.GetPlayerAchievementCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_GetUnlockedAchievementCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_GetUnlockedAchievementCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Achievements_GetUnlockedAchievementCount(IntPtr handle, ref Achievements.GetUnlockedAchievementCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_PlayerAchievement_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_PlayerAchievement_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Achievements_PlayerAchievement_Release(IntPtr achievement);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_QueryDefinitions", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_QueryDefinitions", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Achievements_QueryDefinitions(IntPtr handle, ref Achievements.QueryDefinitionsOptionsInternal options, IntPtr clientData, Achievements.OnQueryDefinitionsCompleteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_QueryPlayerAchievements", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_QueryPlayerAchievements", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Achievements_QueryPlayerAchievements(IntPtr handle, ref Achievements.QueryPlayerAchievementsOptionsInternal options, IntPtr clientData, Achievements.OnQueryPlayerAchievementsCompleteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_RemoveNotifyAchievementsUnlocked", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_RemoveNotifyAchievementsUnlocked", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Achievements_RemoveNotifyAchievementsUnlocked(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_UnlockAchievements", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_UnlockAchievements", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Achievements_UnlockAchievements(IntPtr handle, ref Achievements.UnlockAchievementsOptionsInternal options, IntPtr clientData, Achievements.OnUnlockAchievementsCompleteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Achievements_UnlockedAchievement_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Achievements_UnlockedAchievement_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Achievements_UnlockedAchievement_Release(IntPtr achievement);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_ActiveSession_CopyInfo", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_ActiveSession_CopyInfo", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_ActiveSession_CopyInfo(IntPtr handle, ref Sessions.ActiveSessionCopyInfoOptionsInternal options, out IntPtr outActiveSessionInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_ActiveSession_GetRegisteredPlayerByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_ActiveSession_GetRegisteredPlayerByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_ActiveSession_GetRegisteredPlayerByIndex(IntPtr handle, ref Sessions.ActiveSessionGetRegisteredPlayerByIndexOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_ActiveSession_GetRegisteredPlayerCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_ActiveSession_GetRegisteredPlayerCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_ActiveSession_GetRegisteredPlayerCount(IntPtr handle, ref Sessions.ActiveSessionGetRegisteredPlayerCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_ActiveSession_Info_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_ActiveSession_Info_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_ActiveSession_Info_Release(IntPtr activeSessionInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_ActiveSession_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_ActiveSession_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_ActiveSession_Release(IntPtr activeSessionHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_AddExternalIntegrityCatalog", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_AddExternalIntegrityCatalog", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_AddExternalIntegrityCatalog(IntPtr handle, ref AntiCheatClient.AddExternalIntegrityCatalogOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_AddNotifyClientIntegrityViolated", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_AddNotifyClientIntegrityViolated", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_AntiCheatClient_AddNotifyClientIntegrityViolated(IntPtr handle, ref AntiCheatClient.AddNotifyClientIntegrityViolatedOptionsInternal options, IntPtr clientData, AntiCheatClient.OnClientIntegrityViolatedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_AddNotifyMessageToPeer", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_AddNotifyMessageToPeer", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_AntiCheatClient_AddNotifyMessageToPeer(IntPtr handle, ref AntiCheatClient.AddNotifyMessageToPeerOptionsInternal options, IntPtr clientData, AntiCheatClient.OnMessageToPeerCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_AddNotifyMessageToServer", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_AddNotifyMessageToServer", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_AntiCheatClient_AddNotifyMessageToServer(IntPtr handle, ref AntiCheatClient.AddNotifyMessageToServerOptionsInternal options, IntPtr clientData, AntiCheatClient.OnMessageToServerCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_AddNotifyPeerActionRequired", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_AddNotifyPeerActionRequired", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_AntiCheatClient_AddNotifyPeerActionRequired(IntPtr handle, ref AntiCheatClient.AddNotifyPeerActionRequiredOptionsInternal options, IntPtr clientData, AntiCheatClient.OnPeerActionRequiredCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged(IntPtr handle, ref AntiCheatClient.AddNotifyPeerAuthStatusChangedOptionsInternal options, IntPtr clientData, AntiCheatClient.OnPeerAuthStatusChangedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_BeginSession", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_BeginSession", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_BeginSession(IntPtr handle, ref AntiCheatClient.BeginSessionOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_EndSession", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_EndSession", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_EndSession(IntPtr handle, ref AntiCheatClient.EndSessionOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_GetModuleBuildId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_GetModuleBuildId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_GetModuleBuildId(IntPtr handle, ref AntiCheatClient.GetModuleBuildIdOptionsInternal options, out uint outModuleBuildId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_GetProtectMessageOutputLength", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_GetPersistentSetting", CallingConvention=Library.CALLING_CONVENTION)]
+		internal static extern Result EOS_AntiCheatClient_GetPersistentSetting(IntPtr handle, ref AntiCheatClient.GetPersistentSettingOptionsInternal options, out AntiCheatClient.PersistentSettingValueInternal outValue, IntPtr outValueStringBuffer);
+
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_GetProtectMessageOutputLength", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_GetProtectMessageOutputLength(IntPtr handle, ref AntiCheatClient.GetProtectMessageOutputLengthOptionsInternal options, out uint outBufferSizeBytes);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_GetSystemRequirementStatus", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_GetSystemConfig", CallingConvention=Library.CALLING_CONVENTION)]
+		internal static extern Result EOS_AntiCheatClient_GetSystemConfig(IntPtr handle, ref AntiCheatClient.GetSystemConfigOptionsInternal options, out AntiCheatCommon.AntiCheatCommonClientSystemConfig outSystemConfig);
+
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_GetSystemRequirementStatus", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_GetSystemRequirementStatus(IntPtr handle, ref AntiCheatClient.GetSystemRequirementStatusOptionsInternal options, out AntiCheatCommon.AntiCheatClientSystemRequirementStatus outRequirementStatus, IntPtr outReason);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_PollStatus", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_PollStatus", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_PollStatus(IntPtr handle, ref AntiCheatClient.PollStatusOptionsInternal options, out AntiCheatClient.AntiCheatClientViolationType outViolationType, IntPtr outMessage);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_ProtectMessage", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_ProtectMessage", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_ProtectMessage(IntPtr handle, ref AntiCheatClient.ProtectMessageOptionsInternal options, IntPtr outBuffer, out uint outBytesWritten);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_ReceiveMessageFromPeer", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_ReceiveMessageFromPeer", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_ReceiveMessageFromPeer(IntPtr handle, ref AntiCheatClient.ReceiveMessageFromPeerOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_ReceiveMessageFromServer", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_ReceiveMessageFromServer", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_ReceiveMessageFromServer(IntPtr handle, ref AntiCheatClient.ReceiveMessageFromServerOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_RegisterPeer", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_RegisterPeer", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_RegisterPeer(IntPtr handle, ref AntiCheatClient.RegisterPeerOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolated", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolated", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolated(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_RemoveNotifyMessageToPeer", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_RemoveNotifyMessageToPeer", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_AntiCheatClient_RemoveNotifyMessageToPeer(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_RemoveNotifyMessageToServer", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_RemoveNotifyMessageToServer", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_AntiCheatClient_RemoveNotifyMessageToServer(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_RemoveNotifyPeerActionRequired", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_RemoveNotifyPeerActionRequired", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_AntiCheatClient_RemoveNotifyPeerActionRequired(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_Reserved01", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
-		internal static extern Result EOS_AntiCheatClient_Reserved01(IntPtr handle, ref AntiCheatClient.Reserved01OptionsInternal options, out int outValue);
-
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_Reserved02", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_Reserved02", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_Reserved02(IntPtr handle, ref AntiCheatClient.Reserved02OptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_UnprotectMessage", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_SetPersistentSetting", CallingConvention=Library.CALLING_CONVENTION)]
+		internal static extern Result EOS_AntiCheatClient_SetPersistentSetting(IntPtr handle, ref AntiCheatClient.SetPersistentSettingOptionsInternal options);
+
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_UnprotectMessage", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_UnprotectMessage(IntPtr handle, ref AntiCheatClient.UnprotectMessageOptionsInternal options, IntPtr outBuffer, out uint outBytesWritten);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatClient_UnregisterPeer", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatClient_UnregisterPeer", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatClient_UnregisterPeer(IntPtr handle, ref AntiCheatClient.UnregisterPeerOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_AddNotifyClientActionRequired", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_AddNotifyClientActionRequired", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_AntiCheatServer_AddNotifyClientActionRequired(IntPtr handle, ref AntiCheatServer.AddNotifyClientActionRequiredOptionsInternal options, IntPtr clientData, AntiCheatServer.OnClientActionRequiredCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_AddNotifyClientAuthStatusChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_AddNotifyClientAuthStatusChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_AntiCheatServer_AddNotifyClientAuthStatusChanged(IntPtr handle, ref AntiCheatServer.AddNotifyClientAuthStatusChangedOptionsInternal options, IntPtr clientData, AntiCheatServer.OnClientAuthStatusChangedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_AddNotifyMessageToClient", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_AddNotifyMessageToClient", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_AntiCheatServer_AddNotifyMessageToClient(IntPtr handle, ref AntiCheatServer.AddNotifyMessageToClientOptionsInternal options, IntPtr clientData, AntiCheatServer.OnMessageToClientCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_BeginSession", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_BeginSession", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_BeginSession(IntPtr handle, ref AntiCheatServer.BeginSessionOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_EndSession", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_EndSession", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_EndSession(IntPtr handle, ref AntiCheatServer.EndSessionOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_GetProtectMessageOutputLength", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_GetProtectMessageOutputLength", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_GetProtectMessageOutputLength(IntPtr handle, ref AntiCheatServer.GetProtectMessageOutputLengthOptionsInternal options, out uint outBufferSizeBytes);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_LogEvent", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_LogEvent", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_LogEvent(IntPtr handle, ref AntiCheatCommon.LogEventOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_LogGameRoundEnd", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_LogGameRoundEnd", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_LogGameRoundEnd(IntPtr handle, ref AntiCheatCommon.LogGameRoundEndOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_LogGameRoundStart", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_LogGameRoundStart", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_LogGameRoundStart(IntPtr handle, ref AntiCheatCommon.LogGameRoundStartOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_LogPlayerDespawn", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_LogPlayerDespawn", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_LogPlayerDespawn(IntPtr handle, ref AntiCheatCommon.LogPlayerDespawnOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_LogPlayerRevive", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_LogPlayerRevive", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_LogPlayerRevive(IntPtr handle, ref AntiCheatCommon.LogPlayerReviveOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_LogPlayerSpawn", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_LogPlayerSpawn", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_LogPlayerSpawn(IntPtr handle, ref AntiCheatCommon.LogPlayerSpawnOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_LogPlayerTakeDamage", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_LogPlayerTakeDamage", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_LogPlayerTakeDamage(IntPtr handle, ref AntiCheatCommon.LogPlayerTakeDamageOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_LogPlayerTick", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_LogPlayerTick", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_LogPlayerTick(IntPtr handle, ref AntiCheatCommon.LogPlayerTickOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_LogPlayerUseAbility", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_LogPlayerUseAbility", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_LogPlayerUseAbility(IntPtr handle, ref AntiCheatCommon.LogPlayerUseAbilityOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_LogPlayerUseWeapon", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_LogPlayerUseWeapon", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_LogPlayerUseWeapon(IntPtr handle, ref AntiCheatCommon.LogPlayerUseWeaponOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_ProtectMessage", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_ProtectMessage", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_ProtectMessage(IntPtr handle, ref AntiCheatServer.ProtectMessageOptionsInternal options, IntPtr outBuffer, out uint outBytesWritten);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_ReceiveMessageFromClient", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_ReceiveMessageFromClient", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_ReceiveMessageFromClient(IntPtr handle, ref AntiCheatServer.ReceiveMessageFromClientOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_RegisterClient", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_RegisterClient", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_RegisterClient(IntPtr handle, ref AntiCheatServer.RegisterClientOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_RegisterEvent", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_RegisterEvent", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_RegisterEvent(IntPtr handle, ref AntiCheatCommon.RegisterEventOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_RemoveNotifyClientActionRequired", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_RemoveNotifyClientActionRequired", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_AntiCheatServer_RemoveNotifyClientActionRequired(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_RemoveNotifyMessageToClient", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_RemoveNotifyMessageToClient", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_AntiCheatServer_RemoveNotifyMessageToClient(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_SetClientDetails", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_SetClientDetails", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_SetClientDetails(IntPtr handle, ref AntiCheatCommon.SetClientDetailsOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_SetClientNetworkState", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_SetClientNetworkState", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_SetClientNetworkState(IntPtr handle, ref AntiCheatServer.SetClientNetworkStateOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_SetGameSessionId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_SetGameSessionId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_SetGameSessionId(IntPtr handle, ref AntiCheatCommon.SetGameSessionIdOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_UnprotectMessage", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_UnprotectMessage", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_UnprotectMessage(IntPtr handle, ref AntiCheatServer.UnprotectMessageOptionsInternal options, IntPtr outBuffer, out uint outBytesWritten);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_AntiCheatServer_UnregisterClient", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_AntiCheatServer_UnregisterClient", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_AntiCheatServer_UnregisterClient(IntPtr handle, ref AntiCheatServer.UnregisterClientOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_AddNotifyLoginStatusChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_AddNotifyLoginStatusChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Auth_AddNotifyLoginStatusChanged(IntPtr handle, ref Auth.AddNotifyLoginStatusChangedOptionsInternal options, IntPtr clientData, Auth.OnLoginStatusChangedCallbackInternal notification);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_CopyIdToken", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_CancelLogin", CallingConvention=Library.CALLING_CONVENTION)]
+		internal static extern void EOS_Auth_CancelLogin(IntPtr handle, ref Auth.CancelLoginOptionsInternal options, IntPtr clientData, Auth.OnCancelLoginCallbackInternal completionDelegate);
+
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_CopyIdToken", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Auth_CopyIdToken(IntPtr handle, ref Auth.CopyIdTokenOptionsInternal options, out IntPtr outIdToken);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_CopyUserAuthToken", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_CopyUserAuthToken", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Auth_CopyUserAuthToken(IntPtr handle, ref Auth.CopyUserAuthTokenOptionsInternal options, IntPtr localUserId, out IntPtr outUserAuthToken);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_DeletePersistentAuth", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_DeletePersistentAuth", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Auth_DeletePersistentAuth(IntPtr handle, ref Auth.DeletePersistentAuthOptionsInternal options, IntPtr clientData, Auth.OnDeletePersistentAuthCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_GetLoggedInAccountByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_GetLoggedInAccountByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Auth_GetLoggedInAccountByIndex(IntPtr handle, int index);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_GetLoggedInAccountsCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_GetLoggedInAccountsCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern int EOS_Auth_GetLoggedInAccountsCount(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_GetLoginStatus", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_GetLoginStatus", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern LoginStatus EOS_Auth_GetLoginStatus(IntPtr handle, IntPtr localUserId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_GetMergedAccountByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_GetMergedAccountByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Auth_GetMergedAccountByIndex(IntPtr handle, IntPtr localUserId, uint index);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_GetMergedAccountsCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_GetMergedAccountsCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Auth_GetMergedAccountsCount(IntPtr handle, IntPtr localUserId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_GetSelectedAccountId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_GetSelectedAccountId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Auth_GetSelectedAccountId(IntPtr handle, IntPtr localUserId, out IntPtr outSelectedAccountId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_IdToken_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_IdToken_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Auth_IdToken_Release(IntPtr idToken);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_LinkAccount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_LinkAccount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Auth_LinkAccount(IntPtr handle, ref Auth.LinkAccountOptionsInternal options, IntPtr clientData, Auth.OnLinkAccountCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_Login", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_Login", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Auth_Login(IntPtr handle, ref Auth.LoginOptionsInternal options, IntPtr clientData, Auth.OnLoginCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_Logout", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_Logout", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Auth_Logout(IntPtr handle, ref Auth.LogoutOptionsInternal options, IntPtr clientData, Auth.OnLogoutCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_QueryIdToken", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_QueryIdToken", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Auth_QueryIdToken(IntPtr handle, ref Auth.QueryIdTokenOptionsInternal options, IntPtr clientData, Auth.OnQueryIdTokenCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_RemoveNotifyLoginStatusChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_RemoveNotifyLoginStatusChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Auth_RemoveNotifyLoginStatusChanged(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_Token_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_Token_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Auth_Token_Release(IntPtr authToken);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_VerifyIdToken", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_VerifyIdToken", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Auth_VerifyIdToken(IntPtr handle, ref Auth.VerifyIdTokenOptionsInternal options, IntPtr clientData, Auth.OnVerifyIdTokenCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_VerifyUserAuth", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_VerifyUserAuth", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Auth_VerifyUserAuth(IntPtr handle, ref Auth.VerifyUserAuthOptionsInternal options, IntPtr clientData, Auth.OnVerifyUserAuthCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_ByteArray_ToString", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_ByteArray_ToString", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_ByteArray_ToString(IntPtr byteArray, uint length, IntPtr outBuffer, ref uint inOutBufferLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_AddNotifyAuthExpiration", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_AddNotifyAuthExpiration", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Connect_AddNotifyAuthExpiration(IntPtr handle, ref Connect.AddNotifyAuthExpirationOptionsInternal options, IntPtr clientData, Connect.OnAuthExpirationCallbackInternal notification);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_AddNotifyLoginStatusChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_AddNotifyLoginStatusChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Connect_AddNotifyLoginStatusChanged(IntPtr handle, ref Connect.AddNotifyLoginStatusChangedOptionsInternal options, IntPtr clientData, Connect.OnLoginStatusChangedCallbackInternal notification);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_CopyIdToken", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_CopyIdToken", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Connect_CopyIdToken(IntPtr handle, ref Connect.CopyIdTokenOptionsInternal options, out IntPtr outIdToken);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_CopyProductUserExternalAccountByAccountId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_CopyProductUserExternalAccountByAccountId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Connect_CopyProductUserExternalAccountByAccountId(IntPtr handle, ref Connect.CopyProductUserExternalAccountByAccountIdOptionsInternal options, out IntPtr outExternalAccountInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_CopyProductUserExternalAccountByAccountType", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_CopyProductUserExternalAccountByAccountType", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Connect_CopyProductUserExternalAccountByAccountType(IntPtr handle, ref Connect.CopyProductUserExternalAccountByAccountTypeOptionsInternal options, out IntPtr outExternalAccountInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_CopyProductUserExternalAccountByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_CopyProductUserExternalAccountByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Connect_CopyProductUserExternalAccountByIndex(IntPtr handle, ref Connect.CopyProductUserExternalAccountByIndexOptionsInternal options, out IntPtr outExternalAccountInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_CopyProductUserInfo", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_CopyProductUserInfo", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Connect_CopyProductUserInfo(IntPtr handle, ref Connect.CopyProductUserInfoOptionsInternal options, out IntPtr outExternalAccountInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_CreateDeviceId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_CreateDeviceId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Connect_CreateDeviceId(IntPtr handle, ref Connect.CreateDeviceIdOptionsInternal options, IntPtr clientData, Connect.OnCreateDeviceIdCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_CreateUser", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_CreateUser", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Connect_CreateUser(IntPtr handle, ref Connect.CreateUserOptionsInternal options, IntPtr clientData, Connect.OnCreateUserCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_DeleteDeviceId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_DeleteDeviceId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Connect_DeleteDeviceId(IntPtr handle, ref Connect.DeleteDeviceIdOptionsInternal options, IntPtr clientData, Connect.OnDeleteDeviceIdCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_ExternalAccountInfo_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_ExternalAccountInfo_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Connect_ExternalAccountInfo_Release(IntPtr externalAccountInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_GetExternalAccountMapping", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_GetExternalAccountMapping", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Connect_GetExternalAccountMapping(IntPtr handle, ref Connect.GetExternalAccountMappingsOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_GetLoggedInUserByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_GetLoggedInUserByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Connect_GetLoggedInUserByIndex(IntPtr handle, int index);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_GetLoggedInUsersCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_GetLoggedInUsersCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern int EOS_Connect_GetLoggedInUsersCount(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_GetLoginStatus", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_GetLoginStatus", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern LoginStatus EOS_Connect_GetLoginStatus(IntPtr handle, IntPtr localUserId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_GetProductUserExternalAccountCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_GetProductUserExternalAccountCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Connect_GetProductUserExternalAccountCount(IntPtr handle, ref Connect.GetProductUserExternalAccountCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_GetProductUserIdMapping", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_GetProductUserIdMapping", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Connect_GetProductUserIdMapping(IntPtr handle, ref Connect.GetProductUserIdMappingOptionsInternal options, IntPtr outBuffer, ref int inOutBufferLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_IdToken_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_IdToken_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Connect_IdToken_Release(IntPtr idToken);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_LinkAccount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_LinkAccount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Connect_LinkAccount(IntPtr handle, ref Connect.LinkAccountOptionsInternal options, IntPtr clientData, Connect.OnLinkAccountCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_Login", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_Login", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Connect_Login(IntPtr handle, ref Connect.LoginOptionsInternal options, IntPtr clientData, Connect.OnLoginCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_Logout", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_Logout", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Connect_Logout(IntPtr handle, ref Connect.LogoutOptionsInternal options, IntPtr clientData, Connect.OnLogoutCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_QueryExternalAccountMappings", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_QueryExternalAccountMappings", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Connect_QueryExternalAccountMappings(IntPtr handle, ref Connect.QueryExternalAccountMappingsOptionsInternal options, IntPtr clientData, Connect.OnQueryExternalAccountMappingsCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_QueryProductUserIdMappings", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_QueryProductUserIdMappings", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Connect_QueryProductUserIdMappings(IntPtr handle, ref Connect.QueryProductUserIdMappingsOptionsInternal options, IntPtr clientData, Connect.OnQueryProductUserIdMappingsCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_RemoveNotifyAuthExpiration", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_RemoveNotifyAuthExpiration", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Connect_RemoveNotifyAuthExpiration(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_RemoveNotifyLoginStatusChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_RemoveNotifyLoginStatusChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Connect_RemoveNotifyLoginStatusChanged(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_TransferDeviceIdAccount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_TransferDeviceIdAccount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Connect_TransferDeviceIdAccount(IntPtr handle, ref Connect.TransferDeviceIdAccountOptionsInternal options, IntPtr clientData, Connect.OnTransferDeviceIdAccountCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_UnlinkAccount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_UnlinkAccount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Connect_UnlinkAccount(IntPtr handle, ref Connect.UnlinkAccountOptionsInternal options, IntPtr clientData, Connect.OnUnlinkAccountCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Connect_VerifyIdToken", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Connect_VerifyIdToken", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Connect_VerifyIdToken(IntPtr handle, ref Connect.VerifyIdTokenOptionsInternal options, IntPtr clientData, Connect.OnVerifyIdTokenCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_ContinuanceToken_ToString", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_ContinuanceToken_ToString", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_ContinuanceToken_ToString(IntPtr continuanceToken, IntPtr outBuffer, ref int inOutBufferLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_AcceptRequestToJoin", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_AcceptRequestToJoin", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_CustomInvites_AcceptRequestToJoin(IntPtr handle, ref CustomInvites.AcceptRequestToJoinOptionsInternal options, IntPtr clientData, CustomInvites.OnAcceptRequestToJoinCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_AddNotifyCustomInviteAccepted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_AddNotifyCustomInviteAccepted", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_CustomInvites_AddNotifyCustomInviteAccepted(IntPtr handle, ref CustomInvites.AddNotifyCustomInviteAcceptedOptionsInternal options, IntPtr clientData, CustomInvites.OnCustomInviteAcceptedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_AddNotifyCustomInviteReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_AddNotifyCustomInviteReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_CustomInvites_AddNotifyCustomInviteReceived(IntPtr handle, ref CustomInvites.AddNotifyCustomInviteReceivedOptionsInternal options, IntPtr clientData, CustomInvites.OnCustomInviteReceivedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_AddNotifyCustomInviteRejected", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_AddNotifyCustomInviteRejected", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_CustomInvites_AddNotifyCustomInviteRejected(IntPtr handle, ref CustomInvites.AddNotifyCustomInviteRejectedOptionsInternal options, IntPtr clientData, CustomInvites.OnCustomInviteRejectedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_AddNotifyRequestToJoinAccepted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_AddNotifyRequestToJoinAccepted", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_CustomInvites_AddNotifyRequestToJoinAccepted(IntPtr handle, ref CustomInvites.AddNotifyRequestToJoinAcceptedOptionsInternal options, IntPtr clientData, CustomInvites.OnRequestToJoinAcceptedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_AddNotifyRequestToJoinReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_AddNotifyRequestToJoinReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_CustomInvites_AddNotifyRequestToJoinReceived(IntPtr handle, ref CustomInvites.AddNotifyRequestToJoinReceivedOptionsInternal options, IntPtr clientData, CustomInvites.OnRequestToJoinReceivedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_AddNotifyRequestToJoinRejected", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_AddNotifyRequestToJoinRejected", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_CustomInvites_AddNotifyRequestToJoinRejected(IntPtr handle, ref CustomInvites.AddNotifyRequestToJoinRejectedOptionsInternal options, IntPtr clientData, CustomInvites.OnRequestToJoinRejectedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived(IntPtr handle, ref CustomInvites.AddNotifyRequestToJoinResponseReceivedOptionsInternal options, IntPtr clientData, CustomInvites.OnRequestToJoinResponseReceivedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested(IntPtr handle, ref CustomInvites.AddNotifySendCustomNativeInviteRequestedOptionsInternal options, IntPtr clientData, CustomInvites.OnSendCustomNativeInviteRequestedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_DisableRequestToJoin", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_DisableRequestToJoin", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_CustomInvites_DisableRequestToJoin(IntPtr handle, ref CustomInvites.DisableRequestToJoinOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_FinalizeInvite", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_FinalizeInvite", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_CustomInvites_FinalizeInvite(IntPtr handle, ref CustomInvites.FinalizeInviteOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_RejectRequestToJoin", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_RejectRequestToJoin", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_CustomInvites_RejectRequestToJoin(IntPtr handle, ref CustomInvites.RejectRequestToJoinOptionsInternal options, IntPtr clientData, CustomInvites.OnRejectRequestToJoinCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_RemoveNotifyCustomInviteAccepted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_RemoveNotifyCustomInviteAccepted", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_CustomInvites_RemoveNotifyCustomInviteAccepted(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_RemoveNotifyCustomInviteReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_RemoveNotifyCustomInviteReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_CustomInvites_RemoveNotifyCustomInviteReceived(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_RemoveNotifyCustomInviteRejected", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_RemoveNotifyCustomInviteRejected", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_CustomInvites_RemoveNotifyCustomInviteRejected(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_RemoveNotifyRequestToJoinReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_RemoveNotifyRequestToJoinReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_CustomInvites_RemoveNotifyRequestToJoinReceived(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_RemoveNotifyRequestToJoinRejected", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_RemoveNotifyRequestToJoinRejected", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_CustomInvites_RemoveNotifyRequestToJoinRejected(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_SendCustomInvite", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_SendCustomInvite", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_CustomInvites_SendCustomInvite(IntPtr handle, ref CustomInvites.SendCustomInviteOptionsInternal options, IntPtr clientData, CustomInvites.OnSendCustomInviteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_SendRequestToJoin", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_SendRequestToJoin", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_CustomInvites_SendRequestToJoin(IntPtr handle, ref CustomInvites.SendRequestToJoinOptionsInternal options, IntPtr clientData, CustomInvites.OnSendRequestToJoinCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_CustomInvites_SetCustomInvite", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_CustomInvites_SetCustomInvite", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_CustomInvites_SetCustomInvite(IntPtr handle, ref CustomInvites.SetCustomInviteOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_EApplicationStatus_ToString", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_EApplicationStatus_ToString", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_EApplicationStatus_ToString(Platform.ApplicationStatus applicationStatus);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_ENetworkStatus_ToString", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_ENetworkStatus_ToString", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_ENetworkStatus_ToString(Platform.NetworkStatus networkStatus);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_EResult_IsOperationComplete", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_EResult_IsOperationComplete", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern int EOS_EResult_IsOperationComplete(Result result);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_EResult_ToString", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_EResult_ToString", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_EResult_ToString(Result result);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CatalogItem_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CatalogItem_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Ecom_CatalogItem_Release(IntPtr catalogItem);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CatalogOffer_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CatalogOffer_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Ecom_CatalogOffer_Release(IntPtr catalogOffer);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CatalogRelease_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CatalogRelease_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Ecom_CatalogRelease_Release(IntPtr catalogRelease);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_Checkout", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_Checkout", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Ecom_Checkout(IntPtr handle, ref Ecom.CheckoutOptionsInternal options, IntPtr clientData, Ecom.OnCheckoutCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyEntitlementById", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CopyEntitlementById", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_CopyEntitlementById(IntPtr handle, ref Ecom.CopyEntitlementByIdOptionsInternal options, out IntPtr outEntitlement);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyEntitlementByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CopyEntitlementByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_CopyEntitlementByIndex(IntPtr handle, ref Ecom.CopyEntitlementByIndexOptionsInternal options, out IntPtr outEntitlement);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyEntitlementByNameAndIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CopyEntitlementByNameAndIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_CopyEntitlementByNameAndIndex(IntPtr handle, ref Ecom.CopyEntitlementByNameAndIndexOptionsInternal options, out IntPtr outEntitlement);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyItemById", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CopyItemById", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_CopyItemById(IntPtr handle, ref Ecom.CopyItemByIdOptionsInternal options, out IntPtr outItem);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyItemImageInfoByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CopyItemImageInfoByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_CopyItemImageInfoByIndex(IntPtr handle, ref Ecom.CopyItemImageInfoByIndexOptionsInternal options, out IntPtr outImageInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyItemReleaseByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CopyItemReleaseByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_CopyItemReleaseByIndex(IntPtr handle, ref Ecom.CopyItemReleaseByIndexOptionsInternal options, out IntPtr outRelease);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex(IntPtr handle, ref Ecom.CopyLastRedeemEntitlementsResultByIndexOptionsInternal options, IntPtr outEntitlementId, ref int inOutEntitlementIdLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyLastRedeemedEntitlementByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CopyLastRedeemedEntitlementByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_CopyLastRedeemedEntitlementByIndex(IntPtr handle, ref Ecom.CopyLastRedeemedEntitlementByIndexOptionsInternal options, IntPtr outRedeemedEntitlementId, ref int inOutRedeemedEntitlementIdLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyOfferById", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CopyOfferById", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_CopyOfferById(IntPtr handle, ref Ecom.CopyOfferByIdOptionsInternal options, out IntPtr outOffer);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyOfferByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CopyOfferByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_CopyOfferByIndex(IntPtr handle, ref Ecom.CopyOfferByIndexOptionsInternal options, out IntPtr outOffer);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyOfferImageInfoByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CopyOfferImageInfoByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_CopyOfferImageInfoByIndex(IntPtr handle, ref Ecom.CopyOfferImageInfoByIndexOptionsInternal options, out IntPtr outImageInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyOfferItemByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CopyOfferItemByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_CopyOfferItemByIndex(IntPtr handle, ref Ecom.CopyOfferItemByIndexOptionsInternal options, out IntPtr outItem);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyTransactionById", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CopyTransactionById", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_CopyTransactionById(IntPtr handle, ref Ecom.CopyTransactionByIdOptionsInternal options, out IntPtr outTransaction);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_CopyTransactionByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_CopyTransactionByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_CopyTransactionByIndex(IntPtr handle, ref Ecom.CopyTransactionByIndexOptionsInternal options, out IntPtr outTransaction);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_Entitlement_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_Entitlement_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Ecom_Entitlement_Release(IntPtr entitlement);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_GetEntitlementsByNameCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_GetEntitlementsByNameCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Ecom_GetEntitlementsByNameCount(IntPtr handle, ref Ecom.GetEntitlementsByNameCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_GetEntitlementsCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_GetEntitlementsCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Ecom_GetEntitlementsCount(IntPtr handle, ref Ecom.GetEntitlementsCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_GetItemImageInfoCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_GetItemImageInfoCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Ecom_GetItemImageInfoCount(IntPtr handle, ref Ecom.GetItemImageInfoCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_GetItemReleaseCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_GetItemReleaseCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Ecom_GetItemReleaseCount(IntPtr handle, ref Ecom.GetItemReleaseCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_GetLastRedeemEntitlementsResultCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_GetLastRedeemEntitlementsResultCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Ecom_GetLastRedeemEntitlementsResultCount(IntPtr handle, ref Ecom.GetLastRedeemEntitlementsResultCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_GetLastRedeemedEntitlementsCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_GetLastRedeemedEntitlementsCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Ecom_GetLastRedeemedEntitlementsCount(IntPtr handle, ref Ecom.GetLastRedeemedEntitlementsCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_GetOfferCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_GetOfferCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Ecom_GetOfferCount(IntPtr handle, ref Ecom.GetOfferCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_GetOfferImageInfoCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_GetOfferImageInfoCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Ecom_GetOfferImageInfoCount(IntPtr handle, ref Ecom.GetOfferImageInfoCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_GetOfferItemCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_GetOfferItemCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Ecom_GetOfferItemCount(IntPtr handle, ref Ecom.GetOfferItemCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_GetTransactionCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_GetTransactionCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Ecom_GetTransactionCount(IntPtr handle, ref Ecom.GetTransactionCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_KeyImageInfo_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_KeyImageInfo_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Ecom_KeyImageInfo_Release(IntPtr keyImageInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_QueryEntitlementToken", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_QueryEntitlementToken", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Ecom_QueryEntitlementToken(IntPtr handle, ref Ecom.QueryEntitlementTokenOptionsInternal options, IntPtr clientData, Ecom.OnQueryEntitlementTokenCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_QueryEntitlements", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_QueryEntitlements", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Ecom_QueryEntitlements(IntPtr handle, ref Ecom.QueryEntitlementsOptionsInternal options, IntPtr clientData, Ecom.OnQueryEntitlementsCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_QueryOffers", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_QueryOffers", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Ecom_QueryOffers(IntPtr handle, ref Ecom.QueryOffersOptionsInternal options, IntPtr clientData, Ecom.OnQueryOffersCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_QueryOwnership", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_QueryOwnership", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Ecom_QueryOwnership(IntPtr handle, ref Ecom.QueryOwnershipOptionsInternal options, IntPtr clientData, Ecom.OnQueryOwnershipCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_QueryOwnershipBySandboxIds", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_QueryOwnershipBySandboxIds", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Ecom_QueryOwnershipBySandboxIds(IntPtr handle, ref Ecom.QueryOwnershipBySandboxIdsOptionsInternal options, IntPtr clientData, Ecom.OnQueryOwnershipBySandboxIdsCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_QueryOwnershipToken", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_QueryOwnershipToken", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Ecom_QueryOwnershipToken(IntPtr handle, ref Ecom.QueryOwnershipTokenOptionsInternal options, IntPtr clientData, Ecom.OnQueryOwnershipTokenCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_RedeemEntitlements", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_RedeemEntitlements", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Ecom_RedeemEntitlements(IntPtr handle, ref Ecom.RedeemEntitlementsOptionsInternal options, IntPtr clientData, Ecom.OnRedeemEntitlementsCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_Transaction_CopyEntitlementByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_Transaction_CopyEntitlementByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_Transaction_CopyEntitlementByIndex(IntPtr handle, ref Ecom.TransactionCopyEntitlementByIndexOptionsInternal options, out IntPtr outEntitlement);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_Transaction_GetEntitlementsCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_Transaction_GetEntitlementsCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Ecom_Transaction_GetEntitlementsCount(IntPtr handle, ref Ecom.TransactionGetEntitlementsCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_Transaction_GetTransactionId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_Transaction_GetTransactionId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Ecom_Transaction_GetTransactionId(IntPtr handle, IntPtr outBuffer, ref int inOutBufferLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Ecom_Transaction_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Ecom_Transaction_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Ecom_Transaction_Release(IntPtr transaction);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_EpicAccountId_FromString", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_EpicAccountId_FromString", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_EpicAccountId_FromString(IntPtr accountIdString);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_EpicAccountId_IsValid", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_EpicAccountId_IsValid", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern int EOS_EpicAccountId_IsValid(IntPtr accountId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_EpicAccountId_ToString", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_EpicAccountId_ToString", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_EpicAccountId_ToString(IntPtr accountId, IntPtr outBuffer, ref int inOutBufferLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Friends_AcceptInvite", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Friends_AcceptInvite", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Friends_AcceptInvite(IntPtr handle, ref Friends.AcceptInviteOptionsInternal options, IntPtr clientData, Friends.OnAcceptInviteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Friends_AddNotifyBlockedUsersUpdate", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Friends_AddNotifyBlockedUsersUpdate", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Friends_AddNotifyBlockedUsersUpdate(IntPtr handle, ref Friends.AddNotifyBlockedUsersUpdateOptionsInternal options, IntPtr clientData, Friends.OnBlockedUsersUpdateCallbackInternal blockedUsersUpdateHandler);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Friends_AddNotifyFriendsUpdate", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Friends_AddNotifyFriendsUpdate", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Friends_AddNotifyFriendsUpdate(IntPtr handle, ref Friends.AddNotifyFriendsUpdateOptionsInternal options, IntPtr clientData, Friends.OnFriendsUpdateCallbackInternal friendsUpdateHandler);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Friends_GetBlockedUserAtIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Friends_GetBlockedUserAtIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Friends_GetBlockedUserAtIndex(IntPtr handle, ref Friends.GetBlockedUserAtIndexOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Friends_GetBlockedUsersCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Friends_GetBlockedUsersCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern int EOS_Friends_GetBlockedUsersCount(IntPtr handle, ref Friends.GetBlockedUsersCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Friends_GetFriendAtIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Friends_GetFriendAtIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Friends_GetFriendAtIndex(IntPtr handle, ref Friends.GetFriendAtIndexOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Friends_GetFriendsCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Friends_GetFriendsCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern int EOS_Friends_GetFriendsCount(IntPtr handle, ref Friends.GetFriendsCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Friends_GetStatus", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Friends_GetStatus", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Friends.FriendsStatus EOS_Friends_GetStatus(IntPtr handle, ref Friends.GetStatusOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Friends_QueryFriends", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Friends_QueryFriends", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Friends_QueryFriends(IntPtr handle, ref Friends.QueryFriendsOptionsInternal options, IntPtr clientData, Friends.OnQueryFriendsCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Friends_RejectInvite", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Friends_RejectInvite", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Friends_RejectInvite(IntPtr handle, ref Friends.RejectInviteOptionsInternal options, IntPtr clientData, Friends.OnRejectInviteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Friends_RemoveNotifyBlockedUsersUpdate", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Friends_RemoveNotifyBlockedUsersUpdate", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Friends_RemoveNotifyBlockedUsersUpdate(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Friends_RemoveNotifyFriendsUpdate", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Friends_RemoveNotifyFriendsUpdate", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Friends_RemoveNotifyFriendsUpdate(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Friends_SendInvite", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Friends_SendInvite", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Friends_SendInvite(IntPtr handle, ref Friends.SendInviteOptionsInternal options, IntPtr clientData, Friends.OnSendInviteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_GetVersion", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_GetVersion", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_GetVersion();
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Initialize", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Initialize", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Initialize(ref Platform.InitializeOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_IntegratedPlatformOptionsContainer_Add", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_IntegratedPlatformOptionsContainer_Add", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_IntegratedPlatformOptionsContainer_Add(IntPtr handle, ref IntegratedPlatform.IntegratedPlatformOptionsContainerAddOptionsInternal inOptions);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_IntegratedPlatformOptionsContainer_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_IntegratedPlatformOptionsContainer_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_IntegratedPlatformOptionsContainer_Release(IntPtr integratedPlatformOptionsContainerHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged(IntPtr handle, ref IntegratedPlatform.AddNotifyUserLoginStatusChangedOptionsInternal options, IntPtr clientData, IntegratedPlatform.OnUserLoginStatusChangedCallbackInternal callbackFunction);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_IntegratedPlatform_ClearUserPreLogoutCallback", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_IntegratedPlatform_ClearUserPreLogoutCallback", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_IntegratedPlatform_ClearUserPreLogoutCallback(IntPtr handle, ref IntegratedPlatform.ClearUserPreLogoutCallbackOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer(ref IntegratedPlatform.CreateIntegratedPlatformOptionsContainerOptionsInternal options, out IntPtr outIntegratedPlatformOptionsContainerHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_IntegratedPlatform_FinalizeDeferredUserLogout", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_IntegratedPlatform_FinalizeDeferredUserLogout", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_IntegratedPlatform_FinalizeDeferredUserLogout(IntPtr handle, ref IntegratedPlatform.FinalizeDeferredUserLogoutOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_IntegratedPlatform_SetUserLoginStatus", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_IntegratedPlatform_SetUserLoginStatus", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_IntegratedPlatform_SetUserLoginStatus(IntPtr handle, ref IntegratedPlatform.SetUserLoginStatusOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_IntegratedPlatform_SetUserPreLogoutCallback", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_IntegratedPlatform_SetUserPreLogoutCallback", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_IntegratedPlatform_SetUserPreLogoutCallback(IntPtr handle, ref IntegratedPlatform.SetUserPreLogoutCallbackOptionsInternal options, IntPtr clientData, IntegratedPlatform.OnUserPreLogoutCallbackInternal callbackFunction);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_KWS_AddNotifyPermissionsUpdateReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_KWS_AddNotifyPermissionsUpdateReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_KWS_AddNotifyPermissionsUpdateReceived(IntPtr handle, ref KWS.AddNotifyPermissionsUpdateReceivedOptionsInternal options, IntPtr clientData, KWS.OnPermissionsUpdateReceivedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_KWS_CopyPermissionByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_KWS_CopyPermissionByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_KWS_CopyPermissionByIndex(IntPtr handle, ref KWS.CopyPermissionByIndexOptionsInternal options, out IntPtr outPermission);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_KWS_CreateUser", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_KWS_CreateUser", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_KWS_CreateUser(IntPtr handle, ref KWS.CreateUserOptionsInternal options, IntPtr clientData, KWS.OnCreateUserCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_KWS_GetPermissionByKey", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_KWS_GetPermissionByKey", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_KWS_GetPermissionByKey(IntPtr handle, ref KWS.GetPermissionByKeyOptionsInternal options, out KWS.KWSPermissionStatus outPermission);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_KWS_GetPermissionsCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_KWS_GetPermissionsCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern int EOS_KWS_GetPermissionsCount(IntPtr handle, ref KWS.GetPermissionsCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_KWS_PermissionStatus_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_KWS_PermissionStatus_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_KWS_PermissionStatus_Release(IntPtr permissionStatus);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_KWS_QueryAgeGate", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_KWS_QueryAgeGate", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_KWS_QueryAgeGate(IntPtr handle, ref KWS.QueryAgeGateOptionsInternal options, IntPtr clientData, KWS.OnQueryAgeGateCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_KWS_QueryPermissions", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_KWS_QueryPermissions", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_KWS_QueryPermissions(IntPtr handle, ref KWS.QueryPermissionsOptionsInternal options, IntPtr clientData, KWS.OnQueryPermissionsCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_KWS_RemoveNotifyPermissionsUpdateReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_KWS_RemoveNotifyPermissionsUpdateReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_KWS_RemoveNotifyPermissionsUpdateReceived(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_KWS_RequestPermissions", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_KWS_RequestPermissions", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_KWS_RequestPermissions(IntPtr handle, ref KWS.RequestPermissionsOptionsInternal options, IntPtr clientData, KWS.OnRequestPermissionsCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_KWS_UpdateParentEmail", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_KWS_UpdateParentEmail", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_KWS_UpdateParentEmail(IntPtr handle, ref KWS.UpdateParentEmailOptionsInternal options, IntPtr clientData, KWS.OnUpdateParentEmailCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Leaderboards_CopyLeaderboardDefinitionByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Leaderboards_CopyLeaderboardDefinitionByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Leaderboards_CopyLeaderboardDefinitionByIndex(IntPtr handle, ref Leaderboards.CopyLeaderboardDefinitionByIndexOptionsInternal options, out IntPtr outLeaderboardDefinition);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId(IntPtr handle, ref Leaderboards.CopyLeaderboardDefinitionByLeaderboardIdOptionsInternal options, out IntPtr outLeaderboardDefinition);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Leaderboards_CopyLeaderboardRecordByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Leaderboards_CopyLeaderboardRecordByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Leaderboards_CopyLeaderboardRecordByIndex(IntPtr handle, ref Leaderboards.CopyLeaderboardRecordByIndexOptionsInternal options, out IntPtr outLeaderboardRecord);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Leaderboards_CopyLeaderboardRecordByUserId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Leaderboards_CopyLeaderboardRecordByUserId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Leaderboards_CopyLeaderboardRecordByUserId(IntPtr handle, ref Leaderboards.CopyLeaderboardRecordByUserIdOptionsInternal options, out IntPtr outLeaderboardRecord);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Leaderboards_CopyLeaderboardUserScoreByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Leaderboards_CopyLeaderboardUserScoreByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Leaderboards_CopyLeaderboardUserScoreByIndex(IntPtr handle, ref Leaderboards.CopyLeaderboardUserScoreByIndexOptionsInternal options, out IntPtr outLeaderboardUserScore);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Leaderboards_CopyLeaderboardUserScoreByUserId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Leaderboards_CopyLeaderboardUserScoreByUserId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Leaderboards_CopyLeaderboardUserScoreByUserId(IntPtr handle, ref Leaderboards.CopyLeaderboardUserScoreByUserIdOptionsInternal options, out IntPtr outLeaderboardUserScore);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Leaderboards_Definition_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Leaderboards_Definition_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Leaderboards_Definition_Release(IntPtr leaderboardDefinition);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Leaderboards_GetLeaderboardDefinitionCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Leaderboards_GetLeaderboardDefinitionCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Leaderboards_GetLeaderboardDefinitionCount(IntPtr handle, ref Leaderboards.GetLeaderboardDefinitionCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Leaderboards_GetLeaderboardRecordCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Leaderboards_GetLeaderboardRecordCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Leaderboards_GetLeaderboardRecordCount(IntPtr handle, ref Leaderboards.GetLeaderboardRecordCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Leaderboards_GetLeaderboardUserScoreCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Leaderboards_GetLeaderboardUserScoreCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Leaderboards_GetLeaderboardUserScoreCount(IntPtr handle, ref Leaderboards.GetLeaderboardUserScoreCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Leaderboards_LeaderboardRecord_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Leaderboards_LeaderboardRecord_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Leaderboards_LeaderboardRecord_Release(IntPtr leaderboardRecord);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Leaderboards_LeaderboardUserScore_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Leaderboards_LeaderboardUserScore_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Leaderboards_LeaderboardUserScore_Release(IntPtr leaderboardUserScore);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Leaderboards_QueryLeaderboardDefinitions", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Leaderboards_QueryLeaderboardDefinitions", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Leaderboards_QueryLeaderboardDefinitions(IntPtr handle, ref Leaderboards.QueryLeaderboardDefinitionsOptionsInternal options, IntPtr clientData, Leaderboards.OnQueryLeaderboardDefinitionsCompleteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Leaderboards_QueryLeaderboardRanks", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Leaderboards_QueryLeaderboardRanks", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Leaderboards_QueryLeaderboardRanks(IntPtr handle, ref Leaderboards.QueryLeaderboardRanksOptionsInternal options, IntPtr clientData, Leaderboards.OnQueryLeaderboardRanksCompleteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Leaderboards_QueryLeaderboardUserScores", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Leaderboards_QueryLeaderboardUserScores", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Leaderboards_QueryLeaderboardUserScores(IntPtr handle, ref Leaderboards.QueryLeaderboardUserScoresOptionsInternal options, IntPtr clientData, Leaderboards.OnQueryLeaderboardUserScoresCompleteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyDetails_CopyAttributeByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyDetails_CopyAttributeByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbyDetails_CopyAttributeByIndex(IntPtr handle, ref Lobby.LobbyDetailsCopyAttributeByIndexOptionsInternal options, out IntPtr outAttribute);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyDetails_CopyAttributeByKey", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyDetails_CopyAttributeByKey", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbyDetails_CopyAttributeByKey(IntPtr handle, ref Lobby.LobbyDetailsCopyAttributeByKeyOptionsInternal options, out IntPtr outAttribute);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyDetails_CopyInfo", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyDetails_CopyInfo", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbyDetails_CopyInfo(IntPtr handle, ref Lobby.LobbyDetailsCopyInfoOptionsInternal options, out IntPtr outLobbyDetailsInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyDetails_CopyMemberAttributeByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyDetails_CopyMemberAttributeByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbyDetails_CopyMemberAttributeByIndex(IntPtr handle, ref Lobby.LobbyDetailsCopyMemberAttributeByIndexOptionsInternal options, out IntPtr outAttribute);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyDetails_CopyMemberAttributeByKey", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyDetails_CopyMemberAttributeByKey", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbyDetails_CopyMemberAttributeByKey(IntPtr handle, ref Lobby.LobbyDetailsCopyMemberAttributeByKeyOptionsInternal options, out IntPtr outAttribute);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyDetails_CopyMemberInfo", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyDetails_CopyMemberInfo", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbyDetails_CopyMemberInfo(IntPtr handle, ref Lobby.LobbyDetailsCopyMemberInfoOptionsInternal options, out IntPtr outLobbyDetailsMemberInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyDetails_GetAttributeCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyDetails_GetAttributeCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_LobbyDetails_GetAttributeCount(IntPtr handle, ref Lobby.LobbyDetailsGetAttributeCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyDetails_GetLobbyOwner", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyDetails_GetLobbyOwner", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_LobbyDetails_GetLobbyOwner(IntPtr handle, ref Lobby.LobbyDetailsGetLobbyOwnerOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyDetails_GetMemberAttributeCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyDetails_GetMemberAttributeCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_LobbyDetails_GetMemberAttributeCount(IntPtr handle, ref Lobby.LobbyDetailsGetMemberAttributeCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyDetails_GetMemberByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyDetails_GetMemberByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_LobbyDetails_GetMemberByIndex(IntPtr handle, ref Lobby.LobbyDetailsGetMemberByIndexOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyDetails_GetMemberCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyDetails_GetMemberCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_LobbyDetails_GetMemberCount(IntPtr handle, ref Lobby.LobbyDetailsGetMemberCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyDetails_Info_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyDetails_Info_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_LobbyDetails_Info_Release(IntPtr lobbyDetailsInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyDetails_MemberInfo_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyDetails_MemberInfo_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_LobbyDetails_MemberInfo_Release(IntPtr lobbyDetailsMemberInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyDetails_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyDetails_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_LobbyDetails_Release(IntPtr lobbyHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyModification_AddAttribute", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyModification_AddAttribute", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbyModification_AddAttribute(IntPtr handle, ref Lobby.LobbyModificationAddAttributeOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyModification_AddMemberAttribute", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyModification_AddMemberAttribute", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbyModification_AddMemberAttribute(IntPtr handle, ref Lobby.LobbyModificationAddMemberAttributeOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyModification_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyModification_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_LobbyModification_Release(IntPtr lobbyModificationHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyModification_RemoveAttribute", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyModification_RemoveAttribute", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbyModification_RemoveAttribute(IntPtr handle, ref Lobby.LobbyModificationRemoveAttributeOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyModification_RemoveMemberAttribute", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyModification_RemoveMemberAttribute", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbyModification_RemoveMemberAttribute(IntPtr handle, ref Lobby.LobbyModificationRemoveMemberAttributeOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyModification_SetAllowedPlatformIds", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyModification_SetAllowedPlatformIds", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbyModification_SetAllowedPlatformIds(IntPtr handle, ref Lobby.LobbyModificationSetAllowedPlatformIdsOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyModification_SetBucketId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyModification_SetBucketId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbyModification_SetBucketId(IntPtr handle, ref Lobby.LobbyModificationSetBucketIdOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyModification_SetInvitesAllowed", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyModification_SetInvitesAllowed", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbyModification_SetInvitesAllowed(IntPtr handle, ref Lobby.LobbyModificationSetInvitesAllowedOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyModification_SetMaxMembers", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyModification_SetMaxMembers", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbyModification_SetMaxMembers(IntPtr handle, ref Lobby.LobbyModificationSetMaxMembersOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbyModification_SetPermissionLevel", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbyModification_SetPermissionLevel", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbyModification_SetPermissionLevel(IntPtr handle, ref Lobby.LobbyModificationSetPermissionLevelOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbySearch_CopySearchResultByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbySearch_CopySearchResultByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbySearch_CopySearchResultByIndex(IntPtr handle, ref Lobby.LobbySearchCopySearchResultByIndexOptionsInternal options, out IntPtr outLobbyDetailsHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbySearch_Find", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbySearch_Find", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_LobbySearch_Find(IntPtr handle, ref Lobby.LobbySearchFindOptionsInternal options, IntPtr clientData, Lobby.LobbySearchOnFindCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbySearch_GetSearchResultCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbySearch_GetSearchResultCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_LobbySearch_GetSearchResultCount(IntPtr handle, ref Lobby.LobbySearchGetSearchResultCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbySearch_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbySearch_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_LobbySearch_Release(IntPtr lobbySearchHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbySearch_RemoveParameter", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbySearch_RemoveParameter", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbySearch_RemoveParameter(IntPtr handle, ref Lobby.LobbySearchRemoveParameterOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbySearch_SetLobbyId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbySearch_SetLobbyId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbySearch_SetLobbyId(IntPtr handle, ref Lobby.LobbySearchSetLobbyIdOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbySearch_SetMaxResults", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbySearch_SetMaxResults", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbySearch_SetMaxResults(IntPtr handle, ref Lobby.LobbySearchSetMaxResultsOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbySearch_SetParameter", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbySearch_SetParameter", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbySearch_SetParameter(IntPtr handle, ref Lobby.LobbySearchSetParameterOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_LobbySearch_SetTargetUserId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_LobbySearch_SetTargetUserId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_LobbySearch_SetTargetUserId(IntPtr handle, ref Lobby.LobbySearchSetTargetUserIdOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_AddNotifyJoinLobbyAccepted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_AddNotifyJoinLobbyAccepted", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Lobby_AddNotifyJoinLobbyAccepted(IntPtr handle, ref Lobby.AddNotifyJoinLobbyAcceptedOptionsInternal options, IntPtr clientData, Lobby.OnJoinLobbyAcceptedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_AddNotifyLeaveLobbyRequested", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_AddNotifyLeaveLobbyRequested", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Lobby_AddNotifyLeaveLobbyRequested(IntPtr handle, ref Lobby.AddNotifyLeaveLobbyRequestedOptionsInternal options, IntPtr clientData, Lobby.OnLeaveLobbyRequestedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_AddNotifyLobbyInviteAccepted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_AddNotifyLobbyInviteAccepted", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Lobby_AddNotifyLobbyInviteAccepted(IntPtr handle, ref Lobby.AddNotifyLobbyInviteAcceptedOptionsInternal options, IntPtr clientData, Lobby.OnLobbyInviteAcceptedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_AddNotifyLobbyInviteReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_AddNotifyLobbyInviteReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Lobby_AddNotifyLobbyInviteReceived(IntPtr handle, ref Lobby.AddNotifyLobbyInviteReceivedOptionsInternal options, IntPtr clientData, Lobby.OnLobbyInviteReceivedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_AddNotifyLobbyInviteRejected", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_AddNotifyLobbyInviteRejected", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Lobby_AddNotifyLobbyInviteRejected(IntPtr handle, ref Lobby.AddNotifyLobbyInviteRejectedOptionsInternal options, IntPtr clientData, Lobby.OnLobbyInviteRejectedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_AddNotifyLobbyMemberStatusReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_AddNotifyLobbyMemberStatusReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Lobby_AddNotifyLobbyMemberStatusReceived(IntPtr handle, ref Lobby.AddNotifyLobbyMemberStatusReceivedOptionsInternal options, IntPtr clientData, Lobby.OnLobbyMemberStatusReceivedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_AddNotifyLobbyMemberUpdateReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_AddNotifyLobbyMemberUpdateReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Lobby_AddNotifyLobbyMemberUpdateReceived(IntPtr handle, ref Lobby.AddNotifyLobbyMemberUpdateReceivedOptionsInternal options, IntPtr clientData, Lobby.OnLobbyMemberUpdateReceivedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_AddNotifyLobbyUpdateReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_AddNotifyLobbyUpdateReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Lobby_AddNotifyLobbyUpdateReceived(IntPtr handle, ref Lobby.AddNotifyLobbyUpdateReceivedOptionsInternal options, IntPtr clientData, Lobby.OnLobbyUpdateReceivedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_AddNotifyRTCRoomConnectionChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_AddNotifyRTCRoomConnectionChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Lobby_AddNotifyRTCRoomConnectionChanged(IntPtr handle, ref Lobby.AddNotifyRTCRoomConnectionChangedOptionsInternal options, IntPtr clientData, Lobby.OnRTCRoomConnectionChangedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_AddNotifySendLobbyNativeInviteRequested", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_AddNotifySendLobbyNativeInviteRequested", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Lobby_AddNotifySendLobbyNativeInviteRequested(IntPtr handle, ref Lobby.AddNotifySendLobbyNativeInviteRequestedOptionsInternal options, IntPtr clientData, Lobby.OnSendLobbyNativeInviteRequestedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_Attribute_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_Attribute_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_Attribute_Release(IntPtr lobbyAttribute);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_CopyLobbyDetailsHandle", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_CopyLobbyDetailsHandle", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Lobby_CopyLobbyDetailsHandle(IntPtr handle, ref Lobby.CopyLobbyDetailsHandleOptionsInternal options, out IntPtr outLobbyDetailsHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_CopyLobbyDetailsHandleByInviteId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_CopyLobbyDetailsHandleByInviteId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Lobby_CopyLobbyDetailsHandleByInviteId(IntPtr handle, ref Lobby.CopyLobbyDetailsHandleByInviteIdOptionsInternal options, out IntPtr outLobbyDetailsHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_CopyLobbyDetailsHandleByUiEventId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_CopyLobbyDetailsHandleByUiEventId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Lobby_CopyLobbyDetailsHandleByUiEventId(IntPtr handle, ref Lobby.CopyLobbyDetailsHandleByUiEventIdOptionsInternal options, out IntPtr outLobbyDetailsHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_CreateLobby", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_CreateLobby", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_CreateLobby(IntPtr handle, ref Lobby.CreateLobbyOptionsInternal options, IntPtr clientData, Lobby.OnCreateLobbyCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_CreateLobbySearch", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_CreateLobbySearch", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Lobby_CreateLobbySearch(IntPtr handle, ref Lobby.CreateLobbySearchOptionsInternal options, out IntPtr outLobbySearchHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_DestroyLobby", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_DestroyLobby", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_DestroyLobby(IntPtr handle, ref Lobby.DestroyLobbyOptionsInternal options, IntPtr clientData, Lobby.OnDestroyLobbyCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_GetConnectString", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_GetConnectString", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Lobby_GetConnectString(IntPtr handle, ref Lobby.GetConnectStringOptionsInternal options, IntPtr outBuffer, ref uint inOutBufferLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_GetInviteCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_GetInviteCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Lobby_GetInviteCount(IntPtr handle, ref Lobby.GetInviteCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_GetInviteIdByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_GetInviteIdByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Lobby_GetInviteIdByIndex(IntPtr handle, ref Lobby.GetInviteIdByIndexOptionsInternal options, IntPtr outBuffer, ref int inOutBufferLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_GetRTCRoomName", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_GetRTCRoomName", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Lobby_GetRTCRoomName(IntPtr handle, ref Lobby.GetRTCRoomNameOptionsInternal options, IntPtr outBuffer, ref uint inOutBufferLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_HardMuteMember", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_HardMuteMember", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_HardMuteMember(IntPtr handle, ref Lobby.HardMuteMemberOptionsInternal options, IntPtr clientData, Lobby.OnHardMuteMemberCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_IsRTCRoomConnected", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_IsRTCRoomConnected", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Lobby_IsRTCRoomConnected(IntPtr handle, ref Lobby.IsRTCRoomConnectedOptionsInternal options, out int outIsConnected);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_JoinLobby", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_JoinLobby", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_JoinLobby(IntPtr handle, ref Lobby.JoinLobbyOptionsInternal options, IntPtr clientData, Lobby.OnJoinLobbyCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_JoinLobbyById", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_JoinLobbyById", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_JoinLobbyById(IntPtr handle, ref Lobby.JoinLobbyByIdOptionsInternal options, IntPtr clientData, Lobby.OnJoinLobbyByIdCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_JoinRTCRoom", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_JoinRTCRoom", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_JoinRTCRoom(IntPtr handle, ref Lobby.JoinRTCRoomOptionsInternal options, IntPtr clientData, Lobby.OnJoinRTCRoomCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_KickMember", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_KickMember", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_KickMember(IntPtr handle, ref Lobby.KickMemberOptionsInternal options, IntPtr clientData, Lobby.OnKickMemberCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_LeaveLobby", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_LeaveLobby", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_LeaveLobby(IntPtr handle, ref Lobby.LeaveLobbyOptionsInternal options, IntPtr clientData, Lobby.OnLeaveLobbyCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_LeaveRTCRoom", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_LeaveRTCRoom", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_LeaveRTCRoom(IntPtr handle, ref Lobby.LeaveRTCRoomOptionsInternal options, IntPtr clientData, Lobby.OnLeaveRTCRoomCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_ParseConnectString", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_ParseConnectString", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Lobby_ParseConnectString(IntPtr handle, ref Lobby.ParseConnectStringOptionsInternal options, IntPtr outBuffer, ref uint inOutBufferLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_PromoteMember", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_PromoteMember", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_PromoteMember(IntPtr handle, ref Lobby.PromoteMemberOptionsInternal options, IntPtr clientData, Lobby.OnPromoteMemberCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_QueryInvites", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_QueryInvites", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_QueryInvites(IntPtr handle, ref Lobby.QueryInvitesOptionsInternal options, IntPtr clientData, Lobby.OnQueryInvitesCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_RejectInvite", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_RejectInvite", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_RejectInvite(IntPtr handle, ref Lobby.RejectInviteOptionsInternal options, IntPtr clientData, Lobby.OnRejectInviteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_RemoveNotifyJoinLobbyAccepted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_RemoveNotifyJoinLobbyAccepted", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_RemoveNotifyJoinLobbyAccepted(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_RemoveNotifyLeaveLobbyRequested", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_RemoveNotifyLeaveLobbyRequested", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_RemoveNotifyLeaveLobbyRequested(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_RemoveNotifyLobbyInviteAccepted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_RemoveNotifyLobbyInviteAccepted", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_RemoveNotifyLobbyInviteAccepted(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_RemoveNotifyLobbyInviteReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_RemoveNotifyLobbyInviteReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_RemoveNotifyLobbyInviteReceived(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_RemoveNotifyLobbyInviteRejected", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_RemoveNotifyLobbyInviteRejected", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_RemoveNotifyLobbyInviteRejected(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_RemoveNotifyLobbyUpdateReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_RemoveNotifyLobbyUpdateReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_RemoveNotifyLobbyUpdateReceived(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_RemoveNotifySendLobbyNativeInviteRequested", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_RemoveNotifySendLobbyNativeInviteRequested", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_RemoveNotifySendLobbyNativeInviteRequested(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_SendInvite", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_SendInvite", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_SendInvite(IntPtr handle, ref Lobby.SendInviteOptionsInternal options, IntPtr clientData, Lobby.OnSendInviteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_UpdateLobby", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_UpdateLobby", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Lobby_UpdateLobby(IntPtr handle, ref Lobby.UpdateLobbyOptionsInternal options, IntPtr clientData, Lobby.OnUpdateLobbyCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Lobby_UpdateLobbyModification", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Lobby_UpdateLobbyModification", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Lobby_UpdateLobbyModification(IntPtr handle, ref Lobby.UpdateLobbyModificationOptionsInternal options, out IntPtr outLobbyModificationHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Logging_SetCallback", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Logging_SetCallback", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Logging_SetCallback(Logging.LogMessageFuncInternal callback);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Logging_SetLogLevel", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Logging_SetLogLevel", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Logging_SetLogLevel(Logging.LogCategory logCategory, Logging.LogLevel logLevel);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Metrics_BeginPlayerSession", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Metrics_BeginPlayerSession", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Metrics_BeginPlayerSession(IntPtr handle, ref Metrics.BeginPlayerSessionOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Metrics_EndPlayerSession", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Metrics_EndPlayerSession", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Metrics_EndPlayerSession(IntPtr handle, ref Metrics.EndPlayerSessionOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Mods_CopyModInfo", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Mods_CopyModInfo", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Mods_CopyModInfo(IntPtr handle, ref Mods.CopyModInfoOptionsInternal options, out IntPtr outEnumeratedMods);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Mods_EnumerateMods", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Mods_EnumerateMods", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Mods_EnumerateMods(IntPtr handle, ref Mods.EnumerateModsOptionsInternal options, IntPtr clientData, Mods.OnEnumerateModsCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Mods_InstallMod", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Mods_InstallMod", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Mods_InstallMod(IntPtr handle, ref Mods.InstallModOptionsInternal options, IntPtr clientData, Mods.OnInstallModCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Mods_ModInfo_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Mods_ModInfo_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Mods_ModInfo_Release(IntPtr modInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Mods_UninstallMod", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Mods_UninstallMod", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Mods_UninstallMod(IntPtr handle, ref Mods.UninstallModOptionsInternal options, IntPtr clientData, Mods.OnUninstallModCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Mods_UpdateMod", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Mods_UpdateMod", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Mods_UpdateMod(IntPtr handle, ref Mods.UpdateModOptionsInternal options, IntPtr clientData, Mods.OnUpdateModCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_AcceptConnection", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_AcceptConnection", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_P2P_AcceptConnection(IntPtr handle, ref P2P.AcceptConnectionOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_AddNotifyIncomingPacketQueueFull", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_AddNotifyIncomingPacketQueueFull", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_P2P_AddNotifyIncomingPacketQueueFull(IntPtr handle, ref P2P.AddNotifyIncomingPacketQueueFullOptionsInternal options, IntPtr clientData, P2P.OnIncomingPacketQueueFullCallbackInternal incomingPacketQueueFullHandler);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_AddNotifyPeerConnectionClosed", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_AddNotifyPeerConnectionClosed", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_P2P_AddNotifyPeerConnectionClosed(IntPtr handle, ref P2P.AddNotifyPeerConnectionClosedOptionsInternal options, IntPtr clientData, P2P.OnRemoteConnectionClosedCallbackInternal connectionClosedHandler);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_AddNotifyPeerConnectionEstablished", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_AddNotifyPeerConnectionEstablished", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_P2P_AddNotifyPeerConnectionEstablished(IntPtr handle, ref P2P.AddNotifyPeerConnectionEstablishedOptionsInternal options, IntPtr clientData, P2P.OnPeerConnectionEstablishedCallbackInternal connectionEstablishedHandler);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_AddNotifyPeerConnectionInterrupted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_AddNotifyPeerConnectionInterrupted", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_P2P_AddNotifyPeerConnectionInterrupted(IntPtr handle, ref P2P.AddNotifyPeerConnectionInterruptedOptionsInternal options, IntPtr clientData, P2P.OnPeerConnectionInterruptedCallbackInternal connectionInterruptedHandler);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_AddNotifyPeerConnectionRequest", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_AddNotifyPeerConnectionRequest", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_P2P_AddNotifyPeerConnectionRequest(IntPtr handle, ref P2P.AddNotifyPeerConnectionRequestOptionsInternal options, IntPtr clientData, P2P.OnIncomingConnectionRequestCallbackInternal connectionRequestHandler);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_ClearPacketQueue", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_ClearPacketQueue", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_P2P_ClearPacketQueue(IntPtr handle, ref P2P.ClearPacketQueueOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_CloseConnection", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_CloseConnection", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_P2P_CloseConnection(IntPtr handle, ref P2P.CloseConnectionOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_CloseConnections", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_CloseConnections", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_P2P_CloseConnections(IntPtr handle, ref P2P.CloseConnectionsOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_GetNATType", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_GetNATType", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_P2P_GetNATType(IntPtr handle, ref P2P.GetNATTypeOptionsInternal options, out P2P.NATType outNATType);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_GetNextReceivedPacketSize", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_GetNextReceivedPacketSize", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_P2P_GetNextReceivedPacketSize(IntPtr handle, ref P2P.GetNextReceivedPacketSizeOptionsInternal options, out uint outPacketSizeBytes);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_GetPacketQueueInfo", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_GetPacketQueueInfo", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_P2P_GetPacketQueueInfo(IntPtr handle, ref P2P.GetPacketQueueInfoOptionsInternal options, out P2P.PacketQueueInfoInternal outPacketQueueInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_GetPortRange", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_GetPortRange", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_P2P_GetPortRange(IntPtr handle, ref P2P.GetPortRangeOptionsInternal options, out ushort outPort, out ushort outNumAdditionalPortsToTry);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_GetRelayControl", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_GetRelayControl", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_P2P_GetRelayControl(IntPtr handle, ref P2P.GetRelayControlOptionsInternal options, out P2P.RelayControl outRelayControl);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_QueryNATType", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_QueryNATType", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_P2P_QueryNATType(IntPtr handle, ref P2P.QueryNATTypeOptionsInternal options, IntPtr clientData, P2P.OnQueryNATTypeCompleteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_ReceivePacket", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_ReceivePacket", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_P2P_ReceivePacket(IntPtr handle, ref P2P.ReceivePacketOptionsInternal options, out IntPtr outPeerId, IntPtr outSocketId, out byte outChannel, IntPtr outData, out uint outBytesWritten);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_RemoveNotifyIncomingPacketQueueFull", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_RemoveNotifyIncomingPacketQueueFull", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_P2P_RemoveNotifyIncomingPacketQueueFull(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_RemoveNotifyPeerConnectionClosed", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_RemoveNotifyPeerConnectionClosed", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_P2P_RemoveNotifyPeerConnectionClosed(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_RemoveNotifyPeerConnectionEstablished", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_RemoveNotifyPeerConnectionEstablished", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_P2P_RemoveNotifyPeerConnectionEstablished(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_RemoveNotifyPeerConnectionInterrupted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_RemoveNotifyPeerConnectionInterrupted", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_P2P_RemoveNotifyPeerConnectionInterrupted(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_RemoveNotifyPeerConnectionRequest", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_RemoveNotifyPeerConnectionRequest", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_P2P_RemoveNotifyPeerConnectionRequest(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_SendPacket", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_SendPacket", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_P2P_SendPacket(IntPtr handle, ref P2P.SendPacketOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_SetPacketQueueSize", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_SetPacketQueueSize", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_P2P_SetPacketQueueSize(IntPtr handle, ref P2P.SetPacketQueueSizeOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_SetPortRange", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_SetPortRange", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_P2P_SetPortRange(IntPtr handle, ref P2P.SetPortRangeOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_P2P_SetRelayControl", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_P2P_SetRelayControl", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_P2P_SetRelayControl(IntPtr handle, ref P2P.SetRelayControlOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_CheckForLauncherAndRestart", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_CheckForLauncherAndRestart", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Platform_CheckForLauncherAndRestart(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_Create", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_Create", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_Create(ref Platform.OptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetAchievementsInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetAchievementsInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetAchievementsInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetActiveCountryCode", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetActiveCountryCode", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Platform_GetActiveCountryCode(IntPtr handle, IntPtr localUserId, IntPtr outBuffer, ref int inOutBufferLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetActiveLocaleCode", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetActiveLocaleCode", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Platform_GetActiveLocaleCode(IntPtr handle, IntPtr localUserId, IntPtr outBuffer, ref int inOutBufferLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetAntiCheatClientInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetAntiCheatClientInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetAntiCheatClientInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetAntiCheatServerInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetAntiCheatServerInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetAntiCheatServerInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetApplicationStatus", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetApplicationStatus", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Platform.ApplicationStatus EOS_Platform_GetApplicationStatus(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetAuthInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetAuthInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetAuthInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetConnectInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetConnectInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetConnectInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetCustomInvitesInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetCustomInvitesInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetCustomInvitesInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetDesktopCrossplayStatus", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetDesktopCrossplayStatus", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Platform_GetDesktopCrossplayStatus(IntPtr handle, ref Platform.GetDesktopCrossplayStatusOptionsInternal options, out Platform.DesktopCrossplayStatusInfoInternal outDesktopCrossplayStatusInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetEcomInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetEcomInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetEcomInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetFriendsInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetFriendsInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetFriendsInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetIntegratedPlatformInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetIntegratedPlatformInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetIntegratedPlatformInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetKWSInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetKWSInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetKWSInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetLeaderboardsInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetLeaderboardsInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetLeaderboardsInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetLobbyInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetLobbyInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetLobbyInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetMetricsInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetMetricsInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetMetricsInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetModsInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetModsInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetModsInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetNetworkStatus", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetNetworkStatus", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Platform.NetworkStatus EOS_Platform_GetNetworkStatus(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetOverrideCountryCode", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetOverrideCountryCode", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Platform_GetOverrideCountryCode(IntPtr handle, IntPtr outBuffer, ref int inOutBufferLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetOverrideLocaleCode", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetOverrideLocaleCode", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Platform_GetOverrideLocaleCode(IntPtr handle, IntPtr outBuffer, ref int inOutBufferLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetP2PInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetP2PInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetP2PInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetPlayerDataStorageInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetPlayerDataStorageInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetPlayerDataStorageInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetPresenceInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetPresenceInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetPresenceInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetProgressionSnapshotInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetProgressionSnapshotInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetProgressionSnapshotInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetRTCAdminInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetRTCAdminInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetRTCAdminInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetRTCInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetRTCInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetRTCInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetReportsInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetReportsInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetReportsInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetSanctionsInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetSanctionsInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetSanctionsInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetSessionsInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetSessionsInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetSessionsInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetStatsInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetStatsInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetStatsInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetTitleStorageInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetTitleStorageInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetTitleStorageInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetUIInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetUIInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetUIInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_GetUserInfoInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_GetUserInfoInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_Platform_GetUserInfoInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Platform_Release(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_SetApplicationStatus", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_SetApplicationStatus", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Platform_SetApplicationStatus(IntPtr handle, Platform.ApplicationStatus newStatus);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_SetNetworkStatus", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_SetNetworkStatus", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Platform_SetNetworkStatus(IntPtr handle, Platform.NetworkStatus newStatus);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_SetOverrideCountryCode", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_SetOverrideCountryCode", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Platform_SetOverrideCountryCode(IntPtr handle, IntPtr newCountryCode);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_SetOverrideLocaleCode", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_SetOverrideLocaleCode", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Platform_SetOverrideLocaleCode(IntPtr handle, IntPtr newLocaleCode);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Platform_Tick", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Platform_Tick", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Platform_Tick(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PlayerDataStorageFileTransferRequest_CancelRequest", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PlayerDataStorageFileTransferRequest_CancelRequest", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_PlayerDataStorageFileTransferRequest_CancelRequest(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PlayerDataStorageFileTransferRequest_GetFileRequestState", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PlayerDataStorageFileTransferRequest_GetFileRequestState", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_PlayerDataStorageFileTransferRequest_GetFileRequestState(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PlayerDataStorageFileTransferRequest_GetFilename", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PlayerDataStorageFileTransferRequest_GetFilename", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_PlayerDataStorageFileTransferRequest_GetFilename(IntPtr handle, uint filenameStringBufferSizeBytes, IntPtr outStringBuffer, out int outStringLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PlayerDataStorageFileTransferRequest_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PlayerDataStorageFileTransferRequest_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_PlayerDataStorageFileTransferRequest_Release(IntPtr playerDataStorageFileTransferHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PlayerDataStorage_CopyFileMetadataAtIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PlayerDataStorage_CopyFileMetadataAtIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_PlayerDataStorage_CopyFileMetadataAtIndex(IntPtr handle, ref PlayerDataStorage.CopyFileMetadataAtIndexOptionsInternal copyFileMetadataOptions, out IntPtr outMetadata);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PlayerDataStorage_CopyFileMetadataByFilename", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PlayerDataStorage_CopyFileMetadataByFilename", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_PlayerDataStorage_CopyFileMetadataByFilename(IntPtr handle, ref PlayerDataStorage.CopyFileMetadataByFilenameOptionsInternal copyFileMetadataOptions, out IntPtr outMetadata);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PlayerDataStorage_DeleteCache", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PlayerDataStorage_DeleteCache", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_PlayerDataStorage_DeleteCache(IntPtr handle, ref PlayerDataStorage.DeleteCacheOptionsInternal options, IntPtr clientData, PlayerDataStorage.OnDeleteCacheCompleteCallbackInternal completionCallback);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PlayerDataStorage_DeleteFile", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PlayerDataStorage_DeleteFile", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_PlayerDataStorage_DeleteFile(IntPtr handle, ref PlayerDataStorage.DeleteFileOptionsInternal deleteOptions, IntPtr clientData, PlayerDataStorage.OnDeleteFileCompleteCallbackInternal completionCallback);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PlayerDataStorage_DuplicateFile", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PlayerDataStorage_DuplicateFile", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_PlayerDataStorage_DuplicateFile(IntPtr handle, ref PlayerDataStorage.DuplicateFileOptionsInternal duplicateOptions, IntPtr clientData, PlayerDataStorage.OnDuplicateFileCompleteCallbackInternal completionCallback);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PlayerDataStorage_FileMetadata_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PlayerDataStorage_FileMetadata_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_PlayerDataStorage_FileMetadata_Release(IntPtr fileMetadata);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PlayerDataStorage_GetFileMetadataCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PlayerDataStorage_GetFileMetadataCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_PlayerDataStorage_GetFileMetadataCount(IntPtr handle, ref PlayerDataStorage.GetFileMetadataCountOptionsInternal getFileMetadataCountOptions, out int outFileMetadataCount);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PlayerDataStorage_QueryFile", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PlayerDataStorage_QueryFile", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_PlayerDataStorage_QueryFile(IntPtr handle, ref PlayerDataStorage.QueryFileOptionsInternal queryFileOptions, IntPtr clientData, PlayerDataStorage.OnQueryFileCompleteCallbackInternal completionCallback);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PlayerDataStorage_QueryFileList", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PlayerDataStorage_QueryFileList", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_PlayerDataStorage_QueryFileList(IntPtr handle, ref PlayerDataStorage.QueryFileListOptionsInternal queryFileListOptions, IntPtr clientData, PlayerDataStorage.OnQueryFileListCompleteCallbackInternal completionCallback);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PlayerDataStorage_ReadFile", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PlayerDataStorage_ReadFile", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_PlayerDataStorage_ReadFile(IntPtr handle, ref PlayerDataStorage.ReadFileOptionsInternal readOptions, IntPtr clientData, PlayerDataStorage.OnReadFileCompleteCallbackInternal completionCallback);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PlayerDataStorage_WriteFile", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PlayerDataStorage_WriteFile", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_PlayerDataStorage_WriteFile(IntPtr handle, ref PlayerDataStorage.WriteFileOptionsInternal writeOptions, IntPtr clientData, PlayerDataStorage.OnWriteFileCompleteCallbackInternal completionCallback);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PresenceModification_DeleteData", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PresenceModification_DeleteData", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_PresenceModification_DeleteData(IntPtr handle, ref Presence.PresenceModificationDeleteDataOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PresenceModification_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PresenceModification_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_PresenceModification_Release(IntPtr presenceModificationHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PresenceModification_SetData", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PresenceModification_SetData", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_PresenceModification_SetData(IntPtr handle, ref Presence.PresenceModificationSetDataOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PresenceModification_SetJoinInfo", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PresenceModification_SetJoinInfo", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_PresenceModification_SetJoinInfo(IntPtr handle, ref Presence.PresenceModificationSetJoinInfoOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PresenceModification_SetRawRichText", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PresenceModification_SetRawRichText", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_PresenceModification_SetRawRichText(IntPtr handle, ref Presence.PresenceModificationSetRawRichTextOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PresenceModification_SetStatus", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PresenceModification_SetStatus", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_PresenceModification_SetStatus(IntPtr handle, ref Presence.PresenceModificationSetStatusOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PresenceModification_SetTemplateData", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PresenceModification_SetTemplateData", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_PresenceModification_SetTemplateData(IntPtr handle, ref Presence.PresenceModificationSetTemplateDataOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_PresenceModification_SetTemplateId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_PresenceModification_SetTemplateId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_PresenceModification_SetTemplateId(IntPtr handle, ref Presence.PresenceModificationSetTemplateIdOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Presence_AddNotifyJoinGameAccepted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Presence_AddNotifyJoinGameAccepted", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Presence_AddNotifyJoinGameAccepted(IntPtr handle, ref Presence.AddNotifyJoinGameAcceptedOptionsInternal options, IntPtr clientData, Presence.OnJoinGameAcceptedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Presence_AddNotifyOnPresenceChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Presence_AddNotifyOnPresenceChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Presence_AddNotifyOnPresenceChanged(IntPtr handle, ref Presence.AddNotifyOnPresenceChangedOptionsInternal options, IntPtr clientData, Presence.OnPresenceChangedCallbackInternal notificationHandler);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Presence_CopyPresence", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Presence_CopyPresence", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Presence_CopyPresence(IntPtr handle, ref Presence.CopyPresenceOptionsInternal options, out IntPtr outPresence);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Presence_CreatePresenceModification", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Presence_CreatePresenceModification", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Presence_CreatePresenceModification(IntPtr handle, ref Presence.CreatePresenceModificationOptionsInternal options, out IntPtr outPresenceModificationHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Presence_GetJoinInfo", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Presence_GetJoinInfo", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Presence_GetJoinInfo(IntPtr handle, ref Presence.GetJoinInfoOptionsInternal options, IntPtr outBuffer, ref int inOutBufferLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Presence_HasPresence", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Presence_HasExplicitPresence", CallingConvention=Library.CALLING_CONVENTION)]
+		internal static extern int EOS_Presence_HasExplicitPresence(IntPtr handle, ref Presence.HasExplicitPresenceOptionsInternal options);
+
+		[DllImport(Library.NAME, EntryPoint="EOS_Presence_HasPresence", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern int EOS_Presence_HasPresence(IntPtr handle, ref Presence.HasPresenceOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Presence_Info_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Presence_Info_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Presence_Info_Release(IntPtr presenceInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Presence_QueryPresence", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Presence_QueryPresence", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Presence_QueryPresence(IntPtr handle, ref Presence.QueryPresenceOptionsInternal options, IntPtr clientData, Presence.OnQueryPresenceCompleteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Presence_RemoveNotifyJoinGameAccepted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Presence_RemoveNotifyJoinGameAccepted", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Presence_RemoveNotifyJoinGameAccepted(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Presence_RemoveNotifyOnPresenceChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Presence_RemoveNotifyOnPresenceChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Presence_RemoveNotifyOnPresenceChanged(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Presence_SetPresence", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Presence_SetPresence", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Presence_SetPresence(IntPtr handle, ref Presence.SetPresenceOptionsInternal options, IntPtr clientData, Presence.SetPresenceCompleteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_ProductUserId_FromString", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_ProductUserId_FromString", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_ProductUserId_FromString(IntPtr productUserIdString);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_ProductUserId_IsValid", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_ProductUserId_IsValid", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern int EOS_ProductUserId_IsValid(IntPtr accountId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_ProductUserId_ToString", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_ProductUserId_ToString", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_ProductUserId_ToString(IntPtr accountId, IntPtr outBuffer, ref int inOutBufferLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_ProgressionSnapshot_AddProgression", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_ProgressionSnapshot_AddProgression", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_ProgressionSnapshot_AddProgression(IntPtr handle, ref ProgressionSnapshot.AddProgressionOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_ProgressionSnapshot_BeginSnapshot", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_ProgressionSnapshot_BeginSnapshot", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_ProgressionSnapshot_BeginSnapshot(IntPtr handle, ref ProgressionSnapshot.BeginSnapshotOptionsInternal options, out uint outSnapshotId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_ProgressionSnapshot_DeleteSnapshot", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_ProgressionSnapshot_DeleteSnapshot", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_ProgressionSnapshot_DeleteSnapshot(IntPtr handle, ref ProgressionSnapshot.DeleteSnapshotOptionsInternal options, IntPtr clientData, ProgressionSnapshot.OnDeleteSnapshotCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_ProgressionSnapshot_EndSnapshot", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_ProgressionSnapshot_EndSnapshot", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_ProgressionSnapshot_EndSnapshot(IntPtr handle, ref ProgressionSnapshot.EndSnapshotOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_ProgressionSnapshot_SubmitSnapshot", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_ProgressionSnapshot_SubmitSnapshot", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_ProgressionSnapshot_SubmitSnapshot(IntPtr handle, ref ProgressionSnapshot.SubmitSnapshotOptionsInternal options, IntPtr clientData, ProgressionSnapshot.OnSubmitSnapshotCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAdmin_CopyUserTokenByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAdmin_CopyUserTokenByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_RTCAdmin_CopyUserTokenByIndex(IntPtr handle, ref RTCAdmin.CopyUserTokenByIndexOptionsInternal options, out IntPtr outUserToken);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAdmin_CopyUserTokenByUserId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAdmin_CopyUserTokenByUserId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_RTCAdmin_CopyUserTokenByUserId(IntPtr handle, ref RTCAdmin.CopyUserTokenByUserIdOptionsInternal options, out IntPtr outUserToken);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAdmin_Kick", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAdmin_Kick", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAdmin_Kick(IntPtr handle, ref RTCAdmin.KickOptionsInternal options, IntPtr clientData, RTCAdmin.OnKickCompleteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAdmin_QueryJoinRoomToken", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAdmin_QueryJoinRoomToken", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAdmin_QueryJoinRoomToken(IntPtr handle, ref RTCAdmin.QueryJoinRoomTokenOptionsInternal options, IntPtr clientData, RTCAdmin.OnQueryJoinRoomTokenCompleteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAdmin_SetParticipantHardMute", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAdmin_SetParticipantHardMute", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAdmin_SetParticipantHardMute(IntPtr handle, ref RTCAdmin.SetParticipantHardMuteOptionsInternal options, IntPtr clientData, RTCAdmin.OnSetParticipantHardMuteCompleteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAdmin_UserToken_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAdmin_UserToken_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAdmin_UserToken_Release(IntPtr userToken);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_AddNotifyAudioBeforeRender", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_AddNotifyAudioBeforeRender", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_RTCAudio_AddNotifyAudioBeforeRender(IntPtr handle, ref RTCAudio.AddNotifyAudioBeforeRenderOptionsInternal options, IntPtr clientData, RTCAudio.OnAudioBeforeRenderCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_AddNotifyAudioBeforeSend", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_AddNotifyAudioBeforeSend", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_RTCAudio_AddNotifyAudioBeforeSend(IntPtr handle, ref RTCAudio.AddNotifyAudioBeforeSendOptionsInternal options, IntPtr clientData, RTCAudio.OnAudioBeforeSendCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_AddNotifyAudioDevicesChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_AddNotifyAudioDevicesChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_RTCAudio_AddNotifyAudioDevicesChanged(IntPtr handle, ref RTCAudio.AddNotifyAudioDevicesChangedOptionsInternal options, IntPtr clientData, RTCAudio.OnAudioDevicesChangedCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_AddNotifyAudioInputState", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_AddNotifyAudioInputState", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_RTCAudio_AddNotifyAudioInputState(IntPtr handle, ref RTCAudio.AddNotifyAudioInputStateOptionsInternal options, IntPtr clientData, RTCAudio.OnAudioInputStateCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_AddNotifyAudioOutputState", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_AddNotifyAudioOutputState", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_RTCAudio_AddNotifyAudioOutputState(IntPtr handle, ref RTCAudio.AddNotifyAudioOutputStateOptionsInternal options, IntPtr clientData, RTCAudio.OnAudioOutputStateCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_AddNotifyParticipantUpdated", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_AddNotifyParticipantUpdated", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_RTCAudio_AddNotifyParticipantUpdated(IntPtr handle, ref RTCAudio.AddNotifyParticipantUpdatedOptionsInternal options, IntPtr clientData, RTCAudio.OnParticipantUpdatedCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_CopyInputDeviceInformationByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_CopyInputDeviceInformationByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_RTCAudio_CopyInputDeviceInformationByIndex(IntPtr handle, ref RTCAudio.CopyInputDeviceInformationByIndexOptionsInternal options, out IntPtr outInputDeviceInformation);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_CopyOutputDeviceInformationByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_CopyOutputDeviceInformationByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_RTCAudio_CopyOutputDeviceInformationByIndex(IntPtr handle, ref RTCAudio.CopyOutputDeviceInformationByIndexOptionsInternal options, out IntPtr outOutputDeviceInformation);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_GetAudioInputDeviceByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_GetAudioInputDeviceByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_RTCAudio_GetAudioInputDeviceByIndex(IntPtr handle, ref RTCAudio.GetAudioInputDeviceByIndexOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_GetAudioInputDevicesCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_GetAudioInputDevicesCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_RTCAudio_GetAudioInputDevicesCount(IntPtr handle, ref RTCAudio.GetAudioInputDevicesCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_GetAudioOutputDeviceByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_GetAudioOutputDeviceByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_RTCAudio_GetAudioOutputDeviceByIndex(IntPtr handle, ref RTCAudio.GetAudioOutputDeviceByIndexOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_GetAudioOutputDevicesCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_GetAudioOutputDevicesCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_RTCAudio_GetAudioOutputDevicesCount(IntPtr handle, ref RTCAudio.GetAudioOutputDevicesCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_GetInputDevicesCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_GetInputDevicesCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_RTCAudio_GetInputDevicesCount(IntPtr handle, ref RTCAudio.GetInputDevicesCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_GetOutputDevicesCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_GetOutputDevicesCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_RTCAudio_GetOutputDevicesCount(IntPtr handle, ref RTCAudio.GetOutputDevicesCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_InputDeviceInformation_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_InputDeviceInformation_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_InputDeviceInformation_Release(IntPtr deviceInformation);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_OutputDeviceInformation_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_OutputDeviceInformation_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_OutputDeviceInformation_Release(IntPtr deviceInformation);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_QueryInputDevicesInformation", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_QueryInputDevicesInformation", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_QueryInputDevicesInformation(IntPtr handle, ref RTCAudio.QueryInputDevicesInformationOptionsInternal options, IntPtr clientData, RTCAudio.OnQueryInputDevicesInformationCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_QueryOutputDevicesInformation", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_QueryOutputDevicesInformation", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_QueryOutputDevicesInformation(IntPtr handle, ref RTCAudio.QueryOutputDevicesInformationOptionsInternal options, IntPtr clientData, RTCAudio.OnQueryOutputDevicesInformationCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_RegisterPlatformAudioUser", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_RegisterPlatformAudioUser", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_RTCAudio_RegisterPlatformAudioUser(IntPtr handle, ref RTCAudio.RegisterPlatformAudioUserOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_RegisterPlatformUser", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_RegisterPlatformUser", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_RegisterPlatformUser(IntPtr handle, ref RTCAudio.RegisterPlatformUserOptionsInternal options, IntPtr clientData, RTCAudio.OnRegisterPlatformUserCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_RemoveNotifyAudioBeforeRender", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_RemoveNotifyAudioBeforeRender", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_RemoveNotifyAudioBeforeRender(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_RemoveNotifyAudioBeforeSend", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_RemoveNotifyAudioBeforeSend", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_RemoveNotifyAudioBeforeSend(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_RemoveNotifyAudioDevicesChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_RemoveNotifyAudioDevicesChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_RemoveNotifyAudioDevicesChanged(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_RemoveNotifyAudioInputState", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_RemoveNotifyAudioInputState", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_RemoveNotifyAudioInputState(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_RemoveNotifyAudioOutputState", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_RemoveNotifyAudioOutputState", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_RemoveNotifyAudioOutputState(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_RemoveNotifyParticipantUpdated", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_RemoveNotifyParticipantUpdated", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_RemoveNotifyParticipantUpdated(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_SendAudio", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_SendAudio", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_RTCAudio_SendAudio(IntPtr handle, ref RTCAudio.SendAudioOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_SetAudioInputSettings", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_SetAudioInputSettings", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_RTCAudio_SetAudioInputSettings(IntPtr handle, ref RTCAudio.SetAudioInputSettingsOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_SetAudioOutputSettings", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_SetAudioOutputSettings", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_RTCAudio_SetAudioOutputSettings(IntPtr handle, ref RTCAudio.SetAudioOutputSettingsOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_SetInputDeviceSettings", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_SetInputDeviceSettings", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_SetInputDeviceSettings(IntPtr handle, ref RTCAudio.SetInputDeviceSettingsOptionsInternal options, IntPtr clientData, RTCAudio.OnSetInputDeviceSettingsCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_SetOutputDeviceSettings", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_SetOutputDeviceSettings", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_SetOutputDeviceSettings(IntPtr handle, ref RTCAudio.SetOutputDeviceSettingsOptionsInternal options, IntPtr clientData, RTCAudio.OnSetOutputDeviceSettingsCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_UnregisterPlatformAudioUser", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_UnregisterPlatformAudioUser", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_RTCAudio_UnregisterPlatformAudioUser(IntPtr handle, ref RTCAudio.UnregisterPlatformAudioUserOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_UnregisterPlatformUser", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_UnregisterPlatformUser", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_UnregisterPlatformUser(IntPtr handle, ref RTCAudio.UnregisterPlatformUserOptionsInternal options, IntPtr clientData, RTCAudio.OnUnregisterPlatformUserCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_UpdateParticipantVolume", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_UpdateParticipantVolume", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_UpdateParticipantVolume(IntPtr handle, ref RTCAudio.UpdateParticipantVolumeOptionsInternal options, IntPtr clientData, RTCAudio.OnUpdateParticipantVolumeCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_UpdateReceiving", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_UpdateReceiving", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_UpdateReceiving(IntPtr handle, ref RTCAudio.UpdateReceivingOptionsInternal options, IntPtr clientData, RTCAudio.OnUpdateReceivingCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_UpdateReceivingVolume", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_UpdateReceivingVolume", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_UpdateReceivingVolume(IntPtr handle, ref RTCAudio.UpdateReceivingVolumeOptionsInternal options, IntPtr clientData, RTCAudio.OnUpdateReceivingVolumeCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_UpdateSending", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_UpdateSending", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_UpdateSending(IntPtr handle, ref RTCAudio.UpdateSendingOptionsInternal options, IntPtr clientData, RTCAudio.OnUpdateSendingCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCAudio_UpdateSendingVolume", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCAudio_UpdateSendingVolume", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCAudio_UpdateSendingVolume(IntPtr handle, ref RTCAudio.UpdateSendingVolumeOptionsInternal options, IntPtr clientData, RTCAudio.OnUpdateSendingVolumeCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCData_AddNotifyDataReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCData_AddNotifyDataReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_RTCData_AddNotifyDataReceived(IntPtr handle, ref RTCData.AddNotifyDataReceivedOptionsInternal options, IntPtr clientData, RTCData.OnDataReceivedCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCData_AddNotifyParticipantUpdated", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCData_AddNotifyParticipantUpdated", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_RTCData_AddNotifyParticipantUpdated(IntPtr handle, ref RTCData.AddNotifyParticipantUpdatedOptionsInternal options, IntPtr clientData, RTCData.OnParticipantUpdatedCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCData_RemoveNotifyDataReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCData_RemoveNotifyDataReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCData_RemoveNotifyDataReceived(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCData_RemoveNotifyParticipantUpdated", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCData_RemoveNotifyParticipantUpdated", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCData_RemoveNotifyParticipantUpdated(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCData_SendData", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCData_SendData", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_RTCData_SendData(IntPtr handle, ref RTCData.SendDataOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCData_UpdateReceiving", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCData_UpdateReceiving", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCData_UpdateReceiving(IntPtr handle, ref RTCData.UpdateReceivingOptionsInternal options, IntPtr clientData, RTCData.OnUpdateReceivingCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTCData_UpdateSending", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTCData_UpdateSending", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTCData_UpdateSending(IntPtr handle, ref RTCData.UpdateSendingOptionsInternal options, IntPtr clientData, RTCData.OnUpdateSendingCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_AddNotifyDisconnected", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTC_AddNotifyDisconnected", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_RTC_AddNotifyDisconnected(IntPtr handle, ref RTC.AddNotifyDisconnectedOptionsInternal options, IntPtr clientData, RTC.OnDisconnectedCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_AddNotifyParticipantStatusChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTC_AddNotifyParticipantStatusChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_RTC_AddNotifyParticipantStatusChanged(IntPtr handle, ref RTC.AddNotifyParticipantStatusChangedOptionsInternal options, IntPtr clientData, RTC.OnParticipantStatusChangedCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_AddNotifyRoomBeforeJoin", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTC_AddNotifyRoomBeforeJoin", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_RTC_AddNotifyRoomBeforeJoin(IntPtr handle, ref RTC.AddNotifyRoomBeforeJoinOptionsInternal options, IntPtr clientData, RTC.OnRoomBeforeJoinCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_AddNotifyRoomStatisticsUpdated", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTC_AddNotifyRoomStatisticsUpdated", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_RTC_AddNotifyRoomStatisticsUpdated(IntPtr handle, ref RTC.AddNotifyRoomStatisticsUpdatedOptionsInternal options, IntPtr clientData, RTC.OnRoomStatisticsUpdatedCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_BlockParticipant", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTC_BlockParticipant", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTC_BlockParticipant(IntPtr handle, ref RTC.BlockParticipantOptionsInternal options, IntPtr clientData, RTC.OnBlockParticipantCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_GetAudioInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTC_GetAudioInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_RTC_GetAudioInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_GetDataInterface", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTC_GetDataInterface", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_RTC_GetDataInterface(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_JoinRoom", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTC_JoinRoom", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTC_JoinRoom(IntPtr handle, ref RTC.JoinRoomOptionsInternal options, IntPtr clientData, RTC.OnJoinRoomCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_LeaveRoom", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTC_LeaveRoom", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTC_LeaveRoom(IntPtr handle, ref RTC.LeaveRoomOptionsInternal options, IntPtr clientData, RTC.OnLeaveRoomCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_RemoveNotifyDisconnected", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTC_RemoveNotifyDisconnected", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTC_RemoveNotifyDisconnected(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_RemoveNotifyParticipantStatusChanged", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTC_RemoveNotifyParticipantStatusChanged", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTC_RemoveNotifyParticipantStatusChanged(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_RemoveNotifyRoomBeforeJoin", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTC_RemoveNotifyRoomBeforeJoin", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTC_RemoveNotifyRoomBeforeJoin(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_RemoveNotifyRoomStatisticsUpdated", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTC_RemoveNotifyRoomStatisticsUpdated", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_RTC_RemoveNotifyRoomStatisticsUpdated(IntPtr handle, ulong notificationId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_SetRoomSetting", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTC_SetRoomSetting", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_RTC_SetRoomSetting(IntPtr handle, ref RTC.SetRoomSettingOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_RTC_SetSetting", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_RTC_SetSetting", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_RTC_SetSetting(IntPtr handle, ref RTC.SetSettingOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Reports_SendPlayerBehaviorReport", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Reports_SendPlayerBehaviorReport", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Reports_SendPlayerBehaviorReport(IntPtr handle, ref Reports.SendPlayerBehaviorReportOptionsInternal options, IntPtr clientData, Reports.OnSendPlayerBehaviorReportCompleteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sanctions_CopyPlayerSanctionByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sanctions_CopyPlayerSanctionByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Sanctions_CopyPlayerSanctionByIndex(IntPtr handle, ref Sanctions.CopyPlayerSanctionByIndexOptionsInternal options, out IntPtr outSanction);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sanctions_CreatePlayerSanctionAppeal", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sanctions_CreatePlayerSanctionAppeal", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sanctions_CreatePlayerSanctionAppeal(IntPtr handle, ref Sanctions.CreatePlayerSanctionAppealOptionsInternal options, IntPtr clientData, Sanctions.CreatePlayerSanctionAppealCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sanctions_GetPlayerSanctionCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sanctions_GetPlayerSanctionCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Sanctions_GetPlayerSanctionCount(IntPtr handle, ref Sanctions.GetPlayerSanctionCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sanctions_PlayerSanction_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sanctions_PlayerSanction_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sanctions_PlayerSanction_Release(IntPtr sanction);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sanctions_QueryActivePlayerSanctions", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sanctions_QueryActivePlayerSanctions", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sanctions_QueryActivePlayerSanctions(IntPtr handle, ref Sanctions.QueryActivePlayerSanctionsOptionsInternal options, IntPtr clientData, Sanctions.OnQueryActivePlayerSanctionsCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionDetails_Attribute_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionDetails_Attribute_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_SessionDetails_Attribute_Release(IntPtr sessionAttribute);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionDetails_CopyInfo", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionDetails_CopyInfo", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionDetails_CopyInfo(IntPtr handle, ref Sessions.SessionDetailsCopyInfoOptionsInternal options, out IntPtr outSessionInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionDetails_CopySessionAttributeByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionDetails_CopySessionAttributeByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionDetails_CopySessionAttributeByIndex(IntPtr handle, ref Sessions.SessionDetailsCopySessionAttributeByIndexOptionsInternal options, out IntPtr outSessionAttribute);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionDetails_CopySessionAttributeByKey", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionDetails_CopySessionAttributeByKey", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionDetails_CopySessionAttributeByKey(IntPtr handle, ref Sessions.SessionDetailsCopySessionAttributeByKeyOptionsInternal options, out IntPtr outSessionAttribute);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionDetails_GetSessionAttributeCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionDetails_GetSessionAttributeCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_SessionDetails_GetSessionAttributeCount(IntPtr handle, ref Sessions.SessionDetailsGetSessionAttributeCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionDetails_Info_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionDetails_Info_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_SessionDetails_Info_Release(IntPtr sessionInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionDetails_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionDetails_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_SessionDetails_Release(IntPtr sessionHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionModification_AddAttribute", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionModification_AddAttribute", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionModification_AddAttribute(IntPtr handle, ref Sessions.SessionModificationAddAttributeOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionModification_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionModification_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_SessionModification_Release(IntPtr sessionModificationHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionModification_RemoveAttribute", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionModification_RemoveAttribute", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionModification_RemoveAttribute(IntPtr handle, ref Sessions.SessionModificationRemoveAttributeOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionModification_SetAllowedPlatformIds", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionModification_SetAllowedPlatformIds", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionModification_SetAllowedPlatformIds(IntPtr handle, ref Sessions.SessionModificationSetAllowedPlatformIdsOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionModification_SetBucketId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionModification_SetBucketId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionModification_SetBucketId(IntPtr handle, ref Sessions.SessionModificationSetBucketIdOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionModification_SetHostAddress", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionModification_SetHostAddress", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionModification_SetHostAddress(IntPtr handle, ref Sessions.SessionModificationSetHostAddressOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionModification_SetInvitesAllowed", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionModification_SetInvitesAllowed", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionModification_SetInvitesAllowed(IntPtr handle, ref Sessions.SessionModificationSetInvitesAllowedOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionModification_SetJoinInProgressAllowed", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionModification_SetJoinInProgressAllowed", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionModification_SetJoinInProgressAllowed(IntPtr handle, ref Sessions.SessionModificationSetJoinInProgressAllowedOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionModification_SetMaxPlayers", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionModification_SetMaxPlayers", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionModification_SetMaxPlayers(IntPtr handle, ref Sessions.SessionModificationSetMaxPlayersOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionModification_SetPermissionLevel", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionModification_SetPermissionLevel", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionModification_SetPermissionLevel(IntPtr handle, ref Sessions.SessionModificationSetPermissionLevelOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionSearch_CopySearchResultByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionSearch_CopySearchResultByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionSearch_CopySearchResultByIndex(IntPtr handle, ref Sessions.SessionSearchCopySearchResultByIndexOptionsInternal options, out IntPtr outSessionHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionSearch_Find", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionSearch_Find", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_SessionSearch_Find(IntPtr handle, ref Sessions.SessionSearchFindOptionsInternal options, IntPtr clientData, Sessions.SessionSearchOnFindCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionSearch_GetSearchResultCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionSearch_GetSearchResultCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_SessionSearch_GetSearchResultCount(IntPtr handle, ref Sessions.SessionSearchGetSearchResultCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionSearch_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionSearch_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_SessionSearch_Release(IntPtr sessionSearchHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionSearch_RemoveParameter", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionSearch_RemoveParameter", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionSearch_RemoveParameter(IntPtr handle, ref Sessions.SessionSearchRemoveParameterOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionSearch_SetMaxResults", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionSearch_SetMaxResults", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionSearch_SetMaxResults(IntPtr handle, ref Sessions.SessionSearchSetMaxResultsOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionSearch_SetParameter", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionSearch_SetParameter", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionSearch_SetParameter(IntPtr handle, ref Sessions.SessionSearchSetParameterOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionSearch_SetSessionId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionSearch_SetSessionId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionSearch_SetSessionId(IntPtr handle, ref Sessions.SessionSearchSetSessionIdOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_SessionSearch_SetTargetUserId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_SessionSearch_SetTargetUserId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_SessionSearch_SetTargetUserId(IntPtr handle, ref Sessions.SessionSearchSetTargetUserIdOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_AddNotifyJoinSessionAccepted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_AddNotifyJoinSessionAccepted", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Sessions_AddNotifyJoinSessionAccepted(IntPtr handle, ref Sessions.AddNotifyJoinSessionAcceptedOptionsInternal options, IntPtr clientData, Sessions.OnJoinSessionAcceptedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_AddNotifyLeaveSessionRequested", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_AddNotifyLeaveSessionRequested", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Sessions_AddNotifyLeaveSessionRequested(IntPtr handle, ref Sessions.AddNotifyLeaveSessionRequestedOptionsInternal options, IntPtr clientData, Sessions.OnLeaveSessionRequestedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_AddNotifySendSessionNativeInviteRequested", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_AddNotifySendSessionNativeInviteRequested", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Sessions_AddNotifySendSessionNativeInviteRequested(IntPtr handle, ref Sessions.AddNotifySendSessionNativeInviteRequestedOptionsInternal options, IntPtr clientData, Sessions.OnSendSessionNativeInviteRequestedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_AddNotifySessionInviteAccepted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_AddNotifySessionInviteAccepted", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Sessions_AddNotifySessionInviteAccepted(IntPtr handle, ref Sessions.AddNotifySessionInviteAcceptedOptionsInternal options, IntPtr clientData, Sessions.OnSessionInviteAcceptedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_AddNotifySessionInviteReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_AddNotifySessionInviteReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Sessions_AddNotifySessionInviteReceived(IntPtr handle, ref Sessions.AddNotifySessionInviteReceivedOptionsInternal options, IntPtr clientData, Sessions.OnSessionInviteReceivedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_AddNotifySessionInviteRejected", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_AddNotifySessionInviteRejected", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_Sessions_AddNotifySessionInviteRejected(IntPtr handle, ref Sessions.AddNotifySessionInviteRejectedOptionsInternal options, IntPtr clientData, Sessions.OnSessionInviteRejectedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_CopyActiveSessionHandle", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_CopyActiveSessionHandle", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Sessions_CopyActiveSessionHandle(IntPtr handle, ref Sessions.CopyActiveSessionHandleOptionsInternal options, out IntPtr outSessionHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_CopySessionHandleByInviteId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_CopySessionHandleByInviteId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Sessions_CopySessionHandleByInviteId(IntPtr handle, ref Sessions.CopySessionHandleByInviteIdOptionsInternal options, out IntPtr outSessionHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_CopySessionHandleByUiEventId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_CopySessionHandleByUiEventId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Sessions_CopySessionHandleByUiEventId(IntPtr handle, ref Sessions.CopySessionHandleByUiEventIdOptionsInternal options, out IntPtr outSessionHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_CopySessionHandleForPresence", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_CopySessionHandleForPresence", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Sessions_CopySessionHandleForPresence(IntPtr handle, ref Sessions.CopySessionHandleForPresenceOptionsInternal options, out IntPtr outSessionHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_CreateSessionModification", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_CreateSessionModification", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Sessions_CreateSessionModification(IntPtr handle, ref Sessions.CreateSessionModificationOptionsInternal options, out IntPtr outSessionModificationHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_CreateSessionSearch", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_CreateSessionSearch", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Sessions_CreateSessionSearch(IntPtr handle, ref Sessions.CreateSessionSearchOptionsInternal options, out IntPtr outSessionSearchHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_DestroySession", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_DestroySession", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sessions_DestroySession(IntPtr handle, ref Sessions.DestroySessionOptionsInternal options, IntPtr clientData, Sessions.OnDestroySessionCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_DumpSessionState", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_DumpSessionState", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Sessions_DumpSessionState(IntPtr handle, ref Sessions.DumpSessionStateOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_EndSession", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_EndSession", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sessions_EndSession(IntPtr handle, ref Sessions.EndSessionOptionsInternal options, IntPtr clientData, Sessions.OnEndSessionCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_GetInviteCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_GetInviteCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Sessions_GetInviteCount(IntPtr handle, ref Sessions.GetInviteCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_GetInviteIdByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_GetInviteIdByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Sessions_GetInviteIdByIndex(IntPtr handle, ref Sessions.GetInviteIdByIndexOptionsInternal options, IntPtr outBuffer, ref int inOutBufferLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_IsUserInSession", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_IsUserInSession", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Sessions_IsUserInSession(IntPtr handle, ref Sessions.IsUserInSessionOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_JoinSession", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_JoinSession", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sessions_JoinSession(IntPtr handle, ref Sessions.JoinSessionOptionsInternal options, IntPtr clientData, Sessions.OnJoinSessionCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_QueryInvites", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_QueryInvites", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sessions_QueryInvites(IntPtr handle, ref Sessions.QueryInvitesOptionsInternal options, IntPtr clientData, Sessions.OnQueryInvitesCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_RegisterPlayers", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_RegisterPlayers", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sessions_RegisterPlayers(IntPtr handle, ref Sessions.RegisterPlayersOptionsInternal options, IntPtr clientData, Sessions.OnRegisterPlayersCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_RejectInvite", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_RejectInvite", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sessions_RejectInvite(IntPtr handle, ref Sessions.RejectInviteOptionsInternal options, IntPtr clientData, Sessions.OnRejectInviteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_RemoveNotifyJoinSessionAccepted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_RemoveNotifyJoinSessionAccepted", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sessions_RemoveNotifyJoinSessionAccepted(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_RemoveNotifyLeaveSessionRequested", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_RemoveNotifyLeaveSessionRequested", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sessions_RemoveNotifyLeaveSessionRequested(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_RemoveNotifySessionInviteAccepted", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_RemoveNotifySessionInviteAccepted", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sessions_RemoveNotifySessionInviteAccepted(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_RemoveNotifySessionInviteReceived", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_RemoveNotifySessionInviteReceived", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sessions_RemoveNotifySessionInviteReceived(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_RemoveNotifySessionInviteRejected", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_RemoveNotifySessionInviteRejected", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sessions_RemoveNotifySessionInviteRejected(IntPtr handle, ulong inId);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_SendInvite", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_SendInvite", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sessions_SendInvite(IntPtr handle, ref Sessions.SendInviteOptionsInternal options, IntPtr clientData, Sessions.OnSendInviteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_StartSession", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_StartSession", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sessions_StartSession(IntPtr handle, ref Sessions.StartSessionOptionsInternal options, IntPtr clientData, Sessions.OnStartSessionCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_UnregisterPlayers", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_UnregisterPlayers", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sessions_UnregisterPlayers(IntPtr handle, ref Sessions.UnregisterPlayersOptionsInternal options, IntPtr clientData, Sessions.OnUnregisterPlayersCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_UpdateSession", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_UpdateSession", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Sessions_UpdateSession(IntPtr handle, ref Sessions.UpdateSessionOptionsInternal options, IntPtr clientData, Sessions.OnUpdateSessionCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Sessions_UpdateSessionModification", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Sessions_UpdateSessionModification", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Sessions_UpdateSessionModification(IntPtr handle, ref Sessions.UpdateSessionModificationOptionsInternal options, out IntPtr outSessionModificationHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Shutdown", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Shutdown", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Shutdown();
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Stats_CopyStatByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Stats_CopyStatByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Stats_CopyStatByIndex(IntPtr handle, ref Stats.CopyStatByIndexOptionsInternal options, out IntPtr outStat);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Stats_CopyStatByName", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Stats_CopyStatByName", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_Stats_CopyStatByName(IntPtr handle, ref Stats.CopyStatByNameOptionsInternal options, out IntPtr outStat);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Stats_GetStatsCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Stats_GetStatsCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_Stats_GetStatsCount(IntPtr handle, ref Stats.GetStatCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Stats_IngestStat", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Stats_IngestStat", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Stats_IngestStat(IntPtr handle, ref Stats.IngestStatOptionsInternal options, IntPtr clientData, Stats.OnIngestStatCompleteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Stats_QueryStats", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Stats_QueryStats", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Stats_QueryStats(IntPtr handle, ref Stats.QueryStatsOptionsInternal options, IntPtr clientData, Stats.OnQueryStatsCompleteCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Stats_Stat_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Stats_Stat_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Stats_Stat_Release(IntPtr stat);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_TitleStorageFileTransferRequest_CancelRequest", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_TitleStorageFileTransferRequest_CancelRequest", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_TitleStorageFileTransferRequest_CancelRequest(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_TitleStorageFileTransferRequest_GetFileRequestState", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_TitleStorageFileTransferRequest_GetFileRequestState", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_TitleStorageFileTransferRequest_GetFileRequestState(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_TitleStorageFileTransferRequest_GetFilename", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_TitleStorageFileTransferRequest_GetFilename", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_TitleStorageFileTransferRequest_GetFilename(IntPtr handle, uint filenameStringBufferSizeBytes, IntPtr outStringBuffer, out int outStringLength);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_TitleStorageFileTransferRequest_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_TitleStorageFileTransferRequest_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_TitleStorageFileTransferRequest_Release(IntPtr titleStorageFileTransferHandle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_TitleStorage_CopyFileMetadataAtIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_TitleStorage_CopyFileMetadataAtIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_TitleStorage_CopyFileMetadataAtIndex(IntPtr handle, ref TitleStorage.CopyFileMetadataAtIndexOptionsInternal options, out IntPtr outMetadata);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_TitleStorage_CopyFileMetadataByFilename", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_TitleStorage_CopyFileMetadataByFilename", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_TitleStorage_CopyFileMetadataByFilename(IntPtr handle, ref TitleStorage.CopyFileMetadataByFilenameOptionsInternal options, out IntPtr outMetadata);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_TitleStorage_DeleteCache", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_TitleStorage_DeleteCache", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_TitleStorage_DeleteCache(IntPtr handle, ref TitleStorage.DeleteCacheOptionsInternal options, IntPtr clientData, TitleStorage.OnDeleteCacheCompleteCallbackInternal completionCallback);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_TitleStorage_FileMetadata_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_TitleStorage_FileMetadata_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_TitleStorage_FileMetadata_Release(IntPtr fileMetadata);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_TitleStorage_GetFileMetadataCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_TitleStorage_GetFileMetadataCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_TitleStorage_GetFileMetadataCount(IntPtr handle, ref TitleStorage.GetFileMetadataCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_TitleStorage_QueryFile", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_TitleStorage_QueryFile", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_TitleStorage_QueryFile(IntPtr handle, ref TitleStorage.QueryFileOptionsInternal options, IntPtr clientData, TitleStorage.OnQueryFileCompleteCallbackInternal completionCallback);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_TitleStorage_QueryFileList", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_TitleStorage_QueryFileList", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_TitleStorage_QueryFileList(IntPtr handle, ref TitleStorage.QueryFileListOptionsInternal options, IntPtr clientData, TitleStorage.OnQueryFileListCompleteCallbackInternal completionCallback);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_TitleStorage_ReadFile", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_TitleStorage_ReadFile", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern IntPtr EOS_TitleStorage_ReadFile(IntPtr handle, ref TitleStorage.ReadFileOptionsInternal options, IntPtr clientData, TitleStorage.OnReadFileCompleteCallbackInternal completionCallback);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_AcknowledgeEventId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_AcknowledgeEventId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_UI_AcknowledgeEventId(IntPtr handle, ref UI.AcknowledgeEventIdOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_AddNotifyDisplaySettingsUpdated", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_AddNotifyDisplaySettingsUpdated", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_UI_AddNotifyDisplaySettingsUpdated(IntPtr handle, ref UI.AddNotifyDisplaySettingsUpdatedOptionsInternal options, IntPtr clientData, UI.OnDisplaySettingsUpdatedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_AddNotifyMemoryMonitor", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_AddNotifyMemoryMonitor", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_UI_AddNotifyMemoryMonitor(IntPtr handle, ref UI.AddNotifyMemoryMonitorOptionsInternal options, IntPtr clientData, UI.OnMemoryMonitorCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_AddNotifyOnScreenKeyboardRequested", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_AddNotifyOnScreenKeyboardRequested", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern ulong EOS_UI_AddNotifyOnScreenKeyboardRequested(IntPtr handle, ref UI.AddNotifyOnScreenKeyboardRequestedOptionsInternal options, IntPtr clientData, UI.OnScreenKeyboardRequestedCallbackInternal notificationFn);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_ConfigureOnScreenKeyboard", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_ConfigureOnScreenKeyboard", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_UI_ConfigureOnScreenKeyboard(IntPtr handle, ref UI.ConfigureOnScreenKeyboardOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_GetFriendsExclusiveInput", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_GetFriendsExclusiveInput", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern int EOS_UI_GetFriendsExclusiveInput(IntPtr handle, ref UI.GetFriendsExclusiveInputOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_GetFriendsVisible", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_GetFriendsVisible", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern int EOS_UI_GetFriendsVisible(IntPtr handle, ref UI.GetFriendsVisibleOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_GetNotificationLocationPreference", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_GetNotificationLocationPreference", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern UI.NotificationLocation EOS_UI_GetNotificationLocationPreference(IntPtr handle);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_GetToggleFriendsButton", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_GetToggleFriendsButton", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern UI.InputStateButtonFlags EOS_UI_GetToggleFriendsButton(IntPtr handle, ref UI.GetToggleFriendsButtonOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_GetToggleFriendsKey", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_GetToggleFriendsKey", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern UI.KeyCombination EOS_UI_GetToggleFriendsKey(IntPtr handle, ref UI.GetToggleFriendsKeyOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_HideFriends", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_HideFriends", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_UI_HideFriends(IntPtr handle, ref UI.HideFriendsOptionsInternal options, IntPtr clientData, UI.OnHideFriendsCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_IsSocialOverlayPaused", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_IsSocialOverlayPaused", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern int EOS_UI_IsSocialOverlayPaused(IntPtr handle, ref UI.IsSocialOverlayPausedOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_IsValidButtonCombination", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_IsValidButtonCombination", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern int EOS_UI_IsValidButtonCombination(IntPtr handle, UI.InputStateButtonFlags buttonCombination);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_IsValidKeyCombination", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_IsValidKeyCombination", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern int EOS_UI_IsValidKeyCombination(IntPtr handle, UI.KeyCombination keyCombination);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_PauseSocialOverlay", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_PauseSocialOverlay", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_UI_PauseSocialOverlay(IntPtr handle, ref UI.PauseSocialOverlayOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_PrePresent", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_PrePresent", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_UI_PrePresent(IntPtr handle, ref UI.PrePresentOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_RemoveNotifyDisplaySettingsUpdated", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_RemoveNotifyDisplaySettingsUpdated", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_UI_RemoveNotifyDisplaySettingsUpdated(IntPtr handle, ulong id);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_RemoveNotifyMemoryMonitor", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_RemoveNotifyMemoryMonitor", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_UI_RemoveNotifyMemoryMonitor(IntPtr handle, ulong id);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_RemoveNotifyOnScreenKeyboardRequested", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_RemoveNotifyOnScreenKeyboardRequested", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_UI_RemoveNotifyOnScreenKeyboardRequested(IntPtr handle, ulong id);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_ReportInputState", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_ReportInputState", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_UI_ReportInputState(IntPtr handle, ref UI.ReportInputStateOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_SetDisplayPreference", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_SetDisplayPreference", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_UI_SetDisplayPreference(IntPtr handle, ref UI.SetDisplayPreferenceOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_SetToggleFriendsButton", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_SetToggleFriendsButton", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_UI_SetToggleFriendsButton(IntPtr handle, ref UI.SetToggleFriendsButtonOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_SetToggleFriendsKey", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_SetToggleFriendsKey", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_UI_SetToggleFriendsKey(IntPtr handle, ref UI.SetToggleFriendsKeyOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_ShowBlockPlayer", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_ShowBlockPlayer", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_UI_ShowBlockPlayer(IntPtr handle, ref UI.ShowBlockPlayerOptionsInternal options, IntPtr clientData, UI.OnShowBlockPlayerCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_ShowFriends", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_ShowFriends", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_UI_ShowFriends(IntPtr handle, ref UI.ShowFriendsOptionsInternal options, IntPtr clientData, UI.OnShowFriendsCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_ShowNativeProfile", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_ShowNativeProfile", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_UI_ShowNativeProfile(IntPtr handle, ref UI.ShowNativeProfileOptionsInternal options, IntPtr clientData, UI.OnShowNativeProfileCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UI_ShowReportPlayer", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UI_ShowReportPlayer", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_UI_ShowReportPlayer(IntPtr handle, ref UI.ShowReportPlayerOptionsInternal options, IntPtr clientData, UI.OnShowReportPlayerCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UserInfo_BestDisplayName_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UserInfo_BestDisplayName_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_UserInfo_BestDisplayName_Release(IntPtr bestDisplayName);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UserInfo_CopyBestDisplayName", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UserInfo_CopyBestDisplayName", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_UserInfo_CopyBestDisplayName(IntPtr handle, ref UserInfo.CopyBestDisplayNameOptionsInternal options, out IntPtr outBestDisplayName);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UserInfo_CopyBestDisplayNameWithPlatform", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UserInfo_CopyBestDisplayNameWithPlatform", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_UserInfo_CopyBestDisplayNameWithPlatform(IntPtr handle, ref UserInfo.CopyBestDisplayNameWithPlatformOptionsInternal options, out IntPtr outBestDisplayName);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UserInfo_CopyExternalUserInfoByAccountId", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UserInfo_CopyExternalUserInfoByAccountId", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_UserInfo_CopyExternalUserInfoByAccountId(IntPtr handle, ref UserInfo.CopyExternalUserInfoByAccountIdOptionsInternal options, out IntPtr outExternalUserInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UserInfo_CopyExternalUserInfoByAccountType", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UserInfo_CopyExternalUserInfoByAccountType", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_UserInfo_CopyExternalUserInfoByAccountType(IntPtr handle, ref UserInfo.CopyExternalUserInfoByAccountTypeOptionsInternal options, out IntPtr outExternalUserInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UserInfo_CopyExternalUserInfoByIndex", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UserInfo_CopyExternalUserInfoByIndex", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_UserInfo_CopyExternalUserInfoByIndex(IntPtr handle, ref UserInfo.CopyExternalUserInfoByIndexOptionsInternal options, out IntPtr outExternalUserInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UserInfo_CopyUserInfo", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UserInfo_CopyUserInfo", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern Result EOS_UserInfo_CopyUserInfo(IntPtr handle, ref UserInfo.CopyUserInfoOptionsInternal options, out IntPtr outUserInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UserInfo_ExternalUserInfo_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UserInfo_ExternalUserInfo_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_UserInfo_ExternalUserInfo_Release(IntPtr externalUserInfo);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UserInfo_GetExternalUserInfoCount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UserInfo_GetExternalUserInfoCount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_UserInfo_GetExternalUserInfoCount(IntPtr handle, ref UserInfo.GetExternalUserInfoCountOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UserInfo_GetLocalPlatformType", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UserInfo_GetLocalPlatformType", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern uint EOS_UserInfo_GetLocalPlatformType(IntPtr handle, ref UserInfo.GetLocalPlatformTypeOptionsInternal options);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UserInfo_QueryUserInfo", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UserInfo_QueryUserInfo", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_UserInfo_QueryUserInfo(IntPtr handle, ref UserInfo.QueryUserInfoOptionsInternal options, IntPtr clientData, UserInfo.OnQueryUserInfoCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UserInfo_QueryUserInfoByDisplayName", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UserInfo_QueryUserInfoByDisplayName", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_UserInfo_QueryUserInfoByDisplayName(IntPtr handle, ref UserInfo.QueryUserInfoByDisplayNameOptionsInternal options, IntPtr clientData, UserInfo.OnQueryUserInfoByDisplayNameCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UserInfo_QueryUserInfoByExternalAccount", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UserInfo_QueryUserInfoByExternalAccount", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_UserInfo_QueryUserInfoByExternalAccount(IntPtr handle, ref UserInfo.QueryUserInfoByExternalAccountOptionsInternal options, IntPtr clientData, UserInfo.OnQueryUserInfoByExternalAccountCallbackInternal completionDelegate);
 
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_UserInfo_Release", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_UserInfo_Release", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_UserInfo_Release(IntPtr userInfo);
 #endif
 	}

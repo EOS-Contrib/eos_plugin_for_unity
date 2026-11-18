@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.P2P
 	/// </summary>
 	public delegate void OnQueryNATTypeCompleteCallback(ref OnQueryNATTypeCompleteInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnQueryNATTypeCompleteCallbackInternal(ref OnQueryNATTypeCompleteInfoInternal data);
 
 	internal static class OnQueryNATTypeCompleteCallbackInternalImplementation

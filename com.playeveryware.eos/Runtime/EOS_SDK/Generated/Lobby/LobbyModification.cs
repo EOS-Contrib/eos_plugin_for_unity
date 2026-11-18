@@ -14,6 +14,7 @@ namespace Epic.OnlineServices.Lobby
 		public LobbyModification(IntPtr innerHandle) : base(innerHandle)
 		{
 		}
+
 		/// <summary>
 		/// Associate an attribute with this lobby
 		/// An attribute is something may be public or private with the lobby.

@@ -31,6 +31,7 @@ EOS_DECLARE_FUNC(void) EOS_Ecom_QueryOwnership(EOS_HEcom Handle, const EOS_Ecom_
 /**
  * Query the ownership status of all catalog item IDs under the given list of Sandbox IDs defined with Epic Online Services.
  * This data will be cached for a limited time and retrieved again from the backend when necessary.
+ * Note: This will return both the Audience Item ID and Game Item ID listed in Dev Portal. The Game Item ID is used by the Launcher to store game metadata, and can be ignored.
  *
  * @param Options structure containing the account and Sandbox IDs to retrieve.
  * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate.
@@ -531,6 +532,19 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyTransactionById(EOS_HEcom Handle, con
  * @see EOS_Ecom_CopyTransactionByIndex
  */
 
+/**
+ * Copies the transaction ID into a buffer.
+ *
+ * @param OutBuffer Buffer to receive the null-terminated transaction ID, or null to get the required size.
+ * @param InOutBufferLength On input, the size of OutBuffer; on output, the required size including the null terminator.
+ *
+ * @see EOS_Ecom_Transaction_Release
+ *
+ * @return EOS_EResult containing the result of the operation.
+ * - EOS_Success if the transaction ID was copied into OutBuffer.
+ * - EOS_InvalidParameters if InOutBufferLength is null or the transaction handle is invalid.
+ * - EOS_LimitExceeded if OutBuffer is null or too small; InOutBufferLength is set to the required size.
+ */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_Transaction_GetTransactionId(EOS_Ecom_HTransaction Handle, char* OutBuffer, int32_t* InOutBufferLength);
 
 /**

@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.RTCAdmin
 		/// <summary>
 		/// The most recent version of the <see cref="QueryJoinRoomToken" /> API
 		/// </summary>
-		public const int QUERYJOINROOMTOKEN_API_LATEST = 2;
+		public const int QUERYJOINROOMTOKEN_API_LATEST = 3;
 		/// <summary>
 		/// The most recent version of the <see cref="SetParticipantHardMuteOptions" /> struct.
 		/// </summary>

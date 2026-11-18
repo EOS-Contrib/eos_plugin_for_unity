@@ -44,6 +44,7 @@ using UnityEngine.InputSystem;
 #endif
 
     using PlayEveryWare.EpicOnlineServices;
+    using PlayEveryWare.EpicOnlineServices.Utility;
 
     public class UILoginMenu : MonoBehaviour
     {
@@ -69,6 +70,10 @@ using UnityEngine.InputSystem;
         private Coroutine PreventLogIn = null;
         public Button logoutButton;
         public Button removePersistentTokenButton;
+
+        public GameObject ConnectLogoutRetryUI;
+        public Text ConnectLogoutResultCodeText;
+        public Button ConnectLogoutRetryButton;
 
         public UnityEvent OnLogin;
         public UnityEvent OnLogout;
@@ -98,6 +103,9 @@ using UnityEngine.InputSystem;
         public static string IdGlobalCache = string.Empty;
         public static string TokenGlobalCache = string.Empty;
 
+        // Cache the Login option from last success login
+        private static LoginCredentialType? LastSuccessLoginType = null; 
+
         private void Awake()
         {
             idInputField.InputField.onEndEdit.AddListener(CacheIdInputField);
@@ -120,6 +128,13 @@ using UnityEngine.InputSystem;
 #if !ENABLE_INPUT_SYSTEM && (UNITY_XBOXONE || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT || UNITY_PS4 || UNITY_PS5 || UNITY_SWITCH || UNITY_SWITCH2)
             Debug.LogError("Input currently handled by Input Manager. Input System Package is required for controller support on consoles.");
 #endif
+
+            if (LastSuccessLoginType != null)
+            {
+                loginType = LastSuccessLoginType.Value;
+            }
+
+            StartCoroutine(SetConnectLogoutRetryVisibleRoutine(false));
         }
 
         private void CacheIdInputField(string value)
@@ -489,8 +504,12 @@ using UnityEngine.InputSystem;
         }
 
         public void Update()
-        { 
-            HandleInput(ref selectedGameObject, ref UIFirstSelected, ref UIFindSelectable);
+        {
+            bool lockNavigation = ConnectLogoutRetryUI != null && ConnectLogoutRetryUI.activeSelf;
+            if (!lockNavigation)
+            {
+                HandleInput(ref selectedGameObject, ref UIFirstSelected, ref UIFindSelectable);
+            }
 
             HandleEnterInput();
 
@@ -875,12 +894,32 @@ using UnityEngine.InputSystem;
 
             if (EOSManager.Instance.GetLocalUserId() == null)
             {
-                EOSManager.Instance.ClearConnectId(EOSManager.Instance.GetProductUserId());
-                ConfigureUIForLogin();
+                EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo data) =>
+                {
+                    if (!data.ResultCode.IsOperationComplete())
+                    { 
+                        return; 
+                    }
+
+                    if (data.ResultCode == Result.Success)
+                    {
+                        print($"Connect Logout Successful. ProductUserId : {data.LocalUserId.Redact()}");                        
+                        ConfigureUIForLogin();
+                    }
+                    else
+                    {
+                        print($"Connect Logout Failure. Result : [{data.ResultCode}]");
+                    }
+                });
                 return;
             }
 
-            EOSManager.Instance.StartLogout(EOSManager.Instance.GetLocalUserId(), (ref LogoutCallbackInfo data) => {
+            EOSManager.Instance.StartAuthLogout(EOSManager.Instance.GetLocalUserId(), (ref LogoutCallbackInfo data) => {
+                if (!data.ResultCode.IsOperationComplete())
+                {
+                    return;
+                }
+
                 if (data.ResultCode == Result.Success)
                 {
 #if (UNITY_PS4 || UNITY_PS5) && !UNITY_EDITOR
@@ -893,10 +932,14 @@ using UnityEngine.InputSystem;
                     ///TODO: Use activating controller index here
                     psnManager.StartLogoutWithPSN(0);
 #endif
-                    print("Logout Successful. [" + data.ResultCode + "]");
+                    print("Auth Logout Successful. [" + data.ResultCode + "]");
                     ConfigureUIForLogin();
+                    StartConnectLogoutWithRetryUI();
                 }
-
+                else
+                {
+                    print($"Auth Logout Failure. Result : [{data.ResultCode}]");
+                }
             });
         }
 
@@ -1393,6 +1436,10 @@ using UnityEngine.InputSystem;
             {
                 ConfigureUIForLogin();
             }
+            else
+            {
+                LastSuccessLoginType = loginType;
+            }
         }
 
         public void OnRemovePersistentTokenButtonClick()
@@ -1400,5 +1447,86 @@ using UnityEngine.InputSystem;
             EOSManager.Instance.RemovePersistentToken();
         }
 
+        private IEnumerator SetConnectLogoutRetryVisibleRoutine(bool visible, Result result = Result.Success, float delayHide = 0)
+        {
+            if (ConnectLogoutRetryUI != null)
+            {
+                if (ConnectLogoutRetryUI.activeSelf && delayHide > 0)
+                {
+                    yield return new WaitForSeconds(delayHide);
+                }
+
+                if (ConnectLogoutResultCodeText != null)
+                {
+                    ConnectLogoutResultCodeText.text = $"Result Code : [{result}]";
+                }
+
+                ConnectLogoutRetryUI.SetActive(visible);
+
+                if (visible)
+                {
+                    // Bring ConnectLogoutRetryUI to the front so it is drawn above the login menu
+                    ConnectLogoutRetryUI.transform.SetAsLastSibling();
+
+                    if (ConnectLogoutRetryButton != null)
+                    {
+                        ConnectLogoutRetryButton.interactable = true;
+                        EventSystem.current.SetSelectedGameObject(ConnectLogoutRetryButton.gameObject);
+                    }
+                }
+                else
+                {
+                    if (EventSystem.current != null && UIFirstSelected != null)
+                    {
+                        EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+                    }
+                }
+            }
+        }
+
+        public void OnConnectLogoutRetryClicked()
+        {
+            if (ConnectLogoutRetryButton != null)
+            {
+                ConnectLogoutRetryButton.interactable = false;
+            }
+
+            if (ConnectLogoutResultCodeText != null)
+            {
+                ConnectLogoutResultCodeText.text = "Retrying...";
+            }
+
+            StartConnectLogoutWithRetryUI();
+        }
+
+        private void StartConnectLogoutWithRetryUI()
+        {
+            if (EOSManager.Instance.HasLoggedInWithConnect())
+            {
+                EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo connectData) =>
+                {
+                    if (!connectData.ResultCode.IsOperationComplete())
+                    {
+                        return;
+                    }
+
+                    bool success = connectData.ResultCode == Result.Success;
+                    StartCoroutine(SetConnectLogoutRetryVisibleRoutine(!success, connectData.ResultCode, 1f));
+
+                    if (success)
+                    {
+                        print($"Connect Logout Successful. ProductUserId : {connectData.LocalUserId.Redact()}");
+                    }
+                    else
+                    {
+                        print($"Connect Logout Failure. Result : [{connectData.ResultCode}]");
+                    }
+                });
+            }
+            else
+            {
+                StartCoroutine(SetConnectLogoutRetryVisibleRoutine(false));
+            }
+        }
     }
 }

@@ -36,6 +36,7 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="Result.NoConnection" />: There was a network issue connecting to the server. We will attempt to reconnect soon.
 		/// <see cref="Result.UserKicked" />: The user has been kicked by the server. We will not reconnect.
 		/// <see cref="Result.UserBanned" />: The user has been banned by the server. We will not reconnect.
+		/// <see cref="Result.DuplicateSession" />: The same user joined this room from another session, which now holds the room. We will not reconnect, as doing so would displace the newer session.
 		/// <see cref="Result.ServiceFailure" />: A known error occurred during interaction with the server. We will attempt to reconnect soon.
 		/// <see cref="Result.UnexpectedError" />: Unexpected error. We will attempt to reconnect soon.
 		/// </summary>

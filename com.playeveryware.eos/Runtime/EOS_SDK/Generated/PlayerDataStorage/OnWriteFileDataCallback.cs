@@ -24,7 +24,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// </returns>
 	public delegate WriteResult OnWriteFileDataCallback(ref WriteFileDataCallbackInfo data, out ArraySegment<byte> outDataBuffer);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate WriteResult OnWriteFileDataCallbackInternal(ref WriteFileDataCallbackInfoInternal data, IntPtr outDataBuffer, out uint outDataWritten);
 
 	internal static class OnWriteFileDataCallbackInternalImplementation

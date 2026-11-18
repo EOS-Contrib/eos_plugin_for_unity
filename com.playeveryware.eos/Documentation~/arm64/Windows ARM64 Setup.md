@@ -14,7 +14,7 @@ Windows ARM64 support for Standalone builds is available in **Unity 6.0 and late
 
 * Unity 6.0.0 or newer
 * Windows ARM64 build support module installed
-* The [EOS C# SDK](https://dev.epicgames.com/docs/game-services/eos-sdk/eos-sdk-csharp-overview) with the manual modifications described below
+* The [EOS C# SDK](https://dev.epicgames.com/docs/epic-online-services/working-with-the-eos-sdk/eossdkc-sharp-getting-started) with the manual modifications described below
 
 ---
 
@@ -77,7 +77,7 @@ The EOS C# SDK requires manual changes to support Windows ARM64 in Unity. These 
 
 ### `SDK/Source/Core/Common.cs`
 
-Add a check for `EOS_PLATFORM_WINDOWS_ARM64` above the existing Windows platform defines, and add a corresponding entry for the ARM64 library name (as per step 3 of the [EOS C# SDK setup guide](https://dev.epicgames.com/docs/game-services/eos-sdk/eos-sdk-csharp-overview)). The ARM64 library name is `EOSSDK-Win64-Shippingarm64` (omit the `.dll` extension for Unity projects).
+Add a check for `EOS_PLATFORM_WINDOWS_ARM64` above the existing Windows platform defines, and add a corresponding entry for the ARM64 library name (as per step 3 of the [EOS C# SDK setup guide](https://dev.epicgames.com/docs/epic-online-services/working-with-the-eos-sdk/eossdkc-sharp-getting-started)). The ARM64 library name is `EOSSDK-Win64-Shippingarm64` (omit the `.dll` extension for Unity projects).
 
 ```csharp
 #if EOS_PLATFORM_WINDOWS_ARM64

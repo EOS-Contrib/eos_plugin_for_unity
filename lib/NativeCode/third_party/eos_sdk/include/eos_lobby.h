@@ -465,6 +465,12 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Lobby_CopyLobbyDetailsHandleByUiEventId(EOS_HL
  * Create a handle to an existing lobby.
  * If the call returns an EOS_Success result, the out parameter, OutLobbyDetailsHandle, must be passed to EOS_LobbyDetails_Release to release the memory associated with it.
  *
+ * While the local user remains a member, this handle is a live view of the lobby: it reflects later membership and
+ * data changes, so you may keep and re-query it. When the local user leaves or is kicked, the SDK stops updating the
+ * handle; it freezes as a snapshot of the membership just before departure (and still lists the local user). Treat the
+ * EOS_Lobby_AddNotifyLobbyMemberStatusReceived notification as the authoritative signal for your own leave/kick rather
+ * than re-querying, and release the handle. A fresh EOS_Lobby_CopyLobbyDetailsHandle call then returns EOS_NotFound.
+ *
  * @param Options Structure containing information about the lobby to retrieve
  * @param OutLobbyDetailsHandle The new active lobby handle or null if there was an error
  *
@@ -567,7 +573,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Lobby_IsRTCRoomConnected(EOS_HLobby Handle, co
  * from the RTC room when a lobby is left or disconnected.
  *
  * This notification is entirely informational and requires no action in response by the application. If the connected status is offline
- * (bIsConnected is EOS_FALSE), the connection will automatically attempt to reconnect. The purpose of this notification is to allow
+ * (bIsConnected is EOS_FALSE), the connection will automatically attempt to reconnect, except for terminal disconnect reasons such as
+ * EOS_RTC_UserKicked, EOS_RTC_UserBanned and EOS_RTC_DuplicateSession - see DisconnectReason. The purpose of this notification is to allow
  * applications to show the current connection status of the RTC room when the connection is not established.
  *
  * Unlike EOS_RTC_AddNotifyDisconnected, EOS_RTC_LeaveRoom should not be called when the RTC room is disconnected.

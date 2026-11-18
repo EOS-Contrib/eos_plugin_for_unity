@@ -23,11 +23,17 @@
 	#endif
 #endif
 
+#if UNITY_EDITOR
+	#define EOS_EDITOR
+#endif
+#if UNITY_EDITOR || UNITY_IOS
+	#define EOS_UNITY
+#endif
 #if UNITY_IOS || __IOS__
 	#define EOS_PLATFORM_IOS
 #endif
 
-#if EOS_PLATFORM_IOS
+#if EOS_PLATFORM_IOS && !EOS_EDITOR
 using System;
 using System.Runtime.InteropServices;
 
@@ -37,6 +43,7 @@ namespace Epic.OnlineServices
 	{
 #if EOS_DYNAMIC_BINDINGS_MANGLING_APPLE
 		private const string EOS_Auth_Login_IOSName = "_EOS_Auth_Login_IOS";
+		private const string EOS_IOS_Auth_HandleRedirectURLName = "_EOS_IOS_Auth_HandleRedirectURL";
 #endif
 
 #if EOS_DYNAMIC_BINDINGS
@@ -52,6 +59,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Auth_Login_IOSName);
 			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_Auth_Login_IOSName);
 			EOS_Auth_Login_IOS = (EOS_Auth_Login_IOSDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_Login_IOSDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_IOS_Auth_HandleRedirectURLName);
+			if (functionPointer == IntPtr.Zero) throw new DynamicBindingException(EOS_IOS_Auth_HandleRedirectURLName);
+			EOS_IOS_Auth_HandleRedirectURL = (EOS_IOS_Auth_HandleRedirectURLDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_IOS_Auth_HandleRedirectURLDelegate));
 		}
 
 		/// <summary>
@@ -60,14 +71,22 @@ namespace Epic.OnlineServices
 		public static void Unhook()
 		{
 			EOS_Auth_Login_IOS = null;
+			EOS_IOS_Auth_HandleRedirectURL = null;
 		}
 
-		[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 		internal delegate void EOS_Auth_Login_IOSDelegate(IntPtr handle, ref Auth.IOSLoginOptionsInternal options, IntPtr clientData, Auth.OnLoginCallbackInternal completionDelegate);
 		internal static EOS_Auth_Login_IOSDelegate EOS_Auth_Login_IOS;
+
+		[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
+		internal delegate Result EOS_IOS_Auth_HandleRedirectURLDelegate(IntPtr handle, ref Auth.IOSHandleRedirectURLOptionsInternal options);
+		internal static EOS_IOS_Auth_HandleRedirectURLDelegate EOS_IOS_Auth_HandleRedirectURL;
 #else
-		[DllImport(Common.LIBRARY_NAME, EntryPoint="EOS_Auth_Login", CallingConvention=Common.LIBRARY_CALLING_CONVENTION)]
+		[DllImport(Library.NAME, EntryPoint="EOS_Auth_Login", CallingConvention=Library.CALLING_CONVENTION)]
 		internal static extern void EOS_Auth_Login_IOS(IntPtr handle, ref Auth.IOSLoginOptionsInternal options, IntPtr clientData, Auth.OnLoginCallbackInternal completionDelegate);
+
+		[DllImport(Library.NAME, EntryPoint="EOS_IOS_Auth_HandleRedirectURL", CallingConvention=Library.CALLING_CONVENTION)]
+		internal static extern Result EOS_IOS_Auth_HandleRedirectURL(IntPtr handle, ref Auth.IOSHandleRedirectURLOptionsInternal options);
 #endif
 	}
 }

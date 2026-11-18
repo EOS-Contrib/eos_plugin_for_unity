@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.P2P
 	/// </summary>
 	public delegate void OnIncomingConnectionRequestCallback(ref OnIncomingConnectionRequestInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnIncomingConnectionRequestCallbackInternal(ref OnIncomingConnectionRequestInfoInternal data);
 
 	internal static class OnIncomingConnectionRequestCallbackInternalImplementation

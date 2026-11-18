@@ -44,6 +44,16 @@ namespace Epic.OnlineServices
 			to = from;
 		}
 
+		internal static void Get(Utf8String from, out uint to)
+		{
+			to = 0;
+
+			if (from != null)
+			{
+				to = (uint)from.Length;
+			}
+		}
+
 		internal static void Get(int from, out bool to)
 		{
 			Convert(from, out to);

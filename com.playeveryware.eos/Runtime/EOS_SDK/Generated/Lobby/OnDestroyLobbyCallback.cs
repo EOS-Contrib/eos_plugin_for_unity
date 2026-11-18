@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	/// </param>
 	public delegate void OnDestroyLobbyCallback(ref DestroyLobbyCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnDestroyLobbyCallbackInternal(ref DestroyLobbyCallbackInfoInternal data);
 
 	internal static class OnDestroyLobbyCallbackInternalImplementation

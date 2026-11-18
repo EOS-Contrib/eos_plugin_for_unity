@@ -2,6 +2,32 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.3.0] - 2026-11-17
+
+### Added
+- Add: `EOSManager.StartConnectLogout` to log out of the Connect interface, with `IEOSOnConnectLogout` and `EOSManager.AddConnectLogoutListener` / `RemoveConnectLogoutListener` for logout notifications. Pull request [#1322](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1322).
+- Add: `EOSManager.StartAuthLogout` to log out of the Auth interface. Pull request [#1322](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1322).
+- Add: EOS SDK public symbols are now included in the package under `Symbols~/`. Pull request [#1335](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1335).
+
+### Changed
+- Change: New EOS SDK version 1.20.0.3-CL60063259
+- Change: `EOSManager.StartLogout` is now obsolete; use `EOSManager.StartAuthLogout` instead. Pull request [#1322](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1322).
+- Change: Documentation now states that Windows games must ship the Visual C++ runtime required by the EOS SDK. Pull request [#1328](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1328).
+- Change: Sample logout now also logs out of Connect after the Auth logout. Pull request [#1322](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1322).
+- Change: Sample login menu now remembers the last successful login type. Pull request [#1320](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1320).
+- Change: Fixed broken links and formatting in the documentation. Pull request [#1337](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1337).
+
+### Fixed
+- Fix: Sample sessions manager did not inform session members when the local user logged out. Pull request [#1323](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1323).
+- Fix: Sample friends manager did not remove its friend and presence update handlers on Auth logout. Pull request [#1327](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1327).
+- Fix: Sample logout now offers a retry if the Connect logout fails. Pull request [#1329](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1329).
+- Fix: Sample lobby modification with an empty Bucket ID field now keeps the lobby's current Bucket ID. Pull request [#1321](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1321).
+- Fix: Sample console input field did not submit text when the on-screen keyboard closed on Unity 6. Pull request [#1325](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1325).
+
+### Removed
+- Remove: `EOSManager.ClearConnectId`; use `EOSManager.StartConnectLogout` instead. Pull request [#1322](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1322).
+- Remove: Sample no longer references the `Password` login credential type, as EOS SDK 1.20 deprecated it and no longer supports it. Pull request [#1334](https://github.com/EOS-Contrib/eos_plugin_for_unity/pull/1334).
+
 ## [6.2.0] - 2026-09-22
 
 ### Changed

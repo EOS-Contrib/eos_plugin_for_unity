@@ -14,14 +14,20 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		public IntegratedPlatformOptionsContainer(IntPtr innerHandle) : base(innerHandle)
 		{
 		}
+
 		/// <summary>
 		/// Adds an integrated platform options to the container.
+		/// <see cref="IntegratedPlatformOptionsContainerAddOptions" />
 		/// </summary>
 		/// <param name="inOptions">
-		/// Object containing properties related to setting a user's Status
+		/// Structure containing the integrated platform options to add.
 		/// </param>
 		/// <returns>
-		/// Success if modification was added successfully, otherwise an error code related to the problem
+		/// <see cref="Result" /> containing the result of the operation.
+		/// - <see cref="Result.Success" /> if the options were added to the container.
+		/// - <see cref="Result.IncompatibleVersion" /> if an API version is incorrect.
+		/// - <see cref="Result.InvalidParameters" /> if the options or flags are invalid.
+		/// - <see cref="Result.UnexpectedError" /> if the options could not be copied into the container.
 		/// </returns>
 		public Result Add(ref IntegratedPlatformOptionsContainerAddOptions inOptions)
 		{
