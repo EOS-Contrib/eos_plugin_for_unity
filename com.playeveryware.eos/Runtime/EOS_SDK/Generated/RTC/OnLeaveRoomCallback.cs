@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.RTC
 	/// </summary>
 	public delegate void OnLeaveRoomCallback(ref LeaveRoomCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnLeaveRoomCallbackInternal(ref LeaveRoomCallbackInfoInternal data);
 
 	internal static class OnLeaveRoomCallbackInternalImplementation

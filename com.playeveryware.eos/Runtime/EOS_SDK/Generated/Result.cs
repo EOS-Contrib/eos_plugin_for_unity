@@ -920,6 +920,14 @@ namespace Epic.OnlineServices
 		/// </summary>
 		RoomOptionsMismatch = 13012,
 		/// <summary>
+		/// EOS RTC connection failed, the media server rejected the request because the room was not found
+		/// </summary>
+		RoomNotFound = 13014,
+		/// <summary>
+		/// EOS RTC room connection was replaced because the same user joined the room from another session, which now holds the room
+		/// </summary>
+		DuplicateSession = 13015,
+		/// <summary>
 		/// The number of available Snapshot IDs have all been exhausted.
 		/// </summary>
 		ProgressionSnapshotSnapshotIdUnavailable = 14000,

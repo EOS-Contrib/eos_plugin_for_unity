@@ -205,12 +205,15 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// If the login status of a user changes, a Integrated Platform User Login Status Changed notification will fire, and depending on the state
 		/// of the user's login and the platform, the EOS SDK might start fetching data for the user, it may clear cached data, or it may do nothing.
 		/// 
+		/// Call this function only after the local user's <see cref="Connect.ConnectInterface.Login" /> has completed; otherwise integrated platform
+		/// data such as the friends and block lists may not be fetched for that user.
+		/// 
 		/// If the login status of a user is not different from a previous call to this function, the function will do nothing and return <see cref="Result.Success" />.
 		/// This will not trigger a call to the Integrated Platform User Login Status Changed.
 		/// <see cref="SetUserLoginStatusOptions" />
 		/// </summary>
 		/// <param name="options">
-		/// 
+		/// Object containing properties related to setting a user login status
 		/// </param>
 		/// <returns>
 		/// <see cref="Result" /> containing the result of the operation.
@@ -250,7 +253,7 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// <see cref="FinalizeDeferredUserLogout" />
 		/// </summary>
 		/// <param name="options">
-		/// Data that specifies the API version.
+		/// Object containing properties related to setting a user's pre logout callback.
 		/// </param>
 		/// <param name="clientData">
 		/// An optional context <see cref="IntPtr" /> that is returned in the callback data.

@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Friends
 	/// </param>
 	public delegate void OnAcceptInviteCallback(ref AcceptInviteCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnAcceptInviteCallbackInternal(ref AcceptInviteCallbackInfoInternal data);
 
 	internal static class OnAcceptInviteCallbackInternalImplementation

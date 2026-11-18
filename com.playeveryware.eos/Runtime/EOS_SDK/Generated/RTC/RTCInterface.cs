@@ -464,6 +464,8 @@ namespace Epic.OnlineServices.RTC
 		/// Use this function to control settings for the specific room.
 		/// 
 		/// The available settings are documented as part of <see cref="SetRoomSettingOptions" />.
+		/// The room must exist before calling this function (e.g. by registering a notification via <see cref="AddNotifyRoomBeforeJoin" />).
+		/// Settings must be configured before calling <see cref="JoinRoom" />. Changes made after joining a room will not take effect.
 		/// <see cref="SetRoomSettingOptions" />
 		/// </summary>
 		/// <param name="options">
@@ -492,6 +494,8 @@ namespace Epic.OnlineServices.RTC
 		/// Use this function to control settings.
 		/// 
 		/// The available settings are documented as part of <see cref="SetSettingOptions" />.
+		/// This sets the default value used when joining all future rooms. Settings must be configured before calling
+		/// <see cref="JoinRoom" />. Changes made after joining a room will not take effect.
 		/// <see cref="SetSettingOptions" />
 		/// </summary>
 		/// <param name="options">

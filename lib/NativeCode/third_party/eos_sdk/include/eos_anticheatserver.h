@@ -67,6 +67,11 @@ EOS_DECLARE_FUNC(void) EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged(E
  * Possible result codes:
  * - EOS_Success - If the initialization succeeded
  * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotConfigured - If EOS_AntiCheatServer_AddNotifyMessageToClient or EOS_AntiCheatServer_AddNotifyClientActionRequired has not been bound
+ * - EOS_AlreadyConfigured - If a session is already active
+ * - EOS_InvalidUser - If LocalUserId is required and is not an authenticated local user
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
+ * - EOS_InvalidState - If called from a thread other than the one that created the EOS SDK platform
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_BeginSession(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_BeginSessionOptions* Options);
 
@@ -79,6 +84,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_BeginSession(EOS_HAntiCheatSer
  * Possible result codes:
  * - EOS_Success - If the initialization succeeded
  * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotConfigured - If no session is active
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
+ * - EOS_InvalidState - If called from a thread other than the one that created the EOS SDK platform
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_EndSession(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_EndSessionOptions* Options);
 
@@ -94,6 +102,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_EndSession(EOS_HAntiCheatServe
  * Possible result codes:
  * - EOS_Success - If the player was registered successfully
  * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotConfigured - If no session is active
+ * - EOS_UnexpectedError - If ClientHandle is already registered
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
+ * - EOS_InvalidState - If called from a thread other than the one that created the EOS SDK platform
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_RegisterClient(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_RegisterClientOptions* Options);
 
@@ -109,6 +121,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_RegisterClient(EOS_HAntiCheatS
  * Possible result codes:
  * - EOS_Success - If the player was unregistered successfully
  * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotConfigured - If no session is active
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
+ * - EOS_InvalidState - If called from a thread other than the one that created the EOS SDK platform
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_UnregisterClient(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_UnregisterClientOptions* Options);
 
@@ -123,8 +138,12 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_UnregisterClient(EOS_HAntiChea
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
  * - EOS_Success - If the message was processed successfully
- * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_InvalidParameters - If input data was invalid, or ClientHandle is not a registered client
  * - EOS_InvalidRequest - If message contents were corrupt and could not be processed
+ * - EOS_NotConfigured - If no session is active
+ * - EOS_UnexpectedError - If the message produced an unrecognised internal result
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
+ * - EOS_InvalidState - If called from a thread other than the one that created the EOS SDK platform
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_ReceiveMessageFromClient(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_ReceiveMessageFromClientOptions* Options);
 
@@ -139,7 +158,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_ReceiveMessageFromClient(EOS_H
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
  * - EOS_Success - If the flags were updated successfully
- * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_InvalidParameters - If input data was invalid, or ClientHandle is not a registered client
+ * - EOS_NotConfigured - If no session is active
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
+ * - EOS_InvalidState - If called from a thread other than the one that created the EOS SDK platform
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_SetClientDetails(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_SetClientDetailsOptions* Options);
 
@@ -156,6 +178,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_SetClientDetails(EOS_HAntiChea
  * Possible result codes:
  * - EOS_Success - If the game session identifier was set successfully
  * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_NotConfigured - If no session is active
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
+ * - EOS_InvalidState - If called from a thread other than the one that created the EOS SDK platform
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_SetGameSessionId(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_SetGameSessionIdOptions* Options);
 
@@ -174,7 +199,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_SetGameSessionId(EOS_HAntiChea
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
  * - EOS_Success - If the network state was updated successfully
- * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_InvalidParameters - If input data was invalid, or ClientHandle is not a registered client
+ * - EOS_NotConfigured - If no session is active
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
+ * - EOS_InvalidState - If called from a thread other than the one that created the EOS SDK platform
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_SetClientNetworkState(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_SetClientNetworkStateOptions* Options);
 
@@ -189,7 +217,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_SetClientNetworkState(EOS_HAnt
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
  * - EOS_Success - If the output length was calculated successfully
- * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_GetProtectMessageOutputLength(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_GetProtectMessageOutputLengthOptions* Options, uint32_t* OutBufferSizeBytes);
 
@@ -206,8 +234,11 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_GetProtectMessageOutputLength(
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
  * - EOS_Success - If the message was protected successfully
- * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_InvalidParameters - If input data was invalid, or OutBuffer is too small for the protected message
  * - EOS_InvalidUser - If the specified ClientHandle was invalid or not currently registered. See RegisterClient.
+ * - EOS_AntiCheat_ProtectMessageInitializationFailed - If the message encryption state for the client could not be initialized
+ * - EOS_UnexpectedError - If the encryption operation failed
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_ProtectMessage(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_ProtectMessageOptions* Options, void* OutBuffer, uint32_t* OutBytesWritten);
 
@@ -224,7 +255,13 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_ProtectMessage(EOS_HAntiCheatS
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
  * - EOS_Success - If the message was unprotected successfully
- * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_InvalidParameters - If input data was invalid, Data is shorter than a protected message, or OutBuffer is too small for the decrypted message
+ * - EOS_InvalidUser - If the specified ClientHandle was invalid or not currently registered. See RegisterClient.
+ * - EOS_AntiCheat_ProtectMessageValidationFailed - If the message number was rejected, for example a replayed or badly out of order message
+ * - EOS_AntiCheat_ProtectMessageSessionKeyRequired - If the message was encrypted with a session key that this side has not received yet
+ * - EOS_AntiCheat_ProtectMessageInitializationFailed - If the message encryption state for the client could not be initialized
+ * - EOS_UnexpectedError - If the decryption or authentication tag check failed
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK, or the message was produced by a newer message format than this SDK understands
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_UnprotectMessage(EOS_HAntiCheatServer Handle, const EOS_AntiCheatServer_UnprotectMessageOptions* Options, void* OutBuffer, uint32_t* OutBytesWritten);
 
@@ -240,7 +277,9 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_UnprotectMessage(EOS_HAntiChea
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
  * - EOS_Success - If the event was registered successfully
- * - EOS_InvalidParameters - If input data was invalid
+ * - EOS_InvalidParameters - If input data was invalid, or EventId has already been registered
+ * - EOS_InvalidState - If called after EOS_AntiCheatServer_BeginSession has been called for the first time
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_RegisterEvent(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_RegisterEventOptions* Options);
 
@@ -256,8 +295,10 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_RegisterEvent(EOS_HAntiCheatSe
  * @return EOS_EResult containing the result of the operation.
  * Possible result codes:
  * - EOS_Success - If the event was logged successfully
- * - EOS_InvalidParameters - If input data was invalid
- * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * - EOS_InvalidParameters - If input data was invalid, or the event type does not match the presence of ClientHandle (player events require it, game events must not set it)
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries, if bEnableGameplayData was false in EOS_AntiCheatServer_BeginSession, or if EventId was not registered with EOS_AntiCheatServer_RegisterEvent
+ * - EOS_NotFound - If ClientHandle is not a registered client
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogEvent(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogEventOptions* Options);
 
@@ -274,7 +315,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogEvent(EOS_HAntiCheatServer 
  * Possible result codes:
  * - EOS_Success - If the event was logged successfully
  * - EOS_InvalidParameters - If input data was invalid
- * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was false in EOS_AntiCheatServer_BeginSession
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogGameRoundStart(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogGameRoundStartOptions* Options);
 
@@ -291,7 +333,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogGameRoundStart(EOS_HAntiChe
  * Possible result codes:
  * - EOS_Success - If the event was logged successfully
  * - EOS_InvalidParameters - If input data was invalid
- * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was false in EOS_AntiCheatServer_BeginSession
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogGameRoundEnd(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogGameRoundEndOptions* Options);
 
@@ -308,7 +351,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogGameRoundEnd(EOS_HAntiCheat
  * Possible result codes:
  * - EOS_Success - If the event was logged successfully
  * - EOS_InvalidParameters - If input data was invalid
- * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was false in EOS_AntiCheatServer_BeginSession
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerSpawn(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogPlayerSpawnOptions* Options);
 
@@ -326,7 +370,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerSpawn(EOS_HAntiCheatS
  * Possible result codes:
  * - EOS_Success - If the event was logged successfully
  * - EOS_InvalidParameters - If input data was invalid
- * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was false in EOS_AntiCheatServer_BeginSession
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerDespawn(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogPlayerDespawnOptions* Options);
 
@@ -343,7 +388,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerDespawn(EOS_HAntiChea
  * Possible result codes:
  * - EOS_Success - If the event was logged successfully
  * - EOS_InvalidParameters - If input data was invalid
- * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was false in EOS_AntiCheatServer_BeginSession
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerRevive(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogPlayerReviveOptions* Options);
 
@@ -360,7 +406,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerRevive(EOS_HAntiCheat
  * Possible result codes:
  * - EOS_Success - If the event was logged successfully
  * - EOS_InvalidParameters - If input data was invalid
- * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was false in EOS_AntiCheatServer_BeginSession
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerTick(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogPlayerTickOptions* Options);
 
@@ -377,7 +424,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerTick(EOS_HAntiCheatSe
  * Possible result codes:
  * - EOS_Success - If the event was logged successfully
  * - EOS_InvalidParameters - If input data was invalid
- * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was false in EOS_AntiCheatServer_BeginSession
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerUseWeapon(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogPlayerUseWeaponOptions* Options);
 
@@ -395,7 +443,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerUseWeapon(EOS_HAntiCh
  * Possible result codes:
  * - EOS_Success - If the event was logged successfully
  * - EOS_InvalidParameters - If input data was invalid
- * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was false in EOS_AntiCheatServer_BeginSession
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerUseAbility(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogPlayerUseAbilityOptions* Options);
 
@@ -412,6 +461,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerUseAbility(EOS_HAntiC
  * Possible result codes:
  * - EOS_Success - If the event was logged successfully
  * - EOS_InvalidParameters - If input data was invalid
- * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries
+ * - EOS_NotConfigured - If called outside of BeginSession/EndSession boundaries, or if bEnableGameplayData was false in EOS_AntiCheatServer_BeginSession
+ * - EOS_IncompatibleVersion - If the ApiVersion of Options is not supported by this version of the SDK
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatServer_LogPlayerTakeDamage(EOS_HAntiCheatServer Handle, const EOS_AntiCheatCommon_LogPlayerTakeDamageOptions* Options);

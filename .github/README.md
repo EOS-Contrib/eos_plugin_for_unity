@@ -1,8 +1,8 @@
 <div align="left">
   
-<a href="">[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)</a>
-<a href="">![Unity](https://img.shields.io/badge/Unity-2021.3.16f1-blue)</a>
-<img src="/tools/coverage/results/Report/badge_linecoverage.svg" />
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg"/></a>
+<img src="https://img.shields.io/badge/Unity-2021.3.16f1-blue"/>
+<img src="https://raw.githubusercontent.com/EOS-Contrib/eos_plugin_for_unity/stable/tools/coverage/results/Report/badge_linecoverage.svg" />
 
 </div>
 
@@ -26,11 +26,14 @@ See [this](/com.playeveryware.eos/Documentation~/plugin_advantages.md) for a mor
 ## Prerequisites
 
 * [An Epic Games account](https://www.epicgames.com/id/register) (_although, most [features](#exploring-supported-eos-features) do not require your users to have an Epic Games account, you must have one to configure your game in the Epic Games Developer Portal_).
-* A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/).
+* A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/) (see [Full Guide to Implementing the EOS Plugin for Unity](/com.playeveryware.eos/Documentation~/getting_started_guide/README.md) for steps on configuring a product). 
 * A Unity project to integrate the plugin into.
 
 > [!NOTE]
 > Your system should also satisfy [Unity's system requirements](https://docs.unity3d.com/Manual/system-requirements.html) as well as the [EOS system requirements](https://dev.epicgames.com/docs/epic-online-services/eos-get-started/system-requirements)
+
+> [!IMPORTANT]
+> **Windows:** the EOS SDK requires the Microsoft Visual C++ runtime (`MSVCP140.dll`, `VCRUNTIME140.dll` and `VCRUNTIME140_1.dll`) on your players' machines, and the plugin does not include it. A plugin update that brings in a newer EOS SDK can require a newer runtime than your players have installed, and the game will fail to launch for them. Ship the runtime with your game as described in the [Epic Games Store prerequisites guide](https://dev.epicgames.com/docs/epic-games-store/services/game-prereqs-installer), and refresh it from the [latest Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist) whenever you update the plugin.
 
 # Supported EOS SDK Features
 

@@ -4,6 +4,12 @@
 #include "eos_leaderboards_types.h"
 
 /**
+ * The following EOS_Leaderboards_* functions allow you to query existing leaderboard definitions that have been defined for your application.
+ * You can retrieve a list of scores for the top users for each Leaderboard.
+ * You can also query scores for one or more users.
+ */
+
+/**
  * Query for a list of existing leaderboards definitions including their attributes.
  *
  * @param Options Structure containing information about the application whose leaderboard definitions we're retrieving.

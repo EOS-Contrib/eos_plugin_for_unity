@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Mods
 	/// </param>
 	public delegate void OnEnumerateModsCallback(ref EnumerateModsCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnEnumerateModsCallbackInternal(ref EnumerateModsCallbackInfoInternal data);
 
 	internal static class OnEnumerateModsCallbackInternalImplementation

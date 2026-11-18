@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.RTCAdmin
 	/// </param>
 	public delegate void OnQueryJoinRoomTokenCompleteCallback(ref QueryJoinRoomTokenCompleteCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnQueryJoinRoomTokenCompleteCallbackInternal(ref QueryJoinRoomTokenCompleteCallbackInfoInternal data);
 
 	internal static class OnQueryJoinRoomTokenCompleteCallbackInternalImplementation

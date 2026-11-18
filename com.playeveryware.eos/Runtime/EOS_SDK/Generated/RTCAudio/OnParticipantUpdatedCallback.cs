@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.RTCAudio
 	/// </param>
 	public delegate void OnParticipantUpdatedCallback(ref ParticipantUpdatedCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnParticipantUpdatedCallbackInternal(ref ParticipantUpdatedCallbackInfoInternal data);
 
 	internal static class OnParticipantUpdatedCallbackInternalImplementation

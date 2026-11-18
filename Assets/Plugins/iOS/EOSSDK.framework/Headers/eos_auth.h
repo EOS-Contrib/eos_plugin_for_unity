@@ -24,6 +24,19 @@
 EOS_DECLARE_FUNC(void) EOS_Auth_Login(EOS_HAuth Handle, const EOS_Auth_LoginOptions* Options, void* ClientData, const EOS_Auth_OnLoginCallback CompletionDelegate);
 
 /**
+ * Cancel an ongoing login.
+ * This will cancel any ongoing account portal and device code flows.
+ *
+ * @param Options A structure containing options for the operation.
+ * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
+ * @param CompletionDelegate A callback that is fired when the cancel login operation completes, either successfully or in error.
+ *
+ * @see EOS_Auth_CancelLoginOptions
+ * @see EOS_Auth_OnCancelLoginCallback
+ */
+EOS_DECLARE_FUNC(void) EOS_Auth_CancelLogin(EOS_HAuth Handle, const EOS_Auth_CancelLoginOptions* Options, void* ClientData, const EOS_Auth_OnCancelLoginCallback CompletionDelegate);
+
+/**
  * Signs the player out of the online service.
  *
  * @param Options structure containing information about which account to log out.
@@ -186,37 +199,17 @@ EOS_DECLARE_FUNC(void) EOS_Auth_QueryIdToken(EOS_HAuth Handle, const EOS_Auth_Qu
 EOS_DECLARE_FUNC(void) EOS_Auth_VerifyIdToken(EOS_HAuth Handle, const EOS_Auth_VerifyIdTokenOptions* Options, void* ClientData, const EOS_Auth_OnVerifyIdTokenCallback CompletionDelegate);
 
 /**
- * Fetch the selected account ID to the current application for a local authenticated user.
- *
- * @param LocalUserId The account ID of a currently logged in account.
- * @param OutSelectedAccountId The selected account ID corresponding to the given account ID.
- *
- * @return EOS_EResult containing the result of the operation.
- * Possible result codes:
- * - EOS_Success if the user is logged in and the information is available.
- * - EOS_InvalidParameters if the output parameter is NULL.
- * - EOS_InvalidUser if the input account ID is not locally known.
- * - EOS_InvalidAuth if the input account ID is not locally logged in.
- * - EOS_NotFound otherwise.
+ * This function has been deprecated and should not be used.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_Auth_GetSelectedAccountId(EOS_HAuth Handle, const EOS_EpicAccountId LocalUserId, EOS_EpicAccountId* OutSelectedAccountId);
 
 /**
- * Fetch the number of merged accounts for a given logged in account.
- *
- * @param LocalUserId The account ID of a currently logged in account.
- *
- * @return the number of merged accounts for the logged in account.
+ * This function has been deprecated and should not be used.
  */
 EOS_DECLARE_FUNC(uint32_t) EOS_Auth_GetMergedAccountsCount(EOS_HAuth Handle, const EOS_EpicAccountId LocalUserId);
 
 /**
- * Fetch one of the merged account IDs for a given logged in account.
- *
- * @param LocalUserId The account ID of a currently logged in account.
- * @param Index An index into the list of merged accounts. If the index is out of bounds, the returned Epic Account ID will be invalid.
- *
- * @return The Epic Account ID associated with the index passed.
+ * This function has been deprecated and should not be used.
  */
 EOS_DECLARE_FUNC(EOS_EpicAccountId) EOS_Auth_GetMergedAccountByIndex(EOS_HAuth Handle, const EOS_EpicAccountId LocalUserId, const uint32_t Index);
 

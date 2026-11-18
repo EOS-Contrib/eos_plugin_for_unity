@@ -24,6 +24,10 @@ namespace Epic.OnlineServices.Auth
 		/// </summary>
 		public const int ADDNOTIFYLOGINSTATUSCHANGED_API_LATEST = 1;
 		/// <summary>
+		/// The most recent version of the <see cref="CancelLogin" /> API.
+		/// </summary>
+		public const int CANCELLOGIN_API_LATEST = 1;
+		/// <summary>
 		/// The most recent version of the <see cref="CopyIdToken" /> API.
 		/// </summary>
 		public const int COPYIDTOKEN_API_LATEST = 1;
@@ -50,7 +54,7 @@ namespace Epic.OnlineServices.Auth
 		/// <summary>
 		/// The most recent version of the <see cref="Login" /> API.
 		/// </summary>
-		public const int LOGIN_API_LATEST = 3;
+		public const int LOGIN_API_LATEST = 4;
 		/// <summary>
 		/// The most recent version of the <see cref="Logout" /> API.
 		/// </summary>
@@ -115,6 +119,40 @@ namespace Epic.OnlineServices.Auth
 			Helper.AssignNotificationIdToCallback(clientDataPointer, callResult);
 
 			return callResult;
+		}
+
+		/// <summary>
+		/// Cancel an ongoing login.
+		/// This will cancel any ongoing account portal and device code flows.
+		/// <see cref="CancelLoginOptions" />
+		/// <see cref="OnCancelLoginCallback" />
+		/// </summary>
+		/// <param name="options">
+		/// A structure containing options for the operation.
+		/// </param>
+		/// <param name="clientData">
+		/// Arbitrary data that is passed back to you in the CompletionDelegate
+		/// </param>
+		/// <param name="completionDelegate">
+		/// A callback that is fired when the cancel login operation completes, either successfully or in error.
+		/// </param>
+		public void CancelLogin(ref CancelLoginOptions options, object clientData, OnCancelLoginCallback completionDelegate)
+		{
+			if (completionDelegate == null)
+			{
+				throw new ArgumentNullException("completionDelegate");
+			}
+
+			var optionsInternal = default(CancelLoginOptionsInternal);
+			optionsInternal.Set(ref options);
+
+			var clientDataPointer = IntPtr.Zero;
+
+			Helper.AddCallback(out clientDataPointer, clientData, completionDelegate);
+
+			Bindings.EOS_Auth_CancelLogin(InnerHandle, ref optionsInternal, clientDataPointer, OnCancelLoginCallbackInternalImplementation.Delegate);
+
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -294,17 +332,8 @@ namespace Epic.OnlineServices.Auth
 		}
 
 		/// <summary>
-		/// Fetch one of the merged account IDs for a given logged in account.
+		/// This function has been deprecated and should not be used.
 		/// </summary>
-		/// <param name="localUserId">
-		/// The account ID of a currently logged in account.
-		/// </param>
-		/// <param name="index">
-		/// An index into the list of merged accounts. If the index is out of bounds, the returned Epic Account ID will be invalid.
-		/// </param>
-		/// <returns>
-		/// The Epic Account ID associated with the index passed.
-		/// </returns>
 		public EpicAccountId GetMergedAccountByIndex(EpicAccountId localUserId, uint index)
 		{
 			var callResult = Bindings.EOS_Auth_GetMergedAccountByIndex(InnerHandle, localUserId.InnerHandle, index);
@@ -315,14 +344,8 @@ namespace Epic.OnlineServices.Auth
 		}
 
 		/// <summary>
-		/// Fetch the number of merged accounts for a given logged in account.
+		/// This function has been deprecated and should not be used.
 		/// </summary>
-		/// <param name="localUserId">
-		/// The account ID of a currently logged in account.
-		/// </param>
-		/// <returns>
-		/// the number of merged accounts for the logged in account.
-		/// </returns>
 		public uint GetMergedAccountsCount(EpicAccountId localUserId)
 		{
 			var callResult = Bindings.EOS_Auth_GetMergedAccountsCount(InnerHandle, localUserId.InnerHandle);
@@ -331,23 +354,8 @@ namespace Epic.OnlineServices.Auth
 		}
 
 		/// <summary>
-		/// Fetch the selected account ID to the current application for a local authenticated user.
+		/// This function has been deprecated and should not be used.
 		/// </summary>
-		/// <param name="localUserId">
-		/// The account ID of a currently logged in account.
-		/// </param>
-		/// <param name="outSelectedAccountId">
-		/// The selected account ID corresponding to the given account ID.
-		/// </param>
-		/// <returns>
-		/// <see cref="Result" /> containing the result of the operation.
-		/// Possible result codes:
-		/// - <see cref="Result.Success" /> if the user is logged in and the information is available.
-		/// - <see cref="Result.InvalidParameters" /> if the output parameter is <see langword="null" />.
-		/// - <see cref="Result.InvalidUser" /> if the input account ID is not locally known.
-		/// - <see cref="Result.InvalidAuth" /> if the input account ID is not locally logged in.
-		/// - <see cref="Result.NotFound" /> otherwise.
-		/// </returns>
 		public Result GetSelectedAccountId(EpicAccountId localUserId, out EpicAccountId outSelectedAccountId)
 		{
 			var outSelectedAccountIdInnerHandle = IntPtr.Zero;

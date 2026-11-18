@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sessions
 	/// </param>
 	public delegate void OnDestroySessionCallback(ref DestroySessionCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnDestroySessionCallbackInternal(ref DestroySessionCallbackInfoInternal data);
 
 	internal static class OnDestroySessionCallbackInternalImplementation

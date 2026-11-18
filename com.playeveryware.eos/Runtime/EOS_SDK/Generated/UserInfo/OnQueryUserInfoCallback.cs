@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.UserInfo
 	/// </param>
 	public delegate void OnQueryUserInfoCallback(ref QueryUserInfoCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnQueryUserInfoCallbackInternal(ref QueryUserInfoCallbackInfoInternal data);
 
 	internal static class OnQueryUserInfoCallbackInternalImplementation

@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.UI
 	/// </param>
 	public delegate void OnScreenKeyboardRequestedCallback(ref OnScreenKeyboardRequestedCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnScreenKeyboardRequestedCallbackInternal(ref OnScreenKeyboardRequestedCallbackInfoInternal data);
 
 	internal static class OnScreenKeyboardRequestedCallbackInternalImplementation

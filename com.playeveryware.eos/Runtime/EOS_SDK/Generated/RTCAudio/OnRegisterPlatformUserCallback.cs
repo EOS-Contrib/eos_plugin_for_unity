@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.RTCAudio
 	/// </summary>
 	public delegate void OnRegisterPlatformUserCallback(ref OnRegisterPlatformUserCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnRegisterPlatformUserCallbackInternal(ref OnRegisterPlatformUserCallbackInfoInternal data);
 
 	internal static class OnRegisterPlatformUserCallbackInternalImplementation

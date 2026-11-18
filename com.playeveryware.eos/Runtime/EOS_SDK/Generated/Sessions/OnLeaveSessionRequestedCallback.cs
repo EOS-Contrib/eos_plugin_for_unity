@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sessions
 	/// </param>
 	public delegate void OnLeaveSessionRequestedCallback(ref LeaveSessionRequestedCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnLeaveSessionRequestedCallbackInternal(ref LeaveSessionRequestedCallbackInfoInternal data);
 
 	internal static class OnLeaveSessionRequestedCallbackInternalImplementation

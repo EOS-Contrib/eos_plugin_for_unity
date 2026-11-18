@@ -60,7 +60,7 @@ public static class InfoPlistPostProcessor
 #endif
 ```
 
-# Testing {#testing}
+# Testing
 
 ## Prerequisites
 

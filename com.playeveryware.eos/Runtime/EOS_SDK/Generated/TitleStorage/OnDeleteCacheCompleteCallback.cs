@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.TitleStorage
 	/// </summary>
 	public delegate void OnDeleteCacheCompleteCallback(ref DeleteCacheCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnDeleteCacheCompleteCallbackInternal(ref DeleteCacheCallbackInfoInternal data);
 
 	internal static class OnDeleteCacheCompleteCallbackInternalImplementation

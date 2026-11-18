@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sessions
 	/// </param>
 	public delegate void OnUnregisterPlayersCallback(ref UnregisterPlayersCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnUnregisterPlayersCallbackInternal(ref UnregisterPlayersCallbackInfoInternal data);
 
 	internal static class OnUnregisterPlayersCallbackInternalImplementation

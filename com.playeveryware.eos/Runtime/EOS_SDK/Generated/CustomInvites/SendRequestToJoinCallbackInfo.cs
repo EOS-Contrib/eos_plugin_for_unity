@@ -12,7 +12,13 @@ namespace Epic.OnlineServices.CustomInvites
 	public struct SendRequestToJoinCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
-		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
+		/// The result code for the send request to join operation.
+		/// - <see cref="Result.Success" /> if the request completes successfully.
+		/// - <see cref="Result.InvalidParameters" /> if any option values are incorrect.
+		/// - <see cref="Result.InvalidUser" /> if LocalUserId does not identify a known local user.
+		/// - <see cref="Result.InvalidAuth" /> if the local user is not logged in.
+		/// - <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
+		/// - <see cref="Result.UnexpectedError" /> if the backend request failed.
 		/// </summary>
 		public Result ResultCode { get; set; }
 

@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.RTCAudio
 	/// </param>
 	public delegate void OnAudioOutputStateCallback(ref AudioOutputStateCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnAudioOutputStateCallbackInternal(ref AudioOutputStateCallbackInfoInternal data);
 
 	internal static class OnAudioOutputStateCallbackInternalImplementation

@@ -7,99 +7,92 @@ using System.Runtime.InteropServices;
 namespace Epic.OnlineServices.Auth
 {
 	/// <summary>
-	/// All possible types of login methods, availability depends on permissions granted to the client.
+	/// Types of login methods.
+	/// A login should be as frictionless as possible. Seek the login type that is most applicable to your platform and service and poses the least amount of friction.
+	/// 
+	/// Some login types intrinsically require user interaction.
+	/// Other login types are designed to be frictionless, but there may be circumstances when user interaction is still required, for example if the user needs to permit a new application, accept new scopes, or accept an updated EULA.
+	/// If user interaction is required, the SDK will utilize Epic's Account Portal.
+	/// When the Account Portal is managed by the SDK, it will prefer to use the overlay, but can fall back onto using the platform browser.
+	/// If overlay and platform browser capabilities are not available on this platform, the Account Portal must be managed by the application, and so Account Portal details will be passed to the application.
+	/// 
+	/// Some login types depend on permissions or other configurations on your client on Dev Portal.
 	/// <see cref="AuthInterface.Login" />
 	/// <see cref="Credentials" />
 	/// </summary>
 	public enum LoginCredentialType : int
 	{
 		/// <summary>
-		/// Login using account email address and password.
-		/// 
-		/// Note: This login method is restricted to Epic Games internal use only. Do not use.
+		/// Login with a password.
+		/// This login type is deprecated and no longer supported. Attempts to use it will always fail.
 		/// </summary>
-		Password = 0,
+		PasswordDeprecated = 0,
 		/// <summary>
-		/// A short-lived one-time use exchange code to login the local user.
-		/// 
-		/// @details Typically retrieved via command-line parameters provided by a launcher that generated the exchange code for this application.
-		/// When started, the application is expected to consume the exchange code by using the <see cref="AuthInterface.Login" /> API as soon as possible.
-		/// This is needed in order to authenticate the local user before the exchange code would expire.
-		/// Attempting to consume an already expired exchange code will return <see cref="Result.AuthExchangeCodeNotFound" /> error by the <see cref="AuthInterface.Login" /> API.
+		/// Login with an exchange code.
+		/// When the application is launched from the Epic Games Launcher, it is passed an exchange code in the command line that can be used to log the user into the SDK without friction.
+		/// Exchange codes are short lived and must be used as soon as possible.
+		/// Exchange codes are one time use and attempting to use the same exchange code a second time will fail.
+		/// This is the preferred login type for applications launched by the Epic Games Launcher.
 		/// </summary>
 		ExchangeCode = 1,
 		/// <summary>
-		/// Used by standalone applications distributed outside the supported game platforms such as Epic Games Store or Steam, and on Nintendo Switch.
+		/// Login without friction if possible.
+		/// This is intended to be used in conjunction with <see cref="AccountPortal" />.
 		/// 
-		/// Persistent Auth is used in conjunction with the <see cref="AccountPortal" /> login method for automatic login of the local user across multiple runs of the application.
+		/// First, attempt a login with <see cref="PersistentAuth" />. If it fails, then attempt a login with <see cref="AccountPortal" />.
+		/// If <see cref="AccountPortal" /> succeeds, <see cref="PersistentAuth" /> can be used in the future successfully.
+		/// On Nintendo platforms, after a successful login, the user's new refresh token must be retrieved with <see cref="AuthInterface.CopyUserAuthToken" />, stored by the application, and later passed into the SDK with this login type.
 		/// 
-		/// Standalone applications implement the login sequence as follows:
-		/// 1. Application calls <see cref="AuthInterface.Login" /> with <see cref="PersistentAuth" />, using a previously stored Epic refresh token for an automatic user login.
-		/// 2. If automatic login fails, the application discards the Epic refresh token used as defunct, and proceeds to call <see cref="AuthInterface.Login" /> with <see cref="AccountPortal" /> to prompt the user for manual login.
-		/// On Desktop and Mobile platforms, the persistent refresh token is automatically managed by the SDK that stores it in the keychain of the currently logged in user of the local device.
-		/// On Nintendo Switch, after a successful login the refresh token must be retrieved using the <see cref="AuthInterface.CopyUserAuthToken" /> API and stored by the application specifically for the active Nintendo Switch user.
+		/// If you previously logged in with <see cref="AccountPortal" /> and have since changed the sandbox or deployment that you initialize the SDK with,
+		/// you must call <see cref="AuthInterface.DeletePersistentAuth" /> at the start of this flow to unbind the stored credentials from your previous sandbox or deployment.
+		/// On Nintendo platforms, you must delete your locally stored tokens.
+		/// Attempting to login with this type when stored credentials are bound to a different sandbox or deployment may succeed, but will cause unusual errors elsewhere in the SDK due to the mismatch.
+		/// This is the preferred login type for applications that are shipped independently and standalone, when no other login type is applicable.
 		/// <see cref="AccountPortal" />
 		/// </summary>
 		PersistentAuth = 2,
 		/// <summary>
-		/// Not supported. Superseded by <see cref="ExternalAuth" /> login method.
-		/// <see cref="ExternalAuth" />
+		/// Login with Epic's Account Portal. In this flow, presentation of the web page is managed by the application.
+		/// Account Portal details will be passed to the application, and the application is responsible for deciding how to present those details to the user, such as rendering a QR code for a login off-device.
+		/// This is not a preferred login type. It may have niche uses, but it is recommended to use <see cref="AccountPortal" /> instead.
 		/// </summary>
 		DeviceCode = 3,
 		/// <summary>
-		/// Login with named credentials hosted by the EOS SDK Developer Authentication Tool.
-		/// Used for development purposes only.
+		/// Login with the DevAuthTool.
+		/// This is the preferred login type for development.
 		/// </summary>
 		Developer = 4,
 		/// <summary>
-		/// Refresh token that was retrieved from a previous call to <see cref="AuthInterface.Login" /> API in another local process context.
-		/// Mainly used in conjunction with custom desktop launcher applications.
+		/// Login with a refresh token.
+		/// When a user logs into the SDK, their refresh token is available for retrieval with <see cref="AuthInterface.CopyUserAuthToken" /> and can then be used to log them in later without friction.
 		/// 
-		/// @details Can be used for example when launching the game from Epic Games Launcher and having an intermediate process
-		/// in-between that requires authenticating the user before eventually starting the actual game client application.
-		/// In such scenario, an intermediate launcher will log in the user by consuming the exchange code it received from the
-		/// Epic Games Launcher. To allow the game client to also authenticate the user, it can copy the refresh token using the
-		/// <see cref="AuthInterface.CopyUserAuthToken" /> API and pass it via launch parameters to the started game client. The game client can then
-		/// use the refresh token to log in the user.
+		/// This is commonly used by custom launchers.
+		/// For example, if you have a custom launcher that is started by the Epic Games Launcher, you can consume the exchange code in your custom launcher,
+		/// then consume the refresh token in your application once it has been started by your custom launcher.
+		/// This is a utility login type and is neither preferred nor unpreferred; use it when it suits your needs.
 		/// </summary>
 		RefreshToken = 5,
 		/// <summary>
-		/// Used by standalone applications distributed outside the supported game platforms such as Epic Games Store or Steam, and on Nintendo Switch.
-		/// 
-		/// Login using the built-in user onboarding experience provided by the SDK, which will automatically store a persistent
-		/// refresh token to enable automatic user login for consecutive application runs on the local device. Applications are
-		/// expected to attempt automatic login using the <see cref="PersistentAuth" /> login method, and fall back to <see cref="AccountPortal" />
-		/// to prompt users for manual login.
-		/// On Windows, using this login method requires applications to be started through the EOS Bootstrapper application
-		/// and to have the local Epic Online Services redistributable installed on the local system. See <see cref="Platform.PlatformInterface.GetDesktopCrossplayStatus" />
-		/// for adding a readiness check prior to calling <see cref="AuthInterface.Login" />.
+		/// Login with Epic's Account Portal. In this flow, presentation of the web page is managed by the SDK.
+		/// This is intended to be used in conjunction with <see cref="PersistentAuth" />.
+		/// This is the preferred login type for applications that are shipped independently and standalone, when no other login type is applicable.
 		/// <see cref="PersistentAuth" />
 		/// </summary>
 		AccountPortal = 6,
 		/// <summary>
-		/// Login using external account provider credentials, such as PlayStation(TM)Network, Steam, and Xbox Live.
+		/// Login using an external account, such as with tokens provided by Steam, PlayStation Network, and Xbox Live.
 		/// 
-		/// This is the intended login method on PlayStation® and Xbox console devices.
-		/// On Desktop and Mobile, used when launched through any of the commonly supported platform clients.
+		/// If the external account is already linked to an Epic account, the user will be logged in without friction.
+		/// Otherwise, the SDK will return <see cref="Result.InvalidUser" /> with <see cref="LoginCallbackInfo.ContinuanceToken" /> set.
 		/// 
-		/// @details The user is seamlessly logged in to their Epic account using an external account access token.
-		/// If the local platform account is already linked with the user's Epic account, the login will succeed and <see cref="Result.Success" /> is returned.
-		/// When the local platform account has not been linked with an Epic account yet,
-		/// <see cref="Result.InvalidUser" /> is returned and the <see cref="ContinuanceToken" /> will be set in the <see cref="LoginCallbackInfo" /> data.
-		/// If <see cref="Result.InvalidUser" /> is returned,
-		/// the application should proceed to call the <see cref="AuthInterface.LinkAccount" /> API with the <see cref="ContinuanceToken" /> to continue with the external account login
-		/// and to link the external account at the end of the login flow.
+		/// If the SDK returns <see cref="Result.InvalidUser" /> with <see cref="LoginCallbackInfo.ContinuanceToken" /> set, the application must call <see cref="AuthInterface.LinkAccount" /> with the continuation token to begin linking.
+		/// Alternatively, the application could prompt the user to login with an already linked external account, and restart the login flow with that.
+		/// Linking requires user interaction. The user will be prompted to either login with their existing Epic account or create a new Epic account. Their external account will be linked to the Epic account, and the login will complete.
+		/// Future login attempts with <see cref="ExternalAuth" /> will then complete without friction.
 		/// 
-		/// @details Login flow when the platform user account has not been linked with an Epic account yet:
-		/// 1. Game calls <see cref="AuthInterface.Login" /> with the <see cref="ExternalAuth" /> credential type.
-		/// 2. <see cref="AuthInterface.Login" /> returns <see cref="Result.InvalidUser" /> with a non-<see langword="null" /> <see cref="ContinuanceToken" /> in the <see cref="LoginCallbackInfo" /> data.
-		/// 3. Game calls <see cref="AuthInterface.LinkAccount" /> with the <see cref="ContinuanceToken" /> to initiate the login flow for linking the platform account with the user's Epic account.
-		/// 4. The user is taken automatically to the Epic accounts user onboarding flow managed by the SDK.
-		/// 5. Once the user completes the login, cancels it or if the login flow times out, <see cref="AuthInterface.LinkAccount" /> invokes the completion callback to the caller.
-		/// - If the user was logged in successfully, <see cref="Result.Success" /> is returned in the <see cref="LoginCallbackInfo" />. Otherwise, an error result code is returned accordingly.
-		/// On Windows, using this login method requires applications to be started through the EOS Bootstrapper application
-		/// and to have the local Epic Online Services redistributable installed on the local system. See <see cref="Platform.PlatformInterface.GetDesktopCrossplayStatus" />
-		/// for adding a readiness check prior to calling <see cref="AuthInterface.Login" />.
+		/// Users have the choice of linking multiple of their external accounts to one Epic account, or creating one Epic account for each of their external accounts.
+		/// Once a user links an external account to an Epic account, the SDK cannot modify that link.
+		/// This is the preferred login type for platforms and services where auth is not Epic-first and should always be the first login type that is considered.
 		/// </summary>
 		ExternalAuth = 7
 	}

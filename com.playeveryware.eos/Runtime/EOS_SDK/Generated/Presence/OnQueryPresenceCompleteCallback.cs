@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.Presence
 	/// </summary>
 	public delegate void OnQueryPresenceCompleteCallback(ref QueryPresenceCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnQueryPresenceCompleteCallbackInternal(ref QueryPresenceCallbackInfoInternal data);
 
 	internal static class OnQueryPresenceCompleteCallbackInternalImplementation

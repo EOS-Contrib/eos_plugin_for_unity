@@ -36,6 +36,21 @@ EOS_DECLARE_FUNC(void) EOS_Presence_QueryPresence(EOS_HPresence Handle, const EO
 EOS_DECLARE_FUNC(EOS_Bool) EOS_Presence_HasPresence(EOS_HPresence Handle, const EOS_Presence_HasPresenceOptions* Options);
 
 /**
+ * Check whether the local user has presence explicitly set in the product (deployment) namespace.
+ *
+ * @note This returns EOS_TRUE once the user is logged in and connected: the SDK seeds
+ *       product presence on connect. It does NOT distinguish "the game called SetPresence"
+ *       from "the SDK seeded presence on connect".
+ *
+ * @param Options Object containing the local user making the request
+ * @return EOS_TRUE if product-namespace presence has been set for the user, otherwise EOS_FALSE
+ *         (including when the request is invalid or the user has no cached state)
+ *
+ * @see EOS_Presence_HasExplicitPresenceOptions
+ */
+EOS_DECLARE_FUNC(EOS_Bool) EOS_Presence_HasExplicitPresence(EOS_HPresence Handle, const EOS_Presence_HasExplicitPresenceOptions* Options);
+
+/**
  * Get a user's cached presence object. If successful, this data must be released by calling EOS_Presence_Info_Release
  *
  * @param Options Object containing properties related to who is requesting presence and for what user
@@ -161,7 +176,14 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_Presence_GetJoinInfo(EOS_HPresence Handle, con
  * Modifies a user's online status to be the new state.
  *
  * @param Options Object containing properties related to setting a user's Status
- * @return Success if modification was added successfully, otherwise an error code related to the problem
+ *
+ * @see EOS_PresenceModification_SetStatusOptions
+ *
+ * @return EOS_EResult containing the result of the operation.
+ * - EOS_Success if the status was set on the modification.
+ * - EOS_IncompatibleVersion if the API version is incorrect.
+ * - EOS_InvalidParameters if Options or the handle is invalid.
+ * - EOS_Presence_StatusInvalid if the status value is unsupported.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_PresenceModification_SetStatus(EOS_HPresenceModification Handle, const EOS_PresenceModification_SetStatusOptions* Options);
 
@@ -170,18 +192,37 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_PresenceModification_SetStatus(EOS_HPresenceMo
  * a template ID that may contain one or more variables that must be supplied via SetTemplateData. This
  * function is mutually exclusive with SetRawRichText meaning only one can be used on a modification.
  *
- * @param Options Object containing the TemplateId for a pre-cofnigured a Localized Presence Template
- * @return Success if the value was updated successfully, otherwise an error code related to the problem
+ * @param Options Object containing the TemplateId for a preconfigured Localized Presence Template.
+ *
+ * @see EOS_PresenceModification_SetTemplateIdOptions
+ *
+ * @return EOS_EResult containing the result of the operation.
+ * - EOS_Success if the template ID was set on the modification.
+ * - EOS_IncompatibleVersion if the API version is incorrect.
+ * - EOS_InvalidParameters if Options or the handle is invalid.
+ * - EOS_Presence_TemplateNotSupported if raw rich text is already set.
+ * - EOS_Presence_TemplateIdInvalid if TemplateId is null or empty.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_PresenceModification_SetTemplateId(EOS_HPresenceModification Handle, const EOS_PresenceModification_SetTemplateIdOptions* Options);
 
 /**
  * Adds variable data to a Presence Update template much like a format-arg would. This value will be localized
  * by the backend and displayed to users. This function can be called multiple times for each variable. Subsequent
- * calls for the sane variable will replace the value with the latest version.
+ * calls for the same variable will replace the value with the latest version.
  *
  * @param Options Object containing properties related to setting a named variable value on a Localized Presence Template
- * @return Success if the value was updated successfully, otherwise an error code related to the problem
+ *
+ * @see EOS_PresenceModification_SetTemplateDataOptions
+ * @see EOS_PresenceModification_SetTemplateId
+ *
+ * @return EOS_EResult containing the result of the operation.
+ * - EOS_Success if the template data was set on the modification.
+ * - EOS_IncompatibleVersion if the API version is incorrect.
+ * - EOS_InvalidParameters if Options or the handle is invalid.
+ * - EOS_Presence_TemplateNotSupported if no template ID is set on the modification.
+ * - EOS_Presence_TemplateKeyInvalid if Key is null or empty.
+ * - EOS_Presence_TemplateValueInvalid if a string value is null.
+ * - EOS_Presence_TemplateTypeInvalid if ValueType is unsupported.
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_PresenceModification_SetTemplateData(EOS_HPresenceModification Handle, const EOS_PresenceModification_SetTemplateDataOptions* Options);
 

@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.Friends
 	/// </summary>
 	public delegate void OnFriendsUpdateCallback(ref OnFriendsUpdateInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnFriendsUpdateCallbackInternal(ref OnFriendsUpdateInfoInternal data);
 
 	internal static class OnFriendsUpdateCallbackInternalImplementation

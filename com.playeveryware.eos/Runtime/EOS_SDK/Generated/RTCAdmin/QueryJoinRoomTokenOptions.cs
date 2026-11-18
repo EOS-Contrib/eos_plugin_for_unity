@@ -28,12 +28,12 @@ namespace Epic.OnlineServices.RTCAdmin
 
 		/// <summary>
 		/// Array of IP Addresses, one for each of the users we're querying tokens for.
-		/// There should be TargetUserIdsCount Ip Addresses, you can set an entry to <see langword="null" /> if not known.
+		/// Each entry may be set to <see langword="null" /> when the IP for that user is not known.
 		/// If TargetUserIpAddresses is set to <see langword="null" /> IP Addresses will be ignored.
 		/// IPv4 format: "0.0.0.0"
 		/// IPv6 format: "0:0:0:0:0:0:0:0"
 		/// </summary>
-		public Utf8String TargetUserIpAddresses { get; set; }
+		public Utf8String[] TargetUserIpAddresses { get; set; }
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -45,6 +45,7 @@ namespace Epic.OnlineServices.RTCAdmin
 		private IntPtr m_TargetUserIds;
 		private uint m_TargetUserIdsCount;
 		private IntPtr m_TargetUserIpAddresses;
+		private uint m_TargetUserIpAddressesCount;
 
 		public void Set(ref QueryJoinRoomTokenOptions other)
 		{
@@ -54,7 +55,7 @@ namespace Epic.OnlineServices.RTCAdmin
 			Helper.Set(other.LocalUserId, ref m_LocalUserId);
 			Helper.Set(other.RoomName, ref m_RoomName);
 			Helper.Set(other.TargetUserIds, ref m_TargetUserIds, out m_TargetUserIdsCount, false);
-			Helper.Set(other.TargetUserIpAddresses, ref m_TargetUserIpAddresses);
+			Helper.Set(other.TargetUserIpAddresses, ref m_TargetUserIpAddresses, out m_TargetUserIpAddressesCount, true);
 		}
 
 		public void Dispose()

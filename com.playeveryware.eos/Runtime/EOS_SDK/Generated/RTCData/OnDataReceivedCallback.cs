@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.RTCData
 	/// </param>
 	public delegate void OnDataReceivedCallback(ref DataReceivedCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnDataReceivedCallbackInternal(ref DataReceivedCallbackInfoInternal data);
 
 	internal static class OnDataReceivedCallbackInternalImplementation

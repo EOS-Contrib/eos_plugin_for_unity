@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.TitleStorage
 	/// </summary>
 	public delegate void OnReadFileCompleteCallback(ref ReadFileCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnReadFileCompleteCallbackInternal(ref ReadFileCallbackInfoInternal data);
 
 	internal static class OnReadFileCompleteCallbackInternalImplementation

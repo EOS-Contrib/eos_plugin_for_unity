@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.RTCAdmin
 	/// </param>
 	public delegate void OnKickCompleteCallback(ref KickCompleteCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnKickCompleteCallbackInternal(ref KickCompleteCallbackInfoInternal data);
 
 	internal static class OnKickCompleteCallbackInternalImplementation

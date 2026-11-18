@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Auth
 	/// </param>
 	public delegate void OnVerifyUserAuthCallback(ref VerifyUserAuthCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnVerifyUserAuthCallbackInternal(ref VerifyUserAuthCallbackInfoInternal data);
 
 	internal static class OnVerifyUserAuthCallbackInternalImplementation

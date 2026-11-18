@@ -48,7 +48,18 @@ EOS_STRUCT(EOS_CustomInvites_SendCustomInviteOptions, (
  * Output parameters for the EOS_CustomInvites_SendCustomInvite Function. These parameters are received through the callback provided to EOS_CustomInvites_SendCustomInvite
  */
 EOS_STRUCT(EOS_CustomInvites_SendCustomInviteCallbackInfo, (
-	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
+	/**
+	 * The result code for the send custom invite operation.
+	 * - EOS_Success if the invite operation completes successfully.
+	 * - EOS_PartialResult if the invite was sent to some, but not all, of the target users.
+	 * - EOS_InvalidParameters if any option values are incorrect.
+	 * - EOS_InvalidUser if LocalUserId does not identify a known local user.
+	 * - EOS_InvalidAuth if the local user is not logged in.
+	 * - EOS_TooManyRequests if the allowed request limit is exceeded.
+	 * - EOS_NotFound if SetCustomInvite was not previously called successfully for this user.
+	 * - EOS_IncompatibleVersion if the API version passed in is incorrect.
+	 * - EOS_UnexpectedError if the backend request failed.
+	 */
 	EOS_EResult ResultCode;
 	/** Context that was passed into EOS_CustomInvites_SendCustomInvite */
 	void* ClientData;
@@ -208,7 +219,15 @@ EOS_STRUCT(EOS_CustomInvites_SendRequestToJoinOptions, (
  * Output parameters for the EOS_CustomInvites_SendRequestToJoin Function. These parameters are received through the callback provided to EOS_CustomInvites_SendRequestToJoin
  */
 EOS_STRUCT(EOS_CustomInvites_SendRequestToJoinCallbackInfo, (
-	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
+	/**
+	 * The result code for the send request to join operation.
+	 * - EOS_Success if the request completes successfully.
+	 * - EOS_InvalidParameters if any option values are incorrect.
+	 * - EOS_InvalidUser if LocalUserId does not identify a known local user.
+	 * - EOS_InvalidAuth if the local user is not logged in.
+	 * - EOS_IncompatibleVersion if the API version passed in is incorrect.
+	 * - EOS_UnexpectedError if the backend request failed.
+	 */
 	EOS_EResult ResultCode;
 	/** Context that was passed into EOS_CustomInvites_SendRequestToJoin */
 	void* ClientData;
@@ -313,7 +332,16 @@ EOS_STRUCT(EOS_CustomInvites_AcceptRequestToJoinOptions, (
  * Output parameters for the EOS_CustomInvites_AcceptRequestToJoin Function. These parameters are received through the callback provided to EOS_CustomInvites_AcceptRequestToJoin
  */
 EOS_STRUCT(EOS_CustomInvites_AcceptRequestToJoinCallbackInfo, (
-	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
+	/**
+	 * The result code for accepting the request to join.
+	 * - EOS_Success if the request is accepted successfully.
+	 * - EOS_InvalidParameters if any option values are incorrect.
+	 * - EOS_InvalidUser if LocalUserId does not identify a known local user.
+	 * - EOS_InvalidAuth if the local user is not logged in.
+	 * - EOS_IncompatibleVersion if the API version passed in is incorrect.
+	 * - EOS_InvalidState if there is no pending request to join from the target user.
+	 * - EOS_UnexpectedError if the backend request failed.
+	 */
 	EOS_EResult ResultCode;
 	/** Context that was passed into EOS_CustomInvites_AcceptRequestToJoin */
 	void* ClientData;
@@ -348,7 +376,16 @@ EOS_STRUCT(EOS_CustomInvites_RejectRequestToJoinOptions, (
  * Output parameters for the EOS_CustomInvites_RejectRequestToJoin Function. These parameters are received through the callback provided to EOS_CustomInvites_RejectRequestToJoin
  */
 EOS_STRUCT(EOS_CustomInvites_RejectRequestToJoinCallbackInfo, (
-	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
+	/**
+	 * The result code for rejecting the request to join.
+	 * - EOS_Success if the request is rejected successfully.
+	 * - EOS_InvalidParameters if any option values are incorrect.
+	 * - EOS_InvalidUser if LocalUserId does not identify a known local user.
+	 * - EOS_InvalidAuth if the local user is not logged in.
+	 * - EOS_IncompatibleVersion if the API version passed in is incorrect.
+	 * - EOS_InvalidState if there is no pending request to join from the target user.
+	 * - EOS_UnexpectedError if the backend request failed.
+	 */
 	EOS_EResult ResultCode;
 	/** Context that was passed into EOS_CustomInvites_RejectRequestToJoin */
 	void* ClientData;

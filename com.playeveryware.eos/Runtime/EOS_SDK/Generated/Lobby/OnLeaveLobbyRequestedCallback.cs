@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	/// </param>
 	public delegate void OnLeaveLobbyRequestedCallback(ref LeaveLobbyRequestedCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnLeaveLobbyRequestedCallbackInternal(ref LeaveLobbyRequestedCallbackInfoInternal data);
 
 	internal static class OnLeaveLobbyRequestedCallbackInternalImplementation

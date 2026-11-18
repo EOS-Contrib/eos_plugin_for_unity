@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.RTCAdmin
 	/// </param>
 	public delegate void OnSetParticipantHardMuteCompleteCallback(ref SetParticipantHardMuteCompleteCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnSetParticipantHardMuteCompleteCallbackInternal(ref SetParticipantHardMuteCompleteCallbackInfoInternal data);
 
 	internal static class OnSetParticipantHardMuteCompleteCallbackInternalImplementation

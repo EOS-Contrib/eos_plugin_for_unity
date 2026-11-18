@@ -13,7 +13,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 	/// </summary>
 	public delegate void OnPeerActionRequiredCallback(ref AntiCheatCommon.OnClientActionRequiredCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnPeerActionRequiredCallbackInternal(ref AntiCheatCommon.OnClientActionRequiredCallbackInfoInternal data);
 
 	internal static class OnPeerActionRequiredCallbackInternalImplementation

@@ -84,14 +84,16 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                     string baseSource = srcDestPair.src[..^1];
                     string baseDest = srcDestPair.dest;
 
-                    var subdirectories = Directory.EnumerateDirectories(baseSource, "*", SearchOption.AllDirectories);
+                    string workingSource = Path.Join(root, baseSource);
+                    var subdirectories = Directory.EnumerateDirectories(workingSource, "*", SearchOption.AllDirectories);
 
                     foreach (var subdir in subdirectories)
                     {
+                        string relativeSubDir = Path.GetRelativePath(workingSource, subdir);
                         SrcDestPair subDirectoryEntry = new()
                         {
-                            src = Path.Join(subdir, "*"),
-                            dest = Path.Join(baseDest, subdir[(baseSource.Length)..]) + "/"
+                            src = Path.Join(baseSource, relativeSubDir, "*"),
+                            dest = Path.Join(baseDest, relativeSubDir) + "/"
                         };
                         srcDestPairs.Push(subDirectoryEntry);
                     }

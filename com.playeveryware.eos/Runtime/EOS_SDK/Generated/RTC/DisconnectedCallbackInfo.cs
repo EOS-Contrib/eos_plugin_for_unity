@@ -16,6 +16,7 @@ namespace Epic.OnlineServices.RTC
 		/// <see cref="Result.Success" /> The room was left cleanly.
 		/// <see cref="Result.NoConnection" />: There was a network issue connecting to the server (retryable).
 		/// <see cref="Result.UserKicked" />: The user has been kicked by the server (retryable).
+		/// <see cref="Result.DuplicateSession" />: The same user joined this room from another session, which now holds the room (not retryable).
 		/// <see cref="Result.ServiceFailure" />: A known error occurred during interaction with the server (retryable).
 		/// <see cref="Result.UnexpectedError" /> Unexpected error (retryable).
 		/// </summary>

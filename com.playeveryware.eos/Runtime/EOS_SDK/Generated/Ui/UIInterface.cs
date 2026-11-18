@@ -438,6 +438,9 @@ namespace Epic.OnlineServices.UI
 		/// <see cref="IsSocialOverlayPausedOptions" />
 		/// <see cref="PauseSocialOverlay" />
 		/// </summary>
+		/// <param name="options">
+		/// Object containing properties get the overlay paused status.
+		/// </param>
 		/// <returns>
 		/// <see langword="true" /> If the overlay is paused.
 		/// </returns>
@@ -721,8 +724,11 @@ namespace Epic.OnlineServices.UI
 		/// <see cref="ShowBlockPlayerOptions" />
 		/// <see cref="OnShowBlockPlayerCallback" />
 		/// </summary>
+		/// <param name="options">
+		/// Object containing properties related to showing a blocked player.
+		/// </param>
 		/// <param name="clientData">
-		/// Arbitrary data that is passed back to you in the NotificationFn.
+		/// Arbitrary data that is passed back to you in the CompletionDelegate.
 		/// </param>
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the user exits the Block UI.
@@ -784,8 +790,11 @@ namespace Epic.OnlineServices.UI
 		/// <see cref="ShowNativeProfileOptions" />
 		/// <see cref="OnShowNativeProfileCallback" />
 		/// </summary>
+		/// <param name="options">
+		/// Object containing properties related to showing a native profile to the player.
+		/// </param>
 		/// <param name="clientData">
-		/// Arbitrary data that is passed back to you in the NotificationFn.
+		/// Arbitrary data that is passed back to you in the CompletionDelegate.
 		/// </param>
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the profile has been shown.
@@ -814,8 +823,11 @@ namespace Epic.OnlineServices.UI
 		/// <see cref="ShowReportPlayerOptions" />
 		/// <see cref="OnShowReportPlayerCallback" />
 		/// </summary>
+		/// <param name="options">
+		/// Object containing properties related to reporting a player.
+		/// </param>
 		/// <param name="clientData">
-		/// Arbitrary data that is passed back to you in the NotificationFn.
+		/// Arbitrary data that is passed back to you in the CompletionDelegate.
 		/// </param>
 		/// <param name="completionDelegate">
 		/// A callback that is fired when the user exits the Report UI.

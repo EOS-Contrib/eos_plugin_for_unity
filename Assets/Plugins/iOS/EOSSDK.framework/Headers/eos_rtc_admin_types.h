@@ -9,7 +9,7 @@
 EOS_EXTERN_C typedef struct EOS_RTCAdminHandle* EOS_HRTCAdmin;
 
 /** The most recent version of the EOS_RTCAdmin_QueryJoinRoomToken API */
-#define EOS_RTCADMIN_QUERYJOINROOMTOKEN_API_LATEST 2
+#define EOS_RTCADMIN_QUERYJOINROOMTOKEN_API_LATEST 3
 
 /**
  * Input parameters for the EOS_RTCAdmin_QueryJoinRoomToken function.
@@ -27,12 +27,14 @@ EOS_STRUCT(EOS_RTCAdmin_QueryJoinRoomTokenOptions, (
 	uint32_t TargetUserIdsCount;
 	/**
 	 * Array of IP Addresses, one for each of the users we're querying tokens for.
-	 * There should be TargetUserIdsCount Ip Addresses, you can set an entry to NULL if not known.
+	 * Each entry may be set to NULL when the IP for that user is not known.
 	 * If TargetUserIpAddresses is set to NULL IP Addresses will be ignored.
 	 * IPv4 format: "0.0.0.0"
 	 * IPv6 format: "0:0:0:0:0:0:0:0"
 	 */
 	const char** TargetUserIpAddresses;
+	/** The number of entries in TargetUserIpAddresses. */
+	uint32_t TargetUserIpAddressesCount;
 ));
 
 /**

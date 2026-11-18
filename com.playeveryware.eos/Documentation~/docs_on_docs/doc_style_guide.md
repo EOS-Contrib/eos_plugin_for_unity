@@ -114,20 +114,20 @@ An image can be displayed with the web link format, prefacing with an exclamatio
 Markdown example:
 
 ```markdown
-![unity tools package manager](/com.playeveryware.eos/Documentation~/images/unity_tools_package_manager.gif)
+![unity tools package manager](../images/unity_tools_package_manager.gif)
 ```
 
 What it looks like:
 
-![unity tools package manager](/com.playeveryware.eos/Documentation~/images/unity_tools_package_manager.gif)
+![unity tools package manager](../images/unity_tools_package_manager.gif)
 
-Always place images in the `/com.playeveryware.eos/Documentation~/images/` directory of the repository. In most cases, it is also appropriate to add a subdirectory to the images directory in order to keep related images organized. For instance, when creating a new document that contains a variety of images, it would be wise to create a subdirectory in the images folder to contain all the images for that new document.
+Always place images in the `com.playeveryware.eos/Documentation~/images/` directory of the repository. Use a path that is relative to the current document to link to an image (for example, `./images/` from a document in `Documentation~`, or `../images/` from a document in a subdirectory). In most cases, it is also appropriate to add a subdirectory to the images directory in order to keep related images organized. For instance, when creating a new document that contains a variety of images, it would be wise to create a subdirectory in the images folder to contain all the images for that new document.
 
 > [!IMPORTANT] 
 > Never use an image in place of text (for instance do not take a screenshot of documentation from one area to include it in another). Aside from the issue of maintainability, the problem with this is that GitHub allows for dark and light modes, and the image will look wrong in one mode or the other. 
 
 > [!IMPORTANT]
-> Because of how we utilize the documentation, it is **very important** that all your links be absolute instead of relative. If you fail to do this your links might be broken when the documentation is added to places like [eospluginforunity.playeveryware.com](https://eospluginforunity.playeveryware.com).
+> Links to other documents and images in the `Documentation~` directory must be relative to the current document. Do not start these links with `/com.playeveryware.eos/Documentation~/`. Relative links work on GitHub, in the UPM package, and in a local copy of the repository.
 
 ## Links:
 
@@ -135,7 +135,7 @@ Web links can be written by surrounding the text you want as the link text in br
 
 When linking to a header within the same document, the link can consist of just the pound sign followed by the header name. 
 
-When linking to another document, the base folder can be the start of the link, so `'/docs/android/README_Android.md'` would be an acceptable link. Additionally you can link to a specific area in another document by adding the pound sign and name at the end of the link, `'/com.playeveryware.eos/README.md#prerequisites'`. when ending a sentence with a link, make sure the period is not accidentally included in the url portion of the link.
+When linking to another document, use a path that is relative to the current document. Use `./` for a document in the same directory, for example `'./samples.md'`. Use `../` to go up one directory, for example `'../android/README_Android.md'` from a document in a subdirectory. Additionally you can link to a specific area in another document by adding the pound sign and name at the end of the link, `'../README.md#prerequisites'`. when ending a sentence with a link, make sure the period is not accidentally included in the url portion of the link.
 
 Example markdown linking to a specific section within a document:
 
@@ -146,13 +146,13 @@ Example markdown linking to a specific section within a document:
 Example markdown linking to another document:
 
 ```markdown
-[Android README](/com.playeveryware.eos/Documentation~/android/README_Android.md)
+[Android README](../android/README_Android.md)
 ```
 
 Example markdown linking to a specific section of another document:
 
 ```markdown
-[Android Prerequisites](/com.playeveryware.eos/Documentation~/android/README_Android.md#prerequisites)
+[Android Prerequisites](../android/README_Android.md#prerequisites)
 ```
 
 > [!IMPORTANT]
@@ -174,9 +174,6 @@ Example markdown linking to a specific section of another document:
 > ```
 > 
 > Based on the output of the command above, were we to rename the document `login_type_by_platform.md`, we would need to update references to the document in both `./docs/frequently_asked_questions.md`, and `./docs/player_authentication.md`.
-
-> [!IMPORTANT]
-> Because of how we utilize the documentation, it is **very important** that (as with images) all your links be absolute instead of relative. If you fail to do this, your links might be broken when the documentation is added to places like [eospluginforunity.playeveryware.com](https://eospluginforunity.playeveryware.com) or GitHub Pages.
 
 ## Code:
 

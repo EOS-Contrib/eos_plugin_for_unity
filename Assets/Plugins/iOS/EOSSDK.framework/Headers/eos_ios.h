@@ -3,11 +3,12 @@
 
 #import <UIKit/UIKit.h>
 #include "eos_types.h"
+#include "eos_auth_types.h"
 
 #pragma pack(push, 8)
 
 /** The most recent version of the EOS_IOS_Auth_CredentialsOptions structure. */
-#define EOS_IOS_AUTH_CREDENTIALSOPTIONS_API_LATEST 2
+#define EOS_IOS_AUTH_CREDENTIALSOPTIONS_API_LATEST 3
 
 /** A callback function used to create snapshot views when the application is backgrounded while Account Portal is visible.
  *
@@ -40,8 +41,8 @@ EOS_STRUCT(EOS_IOS_Auth_CredentialsOptions, (
 	 *
 	 *  Each call should return a new instance.
 	 *  UIView must be retained using: CFBridgingRetain(viewInstance)
-     *  If the view requires a CGRect for initWithFrame, CGRectZero should work
-     *  Layout should be implemented in `layoutSubviews` or via constraints
+	 *  If the view requires a CGRect for initWithFrame, CGRectZero should work
+	 *  Layout should be implemented in `layoutSubviews` or via constraints
 	 *  SDK will resize the UIView to match the UIWindow returned from ASWebAuthenticationPresentationContextProviding
 	 *  SDK will set autoresizing mask for fullscreen on the UIView (flexible width and height)
 	 */
@@ -49,6 +50,21 @@ EOS_STRUCT(EOS_IOS_Auth_CredentialsOptions, (
 
 	/** Context data to pass back in the CreateBackgroundSnapshotView */
 	void* CreateBackgroundSnapshotViewContext;
+
+	/** Optional Universal Link URL for Auth
+	 *  
+	 * By default, if null value is provided, EOS uses deeplinks within `ASWebAuthenticationSession`.
+	 * We recommend configuring iOS Universal Links instead.
+	 *
+	 * An example value would be: "https://mygame.com/auth/`client_id".
+	 * Replace the example "https://mygame.com/auth/" prefix to match your iOS Universal Link configuration.
+	 * Note the "`client_id", this special substring will be replaced by SDK with actual client id value.
+	 *
+	 * Universal Links require additional changes in the application, and on the website.
+	 * See EOS and Apple documentation for more information.
+	 * See also: EOS_IOS_Auth_HandleRedirectURL()
+	 */
+	const char* AccountPortalRedirectURL;
 
 ));
 

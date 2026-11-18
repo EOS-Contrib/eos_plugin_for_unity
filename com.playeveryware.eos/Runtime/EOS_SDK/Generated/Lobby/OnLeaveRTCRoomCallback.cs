@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	/// </param>
 	public delegate void OnLeaveRTCRoomCallback(ref LeaveRTCRoomCallbackInfo data);
 
-	[UnmanagedFunctionPointer(Common.LIBRARY_CALLING_CONVENTION)]
+	[UnmanagedFunctionPointer(Library.CALLING_CONVENTION)]
 	internal delegate void OnLeaveRTCRoomCallbackInternal(ref LeaveRTCRoomCallbackInfoInternal data);
 
 	internal static class OnLeaveRTCRoomCallbackInternalImplementation

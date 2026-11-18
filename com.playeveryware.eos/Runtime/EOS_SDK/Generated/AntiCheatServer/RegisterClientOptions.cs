@@ -49,9 +49,9 @@ namespace Epic.OnlineServices.AntiCheatServer
 		public ProductUserId UserId { get; set; }
 
 		/// <summary>
-		/// Reserved for future use. Must be set to 0.
+		/// System configuration required for this client to join the protected session.
 		/// </summary>
-		public int Reserved01 { get; set; }
+		public AntiCheatCommon.AntiCheatCommonClientSystemConfig RequiredSystemConfig { get; set; }
 
 		/// <summary>
 		/// Reserved for future use. Must be set to 0.
@@ -69,7 +69,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		private IntPtr m_AccountId_DEPRECATED;
 		private IntPtr m_IpAddress;
 		private IntPtr m_UserId;
-		private int m_Reserved01;
+		private AntiCheatCommon.AntiCheatCommonClientSystemConfig m_RequiredSystemConfig;
 		private int m_Reserved02;
 
 		public void Set(ref RegisterClientOptions other)
@@ -83,7 +83,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 			Helper.Set(other.AccountId_DEPRECATED, ref m_AccountId_DEPRECATED);
 			Helper.Set(other.IpAddress, ref m_IpAddress);
 			Helper.Set(other.UserId, ref m_UserId);
-			m_Reserved01 = other.Reserved01;
+			m_RequiredSystemConfig = other.RequiredSystemConfig;
 			m_Reserved02 = other.Reserved02;
 		}
 

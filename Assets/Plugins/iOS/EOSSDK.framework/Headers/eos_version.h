@@ -7,11 +7,11 @@
 /** The Major version number */
 #define EOS_MAJOR_VERSION	1
 /** The Minor version number */
-#define EOS_MINOR_VERSION	19
+#define EOS_MINOR_VERSION	20
 /** The Patch version number */
-#define EOS_PATCH_VERSION	2
+#define EOS_PATCH_VERSION	0
 /** The Hotfix version number */
-#define EOS_HOTFIX_VERSION	1
+#define EOS_HOTFIX_VERSION	3
 
 // Macros for encoding strings
 #define EOS_VERSION_STRINGIFY_2(x) #x
@@ -39,16 +39,25 @@
 	EOS_VERSION_STRINGIFY(BUILT_FROM_CHANGELIST)
 #else
 #define EOS_VERSION_STRING_AFTERCL \
-    EOS_VERSION_STRING_BASE
+	EOS_VERSION_STRING_BASE
 #endif
 
 #if defined(BUILT_FOR_SDK_VERSION)
-#define EOS_VERSION_STRING                       \
+#define EOS_VERSION_STRING_AFTERPLATFORM          \
 	EOS_VERSION_STRING_AFTERCL "+"               \
 	EOS_VERSION_STRINGIFY(BUILT_FOR_SDK_VERSION)
 #else
-#define EOS_VERSION_STRING     \
+#define EOS_VERSION_STRING_AFTERPLATFORM \
 	EOS_VERSION_STRING_AFTERCL
+#endif
+
+#if defined(BUILT_FOR_BUILD_PROFILE)
+#define EOS_VERSION_STRING                        \
+	EOS_VERSION_STRING_AFTERPLATFORM "@"          \
+	EOS_VERSION_STRINGIFY(BUILT_FOR_BUILD_PROFILE)
+#else
+#define EOS_VERSION_STRING \
+	EOS_VERSION_STRING_AFTERPLATFORM
 #endif
 
 #ifndef RC_INVOKED
@@ -57,11 +66,16 @@
 
 /**
  * Get the version of the compiled EOSSDK binary
- * MAJOR.MINOR.PATCH.HOTFIX-CHANGELIST#-PLATFORMSDKVERSION
- * 
+ * MAJOR.MINOR.PATCH.HOTFIX[-CHANGELIST][+PLATFORM_SDK_VERSION][@BUILD_PROFILE]
+ *
+ * Optional segments:
+ *  - CHANGELIST: present when built from Perforce via CI
+ *  - PLATFORM_SDK_VERSION: present on console platforms
+ *  - BUILD_PROFILE: present when built with a named build profile
+ *
  * It is the version available at runtime
  * It should match the version of the headers being used
- * 
+ *
  * @return the version of the compiled EOSSDK binary
  */
 EOS_DECLARE_FUNC(const char*) EOS_GetVersion(void);
